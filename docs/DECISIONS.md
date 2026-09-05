@@ -486,3 +486,14 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Evidence:** Slice 5 cannot close on code presence. The approved gate requires at least 100,000 seeded selections per rank, probability-fit evidence, item/counter interaction tests, lifecycle/object-count soak, regression coverage, GitHub Pages deployment, desktop/mobile product-owner playtest, and explicit acceptance.
 - **Product impact:** This amendment resolves implementation ambiguity without changing the approved item roster or probability matrix and without reopening the abandoned competitive-balance experiment.
 - **Approval:** Manny approved the reconciled Slice 5 item-system design and exit checklist on 2026-09-05.
+
+
+## ADR-062: Clarify Slice 5 item-box collection and respawn presentation
+
+- **Date:** 2026-09-05
+- **Status:** Approved for implementation
+- **Context:** After authorizing Slice 5 implementation, Manny clarified the intended shared item-box presentation: a collected box should visibly pop, disappear from the field while unavailable, then fade back into existence when it refreshes.
+- **Decision:** A successful collection makes the box non-collectible immediately, plays a brief pop/disappearance transition, hides the box for the inactive portion of the existing approximately 4.5-second respawn window, then fades it back while it is still non-collectible. The box becomes collectible only after the fade completes. The shared-world lockout and one-slot inventory rules are unchanged.
+- **Initial engineering defaults:** Use approximately 0.12 seconds for the pop and 0.45 seconds for the fade-back. These are configuration values that may be refined without changing the approved pop -> absent -> fade back -> collectible sequence or the approximately 4.5-second total respawn target.
+- **Scope:** Presentation/lifecycle clarification only. This does not change item probabilities, box ownership, row placement, inventory rules, roulette timing, or any item effect.
+- **Approval:** Manny approved Slice 5 implementation and supplied this item-box behavior clarification on 2026-09-05.

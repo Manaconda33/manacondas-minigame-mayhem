@@ -86,6 +86,10 @@ Displays roulette, held item, active state where necessary, and remaining charge
 - Rows are mapped to legal Circuit Alpha racing corridor positions rather than arbitrary world coordinates.
 - Each box is a shared-world pickup.
 - A successful collection deactivates that specific box for every racer for approximately 4.5 seconds.
+- On collection, the box plays a brief visible pop as it disappears; it becomes non-collectible immediately rather than lingering as an active pickup.
+- After the pop, the box is fully absent from the field for the inactive portion of the respawn window.
+- Near the end of the same approximately 4.5-second respawn window, the box fades back into existence while remaining non-collectible; it becomes collectible only when the fade completes.
+- Initial implementation timing uses an approximately 0.12-second pop and 0.45-second fade-back as tunable presentation constants. The required product behavior is pop -> absent -> fade back -> collectible.
 - A racer already carrying an item passes through without consuming or deactivating the box.
 - Valid collection immediately locks the selected item using the racer's rank/progress state at collection time.
 - Roulette presentation continues for approximately 0.85 seconds; changing rank during roulette does not reroll the result.
@@ -202,7 +206,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 - [ ] One-slot inventory works and an occupied racer cannot consume another box.
 - [ ] Roulette lasts approximately 0.85 seconds and freezes under pause.
 - [ ] Multi-charge item counts display correctly.
-- [ ] Item boxes respawn after approximately 4.5 seconds.
+- [ ] Item boxes pop on successful collection, immediately stop being collectible, disappear from the field, then fade back before becoming collectible at approximately 4.5 seconds.
 - [ ] Four eight-box rows exist at the approved approximate lap-progress locations and remain in the legal race corridor.
 
 ## Fifteen-item functional gate

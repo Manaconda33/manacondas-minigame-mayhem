@@ -2,11 +2,11 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - DESIGN APPROVED / IMPLEMENTATION AUTHORIZED**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - FOUNDATION CI PASSED / MANNY REVIEW PENDING**
 
 PRD baseline: **v1.1, working implementation amendment 2.2**.
 
-Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Manny approved the reconciled Slice 5 item-system implementation contract and exit checklist on 2026-09-05. The approved design is `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` and ADR-061. No Slice 5 gameplay code is complete at this checkpoint; `src/game/items/` remains implementation scaffolding until the dedicated feature branch begins.
+Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Manny approved the reconciled Slice 5 item-system implementation contract and exit checklist on 2026-09-05. The approved design is `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` and ADR-061. Slice 5 implementation has begun on `feature/slice-5-items-foundation`. The first bounded increment adds typed item configuration, weighted selection/restriction logic, one-slot inventory, and item-box lifecycle state; race-scene item boxes and item effects are not yet integrated.
 
 The existing fifteen-item roster and position probability matrix remain unchanged. Approved amendment 2.2 resolves item-box layout/ownership, mobile ITEM input, Hyper-Drive meaningful-gap eligibility, initial shared effect taxonomy, owner arming immunity, and initial boost-cap configuration targets. The abandoned competitive-balance experiment remains closed and is not reopened by Slice 5.
 
@@ -257,3 +257,40 @@ The approved documentation-only Slice 5 design checkpoint is merged and healthy.
 This checkpoint satisfies the pre-implementation governance gate. Slice 5 gameplay implementation may now begin on a dedicated feature branch when work resumes. `src/game/items/` remains implementation scaffolding at this checkpoint. Slice 6 remains locked until Slice 5 is implemented, validated, deployed, and explicitly live accepted by Manny.
 
 **Latest verified Slice 5 design checkpoint:** `5b828be9d16592103afb67d3ea84dbee167be8d5`.
+
+
+## Slice 5 foundation implementation checkpoint
+
+Manny authorized Slice 5 implementation on 2026-09-05 and clarified the item-box collection presentation under ADR-062. The first bounded feature branch is `feature/slice-5-items-foundation`.
+
+Implemented for review in this increment:
+
+- one typed registry containing all fifteen approved item IDs, display names, charge counts, and the exact eight-rank probability matrix;
+- configuration for the four approved item-box row progress points and eight boxes per row;
+- weighted item selection with the PRD 1.00-1.35 gap factor, Hyper-Drive 45 m eligibility threshold, Apex/runtime availability filtering, and post-filter weighted selection;
+- one-slot inventory with multi-charge consumption;
+- item-box lifecycle state implementing collection pop, immediate non-collectibility, hidden respawn interval, fade-back, and final collectible restoration at the approximately 4.5-second target;
+- focused Vitest coverage for table totals, restrictions, inventory, and the item-box lifecycle.
+
+The pop/fade implementation begins with approximately 0.12-second pop and 0.45-second fade-back configuration values. These are reversible presentation defaults; the approved sequence is pop -> absent -> fade back -> collectible.
+
+Not yet implemented in this checkpoint: Circuit Alpha box meshes/triggers/row placement, roulette/HUD/input integration, race pickup wiring, projectiles, hazards, buffs/debuffs, AI item use, or any of the fifteen item effects. This increment must pass CI and Manny review before merge or the next implementation increment.
+
+
+## Slice 5 foundation CI evidence
+
+Pull request **#97 — Start Slice 5 item-system foundation** is open for Manny review and is intentionally unmerged at this checkpoint. PR head before evidence recording: `3da08a741e514623ddfe28eee100b7fa8bb5ecb8`.
+
+PR CI run **33997897371** passed on Node 22.23.2:
+
+- Git LFS materialization / `git lfs fsck`: passed;
+- `npm ci`: 198 packages installed, 0 vulnerabilities;
+- strict TypeScript build/typecheck: passed;
+- ESLint with `--max-warnings 0`: passed;
+- Vitest: **19 files / 101 tests passed**, including **8 Slice 5 foundation tests**;
+- statement coverage: **89.91% overall**, **93.15% for `game/items`**;
+- runtime verification: 36 materialized GLBs and 105 runtime character PNGs passed;
+- production Vite build: passed;
+- existing large-chunk warning remains non-blocking and unchanged.
+
+No Pages deployment occurred because this is a pull-request validation run. The next gate is Manny review/approval of PR #97 before merge. The next implementation increment remains blocked until that review decision.

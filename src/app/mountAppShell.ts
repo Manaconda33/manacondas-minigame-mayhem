@@ -178,6 +178,7 @@ export function mountAppShell(root: HTMLElement): void {
         </div>
         <div id="wrong-way" class="warning" hidden>WRONG WAY</div>
         <div id="countdown" class="countdown">3</div>
+        <div id="item-test-mode" class="item-test-mode" hidden></div>
         <div id="loading" class="loading-card"><span class="spinner"></span><h2>Initializing Circuit Alpha</h2><p>Loading Rapier physics and the procedural track…</p></div>
         <div id="finish" class="finish-card" hidden><p class="eyebrow">Grand Prix complete</p><h2 id="finish-place">1st place</h2><p id="finish-time">0:00.00</p><ol id="standings" class="standings"></ol>${button('Return to Hub', 'finish-menu', 'primary')}</div>
         <div class="game-help">WASD / arrows drive · Space + steer drift · Shift/E item · C rear view · R recover · Esc pause</div>
@@ -207,6 +208,12 @@ export function mountAppShell(root: HTMLElement): void {
       getElement('#wrong-way').hidden = !state.wrongWay;
       updateRaceMinimap(minimap, state.minimap);
       updateItemHud(itemHud, state.item);
+      const testMode = getElement('#item-test-mode');
+      testMode.hidden = state.testModeItemLabel === null;
+      testMode.textContent =
+        state.testModeItemLabel === null
+          ? ''
+          : `TEST MODE · FORCED ${state.testModeItemLabel.toUpperCase()}`;
       const driftPanel = getElement('#drift-panel');
       driftPanel.dataset.tier = state.driftTier;
       getElement('#drift-fill').style.width = `${String(Math.round(state.driftCharge * 100))}%`;

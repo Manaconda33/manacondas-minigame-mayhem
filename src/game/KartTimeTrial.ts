@@ -17,6 +17,8 @@ import { createTrackScene } from './track/createTrackScene';
 import { ItemBoxSystem } from './items/ItemBoxSystem';
 import { executeItemUse } from './items/ItemEffectDispatcher';
 import { selectItem } from './items/ItemSelector';
+import { forcedItemForRacer, forcedItemFromSearch } from './items/ItemTestMode';
+import { NitroSurgeVisual } from './items/NitroSurgeVisual';
 import { RacerEffects } from './items/RacerEffects';
 import {
   ItemSystem,
@@ -24,7 +26,7 @@ import {
   itemUseDirection,
   type ItemHudSnapshot,
 } from './items/ItemSystem';
-import type { RaceRank } from './items/itemDefinitions';
+import { ITEM_DEFINITIONS, type RaceRank } from './items/itemDefinitions';
 import { characterManifest, type CharacterDefinition } from '../characters/manifest';
 import { selectAiRoster } from '../characters/raceRoster';
 import { normalizeMinimapTrack, type MinimapState } from './ui/Minimap';
@@ -56,6 +58,7 @@ export interface HudState {
   countdown: string;
   minimap: MinimapState;
   item: ItemHudSnapshot;
+  testModeItemLabel: string | null;
 }
 
 export interface RaceResult {
@@ -150,6 +153,8 @@ export class KartTimeTrial {
   private readonly itemBoxes: ItemBoxSystem;
   private readonly itemSystem = new ItemSystem();
   private readonly racerEffects = new RacerEffects();
+  private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
+  private readonly nitroSurgeVisual = new NitroSurgeVisual();
   private lastApexSelectionTime = Number.NEGATIVE_INFINITY;
 
   public static async create(options: TimeTrialOptions): Promise<KartTimeTrial> {
@@ -172,6 +177,7 @@ export class KartTimeTrial {
     this.scene.add(createTrackScene(this.track));
     this.itemBoxes = new ItemBoxSystem(this.track);
     this.scene.add(this.itemBoxes.group);
+    this.kartMesh.add(this.nitroSurgeVisual.group);
     this.scene.add(new THREE.HemisphereLight(0xcbb7ff, 0x263822, 2.1));
     const sun = new THREE.DirectionalLight(0xffe8c5, 2.4);
     sun.position.set(-120, 180, -80);
@@ -220,6 +226,7 @@ export class KartTimeTrial {
     this.itemBoxes.dispose();
     this.itemSystem.dispose();
     this.racerEffects.dispose();
+    this.nitroSurgeVisual.dispose();
     this.renderer.dispose();
   }
 
@@ -483,10 +490,12 @@ export class KartTimeTrial {
       const racerTotal = racer.lap + racer.trackProgress;
       const leaderTotal = leader.lap + leader.trackProgress;
       const distanceBehindLeaderMeters = Math.max(0, (leaderTotal - racerTotal) * this.trackLength);
+      const forcedItem = forcedItemForRacer(this.forcedTestItem, racerId);
       const apexAvailable = this.elapsed - this.lastApexSelectionTime >= 18;
-      const itemId = selectItem({ rank, distanceBehindLeaderMeters, apexAvailable });
+      const itemId = forcedItem ?? selectItem({ rank, distanceBehindLeaderMeters, apexAvailable });
       if (!this.itemSystem.acquire(racerId, itemId)) return false;
-      if (itemId === 'apex-missile') this.lastApexSelectionTime = this.elapsed;
+      if (forcedItem === null && itemId === 'apex-missile')
+        this.lastApexSelectionTime = this.elapsed;
       return true;
     });
   }
@@ -550,6 +559,10 @@ export class KartTimeTrial {
       playDriftTierTone(feedback.driftTier, context);
     }
     this.lastToneTier = feedback.driftTier;
+    this.nitroSurgeVisual.update(
+      this.racerEffects.remainingSeconds('player', 'nitro-surge') > 0,
+      this.elapsed,
+    );
     this.updatePlayerDriverSprite();
   }
 
@@ -583,6 +596,8 @@ export class KartTimeTrial {
       position: this.currentStandings().findIndex(({ id }) => id === 'player') + 1,
       countdown: this.raceDirector.countdownLabel(),
       item: this.itemSystem.hudSnapshot('player'),
+      testModeItemLabel:
+        this.forcedTestItem === null ? null : ITEM_DEFINITIONS[this.forcedTestItem].displayName,
       minimap: {
         track: this.minimapTrack,
         racers: [

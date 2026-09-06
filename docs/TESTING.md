@@ -122,6 +122,9 @@ For live acceptance, collide Accu and a light racer with comparable approach spe
 
 Automated evidence for this bounded checkpoint must confirm:
 
+- the player-only `testItem=<item-id>` acceptance override accepts only the fifteen governed IDs, ignores invalid/missing values, and never forces AI inventories;
+- normal URLs without `testItem` continue through the governed position/gap selector unchanged;
+- the Nitro Surge procedural rear exhaust/energy visual is hidden outside the effect, visible while the `nitro-surge` RacerEffects state is active, and releases its Three.js resources on disposal;
 - Nitro Surge tuning remains configuration data at approximately 1.2 seconds and 1.18x normal speed cap;
 - the temporary boost applies strong acceleration without changing the permanent Speed stat;
 - the off-road override bypasses only dirt/grass speed-ceiling penalties while Traction-governed off-road acceleration remains active;
@@ -135,10 +138,12 @@ Automated evidence for this bounded checkpoint must confirm:
 
 For deployed product-owner acceptance after merge:
 
-1. Collect boxes until Nitro Surge is selected; confirm the existing approximately 0.85-second roulette behavior is unchanged.
+Use `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=nitro-surge` for the Nitro acceptance pass. The test-mode badge must identify Nitro Surge, every player pickup must resolve to Nitro Surge, and AI pickups remain normal. Load the normal URL once to confirm production selection is not forced.
+
+1. Collect a player box in forced Nitro test mode; confirm roulette remains approximately 0.85 seconds and resolves to Nitro Surge every time.
 2. After reveal, press ITEM and confirm Nitro activates rather than merely registering input.
 3. Confirm the held Nitro charge is consumed and the item slot clears immediately, allowing another item box to be collected while the boost is still active.
-4. Confirm the race status reports `NITRO SURGE ACTIVE` during the effect.
+4. Confirm the race status reports `NITRO SURGE ACTIVE` and the kart shows a clear rear exhaust/energy Nitro tell for the same active interval.
 5. On asphalt, confirm noticeably stronger acceleration and a temporary ceiling above the racer's normal top speed, targeting approximately 1.18x.
 6. Activate Nitro immediately before or while entering dirt/grass and confirm the usual off-road speed ceiling is bypassed during the effect; Traction may still influence how quickly the kart accelerates there.
 7. Confirm Nitro expires after approximately 1.2 seconds and the normal road/off-road speed behavior returns without a persistent buff.
@@ -419,7 +424,6 @@ Live acceptance passed on 2026-09-03 against checkpoint `95fcf26fb699065cd908295
 ## Slice 0 evidence boundary
 
 Slice 0 validates only installation, typechecking, linting, unit testing, production build, the minimal app shell, repository organization, and CI. It does not validate rendering, physics, controls, AI, racing, items, audio playback, or performance requirements assigned to later slices.
-
 
 ## Slice 5 item-system validation matrix
 

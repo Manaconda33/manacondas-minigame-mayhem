@@ -110,23 +110,23 @@ Displays roulette, held item, active state where necessary, and remaining charge
 
 The PRD's standard approximately 0.85-second spinout and heavy approximately 1.20-second explosive spinout remain the common categories.
 
-| Item                       | Approved initial resolution                                                                                                                                               |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Ricochet Kinetic Disc      | Standard 0.85 s spinout; projectile destroyed on racer hit.                                                                                                               |
-| Homing Seeker Drone        | Standard 0.85 s spinout after valid guided hit.                                                                                                                           |
-| Apex Orbital Missile       | Heavy 1.20 s explosive spinout in the terminal AoE.                                                                                                                       |
-| Timed Blast Orb            | Heavy 1.20 s explosive spinout in the blast AoE.                                                                                                                          |
-| Blaze Orbs                 | Short 0.55 s spinout per successful hit.                                                                                                                                  |
-| Frost Orbs                 | No spin; retain approximately 55% momentum and apply approximately 20% handling penalty for approximately 1.2 s. Repeated hits refresh but do not stack multiplicatively. |
-| Rebounding Arc Blade       | Standard 0.85 s spinout; a rival may be hit once outbound and once on return.                                                                                             |
-| Kinetic Arc Hammers        | Standard 0.85 s spinout.                                                                                                                                                  |
-| Hazard Oil / Slick Trap    | 360-degree spin presentation plus approximately 60% speed retention.                                                                                                      |
-| Acoustic Shockwave Pulse   | Push/counter effect; no conventional spinout required.                                                                                                                    |
-| Vision-Obscuring Ink Splat | PRD visual/AI impairment only; no added spinout.                                                                                                                          |
-| Nitro Surge                | One-use boost; no hostile-contact spin.                                                                                                                                   |
-| Continuous Nitro Overdrive | Repeated pulse window; no hostile-contact spin.                                                                                                                           |
-| Hyper-Drive Rocket         | Autopilot/catch-up/immunity state.                                                                                                                                        |
-| Prismatic Invincibility    | PRD immunity/+12% speed plus hostile contact that spins rivals.                                                                                                           |
+| Item | Approved initial resolution |
+| --- | --- |
+| Ricochet Kinetic Disc | Standard 0.85 s spinout; projectile destroyed on racer hit. |
+| Homing Seeker Drone | Standard 0.85 s spinout after valid guided hit. |
+| Apex Orbital Missile | Heavy 1.20 s explosive spinout in the terminal AoE. |
+| Timed Blast Orb | Heavy 1.20 s explosive spinout in the blast AoE. |
+| Blaze Orbs | Short 0.55 s spinout per successful hit. |
+| Frost Orbs | No spin; retain approximately 55% momentum and apply approximately 20% handling penalty for approximately 1.2 s. Repeated hits refresh but do not stack multiplicatively. |
+| Rebounding Arc Blade | Standard 0.85 s spinout; a rival may be hit once outbound and once on return. |
+| Kinetic Arc Hammers | Standard 0.85 s spinout. |
+| Hazard Oil / Slick Trap | 360-degree spin presentation plus approximately 60% speed retention. |
+| Acoustic Shockwave Pulse | Push/counter effect; no conventional spinout required. |
+| Vision-Obscuring Ink Splat | PRD visual/AI impairment only; no added spinout. |
+| Nitro Surge | One-use boost; no hostile-contact spin. |
+| Continuous Nitro Overdrive | Repeated pulse window; no hostile-contact spin. |
+| Hyper-Drive Rocket | Autopilot/catch-up/immunity state. |
+| Prismatic Invincibility | PRD immunity/+12% speed plus hostile contact that spins rivals. |
 
 ## Approved catch-up and boost tuning fill-ins
 
@@ -158,24 +158,24 @@ These values are initial governed configuration constants and may be changed onl
 
 The PRD matrix remains unchanged:
 
-| Item                    |     1st |     2nd |     3rd |     4th |     5th |     6th |     7th |     8th |
-| ----------------------- | ------: | ------: | ------: | ------: | ------: | ------: | ------: | ------: |
-| Kinetic Disc            |      18 |      16 |      14 |      10 |       8 |       5 |       3 |       2 |
-| Seeker Drone            |       0 |       8 |      12 |      14 |      15 |      12 |      10 |       6 |
-| Apex Missile            |       0 |       0 |       0 |       1 |       3 |       8 |      11 |      13 |
-| Blast Orb               |       2 |       4 |       6 |       8 |      10 |       9 |       8 |       6 |
-| Blaze Orbs              |       0 |       2 |       4 |       6 |       7 |       8 |       8 |       6 |
-| Frost Orbs              |       0 |       0 |       2 |       4 |       6 |       8 |       9 |       8 |
-| Arc Blade               |       5 |       6 |       7 |       8 |       8 |       7 |       6 |       4 |
-| Arc Hammers             |       0 |       1 |       2 |       4 |       6 |       7 |       8 |       6 |
-| Slick Trap              |      32 |      24 |      18 |      12 |       8 |       5 |       3 |       2 |
-| Shockwave               |      18 |      15 |      12 |       8 |       6 |       4 |       2 |       2 |
-| Ink Splat               |       0 |       0 |       2 |       4 |       6 |       7 |       8 |       8 |
-| Nitro Surge             |      22 |      20 |      16 |      15 |      12 |       8 |       6 |       5 |
-| Nitro Overdrive         |       0 |       0 |       0 |       2 |       3 |       6 |       9 |      13 |
-| Hyper-Drive Rocket      |       0 |       0 |       0 |       0 |       0 |       6 |       9 |      15 |
-| Prismatic Invincibility |       3 |       4 |       5 |       4 |       2 |       0 |       0 |       4 |
-| **Total**               | **100** | **100** | **100** | **100** | **100** | **100** | **100** | **100** |
+| Item | 1st | 2nd | 3rd | 4th | 5th | 6th | 7th | 8th |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Kinetic Disc | 18 | 16 | 14 | 10 | 8 | 5 | 3 | 2 |
+| Seeker Drone | 0 | 8 | 12 | 14 | 15 | 12 | 10 | 6 |
+| Apex Missile | 0 | 0 | 0 | 1 | 3 | 8 | 11 | 13 |
+| Blast Orb | 2 | 4 | 6 | 8 | 10 | 9 | 8 | 6 |
+| Blaze Orbs | 0 | 2 | 4 | 6 | 7 | 8 | 8 | 6 |
+| Frost Orbs | 0 | 0 | 2 | 4 | 6 | 8 | 9 | 8 |
+| Arc Blade | 5 | 6 | 7 | 8 | 8 | 7 | 6 | 4 |
+| Arc Hammers | 0 | 1 | 2 | 4 | 6 | 7 | 8 | 6 |
+| Slick Trap | 32 | 24 | 18 | 12 | 8 | 5 | 3 | 2 |
+| Shockwave | 18 | 15 | 12 | 8 | 6 | 4 | 2 | 2 |
+| Ink Splat | 0 | 0 | 2 | 4 | 6 | 7 | 8 | 8 |
+| Nitro Surge | 22 | 20 | 16 | 15 | 12 | 8 | 6 | 5 |
+| Nitro Overdrive | 0 | 0 | 0 | 2 | 3 | 6 | 9 | 13 |
+| Hyper-Drive Rocket | 0 | 0 | 0 | 0 | 0 | 6 | 9 | 15 |
+| Prismatic Invincibility | 3 | 4 | 5 | 4 | 2 | 0 | 0 | 4 |
+| **Total** | **100** | **100** | **100** | **100** | **100** | **100** | **100** | **100** |
 
 Dynamic adjustment remains:
 

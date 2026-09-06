@@ -57,7 +57,7 @@ Automated evidence from run **34012300286**:
 
 The known large `KartTimeTrial` chunk warning remains non-blocking at approximately 3.52 MB minified / 1.27 MB gzip. No new production defect is recorded.
 
-PR #101 is merged and deployed. The deterministic Nitro acceptance pass succeeded on checks 1-5 and 7-12; acceleration worked but felt insufficiently significant, and the 1.2-second duration felt too short. Manny approved a bounded tuning correction to 2.4 seconds and 1.50x acceleration while keeping the 1.18x speed cap and all other Nitro behavior unchanged. Tuning validation run **34028687379** passed the full repository gate before publication review.
+PR #101 is merged and deployed. The deterministic Nitro acceptance pass succeeded on checks 1-5 and 7-12; acceleration worked but felt insufficiently significant, and the 1.2-second duration felt too short. Manny approved a bounded tuning correction to 2.4 seconds and 1.50x acceleration while keeping the 1.18x speed cap and all other Nitro behavior unchanged. Tuning validation run **34028687379** passed the full repository gate before publication review. Clean-diff validation run **34028763753** repeated the full repository gate after removing unrelated markdown formatting churn.
 
 ## Slice 5 roulette / held-item HUD / input checkpoint
 

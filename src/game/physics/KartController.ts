@@ -17,6 +17,9 @@ export interface DriveInput {
   brake: boolean;
   drift: boolean;
   speedLimitMultiplier?: number;
+  effectSpeedCapMultiplier?: number;
+  effectAccelerationMultiplier?: number;
+  ignoreOffRoadSpeedPenalty?: boolean;
 }
 
 export type DriftTier = 'none' | 'blue' | 'orange' | 'purple';
@@ -119,10 +122,15 @@ export class KartController {
       this.yaw += this.currentSteer * dt * direction * driftYaw;
     }
 
-    const speedMultiplier = surfaceSpeedMultiplier(surface, this.stats.traction);
-    const accelerationMultiplier = surfaceAccelerationMultiplier(surface, this.stats.traction);
+    const surfaceSpeedFactor = surfaceSpeedMultiplier(surface, this.stats.traction);
+    const surfaceAccelerationFactor = surfaceAccelerationMultiplier(surface, this.stats.traction);
+    const ignoresOffRoadSpeedPenalty =
+      input.ignoreOffRoadSpeedPenalty === true && (surface === 'dirt' || surface === 'grass');
+    const effectiveSurfaceSpeedFactor = ignoresOffRoadSpeedPenalty ? 1 : surfaceSpeedFactor;
     const speedLimitMultiplier = THREE.MathUtils.clamp(input.speedLimitMultiplier ?? 1, 1, 1.04);
-    const maxForward = this.tuning.maxSpeed * speedMultiplier * speedLimitMultiplier;
+    const effectSpeedCapMultiplier = Math.max(1, input.effectSpeedCapMultiplier ?? 1);
+    const effectAccelerationMultiplier = Math.max(1, input.effectAccelerationMultiplier ?? 1);
+    const maxForward = this.tuning.maxSpeed * effectiveSurfaceSpeedFactor * speedLimitMultiplier;
 
     if (surface === 'boost' && this.boostRemaining <= 0) {
       this.boostRemaining = 0.8;
@@ -134,7 +142,7 @@ export class KartController {
       this.boostMultiplier = 1;
       this.activeBoostTier = 'none';
     }
-    const boostedMax = maxForward * this.boostMultiplier;
+    const boostedMax = maxForward * Math.max(this.boostMultiplier, effectSpeedCapMultiplier);
     const launchSpeedRatio = THREE.MathUtils.clamp(
       Math.abs(forwardSpeed) / this.tuning.maxSpeed,
       0,
@@ -148,8 +156,8 @@ export class KartController {
     const acceleration =
       this.tuning.acceleration *
       launchTaper *
-      accelerationMultiplier *
-      (this.boostRemaining > 0 ? 1.35 : 1);
+      surfaceAccelerationFactor *
+      Math.max(this.boostRemaining > 0 ? 1.35 : 1, effectAccelerationMultiplier);
     const centerGrounded = Math.abs(velocity.y) < 0.35 && this.hasCenterGroundSupport();
     const driveSupported = grounded || centerGrounded;
 

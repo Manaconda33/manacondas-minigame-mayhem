@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - ROULETTE / HELD-ITEM HUD / DESKTOP-MOBILE ITEM INPUT LIVE ACCEPTED / NEXT ITEM-EFFECT INCREMENT AWAITING MANNY APPROVAL**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - RACER EFFECTS FOUNDATION + NITRO SURGE IMPLEMENTED ON FEATURE BRANCH / MANNY REVIEW PENDING**
 
 PRD baseline: **v1.1, working implementation amendment 2.2**.
 
@@ -14,7 +14,46 @@ Manny approved PR #99 on 2026-09-05. The bounded roulette / held-item HUD / desk
 
 Manny then completed the deployed desktop/mobile acceptance matrix and reported **all eight checks passed**: roulette timing, pause freeze, held-item HUD readability, multi-charge display, desktop forward input, desktop backward input, mobile ITEM layout/direction, and the one-slot no-consumption contract. This checkpoint is therefore **LIVE ACCEPTED**.
 
-**Approval gate:** do not begin actual item-effect implementation until Manny approves the next bounded Slice 5 increment. Item effects, projectiles/hazards, counters, Hyper-Drive Rocket autopilot, and AI tactical item use remain incomplete. Slice 6 remains locked.
+Manny approved the next bounded Slice 5 increment on 2026-09-05: **RacerEffects foundation + Nitro Surge**. Branch `feature/slice-5-racer-effects-nitro-surge` is based on accepted `main` checkpoint `712820209274c8e520ca31dacbda0cb87da44a54`. The validated implementation checkpoint is `b3e91f77d8d9985771820470f865272eaa52d6be`. It adds a generic temporary-boost effect boundary and makes Nitro Surge the first real consumable item effect while intentionally leaving every other item unsupported/unconsumed.
+
+Validation run **34012300286** passed Git LFS verification, `npm ci`, strict typecheck, zero-warning lint, **23 Vitest files / 127 tests**, **90.43% overall statement coverage**, **93.26% `game/items` statement coverage**, 100% coverage for `RacerEffects.ts`, existing three-lap AI integration, the ten-minute numeric soak, branding/runtime-asset checks, `git diff --check`, and the production Vite build. Earlier guarded validation runs exposed only synthetic controller-test ground-boundary mistakes; those fixtures were corrected without weakening any product assertion or quality gate.
+
+**Approval gate:** this RacerEffects + Nitro Surge feature must be reviewed through its pull request and authoritative PR CI before merge. Do not merge, deploy, or begin another item effect without Manny approval. Projectiles/hazards, hostile racer effects, Nitro Overdrive, Hyper-Drive Rocket autopilot, Prismatic Invincibility, and AI tactical item use remain incomplete. Slice 6 remains locked.
+
+## Slice 5 RacerEffects + Nitro Surge checkpoint
+
+Implemented behavior:
+
+- `RacerEffects` owns pause-safe temporary racer drive modifiers independently of item names;
+- Nitro Surge configuration is data-driven at approximately **1.2 seconds**, **1.18x** normal speed cap, **1.35x** acceleration authority, and off-road **speed-penalty** bypass;
+- the 1.35x acceleration value reuses the controller's established boost acceleration authority as a reversible engineering value; no PRD balance requirement is changed;
+- off-road Traction/surface acceleration still applies while Nitro is active; only the off-road speed ceiling penalty is bypassed;
+- Nitro Surge activates only after roulette has resolved, then `commitUse()` consumes the successful use and immediately frees the one inventory slot;
+- unsupported item IDs still return without consuming their held charge or freeing inventory;
+- effect expiry restores normal cap/surface behavior cleanly;
+- pause stops effect-time progression because RacerEffects advances only with race simulation;
+- active Nitro state is exposed in the race status label as `NITRO SURGE ACTIVE`; and
+- the existing AI-only top-speed allowance remains independently clamped to 1.00-1.04.
+
+Automated evidence from run **34012300286**:
+
+- Git LFS checkout / `git lfs fsck` - PASS;
+- `npm ci` - PASS, 198 packages, 0 vulnerabilities;
+- strict TypeScript - PASS;
+- ESLint zero warnings - PASS;
+- Vitest - **23 files / 127 tests passed**;
+- overall statement coverage - **90.43%**;
+- `game/items` statement coverage - **93.26%**;
+- `RacerEffects.ts` - **100% statements / branches / functions / lines**;
+- Nitro sustained-cap, acceleration, grass speed-override, restoration, pause, consumption, unsupported-item, and cleanup regressions - PASS;
+- existing AI three-lap integration and ten-minute numeric soak - PASS;
+- branding, 10 archived Cleo hashes, 36 runtime GLBs, 105 runtime PNGs - PASS;
+- `git diff --check` - PASS; and
+- production Vite build - PASS.
+
+The known large `KartTimeTrial` chunk warning remains non-blocking at approximately 3.52 MB minified / 1.27 MB gzip. No new production defect is recorded.
+
+Remaining approval work for this checkpoint is PR review/CI, approved merge/Pages deployment, then deployed desktop/mobile product-owner acceptance.
 
 ## Slice 5 roulette / held-item HUD / input checkpoint
 

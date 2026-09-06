@@ -19,11 +19,19 @@ export const ITEM_IDS = [
 export type ItemId = (typeof ITEM_IDS)[number];
 export type RaceRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
+export interface ItemBoostConfig {
+  durationSeconds: number;
+  speedCapMultiplier: number;
+  accelerationMultiplier: number;
+  ignoreOffRoadSpeedPenalty: boolean;
+}
+
 export interface ItemDefinition {
   id: ItemId;
   displayName: string;
   icon: string;
   charges: number;
+  boost?: Readonly<ItemBoostConfig>;
 }
 
 export const ITEM_DEFINITIONS: Readonly<Record<ItemId, ItemDefinition>> = {
@@ -34,7 +42,12 @@ export const ITEM_DEFINITIONS: Readonly<Record<ItemId, ItemDefinition>> = {
     charges: 1,
   },
   'seeker-drone': { id: 'seeker-drone', displayName: 'Homing Seeker Drone', icon: '⌁', charges: 1 },
-  'apex-missile': { id: 'apex-missile', displayName: 'Apex Orbital Missile', icon: '✦', charges: 1 },
+  'apex-missile': {
+    id: 'apex-missile',
+    displayName: 'Apex Orbital Missile',
+    icon: '✦',
+    charges: 1,
+  },
   'blast-orb': { id: 'blast-orb', displayName: 'Timed Blast Orb', icon: '◉', charges: 1 },
   'blaze-orbs': { id: 'blaze-orbs', displayName: 'Blaze Orbs', icon: '✹', charges: 5 },
   'frost-orbs': { id: 'frost-orbs', displayName: 'Frost Orbs', icon: '❄', charges: 3 },
@@ -42,8 +55,24 @@ export const ITEM_DEFINITIONS: Readonly<Record<ItemId, ItemDefinition>> = {
   'arc-hammers': { id: 'arc-hammers', displayName: 'Kinetic Arc Hammers', icon: '⚒', charges: 5 },
   'slick-trap': { id: 'slick-trap', displayName: 'Hazard Oil / Slick Trap', icon: '≈', charges: 1 },
   shockwave: { id: 'shockwave', displayName: 'Acoustic Shockwave Pulse', icon: '◌', charges: 1 },
-  'ink-splat': { id: 'ink-splat', displayName: 'Vision-Obscuring Ink Splat', icon: '✺', charges: 1 },
-  'nitro-surge': { id: 'nitro-surge', displayName: 'Nitro Surge', icon: '↟', charges: 1 },
+  'ink-splat': {
+    id: 'ink-splat',
+    displayName: 'Vision-Obscuring Ink Splat',
+    icon: '✺',
+    charges: 1,
+  },
+  'nitro-surge': {
+    id: 'nitro-surge',
+    displayName: 'Nitro Surge',
+    icon: '↟',
+    charges: 1,
+    boost: {
+      durationSeconds: 1.2,
+      speedCapMultiplier: 1.18,
+      accelerationMultiplier: 1.35,
+      ignoreOffRoadSpeedPenalty: true,
+    },
+  },
   'nitro-overdrive': {
     id: 'nitro-overdrive',
     displayName: 'Continuous Nitro Overdrive',

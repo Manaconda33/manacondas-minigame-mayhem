@@ -132,7 +132,7 @@ The PRD's standard approximately 0.85-second spinout and heavy approximately 1.2
 
 These values are initial governed configuration constants and may be changed only through the normal balance/approval process after evidence.
 
-- Nitro Surge speed-cap target: approximately 1.18x normal cap for the PRD's approximately 1.2-second effect.
+- Nitro Surge target: approximately 2.4-second effect, 1.18x normal speed cap, and 1.50x acceleration authority under PRD amendment 2.3.
 - Nitro Overdrive pulse speed-cap target: approximately 1.15x normal cap; six-second window; pulses no faster than every 0.75 seconds; each pulse approximately 0.9 seconds.
 - Hyper-Drive Rocket target: approximately 1.25x normal cap while the spline autopilot state is active, subject to its approximately six-second maximum and safe legal-path exit.
 - Prismatic Invincibility remains PRD-locked at approximately +12% speed (1.12x).
@@ -223,7 +223,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 - [ ] Shockwave pushes nearby racers and clears every supported projectile/hazard class.
 - [ ] Shockwave can neutralize Apex only during the supported terminal counter state.
 - [ ] Ink produces partial player screen obstruction for approximately 2.5 seconds and separately governed AI path-noise/reaction/precision impairment without making AI navigation impossible.
-- [ ] Nitro Surge applies its approximately 1.2-second boost and off-road override.
+- [ ] Nitro Surge applies its approximately 2.4-second boost, 1.50x acceleration authority, 1.18x speed cap, and off-road override.
 - [ ] Nitro Overdrive obeys its six-second window, pulse cadence, pulse duration, and cleanup.
 - [ ] Hyper-Drive Rocket follows Circuit Alpha's legal race path, performs automatic overtakes without teleporting, respects immunity, exits safely, and does not deliberately deposit the racer directly into first.
 - [ ] Prismatic Invincibility applies approximately six seconds of immunity, +12% speed, hostile-contact spin, warning/expiry transition, and clean restoration.

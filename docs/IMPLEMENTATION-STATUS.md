@@ -2,9 +2,9 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO SURGE MERGED / FORCED-ITEM LIVE HARNESS + NITRO VFX CORRECTION IN REVIEW**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO SURGE LIVE TUNING CORRECTION IN REVIEW**
 
-PRD baseline: **v1.1, working implementation amendment 2.2**.
+PRD baseline: **v1.1, working implementation amendment 2.3**.
 
 Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Slice 5 is active under the approved `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` contract and ADR-061. Slice 6 remains locked.
 
@@ -20,15 +20,17 @@ Validation run **34012300286** passed Git LFS verification, `npm ci`, strict typ
 
 Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d12c195d2842f05de56ebf`**. Post-merge CI / Pages run **34012662528** passed validation and deployment. Pages artifact **9982946836** has digest `sha256:b46ea5e917f8488e799fee67945f737e98e4a4b10d6915353b2a13fd7908115c`. Before live acceptance, Manny approved a corrective checkpoint adding a reusable player-only forced-item URL harness and a visible Nitro Surge activation tell. Correction validation run **34014080375** passed the full repository gate with 25 Vitest files / 131 tests, including all fifteen forced-item IDs, player-only isolation, Nitro VFX lifecycle, existing AI integration, runtime-asset verification, and the production build.
 
-**Approval gate:** validate and review the player-only forced-item harness + Nitro VFX correction before merge. After approved deployment, rerun Nitro Surge desktop/mobile acceptance using the deterministic test URL. Do not begin another item effect until Nitro Surge is live accepted and recorded. Slice 6 remains locked.
+PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
+
+**Approval gate:** validate and review the approved Nitro Surge live-tuning correction before merge. After approved deployment, rerun the focused Nitro feel/duration/VFX-expiry acceptance using the deterministic test URL. Do not begin another item effect until Nitro Surge is live accepted and recorded. Slice 6 remains locked.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
 Implemented behavior:
 
 - `RacerEffects` owns pause-safe temporary racer drive modifiers independently of item names;
-- Nitro Surge configuration is data-driven at approximately **1.2 seconds**, **1.18x** normal speed cap, **1.35x** acceleration authority, and off-road **speed-penalty** bypass;
-- the 1.35x acceleration value reuses the controller's established boost acceleration authority as a reversible engineering value; no PRD balance requirement is changed;
+- Nitro Surge configuration is data-driven at approximately **2.4 seconds**, **1.18x** normal speed cap, **1.50x** acceleration authority, and off-road **speed-penalty** bypass under approved PRD amendment 2.3;
+- the earlier 1.35x / 1.2-second engineering values are superseded by Manny's deployed-playtest balance approval;
 - off-road Traction/surface acceleration still applies while Nitro is active; only the off-road speed ceiling penalty is bypassed;
 - Nitro Surge activates only after roulette has resolved, then `commitUse()` consumes the successful use and immediately frees the one inventory slot;
 - unsupported item IDs still return without consuming their held charge or freeing inventory;
@@ -55,7 +57,7 @@ Automated evidence from run **34012300286**:
 
 The known large `KartTimeTrial` chunk warning remains non-blocking at approximately 3.52 MB minified / 1.27 MB gzip. No new production defect is recorded.
 
-PR #100 is merged and deployed. Remaining approval work is the corrective forced-item/VFX PR, its deployment, then Nitro Surge desktop/mobile product-owner acceptance.
+PR #101 is merged and deployed. The deterministic Nitro acceptance pass succeeded on checks 1-5 and 7-12; acceleration worked but felt insufficiently significant, and the 1.2-second duration felt too short. Manny approved a bounded tuning correction to 2.4 seconds and 1.50x acceleration while keeping the 1.18x speed cap and all other Nitro behavior unchanged. Tuning validation run **34028687379** passed the full repository gate before publication review. Clean-diff validation run **34028763753** repeated the full repository gate after removing unrelated markdown formatting churn.
 
 ## Slice 5 roulette / held-item HUD / input checkpoint
 

@@ -125,7 +125,7 @@ Automated evidence for this bounded checkpoint must confirm:
 - the player-only `testItem=<item-id>` acceptance override accepts only the fifteen governed IDs, ignores invalid/missing values, and never forces AI inventories;
 - normal URLs without `testItem` continue through the governed position/gap selector unchanged;
 - the Nitro Surge procedural rear exhaust/energy visual is hidden outside the effect, visible while the `nitro-surge` RacerEffects state is active, and releases its Three.js resources on disposal;
-- Nitro Surge tuning remains configuration data at approximately 1.2 seconds and 1.18x normal speed cap;
+- Nitro Surge tuning remains configuration data at approximately 2.4 seconds, 1.18x normal speed cap, and 1.50x acceleration authority;
 - the temporary boost applies strong acceleration without changing the permanent Speed stat;
 - the off-road override bypasses only dirt/grass speed-ceiling penalties while Traction-governed off-road acceleration remains active;
 - the effect timer freezes under pause and restores neutral modifiers on expiry;
@@ -146,7 +146,7 @@ Use `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=nitro-su
 4. Confirm the race status reports `NITRO SURGE ACTIVE` and the kart shows a clear rear exhaust/energy Nitro tell for the same active interval.
 5. On asphalt, confirm noticeably stronger acceleration and a temporary ceiling above the racer's normal top speed, targeting approximately 1.18x.
 6. Activate Nitro immediately before or while entering dirt/grass and confirm the usual off-road speed ceiling is bypassed during the effect; Traction may still influence how quickly the kart accelerates there.
-7. Confirm Nitro expires after approximately 1.2 seconds and the normal road/off-road speed behavior returns without a persistent buff.
+7. Confirm Nitro expires after approximately 2.4 seconds and the normal road/off-road speed behavior returns without a persistent buff.
 8. Pause during Nitro and confirm the remaining effect duration freezes until gameplay resumes.
 9. Confirm both desktop ITEM inputs (Left Shift and E) and the mobile ITEM button can activate Nitro after reveal.
 10. Confirm a non-Nitro held item still does not fire or consume in this checkpoint.
@@ -451,7 +451,7 @@ This matrix is required in addition to the repository-wide validation commands a
 - Slick: rear drop, approximately 12-second lifetime, approximately 1.1 m trigger, approved 360-degree spin/60% speed-retention effect, two active per owner, Shockwave cleanup.
 - Shockwave: approximately 5 m radial push and destruction/clearing of all supported ordinary projectiles, Slicks, Blast Orbs, and terminal Apex.
 - Ink: approximately 2.5-second partial human screen obstruction; AI path noise, approximately 80 ms reaction latency, and reduced precision without navigation failure.
-- Nitro Surge: approximately 1.2-second 1.18x initial cap target, strong acceleration, off-road penalty ignore, clean restoration.
+- Nitro Surge: approximately 2.4-second active window, 1.18x cap target, 1.50x acceleration authority, off-road penalty ignore, clean restoration.
 - Nitro Overdrive: six-second window, pulse no faster than every 0.75 seconds, approximately 0.9-second pulse, 1.15x initial cap target, clean window expiry.
 - Hyper-Drive Rocket: position/gap prerequisite, legal Circuit Alpha spline autopilot, immunity, approximately 1.25x initial cap target, automatic overtakes, maximum approximately six seconds, approximately 0.3-second control return, no teleport/progress mutation/direct first-place deposit.
 - Prismatic Invincibility: approximately six seconds, +12% speed, hazard/projectile immunity, hostile-contact spin, expiry warning/restoration.

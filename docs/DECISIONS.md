@@ -506,3 +506,13 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Testing rule:** Future targeted live item checkpoints should provide a corresponding `?testItem=<governed-id>` link instead of requiring Manny to roll the item randomly. Each checkpoint must still verify the normal URL once to ensure the production selector is not forced.
 - **Scope:** Acceptance instrumentation and Nitro readability only. This does not alter the item probability matrix, player inventory rules, AI distribution, normal-game prerequisites, item balance, or authorization for another item effect.
 - **Approval:** Manny approved the deterministic item-test approach and Nitro visual tell before the Nitro Surge live acceptance pass on 2026-09-06.
+
+## ADR-064: Tune Nitro Surge after deterministic live acceptance
+
+- **Date:** 2026-09-06
+- **Status:** Approved for implementation
+- **Context:** After PR #101 deployed the deterministic item-test harness and Nitro Surge VFX, Manny ran the forced Nitro acceptance matrix. Checks 1-5 and 7-12 passed. Acceleration was measurably stronger but did not feel sufficiently significant, while the approximately 1.2-second active window felt too short; Manny requested roughly double the effect length.
+- **Decision:** Change Nitro Surge duration from approximately 1.2 seconds to approximately **2.4 seconds** and acceleration authority from **1.35x** to **1.50x**. Preserve the **1.18x** normal speed cap, off-road speed-penalty bypass, Traction-governed off-road acceleration, one-charge consumption, immediate inventory release, pause-safe timing, VFX lifetime coupling, and clean restoration.
+- **PRD impact:** This is an explicitly approved gameplay-balance change and is recorded as PRD amendment 2.3. It supersedes the earlier Nitro duration/acceleration values without changing any other item or Slice 5 requirement.
+- **Acceptance:** After validation, PR review, merge, and deployment, rerun only the focused Nitro duration/acceleration/VFX-expiry feel checks plus a normal-URL isolation sanity check. Nitro Surge is not live accepted until Manny approves that deployed retest.
+- **Approval:** Manny approved the 2.4-second / 1.50x tuning on 2026-09-06.

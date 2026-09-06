@@ -591,6 +591,26 @@ h2 {
     0 0.4rem 0 #321449;
   pointer-events: none;
 }
+.item-test-mode {
+  position: absolute;
+  top: 9.4rem;
+  right: 1rem;
+  z-index: 5;
+  max-width: 13rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid rgb(121 235 255 / 55%);
+  border-radius: 0.55rem;
+  color: #dffaff;
+  background: rgb(5 25 34 / 82%);
+  box-shadow: 0 0 1.25rem rgb(67 217 255 / 22%);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-align: right;
+  text-transform: uppercase;
+  pointer-events: none;
+}
 .game-help {
   position: absolute;
   left: 50%;
@@ -623,6 +643,7 @@ h2 {
 .game-shell.is-finished .hud,
 .game-shell.is-finished .race-minimap,
 .game-shell.is-finished .drift-panel,
+.game-shell.is-finished .item-test-mode,
 .game-shell.is-finished .game-help,
 .game-shell.is-finished .touch-controls {
   display: none;

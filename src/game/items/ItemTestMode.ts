@@ -1,0 +1,12 @@
+import { ITEM_IDS, type ItemId } from './itemDefinitions';
+
+const ITEM_ID_SET = new Set<string>(ITEM_IDS);
+
+export function forcedItemFromSearch(search: string): ItemId | null {
+  const value = new URLSearchParams(search).get('testItem');
+  return value !== null && ITEM_ID_SET.has(value) ? (value as ItemId) : null;
+}
+
+export function forcedItemForRacer(forcedItem: ItemId | null, racerId: string): ItemId | null {
+  return racerId === 'player' ? forcedItem : null;
+}

@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - RACER EFFECTS FOUNDATION + NITRO SURGE IMPLEMENTED ON FEATURE BRANCH / MANNY REVIEW PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO SURGE MERGED / FORCED-ITEM LIVE HARNESS + NITRO VFX CORRECTION IN REVIEW**
 
 PRD baseline: **v1.1, working implementation amendment 2.2**.
 
@@ -18,7 +18,9 @@ Manny approved the next bounded Slice 5 increment on 2026-09-05: **RacerEffects 
 
 Validation run **34012300286** passed Git LFS verification, `npm ci`, strict typecheck, zero-warning lint, **23 Vitest files / 127 tests**, **90.43% overall statement coverage**, **93.26% `game/items` statement coverage**, 100% coverage for `RacerEffects.ts`, existing three-lap AI integration, the ten-minute numeric soak, branding/runtime-asset checks, `git diff --check`, and the production Vite build. Earlier guarded validation runs exposed only synthetic controller-test ground-boundary mistakes; those fixtures were corrected without weakening any product assertion or quality gate.
 
-**Approval gate:** this RacerEffects + Nitro Surge feature must be reviewed through its pull request and authoritative PR CI before merge. Do not merge, deploy, or begin another item effect without Manny approval. Projectiles/hazards, hostile racer effects, Nitro Overdrive, Hyper-Drive Rocket autopilot, Prismatic Invincibility, and AI tactical item use remain incomplete. Slice 6 remains locked.
+Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d12c195d2842f05de56ebf`**. Post-merge CI / Pages run **34012662528** passed validation and deployment. Pages artifact **9982946836** has digest `sha256:b46ea5e917f8488e799fee67945f737e98e4a4b10d6915353b2a13fd7908115c`. Before live acceptance, Manny approved a corrective checkpoint adding a reusable player-only forced-item URL harness and a visible Nitro Surge activation tell. Correction validation run **34014080375** passed the full repository gate with 25 Vitest files / 131 tests, including all fifteen forced-item IDs, player-only isolation, Nitro VFX lifecycle, existing AI integration, runtime-asset verification, and the production build.
+
+**Approval gate:** validate and review the player-only forced-item harness + Nitro VFX correction before merge. After approved deployment, rerun Nitro Surge desktop/mobile acceptance using the deterministic test URL. Do not begin another item effect until Nitro Surge is live accepted and recorded. Slice 6 remains locked.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -53,7 +55,7 @@ Automated evidence from run **34012300286**:
 
 The known large `KartTimeTrial` chunk warning remains non-blocking at approximately 3.52 MB minified / 1.27 MB gzip. No new production defect is recorded.
 
-Remaining approval work for this checkpoint is PR review/CI, approved merge/Pages deployment, then deployed desktop/mobile product-owner acceptance.
+PR #100 is merged and deployed. Remaining approval work is the corrective forced-item/VFX PR, its deployment, then Nitro Surge desktop/mobile product-owner acceptance.
 
 ## Slice 5 roulette / held-item HUD / input checkpoint
 
@@ -305,6 +307,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 Manny reviews PR #98. If approved, merge and deploy the visible item-box checkpoint, then complete live visual acceptance of placement/readability and the pop/disappear/fade-back lifecycle. Only after that acceptance should the next bounded Slice 5 increment add roulette, held-item HUD, and desktop/mobile item-use input.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
+
 ## Approval state
 
 **Slice 5 design: APPROVED 2026-09-05.**
@@ -333,7 +336,6 @@ Approved fill-ins include four eight-box rows at approximately 9% / 34% / 62% / 
 
 The fifteen-item probability matrix is unchanged. Implementation completion still requires the full probability simulation, interaction/counter matrix, lifecycle soak, performance/regression evidence, healthy PR/main CI, GitHub Pages deployment, desktop/mobile live checks, and Manny acceptance.
 
-
 ## Slice 5 design checkpoint publication evidence
 
 The approved documentation-only Slice 5 design checkpoint is merged and healthy.
@@ -354,7 +356,6 @@ This checkpoint satisfies the pre-implementation governance gate. Slice 5 gamepl
 
 **Latest verified Slice 5 design checkpoint:** `5b828be9d16592103afb67d3ea84dbee167be8d5`.
 
-
 ## Slice 5 foundation implementation checkpoint
 
 Manny authorized Slice 5 implementation on 2026-09-05 and clarified the item-box collection presentation under ADR-062. The first bounded feature branch is `feature/slice-5-items-foundation`.
@@ -371,7 +372,6 @@ Implemented for review in this increment:
 The pop/fade implementation begins with approximately 0.12-second pop and 0.45-second fade-back configuration values. These are reversible presentation defaults; the approved sequence is pop -> absent -> fade back -> collectible.
 
 Not yet implemented in this checkpoint: Circuit Alpha box meshes/triggers/row placement, roulette/HUD/input integration, race pickup wiring, projectiles, hazards, buffs/debuffs, AI item use, or any of the fifteen item effects. This increment must pass CI and Manny review before merge or the next implementation increment.
-
 
 ## Slice 5 foundation CI evidence
 

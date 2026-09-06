@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC / GUARDRAIL / SPINOUT CHECKPOINT IN IMPLEMENTATION**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC CHECKPOINT VALIDATED / PR REVIEW PENDING**
 
 PRD baseline: **v1.1, working implementation amendment 2.4**.
 
@@ -409,4 +409,6 @@ Local dependency installation via `npm ci --offline` could not complete because 
 
 Local `npm run validate`, `git diff --check`, and `git lfs fsck` passed on 2026-09-06: **28 Vitest files / 153 tests**, **91.33% statement coverage**, strict TypeScript, zero-warning ESLint, existing three-lap AI integration and ten-minute numeric soak, branding, 10 archived Cleo hashes, 36 runtime GLBs, 105 runtime PNGs, and production Vite build. The existing large-chunk warning remains non-blocking (KartTimeTrial approximately 3.55 MB minified / 1.27 MB gzip). Desktop/mobile visual acceptance remains pending deployment; automated evidence does not close that gate.
 
-**Publication gate:** full repository validation, clean diff review, pull-request CI, then Manny approval before merge/deployment. Live acceptance after deployment must use `?testItem=kinetic-disc` and explicitly test forward/backward launch, ricochets, guardrail racer collisions, player/AI spinout, and both chase/rear camera perspectives.
+Clean GitHub-hosted validation run **34032879051**, job **101485584007**, passed against implementation commit **`d3b2cc9e0ad4b30f13cd3565e30f4d133b686d02`**: LFS fetch and `git lfs fsck`, `git diff --check`, clean `npm ci` (198 packages; 0 vulnerabilities), full `npm run validate`, **28 files / 153 tests**, existing AI integration / ten-minute numeric soak, all branding/runtime-asset gates, and production build. The branch diff against `87cd7f1` was reviewed and contains only approved Kinetic/guardrail/spinout code, regression tests, and governance documentation; no avatar assets or other item effects changed. The final temporary read-only validation workflow is removed in the review checkpoint. No merge or deployment has occurred.
+
+**Publication gate:** open the clean PR and verify its CI, then obtain Manny's explicit approval before merge/deployment. Do not begin the next item until Kinetic Disc is live accepted. Live acceptance after deployment must use `?testItem=kinetic-disc` and explicitly test forward/backward launch, ricochets, guardrail racer collisions, player/AI spinout, and both chase/rear camera perspectives.

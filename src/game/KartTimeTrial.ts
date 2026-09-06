@@ -6,6 +6,7 @@ import { playDriftTierTone } from '../audio/driftTone';
 import { createKartTuning, type SurfaceType } from '../config/kartTuning';
 import { AiDriver } from './ai/AiDriver';
 import { ChaseCamera } from './camera/ChaseCamera';
+import { SpinoutCameraAnchor } from './camera/SpinoutCameraAnchor';
 import { FixedStepRunner } from './physics/FixedStepRunner';
 import { KartController, type DriveInput } from './physics/KartController';
 import type { DriftTier } from './physics/KartController';
@@ -14,7 +15,14 @@ import { LapTracker } from './race/LapTracker';
 import { RaceDirector, rankRacers, type RacerProgress } from './race/RaceDirector';
 import { CircuitAlpha } from './track/CircuitAlpha';
 import { createTrackScene } from './track/createTrackScene';
+import {
+  GUARDRAIL_KART_RADIUS_METERS,
+  GUARDRAIL_RESTITUTION,
+  GUARDRAIL_TANGENTIAL_RETENTION,
+  guardrailContact,
+} from './track/GuardrailSystem';
 import { ItemBoxSystem } from './items/ItemBoxSystem';
+import { ProjectileSystem } from './items/ProjectileSystem';
 import { executeItemUse } from './items/ItemEffectDispatcher';
 import { selectItem } from './items/ItemSelector';
 import { forcedItemForRacer, forcedItemFromSearch } from './items/ItemTestMode';
@@ -120,6 +128,7 @@ export class KartTimeTrial {
   private readonly kart: KartController;
   private readonly opponents: AiRacer[] = [];
   private readonly chaseCamera: ChaseCamera;
+  private readonly spinoutCameraAnchor = new SpinoutCameraAnchor();
   private readonly position = new THREE.Vector3();
   private readonly forward = new THREE.Vector3();
   private readonly world: RAPIER.World;
@@ -150,11 +159,13 @@ export class KartTimeTrial {
   };
   private finishReported = false;
   private readonly contactCooldowns = new Map<string, number>();
+  private readonly guardrailContactCooldowns = new Map<string, number>();
   private readonly itemBoxes: ItemBoxSystem;
   private readonly itemSystem = new ItemSystem();
   private readonly racerEffects = new RacerEffects();
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
+  private readonly projectiles = new ProjectileSystem(this.track);
   private lastApexSelectionTime = Number.NEGATIVE_INFINITY;
 
   public static async create(options: TimeTrialOptions): Promise<KartTimeTrial> {
@@ -177,6 +188,7 @@ export class KartTimeTrial {
     this.scene.add(createTrackScene(this.track));
     this.itemBoxes = new ItemBoxSystem(this.track);
     this.scene.add(this.itemBoxes.group);
+    this.scene.add(this.projectiles.group);
     this.kartMesh.add(this.nitroSurgeVisual.group);
     this.scene.add(new THREE.HemisphereLight(0xcbb7ff, 0x263822, 2.1));
     const sun = new THREE.DirectionalLight(0xffe8c5, 2.4);
@@ -226,6 +238,8 @@ export class KartTimeTrial {
     this.itemBoxes.dispose();
     this.itemSystem.dispose();
     this.racerEffects.dispose();
+    this.projectiles.dispose();
+    this.spinoutCameraAnchor.clear();
     this.nitroSurgeVisual.dispose();
     this.renderer.dispose();
   }
@@ -260,6 +274,7 @@ export class KartTimeTrial {
     const position = this.kart.position(this.position);
     const projection = this.track.project(position);
     const driveModifiers = this.racerEffects.driveModifiers('player');
+    const playerSpinout = this.racerEffects.spinoutState('player');
     const input: DriveInput = {
       throttle:
         this.isPressed('KeyW', 'ArrowUp') || this.touchPressed.has('accelerate')
@@ -278,14 +293,16 @@ export class KartTimeTrial {
       effectSpeedCapMultiplier: driveModifiers.speedCapMultiplier,
       effectAccelerationMultiplier: driveModifiers.accelerationMultiplier,
       ignoreOffRoadSpeedPenalty: driveModifiers.ignoreOffRoadSpeedPenalty,
+      effectSpinoutYawRateRadiansPerSecond: playerSpinout?.yawRateRadiansPerSecond,
     };
-    this.playerSteering = input.steering;
+    this.playerSteering = playerSpinout === null ? input.steering : 0;
     this.driverHitSeconds = Math.max(0, this.driverHitSeconds - dt);
 
     this.kart.update(input, projection.surface, dt);
     this.updateOpponents(dt);
     this.world.step();
     this.resolveKartContacts(dt);
+    this.resolveGuardrailContacts(dt);
 
     if (!this.kart.isFinite()) {
       this.respawn();
@@ -317,6 +334,7 @@ export class KartTimeTrial {
         : projection.progress;
     this.itemSystem.advance(dt);
     this.racerEffects.advance(dt);
+    this.updateProjectiles(dt);
     this.updateItemBoxes(dt);
     if (this.playerProgress.finished && !this.finishReported) {
       this.finishReported = true;
@@ -367,17 +385,27 @@ export class KartTimeTrial {
       const projection = this.track.project(position);
       const snapshot = opponent.lapTracker.snapshot();
       const opponentTotal = snapshot.lap + projection.progress;
-      const input = opponent.progress.finished
-        ? { throttle: 0, steering: 0, brake: true, drift: false }
-        : opponent.driver.input(
-            position,
-            opponent.controller.forward(),
-            opponent.controller.speedMetersPerSecond(),
-            playerTotal - opponentTotal,
-            racerAwareness.filter(({ id }) => id !== opponent.id),
-            dt,
-          );
-      opponent.steering = input.steering;
+      const spinout = this.racerEffects.spinoutState(opponent.id);
+      const input: DriveInput =
+        spinout !== null
+          ? {
+              throttle: 0,
+              steering: 0,
+              brake: false,
+              drift: false,
+              effectSpinoutYawRateRadiansPerSecond: spinout.yawRateRadiansPerSecond,
+            }
+          : opponent.progress.finished
+            ? { throttle: 0, steering: 0, brake: true, drift: false }
+            : opponent.driver.input(
+                position,
+                opponent.controller.forward(),
+                opponent.controller.speedMetersPerSecond(),
+                playerTotal - opponentTotal,
+                racerAwareness.filter(({ id }) => id !== opponent.id),
+                dt,
+              );
+      opponent.steering = spinout === null ? input.steering : 0;
       opponent.controller.update(input, projection.surface, dt);
 
       const checkpoint = this.nearestCheckpoint(position);
@@ -447,13 +475,82 @@ export class KartTimeTrial {
     }
   }
 
-  private activateDriverHit(racerId: string): void {
+  private activateDriverHit(racerId: string, seconds = 0.32): void {
     if (racerId === 'player') {
-      this.driverHitSeconds = 0.32;
+      this.driverHitSeconds = Math.max(this.driverHitSeconds, seconds);
       return;
     }
     const opponent = this.opponents.find(({ id }) => id === racerId);
-    if (opponent !== undefined) opponent.driverHitSeconds = 0.32;
+    if (opponent !== undefined)
+      opponent.driverHitSeconds = Math.max(opponent.driverHitSeconds, seconds);
+  }
+
+  private resolveGuardrailContacts(dt: number): void {
+    for (const [racerId, remaining] of this.guardrailContactCooldowns) {
+      const next = remaining - dt;
+      if (next <= 0) this.guardrailContactCooldowns.delete(racerId);
+      else this.guardrailContactCooldowns.set(racerId, next);
+    }
+
+    const racers = [
+      { id: 'player', controller: this.kart },
+      ...this.opponents.map(({ id, controller }) => ({ id, controller })),
+    ];
+    for (const racer of racers) {
+      const contact = guardrailContact(
+        this.track,
+        racer.controller.position(),
+        GUARDRAIL_KART_RADIUS_METERS,
+      );
+      if (contact === null) continue;
+
+      const outwardSpeed = Math.max(0, -racer.controller.velocity().dot(contact.inwardNormal));
+      racer.controller.resolveStaticBarrierCollision(
+        contact.inwardNormal,
+        contact.penetration + 0.02,
+        this.guardrailContactCooldowns.has(racer.id) ? 1 : GUARDRAIL_TANGENTIAL_RETENTION,
+        GUARDRAIL_RESTITUTION,
+      );
+      if (outwardSpeed > 1.5 && !this.guardrailContactCooldowns.has(racer.id)) {
+        this.activateDriverHit(racer.id, 0.28);
+      }
+      if (!this.guardrailContactCooldowns.has(racer.id)) {
+        this.guardrailContactCooldowns.set(racer.id, 0.24);
+      }
+    }
+  }
+
+  private updateProjectiles(dt: number): void {
+    const targets = [
+      {
+        id: 'player',
+        position: this.kart.position(),
+        forward: this.kart.forward(),
+        finished: this.playerProgress.finished,
+      },
+      ...this.opponents.map((opponent) => ({
+        id: opponent.id,
+        position: opponent.controller.position(),
+        forward: opponent.controller.forward(),
+        finished: opponent.progress.finished,
+      })),
+    ];
+
+    for (const impact of this.projectiles.update(dt, targets)) {
+      const definition = ITEM_DEFINITIONS[impact.itemId];
+      const activated = this.racerEffects.activateSpinout(impact.targetId, {
+        id: `${impact.itemId}-spinout`,
+        label: definition.displayName,
+        durationSeconds: impact.spinoutSeconds,
+        direction: impact.spinDirection,
+        turns: 1,
+      });
+      if (!activated) continue;
+      this.activateDriverHit(impact.targetId, impact.spinoutSeconds);
+      if (impact.targetId === 'player') {
+        this.spinoutCameraAnchor.capture(this.kart.forward(), this.kart.velocity());
+      }
+    }
   }
 
   private currentStandings(): RacerProgress[] {
@@ -503,7 +600,14 @@ export class KartTimeTrial {
   private requestPlayerItemUse(): void {
     if (this.paused || this.playerProgress.finished) return;
     const reverseHeld = this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake');
-    executeItemUse(this.itemSystem, this.racerEffects, 'player', itemUseDirection(reverseHeld));
+    executeItemUse(this.itemSystem, this.racerEffects, 'player', itemUseDirection(reverseHeld), {
+      projectileSystem: this.projectiles,
+      projectileLaunch: {
+        position: this.kart.position(),
+        forward: this.kart.forward(),
+        velocity: this.kart.velocity(),
+      },
+    });
   }
 
   private respawn(): void {
@@ -511,6 +615,8 @@ export class KartTimeTrial {
     const point = this.track.samples[index]?.clone() ?? this.track.checkpointPosition(0);
     const tangent = this.track.tangents[index]?.clone() ?? this.track.checkpointTangent(0);
     this.kart.respawn(point.addScaledVector(tangent, 4), Math.atan2(tangent.x, tangent.z));
+    this.racerEffects.clearSpinout('player');
+    this.spinoutCameraAnchor.clear();
     this.outOfBoundsSeconds = 0;
   }
 
@@ -520,7 +626,11 @@ export class KartTimeTrial {
     this.kartMesh.position.copy(position);
     this.kartMesh.rotation.y = Math.atan2(forward.x, forward.z);
     this.rearViewActive = this.pressed.has('KeyC') || this.touchPressed.has('rear');
-    this.chaseCamera.update(position, forward, this.rearViewActive, dt);
+    const cameraForward = this.spinoutCameraAnchor.resolve(
+      forward,
+      this.racerEffects.spinoutState('player') !== null,
+    );
+    this.chaseCamera.update(position, cameraForward, this.rearViewActive, dt);
     for (const opponent of this.opponents) {
       const opponentPosition = opponent.controller.position();
       const opponentForward = opponent.controller.forward();
@@ -537,6 +647,7 @@ export class KartTimeTrial {
               this.camera.position,
             ),
             hitSeconds: opponent.driverHitSeconds,
+            spinoutSeconds: this.racerEffects.spinoutRemainingSeconds(opponent.id),
             steering: opponent.steering,
           }),
         );
@@ -731,6 +842,7 @@ export class KartTimeTrial {
           this.camera.position,
         ),
         hitSeconds: this.driverHitSeconds,
+        spinoutSeconds: this.racerEffects.spinoutRemainingSeconds('player'),
         steering: this.playerSteering,
       }),
     );

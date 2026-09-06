@@ -478,3 +478,21 @@ This matrix is required in addition to the repository-wide validation commands a
 ### Live Slice 5 acceptance
 
 Desktop and mobile must both verify item-box pickup/respawn, roulette, HUD icon/count, keyboard/touch item input, backward use, representative offensive/defensive/catch-up interactions, AI item use, pause/restart cleanup, and that existing race controls remain usable. Record the deployed commit, CI/deployment run, browser/device evidence, defects, and Manny's explicit acceptance in `docs/IMPLEMENTATION-STATUS.md` before Slice 5 can close.
+
+## Slice 5 Kinetic Disc / guardrail acceptance
+
+Automated and live validation for the Kinetic Disc checkpoint must verify:
+
+- `?testItem=kinetic-disc` deterministically grants the player Kinetic Disc while the normal URL remains unforced.
+- Forward and backward launch both consume the single charge only after a projectile spawns.
+- Travel uses the governed approximately 28 m/s speed, approximately 0.32 m radius, nine-second lifetime, bounded inherited velocity, and short owner arming immunity.
+- The projectile visibly reflects from Circuit Alpha guardrails using the contact normal, never exceeds three successful ricochets, destroys on the next wall contact after the third bounce, and destroys immediately on racer hit.
+- After arming, a returning ricochet can hit its owner.
+- Player and AI racers are physically constrained by the same continuous guardrail boundary; a meaningful rail impact reflects inward, loses bounded speed, and shows a brief existing hit reaction without starting an item spinout.
+- Kinetic racer impact applies one full visible yaw spin across approximately 0.85 seconds and suppresses driving controls for the effect window without mutating lap/checkpoint state.
+- In chase view, the camera remains on the pre-impact travel heading while the kart spins; the driver switches between approved `hit` and `frontHit` frames according to the kart's actual orientation to the camera.
+- Repeat the same spinout-facing check while holding rear view. The camera remains on the opposite side of the held travel heading, and the 2D asset must remain perspective-correct throughout the rotation.
+- AI racers hit by a Kinetic Disc use the same 0.85-second spin and hit/front-hit facing rule when visible from either player camera.
+- Pause freezes item/effect simulation. Restart/disposal returns projectile/effect counts to baseline with no surviving projectile meshes, geometries, materials, listeners, or timers.
+
+Recovery regression coverage also checks both rail sides at all 384 track samples, oblique reflection without overlap bounce spam, zero-time pause, failed-spawn/capacity inventory retention, the 40-projectile ceiling, deterministic effect refresh/disposal, half-turn then full-turn controller motion under held inputs, clean acceleration recovery, rear-view switching during an anchored spin, and hit-art priority through a finish-line crossing.

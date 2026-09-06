@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.3
+Version 1.1 - Final approved baseline; working implementation amendment 2.4
 
 August 16, 2026
 
@@ -85,6 +85,14 @@ Slice 5 architecture separates item definitions/selection, inventory and lifecyc
 Approved September 6, 2026 after the first deterministic deployed Nitro Surge acceptance pass. Product-owner testing confirmed the item activation, consumption, inventory release, HUD/VFX tell, off-road override, pause safety, expiry cleanup, desktop/mobile input, deterministic test harness, and normal-selector isolation. Acceleration was functional but not sufficiently pronounced, and the approximately 1.2-second active window felt too short to provide a satisfying or useful boost.
 
 Nitro Surge duration is therefore changed from approximately 1.2 seconds to approximately **2.4 seconds**, and its acceleration multiplier is changed from **1.35x** to **1.50x**. The approved **1.18x normal speed cap remains unchanged**. The off-road speed-penalty override, Traction-governed off-road acceleration, one-charge inventory behavior, pause-safe timer, VFX lifetime coupling, and clean restoration remain unchanged. These values supersede conflicting Nitro Surge duration/acceleration values in the baseline PRD and Slice 5 design while leaving every other item unchanged. This amendment was explicitly approved by Manny before implementation.
+
+## Approved implementation amendment 2.4 - Kinetic Disc guardrails and perspective-correct spinout
+
+Approved September 6, 2026 before the Kinetic Disc implementation checkpoint. The Ricochet Kinetic Disc retains its existing governed projectile values: forward/backward unguided launch, approximately 28 m/s plus limited inherited velocity, approximately 0.32 m radius, nine-second maximum lifetime, up to three wall ricochets using the contact normal, standard approximately 0.85-second spinout on racer impact, and destruction on racer hit.
+
+Circuit Alpha adds continuous visible guardrails outside the legal road/shoulder racing corridor. These rails are a shared collision boundary for Kinetic Disc ricochets and racers. Racer contact with a guardrail produces bounded inward reflection and speed loss plus a brief existing hit-art reaction; guardrail contact alone does not apply the Kinetic Disc standard spinout. The guardrails do not change the circuit centerline, checkpoints, lap validation, item-box rows, or approved dirt/boost/ramp surfaces.
+
+A Kinetic Disc racer hit applies one visible full-yaw spin over the governed standard spinout window. Player controls are suppressed while that spinout is active and planar momentum decays without teleporting the kart. To make the spin readable, the chase/rear camera holds the player's pre-impact travel heading for the spinout rather than orbiting with the rotating kart. The kart's actual orientation still drives 2D driver-facing selection every frame, so the existing approved `hit` and `front-hit` assets switch according to whether the camera currently sees the driver's rear or front as the kart rotates. The same facing rule applies to AI racers visible from either player camera. No new character raster art is authorized or required by this amendment.
 
 # Contents
 

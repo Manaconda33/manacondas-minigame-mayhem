@@ -127,10 +127,10 @@ describe('Slice 5 Nitro Surge item-use dispatch', () => {
     const items = new ItemSystem();
     const effects = new RacerEffects();
 
-    items.acquire('player', 'kinetic-disc');
+    items.acquire('player', 'seeker-drone');
     items.advance(ITEM_ROULETTE_SECONDS);
     expect(executeItemUse(items, effects, 'player', 'backward')).toBe('unsupported');
-    expect(items.heldItem('player')).toEqual({ itemId: 'kinetic-disc', remainingCharges: 1 });
+    expect(items.heldItem('player')).toEqual({ itemId: 'seeker-drone', remainingCharges: 1 });
     expect(items.canCollect('player')).toBe(false);
     expect(effects.driveModifiers('player').activeBoostLabel).toBeNull();
   });
@@ -143,5 +143,79 @@ describe('Slice 5 Nitro Surge item-use dispatch', () => {
     expect(executeItemUse(items, effects, 'player', 'forward')).toBe('rejected');
     expect(items.heldItem('player')).toEqual({ itemId: 'nitro-surge', remainingCharges: 1 });
     expect(effects.remainingSeconds('player')).toBe(0);
+  });
+});
+
+describe('Slice 5 standard spinout effects', () => {
+  it('runs a pause-safe full-turn spinout and expires cleanly', () => {
+    const effects = new RacerEffects();
+    expect(
+      effects.activateSpinout('player', {
+        id: 'kinetic-disc-spinout',
+        label: 'Ricochet Kinetic Disc',
+        durationSeconds: 0.85,
+        direction: 1,
+        turns: 1,
+      }),
+    ).toBe(true);
+    const active = effects.spinoutState('player');
+    expect(active?.yawRateRadiansPerSecond).toBeCloseTo((Math.PI * 2) / 0.85);
+    effects.advance(0.3);
+    const beforePause = effects.spinoutRemainingSeconds('player');
+    effects.advance(5, true);
+    expect(effects.spinoutRemainingSeconds('player')).toBeCloseTo(beforePause);
+    effects.advance(0.56);
+    expect(effects.spinoutState('player')).toBeNull();
+  });
+
+  it('rejects invalid spinout specs and clears spinouts independently', () => {
+    const effects = new RacerEffects();
+    expect(
+      effects.activateSpinout('player', {
+        id: '',
+        label: 'Bad',
+        durationSeconds: 0.85,
+        direction: 1,
+        turns: 1,
+      }),
+    ).toBe(false);
+    effects.activateSpinout('player', {
+      id: 'kinetic-disc-spinout',
+      label: 'Ricochet Kinetic Disc',
+      durationSeconds: 0.85,
+      direction: -1,
+      turns: 1,
+    });
+    expect(effects.clearSpinout('player', 'wrong')).toBe(false);
+    expect(effects.clearSpinout('player', 'kinetic-disc-spinout')).toBe(true);
+    expect(effects.spinoutState('player')).toBeNull();
+  });
+});
+
+describe('spinout refresh and teardown', () => {
+  it('refreshes deterministically without stacking and clears every racer on disposal', () => {
+    const effects = new RacerEffects();
+    const spec = {
+      id: 'impact',
+      label: 'Impact',
+      durationSeconds: 0.85,
+      direction: 1 as const,
+      turns: 1,
+    };
+    effects.activateSpinout('player', spec);
+    effects.activateSpinout('ai-1', spec);
+    effects.advance(0.4);
+    effects.activateSpinout('player', { ...spec, direction: -1 });
+    expect(effects.spinoutState('player')).toMatchObject({
+      remainingSeconds: 0.85,
+      yawRateRadiansPerSecond: (-2 * Math.PI) / 0.85,
+    });
+    effects.advance(0.46);
+    expect(effects.spinoutState('ai-1')).toBeNull();
+    expect(effects.spinoutRemainingSeconds('player')).toBeCloseTo(0.39);
+    effects.dispose();
+    expect(effects.spinoutState('player')).toBeNull();
+    expect(effects.spinoutState('ai-1')).toBeNull();
+    expect(effects.driveModifiers('player').accelerationMultiplier).toBe(1);
   });
 });

@@ -24,6 +24,8 @@ describe('Circuit Alpha environment scene', () => {
     expect(scene.getObjectByName('start-finish-gate')).toBeDefined();
     expect(scene.getObjectByName('underpass-gate')).toBeDefined();
     expect(scene.getObjectByName('crest-ramp-visual')).toBeDefined();
+    expect(scene.getObjectByName('track-guardrails')).toBeDefined();
+    expect(scene.getObjectByName('guardrail-posts')).toBeInstanceOf(THREE.InstancedMesh);
     expect(scene.getObjectByName('boost-pad-0.450')).toBeDefined();
     expect(scene.getObjectByName('boost-pad-0.815')).toBeDefined();
     expect(track.samples.map((point) => point.toArray())).toEqual(before);

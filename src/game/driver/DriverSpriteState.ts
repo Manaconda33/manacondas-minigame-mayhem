@@ -14,6 +14,7 @@ export interface DriverSpriteState {
   finished: boolean;
   frontFacingCamera: boolean;
   hitSeconds: number;
+  spinoutSeconds?: number;
   steering: number;
 }
 
@@ -36,6 +37,7 @@ export function isDriverFrontFacingCamera(
 }
 
 export function selectDriverFrame(state: DriverSpriteState): DriverFrame {
+  if ((state.spinoutSeconds ?? 0) > 0) return state.frontFacingCamera ? 'frontHit' : 'hit';
   if (state.finished) return state.frontFacingCamera ? 'frontVictory' : 'victory';
   if (state.hitSeconds > 0) return state.frontFacingCamera ? 'frontHit' : 'hit';
   if (state.steering > 0.15) return state.frontFacingCamera ? 'frontSteerLeft' : 'steerLeft';

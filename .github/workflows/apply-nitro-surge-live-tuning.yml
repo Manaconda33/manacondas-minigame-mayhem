@@ -1,0 +1,192 @@
+name: Apply approved Nitro Surge live tuning
+
+on:
+  push:
+    branches: [feature/slice-5-nitro-surge-tuning]
+    paths:
+      - .github/workflows/apply-nitro-surge-live-tuning.yml
+
+permissions:
+  contents: write
+
+jobs:
+  tune-validate-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out branch with LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          ref: feature/slice-5-nitro-surge-tuning
+          fetch-depth: 2
+
+      - name: Guard approved base
+        run: |
+          git fetch origin main --depth=1
+          test "$(git rev-parse origin/main)" = "d732c989f87e2e76688590214c666843b58bad4b"
+          git lfs fsck
+
+      - name: Apply approved tuning and governance changes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{path}: expected one match, found {count}: {old!r}')
+              p.write_text(text.replace(old, new, 1))
+
+          replace_once(
+              'src/game/items/itemDefinitions.ts',
+              "      durationSeconds: 1.2,\n      speedCapMultiplier: 1.18,\n      accelerationMultiplier: 1.35,",
+              "      durationSeconds: 2.4,\n      speedCapMultiplier: 1.18,\n      accelerationMultiplier: 1.5,",
+          )
+
+          test = 'tests/racer-effects.test.ts'
+          replace_once(test, "      durationSeconds: 1.2,", "      durationSeconds: 2.4,")
+          text = Path(test).read_text()
+          if text.count('accelerationMultiplier: 1.35') != 3:
+              raise SystemExit('unexpected racer-effects acceleration assertion count')
+          text = text.replace('accelerationMultiplier: 1.35', 'accelerationMultiplier: 1.5')
+          text = text.replace('    effects.advance(1);\n    expect(effects.remainingSeconds', '    effects.advance(2);\n    expect(effects.remainingSeconds', 1)
+          text = text.replace("    effects.advance(0.9);\n    expect(effects.remainingSeconds('player')).toBeLessThan(0.4);", "    effects.advance(2.1);\n    expect(effects.remainingSeconds('player')).toBeLessThan(0.4);", 1)
+          text = text.replace("    expect(effects.remainingSeconds('player')).toBeCloseTo(1.2);", "    expect(effects.remainingSeconds('player')).toBeCloseTo(2.4);", 1)
+          Path(test).write_text(text)
+
+          prd = Path('docs/PRD.md')
+          text = prd.read_text()
+          if text.count('Version 1.1 - Final approved baseline; working implementation amendment 2.2') != 1:
+              raise SystemExit('PRD version anchor mismatch')
+          text = text.replace(
+              'Version 1.1 - Final approved baseline; working implementation amendment 2.2',
+              'Version 1.1 - Final approved baseline; working implementation amendment 2.3',
+              1,
+          )
+          anchor = '# Contents\n'
+          if text.count(anchor) != 1:
+              raise SystemExit('PRD contents anchor mismatch')
+          amendment = """## Approved implementation amendment 2.3 - Nitro Surge live balance tuning
+
+Approved September 6, 2026 after the first deterministic deployed Nitro Surge acceptance pass. Product-owner testing confirmed the item activation, consumption, inventory release, HUD/VFX tell, off-road override, pause safety, expiry cleanup, desktop/mobile input, deterministic test harness, and normal-selector isolation. Acceleration was functional but not sufficiently pronounced, and the approximately 1.2-second active window felt too short to provide a satisfying or useful boost.
+
+Nitro Surge duration is therefore changed from approximately 1.2 seconds to approximately **2.4 seconds**, and its acceleration multiplier is changed from **1.35x** to **1.50x**. The approved **1.18x normal speed cap remains unchanged**. The off-road speed-penalty override, Traction-governed off-road acceleration, one-charge inventory behavior, pause-safe timer, VFX lifetime coupling, and clean restoration remain unchanged. These values supersede conflicting Nitro Surge duration/acceleration values in the baseline PRD and Slice 5 design while leaving every other item unchanged. This amendment was explicitly approved by Manny before implementation.
+
+"""
+          text = text.replace(anchor, amendment + anchor, 1)
+          prd.write_text(text)
+
+          design = 'docs/SLICE-5-ITEM-SYSTEM-DESIGN.md'
+          replace_once(
+              design,
+              "- Nitro Surge speed-cap target: approximately 1.18x normal cap for the PRD's approximately 1.2-second effect.",
+              "- Nitro Surge target: approximately 2.4-second effect, 1.18x normal speed cap, and 1.50x acceleration authority under PRD amendment 2.3.",
+          )
+          replace_once(
+              design,
+              '- [ ] Nitro Surge applies its approximately 1.2-second boost and off-road override.',
+              '- [ ] Nitro Surge applies its approximately 2.4-second boost, 1.50x acceleration authority, 1.18x speed cap, and off-road override.',
+          )
+
+          testing = 'docs/TESTING.md'
+          replace_once(
+              testing,
+              '- Nitro Surge tuning remains configuration data at approximately 1.2 seconds and 1.18x normal speed cap;',
+              '- Nitro Surge tuning remains configuration data at approximately 2.4 seconds, 1.18x normal speed cap, and 1.50x acceleration authority;',
+          )
+          replace_once(
+              testing,
+              '- Nitro Surge: approximately 1.2-second 1.18x initial cap target, strong acceleration, off-road penalty ignore, clean restoration.',
+              '- Nitro Surge: approximately 2.4-second active window, 1.18x cap target, 1.50x acceleration authority, off-road penalty ignore, clean restoration.',
+          )
+          replace_once(
+              testing,
+              '7. Confirm Nitro expires after approximately 1.2 seconds and the normal road/off-road speed behavior returns without a persistent buff.',
+              '7. Confirm Nitro expires after approximately 2.4 seconds and the normal road/off-road speed behavior returns without a persistent buff.',
+          )
+
+          status = Path('docs/IMPLEMENTATION-STATUS.md')
+          text = status.read_text()
+          replacements = [
+              (
+                  '**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO SURGE MERGED / FORCED-ITEM LIVE HARNESS + NITRO VFX CORRECTION IN REVIEW**',
+                  '**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO SURGE LIVE TUNING CORRECTION IN REVIEW**',
+              ),
+              ('PRD baseline: **v1.1, working implementation amendment 2.2**.', 'PRD baseline: **v1.1, working implementation amendment 2.3**.'),
+              (
+                  '**Approval gate:** validate and review the player-only forced-item harness + Nitro VFX correction before merge. After approved deployment, rerun Nitro Surge desktop/mobile acceptance using the deterministic test URL. Do not begin another item effect until Nitro Surge is live accepted and recorded. Slice 6 remains locked.',
+                  '**Approval gate:** validate and review the approved Nitro Surge live-tuning correction before merge. After approved deployment, rerun the focused Nitro feel/duration/VFX-expiry acceptance using the deterministic test URL. Do not begin another item effect until Nitro Surge is live accepted and recorded. Slice 6 remains locked.',
+              ),
+              (
+                  '- Nitro Surge configuration is data-driven at approximately **1.2 seconds**, **1.18x** normal speed cap, **1.35x** acceleration authority, and off-road **speed-penalty** bypass;\n- the 1.35x acceleration value reuses the controller\'s established boost acceleration authority as a reversible engineering value; no PRD balance requirement is changed;',
+                  '- Nitro Surge configuration is data-driven at approximately **2.4 seconds**, **1.18x** normal speed cap, **1.50x** acceleration authority, and off-road **speed-penalty** bypass under approved PRD amendment 2.3;\n- the earlier 1.35x / 1.2-second engineering values are superseded by Manny\'s deployed-playtest balance approval;',
+              ),
+              (
+                  'PR #100 is merged and deployed. Remaining approval work is the corrective forced-item/VFX PR, its deployment, then Nitro Surge desktop/mobile product-owner acceptance.',
+                  'PR #101 is merged and deployed. The deterministic Nitro acceptance pass succeeded on checks 1-5 and 7-12; acceleration worked but felt insufficiently significant, and the 1.2-second duration felt too short. Manny approved a bounded tuning correction to 2.4 seconds and 1.50x acceleration while keeping the 1.18x speed cap and all other Nitro behavior unchanged.',
+              ),
+          ]
+          for old, new in replacements:
+              if text.count(old) != 1:
+                  raise SystemExit(f'status anchor mismatch: {old[:80]}')
+              text = text.replace(old, new, 1)
+          evidence_anchor = 'Correction validation run **34014080375** passed the full repository gate with 25 Vitest files / 131 tests, including all fifteen forced-item IDs, player-only isolation, Nitro VFX lifecycle, existing AI integration, runtime-asset verification, and the production build.'
+          addition = evidence_anchor + '\n\nPR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.'
+          if text.count(evidence_anchor) != 1:
+              raise SystemExit('status PR101 evidence anchor mismatch')
+          text = text.replace(evidence_anchor, addition, 1)
+          status.write_text(text)
+
+          decisions = Path('docs/DECISIONS.md')
+          text = decisions.read_text().rstrip() + '\n\n'
+          if '## ADR-064: Tune Nitro Surge after deterministic live acceptance' in text:
+              raise SystemExit('ADR-064 already exists')
+          text += """## ADR-064: Tune Nitro Surge after deterministic live acceptance
+
+- **Date:** 2026-09-06
+- **Status:** Approved for implementation
+- **Context:** After PR #101 deployed the deterministic item-test harness and Nitro Surge VFX, Manny ran the forced Nitro acceptance matrix. Checks 1-5 and 7-12 passed. Acceleration was measurably stronger but did not feel sufficiently significant, while the approximately 1.2-second active window felt too short; Manny requested roughly double the effect length.
+- **Decision:** Change Nitro Surge duration from approximately 1.2 seconds to approximately **2.4 seconds** and acceleration authority from **1.35x** to **1.50x**. Preserve the **1.18x** normal speed cap, off-road speed-penalty bypass, Traction-governed off-road acceleration, one-charge consumption, immediate inventory release, pause-safe timing, VFX lifetime coupling, and clean restoration.
+- **PRD impact:** This is an explicitly approved gameplay-balance change and is recorded as PRD amendment 2.3. It supersedes the earlier Nitro duration/acceleration values without changing any other item or Slice 5 requirement.
+- **Acceptance:** After validation, PR review, merge, and deployment, rerun only the focused Nitro duration/acceleration/VFX-expiry feel checks plus a normal-URL isolation sanity check. Nitro Surge is not live accepted until Manny approves that deployed retest.
+- **Approval:** Manny approved the 2.4-second / 1.50x tuning on 2026-09-06.
+"""
+          decisions.write_text(text)
+          PY
+
+      - name: Install format and validate
+        run: |
+          npm ci
+          npx prettier --write src/game/items/itemDefinitions.ts tests/racer-effects.test.ts docs/PRD.md docs/SLICE-5-ITEM-SYSTEM-DESIGN.md docs/TESTING.md docs/IMPLEMENTATION-STATUS.md docs/DECISIONS.md
+          git diff --check
+          npm run validate
+
+      - name: Record validation evidence
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          p = Path('docs/IMPLEMENTATION-STATUS.md')
+          text = p.read_text()
+          anchor = "Manny approved a bounded tuning correction to 2.4 seconds and 1.50x acceleration while keeping the 1.18x speed cap and all other Nitro behavior unchanged."
+          if text.count(anchor) != 1:
+              raise SystemExit('validation evidence anchor mismatch')
+          text = text.replace(anchor, anchor + f" Tuning validation run **{os.environ['GITHUB_RUN_ID']}** passed the full repository gate before publication review.", 1)
+          p.write_text(text)
+          PY
+          npx prettier --write docs/IMPLEMENTATION-STATUS.md
+          git diff --check
+
+      - name: Commit clean checkpoint
+        run: |
+          rm -f .github/workflows/apply-nitro-surge-live-tuning.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git status --short
+          git commit -m "Tune Nitro Surge after live playtest"
+          git push origin HEAD:feature/slice-5-nitro-surge-tuning

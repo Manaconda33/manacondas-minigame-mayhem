@@ -96,7 +96,7 @@ export class ItemSystem {
 
   public requestUse(racerId: string, direction: ItemUseDirection): ItemUseRequest | null {
     const state = this.racers.get(racerId);
-    if (state === undefined || state.roulette !== null) return null;
+    if (state?.roulette !== null) return null;
 
     const held = state.inventory.snapshot();
     if (held === null) return null;
@@ -112,7 +112,7 @@ export class ItemSystem {
 
   public commitUse(racerId: string): boolean {
     const state = this.racers.get(racerId);
-    if (state === undefined || state.roulette !== null) return false;
+    if (state?.roulette !== null) return false;
     return state.inventory.consumeCharge();
   }
 

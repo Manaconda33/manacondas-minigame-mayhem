@@ -1,0 +1,67 @@
+name: Apply Slice 5 RacerEffects and Nitro Surge patch
+
+on:
+  push:
+    branches: [feature/slice-5-racer-effects-nitro-surge]
+    paths:
+      - tools/patch-slice5-nitro.py
+      - .github/workflows/patch-slice5-nitro.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch-validate-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out branch with LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          ref: feature/slice-5-racer-effects-nitro-surge
+
+      - name: Verify Git LFS
+        run: git lfs fsck
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Apply guarded patch
+        run: python tools/patch-slice5-nitro.py
+
+      - name: Format intended files
+        run: >-
+          npx prettier --write
+          src/game/items/itemDefinitions.ts
+          src/game/items/RacerEffects.ts
+          src/game/items/ItemEffectDispatcher.ts
+          src/game/physics/KartController.ts
+          src/game/KartTimeTrial.ts
+          src/app/mountAppShell.ts
+          tests/kart-controller.test.ts
+          tests/racer-effects.test.ts
+
+      - name: Install from lockfile
+        run: npm ci
+
+      - name: Validate repository
+        run: npm run validate
+
+      - name: Verify patch whitespace
+        run: git diff --check
+
+      - name: Remove temporary patch machinery
+        run: rm tools/patch-slice5-nitro.py .github/workflows/patch-slice5-nitro.yml
+
+      - name: Commit validated checkpoint
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git status --short
+          git commit -m "Implement RacerEffects and Nitro Surge checkpoint"
+          git push origin HEAD:feature/slice-5-racer-effects-nitro-surge

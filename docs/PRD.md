@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.4
+Version 1.1 - Final approved baseline; working implementation amendment 2.5
 
 August 16, 2026
 
@@ -93,6 +93,12 @@ Approved September 6, 2026 before the Kinetic Disc implementation checkpoint. Th
 Circuit Alpha adds continuous visible guardrails outside the legal road/shoulder racing corridor. These rails are a shared collision boundary for Kinetic Disc ricochets and racers. Racer contact with a guardrail produces bounded inward reflection and speed loss plus a brief existing hit-art reaction; guardrail contact alone does not apply the Kinetic Disc standard spinout. The guardrails do not change the circuit centerline, checkpoints, lap validation, item-box rows, or approved dirt/boost/ramp surfaces.
 
 A Kinetic Disc racer hit applies one visible full-yaw spin over the governed standard spinout window. Player controls are suppressed while that spinout is active and planar momentum decays without teleporting the kart. To make the spin readable, the chase/rear camera holds the player's pre-impact travel heading for the spinout rather than orbiting with the rotating kart. The kart's actual orientation still drives 2D driver-facing selection every frame, so the existing approved `hit` and `front-hit` assets switch according to whether the camera currently sees the driver's rear or front as the kart rotates. The same facing rule applies to AI racers visible from either player camera. No new character raster art is authorized or required by this amendment.
+
+## Approved implementation amendment 2.5 - Kinetic Disc catch-up speed
+
+Approved September 6, 2026 after PR #104 live testing. Raise Ricochet Kinetic Disc base speed from approximately **28 m/s to 42 m/s** so it can close on full-speed racers. Preserve the existing bounded inherited velocity: add 0.35 times the owner's planar velocity after clamping that velocity to 8 m/s, yielding approximately 44.8 m/s for a straight forward shot from a fast-moving kart. This supersedes the Kinetic speed in amendment 2.4 and prior baseline references.
+
+Retain the existing angle-of-incidence reflection, with projectile speed preserved across ricochets. A shallow shot on a curved section may hit the same rail again; there is no forced opposite-rail trajectory, minimum inward angle, or homing. The 0.32 m radius, nine-second lifetime, three-ricochet limit, owner arming/self-hit rules, one-charge successful-spawn consumption, 40-projectile cap, and 0.85-second spinout/camera/sprite contract remain unchanged. Manny passes the other PR #104 live checks; the correction needs focused catch-up and ricochet-expectation acceptance following approved publication. No other item or Slice 6 work is authorized.
 
 # Contents
 
@@ -1107,7 +1113,7 @@ The vertical slice uses one active inventory slot. Multi-shot items report remai
 
 ## 15.3 Ricochet Kinetic Disc
 
-Forward or backward unguided projectile. Speed ~28 m/s plus limited inherited velocity; radius ~0.32 m; lifetime 9 s; up to 3 wall bounces. On hit: standard spinout and projectile destruction. Wall reflection uses the contact normal. Visual identity is a luminous rotating kinetic disc with metallic-energy ricochet audio.
+Forward or backward unguided projectile. Speed ~42 m/s plus limited inherited velocity under amendment 2.5; radius ~0.32 m; lifetime 9 s; up to 3 wall bounces. On hit: standard spinout and projectile destruction. Wall reflection uses the contact normal. Visual identity is a luminous rotating kinetic disc with metallic-energy ricochet audio.
 
 ## 15.4 Homing Seeker Drone
 

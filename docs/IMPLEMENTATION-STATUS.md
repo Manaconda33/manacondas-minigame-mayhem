@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - ROULETTE / HELD-ITEM HUD / DESKTOP-MOBILE ITEM INPUT IMPLEMENTED ON FEATURE BRANCH / MANNY REVIEW PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - ROULETTE / HELD-ITEM HUD / DESKTOP-MOBILE ITEM INPUT LIVE ACCEPTED / NEXT ITEM-EFFECT INCREMENT AWAITING MANNY APPROVAL**
 
 PRD baseline: **v1.1, working implementation amendment 2.2**.
 
@@ -10,9 +10,11 @@ Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. 
 
 The first Slice 5 foundation increment merged through PR #97. The visible item-box increment merged through PR #98 at `3d216c99afe763f6641ffa5930a4685ac82dc178`, deployed successfully, and Manny live accepted its four item-box rows, pickup presentation, shared-world disappearance/refresh/fade behavior, and one-slot collection contract on 2026-09-05. Main then recorded that acceptance at `15868a7899ab774b8b2bf34d6f409ffee3dcef25` with CI run `34001057413` passing.
 
-Manny approved the next bounded increment on 2026-09-05. Branch `feature/slice-5-item-hud-input`, verified at `3aa22859c60d6f1f829ca586ccd5c7ad161ab8ea` before documentation synchronization, implements only roulette presentation, the held-item HUD, and desktop/mobile ITEM input. It does **not** implement item effects, projectile/hazard systems, Rocket autopilot, counters, or AI tactical item use.
+Manny approved PR #99 on 2026-09-05. The bounded roulette / held-item HUD / desktop-mobile ITEM input checkpoint squash-merged to `main` at `574d979f1ad59ebdce386525fdb483f821254457`. Post-merge CI / Pages run `34011338953` passed LFS verification, dependency installation, typecheck, zero-warning lint, all tests, production build, Pages artifact upload, and deployment. Pages artifact `9982552507` has digest `sha256:945f3588b045b1a8b0a0a10fe41d356ba8812a0b945593ae714f148f3279d1c9`.
 
-**Approval gate:** this feature branch must be reviewed through its pull request and final PR CI before merge. Do not merge or begin item-effect implementation without Manny approval. After an approved merge/deployment, perform live desktop/mobile acceptance of roulette timing, HUD readability, charge display, and forward/backward input registration before the next Slice 5 increment.
+Manny then completed the deployed desktop/mobile acceptance matrix and reported **all eight checks passed**: roulette timing, pause freeze, held-item HUD readability, multi-charge display, desktop forward input, desktop backward input, mobile ITEM layout/direction, and the one-slot no-consumption contract. This checkpoint is therefore **LIVE ACCEPTED**.
+
+**Approval gate:** do not begin actual item-effect implementation until Manny approves the next bounded Slice 5 increment. Item effects, projectiles/hazards, counters, Hyper-Drive Rocket autopilot, and AI tactical item use remain incomplete. Slice 6 remains locked.
 
 ## Slice 5 roulette / held-item HUD / input checkpoint
 
@@ -48,6 +50,21 @@ Validation run **34010274590** passed after the branch corrected strict-lint fin
 - production Vite build - PASS.
 
 The known large `KartTimeTrial` production chunk warning remains non-blocking at approximately 3.52 MB minified / 1.27 MB gzip and is not introduced as a Slice 5 functional defect.
+
+### Product-owner live acceptance — PASSED
+
+Deployed checkpoint: `574d979f1ad59ebdce386525fdb483f821254457`
+
+- roulette starts on pickup and resolves at approximately 0.85 seconds — PASS
+- pausing during roulette freezes roulette progression until resume — PASS
+- held-item glyph/name presentation is readable — PASS
+- governed multi-charge counts display correctly — PASS
+- Left Shift and E register forward desktop ITEM intent — PASS
+- S / Down + ITEM registers backward desktop intent — PASS
+- mobile ITEM control layout and forward/backward direction input — PASS
+- held items remain unconsumed and continue blocking a second pickup before effects exist — PASS
+
+No defect was reported in this checkpoint. The deliberate no-fire/no-consumption behavior remains correct until the actual effect dispatcher is implemented.
 
 Remaining Slice 5 work includes all fifteen item effect implementations, projectiles, hazards, buffs/debuffs and counters, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.
 

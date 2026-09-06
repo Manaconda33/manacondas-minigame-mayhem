@@ -53,7 +53,7 @@ export const ITEM_DEFINITIONS: Readonly<Record<ItemId, ItemDefinition>> = {
     icon: '◇',
     charges: 1,
     projectile: {
-      speedMetersPerSecond: 28,
+      speedMetersPerSecond: 42,
       radiusMeters: 0.32,
       lifetimeSeconds: 9,
       maxWallBounces: 3,

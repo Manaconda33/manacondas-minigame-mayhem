@@ -529,3 +529,15 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Architecture:** Projectile runtime remains item-domain owned; guardrail geometry/contact math remains track-domain owned; forced spin and static-barrier response remain generic controller/effect capabilities. `KartTimeTrial` only orchestrates these systems.
 - **PRD impact:** Recorded as approved implementation amendment 2.4. No item probability, inventory, AI item-policy, lap/checkpoint, or Slice 6 requirement changes.
 - **Approval:** Manny explicitly approved this expanded Kinetic Disc checkpoint on 2026-09-06.
+
+
+## ADR-066: Raise Kinetic Disc speed after live catch-up testing
+
+- **Date:** 2026-09-06
+- **Status:** Approved for implementation; corrective live acceptance pending
+- **Context:** PR #104 deployed at `655e68e554d9d6f4567e5136bdeb3b4e57a6f570`, with validation and Pages run `34033720883` successful. Manny passed all checks except insufficient catch-up speed and unexpected ricochet paths. At 30.8 m/s including inherited velocity, the old disc barely closes on Manaconda (29.67 m/s) and cannot catch Krios (33 m/s). The controlled trajectory review is preserved in `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md`.
+- **Decision:** Raise base speed from 28 to **42 m/s**, retaining the bounded inherited contribution (up to 2.8 m/s) and the existing angle-based reflection rule. A curved track may produce successive same-side contacts. Do not force alternating rails or alter the reflected angle to guarantee a crossing.
+- **Preserved contract:** Radius, lifetime, bounce limit, owner arming/self-hit, charge/slot behavior, 40-object ceiling, spinout duration, drive-input suppression, camera anchor, approved hit/frontHit art, racer guardrail response, roster statistics, Nitro, probabilities, and all later-item gates remain unchanged.
+- **Evidence required:** Moving-target catch-up tests from a 30 m gap against actual Manaconda/Krios normal maximums and the maximum AI speed allowance, plus curved shallow-angle reflection/speed-retention regressions and the full repository gate. Focused live retest follows a separately approved corrective PR merge/deployment.
+- **PRD impact:** Approved amendment 2.5 supersedes the earlier Kinetic speed only.
+- **Approval:** Manny explicitly replied `Approved` to 42 m/s base speed with the existing angle-based ricochet rule on 2026-09-06.

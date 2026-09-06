@@ -5,7 +5,9 @@ import { ITEM_DEFINITIONS } from '../src/game/items/itemDefinitions';
 import { ITEM_ROULETTE_SECONDS, ItemSystem } from '../src/game/items/ItemSystem';
 import { ProjectileSystem } from '../src/game/items/ProjectileSystem';
 import { RacerEffects } from '../src/game/items/RacerEffects';
-import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
+import { createKartTuning } from '../src/config/kartTuning';
+import { characterById } from '../src/characters/manifest';
+import { CircuitAlpha, type TrackProjection } from '../src/game/track/CircuitAlpha';
 
 function kineticConfig() {
   const config = ITEM_DEFINITIONS['kinetic-disc'].projectile;
@@ -24,7 +26,7 @@ function launchAt(track: CircuitAlpha, index = 0) {
 describe('Ricochet Kinetic Disc projectile runtime', () => {
   it('pins the governed Kinetic Disc projectile values in configuration', () => {
     expect(kineticConfig()).toEqual({
-      speedMetersPerSecond: 28,
+      speedMetersPerSecond: 42,
       radiusMeters: 0.32,
       lifetimeSeconds: 9,
       maxWallBounces: 3,
@@ -51,8 +53,8 @@ describe('Ricochet Kinetic Disc projectile runtime', () => {
     ).not.toBeNull();
     const forward = forwardSystem.snapshots()[0];
     expect(forward).toBeDefined();
-    expect(forward?.velocity.dot(launch.forward)).toBeGreaterThan(28);
-    expect(forward?.velocity.dot(launch.forward)).toBeLessThanOrEqual(31);
+    expect(forward?.velocity.dot(launch.forward)).toBeCloseTo(44.8);
+    expect(forward?.velocity.dot(launch.forward)).toBeLessThanOrEqual(44.8 + 1e-9);
 
     const backwardSystem = new ProjectileSystem(track);
     expect(
@@ -65,7 +67,7 @@ describe('Ricochet Kinetic Disc projectile runtime', () => {
       }),
     ).not.toBeNull();
     const backward = backwardSystem.snapshots()[0];
-    expect(backward?.velocity.dot(launch.forward)).toBeLessThan(-27.9);
+    expect(backward?.velocity.dot(launch.forward)).toBeCloseTo(-42);
     forwardSystem.dispose();
     backwardSystem.dispose();
   });
@@ -217,7 +219,7 @@ describe('projectile lifecycle and contact regressions', () => {
       const after = system.snapshots()[0];
       if (after === undefined) throw new Error('Disc destroyed before first bounce');
       if (after.bounceCount === 1) {
-        expect(after.velocity.length()).toBeCloseTo(28);
+        expect(after.velocity.length()).toBeCloseTo(42);
         expect(after.velocity.dot(right)).toBeLessThan(0);
         const projection = track.project(after.position);
         const normal = new THREE.Vector3(-projection.tangent.z, 0, projection.tangent.x);
@@ -293,6 +295,109 @@ describe('projectile lifecycle and contact regressions', () => {
     ).toBe('rejected');
     expect(system.activeCount()).toBe(40);
     expect(items.heldItem('player')).toEqual({ itemId: 'kinetic-disc', remainingCharges: 1 });
+    system.dispose();
+  });
+});
+
+// Isolate closing speed from corner interception; real Circuit Alpha reflection
+// is exercised separately below. The same guardrail contact math still runs.
+class StraightProjectileTestTrack extends CircuitAlpha {
+  public override project(position: THREE.Vector3): TrackProjection {
+    return {
+      index: 0,
+      progress: 0,
+      point: new THREE.Vector3(0, 0, position.z),
+      tangent: new THREE.Vector3(0, 0, 1),
+      lateralDistance: Math.abs(position.x),
+      lateralOffset: position.x,
+      surface: 'asphalt',
+    };
+  }
+}
+
+describe('approved Kinetic Disc catch-up tuning', () => {
+  it.each([
+    ['Manaconda', 'aa-09', 1],
+    ['Krios', 'aa-10', 1],
+    ['Krios with maximum AI allowance', 'aa-10', 1.04],
+  ] as const)(
+    'catches %s from 30 meters behind on a clear straight within three seconds',
+    (_name, id, allowance) => {
+      const track = new StraightProjectileTestTrack();
+      const system = new ProjectileSystem(track);
+      const launch = {
+        position: new THREE.Vector3(0, 0.72, 0),
+        forward: new THREE.Vector3(0, 0, 1),
+        velocity: new THREE.Vector3(),
+      };
+      launch.velocity
+        .copy(launch.forward)
+        .multiplyScalar(createKartTuning(characterById('aa-09').stats).maxSpeed);
+      const targetSpeed = createKartTuning(characterById(id).stats).maxSpeed * allowance;
+      const target = {
+        id: 'ai-target',
+        position: launch.position.clone().addScaledVector(launch.forward, 30),
+        forward: launch.forward.clone(),
+        finished: false,
+      };
+      system.spawn({
+        itemId: 'kinetic-disc',
+        ownerId: 'player',
+        direction: 'forward',
+        config: kineticConfig(),
+        launch,
+      });
+      let hit = false;
+      for (let frame = 0; frame < 180; frame += 1) {
+        target.position.addScaledVector(target.forward, targetSpeed / 60);
+        const impacts = system.update(1 / 60, [target]);
+        if (impacts.length > 0) {
+          expect(impacts[0]?.targetId).toBe('ai-target');
+          hit = true;
+          break;
+        }
+      }
+      expect(hit).toBe(true);
+      expect(system.activeCount()).toBe(0);
+      system.dispose();
+    },
+  );
+
+  it('preserves shallow-angle curved-track reflection and speed without forcing opposite rails', () => {
+    const track = new CircuitAlpha();
+    const system = new ProjectileSystem(track);
+    const launch = launchAt(track);
+    const tangent = launch.forward.clone();
+    const right = new THREE.Vector3(tangent.z, 0, -tangent.x);
+    launch.forward
+      .multiplyScalar(Math.cos(Math.PI / 12))
+      .addScaledVector(right, Math.sin(Math.PI / 12));
+    launch.velocity
+      .copy(launch.forward)
+      .multiplyScalar(createKartTuning(characterById('aa-09').stats).maxSpeed);
+    system.spawn({
+      itemId: 'kinetic-disc',
+      ownerId: 'player',
+      direction: 'forward',
+      config: kineticConfig(),
+      launch,
+    });
+    const sides: number[] = [];
+    let previousBounce = 0;
+    for (let frame = 0; frame < 540; frame += 1) {
+      system.update(1 / 60, []);
+      const shot = system.snapshots()[0];
+      if (shot === undefined) break;
+      expect(shot.velocity.length()).toBeCloseTo(44.8);
+      if (shot.bounceCount > previousBounce) {
+        expect(shot.bounceCount - previousBounce).toBe(1);
+        sides.push(Math.sign(track.project(shot.position).lateralOffset));
+        previousBounce = shot.bounceCount;
+      }
+    }
+    expect(sides.length).toBe(3);
+    expect(sides[1]).toBe(sides[0]);
+    expect(system.activeCount()).toBe(0);
     system.dispose();
   });
 });

@@ -485,7 +485,7 @@ Automated and live validation for the Kinetic Disc checkpoint must verify:
 
 - `?testItem=kinetic-disc` deterministically grants the player Kinetic Disc while the normal URL remains unforced.
 - Forward and backward launch both consume the single charge only after a projectile spawns.
-- Travel uses the governed approximately 28 m/s speed, approximately 0.32 m radius, nine-second lifetime, bounded inherited velocity, and short owner arming immunity.
+- Travel uses the governed approximately 42 m/s base speed (amendment 2.5), approximately 0.32 m radius, nine-second lifetime, bounded inherited velocity, and short owner arming immunity.
 - The projectile visibly reflects from Circuit Alpha guardrails using the contact normal, never exceeds three successful ricochets, destroys on the next wall contact after the third bounce, and destroys immediately on racer hit.
 - After arming, a returning ricochet can hit its owner.
 - Player and AI racers are physically constrained by the same continuous guardrail boundary; a meaningful rail impact reflects inward, loses bounded speed, and shows a brief existing hit reaction without starting an item spinout.
@@ -496,3 +496,10 @@ Automated and live validation for the Kinetic Disc checkpoint must verify:
 - Pause freezes item/effect simulation. Restart/disposal returns projectile/effect counts to baseline with no surviving projectile meshes, geometries, materials, listeners, or timers.
 
 Recovery regression coverage also checks both rail sides at all 384 track samples, oblique reflection without overlap bounce spam, zero-time pause, failed-spawn/capacity inventory retention, the 40-projectile ceiling, deterministic effect refresh/disposal, half-turn then full-turn controller motion under held inputs, clean acceleration recovery, rear-view switching during an anchored spin, and hit-art priority through a finish-line crossing.
+
+
+## Kinetic Disc speed correction regression gate
+
+Use the actual 42 m/s registry config and bounded inherited velocity. Forward launch from a fast kart must reach approximately 44.8 m/s; backward launch from rest is -42 m/s along the owner's forward axis. The moving-target regression advances targets at the actual Manaconda and Krios normal maximums, plus Krios with the 1.04 maximum AI allowance, from a 30 m initial gap on a clear straight and requires successful interception within three seconds. This uses an analytic straight-corridor fixture with the real projectile and shared guardrail contact math to isolate closing speed; it is not a guarantee of hits through turns or intervening obstacles. A shallow-angle Circuit Alpha trace must retain projectile speed, normal ricochets, valid same-side contacts, and eventual cleanup. All existing item/guardrail/spinout/camera/sprite gates must still pass.
+
+After approved corrective deployment, use `?testItem=kinetic-disc`: confirm clearly faster catch-up against full-speed rivals, inspect ordinary angle-based ricochets with no guaranteed opposite-rail crossing, and briefly recheck the previously passed spinout/camera behavior. Verify the normal URL remains unforced. The other passed PR #104 checks remain accepted unless a regression is observed; do not start the next item until this focused gate passes.

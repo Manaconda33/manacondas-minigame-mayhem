@@ -26,12 +26,24 @@ export interface ItemBoostConfig {
   ignoreOffRoadSpeedPenalty: boolean;
 }
 
+export interface ItemProjectileConfig {
+  speedMetersPerSecond: number;
+  radiusMeters: number;
+  lifetimeSeconds: number;
+  maxWallBounces: number;
+  inheritedVelocityFactor: number;
+  maxInheritedSpeedMetersPerSecond: number;
+  ownerArmSeconds: number;
+  spinoutSeconds: number;
+}
+
 export interface ItemDefinition {
   id: ItemId;
   displayName: string;
   icon: string;
   charges: number;
   boost?: Readonly<ItemBoostConfig>;
+  projectile?: Readonly<ItemProjectileConfig>;
 }
 
 export const ITEM_DEFINITIONS: Readonly<Record<ItemId, ItemDefinition>> = {
@@ -40,6 +52,16 @@ export const ITEM_DEFINITIONS: Readonly<Record<ItemId, ItemDefinition>> = {
     displayName: 'Ricochet Kinetic Disc',
     icon: '◇',
     charges: 1,
+    projectile: {
+      speedMetersPerSecond: 28,
+      radiusMeters: 0.32,
+      lifetimeSeconds: 9,
+      maxWallBounces: 3,
+      inheritedVelocityFactor: 0.35,
+      maxInheritedSpeedMetersPerSecond: 8,
+      ownerArmSeconds: 0.18,
+      spinoutSeconds: 0.85,
+    },
   },
   'seeker-drone': { id: 'seeker-drone', displayName: 'Homing Seeker Drone', icon: '⌁', charges: 1 },
   'apex-missile': {

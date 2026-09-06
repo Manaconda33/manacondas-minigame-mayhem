@@ -20,6 +20,7 @@ export interface DriveInput {
   effectSpeedCapMultiplier?: number;
   effectAccelerationMultiplier?: number;
   ignoreOffRoadSpeedPenalty?: boolean;
+  effectSpinoutYawRateRadiansPerSecond?: number;
 }
 
 export type DriftTier = 'none' | 'blue' | 'orange' | 'purple';
@@ -80,6 +81,8 @@ export class KartController {
   }
 
   public update(input: DriveInput, surface: SurfaceType, dt: number): void {
+    if (this.updateForcedSpin(input.effectSpinoutYawRateRadiansPerSecond, dt)) return;
+
     const velocity = this.body.linvel();
     const grounded = this.groundContactCount() >= 2;
     const forward = new THREE.Vector3(Math.sin(this.yaw), 0, Math.cos(this.yaw));
@@ -213,6 +216,44 @@ export class KartController {
     this.wasGrounded = grounded;
   }
 
+  private updateForcedSpin(yawRateRadiansPerSecond: number | undefined, dt: number): boolean {
+    if (
+      yawRateRadiansPerSecond === undefined ||
+      !Number.isFinite(yawRateRadiansPerSecond) ||
+      Math.abs(yawRateRadiansPerSecond) < 0.001 ||
+      dt <= 0
+    ) {
+      return false;
+    }
+
+    this.currentSteer = 0;
+    this.drifting = false;
+    this.driftDirection = 0;
+    this.driftCharge = 0;
+    this.previousDriftPressed = false;
+    this.yaw += yawRateRadiansPerSecond * dt;
+
+    const velocity = this.body.linvel();
+    const planarRetention = Math.exp(-0.55 * dt);
+    this.body.setLinvel(
+      {
+        x: velocity.x * planarRetention,
+        y: velocity.y,
+        z: velocity.z * planarRetention,
+      },
+      true,
+    );
+    this.setYaw(this.yaw);
+
+    this.boostRemaining = Math.max(0, this.boostRemaining - dt);
+    if (this.boostRemaining === 0) {
+      this.boostMultiplier = 1;
+      this.activeBoostTier = 'none';
+    }
+    this.rampCooldown = Math.max(0, this.rampCooldown - dt);
+    return true;
+  }
+
   public respawn(position: THREE.Vector3, yaw: number): void {
     this.yaw = yaw;
     this.currentSteer = 0;
@@ -261,6 +302,41 @@ export class KartController {
       },
       true,
     );
+  }
+
+  public resolveStaticBarrierCollision(
+    inwardNormal: THREE.Vector3,
+    penetration: number,
+    tangentialRetention: number,
+    restitution: number,
+  ): void {
+    const normal = inwardNormal.clone().setY(0);
+    if (normal.lengthSq() < 0.0001) return;
+    normal.normalize();
+
+    if (Number.isFinite(penetration) && penetration > 0) {
+      const position = this.body.translation();
+      this.body.setTranslation(
+        {
+          x: position.x + normal.x * penetration,
+          y: position.y,
+          z: position.z + normal.z * penetration,
+        },
+        true,
+      );
+    }
+
+    const velocity = this.body.linvel();
+    const planar = new THREE.Vector3(velocity.x, 0, velocity.z);
+    const normalSpeed = planar.dot(normal);
+    const tangentVelocity = planar.addScaledVector(normal, -normalSpeed);
+    const retainedTangent = tangentVelocity.multiplyScalar(
+      THREE.MathUtils.clamp(tangentialRetention, 0, 1),
+    );
+    const reflectedNormalSpeed =
+      normalSpeed < 0 ? -normalSpeed * THREE.MathUtils.clamp(restitution, 0, 1) : normalSpeed;
+    retainedTangent.addScaledVector(normal, reflectedNormalSpeed);
+    this.body.setLinvel({ x: retainedTangent.x, y: velocity.y, z: retainedTangent.z }, true);
   }
 
   public applyCollisionSpeedRetention(retention: number): void {

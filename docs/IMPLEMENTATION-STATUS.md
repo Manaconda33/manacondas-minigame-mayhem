@@ -2,9 +2,9 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO SURGE LIVE ACCEPTED / NEXT ITEM INCREMENT AWAITING APPROVAL**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC / GUARDRAIL / SPINOUT CHECKPOINT IN IMPLEMENTATION**
 
-PRD baseline: **v1.1, working implementation amendment 2.3**.
+PRD baseline: **v1.1, working implementation amendment 2.4**.
 
 Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Slice 5 is active under the approved `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` contract and ADR-061. Slice 6 remains locked.
 
@@ -22,7 +22,7 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Approval gate:** Nitro Surge is live accepted. Do not begin the next item-effect increment until Manny explicitly approves it. Slice 6 remains locked.
+**Approval gate:** Manny approved the Kinetic Disc / guardrail / perspective-correct spinout increment. Implement and validate only this bounded checkpoint; do not merge or begin another item effect until Manny reviews the resulting PR. Slice 6 remains locked.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -394,3 +394,19 @@ PR CI run **33997897371** passed on Node 22.23.2:
 - existing large-chunk warning remains non-blocking and unchanged.
 
 No Pages deployment occurred because this is a pull-request validation run. The next gate is Manny review/approval of PR #97 before merge. The next implementation increment remains blocked until that review decision.
+
+## Slice 5 Kinetic Disc / guardrail / perspective-correct spinout checkpoint
+
+Manny approved this bounded increment on 2026-09-06 from accepted main checkpoint `87cd7f197c9de9609e71a2f87118791ff3965790`. Scope is Ricochet Kinetic Disc plus the reusable hostile spinout/projectile foundations it requires, continuous Circuit Alpha guardrails, racer-to-guardrail collision response, and chase/rear perspective-correct hit art during the physical kart spin. No other item effect, AI item tactics, hazard, targeting system, or Slice 6 polish is authorized.
+
+Approved behavior is recorded in PRD amendment 2.4 and ADR-065. Kinetic retains its governed 28 m/s, 0.32 m, nine-second, three-ricochet, 0.85-second standard-spin values. The new guardrail boundary is outside the legal racing corridor and does not change checkpoint/lap geometry. The player camera holds pre-impact travel direction during spinout while actual kart heading controls `hit` versus `frontHit` selection.
+
+Recovery provenance: GitHub default branch/main was verified at `87cd7f197c9de9609e71a2f87118791ff3965790`; feature branch was verified at `090f008419c493476db27eb02b0180d722f26573`, with no open PR. Failed Actions runs `34031700477` (test fixture scope) and `34031783524` (seven strict-lint errors) did not commit their working trees. The implementation was recovered from the committed payload and its fixture correction, then reviewed and corrected locally. The two temporary implementation/reapply workflows are removed.
+
+The recovered code additionally fixes repeated-hit camera recapture, explicitly prioritizes active spinout hit art over finish/steer state, prevents per-frame repeated wall-scrape speed penalties, and enforces the existing 40-projectile cap. No governed Kinetic or Nitro values, probability weights, track centerline, checkpoints, roster assets, or later-item behavior were changed.
+
+Local dependency installation via `npm ci --offline` could not complete because the npm cache lacks `yocto-queue-0.1.0.tgz`. Local validation therefore uses the existing lockfile-compatible dependency installation; a clean GitHub-hosted `npm ci` plus full validation is required before PR review. Local source was reconstructed through the connected GitHub API with downloaded file contents verified against GitHub blob SHAs; the local reconstruction commit is not claimed as a remote feature commit.
+
+Local `npm run validate`, `git diff --check`, and `git lfs fsck` passed on 2026-09-06: **28 Vitest files / 153 tests**, **91.33% statement coverage**, strict TypeScript, zero-warning ESLint, existing three-lap AI integration and ten-minute numeric soak, branding, 10 archived Cleo hashes, 36 runtime GLBs, 105 runtime PNGs, and production Vite build. The existing large-chunk warning remains non-blocking (KartTimeTrial approximately 3.55 MB minified / 1.27 MB gzip). Desktop/mobile visual acceptance remains pending deployment; automated evidence does not close that gate.
+
+**Publication gate:** full repository validation, clean diff review, pull-request CI, then Manny approval before merge/deployment. Live acceptance after deployment must use `?testItem=kinetic-disc` and explicitly test forward/backward launch, ricochets, guardrail racer collisions, player/AI spinout, and both chase/rear camera perspectives.

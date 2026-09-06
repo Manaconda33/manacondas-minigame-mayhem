@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { CircuitAlpha } from './CircuitAlpha';
+import { createGuardrailVisual } from './GuardrailSystem';
 
 interface TrackPose {
   point: THREE.Vector3;
@@ -852,6 +853,7 @@ export function createTrackScene(track: CircuitAlpha): THREE.Group {
   group.add(
     createRoadsideCurbs(track),
     createRoadsideReflectors(track),
+    createGuardrailVisual(track),
     createForest(track),
     createTracksideRocks(track),
     createDistantMountains(),

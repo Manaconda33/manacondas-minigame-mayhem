@@ -8,7 +8,7 @@
 
 **Implementation authorization:** Documentation and approved Slice 5 implementation are authorized after this design checkpoint is merged. This document does not itself mark any Slice 5 gameplay requirement complete.
 
-**Governing PRD:** v1.1, working implementation amendment 2.2.
+**Governing PRD:** v1.1, working implementation amendment 2.4.
 
 The existing PRD Sections 15-17, ITEM-001 through ITEM-008, AI-004, Slice 5 roadmap requirements, probability matrix, item state machines, and existing item values remain authoritative except where amendment 2.2 explicitly resolves previously unspecified implementation behavior.
 
@@ -273,3 +273,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 ## Implementation gate
 
 After this approved design checkpoint is merged, implementation may begin on a dedicated Slice 5 feature branch. Code existence does not satisfy this checklist. Slice 5 closes only after the evidence, deployment, and product-owner live acceptance gates above pass.
+
+## Kinetic Disc implementation extension - approved 2026-09-06
+
+For the Kinetic Disc checkpoint, amendment 2.4 adds continuous Circuit Alpha guardrails as the shared ricochet/racer boundary and requires the 0.85-second standard spinout to be visually readable. Kinetic canonical projectile values remain unchanged. Racer/rail contact receives bounded reflection and speed loss but no item spinout. During player spinout, camera chase/rear placement follows the pre-impact travel heading while the kart rotates; driver `hit` versus `frontHit` selection follows actual kart-facing relative to that stable camera every frame. Existing approved driver assets are reused.

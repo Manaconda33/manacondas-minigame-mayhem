@@ -61,6 +61,7 @@ interface ActiveProjectile {
 const RACER_HIT_RADIUS_METERS = 1.05;
 const PROJECTILE_SUBSTEP_METERS = 0.35;
 const MAX_PROJECTILE_SUBSTEPS = 12;
+export const MAX_ACTIVE_PROJECTILES = 40;
 const LOCAL_TRAVEL_AXIS = new THREE.Vector3(0, 0, 1);
 
 function validConfig(config: Readonly<ItemProjectileConfig>): boolean {
@@ -112,6 +113,7 @@ export class ProjectileSystem {
 
   public spawn(request: ProjectileSpawnRequest): number | null {
     if (
+      this.active.size >= MAX_ACTIVE_PROJECTILES ||
       request.ownerId.trim().length === 0 ||
       !validConfig(request.config) ||
       !finiteVector(request.launch.position) ||
@@ -128,10 +130,7 @@ export class ProjectileSystem {
 
     const inherited = request.launch.velocity.clone().setY(0);
     const inheritedSpeed = inherited.length();
-    if (
-      inheritedSpeed > request.config.maxInheritedSpeedMetersPerSecond &&
-      inheritedSpeed > 0
-    ) {
+    if (inheritedSpeed > request.config.maxInheritedSpeedMetersPerSecond && inheritedSpeed > 0) {
       inherited.multiplyScalar(request.config.maxInheritedSpeedMetersPerSecond / inheritedSpeed);
     }
 
@@ -198,7 +197,7 @@ export class ProjectileSystem {
   }
 
   public update(dt: number, targets: readonly ProjectileTarget[]): ProjectileImpact[] {
-    if (dt <= 0) return [];
+    if (!Number.isFinite(dt) || dt <= 0) return [];
     const impacts: ProjectileImpact[] = [];
 
     for (const projectile of [...this.active.values()]) {
@@ -236,7 +235,6 @@ export class ProjectileSystem {
           if (normalSpeed < -0.01 && projectile.bounceCooldownSeconds <= 0) {
             if (projectile.bounceCount >= projectile.config.maxWallBounces) {
               this.remove(projectile.id);
-              destroyed = true;
               break;
             }
             projectile.velocity.addScaledVector(contact.inwardNormal, -2 * normalSpeed);
@@ -250,7 +248,10 @@ export class ProjectileSystem {
           if (target.finished) continue;
           if (target.id === projectile.ownerId && projectile.ownerArmSeconds > 0) continue;
           const hitRadius = RACER_HIT_RADIUS_METERS + projectile.config.radiusMeters;
-          if (squaredHorizontalDistance(projectile.group.position, target.position) > hitRadius ** 2)
+          if (
+            squaredHorizontalDistance(projectile.group.position, target.position) >
+            hitRadius ** 2
+          )
             continue;
 
           const cross =
@@ -284,9 +285,12 @@ export class ProjectileSystem {
     this.group.remove(projectile.group);
     projectile.group.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
-      object.geometry.dispose();
-      const materials = Array.isArray(object.material) ? object.material : [object.material];
-      materials.forEach((material) => material.dispose());
+      const mesh = object as THREE.Mesh;
+      mesh.geometry.dispose();
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      materials.forEach((material) => {
+        material.dispose();
+      });
     });
     return true;
   }

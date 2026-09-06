@@ -160,3 +160,64 @@ describe('shared driver sprite state', () => {
     }
   });
 });
+
+describe('spinout hit-frame perspective', () => {
+  it('switches between rear-hit and front-hit as a spinning kart turns inside a stable camera view', () => {
+    const camera = { x: 0, z: -5 };
+    const position = { x: 0, z: 0 };
+    const preImpactForward = { x: 0, z: 1 };
+    const halfTurnForward = { x: 0, z: -1 };
+
+    expect(
+      selectDriverFrame({
+        finished: false,
+        frontFacingCamera: isDriverFrontFacingCamera(position, preImpactForward, camera),
+        hitSeconds: 0.85,
+        steering: 0,
+      }),
+    ).toBe('hit');
+    expect(
+      selectDriverFrame({
+        finished: false,
+        frontFacingCamera: isDriverFrontFacingCamera(position, halfTurnForward, camera),
+        hitSeconds: 0.4,
+        steering: 0,
+      }),
+    ).toBe('frontHit');
+  });
+});
+
+describe('full-window spinout sprite priority', () => {
+  it('selects approved hit perspectives in both cameras even after crossing the finish', () => {
+    for (const rearView of [false, true]) {
+      const camera = { x: 0, z: rearView ? 5 : -5 };
+      for (const [forwardZ, expected] of [
+        [1, rearView ? 'frontHit' : 'hit'],
+        [-1, rearView ? 'hit' : 'frontHit'],
+      ] as const) {
+        expect(
+          selectDriverFrame({
+            finished: true,
+            frontFacingCamera: isDriverFrontFacingCamera(
+              { x: 0, z: 0 },
+              { x: 0, z: forwardZ },
+              camera,
+            ),
+            hitSeconds: 0,
+            spinoutSeconds: 0.001,
+            steering: 1,
+          }),
+        ).toBe(expected);
+      }
+    }
+    expect(
+      selectDriverFrame({
+        finished: true,
+        frontFacingCamera: false,
+        hitSeconds: 0,
+        spinoutSeconds: 0,
+        steering: 0,
+      }),
+    ).toBe('victory');
+  });
+});

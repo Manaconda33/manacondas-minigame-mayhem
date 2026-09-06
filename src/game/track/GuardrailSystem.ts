@@ -25,11 +25,7 @@ export function guardrailContact(
   if (absoluteOffset <= allowedOffset) return null;
 
   const side: -1 | 1 = projection.lateralOffset < 0 ? -1 : 1;
-  const right = new THREE.Vector3(
-    projection.tangent.z,
-    0,
-    -projection.tangent.x,
-  ).normalize();
+  const right = new THREE.Vector3(projection.tangent.z, 0, -projection.tangent.x).normalize();
   const inwardNormal = right.multiplyScalar(-side);
 
   return {

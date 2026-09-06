@@ -30,6 +30,23 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Correct sustained-speed test fixture bounds
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tools/patch-slice5-nitro.py')
+          text = path.read_text()
+          replacements = {
+              "    const capKart = makeKart();\\n": "    const capKart = makeKart(sliceOneDriver, 2000);\\n",
+              "    const grassKart = makeKart();\\n": "    const grassKart = makeKart(sliceOneDriver, 2000);\\n",
+          }
+          for old, new in replacements.items():
+              if text.count(old) != 1:
+                  raise SystemExit(f'Expected exactly one fixture match: {old!r}')
+              text = text.replace(old, new, 1)
+          path.write_text(text)
+          PY
+
       - name: Apply guarded patch
         run: python tools/patch-slice5-nitro.py
 

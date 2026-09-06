@@ -3,7 +3,9 @@ import { resumeAudioContext } from '../audio/driftTone';
 import type { HudState, KartTimeTrial as KartTimeTrialInstance } from '../game/KartTimeTrial';
 import { isMobileSession } from './mobileSession';
 import { characterById, characterManifest, type CharacterDefinition } from '../characters/manifest';
+import { itemHudMarkup, updateItemHud } from './itemHud';
 import { raceMinimapMarkup, updateRaceMinimap } from './raceMinimap';
+import { touchControlsMarkup } from './touchControls';
 
 export const APP_TITLE = "Manaconda's Minigame Mayhem";
 
@@ -77,9 +79,10 @@ export function mountAppShell(root: HTMLElement): void {
         <dl class="control-list">
           <div><dt>Accelerate</dt><dd>W / ↑</dd></div><div><dt>Brake &amp; reverse</dt><dd>S / ↓</dd></div>
           <div><dt>Steer</dt><dd>A D / ← →</dd></div><div><dt>Hop / drift</dt><dd>Space + steer</dd></div>
+          <div><dt>Use item</dt><dd>Left Shift / E</dd></div><div><dt>Backward item</dt><dd>S / ↓ + item</dd></div>
           <div><dt>Rear camera</dt><dd>C</dd></div><div><dt>Recover kart</dt><dd>R</dd></div>
           <div><dt>Pause</dt><dd>Esc / P</dd></div>
-          <div><dt>Mobile</dt><dd>On-screen controls appear automatically</dd></div>
+          <div><dt>Mobile</dt><dd>ITEM uses held item · Brake + ITEM requests backward</dd></div>
         </dl>${button('Back', 'menu', 'primary')}</main>`;
   };
 
@@ -157,13 +160,7 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderGame = async (): Promise<void> => {
-    const touchControls = isMobileSession()
-      ? `<div id="touch-controls" class="touch-controls" aria-label="Touch driving controls">
-          <div class="touch-cluster steering-controls"><button data-touch="left" aria-label="Steer left">◀</button><button data-touch="right" aria-label="Steer right">▶</button></div>
-          <div class="touch-cluster action-controls"><button data-touch="brake" aria-label="Brake or reverse">▼</button><button data-touch="accelerate" aria-label="Accelerate">▲</button><button data-touch="drift" class="touch-drift" aria-label="Hop or drift">DRIFT</button></div>
-          <div class="touch-utility"><button data-touch="rear" aria-label="Rear camera">REAR</button><button data-touch="recover" aria-label="Recover kart">RESET</button></div>
-        </div>`
-      : '';
+    const touchControls = touchControlsMarkup(isMobileSession());
     root.innerHTML = `
       <section class="game-shell" aria-label="Circuit Alpha Grand Prix">
         <canvas id="game-canvas" tabindex="0"></canvas>
@@ -171,6 +168,7 @@ export function mountAppShell(root: HTMLElement): void {
         <div class="hud top-center"><span>Time</span><strong id="time">0:00.00</strong></div>
         <div class="hud top-right"><span>Speed</span><strong id="speed">0 km/h</strong></div>
         <div class="hud position-hud"><span>Position</span><strong id="position">1 / 8</strong></div>
+        ${itemHudMarkup()}
         ${raceMinimapMarkup()}
         <div class="hud bottom-left"><span>Surface</span><strong id="surface">ASPHALT</strong></div>
         <div class="hud bottom-right performance"><span>Performance</span><strong id="performance">60 FPS · 16.7 ms</strong></div>
@@ -182,7 +180,7 @@ export function mountAppShell(root: HTMLElement): void {
         <div id="countdown" class="countdown">3</div>
         <div id="loading" class="loading-card"><span class="spinner"></span><h2>Initializing Circuit Alpha</h2><p>Loading Rapier physics and the procedural track…</p></div>
         <div id="finish" class="finish-card" hidden><p class="eyebrow">Grand Prix complete</p><h2 id="finish-place">1st place</h2><p id="finish-time">0:00.00</p><ol id="standings" class="standings"></ol>${button('Return to Hub', 'finish-menu', 'primary')}</div>
-        <div class="game-help">WASD / arrows drive · Space + steer drift · C rear view · R recover · Esc pause</div>
+        <div class="game-help">WASD / arrows drive · Space + steer drift · Shift/E item · C rear view · R recover · Esc pause</div>
         ${touchControls}
       </section>`;
 
@@ -195,6 +193,7 @@ export function mountAppShell(root: HTMLElement): void {
       return element;
     };
     const minimap = getElement('[data-race-minimap]');
+    const itemHud = getElement('#item-hud');
     const updateHud = (state: HudState): void => {
       getElement('#lap').textContent = `${String(state.lap)} / 3`;
       getElement('#time').textContent = formatTime(state.elapsed);
@@ -207,6 +206,7 @@ export function mountAppShell(root: HTMLElement): void {
       getElement('#countdown').hidden = state.countdown === '';
       getElement('#wrong-way').hidden = !state.wrongWay;
       updateRaceMinimap(minimap, state.minimap);
+      updateItemHud(itemHud, state.item);
       const driftPanel = getElement('#drift-panel');
       driftPanel.dataset.tier = state.driftTier;
       getElement('#drift-fill').style.width = `${String(Math.round(state.driftCharge * 100))}%`;

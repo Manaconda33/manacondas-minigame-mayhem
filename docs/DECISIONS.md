@@ -474,7 +474,6 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Next gate:** Await Manny's explicit approval before beginning Slice 5 or another bounded project task.
 - **Approval:** Manny approved the complete live result and Slice 3 closeout on 2026-09-05.
 
-
 ## ADR-061: Approve the Slice 5 item-system implementation contract
 
 - **Date:** 2026-09-05
@@ -487,7 +486,6 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Product impact:** This amendment resolves implementation ambiguity without changing the approved item roster or probability matrix and without reopening the abandoned competitive-balance experiment.
 - **Approval:** Manny approved the reconciled Slice 5 item-system design and exit checklist on 2026-09-05.
 
-
 ## ADR-062: Clarify Slice 5 item-box collection and respawn presentation
 
 - **Date:** 2026-09-05
@@ -497,3 +495,14 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Initial engineering defaults:** Use approximately 0.12 seconds for the pop and 0.45 seconds for the fade-back. These are configuration values that may be refined without changing the approved pop -> absent -> fade back -> collectible sequence or the approximately 4.5-second total respawn target.
 - **Scope:** Presentation/lifecycle clarification only. This does not change item probabilities, box ownership, row placement, inventory rules, roulette timing, or any item effect.
 - **Approval:** Manny approved Slice 5 implementation and supplied this item-box behavior clarification on 2026-09-05.
+
+## ADR-063: Standardize deterministic player-only item acceptance mode
+
+- **Date:** 2026-09-06
+- **Status:** Approved for Slice 5 acceptance testing
+- **Context:** The first deployed Nitro Surge acceptance gate exposed a practical testing problem: relying on the live position/gap item lottery makes a targeted manual item test unnecessarily slow and inconsistent. The same problem would recur for every later Slice 5 item. Manny also required an in-world Nitro activation tell rather than HUD text alone.
+- **Decision:** Add a reusable `testItem=<item-id>` URL acceptance mode that accepts only the fifteen governed item IDs and forces only the player's successful item-box pickup to the requested item. AI pickups remain governed by the normal selector. Missing or invalid values leave production selection unchanged. Surface a visible TEST MODE badge whenever the override is active so forced acceptance sessions cannot be confused with normal balance behavior.
+- **Nitro presentation:** Nitro Surge uses an original lightweight procedural rear exhaust/energy tell tied directly to the active `nitro-surge` RacerEffects state. Its visual lifetime therefore matches pause-safe effect lifetime and cleanup rather than running on an independent timer. This is Slice 5 gameplay readability; final production VFX polish remains Slice 6.
+- **Testing rule:** Future targeted live item checkpoints should provide a corresponding `?testItem=<governed-id>` link instead of requiring Manny to roll the item randomly. Each checkpoint must still verify the normal URL once to ensure the production selector is not forced.
+- **Scope:** Acceptance instrumentation and Nitro readability only. This does not alter the item probability matrix, player inventory rules, AI distribution, normal-game prerequisites, item balance, or authorization for another item effect.
+- **Approval:** Manny approved the deterministic item-test approach and Nitro visual tell before the Nitro Surge live acceptance pass on 2026-09-06.

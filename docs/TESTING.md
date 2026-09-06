@@ -118,6 +118,36 @@ For live acceptance, observe AI-controlled low-, medium-, and high-Speed charact
 
 For live acceptance, collide Accu and a light racer with comparable approach speeds in both directions. Confirm that Accu retains visibly more momentum but still suffers a noticeable slowdown, the light racer accepts greater risk, lateral knockback remains readable, and bumper-to-bumper contact does not continuously drain speed.
 
+## Slice 5 RacerEffects and Nitro Surge checkpoint
+
+Automated evidence for this bounded checkpoint must confirm:
+
+- Nitro Surge tuning remains configuration data at approximately 1.2 seconds and 1.18x normal speed cap;
+- the temporary boost applies strong acceleration without changing the permanent Speed stat;
+- the off-road override bypasses only dirt/grass speed-ceiling penalties while Traction-governed off-road acceleration remains active;
+- the effect timer freezes under pause and restores neutral modifiers on expiry;
+- successful Nitro activation consumes its single charge and immediately frees the one inventory slot;
+- an unsupported/not-yet-implemented item remains held and unconsumed when ITEM is pressed;
+- use during roulette remains rejected;
+- the existing AI 1.00-1.04 speed allowance remains separately bounded;
+- built-in drift boost and item boost do not multiply into an unintended compounded cap/acceleration state; and
+- disposal/explicit cleanup removes temporary effects without leaking state.
+
+For deployed product-owner acceptance after merge:
+
+1. Collect boxes until Nitro Surge is selected; confirm the existing approximately 0.85-second roulette behavior is unchanged.
+2. After reveal, press ITEM and confirm Nitro activates rather than merely registering input.
+3. Confirm the held Nitro charge is consumed and the item slot clears immediately, allowing another item box to be collected while the boost is still active.
+4. Confirm the race status reports `NITRO SURGE ACTIVE` during the effect.
+5. On asphalt, confirm noticeably stronger acceleration and a temporary ceiling above the racer's normal top speed, targeting approximately 1.18x.
+6. Activate Nitro immediately before or while entering dirt/grass and confirm the usual off-road speed ceiling is bypassed during the effect; Traction may still influence how quickly the kart accelerates there.
+7. Confirm Nitro expires after approximately 1.2 seconds and the normal road/off-road speed behavior returns without a persistent buff.
+8. Pause during Nitro and confirm the remaining effect duration freezes until gameplay resumes.
+9. Confirm both desktop ITEM inputs (Left Shift and E) and the mobile ITEM button can activate Nitro after reveal.
+10. Confirm a non-Nitro held item still does not fire or consume in this checkpoint.
+
+Record the deployed commit, CI/Pages run, desktop result, mobile result, any effect/timing/speed defect, and Manny's explicit acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint authorizes no other item effect.
+
 ## Slice 5 roulette, HUD, and input checkpoint
 
 Automated evidence for this bounded checkpoint must confirm:

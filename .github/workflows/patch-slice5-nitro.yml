@@ -50,6 +50,19 @@ jobs:
       - name: Apply guarded patch
         run: python tools/patch-slice5-nitro.py
 
+      - name: Keep long-run test ground square
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tests/kart-controller.test.ts')
+          text = path.read_text()
+          old = 'RAPIER.ColliderDesc.cuboid(groundHalfWidth, 0.1, 500)'
+          new = 'RAPIER.ColliderDesc.cuboid(groundHalfWidth, 0.1, groundHalfWidth)'
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected exactly one ground fixture match, found {text.count(old)}')
+          path.write_text(text.replace(old, new, 1))
+          PY
+
       - name: Format intended files
         run: >-
           npx prettier --write

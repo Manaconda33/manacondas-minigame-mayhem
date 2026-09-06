@@ -15,8 +15,13 @@ import { RaceDirector, rankRacers, type RacerProgress } from './race/RaceDirecto
 import { CircuitAlpha } from './track/CircuitAlpha';
 import { createTrackScene } from './track/createTrackScene';
 import { ItemBoxSystem } from './items/ItemBoxSystem';
-import { ItemInventory } from './items/ItemInventory';
 import { selectItem } from './items/ItemSelector';
+import {
+  ItemSystem,
+  isItemUseKey,
+  itemUseDirection,
+  type ItemHudSnapshot,
+} from './items/ItemSystem';
 import type { RaceRank } from './items/itemDefinitions';
 import { characterManifest, type CharacterDefinition } from '../characters/manifest';
 import { selectAiRoster } from '../characters/raceRoster';
@@ -47,6 +52,7 @@ export interface HudState {
   position: number;
   countdown: string;
   minimap: MinimapState;
+  item: ItemHudSnapshot;
 }
 
 export interface RaceResult {
@@ -139,7 +145,7 @@ export class KartTimeTrial {
   private finishReported = false;
   private readonly contactCooldowns = new Map<string, number>();
   private readonly itemBoxes: ItemBoxSystem;
-  private readonly itemInventories = new Map<string, ItemInventory>();
+  private readonly itemSystem = new ItemSystem();
   private lastApexSelectionTime = Number.NEGATIVE_INFINITY;
 
   public static async create(options: TimeTrialOptions): Promise<KartTimeTrial> {
@@ -208,6 +214,7 @@ export class KartTimeTrial {
     window.removeEventListener('keyup', this.onKeyUp);
     window.removeEventListener('resize', this.resize);
     this.itemBoxes.dispose();
+    this.itemSystem.dispose();
     this.renderer.dispose();
   }
 
@@ -215,6 +222,7 @@ export class KartTimeTrial {
     if (pressed) this.touchPressed.add(control);
     else this.touchPressed.delete(control);
     if (control === 'recover' && pressed) this.respawn();
+    if (control === 'item' && pressed) this.requestPlayerItemUse();
   }
 
   private readonly frame = (now: number): void => {
@@ -291,6 +299,7 @@ export class KartTimeTrial {
       snapshot.lap === 0 && snapshot.nextCheckpoint === 1 && projection.progress > 0.8
         ? 0
         : projection.progress;
+    this.itemSystem.advance(dt);
     this.updateItemBoxes(dt);
     if (this.playerProgress.finished && !this.finishReported) {
       this.finishReported = true;
@@ -433,33 +442,24 @@ export class KartTimeTrial {
     return rankRacers([this.playerProgress, ...this.opponents.map(({ progress }) => progress)]);
   }
 
-  private itemInventory(racerId: string): ItemInventory {
-    const existing = this.itemInventories.get(racerId);
-    if (existing !== undefined) return existing;
-    const inventory = new ItemInventory();
-    this.itemInventories.set(racerId, inventory);
-    return inventory;
-  }
-
   private updateItemBoxes(dt: number): void {
     const racers = [
       {
         id: 'player',
         position: this.kart.position(),
         finished: this.playerProgress.finished,
-        canCollect: !this.itemInventory('player').isOccupied(),
+        canCollect: this.itemSystem.canCollect('player'),
       },
       ...this.opponents.map((opponent) => ({
         id: opponent.id,
         position: opponent.controller.position(),
         finished: opponent.progress.finished,
-        canCollect: !this.itemInventory(opponent.id).isOccupied(),
+        canCollect: this.itemSystem.canCollect(opponent.id),
       })),
     ];
 
     this.itemBoxes.update(dt, racers, ({ racerId }) => {
-      const inventory = this.itemInventory(racerId);
-      if (inventory.isOccupied()) return false;
+      if (!this.itemSystem.canCollect(racerId)) return false;
 
       const standings = this.currentStandings();
       const racerIndex = standings.findIndex(({ id }) => id === racerId);
@@ -473,10 +473,17 @@ export class KartTimeTrial {
       const distanceBehindLeaderMeters = Math.max(0, (leaderTotal - racerTotal) * this.trackLength);
       const apexAvailable = this.elapsed - this.lastApexSelectionTime >= 18;
       const itemId = selectItem({ rank, distanceBehindLeaderMeters, apexAvailable });
-      if (!inventory.acquire(itemId)) return false;
+      if (!this.itemSystem.acquire(racerId, itemId)) return false;
       if (itemId === 'apex-missile') this.lastApexSelectionTime = this.elapsed;
       return true;
     });
+  }
+
+  private requestPlayerItemUse(): void {
+    if (this.paused || this.playerProgress.finished) return;
+    const reverseHeld =
+      this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake');
+    void this.itemSystem.requestUse('player', itemUseDirection(reverseHeld));
   }
 
   private respawn(): void {
@@ -562,6 +569,7 @@ export class KartTimeTrial {
       airborne: feedback.airborne,
       position: this.currentStandings().findIndex(({ id }) => id === 'player') + 1,
       countdown: this.raceDirector.countdownLabel(),
+      item: this.itemSystem.hudSnapshot('player'),
       minimap: {
         track: this.minimapTrack,
         racers: [
@@ -902,6 +910,7 @@ export class KartTimeTrial {
       this.paused = !this.paused;
     }
     if (event.code === 'KeyR' && !event.repeat) this.respawn();
+    if (isItemUseKey(event.code) && !event.repeat) this.requestPlayerItemUse();
     this.pressed.add(event.code);
   };
 

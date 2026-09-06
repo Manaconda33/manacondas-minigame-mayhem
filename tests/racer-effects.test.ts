@@ -13,9 +13,9 @@ function nitroBoost() {
 describe('Slice 5 RacerEffects temporary boost foundation', () => {
   it('keeps Nitro Surge tuning in item configuration at the approved values', () => {
     expect(nitroBoost()).toEqual({
-      durationSeconds: 1.2,
+      durationSeconds: 2.4,
       speedCapMultiplier: 1.18,
-      accelerationMultiplier: 1.35,
+      accelerationMultiplier: 1.5,
       ignoreOffRoadSpeedPenalty: true,
     });
   });
@@ -39,7 +39,7 @@ describe('Slice 5 RacerEffects temporary boost foundation', () => {
     ).toBe(true);
     expect(effects.driveModifiers('player')).toEqual({
       speedCapMultiplier: 1.18,
-      accelerationMultiplier: 1.35,
+      accelerationMultiplier: 1.5,
       ignoreOffRoadSpeedPenalty: true,
       activeBoostLabel: 'Nitro Surge',
     });
@@ -49,7 +49,7 @@ describe('Slice 5 RacerEffects temporary boost foundation', () => {
     effects.advance(5, true);
     expect(effects.remainingSeconds('player', 'nitro-surge')).toBeCloseTo(beforePause);
 
-    effects.advance(1);
+    effects.advance(2);
     expect(effects.remainingSeconds('player', 'nitro-surge')).toBe(0);
     expect(effects.driveModifiers('player').activeBoostLabel).toBeNull();
   });
@@ -59,10 +59,10 @@ describe('Slice 5 RacerEffects temporary boost foundation', () => {
     const spec = { id: 'nitro-surge', label: 'Nitro Surge', ...nitroBoost() };
 
     expect(effects.activateTemporaryBoost('player', spec)).toBe(true);
-    effects.advance(0.9);
+    effects.advance(2.1);
     expect(effects.remainingSeconds('player')).toBeLessThan(0.4);
     expect(effects.activateTemporaryBoost('player', spec)).toBe(true);
-    expect(effects.remainingSeconds('player')).toBeCloseTo(1.2);
+    expect(effects.remainingSeconds('player')).toBeCloseTo(2.4);
     expect(effects.driveModifiers('player').speedCapMultiplier).toBe(1.18);
   });
 
@@ -117,7 +117,7 @@ describe('Slice 5 Nitro Surge item-use dispatch', () => {
     expect(items.canCollect('player')).toBe(true);
     expect(effects.driveModifiers('player')).toMatchObject({
       speedCapMultiplier: 1.18,
-      accelerationMultiplier: 1.35,
+      accelerationMultiplier: 1.5,
       ignoreOffRoadSpeedPenalty: true,
       activeBoostLabel: 'Nitro Surge',
     });

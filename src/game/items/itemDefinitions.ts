@@ -67,9 +67,9 @@ export const ITEM_DEFINITIONS: Readonly<Record<ItemId, ItemDefinition>> = {
     icon: '↟',
     charges: 1,
     boost: {
-      durationSeconds: 1.2,
+      durationSeconds: 2.4,
       speedCapMultiplier: 1.18,
-      accelerationMultiplier: 1.35,
+      accelerationMultiplier: 1.5,
       ignoreOffRoadSpeedPenalty: true,
     },
   },

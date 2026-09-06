@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.2
+Version 1.1 - Final approved baseline; working implementation amendment 2.3
 
 August 16, 2026
 
@@ -79,6 +79,12 @@ Hyper-Drive Rocket remains restricted to positions 6-8 and additionally requires
 Item effects use the shared PRD spin categories unless otherwise specified in the approved design: standard approximately 0.85 seconds, heavy explosive approximately 1.20 seconds, Blaze short spin approximately 0.55 seconds, Frost momentum/handling impairment without spin, and Slick 360-degree presentation with approximately 60% speed retention. Newly spawned projectiles/hazards receive a short owner-immunity/arming window; after arming, normal collisions may include later self-hit from a returning/ricocheted object or lingering owned hazard.
 
 Slice 5 architecture separates item definitions/selection, inventory and lifecycle, item boxes, projectiles, hazards, generic racer effects, targeting, Rocket spline autopilot, AI item policy, and HUD integration. Item balance remains configuration-driven. Slice 5 may use original procedural/simple models, icons, VFX, and placeholder audio sufficient for gameplay readability; final production audio/VFX polish remains Slice 6. Slice 5 cannot close until the approved exit checklist passes, including at least 100,000 seeded item selections per rank, interaction/counter tests, cleanup/object-count soak, desktop/mobile live deployment checks, and explicit product-owner acceptance.
+
+## Approved implementation amendment 2.3 - Nitro Surge live balance tuning
+
+Approved September 6, 2026 after the first deterministic deployed Nitro Surge acceptance pass. Product-owner testing confirmed the item activation, consumption, inventory release, HUD/VFX tell, off-road override, pause safety, expiry cleanup, desktop/mobile input, deterministic test harness, and normal-selector isolation. Acceleration was functional but not sufficiently pronounced, and the approximately 1.2-second active window felt too short to provide a satisfying or useful boost.
+
+Nitro Surge duration is therefore changed from approximately 1.2 seconds to approximately **2.4 seconds**, and its acceleration multiplier is changed from **1.35x** to **1.50x**. The approved **1.18x normal speed cap remains unchanged**. The off-road speed-penalty override, Traction-governed off-road acceleration, one-charge inventory behavior, pause-safe timer, VFX lifetime coupling, and clean restoration remain unchanged. These values supersede conflicting Nitro Surge duration/acceleration values in the baseline PRD and Slice 5 design while leaving every other item unchanged. This amendment was explicitly approved by Manny before implementation.
 
 # Contents
 

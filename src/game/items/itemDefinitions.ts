@@ -22,31 +22,44 @@ export type RaceRank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 export interface ItemDefinition {
   id: ItemId;
   displayName: string;
+  icon: string;
   charges: number;
 }
 
 export const ITEM_DEFINITIONS: Readonly<Record<ItemId, ItemDefinition>> = {
-  'kinetic-disc': { id: 'kinetic-disc', displayName: 'Ricochet Kinetic Disc', charges: 1 },
-  'seeker-drone': { id: 'seeker-drone', displayName: 'Homing Seeker Drone', charges: 1 },
-  'apex-missile': { id: 'apex-missile', displayName: 'Apex Orbital Missile', charges: 1 },
-  'blast-orb': { id: 'blast-orb', displayName: 'Timed Blast Orb', charges: 1 },
-  'blaze-orbs': { id: 'blaze-orbs', displayName: 'Blaze Orbs', charges: 5 },
-  'frost-orbs': { id: 'frost-orbs', displayName: 'Frost Orbs', charges: 3 },
-  'arc-blade': { id: 'arc-blade', displayName: 'Rebounding Arc Blade', charges: 3 },
-  'arc-hammers': { id: 'arc-hammers', displayName: 'Kinetic Arc Hammers', charges: 5 },
-  'slick-trap': { id: 'slick-trap', displayName: 'Hazard Oil / Slick Trap', charges: 1 },
-  shockwave: { id: 'shockwave', displayName: 'Acoustic Shockwave Pulse', charges: 1 },
-  'ink-splat': { id: 'ink-splat', displayName: 'Vision-Obscuring Ink Splat', charges: 1 },
-  'nitro-surge': { id: 'nitro-surge', displayName: 'Nitro Surge', charges: 1 },
+  'kinetic-disc': {
+    id: 'kinetic-disc',
+    displayName: 'Ricochet Kinetic Disc',
+    icon: '◇',
+    charges: 1,
+  },
+  'seeker-drone': { id: 'seeker-drone', displayName: 'Homing Seeker Drone', icon: '⌁', charges: 1 },
+  'apex-missile': { id: 'apex-missile', displayName: 'Apex Orbital Missile', icon: '✦', charges: 1 },
+  'blast-orb': { id: 'blast-orb', displayName: 'Timed Blast Orb', icon: '◉', charges: 1 },
+  'blaze-orbs': { id: 'blaze-orbs', displayName: 'Blaze Orbs', icon: '✹', charges: 5 },
+  'frost-orbs': { id: 'frost-orbs', displayName: 'Frost Orbs', icon: '❄', charges: 3 },
+  'arc-blade': { id: 'arc-blade', displayName: 'Rebounding Arc Blade', icon: '⌬', charges: 3 },
+  'arc-hammers': { id: 'arc-hammers', displayName: 'Kinetic Arc Hammers', icon: '⚒', charges: 5 },
+  'slick-trap': { id: 'slick-trap', displayName: 'Hazard Oil / Slick Trap', icon: '≈', charges: 1 },
+  shockwave: { id: 'shockwave', displayName: 'Acoustic Shockwave Pulse', icon: '◌', charges: 1 },
+  'ink-splat': { id: 'ink-splat', displayName: 'Vision-Obscuring Ink Splat', icon: '✺', charges: 1 },
+  'nitro-surge': { id: 'nitro-surge', displayName: 'Nitro Surge', icon: '↟', charges: 1 },
   'nitro-overdrive': {
     id: 'nitro-overdrive',
     displayName: 'Continuous Nitro Overdrive',
+    icon: '≋',
     charges: 1,
   },
-  'hyper-drive-rocket': { id: 'hyper-drive-rocket', displayName: 'Hyper-Drive Rocket', charges: 1 },
+  'hyper-drive-rocket': {
+    id: 'hyper-drive-rocket',
+    displayName: 'Hyper-Drive Rocket',
+    icon: '⇈',
+    charges: 1,
+  },
   'prismatic-invincibility': {
     id: 'prismatic-invincibility',
     displayName: 'Prismatic Invincibility',
+    icon: '⬡',
     charges: 1,
   },
 };

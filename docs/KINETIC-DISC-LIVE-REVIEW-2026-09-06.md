@@ -1,15 +1,15 @@
 # Kinetic Disc live review — September 6, 2026
 
-## Verified deployed checkpoint
+## Initial PR #104 deployed checkpoint (historical)
 
 - Main/PR #104 merge: `655e68e554d9d6f4567e5136bdeb3b4e57a6f570`.
 - CI and Pages deployment: successful run `34033720883`.
 - Main tree: `c9a60377956503b6f4de8eeb026e4f7ffb063408`, identical to the locally reviewed source tree.
 - Governing PRD: v1.1, amendment 2.4. No new balance approval is inferred from this review.
 
-## Product-owner result
+## Initial product-owner result (superseded)
 
-Manny playtested as Manaconda. The disc can hit nearby racers but does not reliably catch full-speed opponents. Guardrail bounces sometimes fail to reach the opposite rail, contrary to his expectation. He passes all other checks from the Kinetic acceptance gate, including the real spinout, chase/rear camera presentation, perspective-correct approved hit assets, and racer/guardrail contact. Overall Kinetic Disc acceptance remains open for these two concerns.
+Manny playtested as Manaconda. The disc can hit nearby racers but does not reliably catch full-speed opponents. Guardrail bounces sometimes fail to reach the opposite rail, contrary to his expectation. He passes all other checks from the Kinetic acceptance gate, including the real spinout, chase/rear camera presentation, perspective-correct approved hit assets, and racer/guardrail contact. At that initial review, Kinetic Disc acceptance remained open for these two concerns.
 
 ## Speed diagnosis
 
@@ -41,4 +41,12 @@ Reflection preserved projectile speed to floating-point tolerance (maximum diffe
 3. Add moving-target catch-up checks using actual racer speeds, plus shallow-angle curved-rail trajectory regressions at the approved new speed. Existing spinout, asset, lifetime, bounce-limit, owner/self-hit, cleanup, and inventory behavior must continue passing.
 4. Record the approved balance change in the PRD/decision log only after approval. Publish through a validated corrective PR, then retest catch-up and ricochet expectations before final item acceptance.
 
-Manny subsequently approved the 42 m/s base speed with the existing angle-based reflection rule. Implementation is governed by amendment 2.5 / ADR-066. The diagnostic above remains historical evidence from the PR #104 source; its 42 m/s run changed only an in-memory candidate. Corrective publication and focused live acceptance remain separate gates. The next item and Slice 6 remain locked.
+Manny subsequently approved the 42 m/s base speed with the existing angle-based reflection rule. Implementation is governed by amendment 2.5 / ADR-066. The diagnostic above remains historical evidence from the PR #104 source; its 42 m/s run changed only an in-memory candidate. Those corrective gates subsequently passed as recorded below.
+
+## Final acceptance — LIVE ACCEPTED
+
+PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`. Post-merge [CI/Pages run 34034999554](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34034999554) passed validation and deployment. The deployed source tree is `7ce95dcd49ef3f1c0c357b3080cdfe4761f7db4c` under PRD amendment 2.5.
+
+Manny's [final acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) confirms the 42 m/s base speed, acceptable angle-based ricochets, existing spinout, chase/rear perspectives, and normal unforced selection all pass. **Kinetic Disc is LIVE ACCEPTED.** This supersedes the initial partial acceptance and pending corrective gates throughout this record.
+
+During the same retest, later AI finishers failed to refresh the post-player-finish standings tile. [Issue #106](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106) tracks this as future development. Manny explicitly excludes it from Kinetic acceptance blockers. He is ready to continue Slice 5; the next bounded scope is proposed separately. Slice 6 remains locked.

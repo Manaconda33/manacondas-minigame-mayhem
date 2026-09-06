@@ -520,7 +520,7 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 ## ADR-065: Use shared guardrails and stable camera heading for Kinetic Disc spinouts
 
 - **Date:** 2026-09-06
-- **Status:** Approved for implementation
+- **Status:** Live accepted / closed
 - **Context:** Manny approved Kinetic Disc as the next Slice 5 item and explicitly expanded the checkpoint to include projectile ricochets, continuous track guardrails that both projectiles and racers can hit, and a visible kart spinout whose 2D hit asset remains correct as the kart rotates in either chase or rear view.
 - **Decision:** Preserve the PRD's existing Kinetic Disc values (approximately 28 m/s, 0.32 m radius, nine-second lifetime, three wall ricochets, 0.85-second standard spinout, hit destruction). Add continuous Circuit Alpha guardrails outside the legal racing corridor and use one shared geometric contact boundary for projectile reflection and racer response. Initial reversible guardrail engineering values are 9.25 m from centerline, 1.15 m kart contact radius, 0.82 tangential retention, and 0.22 normal restitution.
 - **Spinout presentation:** Kinetic impact applies one full yaw turn during the 0.85-second standard spinout. The player's camera holds the pre-impact travel heading during the spin while the kart's real heading continues to rotate. Existing `hit` / `frontHit` selection remains based on actual kart orientation relative to the camera each frame, so chase and rear views remain perspective-correct without new raster assets.
@@ -534,10 +534,11 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 ## ADR-066: Raise Kinetic Disc speed after live catch-up testing
 
 - **Date:** 2026-09-06
-- **Status:** Approved for implementation; corrective live acceptance pending
+- **Status:** Live accepted / closed
 - **Context:** PR #104 deployed at `655e68e554d9d6f4567e5136bdeb3b4e57a6f570`, with validation and Pages run `34033720883` successful. Manny passed all checks except insufficient catch-up speed and unexpected ricochet paths. At 30.8 m/s including inherited velocity, the old disc barely closes on Manaconda (29.67 m/s) and cannot catch Krios (33 m/s). The controlled trajectory review is preserved in `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md`.
 - **Decision:** Raise base speed from 28 to **42 m/s**, retaining the bounded inherited contribution (up to 2.8 m/s) and the existing angle-based reflection rule. A curved track may produce successive same-side contacts. Do not force alternating rails or alter the reflected angle to guarantee a crossing.
 - **Preserved contract:** Radius, lifetime, bounce limit, owner arming/self-hit, charge/slot behavior, 40-object ceiling, spinout duration, drive-input suppression, camera anchor, approved hit/frontHit art, racer guardrail response, roster statistics, Nitro, probabilities, and all later-item gates remain unchanged.
 - **Evidence required:** Moving-target catch-up tests from a 30 m gap against actual Manaconda/Krios normal maximums and the maximum AI speed allowance, plus curved shallow-angle reflection/speed-retention regressions and the full repository gate. Focused live retest follows a separately approved corrective PR merge/deployment.
 - **PRD impact:** Approved amendment 2.5 supersedes the earlier Kinetic speed only.
 - **Approval:** Manny explicitly replied `Approved` to 42 m/s base speed with the existing angle-based ricochet rule on 2026-09-06.
+- **Final acceptance:** PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run `34034999554` passed. Manny's [PR #105 comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) accepts 42 m/s, angle-based ricochets, spinout, chase/rear perspective, and normal item selection. This also closes the ADR-065 Kinetic/guardrail/spinout live gate. Issue #106 remains a separate non-blocking future-development defect.

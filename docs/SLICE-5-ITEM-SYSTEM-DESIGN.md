@@ -211,7 +211,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 
 ## Fifteen-item functional gate
 
-- [ ] Kinetic Disc launches forward/backward, travels at the governed speed, ricochets no more than three times, and expires/cleans up.
+- [x] Kinetic Disc launches forward/backward, travels at the governed speed, ricochets no more than three times, and expires/cleans up.
 - [ ] Seeker selects the nearest valid racer ahead by race progress, respects arming/turn/lifetime behavior, does not teleport, and warns its target.
 - [ ] Apex respects one-active-global and 18-second restrictions, then attacks whoever is currently first at terminal lock.
 - [ ] Blast Orb supports directional deployment, approximately three-second fuse, qualifying early impact detonation, AoE resolution, and cleanup.
@@ -223,7 +223,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 - [ ] Shockwave pushes nearby racers and clears every supported projectile/hazard class.
 - [ ] Shockwave can neutralize Apex only during the supported terminal counter state.
 - [ ] Ink produces partial player screen obstruction for approximately 2.5 seconds and separately governed AI path-noise/reaction/precision impairment without making AI navigation impossible.
-- [ ] Nitro Surge applies its approximately 2.4-second boost, 1.50x acceleration authority, 1.18x speed cap, and off-road override.
+- [x] Nitro Surge applies its approximately 2.4-second boost, 1.50x acceleration authority, 1.18x speed cap, and off-road override.
 - [ ] Nitro Overdrive obeys its six-second window, pulse cadence, pulse duration, and cleanup.
 - [ ] Hyper-Drive Rocket follows Circuit Alpha's legal race path, performs automatic overtakes without teleporting, respects immunity, exits safely, and does not deliberately deposit the racer directly into first.
 - [ ] Prismatic Invincibility applies approximately six seconds of immunity, +12% speed, hostile-contact spin, warning/expiry transition, and clean restoration.
@@ -281,4 +281,4 @@ For the Kinetic Disc checkpoint, amendment 2.4 adds continuous Circuit Alpha gua
 
 ## Kinetic Disc speed correction - approved 2026-09-06
 
-Amendment 2.5 / ADR-066 raises only Kinetic Disc base speed from 28 to **42 m/s**, retaining up to 2.8 m/s inherited contribution and the existing angle-based ricochet rule. This supersedes earlier speed references without changing lifetime, radius, bounce count, owner/self-hit, spinout, camera/sprites, or any other item. Same-side bounces on shallow curved sections remain valid. Manny passes the remaining PR #104 live checks; faster catch-up and ricochet expectations require focused corrective acceptance.
+Amendment 2.5 / ADR-066 raises only Kinetic Disc base speed from 28 to **42 m/s**, retaining up to 2.8 m/s inherited contribution and the existing angle-based ricochet rule. This supersedes earlier speed references without changing lifetime, radius, bounce count, owner/self-hit, spinout, camera/sprites, or any other item. Same-side bounces on shallow curved sections remain valid. PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run `34034999554` passed. Manny subsequently passed the focused retest and explicitly live accepted Kinetic Disc. Issue #106 is a separate, deferred standings-display defect and does not block this acceptance. The next proposed bounded increment is described in `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`; its new tuning choices await approval.

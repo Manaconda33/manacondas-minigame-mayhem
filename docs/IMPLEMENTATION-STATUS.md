@@ -2,11 +2,13 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC SPEED CORRECTION VALIDATED LOCALLY / PR REVIEW GATE**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC LIVE ACCEPTED / SEEKER DRONE SCOPE REVIEW**
 
 PRD baseline: **v1.1, working implementation amendment 2.5**.
 
-Latest live review, 2026-09-06: Manny merged PR #104, deployed at `655e68e554d9d6f4567e5136bdeb3b4e57a6f570`; CI/Pages run `34033720883` passed validation and deployment. Manny reports Kinetic Disc is too slow to catch full-speed rivals and some ricochets do not reach the opposite guardrail; he passes all other acceptance checks. Kinetic Disc remains partially accepted and the next item stays locked. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for diagnosis and the subsequently approved 42 m/s base-speed adjustment. Manny subsequently approved 42 m/s base speed while retaining angle-based reflection. The correction is implemented on `fix/kinetic-disc-speed` under amendment 2.5 / ADR-066; the deployed PR #104 build remains at 28 m/s until corrective publication is approved.
+Latest live acceptance, 2026-09-06: PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run [34034999554](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34034999554) passed both validation and deployment. Manny explicitly passes the approved **42 m/s** base speed, retained angle-based ricochets, existing spinout, chase/rear perspectives, and normal unforced item selection. **Kinetic Disc is LIVE ACCEPTED.** His [final PR #105 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) supersedes the earlier partial-acceptance and corrective-publication gates. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for the historical diagnosis and final closeout.
+
+Manny authorized continuing Slice 5. The next proposed bounded increment is **ItemTargeting + Homing Seeker Drone**, detailed in `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`. Its previously unspecified behavior and tuning are proposed for review, not approved balance or implemented gameplay. Issue [#106](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106), the post-finish standings tile failing to update for later AI finishers, remains a **future-development defect** and explicitly does not block Kinetic acceptance or this continuation.
 
 Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Slice 5 is active under the approved `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` contract and ADR-061. Slice 6 remains locked.
 
@@ -24,7 +26,7 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Approval gate:** The Kinetic Disc increment is deployed with partial live acceptance. Manny approved the 42 m/s correction with existing angle-based reflection. Validate it and open a corrective PR; merge/deployment requires separate approval. Further item effects and Slice 6 remain locked.
+**Approval gate:** Kinetic Disc publication and live acceptance are complete. Review the concrete Seeker Drone scope and proposed tuning before implementing that increment. Its eventual merge/deployment and live acceptance retain the established separate gates. Slice 6 remains locked.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -113,7 +115,7 @@ Deployed checkpoint: `574d979f1ad59ebdce386525fdb483f821254457`
 
 No defect was reported in this checkpoint. The deliberate no-fire/no-consumption behavior remains correct until the actual effect dispatcher is implemented.
 
-Remaining Slice 5 work includes the other fourteen item effect implementations, projectiles, hazards, buffs/debuffs and counters, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.
+Remaining Slice 5 work includes thirteen item effects beyond accepted Nitro Surge and Kinetic Disc, additional projectiles, hazards, buffs/debuffs and counters, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.
 
 ## Alex integration and deployment checkpoint
 
@@ -297,6 +299,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Known defects / unresolved issues
 
+- [Issue #106 — Results ranking tile stops updating after player finishes](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106): later AI finishers do not refresh the displayed standings. Manny classified this as future development, not a Kinetic Disc acceptance blocker. No fix is included in the Seeker proposal.
 - The existing production-build large-chunk warning remains known and non-blocking.
 - No Dragon Queen code, asset, orientation, placement, or gameplay defect is open.
 - No Alex integration, deployment, or live-acceptance defect is open.
@@ -304,13 +307,13 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Deferred work
 
-- Remaining Slice 5 work includes roulette/HUD/input, item activation and effects, AI item-use policy, interaction/counter validation, soak/performance evidence, deployment, and live acceptance.
+- Remaining Slice 5 work includes the thirteen unimplemented item effects, AI item-use policy, interaction/counter validation, soak/performance evidence, deployment, and full-slice live acceptance. Boxes, roulette/HUD/input, Nitro Surge, and Kinetic Disc are already live accepted.
 - Further competitive-balance work remains deferred until explicitly reopened.
 - External PBR texture sets, HDR environment, baked AO assets, and other larger presentation additions remain outside the Dragon Queen checkpoint.
 
 ## Next recommended action
 
-Manny reviews PR #98. If approved, merge and deploy the visible item-box checkpoint, then complete live visual acceptance of placement/readability and the pop/disappear/fade-back lifecycle. Only after that acceptance should the next bounded Slice 5 increment add roulette, held-item HUD, and desktop/mobile item-use input.
+Review `docs/SLICE-5-SEEKER-DRONE-SCOPE.md` for the next bounded increment. Once its proposed tuning and edge-case behavior are approved, record the PRD amendment and implement ItemTargeting plus Seeker Drone on a feature branch, validate, and return for merge/deployment review. Issue #106 remains deferred.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 
@@ -318,7 +321,7 @@ Do not reopen competitive-balance tuning while establishing the baseline item im
 
 **Slice 5 design: APPROVED 2026-09-05.**
 
-**Slice 5 implementation: IN PROGRESS; FOUNDATION MERGED / VISIBLE ITEM-BOX PR #98 AWAITING MANNY REVIEW.**
+**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, AND KINETIC DISC LIVE ACCEPTED. SEEKER DRONE SCOPE PROPOSED.**
 
 **Slice 6: LOCKED pending Slice 5 validation, deployment, and Manny live acceptance.**
 
@@ -409,15 +412,37 @@ The recovered code additionally fixes repeated-hit camera recapture, explicitly 
 
 Local dependency installation via `npm ci --offline` could not complete because the npm cache lacks `yocto-queue-0.1.0.tgz`. Local validation therefore uses the existing lockfile-compatible dependency installation; a clean GitHub-hosted `npm ci` plus full validation is required before PR review. Local source was reconstructed through the connected GitHub API with downloaded file contents verified against GitHub blob SHAs; the local reconstruction commit is not claimed as a remote feature commit.
 
-Local `npm run validate`, `git diff --check`, and `git lfs fsck` passed on 2026-09-06: **28 Vitest files / 153 tests**, **91.33% statement coverage**, strict TypeScript, zero-warning ESLint, existing three-lap AI integration and ten-minute numeric soak, branding, 10 archived Cleo hashes, 36 runtime GLBs, 105 runtime PNGs, and production Vite build. The existing large-chunk warning remains non-blocking (KartTimeTrial approximately 3.55 MB minified / 1.27 MB gzip). At that predeployment checkpoint, desktop/mobile visual acceptance was still pending; the latest partial live result is recorded above.
+Local `npm run validate`, `git diff --check`, and `git lfs fsck` passed on 2026-09-06: **28 Vitest files / 153 tests**, **91.33% statement coverage**, strict TypeScript, zero-warning ESLint, existing three-lap AI integration and ten-minute numeric soak, branding, 10 archived Cleo hashes, 36 runtime GLBs, 105 runtime PNGs, and production Vite build. The existing large-chunk warning remains non-blocking (KartTimeTrial approximately 3.55 MB minified / 1.27 MB gzip). At that predeployment checkpoint, desktop/mobile visual acceptance was still pending; the final live acceptance is recorded above.
 
 Clean GitHub-hosted validation run **34032879051**, job **101485584007**, passed against implementation commit **`d3b2cc9e0ad4b30f13cd3565e30f4d133b686d02`**: LFS fetch and `git lfs fsck`, `git diff --check`, clean `npm ci` (198 packages; 0 vulnerabilities), full `npm run validate`, **28 files / 153 tests**, existing AI integration / ten-minute numeric soak, all branding/runtime-asset gates, and production build. The branch diff against `87cd7f1` was reviewed and contains only approved Kinetic/guardrail/spinout code, regression tests, and governance documentation; no avatar assets or other item effects changed. The final temporary read-only validation workflow is removed in the review checkpoint. Subsequent publication: Manny merged PR #104 at `655e68e554d9d6f4567e5136bdeb3b4e57a6f570`; run `34033720883` passed validation and Pages deployment.
 
-**Current gate:** PR #104 is merged and deployed. Manny passes every live check except projectile catch-up speed and the expected ricochet path. Manny approved the 42 m/s correction while preserving normal angle-based reflection. A corrective implementation requires validation, PR publication approval, and focused live retest before this item is accepted. Do not begin the next item until Kinetic Disc is live accepted. The corrective live retest must use `?testItem=kinetic-disc` to check faster catch-up and ricochet expectations, with a brief regression check of the already-passed spinout/camera behavior.
+**Closed gate:** The initial PR #104 concerns were resolved through PR #105 and its successful focused live retest. The final acceptance below supersedes this checkpoint's earlier restrictions.
 
 
 ## Kinetic Disc 42 m/s correction checkpoint
 
 Approved scope changes one runtime constant: Kinetic Disc base speed 28 -> 42 m/s. Tests use the actual racer speed formula for moving-target catch-up and preserve curved shallow-angle ricochets. The existing launch inheritance, projectile/guardrail/spinout/camera/sprite code, all character assets, and every other item remain unchanged. The earlier feedback-only branch `docs/kinetic-disc-live-review` is incorporated in this correction.
 
-Local validation on 2026-09-06 passed `npm run validate`, `git diff --check`, and `git lfs fsck`: **28 Vitest files / 157 tests**, **91.38% statement coverage**, strict TypeScript, zero-warning ESLint, existing AI integration / ten-minute numeric soak, branding, 10 archived Cleo hashes, 36 GLBs, 105 PNGs, and production build. The local dependency installation is unchanged from the verified previous checkpoint; the corrective PR CI must independently run clean `npm ci` and the full gate. The one runtime change and complete documentation/test diff were reviewed; no workflow or asset changes are included. The existing large-chunk warning remains non-blocking. No corrective merge or deployment is authorized yet. Next action: verify corrective PR CI and obtain Manny's merge/deployment approval. The PR checks provide the authoritative hosted run/commit evidence. Kinetic Disc remains partially live accepted; Slice 6 and the next item stay locked.
+Local validation on 2026-09-06 passed `npm run validate`, `git diff --check`, and `git lfs fsck`: **28 Vitest files / 157 tests**, **91.38% statement coverage**, strict TypeScript, zero-warning ESLint, existing AI integration / ten-minute numeric soak, branding, 10 archived Cleo hashes, 36 GLBs, 105 PNGs, and production build. Hosted PR CI run **34034869265** independently passed clean `npm ci` and the full gate on PR head `a5652b6e431f6b49d82b6720c9668250b2bd0a41`. PR #105 merged at **`1497672c639adaf6ca71f2aa775d4e0c23572b33`**; post-merge run **34034999554** passed validation and GitHub Pages deployment. The one runtime change and documentation/test diff were reviewed; no workflow or asset changes were included. The existing large-chunk warning remains non-blocking.
+
+### Final Kinetic Disc product-owner live acceptance — PASSED
+
+Manny's [PR #105 comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832), reconfirmed in Work on 2026-09-06, records:
+
+- approved 42 m/s base speed — PASS;
+- retained angle-based ricochet behavior — PASS / acceptable;
+- existing spinout behavior — PASS;
+- chase/rear perspective behavior — PASS;
+- normal unforced item-selection URL — PASS; and
+- **Kinetic Disc — LIVE ACCEPTED**.
+
+Live URL: https://manaconda33.github.io/manacondas-minigame-mayhem/
+
+The earlier passed PR #104 checks remain accepted. Issue #106 is a separate future-development standings-display defect and does not reopen this acceptance. This record does not claim full Slice 5 acceptance; thirteen item effects and the remaining system/AI/evidence gates are still outstanding. Seeker scope is proposed in `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`.
+
+
+## Acceptance reconciliation and Seeker proposal checkpoint
+
+This documentation-only checkpoint records the verified PR #105 merge, successful validation/deployment, final product-owner acceptance, and issue #106's deferred classification. It also prepares `docs/SLICE-5-SEEKER-DRONE-SCOPE.md` for review; no runtime, asset, dependency, or workflow changes are included. The working PRD remains amendment 2.5. Seeker's proposed numeric values and edge-case behavior are not approved or implemented.
+
+Local `npm run validate` and `git diff --check` passed on 2026-09-06: 28 Vitest files / 157 tests, strict TypeScript, zero-warning lint, existing AI integration and numeric soak, branding/runtime assets, and production build. The existing large-chunk warning remains non-blocking. The documentation PR supplies its own hosted CI evidence and remains unmerged pending publication approval.

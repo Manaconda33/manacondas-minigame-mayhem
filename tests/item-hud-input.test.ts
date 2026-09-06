@@ -30,7 +30,7 @@ describe('Slice 5 item HUD', () => {
     expect(element.dataset.phase).toBe('empty');
     expect(element.querySelector('#item-name')?.textContent).toBe('EMPTY');
     expect(element.querySelector('#item-meta')?.textContent).toBe('DRIVE THROUGH ITEM BOX');
-    expect(element.querySelector<HTMLElement>('#item-roulette-meter')!.hidden).toBe(true);
+    expect(element.querySelector<HTMLElement>('#item-roulette-meter')?.hidden).toBe(true);
   });
 
   it('shows roulette presentation without exposing the locked final item', () => {
@@ -49,7 +49,7 @@ describe('Slice 5 item HUD', () => {
     expect(element.dataset.phase).toBe('roulette');
     expect(element.querySelector('#item-icon')?.textContent).toBe('◌');
     expect(element.querySelector('#item-meta')?.textContent).toBe('ROULETTE 42%');
-    expect(element.querySelector<HTMLElement>('#item-roulette-fill')!.style.width).toBe('42%');
+    expect(element.querySelector<HTMLElement>('#item-roulette-fill')?.style.width).toBe('42%');
   });
 
   it('shows multi-charge count and registered backward input', () => {

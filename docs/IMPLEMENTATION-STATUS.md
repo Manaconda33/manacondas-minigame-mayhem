@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO SURGE LIVE TUNING CORRECTION IN REVIEW**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO SURGE LIVE ACCEPTED / NEXT ITEM INCREMENT AWAITING APPROVAL**
 
 PRD baseline: **v1.1, working implementation amendment 2.3**.
 
@@ -22,7 +22,7 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Approval gate:** validate and review the approved Nitro Surge live-tuning correction before merge. After approved deployment, rerun the focused Nitro feel/duration/VFX-expiry acceptance using the deterministic test URL. Do not begin another item effect until Nitro Surge is live accepted and recorded. Slice 6 remains locked.
+**Approval gate:** Nitro Surge is live accepted. Do not begin the next item-effect increment until Manny explicitly approves it. Slice 6 remains locked.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -58,6 +58,8 @@ Automated evidence from run **34012300286**:
 The known large `KartTimeTrial` chunk warning remains non-blocking at approximately 3.52 MB minified / 1.27 MB gzip. No new production defect is recorded.
 
 PR #101 is merged and deployed. The deterministic Nitro acceptance pass succeeded on checks 1-5 and 7-12; acceleration worked but felt insufficiently significant, and the 1.2-second duration felt too short. Manny approved a bounded tuning correction to 2.4 seconds and 1.50x acceleration while keeping the 1.18x speed cap and all other Nitro behavior unchanged. Tuning validation run **34028687379** passed the full repository gate before publication review. Clean-diff validation run **34028763753** repeated the full repository gate after removing unrelated markdown formatting churn.
+
+PR #102 squash-merged to `main` at **`6c1099ea7cda655e3776a371dccbfa34e9e2de5b`**. Post-merge CI / Pages run **34029597094** passed validation and deployment. Pages artifact **9988166295** has digest `sha256:bae1a207a8c5c337be391d1a485bed4271ab7c9702d383993e9a4a864aa8b508`. Manny then reran the focused deterministic Nitro Surge acceptance and reported **all four checks passed**: 1.50x acceleration feels clearly significant, approximately 2.4 seconds feels appropriate, VFX/HUD remain synchronized through clean expiry, and the normal URL retains unforced governed item selection. **Nitro Surge is LIVE ACCEPTED as of 2026-09-06.**
 
 ## Slice 5 roulette / held-item HUD / input checkpoint
 
@@ -109,7 +111,7 @@ Deployed checkpoint: `574d979f1ad59ebdce386525fdb483f821254457`
 
 No defect was reported in this checkpoint. The deliberate no-fire/no-consumption behavior remains correct until the actual effect dispatcher is implemented.
 
-Remaining Slice 5 work includes all fifteen item effect implementations, projectiles, hazards, buffs/debuffs and counters, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.
+Remaining Slice 5 work includes the other fourteen item effect implementations, projectiles, hazards, buffs/debuffs and counters, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.
 
 ## Alex integration and deployment checkpoint
 

@@ -510,9 +510,9 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 ## ADR-064: Tune Nitro Surge after deterministic live acceptance
 
 - **Date:** 2026-09-06
-- **Status:** Approved for implementation
+- **Status:** Live accepted / closed
 - **Context:** After PR #101 deployed the deterministic item-test harness and Nitro Surge VFX, Manny ran the forced Nitro acceptance matrix. Checks 1-5 and 7-12 passed. Acceleration was measurably stronger but did not feel sufficiently significant, while the approximately 1.2-second active window felt too short; Manny requested roughly double the effect length.
 - **Decision:** Change Nitro Surge duration from approximately 1.2 seconds to approximately **2.4 seconds** and acceleration authority from **1.35x** to **1.50x**. Preserve the **1.18x** normal speed cap, off-road speed-penalty bypass, Traction-governed off-road acceleration, one-charge consumption, immediate inventory release, pause-safe timing, VFX lifetime coupling, and clean restoration.
 - **PRD impact:** This is an explicitly approved gameplay-balance change and is recorded as PRD amendment 2.3. It supersedes the earlier Nitro duration/acceleration values without changing any other item or Slice 5 requirement.
-- **Acceptance:** After validation, PR review, merge, and deployment, rerun only the focused Nitro duration/acceleration/VFX-expiry feel checks plus a normal-URL isolation sanity check. Nitro Surge is not live accepted until Manny approves that deployed retest.
+- **Acceptance:** PR #102 merged at `6c1099ea7cda655e3776a371dccbfa34e9e2de5b`; main CI / Pages run `34029597094` passed and deployed artifact `9988166295` (`sha256:bae1a207a8c5c337be391d1a485bed4271ab7c9702d383993e9a4a864aa8b508`). Manny reran the four focused deployed checks and reported all pass: 1.50x acceleration feel, approximately 2.4-second duration, synchronized VFX/HUD expiry, and normal-URL selector isolation. Nitro Surge is live accepted.
 - **Approval:** Manny approved the 2.4-second / 1.50x tuning on 2026-09-06.

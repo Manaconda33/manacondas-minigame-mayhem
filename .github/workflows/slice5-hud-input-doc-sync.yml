@@ -1,0 +1,146 @@
+name: Slice 5 HUD input docs sync
+
+on:
+  push:
+    branches:
+      - feature/slice-5-item-hud-input
+    paths:
+      - .github/workflows/slice5-hud-input-doc-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/slice-5-item-hud-input
+      - name: Synchronize governed Slice 5 checkpoint docs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          status_path = Path('docs/IMPLEMENTATION-STATUS.md')
+          status = status_path.read_text()
+          status_start = status.index('## Current slice')
+          status_end = status.index('## Alex integration and deployment checkpoint')
+          status_current = '''## Current slice
+
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - ROULETTE / HELD-ITEM HUD / DESKTOP-MOBILE ITEM INPUT IMPLEMENTED ON FEATURE BRANCH / MANNY REVIEW PENDING**
+
+PRD baseline: **v1.1, working implementation amendment 2.2**.
+
+Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Slice 5 is active under the approved `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` contract and ADR-061. Slice 6 remains locked.
+
+The first Slice 5 foundation increment merged through PR #97. The visible item-box increment merged through PR #98 at `3d216c99afe763f6641ffa5930a4685ac82dc178`, deployed successfully, and Manny live accepted its four item-box rows, pickup presentation, shared-world disappearance/refresh/fade behavior, and one-slot collection contract on 2026-09-05. Main then recorded that acceptance at `15868a7899ab774b8b2bf34d6f409ffee3dcef25` with CI run `34001057413` passing.
+
+Manny approved the next bounded increment on 2026-09-05. Branch `feature/slice-5-item-hud-input`, currently verified at `3aa22859c60d6f1f829ca586ccd5c7ad161ab8ea`, implements only roulette presentation, the held-item HUD, and desktop/mobile ITEM input. It does **not** implement item effects, projectile/hazard systems, Rocket autopilot, counters, or AI tactical item use.
+
+**Approval gate:** this feature branch must be reviewed through its pull request and final PR CI before merge. Do not merge or begin item-effect implementation without Manny approval. After an approved merge/deployment, perform live desktop/mobile acceptance of roulette timing, HUD readability, charge display, and forward/backward input registration before the next Slice 5 increment.
+
+## Slice 5 roulette / held-item HUD / input checkpoint
+
+Implemented behavior:
+
+- the actual item remains selected and frozen at item-box collection time using the existing rank/gap selector;
+- a deterministic presentation-only roulette runs for approximately **0.85 seconds** without rerolling the held item;
+- roulette time advances only with race simulation and therefore freezes while paused;
+- the one-slot HUD exposes empty, roulette, and held phases with original item glyphs, names, and charge counts;
+- multi-charge items remain in the same slot and display remaining versus total charges;
+- desktop ITEM input is **Left Shift or E** after reveal;
+- **S / Down + ITEM** records backward-use intent;
+- mobile gameplay adds a dedicated **ITEM** control, while **Brake/Reverse + ITEM** records backward-use intent;
+- input during roulette is rejected;
+- input after reveal records a short forward/backward HUD confirmation but intentionally does **not** consume or fire the held item yet; and
+- charge consumption is isolated behind `ItemSystem.commitUse()` so the later effect-dispatch increment can consume only after a successful real effect.
+
+The no-consumption behavior is deliberate for this bounded checkpoint. Because item effects are not implemented, consuming a charge would create a fake use path and incorrectly free the real one-slot inventory. A held item therefore continues to block additional item-box pickup until a later effect implementation successfully commits use.
+
+Validation run **34010274590** passed after the branch corrected strict-lint findings and materialized Git LFS assets in the validation checkout. Evidence from the final successful run:
+
+- Git LFS checkout and `git lfs fsck` - PASS;
+- `npm ci` - PASS, 198 packages installed;
+- strict TypeScript typecheck - PASS;
+- ESLint with zero warnings - PASS;
+- Vitest - **22 files / 119 tests passed**;
+- overall statement coverage - **90.34%**;
+- `game/items` statement coverage - **93.36%**;
+- item HUD and touch-control focused tests - PASS;
+- three-lap AI integration and existing physics regressions - PASS;
+- branding verification - PASS;
+- 10 archived Cleo hashes, 36 materialized runtime GLBs, and 105 runtime PNGs - PASS; and
+- production Vite build - PASS.
+
+The known large `KartTimeTrial` production chunk warning remains non-blocking at approximately 3.52 MB minified / 1.27 MB gzip and is not introduced as a Slice 5 functional defect.
+
+Remaining Slice 5 work includes all fifteen item effect implementations, projectiles, hazards, buffs/debuffs and counters, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.
+
+'''
+          status_path.write_text(status[:status_start] + status_current + status[status_end:])
+
+          readme_path = Path('README.md')
+          readme = readme_path.read_text()
+          readme_start = readme.index('## Current state')
+          readme_end = readme.index('## Live test build')
+          readme_current = '''## Current state
+
+**Current slice:** Slice 5 - Item Boxes, Weapons & Position-Based Distribution — active.
+
+Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation and visible item boxes are merged, deployed, and product-owner accepted. The current approval-gated feature branch adds the next bounded checkpoint: approximately 0.85-second item roulette presentation, held-item HUD/charge display, Left Shift/E desktop input, and a dedicated mobile ITEM control with backward-use modifiers. Actual item effects, projectiles, hazards, Rocket autopilot, and AI tactical item use remain later Slice 5 work.
+
+Implementation and review must continue against `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, `docs/IMPLEMENTATION-STATUS.md`, and `docs/TESTING.md`. Slice 6 remains locked until Slice 5 is fully validated, deployed, and live accepted.
+
+'''
+          readme_path.write_text(readme[:readme_start] + readme_current + readme[readme_end:])
+
+          testing_path = Path('docs/TESTING.md')
+          testing = testing_path.read_text()
+          heading = '## Slice 5 roulette, HUD, and input checkpoint'
+          if heading in testing:
+              raise SystemExit('Slice 5 HUD/input testing section already exists')
+          marker = '## Slice 4 AI/grid manual matrix'
+          if testing.count(marker) != 1:
+              raise SystemExit(f'Expected one Slice 4 marker, found {testing.count(marker)}')
+          section = '''## Slice 5 roulette, HUD, and input checkpoint
+
+Automated evidence for this bounded checkpoint must confirm:
+
+- the actual selected item is locked at collection while roulette only changes presentation;
+- roulette duration is approximately 0.85 seconds and freezes while paused;
+- item use is rejected during roulette;
+- Left Shift and E are accepted desktop ITEM inputs after reveal, while unsupported keys are not;
+- S / Down modifies desktop use intent to backward;
+- the mobile gameplay markup exposes exactly one dedicated ITEM control, while non-mobile sessions do not render touch controls;
+- Brake/Reverse held with mobile ITEM produces backward intent;
+- the HUD renders empty, roulette, held, multi-charge, and input-feedback states without exposing a second inventory slot;
+- registering input before item effects exist does not consume a charge or free the occupied inventory slot; and
+- the future effect-dispatch boundary consumes one charge only when `commitUse()` is explicitly called.
+
+For deployed product-owner acceptance after merge:
+
+1. On desktop, collect a box and confirm roulette begins immediately, remains readable, and resolves to a held item after approximately 0.85 seconds.
+2. Pause during roulette and confirm the roulette freezes until gameplay resumes.
+3. Confirm the held HUD shows the final item name/glyph and, for Blaze Orbs, Frost Orbs, Arc Blade, or Arc Hammers, the governed charge count.
+4. Press Left Shift and E separately after reveal and confirm forward input registration. No visible item effect or charge consumption is expected in this checkpoint.
+5. Hold S or Down while pressing ITEM and confirm backward input registration.
+6. On mobile, confirm the dedicated ITEM control is present without obscuring steering, acceleration, braking, drift, rear-view, reset, minimap, or race HUD surfaces.
+7. Tap ITEM after reveal and confirm forward registration; hold Brake/Reverse while tapping ITEM and confirm backward registration.
+8. Confirm the racer remains unable to collect a second item box because the held item is intentionally not consumed until the later effects increment.
+
+Record the deployed commit, CI/Pages run, desktop result, mobile result, any layout/readability defect, and Manny's explicit acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint does not authorize item effects or close Slice 5.
+
+'''
+          testing_path.write_text(testing.replace(marker, section + marker, 1))
+          PY
+      - name: Verify documentation patch
+        run: git diff --check
+      - name: Commit documentation and remove temporary workflow
+        run: |
+          rm .github/workflows/slice5-hud-input-doc-sync.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md docs/IMPLEMENTATION-STATUS.md docs/TESTING.md .github/workflows/slice5-hud-input-doc-sync.yml
+          git commit -m "Document Slice 5 roulette HUD input checkpoint"
+          git push origin HEAD:feature/slice-5-item-hud-input

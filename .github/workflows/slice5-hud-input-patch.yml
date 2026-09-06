@@ -1,5 +1,6 @@
 name: Slice 5 HUD input patch
 
+# Retry after strict-lint corrections.
 on:
   push:
     branches:

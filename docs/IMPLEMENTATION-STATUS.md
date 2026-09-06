@@ -2,9 +2,11 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC CHECKPOINT VALIDATED / PR #104 AWAITING APPROVAL**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC DEPLOYED / PARTIAL LIVE ACCEPTANCE / TUNING PROPOSAL AWAITING APPROVAL**
 
 PRD baseline: **v1.1, working implementation amendment 2.4**.
+
+Latest live review, 2026-09-06: Manny merged PR #104, deployed at `655e68e554d9d6f4567e5136bdeb3b4e57a6f570`; CI/Pages run `34033720883` passed validation and deployment. Manny reports Kinetic Disc is too slow to catch full-speed rivals and some ricochets do not reach the opposite guardrail; he passes all other acceptance checks. Kinetic Disc remains partially accepted and the next item stays locked. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for diagnosis and the proposed 42 m/s base-speed adjustment. That proposal is not approved or implemented; current gameplay remains at the governed 28 m/s.
 
 Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Slice 5 is active under the approved `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` contract and ADR-061. Slice 6 remains locked.
 
@@ -22,7 +24,7 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Approval gate:** Manny approved the Kinetic Disc / guardrail / perspective-correct spinout increment. Implement and validate only this bounded checkpoint; do not merge or begin another item effect until Manny reviews the resulting PR. Slice 6 remains locked.
+**Approval gate:** The Kinetic Disc increment is deployed with partial live acceptance. The proposed 42 m/s correction awaits Manny approval; further item effects and Slice 6 remain locked.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -407,8 +409,8 @@ The recovered code additionally fixes repeated-hit camera recapture, explicitly 
 
 Local dependency installation via `npm ci --offline` could not complete because the npm cache lacks `yocto-queue-0.1.0.tgz`. Local validation therefore uses the existing lockfile-compatible dependency installation; a clean GitHub-hosted `npm ci` plus full validation is required before PR review. Local source was reconstructed through the connected GitHub API with downloaded file contents verified against GitHub blob SHAs; the local reconstruction commit is not claimed as a remote feature commit.
 
-Local `npm run validate`, `git diff --check`, and `git lfs fsck` passed on 2026-09-06: **28 Vitest files / 153 tests**, **91.33% statement coverage**, strict TypeScript, zero-warning ESLint, existing three-lap AI integration and ten-minute numeric soak, branding, 10 archived Cleo hashes, 36 runtime GLBs, 105 runtime PNGs, and production Vite build. The existing large-chunk warning remains non-blocking (KartTimeTrial approximately 3.55 MB minified / 1.27 MB gzip). Desktop/mobile visual acceptance remains pending deployment; automated evidence does not close that gate.
+Local `npm run validate`, `git diff --check`, and `git lfs fsck` passed on 2026-09-06: **28 Vitest files / 153 tests**, **91.33% statement coverage**, strict TypeScript, zero-warning ESLint, existing three-lap AI integration and ten-minute numeric soak, branding, 10 archived Cleo hashes, 36 runtime GLBs, 105 runtime PNGs, and production Vite build. The existing large-chunk warning remains non-blocking (KartTimeTrial approximately 3.55 MB minified / 1.27 MB gzip). At that predeployment checkpoint, desktop/mobile visual acceptance was still pending; the latest partial live result is recorded above.
 
-Clean GitHub-hosted validation run **34032879051**, job **101485584007**, passed against implementation commit **`d3b2cc9e0ad4b30f13cd3565e30f4d133b686d02`**: LFS fetch and `git lfs fsck`, `git diff --check`, clean `npm ci` (198 packages; 0 vulnerabilities), full `npm run validate`, **28 files / 153 tests**, existing AI integration / ten-minute numeric soak, all branding/runtime-asset gates, and production build. The branch diff against `87cd7f1` was reviewed and contains only approved Kinetic/guardrail/spinout code, regression tests, and governance documentation; no avatar assets or other item effects changed. The final temporary read-only validation workflow is removed in the review checkpoint. No merge or deployment has occurred.
+Clean GitHub-hosted validation run **34032879051**, job **101485584007**, passed against implementation commit **`d3b2cc9e0ad4b30f13cd3565e30f4d133b686d02`**: LFS fetch and `git lfs fsck`, `git diff --check`, clean `npm ci` (198 packages; 0 vulnerabilities), full `npm run validate`, **28 files / 153 tests**, existing AI integration / ten-minute numeric soak, all branding/runtime-asset gates, and production build. The branch diff against `87cd7f1` was reviewed and contains only approved Kinetic/guardrail/spinout code, regression tests, and governance documentation; no avatar assets or other item effects changed. The final temporary read-only validation workflow is removed in the review checkpoint. Subsequent publication: Manny merged PR #104 at `655e68e554d9d6f4567e5136bdeb3b4e57a6f570`; run `34033720883` passed validation and Pages deployment.
 
-**Publication gate:** [PR #104](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/104) is open against `main`. Verify the current PR-head CI is successful, then obtain Manny's explicit approval before merge/deployment. Do not begin the next item until Kinetic Disc is live accepted. Live acceptance after deployment must use `?testItem=kinetic-disc` and explicitly test forward/backward launch, ricochets, guardrail racer collisions, player/AI spinout, and both chase/rear camera perspectives.
+**Current gate:** PR #104 is merged and deployed. Manny passes every live check except projectile catch-up speed and the expected ricochet path. Approve the proposed speed tuning before changing the governed value; preserve normal angle-based reflection unless Manny requests a different bounce rule. A corrective implementation requires validation, PR publication approval, and focused live retest before this item is accepted. Do not begin the next item until Kinetic Disc is live accepted. The corrective live retest must use `?testItem=kinetic-disc` to check faster catch-up and ricochet expectations, with a brief regression check of the already-passed spinout/camera behavior.

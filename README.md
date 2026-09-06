@@ -6,9 +6,11 @@ The canonical repository `Manaconda33/manacondas-minigame-mayhem` is intentional
 
 ## Current state
 
-**Current slice:** Slice 5 - Item Boxes, Weapons & Position-Based Distribution — DESIGN APPROVED / IMPLEMENTATION AUTHORIZED AFTER THIS DOCUMENTATION CHECKPOINT MERGES.
+**Current slice:** Slice 5 - Item Boxes, Weapons & Position-Based Distribution — active.
 
-Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Manny approved the reconciled Slice 5 item-system design and exit checklist on 2026-09-05. No Slice 5 gameplay code is complete at this documentation checkpoint; implementation must follow the approved design and evidence gates in `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`.
+Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation and visible item boxes are merged, deployed, and product-owner accepted. The current approval-gated feature branch adds the next bounded checkpoint: approximately 0.85-second item roulette presentation, held-item HUD/charge display, Left Shift/E desktop input, and a dedicated mobile ITEM control with backward-use modifiers. Actual item effects, projectiles, hazards, Rocket autopilot, and AI tactical item use remain later Slice 5 work.
+
+Implementation and review must continue against `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, `docs/IMPLEMENTATION-STATUS.md`, and `docs/TESTING.md`. Slice 6 remains locked until Slice 5 is fully validated, deployed, and live accepted.
 
 ## Live test build
 

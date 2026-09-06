@@ -118,6 +118,34 @@ For live acceptance, observe AI-controlled low-, medium-, and high-Speed charact
 
 For live acceptance, collide Accu and a light racer with comparable approach speeds in both directions. Confirm that Accu retains visibly more momentum but still suffers a noticeable slowdown, the light racer accepts greater risk, lateral knockback remains readable, and bumper-to-bumper contact does not continuously drain speed.
 
+## Slice 5 roulette, HUD, and input checkpoint
+
+Automated evidence for this bounded checkpoint must confirm:
+
+- the actual selected item is locked at collection while roulette only changes presentation;
+- roulette duration is approximately 0.85 seconds and freezes while paused;
+- item use is rejected during roulette;
+- Left Shift and E are accepted desktop ITEM inputs after reveal, while unsupported keys are not;
+- S / Down modifies desktop use intent to backward;
+- the mobile gameplay markup exposes exactly one dedicated ITEM control, while non-mobile sessions do not render touch controls;
+- Brake/Reverse held with mobile ITEM produces backward intent;
+- the HUD renders empty, roulette, held, multi-charge, and input-feedback states without exposing a second inventory slot;
+- registering input before item effects exist does not consume a charge or free the occupied inventory slot; and
+- the future effect-dispatch boundary consumes one charge only when `commitUse()` is explicitly called.
+
+For deployed product-owner acceptance after merge:
+
+1. On desktop, collect a box and confirm roulette begins immediately, remains readable, and resolves to a held item after approximately 0.85 seconds.
+2. Pause during roulette and confirm the roulette freezes until gameplay resumes.
+3. Confirm the held HUD shows the final item name/glyph and, for Blaze Orbs, Frost Orbs, Arc Blade, or Arc Hammers, the governed charge count.
+4. Press Left Shift and E separately after reveal and confirm forward input registration. No visible item effect or charge consumption is expected in this checkpoint.
+5. Hold S or Down while pressing ITEM and confirm backward input registration.
+6. On mobile, confirm the dedicated ITEM control is present without obscuring steering, acceleration, braking, drift, rear-view, reset, minimap, or race HUD surfaces.
+7. Tap ITEM after reveal and confirm forward registration; hold Brake/Reverse while tapping ITEM and confirm backward registration.
+8. Confirm the racer remains unable to collect a second item box because the held item is intentionally not consumed until the later effects increment.
+
+Record the deployed commit, CI/Pages run, desktop result, mobile result, any layout/readability defect, and Manny's explicit acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint does not authorize item effects or close Slice 5.
+
 ## Slice 4 AI/grid manual matrix
 
 - Desktop/fine-pointer session: touch controls are absent; keyboard controls remain functional.

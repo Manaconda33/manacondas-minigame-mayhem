@@ -1,6 +1,6 @@
 name: Slice 5 HUD input patch
 
-# Retry after strict test-lint corrections.
+# Retry with Git LFS materialized for runtime asset verification.
 on:
   push:
     branches:
@@ -18,10 +18,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: feature/slice-5-item-hud-input
+          lfs: true
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+      - name: Verify LFS checkout
+        run: git lfs fsck
       - name: Apply assertion-guarded integration patch
         run: |
           python - <<'PY'

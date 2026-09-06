@@ -1,0 +1,110 @@
+name: Slice 5 HUD input patch
+
+on:
+  push:
+    branches:
+      - feature/slice-5-item-hud-input
+    paths:
+      - .github/workflows/slice5-hud-input-patch.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/slice-5-item-hud-input
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply assertion-guarded integration patch
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('src/game/KartTimeTrial.ts')
+          text = path.read_text()
+
+          def replace_once(old: str, new: str) -> None:
+              global text
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'Expected exactly one match, found {count}: {old[:120]!r}')
+              text = text.replace(old, new, 1)
+
+          replace_once(
+              "import { ItemBoxSystem } from './items/ItemBoxSystem';\nimport { ItemInventory } from './items/ItemInventory';\nimport { selectItem } from './items/ItemSelector';\nimport type { RaceRank } from './items/itemDefinitions';",
+              "import { ItemBoxSystem } from './items/ItemBoxSystem';\nimport { selectItem } from './items/ItemSelector';\nimport {\n  ItemSystem,\n  isItemUseKey,\n  itemUseDirection,\n  type ItemHudSnapshot,\n} from './items/ItemSystem';\nimport type { RaceRank } from './items/itemDefinitions';",
+          )
+
+          replace_once(
+              "  countdown: string;\n  minimap: MinimapState;\n}",
+              "  countdown: string;\n  minimap: MinimapState;\n  item: ItemHudSnapshot;\n}",
+          )
+
+          replace_once(
+              "  private readonly itemBoxes: ItemBoxSystem;\n  private readonly itemInventories = new Map<string, ItemInventory>();\n  private lastApexSelectionTime = Number.NEGATIVE_INFINITY;",
+              "  private readonly itemBoxes: ItemBoxSystem;\n  private readonly itemSystem = new ItemSystem();\n  private lastApexSelectionTime = Number.NEGATIVE_INFINITY;",
+          )
+
+          replace_once(
+              "    this.itemBoxes.dispose();\n    this.renderer.dispose();",
+              "    this.itemBoxes.dispose();\n    this.itemSystem.dispose();\n    this.renderer.dispose();",
+          )
+
+          replace_once(
+              "  public setTouchControl(control: string, pressed: boolean): void {\n    if (pressed) this.touchPressed.add(control);\n    else this.touchPressed.delete(control);\n    if (control === 'recover' && pressed) this.respawn();\n  }",
+              "  public setTouchControl(control: string, pressed: boolean): void {\n    if (pressed) this.touchPressed.add(control);\n    else this.touchPressed.delete(control);\n    if (control === 'recover' && pressed) this.respawn();\n    if (control === 'item' && pressed) this.requestPlayerItemUse();\n  }",
+          )
+
+          replace_once(
+              "    this.playerProgress.trackProgress =\n      snapshot.lap === 0 && snapshot.nextCheckpoint === 1 && projection.progress > 0.8\n        ? 0\n        : projection.progress;\n    this.updateItemBoxes(dt);",
+              "    this.playerProgress.trackProgress =\n      snapshot.lap === 0 && snapshot.nextCheckpoint === 1 && projection.progress > 0.8\n        ? 0\n        : projection.progress;\n    this.itemSystem.advance(dt);\n    this.updateItemBoxes(dt);",
+          )
+
+          replace_once(
+              "  private itemInventory(racerId: string): ItemInventory {\n    const existing = this.itemInventories.get(racerId);\n    if (existing !== undefined) return existing;\n    const inventory = new ItemInventory();\n    this.itemInventories.set(racerId, inventory);\n    return inventory;\n  }\n\n",
+              "",
+          )
+
+          replace_once("canCollect: !this.itemInventory('player').isOccupied(),", "canCollect: this.itemSystem.canCollect('player'),")
+          replace_once("canCollect: !this.itemInventory(opponent.id).isOccupied(),", "canCollect: this.itemSystem.canCollect(opponent.id),")
+          replace_once(
+              "      const inventory = this.itemInventory(racerId);\n      if (inventory.isOccupied()) return false;",
+              "      if (!this.itemSystem.canCollect(racerId)) return false;",
+          )
+          replace_once("      if (!inventory.acquire(itemId)) return false;", "      if (!this.itemSystem.acquire(racerId, itemId)) return false;")
+
+          replace_once(
+              "  private respawn(): void {",
+              "  private requestPlayerItemUse(): void {\n    if (this.paused || this.playerProgress.finished) return;\n    const reverseHeld =\n      this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake');\n    void this.itemSystem.requestUse('player', itemUseDirection(reverseHeld));\n  }\n\n  private respawn(): void {",
+          )
+
+          replace_once(
+              "      countdown: this.raceDirector.countdownLabel(),\n      minimap: {",
+              "      countdown: this.raceDirector.countdownLabel(),\n      item: this.itemSystem.hudSnapshot('player'),\n      minimap: {",
+          )
+
+          replace_once(
+              "    if (event.code === 'KeyR' && !event.repeat) this.respawn();\n    this.pressed.add(event.code);",
+              "    if (event.code === 'KeyR' && !event.repeat) this.respawn();\n    if (isItemUseKey(event.code) && !event.repeat) this.requestPlayerItemUse();\n    this.pressed.add(event.code);",
+          )
+
+          path.write_text(text)
+          PY
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Validate patched checkpoint
+        run: npm run validate
+      - name: Commit patch and remove temporary workflow
+        run: |
+          rm .github/workflows/slice5-hud-input-patch.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/game/KartTimeTrial.ts .github/workflows/slice5-hud-input-patch.yml
+          git commit -m "Wire Slice 5 item state into race runtime"
+          git push origin HEAD:feature/slice-5-item-hud-input

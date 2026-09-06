@@ -8,6 +8,7 @@ import {
   surfaceSpeedMultiplier,
   type DriverStats,
 } from '../src/config/kartTuning';
+import { ITEM_DEFINITIONS } from '../src/game/items/itemDefinitions';
 import { KartController, type DriveInput } from '../src/game/physics/KartController';
 
 describe('Rapier kart controller', () => {
@@ -15,14 +16,22 @@ describe('Rapier kart controller', () => {
     await RAPIER.init();
   });
 
-  function makeKart(stats: DriverStats = sliceOneDriver, groundHalfWidth = 500): {
+  function makeKart(
+    stats: DriverStats = sliceOneDriver,
+    groundHalfWidth = 500,
+    groundHalfLength = 500,
+  ): {
     world: RAPIER.World;
     kart: KartController;
   } {
     const world = new RAPIER.World({ x: 0, y: -18, z: 0 });
     world.timestep = 1 / 60;
     world.createCollider(
-      RAPIER.ColliderDesc.cuboid(groundHalfWidth, 0.1, 500).setTranslation(0, -0.12, 0),
+      RAPIER.ColliderDesc.cuboid(groundHalfWidth, 0.1, groundHalfLength).setTranslation(
+        0,
+        -0.12,
+        0,
+      ),
     );
     return {
       world,
@@ -104,6 +113,48 @@ describe('Rapier kart controller', () => {
     );
     expect(kart.speedMetersPerSecond()).toBeCloseTo(
       createKartTuning(sliceOneDriver).maxSpeed * 1.04,
+      1,
+    );
+  });
+
+  it('honors the Nitro Surge external cap, acceleration, and off-road speed override', () => {
+    const boost = ITEM_DEFINITIONS['nitro-surge'].boost;
+    if (boost === undefined) throw new Error('Nitro Surge boost configuration is missing.');
+
+    const normal = makeKart();
+    const surged = makeKart();
+    const normalInput: DriveInput = { throttle: 1, steering: 0, brake: false, drift: false };
+    const surgeInput: DriveInput = {
+      ...normalInput,
+      effectSpeedCapMultiplier: boost.speedCapMultiplier,
+      effectAccelerationMultiplier: boost.accelerationMultiplier,
+      ignoreOffRoadSpeedPenalty: boost.ignoreOffRoadSpeedPenalty,
+    };
+
+    step(normal.world, normal.kart, normalInput, 60);
+    step(surged.world, surged.kart, surgeInput, 60);
+    expect(surged.kart.speedMetersPerSecond() - normal.kart.speedMetersPerSecond()).toBeGreaterThan(
+      1,
+    );
+
+    const capKart = makeKart(sliceOneDriver, 2000, 2000);
+    step(capKart.world, capKart.kart, surgeInput, 900);
+    const normalMaximum = createKartTuning(sliceOneDriver).maxSpeed;
+    expect(capKart.kart.speedMetersPerSecond()).toBeCloseTo(
+      normalMaximum * boost.speedCapMultiplier,
+      1,
+    );
+
+    const grassKart = makeKart(sliceOneDriver, 2000, 2000);
+    step(grassKart.world, grassKart.kart, surgeInput, 900, 'grass');
+    expect(grassKart.kart.speedMetersPerSecond()).toBeCloseTo(
+      normalMaximum * boost.speedCapMultiplier,
+      1,
+    );
+
+    step(grassKart.world, grassKart.kart, normalInput, 240, 'grass');
+    expect(grassKart.kart.speedMetersPerSecond()).toBeCloseTo(
+      normalMaximum * surfaceSpeedMultiplier('grass', sliceOneDriver.traction),
       1,
     );
   });

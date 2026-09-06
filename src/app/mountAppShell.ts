@@ -212,11 +212,13 @@ export function mountAppShell(root: HTMLElement): void {
       getElement('#drift-fill').style.width = `${String(Math.round(state.driftCharge * 100))}%`;
       getElement('#drift-label').textContent = state.airborne
         ? 'AIRBORNE'
-        : state.boostActive
-          ? `${state.driftTier.toUpperCase()} BOOST`
-          : state.driftTier === 'none'
-            ? 'Hold Space + steer to drift'
-            : `${state.driftTier.toUpperCase()} CHARGE`;
+        : state.activeBoostLabel !== null
+          ? `${state.activeBoostLabel.toUpperCase()} ACTIVE`
+          : state.boostActive
+            ? `${state.driftTier.toUpperCase()} BOOST`
+            : state.driftTier === 'none'
+              ? 'Hold Space + steer to drift'
+              : `${state.driftTier.toUpperCase()} CHARGE`;
     };
     game = await KartTimeTrial.create({
       canvas,

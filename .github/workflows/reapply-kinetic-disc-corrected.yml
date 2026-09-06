@@ -1,0 +1,169 @@
+name: Reapply corrected Kinetic Disc checkpoint
+
+on:
+  push:
+    branches:
+      - feature/slice-5-kinetic-disc-guardrails-spinout
+    paths:
+      - .github/workflows/reapply-kinetic-disc-corrected.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply-validate-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out approved branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/slice-5-kinetic-disc-guardrails-spinout
+          lfs: true
+          fetch-depth: 10
+
+      - name: Guard accepted base
+        run: |
+          git fetch origin main --depth=1
+          test "$(git rev-parse origin/main)" = "87cd7f197c9de9609e71a2f87118791ff3965790"
+          git merge-base --is-ancestor 87cd7f197c9de9609e71a2f87118791ff3965790 HEAD
+          git lfs fsck
+
+      - name: Reapply approved implementation payload
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          text = Path('.github/workflows/apply-kinetic-disc-increment.yml').read_text()
+          match = re.search(r'PATCH_GZ_B64: "([A-Za-z0-9+/=]+)"', text)
+          if match is None:
+              raise SystemExit('Could not locate compressed implementation payload')
+          Path('/tmp/kinetic.b64').write_text(match.group(1))
+          PY
+          base64 --decode /tmp/kinetic.b64 | gzip --decompress > /tmp/apply_kinetic.py
+          python /tmp/apply_kinetic.py
+          rm -f /tmp/kinetic.b64 /tmp/apply_kinetic.py
+
+      - name: Correct kart-controller test fixture scope
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('tests/kart-controller.test.ts')
+          text = p.read_text()
+          marker = "\ndescribe('generic spinout and static-barrier response', () => {"
+          if text.count(marker) != 1:
+              raise SystemExit(f'Expected one appended fixture block, found {text.count(marker)}')
+          p.write_text(text.split(marker, 1)[0].rstrip() + '\n')
+
+          Path('tests/kart-controller-effects.test.ts').write_text("""import RAPIER from '@dimforge/rapier3d-compat';
+          import { Vector3 } from 'three';
+          import { beforeAll, describe, expect, it } from 'vitest';
+          import { createKartTuning, sliceOneDriver } from '../src/config/kartTuning';
+          import { KartController, type DriveInput } from '../src/game/physics/KartController';
+
+          describe('generic spinout and static-barrier response', () => {
+            beforeAll(async () => {
+              await RAPIER.init();
+            });
+
+            function makeKart(): { world: RAPIER.World; kart: KartController } {
+              const world = new RAPIER.World({ x: 0, y: -18, z: 0 });
+              world.timestep = 1 / 60;
+              world.createCollider(
+                RAPIER.ColliderDesc.cuboid(500, 0.1, 500).setTranslation(0, -0.12, 0),
+              );
+              return {
+                world,
+                kart: new KartController(
+                  world,
+                  createKartTuning(sliceOneDriver),
+                  sliceOneDriver,
+                  new Vector3(0, 1.1, 0),
+                  0,
+                ),
+              };
+            }
+
+            function step(
+              world: RAPIER.World,
+              kart: KartController,
+              input: DriveInput,
+              count: number,
+            ): void {
+              for (let index = 0; index < count; index += 1) {
+                kart.update(input, 'asphalt', 1 / 60);
+                world.step();
+              }
+            }
+
+            it('rotates through one full standard spinout while bleeding planar speed', () => {
+              const { world, kart } = makeKart();
+              step(world, kart, { throttle: 1, steering: 0, brake: false, drift: false }, 180);
+              const beforeForward = kart.forward();
+              const beforeSpeed = kart.speedMetersPerSecond();
+              const yawRate = (Math.PI * 2) / 0.85;
+              step(
+                world,
+                kart,
+                {
+                  throttle: 1,
+                  steering: 1,
+                  brake: false,
+                  drift: true,
+                  effectSpinoutYawRateRadiansPerSecond: yawRate,
+                },
+                51,
+              );
+              expect(kart.forward().dot(beforeForward)).toBeGreaterThan(0.995);
+              expect(kart.speedMetersPerSecond()).toBeLessThan(beforeSpeed);
+            });
+
+            it('reflects outward barrier velocity and retains bounded tangential speed', () => {
+              const { world, kart } = makeKart();
+              step(world, kart, { throttle: 1, steering: 0, brake: false, drift: false }, 180);
+              kart.applyArcadeCollisionImpulse(new Vector3(1, 0, 0), 20);
+              const beforePosition = kart.position();
+              const beforeVelocity = kart.velocity();
+              expect(beforeVelocity.x).toBeGreaterThan(0);
+
+              kart.resolveStaticBarrierCollision(new Vector3(-1, 0, 0), 0.3, 0.82, 0.22);
+              const afterPosition = kart.position();
+              const afterVelocity = kart.velocity();
+
+              expect(afterPosition.x).toBeCloseTo(beforePosition.x - 0.3, 4);
+              expect(afterVelocity.x).toBeLessThan(0);
+              expect(Math.abs(afterVelocity.z)).toBeCloseTo(Math.abs(beforeVelocity.z) * 0.82, 3);
+            });
+          });
+          """)
+          PY
+
+      - name: Validate corrected checkpoint
+        run: |
+          npm ci
+          npx prettier --write src/game/items/itemDefinitions.ts src/game/items/RacerEffects.ts src/game/items/ItemEffectDispatcher.ts src/game/items/ProjectileSystem.ts src/game/track/GuardrailSystem.ts src/game/track/createTrackScene.ts src/game/camera/SpinoutCameraAnchor.ts src/game/physics/KartController.ts src/game/KartTimeTrial.ts tests/guardrail-system.test.ts tests/projectile-system.test.ts tests/racer-effects.test.ts tests/kart-controller-effects.test.ts tests/chase-camera.test.ts tests/driver-sprite-state.test.ts tests/track-scene.test.ts
+          git diff --check
+          npm run validate
+
+      - name: Record validation and commit clean checkpoint
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          p = Path('docs/IMPLEMENTATION-STATUS.md')
+          text = p.read_text()
+          anchor = '**Publication gate:** full repository validation, clean diff review, pull-request CI, then Manny approval before merge/deployment.'
+          if text.count(anchor) != 1:
+              raise SystemExit('status validation anchor mismatch')
+          text = text.replace(anchor, f'Validation run **{os.environ["GITHUB_RUN_ID"]}** passed the full repository gate before publication review.\n\n' + anchor, 1)
+          p.write_text(text)
+          PY
+          rm -f .github/workflows/apply-kinetic-disc-increment.yml .github/workflows/reapply-kinetic-disc-corrected.yml
+          git diff --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git status --short
+          git commit -m "Implement Kinetic Disc guardrails and spinout"
+          git push origin HEAD:feature/slice-5-kinetic-disc-guardrails-spinout

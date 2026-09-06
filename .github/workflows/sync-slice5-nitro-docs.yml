@@ -1,0 +1,119 @@
+name: Sync Slice 5 RacerEffects and Nitro Surge docs
+
+on:
+  push:
+    branches: [feature/slice-5-racer-effects-nitro-surge]
+    paths:
+      - .github/workflows/sync-slice5-nitro-docs.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync-validate-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out branch with LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          ref: feature/slice-5-racer-effects-nitro-surge
+
+      - name: Patch continuity docs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{path}: expected one match, found {count}')
+              p.write_text(text.replace(old, new, 1))
+
+          replace_once(
+              'README.md',
+              "Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation and visible item boxes are merged, deployed, and product-owner accepted. The current approval-gated feature branch adds the next bounded checkpoint: approximately 0.85-second item roulette presentation, held-item HUD/charge display, Left Shift/E desktop input, and a dedicated mobile ITEM control with backward-use modifiers. Actual item effects, projectiles, hazards, Rocket autopilot, and AI tactical item use remain later Slice 5 work.",
+              "Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation, visible item boxes, roulette, held-item HUD, and desktop/mobile ITEM input are merged, deployed, and product-owner accepted. The current approval-gated feature branch adds the first real item-effect checkpoint: a generic RacerEffects temporary-boost boundary plus Nitro Surge activation, governed 1.18x speed cap, strong acceleration, off-road speed-penalty override, pause-safe expiry, successful charge consumption, and inventory-slot release. All other item effects, projectiles, hazards, Rocket autopilot, and AI tactical item use remain later Slice 5 work."
+          )
+
+          replace_once(
+              'docs/IMPLEMENTATION-STATUS.md',
+              "**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - ROULETTE / HELD-ITEM HUD / DESKTOP-MOBILE ITEM INPUT LIVE ACCEPTED / NEXT ITEM-EFFECT INCREMENT AWAITING MANNY APPROVAL**",
+              "**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - RACER EFFECTS FOUNDATION + NITRO SURGE IMPLEMENTED ON FEATURE BRANCH / MANNY REVIEW PENDING**"
+          )
+
+          old_gate = "Manny then completed the deployed desktop/mobile acceptance matrix and reported **all eight checks passed**: roulette timing, pause freeze, held-item HUD readability, multi-charge display, desktop forward input, desktop backward input, mobile ITEM layout/direction, and the one-slot no-consumption contract. This checkpoint is therefore **LIVE ACCEPTED**.\n\n**Approval gate:** do not begin actual item-effect implementation until Manny approves the next bounded Slice 5 increment. Item effects, projectiles/hazards, counters, Hyper-Drive Rocket autopilot, and AI tactical item use remain incomplete. Slice 6 remains locked.\n\n## Slice 5 roulette / held-item HUD / input checkpoint"
+          new_gate = "Manny then completed the deployed desktop/mobile acceptance matrix and reported **all eight checks passed**: roulette timing, pause freeze, held-item HUD readability, multi-charge display, desktop forward input, desktop backward input, mobile ITEM layout/direction, and the one-slot no-consumption contract. This checkpoint is therefore **LIVE ACCEPTED**.\n\nManny approved the next bounded Slice 5 increment on 2026-09-05: **RacerEffects foundation + Nitro Surge**. Branch `feature/slice-5-racer-effects-nitro-surge` is based on accepted `main` checkpoint `712820209274c8e520ca31dacbda0cb87da44a54`. The validated implementation checkpoint is `b3e91f77d8d9985771820470f865272eaa52d6be`. It adds a generic temporary-boost effect boundary and makes Nitro Surge the first real consumable item effect while intentionally leaving every other item unsupported/unconsumed.\n\nValidation run **34012300286** passed Git LFS verification, `npm ci`, strict typecheck, zero-warning lint, **23 Vitest files / 127 tests**, **90.43% overall statement coverage**, **93.26% `game/items` statement coverage**, 100% coverage for `RacerEffects.ts`, existing three-lap AI integration, the ten-minute numeric soak, branding/runtime-asset checks, `git diff --check`, and the production Vite build. Earlier guarded validation runs exposed only synthetic controller-test ground-boundary mistakes; those fixtures were corrected without weakening any product assertion or quality gate.\n\n**Approval gate:** this RacerEffects + Nitro Surge feature must be reviewed through its pull request and authoritative PR CI before merge. Do not merge, deploy, or begin another item effect without Manny approval. Projectiles/hazards, hostile racer effects, Nitro Overdrive, Hyper-Drive Rocket autopilot, Prismatic Invincibility, and AI tactical item use remain incomplete. Slice 6 remains locked.\n\n## Slice 5 RacerEffects + Nitro Surge checkpoint\n\nImplemented behavior:\n\n- `RacerEffects` owns pause-safe temporary racer drive modifiers independently of item names;\n- Nitro Surge configuration is data-driven at approximately **1.2 seconds**, **1.18x** normal speed cap, **1.35x** acceleration authority, and off-road **speed-penalty** bypass;\n- the 1.35x acceleration value reuses the controller's established boost acceleration authority as a reversible engineering value; no PRD balance requirement is changed;\n- off-road Traction/surface acceleration still applies while Nitro is active; only the off-road speed ceiling penalty is bypassed;\n- Nitro Surge activates only after roulette has resolved, then `commitUse()` consumes the successful use and immediately frees the one inventory slot;\n- unsupported item IDs still return without consuming their held charge or freeing inventory;\n- effect expiry restores normal cap/surface behavior cleanly;\n- pause stops effect-time progression because RacerEffects advances only with race simulation;\n- active Nitro state is exposed in the race status label as `NITRO SURGE ACTIVE`; and\n- the existing AI-only top-speed allowance remains independently clamped to 1.00-1.04.\n\nAutomated evidence from run **34012300286**:\n\n- Git LFS checkout / `git lfs fsck` - PASS;\n- `npm ci` - PASS, 198 packages, 0 vulnerabilities;\n- strict TypeScript - PASS;\n- ESLint zero warnings - PASS;\n- Vitest - **23 files / 127 tests passed**;\n- overall statement coverage - **90.43%**;\n- `game/items` statement coverage - **93.26%**;\n- `RacerEffects.ts` - **100% statements / branches / functions / lines**;\n- Nitro sustained-cap, acceleration, grass speed-override, restoration, pause, consumption, unsupported-item, and cleanup regressions - PASS;\n- existing AI three-lap integration and ten-minute numeric soak - PASS;\n- branding, 10 archived Cleo hashes, 36 runtime GLBs, 105 runtime PNGs - PASS;\n- `git diff --check` - PASS; and\n- production Vite build - PASS.\n\nThe known large `KartTimeTrial` chunk warning remains non-blocking at approximately 3.52 MB minified / 1.27 MB gzip. No new production defect is recorded.\n\nRemaining approval work for this checkpoint is PR review/CI, approved merge/Pages deployment, then deployed desktop/mobile product-owner acceptance.\n\n## Slice 5 roulette / held-item HUD / input checkpoint"
+          replace_once('docs/IMPLEMENTATION-STATUS.md', old_gate, new_gate)
+
+          marker = "## Slice 5 roulette, HUD, and input checkpoint\n"
+          testing_section = """## Slice 5 RacerEffects and Nitro Surge checkpoint
+
+Automated evidence for this bounded checkpoint must confirm:
+
+- Nitro Surge tuning remains configuration data at approximately 1.2 seconds and 1.18x normal speed cap;
+- the temporary boost applies strong acceleration without changing the permanent Speed stat;
+- the off-road override bypasses only dirt/grass speed-ceiling penalties while Traction-governed off-road acceleration remains active;
+- the effect timer freezes under pause and restores neutral modifiers on expiry;
+- successful Nitro activation consumes its single charge and immediately frees the one inventory slot;
+- an unsupported/not-yet-implemented item remains held and unconsumed when ITEM is pressed;
+- use during roulette remains rejected;
+- the existing AI 1.00-1.04 speed allowance remains separately bounded;
+- built-in drift boost and item boost do not multiply into an unintended compounded cap/acceleration state; and
+- disposal/explicit cleanup removes temporary effects without leaking state.
+
+For deployed product-owner acceptance after merge:
+
+1. Collect boxes until Nitro Surge is selected; confirm the existing approximately 0.85-second roulette behavior is unchanged.
+2. After reveal, press ITEM and confirm Nitro activates rather than merely registering input.
+3. Confirm the held Nitro charge is consumed and the item slot clears immediately, allowing another item box to be collected while the boost is still active.
+4. Confirm the race status reports `NITRO SURGE ACTIVE` during the effect.
+5. On asphalt, confirm noticeably stronger acceleration and a temporary ceiling above the racer's normal top speed, targeting approximately 1.18x.
+6. Activate Nitro immediately before or while entering dirt/grass and confirm the usual off-road speed ceiling is bypassed during the effect; Traction may still influence how quickly the kart accelerates there.
+7. Confirm Nitro expires after approximately 1.2 seconds and the normal road/off-road speed behavior returns without a persistent buff.
+8. Pause during Nitro and confirm the remaining effect duration freezes until gameplay resumes.
+9. Confirm both desktop ITEM inputs (Left Shift and E) and the mobile ITEM button can activate Nitro after reveal.
+10. Confirm a non-Nitro held item still does not fire or consume in this checkpoint.
+
+Record the deployed commit, CI/Pages run, desktop result, mobile result, any effect/timing/speed defect, and Manny's explicit acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint authorizes no other item effect.
+
+"""
+          replace_once('docs/TESTING.md', marker, testing_section + marker)
+          PY
+
+      - name: Verify documentation patch
+        run: |
+          grep -F "RACER EFFECTS FOUNDATION + NITRO SURGE IMPLEMENTED" docs/IMPLEMENTATION-STATUS.md
+          grep -F "23 Vitest files / 127 tests" docs/IMPLEMENTATION-STATUS.md
+          grep -F "Slice 5 RacerEffects and Nitro Surge checkpoint" docs/TESTING.md
+          grep -F "generic RacerEffects temporary-boost boundary plus Nitro Surge" README.md
+          git diff --check
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Verify Git LFS
+        run: git lfs fsck
+
+      - name: Install from lockfile
+        run: npm ci
+
+      - name: Validate repository
+        run: npm run validate
+
+      - name: Remove temporary workflow and commit docs
+        run: |
+          rm .github/workflows/sync-slice5-nitro-docs.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git status --short
+          git commit -m "Document RacerEffects and Nitro Surge checkpoint"
+          git push origin HEAD:feature/slice-5-racer-effects-nitro-surge

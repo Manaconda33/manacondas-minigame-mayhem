@@ -83,10 +83,7 @@ export class ItemSystem {
 
     for (const state of this.racers.values()) {
       if (state.roulette !== null) {
-        state.roulette.elapsed = Math.min(
-          ITEM_ROULETTE_SECONDS,
-          state.roulette.elapsed + dt,
-        );
+        state.roulette.elapsed = Math.min(ITEM_ROULETTE_SECONDS, state.roulette.elapsed + dt);
         if (state.roulette.elapsed >= ITEM_ROULETTE_SECONDS) state.roulette = null;
       }
 
@@ -134,7 +131,7 @@ export class ItemSystem {
       const selectedIndex = ITEM_IDS.indexOf(state.roulette.selectedItemId);
       const step = Math.floor(state.roulette.elapsed / ITEM_ROULETTE_STEP_SECONDS);
       const previewIndex = (selectedIndex + step + 1) % ITEM_IDS.length;
-      const previewItemId = ITEM_IDS[previewIndex] ?? ITEM_IDS[0];
+      const previewItemId = ITEM_IDS[previewIndex] ?? state.roulette.selectedItemId;
       const definition = ITEM_DEFINITIONS[previewItemId];
       return {
         phase: 'roulette',

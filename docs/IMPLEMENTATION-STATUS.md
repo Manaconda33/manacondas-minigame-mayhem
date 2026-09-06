@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC CHECKPOINT VALIDATED / PR REVIEW PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC CHECKPOINT VALIDATED / PR #104 AWAITING APPROVAL**
 
 PRD baseline: **v1.1, working implementation amendment 2.4**.
 
@@ -411,4 +411,4 @@ Local `npm run validate`, `git diff --check`, and `git lfs fsck` passed on 2026-
 
 Clean GitHub-hosted validation run **34032879051**, job **101485584007**, passed against implementation commit **`d3b2cc9e0ad4b30f13cd3565e30f4d133b686d02`**: LFS fetch and `git lfs fsck`, `git diff --check`, clean `npm ci` (198 packages; 0 vulnerabilities), full `npm run validate`, **28 files / 153 tests**, existing AI integration / ten-minute numeric soak, all branding/runtime-asset gates, and production build. The branch diff against `87cd7f1` was reviewed and contains only approved Kinetic/guardrail/spinout code, regression tests, and governance documentation; no avatar assets or other item effects changed. The final temporary read-only validation workflow is removed in the review checkpoint. No merge or deployment has occurred.
 
-**Publication gate:** open the clean PR and verify its CI, then obtain Manny's explicit approval before merge/deployment. Do not begin the next item until Kinetic Disc is live accepted. Live acceptance after deployment must use `?testItem=kinetic-disc` and explicitly test forward/backward launch, ricochets, guardrail racer collisions, player/AI spinout, and both chase/rear camera perspectives.
+**Publication gate:** [PR #104](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/104) is open against `main`. Verify the current PR-head CI is successful, then obtain Manny's explicit approval before merge/deployment. Do not begin the next item until Kinetic Disc is live accepted. Live acceptance after deployment must use `?testItem=kinetic-disc` and explicitly test forward/backward launch, ricochets, guardrail racer collisions, player/AI spinout, and both chase/rear camera perspectives.

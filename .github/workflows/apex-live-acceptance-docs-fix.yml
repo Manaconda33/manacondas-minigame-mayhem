@@ -1,0 +1,58 @@
+name: Apex live acceptance docs wording fix
+
+on:
+  push:
+    branches:
+      - docs/apex-live-acceptance
+
+permissions:
+  contents: write
+
+jobs:
+  update-docs:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/apex-live-acceptance
+          fetch-depth: 0
+
+      - name: Remove stale publication wording
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{path}: expected one match, found {count}')
+              p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          replace_once(
+              'docs/IMPLEMENTATION-STATUS.md',
+              'Clean-install CI and exact source/tree SHAs are recorded in the gameplay PR before requesting publication approval. No new live desktop/mobile visual or audio acceptance is claimed.',
+              'Clean-install PR CI evidence and exact source/tree SHAs remain recorded in PR #111. Post-merge CI/Pages and product-owner live acceptance are recorded above; this closeout adds no new gameplay behavior.',
+          )
+          replace_once(
+              'docs/TESTING.md',
+              'After separately approved gameplay publication, provide these URLs with the exact deployed commit and passed CI/Pages run:',
+              'Live Apex core acceptance URLs for deployed PR #111:',
+          )
+          PY
+          git diff --check
+
+      - name: Commit wording fix and remove updater
+        shell: bash
+        run: |
+          rm .github/workflows/apex-live-acceptance-docs-fix.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/IMPLEMENTATION-STATUS.md docs/TESTING.md .github/workflows/apex-live-acceptance-docs-fix.yml
+          git diff --cached --check
+          git commit -m 'Remove stale Apex publication wording'
+          git push origin HEAD:docs/apex-live-acceptance

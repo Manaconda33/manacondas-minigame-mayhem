@@ -557,7 +557,8 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 ## ADR-068: Implement approved Apex core and launch-owned global availability
 
 - **Date:** 2026-09-07
-- **Status:** Implemented and locally validated; publication and core live acceptance pending
+- **Status:** Live accepted / closed for Apex core; real Shockwave/Prismatic interaction gates deferred
 - **Approval:** Manny approved PR #110 merge and its complete Apex scope. PR #110 merged at `1b3391cfd9731291980552fa6ad3c0d9e635ff6b`.
 - **Decision:** Implement all fill-ins in `docs/SLICE-5-APEX-MISSILE-SCOPE.md`, recorded in PRD amendment 2.7. Use separate item-domain Apex lifecycle, validated leader targeting, shared capacity reservation, atomic charge/launch commit, launch-time cooldown, original procedural presentation, warning audio, and generic area/counter boundaries.
 - **Boundary:** Counter-boundary automation does not complete real Shockwave/Prismatic interaction acceptance. Those playable items, general AI tactics, issue #106 and Slice 6 remain deferred. Preserve live-accepted Seeker/Kinetic/Nitro and race authority.
+- **Publication / live acceptance:** PR #111 squash-merged at `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`; post-merge CI/Pages run `34128841767` passed validation and deployment. Manny passed all focused outgoing Apex checks, all focused incoming Apex checks, and the normal governed-selection regression on 2026-09-07. Apex core is live accepted; real Shockwave/Prismatic interaction acceptance remains a separate later gate.

@@ -2,13 +2,15 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC AND SEEKER DRONE LIVE ACCEPTED / APEX CORE VALIDATED / PUBLICATION PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC, SEEKER DRONE, AND APEX CORE LIVE ACCEPTED / SLICE 5 CONTINUES**
 
 PRD baseline: **v1.1, working implementation amendment 2.7**.
 
 Kinetic live acceptance, 2026-09-06: PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run [34034999554](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34034999554) passed both validation and deployment. Manny explicitly passes the approved **42 m/s** base speed, retained angle-based ricochets, existing spinout, chase/rear perspectives, and normal unforced item selection. **Kinetic Disc is LIVE ACCEPTED.** His [final PR #105 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) supersedes the earlier partial-acceptance and corrective-publication gates. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for the historical diagnosis and final closeout.
 
 Manny approved merging documentation PR #107 and implementing **ItemTargeting + Homing Seeker Drone** under `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`. PR #107 merged at `f3932c9e9b21ab8a361a03826c39d9d6b146e2c1`; post-merge CI/Pages run `34068326448` passed. The Seeker implementation is now locally validated on `feature/slice-5-seeker-drone` under amendment 2.6 / ADR-067. Manny subsequently approved publication: PR #108 merged at `ef5dbaeccde123faedd00f625cf18e32c07875de`; CI/Pages run `34086473571` passed validation and deployment. Manny passed all six Seeker live checks and, after the lap-2 investigation, explicitly chose to continue Slice 5 on 2026-09-07. **Seeker Drone is LIVE ACCEPTED.** Diagnostic PR #109 is closed unmerged; interception/obstacle impact is plausible but the cause of the individual shot remains unconfirmed. Issue [#106](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106) remains a future-development standings-display defect and does not block Kinetic acceptance or this continuation.
+
+Apex core live acceptance, 2026-09-07: PR #111 squash-merged to `main` at `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`; post-merge CI/Pages run [34128841767](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34128841767) passed validation and GitHub Pages deployment. Manny then passed all focused outgoing checks, all focused incoming checks, and the normal governed-selection regression. **Apex Orbital Missile core is LIVE ACCEPTED.** The [PR #111 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/111#issuecomment-5571794632) is the product-owner evidence. Real playable Shockwave/Prismatic counter interactions remain explicitly deferred and do not reopen the accepted Apex core gate.
 
 Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Slice 5 is active under the approved `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` contract and ADR-061. Slice 6 remains locked.
 
@@ -26,7 +28,7 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Approval gate:** Manny approved PR #110 merge and the complete Apex core scope on 2026-09-07. PR #110 merged at `1b3391cfd9731291980552fa6ad3c0d9e635ff6b`; CI/Pages run `34126575125` passed. Apex core is implemented under amendment 2.7 / ADR-068; gameplay publication and core live acceptance remain pending. Real Shockwave/Prismatic interactions and Slice 6 remain later gates.
+**Approval gate:** Apex core is live accepted. The next bounded Slice 5 gameplay increment requires its own scope review and Manny approval before implementation. Real Shockwave/Prismatic interactions, issue #106, and Slice 6 remain later/deferred gates.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -115,7 +117,7 @@ Deployed checkpoint: `574d979f1ad59ebdce386525fdb483f821254457`
 
 No defect was reported in this checkpoint. The deliberate no-fire/no-consumption behavior remains correct until the actual effect dispatcher is implemented.
 
-Remaining Slice 5 work includes thirteen item effects beyond accepted Nitro Surge and Kinetic Disc, additional projectiles, hazards, buffs/debuffs and counters, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.
+Remaining Slice 5 work includes eleven item effects beyond accepted Nitro Surge, Kinetic Disc, Seeker Drone, and Apex core, additional projectiles, hazards, buffs/debuffs and real counter interactions, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.
 
 ## Alex integration and deployment checkpoint
 
@@ -307,13 +309,13 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Deferred work
 
-- Remaining Slice 5 work includes the eleven other unimplemented item effects, Apex core publication/live acceptance and real counter integration, AI item-use policy, interaction/counter validation, soak/performance evidence, deployment, and full-slice live acceptance. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, and Seeker Drone are already live accepted.
+- Remaining Slice 5 work includes the eleven other unimplemented item effects, real Shockwave/Prismatic and other counter integration, AI item-use policy, interaction/counter validation, soak/performance evidence, deployment, and full-slice live acceptance. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, and Apex core are already live accepted.
 - Further competitive-balance work remains deferred until explicitly reopened.
 - External PBR texture sets, HDR environment, baked AO assets, and other larger presentation additions remain outside the Dragon Queen checkpoint.
 
 ## Next recommended action
 
-Review the validated Apex gameplay PR and its clean-install CI for merge/deployment. After approved publication, use the focused outgoing and incoming acceptance matrix in `docs/TESTING.md`. Incoming Apex targets the actual leader; drive into first to receive its warning. Real Shockwave/Prismatic interactions remain pending; issue #106 remains deferred.
+Prepare the next bounded Slice 5 item/system scope from the PRD and approved item-system design for Manny review before implementation. Preserve the accepted Nitro/Kinetic/Seeker/Apex behavior. Real Shockwave/Prismatic interactions and issue #106 remain deferred unless the next approved scope explicitly includes them.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 
@@ -321,7 +323,7 @@ Do not reopen competitive-balance tuning while establishing the baseline item im
 
 **Slice 5 design: APPROVED 2026-09-05.**
 
-**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, KINETIC DISC, AND SEEKER DRONE LIVE ACCEPTED. APEX CORE IMPLEMENTED; PUBLICATION AND CORE LIVE ACCEPTANCE PENDING.**
+**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, KINETIC DISC, SEEKER DRONE, AND APEX CORE LIVE ACCEPTED.**
 
 **Slice 6: LOCKED pending Slice 5 validation, deployment, and Manny live acceptance.**
 
@@ -505,6 +507,6 @@ Implemented from approved PR #110 merge `1b3391cfd9731291980552fa6ad3c0d9e635ff6
 - `?testItem=apex-missile` outgoing pickup and explicit `?testApexIncoming=1` fixture. The incoming fixture uses production leader targeting and shared cooldown, starts after five race seconds and never spends AI inventory. Its badge tells the tester to drive into first.
 - Generic per-victim immunity and queued terminal-only 5 m 3D pulse checks, resolved before missile movement/blast. These are counter integration boundaries; playable Shockwave/Prismatic and real live interactions remain unimplemented and unaccepted.
 
-The five real-course moving-leader scenarios cover the start/finish region, dirt bend, ramp regions and late-course bend. Two initially failing scenarios ranked the stationary player ahead of the intended moving leader; the fixture's validated lap was corrected rather than changing targeting or weakening assertions. Repeated-launch checks run 100 complete lifecycles and verify shared capacity returns to zero and procedural resources dispose. No new dependency, workflow, binary asset, general AI item policy, or issue #106 change is included. Seeker, Kinetic and Nitro remain live accepted. Apex core is not yet deployed or live accepted.
+The five real-course moving-leader scenarios cover the start/finish region, dirt bend, ramp regions and late-course bend. Two initially failing scenarios ranked the stationary player ahead of the intended moving leader; the fixture's validated lap was corrected rather than changing targeting or weakening assertions. Repeated-launch checks run 100 complete lifecycles and verify shared capacity returns to zero and procedural resources dispose. No new dependency, workflow, binary asset, general AI item policy, or issue #106 change is included. Seeker, Kinetic and Nitro remain live accepted. PR #111 subsequently merged at `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`; post-merge CI/Pages run `34128841767` passed both validation and deployment. Manny passed every focused outgoing, incoming, and normal-URL regression check, so **Apex core is LIVE ACCEPTED**. Real Shockwave/Prismatic counter interactions remain deferred.
 
-Local `npm run validate`, `git diff --check` and `git lfs fsck` passed on 2026-09-07: **31 files / 205 tests**, **91.79% statement coverage**, strict typecheck, zero-warning lint, existing three-lap AI/numeric-soak regressions, branding/runtime assets and production build. No dependencies or binary assets changed. The existing large-chunk warning remains nonblocking (KartTimeTrial bundle about 3.56 MB raw / 1.28 MB gzip). Clean-install CI and exact source/tree SHAs are recorded in the gameplay PR before requesting publication approval. No new live desktop/mobile visual or audio acceptance is claimed.
+Local `npm run validate`, `git diff --check` and `git lfs fsck` passed on 2026-09-07: **31 files / 205 tests**, **91.79% statement coverage**, strict typecheck, zero-warning lint, existing three-lap AI/numeric-soak regressions, branding/runtime assets and production build. No dependencies or binary assets changed. The existing large-chunk warning remains nonblocking (KartTimeTrial bundle about 3.56 MB raw / 1.28 MB gzip). Clean-install PR CI evidence and exact source/tree SHAs remain recorded in PR #111. Post-merge CI/Pages and product-owner live acceptance are recorded above; this closeout adds no new gameplay behavior.

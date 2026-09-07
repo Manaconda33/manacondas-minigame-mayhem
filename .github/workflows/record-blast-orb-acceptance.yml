@@ -20,141 +20,25 @@ jobs:
           ref: docs/blast-orb-live-acceptance
           fetch-depth: 1
           lfs: true
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-
-      - name: Record live acceptance
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import re
-
-          def replace_once(path: str, old: str, new: str) -> None:
-              p = Path(path)
-              text = p.read_text()
-              count = text.count(old)
-              if count != 1:
-                  raise SystemExit(f"{path}: expected one anchor, found {count}: {old[:120]!r}")
-              p.write_text(text.replace(old, new, 1))
-
-          status = Path('docs/IMPLEMENTATION-STATUS.md')
-          text = status.read_text()
-          text = text.replace(
-              '**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC, SEEKER DRONE, AND APEX CORE LIVE ACCEPTED / BLAST ORB VALIDATED, PUBLICATION PENDING**',
-              '**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO, KINETIC, SEEKER, APEX, AND BLAST ORB LIVE ACCEPTED**',
-              1,
-          )
-          old = '**Approval gate:** Manny approved **HazardSystem + Timed Blast Orb** on 2026-09-07 under `docs/SLICE-5-BLAST-ORB-SCOPE.md`, PRD amendment 2.8, and ADR-069. PR #115 merged at `c2ca9887562b8dd0f8f943f28c1016e234103969`; post-merge CI/Pages `34144668993` passed. The approved gameplay is now implemented and locally validated. Gameplay publication/deployment and live acceptance remain separate gates. Real Shockwave/Prismatic interactions, AI Blast/Slick avoidance, issue #106, and Slice 6 remain later/deferred gates.'
-          new = '**Blast Orb live acceptance, 2026-09-07:** PR #117 squash-merged to `main` at `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`; post-merge CI/Pages run `34148220153` passed validation and GitHub Pages deployment. Manny then completed the deployed Timed Blast Orb live playtests and reported that the live playtests pass. **Timed Blast Orb and the reusable HazardSystem foundation are LIVE ACCEPTED.** Product-owner evidence is recorded on PR #117 in comment `5574069298`. Real playable Shockwave/Prismatic interactions, Slick, AI Blast/Slick avoidance, issue #106, remaining Slice 5 items, final soak/performance gates, and Slice 6 remain later/deferred gates.'
-          if text.count(old) != 1:
-              raise SystemExit('IMPLEMENTATION-STATUS approval-gate anchor missing/ambiguous')
-          text = text.replace(old, new, 1)
-          old = "The governance checkpoint is merged. Blast Orb implementation and local validation are complete as recorded below; hosted clean-install CI, gameplay publication, and Manny's focused desktop/mobile live gate remain required before the functional checklist item closes. Playable Shockwave, real counter acceptance, Slick, AI hazard avoidance, issue #106, and Slice 6 remain deferred."
-          new = "The governance and gameplay checkpoints are merged and deployed. PR #117 post-merge CI/Pages run `34148220153` passed, and Manny's focused deployed live playtests passed on 2026-09-07. The Timed Blast Orb functional checklist item and reusable HazardSystem foundation evidence supported by this increment may be closed. Playable Shockwave, real counter acceptance, Slick, AI hazard avoidance, issue #106, remaining Slice 5 items, final soak/performance evidence, and Slice 6 remain deferred."
-          if text.count(old) != 1:
-              raise SystemExit('IMPLEMENTATION-STATUS pending-gate anchor missing/ambiguous')
-          status.write_text(text.replace(old, new, 1))
-
-          scope = Path('docs/SLICE-5-BLAST-ORB-SCOPE.md')
-          text = scope.read_text()
-          text = text.replace(
-              '**Status: IMPLEMENTED / LOCALLY VALIDATED; gameplay publication and live acceptance pending. Scope approved by Manny, 2026-09-07.**',
-              '**Status: LIVE ACCEPTED. Scope approved and deployed acceptance passed by Manny, 2026-09-07.**',
-              1,
-          )
-          approval = '**Approval record:** Manny approved the complete scope on 2026-09-07; PR #115 merged at `c2ca9887562b8dd0f8f943f28c1016e234103969`; CI/Pages `34144668993` passed.'
-          acceptance = approval + '\n\n**Live acceptance record:** PR #117 squash-merged at `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`; post-merge CI/Pages run `34148220153` passed. Manny then completed the deployed live playtests and reported that they pass. Product-owner evidence is recorded on PR #117 in comment `5574069298`. Timed Blast Orb and the reusable HazardSystem foundation are LIVE ACCEPTED.'
-          if text.count(approval) != 1:
-              raise SystemExit('BLAST scope approval anchor missing/ambiguous')
-          text = text.replace(approval, acceptance, 1)
-          old = 'Gameplay deployment, live acceptance, and real future Shockwave interaction acceptance are not claimed.'
-          new = 'Gameplay deployment and Timed Blast Orb live acceptance are now proven by PR #117 and post-merge run `34148220153`. Real future Shockwave interaction acceptance remains explicitly unclaimed and deferred.'
-          if text.count(old) != 1:
-              raise SystemExit('BLAST scope final pending anchor missing/ambiguous')
-          scope.write_text(text.replace(old, new, 1))
-
-          design = Path('docs/SLICE-5-ITEM-SYSTEM-DESIGN.md')
-          text = design.read_text()
-          start = text.find('## Fifteen-item functional gate')
-          end = text.find('\n## ', start + 3)
-          if start < 0:
-              raise SystemExit('functional gate section missing')
-          if end < 0:
-              end = len(text)
-          section = text[start:end]
-          matches = re.findall(r'^- \[ \] .*Blast Orb.*$', section, flags=re.MULTILINE)
-          if len(matches) != 1:
-              raise SystemExit(f'expected one unchecked Blast Orb functional item, found {len(matches)}: {matches}')
-          checked = matches[0].replace('- [ ]', '- [x]', 1)
-          section = section.replace(matches[0], checked, 1)
-          text = text[:start] + section + text[end:]
-          note = '\n\nBlast Orb acceptance evidence, 2026-09-07: gameplay PR #117 squash-merged at `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`; post-merge CI/Pages run `34148220153` passed; Manny completed the deployed live playtests and reported all checks pass. Product-owner evidence: PR #117 comment `5574069298`. This closes only the Timed Blast Orb functional gate and reusable HazardSystem foundation evidence proven by that increment; deferred Shockwave/Prismatic interactions, Slick, AI hazard avoidance, remaining items, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.'
-          text = text[:start] + text[start:end] + note + text[end:]
-          design.write_text(text)
-
-          readme = Path('README.md')
-          text = readme.read_text()
-          old = 'Slice 5 foundation, visible item boxes, roulette, held-item HUD, desktop/mobile ITEM input, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, and Apex Orbital Missile core are merged, deployed, and live accepted. Eleven item effects remain unimplemented, together with real cross-item counter integration, Hyper-Drive Rocket autopilot, AI tactical item use/hazard response, soak/performance evidence, and final Slice 5 acceptance.'
-          new = 'Slice 5 foundation, visible item boxes, roulette, held-item HUD, desktop/mobile ITEM input, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, and Timed Blast Orb are merged, deployed, and live accepted. Ten item effects remain unimplemented, together with real cross-item counter integration, Hyper-Drive Rocket autopilot, AI tactical item use/hazard response, soak/performance evidence, and final Slice 5 acceptance.'
-          if text.count(old) != 1:
-              raise SystemExit('README Slice 5 summary anchor missing/ambiguous')
-          readme.write_text(text.replace(old, new, 1))
-
-          acceptance_report = Path('docs/BLAST-ORB-LIVE-ACCEPTANCE-2026-09-07.md')
-          acceptance_report.write_text('''# Timed Blast Orb live acceptance — 2026-09-07
-
-## Result
-
-**LIVE ACCEPTED.**
-
-Manny completed the deployed Timed Blast Orb live playtests after gameplay PR #117 was published and reported that the live playtests pass.
-
-## Publication evidence
-
-- Gameplay PR: #117 — `Implement approved HazardSystem and Timed Blast Orb`.
-- PR head validated before publication: `235da328d7eb6a0174aa5fb66ef794c535223ec1`.
-- Merge commit: `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`.
-- Post-merge CI / GitHub Pages run: `34148220153` — validation PASS, deployment PASS.
-- Product-owner acceptance evidence: PR #117 comment `5574069298`.
-
-## Live gate accepted
-
-The deployed acceptance covers the eight checks defined by `docs/SLICE-5-BLAST-ORB-SCOPE.md`: successful forced pickup/use, forward toss and backward drop, approximately three-second pause-safe fuse, qualifying-impact versus light-brush behavior, approximately four-meter collateral blast with 1.20-second heavy spin presentation, owner-immunity/later-self-hit behavior, incoming fixture/restart cleanup, and normal Nitro/Kinetic/Seeker/Apex regression behavior.
-
-## Scope closed by this evidence
-
-- Timed Blast Orb functional item gate.
-- Reusable `HazardSystem` foundation evidence demonstrated by the Blast Orb increment.
-- Shared item-physics capacity behavior as exercised by the accepted implementation.
-
-## Still open / deferred
-
-Playable Shockwave and Prismatic counter interactions, Slick Trap, AI Blast/Slick avoidance, the remaining Slice 5 items, issue #106, final cleanup/object-count soak and performance evidence, full Slice 5 acceptance/publication, and Slice 6 remain open. No deferred gate is closed by this acceptance record.
-''')
-          PY
-
-          rm .github/workflows/record-blast-orb-acceptance.yml
-          git diff --check
-
+      - name: Record acceptance
+        run: python .github/scripts/record_blast_acceptance.py
+      - name: Check diff
+        run: git diff --check
       - name: Install from lockfile
         run: npm ci
-
       - name: Validate repository
         run: npm run validate
-
       - name: Verify LFS runtime assets
         run: git lfs fsck
-
       - name: Commit acceptance record
-        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md docs/IMPLEMENTATION-STATUS.md docs/SLICE-5-BLAST-ORB-SCOPE.md docs/SLICE-5-ITEM-SYSTEM-DESIGN.md docs/BLAST-ORB-LIVE-ACCEPTANCE-2026-09-07.md .github/workflows/record-blast-orb-acceptance.yml
+          git add -A
           git commit -m "Record Timed Blast Orb live acceptance"
           git push origin HEAD:docs/blast-orb-live-acceptance

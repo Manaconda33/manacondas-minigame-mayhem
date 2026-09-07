@@ -10,3 +10,8 @@ export function forcedItemFromSearch(search: string): ItemId | null {
 export function forcedItemForRacer(forcedItem: ItemId | null, racerId: string): ItemId | null {
   return racerId === 'player' ? forcedItem : null;
 }
+
+/** Incoming fixture is independent of inventory forcing and never implicit. */
+export function incomingSeekerFromSearch(search: string): boolean {
+  return new URLSearchParams(search).get('testSeekerIncoming') === '1';
+}

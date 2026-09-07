@@ -37,6 +37,16 @@ export interface ItemProjectileConfig {
   spinoutSeconds: number;
 }
 
+export const SEEKER_GUIDANCE = {
+  minSpeed: 42,
+  maxSpeed: 56,
+  closingMargin: 10,
+  acceleration: 20,
+  turnRate: (120 * Math.PI) / 180,
+  warningNearSeconds: 3,
+  warningUrgentSeconds: 1,
+} as const;
+
 export interface ItemDefinition {
   id: ItemId;
   displayName: string;
@@ -63,7 +73,22 @@ export const ITEM_DEFINITIONS: Readonly<Record<ItemId, ItemDefinition>> = {
       spinoutSeconds: 0.85,
     },
   },
-  'seeker-drone': { id: 'seeker-drone', displayName: 'Homing Seeker Drone', icon: '⌁', charges: 1 },
+  'seeker-drone': {
+    id: 'seeker-drone',
+    displayName: 'Homing Seeker Drone',
+    icon: '⌁',
+    charges: 1,
+    projectile: {
+      speedMetersPerSecond: SEEKER_GUIDANCE.minSpeed,
+      radiusMeters: 0.32,
+      lifetimeSeconds: 12,
+      maxWallBounces: 0,
+      inheritedVelocityFactor: 0,
+      maxInheritedSpeedMetersPerSecond: 0,
+      ownerArmSeconds: 0.5,
+      spinoutSeconds: 0.85,
+    },
+  },
   'apex-missile': {
     id: 'apex-missile',
     displayName: 'Apex Orbital Missile',

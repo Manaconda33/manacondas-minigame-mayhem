@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.5
+Version 1.1 - Final approved baseline; working implementation amendment 2.6
 
 August 16, 2026
 
@@ -99,6 +99,11 @@ A Kinetic Disc racer hit applies one visible full-yaw spin over the governed sta
 Approved September 6, 2026 after PR #104 live testing. Raise Ricochet Kinetic Disc base speed from approximately **28 m/s to 42 m/s** so it can close on full-speed racers. Preserve the existing bounded inherited velocity: add 0.35 times the owner's planar velocity after clamping that velocity to 8 m/s, yielding approximately 44.8 m/s for a straight forward shot from a fast-moving kart. This supersedes the Kinetic speed in amendment 2.4 and prior baseline references.
 
 Retain the existing angle-of-incidence reflection, with projectile speed preserved across ricochets. A shallow shot on a curved section may hit the same rail again; there is no forced opposite-rail trajectory, minimum inward angle, or homing. The 0.32 m radius, nine-second lifetime, three-ricochet limit, owner arming/self-hit rules, one-charge successful-spawn consumption, 40-projectile cap, and 0.85-second spinout/camera/sprite contract remain unchanged. Final acceptance, September 6, 2026: PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run `34034999554` passed, and Manny explicitly live accepted the 42 m/s speed, angle-based ricochets, spinout, chase/rear perspective, and normal item selection. This closes the corrective gate. Issue #106 is a separate future-development standings-display defect and is not an acceptance blocker. The next bounded Seeker proposal is documented separately; no Seeker tuning amendment is approved by this acceptance record. Slice 6 remains locked.
+
+## Approved implementation amendment 2.6 - Homing Seeker Drone
+
+Manny approved merging PR #107 and implementing `docs/SLICE-5-SEEKER-DRONE-SCOPE.md` on September 6, 2026. Seeker launches forward, locks the nearest unfinished rival strictly ahead by validated total race progress, and retains its charge on failed activation. Normal selection filters it when no target is ahead. Rank changes do not retarget; target finish/removal expires the drone. It starts at 42 m/s, approaches `clamp(target planar speed + 10, 42, 56)` m/s with at most 20 m/s² speed change, and receives no inherited launch velocity. It retains 0.5-second arming, 12-second total lifetime, and 120-degree/second maximum turning. Guidance physically follows the shared legal track route; no position/heading snap or teleport is permitted. Radius is 0.32 m. Guardrail contact destroys it without a bounce; armed racer interception, including later owner self-hit, destroys it and applies the accepted 0.85-second spinout. No racer damage occurs before arming. Warning marker/HUD and settings-aware synthesized tone escalate at estimated arrival thresholds of three and one seconds. Pause, target loss, hit, expiry, and disposal clean up warnings. The existing 40-projectile cap is shared. An opt-in marked incoming-Seeker fixture is authorized for live warning/impact acceptance, without enabling general AI tactics. Issue #106 remains deferred. Gameplay merge/deployment and live acceptance remain separately gated; Slice 6 remains locked.
+
 
 # Contents
 

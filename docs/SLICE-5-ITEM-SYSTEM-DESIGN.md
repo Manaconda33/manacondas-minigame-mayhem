@@ -196,7 +196,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 
 # Slice 5 exit checklist
 
-> Evidence reconciliation, 2026-09-07: checkmarks below reflect only requirements already supported by merged code/tests and recorded deployed product-owner acceptance through PR #112. The seeded 100,000-selection-per-rank requirement remains open until a reproducible hosted CI test/report is committed and passes. Broad all-item interaction, AI-policy, pause/lifecycle, soak/performance, and final-publication gates remain open until their full Slice 5 scope is implemented and evidenced.
+> Evidence reconciliation, 2026-09-07: checkmarks below reflect only requirements supported by merged/live evidence or the hosted seeded-distribution checkpoint. PR #114 CI run `34139123888` executed 100,000 deterministic selections per rank (800,000 total) against the production selector and passed the 0.5-percentage-point fit gate; details are recorded in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. Broad all-item interaction, AI-policy, pause/lifecycle, soak/performance, and final-publication gates remain open until their full Slice 5 scope is implemented and evidenced.
 
 ## System and distribution
 
@@ -204,7 +204,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 - [x] The eight rank tables remain exactly as approved and each totals 100%.
 - [x] Dynamic gap weighting obeys the 1.00-1.35 PRD bound.
 - [x] Runtime restrictions filter impossible items before selection and renormalize remaining weights.
-- [ ] At least 100,000 seeded simulated selections per rank are recorded; expected deviation is within approximately 0.5 percentage points for common items or a documented goodness-of-fit test passes.
+- [x] At least 100,000 seeded simulated selections per rank are recorded; expected deviation is within approximately 0.5 percentage points for common items or a documented goodness-of-fit test passes.
 - [x] One-slot inventory works and an occupied racer cannot consume another box.
 - [x] Roulette lasts approximately 0.85 seconds and freezes under pause.
 - [x] Multi-charge item counts display correctly.
@@ -260,7 +260,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 
 - [ ] `npm ci` passes from the checkpoint source.
 - [ ] `npm run validate` passes.
-- [ ] Slice-specific probability report is committed or referenced from implementation status.
+- [x] Slice-specific probability report is committed or referenced from implementation status.
 - [ ] Item interaction/counter matrix evidence is recorded.
 - [ ] Object-count/lifecycle soak evidence is recorded.
 - [ ] Gameplay capture demonstrates acquisition/use/counters and representative AI usage.

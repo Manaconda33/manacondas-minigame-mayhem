@@ -557,3 +557,9 @@ Core desktop/mobile acceptance:
 **Apex core live acceptance passed on 2026-09-07.** Manny passed all outgoing checks, all incoming checks, and the normal governed-game regression against deployed PR #111 / `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`. Product-owner evidence is recorded on PR #111.
 
 Record **core live acceptance separately**. Synthetic immunity/pulse tests do not close real Shockwave/Prismatic cross-item or live counter acceptance. General AI tactics, final Slice 5 soak/performance gates, and Slice 6 remain outstanding. Issue #106 remains deferred and nonblocking.
+
+## Slice 5 seeded item-distribution evidence
+
+The reproducible distribution gate is implemented in `tests/item-distribution.test.ts`. It runs the production selector **100,000 times for each race rank (800,000 selections total)** using fixed Mulberry32 seeds `0x5A17C001` through `0x5A17C008`. Ranks 1-5 use a 0 m leader gap. Ranks 6-8 use exactly 45 m so Hyper-Drive is eligible and the approved 1.18 gap weighting is active. Apex availability is true. Each eligible item must remain within **0.5 percentage points** of the effective normalized weight and every zero-weight item must remain unselected.
+
+Hosted PR #114 CI run **34139123888** on `94e90a7a8adfbe107dbd2095cae706596a1be7bc` passed the distribution test as part of the complete CI test step. The largest absolute deviation was **0.315 percentage points**. The durable counts/report are in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. Re-run this test unchanged whenever selector logic, the rank matrix, dynamic gap weighting, or runtime eligibility changes; any intentional governed change must update the report and approval record rather than silently changing the seed/tolerance.

@@ -537,7 +537,7 @@ Seeker is live accepted. The lap-2 disappearance investigation found plausible i
 
 `tests/apex-missile.test.ts` covers leader/tie/lap targeting, owner targeting and finish, target loss, inventory success/rejection/rollback, same-step competing holders, shared capacity, launch-time cooldown, pause/reset, phase timing, bounded sky/dive motion, lifetime, blast boundaries/collateral/immunity, terminal-only 3D pulse ordering, explicit incoming fixture, and 100-lifecycle resource cleanup. It uses five real Circuit Alpha moving-leader paths. The audio ownership suite runs the same volume/pause/gesture/disposal checks for both Seeker and Apex and verifies their distinct tone profiles.
 
-After separately approved gameplay publication, provide these URLs with the exact deployed commit and passed CI/Pages run:
+Live Apex core acceptance URLs for deployed PR #111:
 
 - Outgoing pickup: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=apex-missile`
 - Incoming leader attack: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testApexIncoming=1`

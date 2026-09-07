@@ -1,8 +1,8 @@
 # Slice 5 next increment: HazardSystem + Timed Blast Orb
 
-**Status: APPROVED FOR IMPLEMENTATION by Manny, 2026-09-07. Governance publication/merge and gameplay implementation remain separate gates.**
+**Status: IMPLEMENTED / LOCALLY VALIDATED; gameplay publication and live acceptance pending. Scope approved by Manny, 2026-09-07.**
 
-**Approval record:** Manny approved the complete scope on 2026-09-07; PR #115 is the governance publication checkpoint.
+**Approval record:** Manny approved the complete scope on 2026-09-07; PR #115 merged at `c2ca9887562b8dd0f8f943f28c1016e234103969`; CI/Pages `34144668993` passed.
 
 Baseline: `main` is `648506be658fb2da7a0e08466812c41d55622117`. PR #114 merged the reproducible 100,000-selection-per-rank / 800,000-total probability evidence checkpoint and post-merge CI/Pages passed. Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, item boxes, roulette/HUD/input, and the seeded distribution gate are already accepted. PRD v1.1 working amendment 2.8 / ADR-069 and `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` govern this approved increment.
 
@@ -89,3 +89,8 @@ Run clean `npm ci`, `npm run validate`, `git diff --check`, Git LFS verification
 8. Normal unforced URL and accepted Nitro/Kinetic/Seeker/Apex behavior remain unchanged.
 
 Passing this increment closes only the Timed Blast Orb functional gate and the reusable hazard foundation evidence that is actually proven. It does not close AI hazard avoidance, Shockwave interaction acceptance, remaining items, final soak/performance, Slice 5, or unlock Slice 6.
+
+
+## Implementation evidence
+
+The approved increment is implemented on `feature/slice-5-blast-orb`. Local full validation passes 33 files / 233 tests, with 92.03% statement coverage. See `docs/IMPLEMENTATION-STATUS.md` and the gameplay PR for source/CI evidence. The incoming fixture uses a single placement 8 m ahead after five race seconds; restart resets it. The 0.4 m orb contact/presentation radius is an engineering geometry value. Gameplay deployment, live acceptance, and real future Shockwave interaction acceptance are not claimed.

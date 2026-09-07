@@ -2,6 +2,9 @@ import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Howler } from 'howler';
+import { HazardSystem } from './items/HazardSystem';
+import { ItemPhysicsCapacity } from './items/ItemPhysicsCapacity';
+import { IncomingBlastOrbFixture } from './items/IncomingBlastOrbFixture';
 import { ApexMissileSystem, type ApexWarning } from './items/ApexMissileSystem';
 import { ApexPresentation } from './items/ApexPresentation';
 import { IncomingApexFixture } from './items/IncomingApexFixture';
@@ -41,6 +44,7 @@ import {
   forcedItemFromSearch,
   incomingSeekerFromSearch,
   incomingApexFromSearch,
+  incomingBlastOrbFromSearch,
 } from './items/ItemTestMode';
 import { NitroSurgeVisual } from './items/NitroSurgeVisual';
 import { RacerEffects } from './items/RacerEffects';
@@ -184,7 +188,11 @@ export class KartTimeTrial {
   private readonly racerEffects = new RacerEffects();
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
-  private readonly projectiles = new ProjectileSystem(this.track);
+  private readonly itemPhysicsCapacity = new ItemPhysicsCapacity();
+  private readonly projectiles = new ProjectileSystem(this.track, this.itemPhysicsCapacity);
+  private readonly hazards = new HazardSystem(this.track, this.itemPhysicsCapacity);
+  private readonly incomingBlastTest = incomingBlastOrbFromSearch(window.location.search);
+  private readonly incomingBlastFixture = new IncomingBlastOrbFixture(this.incomingBlastTest);
   private readonly incomingSeekerTest = incomingSeekerFromSearch(window.location.search);
   private readonly incomingSeekerFixture = new IncomingSeekerFixture(this.incomingSeekerTest);
   private readonly seekerWarningVisual = new SeekerWarningVisual();
@@ -220,6 +228,7 @@ export class KartTimeTrial {
     this.scene.add(this.itemBoxes.group);
     this.scene.add(
       this.projectiles.group,
+      this.hazards.group,
       this.seekerWarningVisual.group,
       this.apexPresentation.group,
     );
@@ -275,6 +284,7 @@ export class KartTimeTrial {
     this.apex.dispose();
     this.apexPresentation.dispose();
     this.apexWarningAudio.dispose();
+    this.hazards.dispose();
     this.projectiles.dispose();
     this.seekerWarningVisual.dispose();
     this.seekerWarningAudio.dispose();
@@ -597,8 +607,16 @@ export class KartTimeTrial {
     const impacts = [
       ...this.projectiles.update(dt, targets),
       ...this.apex.update(dt, racers, targets),
+      ...this.hazards.update(dt, targets),
     ];
     this.incomingApexFixture.update(this.elapsed, this.track, this.apex, racers, targets);
+    this.incomingBlastFixture.update(
+      this.elapsed,
+      this.playerProgress.finished,
+      this.kart.position(),
+      this.track,
+      this.hazards,
+    );
     for (const impact of impacts) {
       const definition = ITEM_DEFINITIONS[impact.itemId];
       const activated = this.racerEffects.activateSpinout(impact.targetId, {
@@ -677,8 +695,9 @@ export class KartTimeTrial {
           distanceBehindLeaderMeters,
           apexAvailable,
           isRuntimeEligible: (id) =>
-            id !== 'seeker-drone' ||
-            nearestRacerAhead(racerId, this.itemTargetingProgress()) !== null,
+            (id !== 'blast-orb' || this.itemPhysicsCapacity.count() < 40) &&
+            (id !== 'seeker-drone' ||
+              nearestRacerAhead(racerId, this.itemTargetingProgress()) !== null),
         });
       if (!this.itemSystem.acquire(racerId, itemId)) return false;
       return true;
@@ -697,6 +716,7 @@ export class KartTimeTrial {
         racers: this.itemTargetingProgress(),
         projectileSystem: this.projectiles,
         apexSystem: this.apex,
+        hazardSystem: this.hazards,
         projectileLaunch: {
           position: this.kart.position(),
           forward: this.kart.forward(),
@@ -704,6 +724,10 @@ export class KartTimeTrial {
         },
       },
     );
+    if (this.itemSystem.heldItem('player')?.itemId === 'blast-orb' && result === 'rejected') {
+      this.itemUseMessage = 'BLAST ORB NOT READY · ITEM HELD';
+      this.itemUseMessageSeconds = 1.5;
+    }
     if (this.itemSystem.heldItem('player')?.itemId === 'apex-missile' && result === 'rejected') {
       this.itemUseMessage = 'APEX NOT READY · ITEM HELD';
       this.itemUseMessageSeconds = 1.5;
@@ -842,6 +866,7 @@ export class KartTimeTrial {
             : `FORCED ${ITEM_DEFINITIONS[this.forcedTestItem].displayName}`,
           this.incomingSeekerTest ? 'INCOMING SEEKER EVERY 16s' : '',
           this.incomingApexTest ? 'APEX ATTACKS LEADER · DRIVE INTO FIRST' : '',
+          this.incomingBlastTest ? 'ONE BLAST ORB AHEAD AFTER 5s' : '',
         ]
           .filter(Boolean)
           .join(' · ') || null,

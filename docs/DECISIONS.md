@@ -566,7 +566,7 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 ## ADR-069: Establish shared HazardSystem capacity and approved Timed Blast Orb behavior
 
 - **Date:** 2026-09-07
-- **Status:** Approved for implementation
+- **Status:** Implemented and locally validated; gameplay publication/live acceptance pending
 - **Context:** After Apex core live acceptance and completion of the seeded distribution gate, Slice 5 still lacks the approved hazard runtime. The PRD already requires Timed Blast Orb and Slick to be owned by `HazardSystem`, while Shockwave must later clear supported hazards. Implementing Blast Orb first establishes that reusable boundary without prematurely implementing Shockwave or duplicating hazard architecture.
 - **Decision:** Implement `HazardSystem` as the owner of Blast Orb lifecycle and use one shared maximum of 40 active/reserved projectile + hazard objects. Blast Orb uses the approved 3.0 s fuse, 4.0 m AoE, 1.20 s heavy spin, 0.35 s owner immunity, 8 m/s early-impact threshold, forward 14 m/s toss with 0.35x inherited planar velocity capped at 12 m/s, backward drop with 0.20x inherited planar velocity capped at 12 m/s, and 6 m/s² planar drag. Guardrails contain rather than detonate the orb. Generic immunity and a pre-detonation hazard-clear query are reused; synthetic Shockwave tests use the approved 5 m pulse radius.
 - **Ordering:** Queued hazard-clear/counter queries resolve before Blast Orb movement/contact/fuse detonation for the simulation step so a successfully cleared orb cannot detonate later in that same step.
@@ -574,3 +574,5 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Deferred:** Playable Shockwave and real cross-item counter acceptance; Slick; AI avoidance for Blast/Slick; general AI item tactics; Prismatic; issue #106; Slice 6.
 - **Evidence gate:** Clean validation must cover directional deployment, threshold boundaries, fuse/pause, area immunity, shared capacity, same-step counter ordering, restart/disposal cleanup, fixture isolation, and all accepted Nitro/Kinetic/Seeker/Apex regressions. Desktop/mobile deployed acceptance remains separate.
 - **Approval:** Manny approved the complete `docs/SLICE-5-BLAST-ORB-SCOPE.md` proposal on 2026-09-07. PRD amendment 2.8 governs the approved product fill-ins.
+
+- **Implementation evidence:** PR #115 merged at `c2ca9887562b8dd0f8f943f28c1016e234103969`; CI/Pages `34144668993` passed. The gameplay uses shared `ItemPhysicsCapacity`, hazard-owned lifecycle/rendering and existing generic area/spinout boundaries. Local full validation passes 33 files / 233 tests; hosted clean-install CI is recorded in the gameplay PR before publication review.

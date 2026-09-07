@@ -653,3 +653,25 @@ Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages s
 - Normal: https://manaconda33.github.io/manacondas-minigame-mayhem/
 
 These links do not provide this gameplay until the gameplay PR is merged and its Pages run passes. Complete the eight Slick deployed checks above on desktop/mobile; include patch visibility on road, dirt, boost pads and the ramp. Automated camera/state checks are not a claim of live visual acceptance. Playable Shockwave, real Prismatic/Hyper-Drive interactions and AI hazard response remain separate gates.
+
+
+## Slice 5 AI Slick/Blast hazard-response acceptance
+
+The approved PRD amendment 2.10 / ADR-071 increment is limited to AI movement response to the already accepted Slick Trap and Timed Blast Orb hazards. Full AI item acquisition/use remains a separate later Slice 5 gate.
+
+Automated evidence must verify route-relative wrapped forward distance, route-distant false-positive rejection, the 20 m lookahead, 2.5 m Slick and 4.5 m Blast planning boundaries, 0.5 s drag-aware Blast prediction capped by fuse, deterministic left/right and boxed-in lane selection, coexistence with nearby-racer avoidance, the 0.6 race-second clear hold, gradual preferred-lane recovery, pause freeze, hazard removal/expiry cleanup, restart/disposal cleanup, fixture isolation, no lap/checkpoint mutation, unchanged Speed-stat/rubber-band/controller authority, existing three-lap AI integration, finite transforms, road/grass bounds, accepted-item regressions, and probability-selector regressions.
+
+Before publication review run clean `npm ci`, `npm run validate`, `git diff --check`, Git LFS verification, and hosted PR CI.
+
+Deployed acceptance must verify:
+
+1. `?testAiHazardAvoidance=slick` produces a visible bounded avoidance attempt before the real Slick when a clear lane exists, without teleport/snapping.
+2. The AI returns gradually after the Slick passes or is removed.
+3. `?testAiHazardAvoidance=blast` produces a visible route/lane response to the accepted Blast Orb before detonation when geometry permits.
+4. Avoidance remains road-bounded without obvious grass-cutting, wrong-way behavior, recovery loops, or collision deadlock.
+5. Other AI racers retain character-Speed-governed race behavior and believable nearby-racer avoidance.
+6. Pause/restart freezes or clears fixture/avoidance state correctly.
+7. Normal unforced gameplay contains no fixture badge or forced hazard behavior.
+8. Accepted Nitro, Kinetic, Seeker, Apex, Blast Orb, and Slick Trap behavior remains unchanged.
+
+Record exact implementation commit, hosted CI, post-merge CI/Pages, live desktop/mobile results, defects, and Manny's acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this increment closes only AI Blast/Slick movement-response evidence actually proven; it does not close full AI item tactics, remaining items/counters, issue #106, final soak/performance, overall Slice 5 acceptance, or Slice 6.

@@ -4,7 +4,16 @@
 
 **Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO, KINETIC, SEEKER, APEX, BLAST ORB, AND SLICK TRAP LIVE ACCEPTED**
 
-PRD baseline: **v1.1, working implementation amendment 2.9**.
+PRD baseline: **v1.1, working implementation amendment 2.10**.
+
+
+## Slice 5 AI Slick/Blast hazard-response governance checkpoint
+
+Manny approved the complete bounded AI hazard-response scope as written on 2026-09-07. PRD amendment 2.10 / ADR-071 governs read-only Slick/Blast awareness, 20 m wrapped route-relative lookahead, the existing five candidate lanes, 2.5 m Slick and 4.5 m Blast planning footprints, 0.5 s drag-aware Blast prediction capped by fuse, hazard-priority lane intent, greatest-minimum-clearance fallback, and a 0.6 race-second clear hold before gradual preferred-lane recovery.
+
+This checkpoint is documentation-only. It does not enable AI item acquisition/use or change accepted hazard behavior, probabilities, racer stats, track/checkpoints, Speed-stat authority, rubber banding, controller tuning, assets, dependencies, or Slice 6. Deterministic deployed review is governed through `?testAiHazardAvoidance=slick` and `?testAiHazardAvoidance=blast` plus a normal unforced URL.
+
+PR #122 is the governance checkpoint. Gameplay implementation remains locked until PR #122 merges to `main` and its post-merge CI/Pages run passes. Gameplay publication/deployment and live acceptance are later separate gates. Full AI item tactics, playable Shockwave/counters, Prismatic/Hyper-Drive interactions, nine remaining item effects, issue #106, final soak/performance closure, overall Slice 5 acceptance, and Slice 6 remain open.
 
 Kinetic live acceptance, 2026-09-06: PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run [34034999554](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34034999554) passed both validation and deployment. Manny explicitly passes the approved **42 m/s** base speed, retained angle-based ricochets, existing spinout, chase/rear perspectives, and normal unforced item selection. **Kinetic Disc is LIVE ACCEPTED.** His [final PR #105 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) supersedes the earlier partial-acceptance and corrective-publication gates. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for the historical diagnosis and final closeout.
 

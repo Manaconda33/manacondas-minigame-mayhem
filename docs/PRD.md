@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.9
+Version 1.1 - Final approved baseline; working implementation amendment 2.10
 
 August 16, 2026
 
@@ -244,6 +244,17 @@ A valid trigger retains **60% of the racer's current planar velocity** without i
 Each owner may have at most **two active Slicks**. A successful third deployment atomically retires that owner's oldest Slick and replaces it with the new placement; a failed new use preserves the held charge and both existing Slicks. The existing queued hazard-clear boundary applies generically to Slick and Blast Orb and resolves before Slick trigger processing in the same simulation step. Synthetic Shockwave evidence uses the existing approximately **5 m** clear radius; playable Shockwave remains deferred.
 
 Targeted acceptance reuses `?testItem=slick-trap` and adds opt-in `?testSlickAhead=1`, which places one fixture-owned Slick approximately 8 m ahead after five race seconds without consuming AI inventory or enabling AI tactics/avoidance. AI avoidance for both Blast Orb and Slick remains deferred until Slick itself is live accepted, at which point the shared hazard-response increment is separately approval-gated. Gameplay implementation, publication/deployment, and live acceptance remain separate gates.
+
+
+## Approved implementation amendment 2.10 - AI hazard response for Slick Trap and Timed Blast Orb
+
+Approved September 7, 2026 after live acceptance of both Timed Blast Orb and Slick Trap. This amendment fills the previously unspecified operating details for the existing Section 21.5 AI obstacle-avoidance requirement without enabling AI item acquisition/use, changing accepted hazard physics, altering item probabilities, changing racer statistics, or beginning Slice 6. `docs/SLICE-5-AI-HAZARD-RESPONSE-SCOPE.md` and ADR-071 are normative for this bounded increment.
+
+AI hazard awareness consumes read-only Slick Trap and Timed Blast Orb snapshots and reasons by wrapped forward route distance on Circuit Alpha. Relevant hazards are considered up to **20 m ahead**. The existing five bounded lane candidates remain authoritative. AI planning treats Slick as conflicted inside a **2.5 m** planning footprint and Blast Orb inside a **4.5 m** planning footprint; these are decision margins only and do not change the governed Slick trigger or Blast radius. Moving Blast Orbs are evaluated at their current position plus a **0.5 s** drag-aware prediction capped by remaining fuse time.
+
+Hazard clearance takes precedence over preferred-lane convenience while existing nearby-racer avoidance remains active where possible. If every candidate lane is conflicted, AI chooses the candidate with greatest minimum clearance rather than receiving guaranteed immunity. After the last relevant hazard clears or moves behind, AI holds the avoidance lane for at least **0.6 race seconds** before normal preferred-lane recovery. All lateral motion continues through existing steering dynamics: no teleport, transform snap, hidden speed boost, speed penalty, emergency brake rule, rubber-band change, or lap/checkpoint mutation is authorized.
+
+Awareness timers advance only with race simulation, so pause freezes the clear-hold. Removed/expired hazards disappear from awareness on the next simulation step; restart, return-to-hub, and disposal clear temporary avoidance state. Deterministic acceptance instrumentation may use `?testAiHazardAvoidance=slick` and `?testAiHazardAvoidance=blast` to place a real accepted hazard approximately 12 m ahead of the first unfinished AI after five race seconds without consuming AI inventory or enabling AI item tactics. Gameplay implementation, publication/deployment, and live acceptance remain separately gated.
 
 ## 1.1 Governance
 

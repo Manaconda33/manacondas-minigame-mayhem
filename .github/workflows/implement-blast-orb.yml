@@ -1,0 +1,704 @@
+name: Implement governed Blast Orb integration
+
+on:
+  push:
+    branches:
+      - feature/slice-5-blast-orb
+    paths:
+      - .github/workflows/implement-blast-orb.yml
+
+permissions:
+  contents: write
+
+jobs:
+  implement-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/slice-5-blast-orb
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply governed integration
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected one anchor, found {count}: {old[:100]!r}")
+              p.write_text(text.replace(old, new, 1))
+
+          # Configuration-driven Blast Orb behavior.
+          path = Path('src/game/items/itemDefinitions.ts')
+          text = path.read_text()
+          hazard_interface = '''export interface ItemHazardConfig {
+            radiusMeters: number;
+            fuseSeconds: number;
+            blastRadiusMeters: number;
+            spinoutSeconds: number;
+            ownerImmunitySeconds: number;
+            directImpactMinClosingSpeedMetersPerSecond: number;
+            spawnOffsetMeters: number;
+            forwardSpeedMetersPerSecond: number;
+            forwardInheritedVelocityFactor: number;
+            backwardInheritedVelocityFactor: number;
+            maxInheritedSpeedMetersPerSecond: number;
+            dragMetersPerSecondSquared: number;
+          }
+
+          '''.replace('          ', '')
+          anchor = 'export const SEEKER_GUIDANCE = {'
+          if text.count(anchor) != 1:
+              raise SystemExit('itemDefinitions SEEKER anchor missing/ambiguous')
+          text = text.replace(anchor, hazard_interface + anchor, 1)
+          blast_config = '''/** PRD amendment 2.8 / ADR-069: approved Timed Blast Orb values. */
+          export const BLAST_ORB_CONFIG = {
+            radiusMeters: 0.45,
+            fuseSeconds: 3,
+            blastRadiusMeters: 4,
+            spinoutSeconds: 1.2,
+            ownerImmunitySeconds: 0.35,
+            directImpactMinClosingSpeedMetersPerSecond: 8,
+            spawnOffsetMeters: 1.75,
+            forwardSpeedMetersPerSecond: 14,
+            forwardInheritedVelocityFactor: 0.35,
+            backwardInheritedVelocityFactor: 0.2,
+            maxInheritedSpeedMetersPerSecond: 12,
+            dragMetersPerSecondSquared: 6,
+          } as const satisfies Readonly<ItemHazardConfig>;
+
+          '''.replace('          ', '')
+          anchor = 'export interface ItemDefinition {'
+          if text.count(anchor) != 1:
+              raise SystemExit('itemDefinitions ItemDefinition anchor missing/ambiguous')
+          text = text.replace(anchor, blast_config + anchor, 1)
+          text = text.replace(
+              '  projectile?: Readonly<ItemProjectileConfig>;\n}',
+              '  projectile?: Readonly<ItemProjectileConfig>;\n  hazard?: Readonly<ItemHazardConfig>;\n}',
+              1,
+          )
+          old_blast = "  'blast-orb': { id: 'blast-orb', displayName: 'Timed Blast Orb', icon: '◉', charges: 1 },"
+          new_blast = """  'blast-orb': {
+            id: 'blast-orb',
+            displayName: 'Timed Blast Orb',
+            icon: '◉',
+            charges: 1,
+            hazard: BLAST_ORB_CONFIG,
+          },""".replace('          ', '')
+          if text.count(old_blast) != 1:
+              raise SystemExit('blast-orb definition anchor missing/ambiguous')
+          path.write_text(text.replace(old_blast, new_blast, 1))
+
+          # Runtime orchestration only; hazard-specific lifecycle remains inside HazardSystem.
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              "import { ProjectileSystem } from './items/ProjectileSystem';",
+              "import { ProjectileSystem } from './items/ProjectileSystem';\nimport { HazardSystem } from './items/HazardSystem';\nimport { ItemPhysicsCapacity } from './items/ItemPhysicsCapacity';\nimport { IncomingBlastOrbFixture } from './items/IncomingBlastOrbFixture';",
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              "  incomingSeekerFromSearch,\n  incomingApexFromSearch,",
+              "  incomingSeekerFromSearch,\n  incomingApexFromSearch,\n  incomingBlastOrbFromSearch,",
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              '  private readonly projectiles = new ProjectileSystem(this.track);',
+              '  private readonly itemPhysicsCapacity = new ItemPhysicsCapacity();\n  private readonly projectiles = new ProjectileSystem(this.track, this.itemPhysicsCapacity);\n  private readonly hazards = new HazardSystem(this.track, this.itemPhysicsCapacity);',
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              '  private readonly incomingApexFixture = new IncomingApexFixture(this.incomingApexTest);\n  private readonly apexWarningAudio = new SeekerWarningAudio(undefined, APEX_WARNING_TONE);',
+              "  private readonly incomingApexFixture = new IncomingApexFixture(this.incomingApexTest);\n  private readonly incomingBlastOrbTest = incomingBlastOrbFromSearch(window.location.search);\n  private readonly incomingBlastOrbFixture = new IncomingBlastOrbFixture(this.incomingBlastOrbTest);\n  private readonly apexWarningAudio = new SeekerWarningAudio(undefined, APEX_WARNING_TONE);",
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              '      this.projectiles.group,\n      this.seekerWarningVisual.group,',
+              '      this.projectiles.group,\n      this.hazards.group,\n      this.seekerWarningVisual.group,',
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              '    this.projectiles.dispose();\n    this.seekerWarningVisual.dispose();',
+              '    this.hazards.dispose();\n    this.projectiles.dispose();\n    this.seekerWarningVisual.dispose();',
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              '''    this.incomingSeekerFixture.update(
+                this.elapsed,
+                this.playerProgress.finished,
+                this.kart.position(),
+                this.track,
+                this.projectiles,
+              );
+              this.updateProjectiles(dt);'''.replace('              ', ''),
+              '''    this.incomingSeekerFixture.update(
+                this.elapsed,
+                this.playerProgress.finished,
+                this.kart.position(),
+                this.track,
+                this.projectiles,
+              );
+              this.incomingBlastOrbFixture.update(
+                this.elapsed,
+                this.playerProgress.finished,
+                this.kart.position(),
+                this.track,
+                this.hazards,
+              );
+              this.updateItemEffects(dt);'''.replace('              ', ''),
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              '  private updateProjectiles(dt: number): void {',
+              '  private updateItemEffects(dt: number): void {',
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              '''    const impacts = [
+                ...this.projectiles.update(dt, targets),
+                ...this.apex.update(dt, racers, targets),
+              ];'''.replace('              ', ''),
+              '''    const impacts = [
+                ...this.projectiles.update(dt, targets),
+                ...this.apex.update(dt, racers, targets),
+                ...this.hazards.update(dt, targets),
+              ];'''.replace('              ', ''),
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              '''        projectileSystem: this.projectiles,
+                apexSystem: this.apex,
+                projectileLaunch: {
+                  position: this.kart.position(),
+                  forward: this.kart.forward(),
+                  velocity: this.kart.velocity(),
+                },'''.replace('              ', ''),
+              '''        projectileSystem: this.projectiles,
+                hazardSystem: this.hazards,
+                apexSystem: this.apex,
+                projectileLaunch: {
+                  position: this.kart.position(),
+                  forward: this.kart.forward(),
+                  velocity: this.kart.velocity(),
+                },
+                hazardLaunch: {
+                  position: this.kart.position(),
+                  forward: this.kart.forward(),
+                  velocity: this.kart.velocity(),
+                },'''.replace('              ', ''),
+          )
+          replace_once(
+              'src/game/KartTimeTrial.ts',
+              "          this.incomingApexTest ? 'APEX ATTACKS LEADER · DRIVE INTO FIRST' : '',",
+              "          this.incomingApexTest ? 'APEX ATTACKS LEADER · DRIVE INTO FIRST' : '',\n          this.incomingBlastOrbTest ? 'INCOMING BLAST ORB TEST' : '',",
+          )
+          PY
+
+          cat > src/game/items/ItemEffectDispatcher.ts <<'EOF'
+          import type { ApexMissileSystem } from './ApexMissileSystem';
+          import type { HazardLaunchContext, HazardSystem } from './HazardSystem';
+          import { nearestRacerAhead } from './ItemTargeting';
+          import type { RacerProgress } from '../race/RaceDirector';
+          import { ITEM_DEFINITIONS } from './itemDefinitions';
+          import { ItemSystem, type ItemUseDirection } from './ItemSystem';
+          import { ProjectileSystem, type ProjectileLaunchContext } from './ProjectileSystem';
+          import { RacerEffects } from './RacerEffects';
+
+          export type ItemUseResolution = 'rejected' | 'unsupported' | 'activated';
+
+          export interface ItemEffectRuntime {
+            readonly apexSystem?: ApexMissileSystem;
+            readonly racers?: readonly RacerProgress[];
+            readonly projectileSystem?: ProjectileSystem;
+            readonly projectileLaunch?: ProjectileLaunchContext;
+            readonly hazardSystem?: HazardSystem;
+            readonly hazardLaunch?: HazardLaunchContext;
+          }
+
+          export function executeItemUse(
+            itemSystem: ItemSystem,
+            racerEffects: RacerEffects,
+            racerId: string,
+            direction: ItemUseDirection,
+            runtime?: ItemEffectRuntime,
+          ): ItemUseResolution {
+            const request = itemSystem.requestUse(racerId, direction);
+            if (request === null) return 'rejected';
+
+            if (request.itemId === 'apex-missile') {
+              if (runtime?.apexSystem === undefined || runtime.projectileLaunch === undefined)
+                return 'unsupported';
+              return runtime.apexSystem.launch(
+                racerId,
+                runtime.projectileLaunch.position,
+                runtime.racers ?? [],
+                () => itemSystem.commitUse(racerId),
+              )
+                ? 'activated'
+                : 'rejected';
+            }
+
+            const definition = ITEM_DEFINITIONS[request.itemId];
+            const hazard = definition.hazard;
+            if (hazard !== undefined) {
+              const hazardSystem = runtime?.hazardSystem;
+              const launch = runtime?.hazardLaunch;
+              if (hazardSystem === undefined || launch === undefined) return 'unsupported';
+              const hazardId = hazardSystem.spawn({
+                itemId: request.itemId,
+                ownerId: racerId,
+                direction: request.direction,
+                config: hazard,
+                launch,
+              });
+              if (hazardId === null) return 'rejected';
+              if (itemSystem.commitUse(racerId)) return 'activated';
+              hazardSystem.remove(hazardId);
+              return 'rejected';
+            }
+
+            const projectile = definition.projectile;
+            if (projectile !== undefined) {
+              const projectileSystem = runtime?.projectileSystem;
+              const launch = runtime?.projectileLaunch;
+              if (projectileSystem === undefined || launch === undefined) return 'unsupported';
+
+              const target =
+                request.itemId === 'seeker-drone'
+                  ? nearestRacerAhead(racerId, runtime?.racers ?? [])
+                  : null;
+              if (request.itemId === 'seeker-drone' && target === null) return 'rejected';
+              const projectileId = projectileSystem.spawn({
+                targetId: target?.id,
+                itemId: request.itemId,
+                ownerId: racerId,
+                direction: request.direction,
+                config: projectile,
+                launch,
+              });
+              if (projectileId === null) return 'rejected';
+              if (itemSystem.commitUse(racerId)) return 'activated';
+
+              projectileSystem.remove(projectileId);
+              return 'rejected';
+            }
+
+            const boost = definition.boost;
+            if (boost === undefined) return 'unsupported';
+
+            const activated = racerEffects.activateTemporaryBoost(racerId, {
+              id: request.itemId,
+              label: definition.displayName,
+              ...boost,
+            });
+            if (!activated) return 'rejected';
+
+            if (itemSystem.commitUse(racerId)) return 'activated';
+
+            racerEffects.clearTemporaryBoost(racerId, request.itemId);
+            return 'rejected';
+          }
+          EOF
+
+          cat > src/game/items/ItemTestMode.ts <<'EOF'
+          import { ITEM_IDS, type ItemId } from './itemDefinitions';
+
+          const ITEM_ID_SET = new Set<string>(ITEM_IDS);
+
+          export function forcedItemFromSearch(search: string): ItemId | null {
+            const value = new URLSearchParams(search).get('testItem');
+            return value !== null && ITEM_ID_SET.has(value) ? (value as ItemId) : null;
+          }
+
+          export function forcedItemForRacer(forcedItem: ItemId | null, racerId: string): ItemId | null {
+            return racerId === 'player' ? forcedItem : null;
+          }
+
+          /** Incoming fixtures are independent of inventory forcing and never implicit. */
+          export function incomingSeekerFromSearch(search: string): boolean {
+            return new URLSearchParams(search).get('testSeekerIncoming') === '1';
+          }
+
+          export function incomingApexFromSearch(search: string): boolean {
+            return new URLSearchParams(search).get('testApexIncoming') === '1';
+          }
+
+          export function incomingBlastOrbFromSearch(search: string): boolean {
+            return new URLSearchParams(search).get('testBlastOrbIncoming') === '1';
+          }
+          EOF
+
+          cat > tests/blast-orb.test.ts <<'EOF'
+          import * as THREE from 'three';
+          import { describe, expect, it } from 'vitest';
+          import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
+          import { GUARDRAIL_OFFSET_METERS } from '../src/game/track/GuardrailSystem';
+          import {
+            HazardSystem,
+            type HazardLaunchContext,
+            type HazardTarget,
+          } from '../src/game/items/HazardSystem';
+          import { IncomingBlastOrbFixture } from '../src/game/items/IncomingBlastOrbFixture';
+          import { ItemPhysicsCapacity } from '../src/game/items/ItemPhysicsCapacity';
+          import { ProjectileSystem } from '../src/game/items/ProjectileSystem';
+          import { ItemSystem, ITEM_ROULETTE_SECONDS } from '../src/game/items/ItemSystem';
+          import { RacerEffects } from '../src/game/items/RacerEffects';
+          import { executeItemUse } from '../src/game/items/ItemEffectDispatcher';
+          import {
+            BLAST_ORB_CONFIG,
+            ITEM_DEFINITIONS,
+          } from '../src/game/items/itemDefinitions';
+          import { incomingBlastOrbFromSearch } from '../src/game/items/ItemTestMode';
+
+          function launchAt(track: CircuitAlpha, speed = 0): HazardLaunchContext {
+            const position = track.samples[0]?.clone() ?? new THREE.Vector3();
+            const forward = track.tangents[0]?.clone() ?? new THREE.Vector3(0, 0, 1);
+            return {
+              position,
+              forward,
+              velocity: forward.clone().multiplyScalar(speed),
+            };
+          }
+
+          function target(
+            id: string,
+            position: THREE.Vector3,
+            velocity = new THREE.Vector3(),
+            options: { finished?: boolean; itemImmune?: boolean } = {},
+          ): HazardTarget {
+            return {
+              id,
+              position: position.clone(),
+              velocity: velocity.clone(),
+              finished: options.finished ?? false,
+              itemImmune: options.itemImmune,
+            };
+          }
+
+          function toward(from: THREE.Vector3, to: THREE.Vector3, speed: number): THREE.Vector3 {
+            return to.clone().sub(from).setY(0).normalize().multiplyScalar(speed);
+          }
+
+          describe('Timed Blast Orb governed configuration', () => {
+            it('locks amendment 2.8 values in configuration', () => {
+              expect(BLAST_ORB_CONFIG).toEqual({
+                radiusMeters: 0.45,
+                fuseSeconds: 3,
+                blastRadiusMeters: 4,
+                spinoutSeconds: 1.2,
+                ownerImmunitySeconds: 0.35,
+                directImpactMinClosingSpeedMetersPerSecond: 8,
+                spawnOffsetMeters: 1.75,
+                forwardSpeedMetersPerSecond: 14,
+                forwardInheritedVelocityFactor: 0.35,
+                backwardInheritedVelocityFactor: 0.2,
+                maxInheritedSpeedMetersPerSecond: 12,
+                dragMetersPerSecondSquared: 6,
+              });
+              expect(ITEM_DEFINITIONS['blast-orb'].hazard).toBe(BLAST_ORB_CONFIG);
+            });
+
+            it('uses the approved forward toss and backward momentum-only drop', () => {
+              const track = new CircuitAlpha();
+              const hazards = new HazardSystem(track);
+              const launch = launchAt(track, 20);
+              const forwardId = hazards.spawn({
+                itemId: 'blast-orb',
+                ownerId: 'player',
+                direction: 'forward',
+                config: BLAST_ORB_CONFIG,
+                launch,
+              });
+              const backwardId = hazards.spawn({
+                itemId: 'blast-orb',
+                ownerId: 'other',
+                direction: 'backward',
+                config: BLAST_ORB_CONFIG,
+                launch,
+              });
+              expect(forwardId).not.toBeNull();
+              expect(backwardId).not.toBeNull();
+              const forward = hazards.snapshots().find(({ id }) => id === forwardId);
+              const backward = hazards.snapshots().find(({ id }) => id === backwardId);
+              expect(forward).toBeDefined();
+              expect(backward).toBeDefined();
+              if (forward === undefined || backward === undefined) return;
+
+              const tangent = launch.forward.clone().setY(0).normalize();
+              expect(forward.position.clone().sub(launch.position).setY(0).dot(tangent)).toBeCloseTo(1.75, 5);
+              expect(backward.position.clone().sub(launch.position).setY(0).dot(tangent)).toBeCloseTo(-1.75, 5);
+              expect(forward.velocity.length()).toBeCloseTo(18.2, 5);
+              expect(backward.velocity.length()).toBeCloseTo(2.4, 5);
+              hazards.dispose();
+            });
+          });
+
+          describe('Timed Blast Orb lifecycle and interactions', () => {
+            it('shares the physics cap with projectiles and preserves the charge on failed spawn', () => {
+              const track = new CircuitAlpha();
+              const capacity = new ItemPhysicsCapacity(1);
+              const projectiles = new ProjectileSystem(track, capacity);
+              const hazards = new HazardSystem(track, capacity);
+              const projectile = ITEM_DEFINITIONS['kinetic-disc'].projectile;
+              expect(projectile).toBeDefined();
+              if (projectile === undefined) return;
+              const launch = launchAt(track);
+              const projectileId = projectiles.spawn({
+                itemId: 'kinetic-disc',
+                ownerId: 'blocker',
+                direction: 'forward',
+                config: projectile,
+                launch,
+              });
+              expect(projectileId).not.toBeNull();
+              expect(capacity.activeCount()).toBe(1);
+
+              const items = new ItemSystem();
+              const effects = new RacerEffects();
+              expect(items.acquire('player', 'blast-orb')).toBe(true);
+              items.advance(ITEM_ROULETTE_SECONDS);
+              expect(
+                executeItemUse(items, effects, 'player', 'forward', {
+                  hazardSystem: hazards,
+                  hazardLaunch: launch,
+                }),
+              ).toBe('rejected');
+              expect(items.heldItem('player')).toEqual({ itemId: 'blast-orb', remainingCharges: 1 });
+
+              if (projectileId !== null) projectiles.remove(projectileId);
+              expect(
+                executeItemUse(items, effects, 'player', 'forward', {
+                  hazardSystem: hazards,
+                  hazardLaunch: launch,
+                }),
+              ).toBe('activated');
+              expect(items.heldItem('player')).toBeNull();
+              expect(hazards.activeCount()).toBe(1);
+              expect(capacity.activeCount()).toBe(1);
+              hazards.dispose();
+              projectiles.dispose();
+              expect(capacity.activeCount()).toBe(0);
+            });
+
+            it('runs an exact three-race-second fuse and does not advance on a zero/pause step', () => {
+              const track = new CircuitAlpha();
+              const hazards = new HazardSystem(track);
+              const id = hazards.spawn({
+                itemId: 'blast-orb',
+                ownerId: 'player',
+                direction: 'backward',
+                config: BLAST_ORB_CONFIG,
+                launch: launchAt(track),
+              });
+              expect(id).not.toBeNull();
+              hazards.update(1.5, []);
+              expect(hazards.snapshots()[0]?.fuseRemainingSeconds).toBeCloseTo(1.5, 6);
+              hazards.update(0, []);
+              expect(hazards.snapshots()[0]?.fuseRemainingSeconds).toBeCloseTo(1.5, 6);
+              hazards.update(1.499, []);
+              expect(hazards.activeCount()).toBe(1);
+              hazards.update(0.001, []);
+              expect(hazards.activeCount()).toBe(0);
+              hazards.dispose();
+            });
+
+            it('applies deterministic 6 m/s² drag without converting the orb into a projectile', () => {
+              const track = new CircuitAlpha();
+              const hazards = new HazardSystem(track);
+              hazards.spawn({
+                itemId: 'blast-orb',
+                ownerId: 'player',
+                direction: 'forward',
+                config: BLAST_ORB_CONFIG,
+                launch: launchAt(track),
+              });
+              expect(hazards.snapshots()[0]?.velocity.length()).toBeCloseTo(14, 6);
+              hazards.update(0.5, []);
+              expect(hazards.snapshots()[0]?.velocity.length()).toBeCloseTo(11, 5);
+              hazards.dispose();
+            });
+
+            it('contains the orb at guardrails without detonating it', () => {
+              const track = new CircuitAlpha();
+              const hazards = new HazardSystem(track);
+              const point = track.samples[0]?.clone() ?? new THREE.Vector3();
+              const tangent = track.tangents[0]?.clone() ?? new THREE.Vector3(0, 0, 1);
+              const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+              const position = point.clone().addScaledVector(right, 8.6);
+              hazards.spawnFixture(
+                'fixture',
+                position,
+                BLAST_ORB_CONFIG,
+                right.clone().multiplyScalar(20),
+              );
+              expect(hazards.update(0.05, [])).toEqual([]);
+              const snapshot = hazards.snapshots()[0];
+              expect(snapshot).toBeDefined();
+              if (snapshot === undefined) return;
+              expect(Math.abs(track.project(snapshot.position).lateralOffset)).toBeLessThanOrEqual(
+                GUARDRAIL_OFFSET_METERS - BLAST_ORB_CONFIG.radiusMeters + 0.02,
+              );
+              expect(hazards.activeCount()).toBe(1);
+              hazards.dispose();
+            });
+
+            it('requires at least 8 m/s planar closing speed for direct-impact detonation', () => {
+              const run = (speed: number) => {
+                const track = new CircuitAlpha();
+                const hazards = new HazardSystem(track);
+                hazards.spawnFixture('fixture', track.samples[0]?.clone() ?? new THREE.Vector3(), BLAST_ORB_CONFIG);
+                const snapshot = hazards.snapshots()[0];
+                expect(snapshot).toBeDefined();
+                if (snapshot === undefined) return { impacts: [], active: 0 };
+                const position = snapshot.position.clone().add(new THREE.Vector3(1, 0, 0));
+                const impacts = hazards.update(1 / 60, [
+                  target('rival', position, toward(position, snapshot.position, speed)),
+                ]);
+                const active = hazards.activeCount();
+                hazards.dispose();
+                return { impacts, active };
+              };
+
+              expect(run(7.999).impacts).toHaveLength(0);
+              expect(run(7.999).active).toBe(1);
+              expect(run(8).impacts.map(({ targetId }) => targetId)).toEqual(['rival']);
+              expect(run(8.001).impacts.map(({ targetId }) => targetId)).toEqual(['rival']);
+            });
+
+            it('lets another racer trigger during owner immunity while excluding the owner from that blast', () => {
+              const track = new CircuitAlpha();
+              const hazards = new HazardSystem(track);
+              hazards.spawn({
+                itemId: 'blast-orb',
+                ownerId: 'owner',
+                direction: 'backward',
+                config: BLAST_ORB_CONFIG,
+                launch: launchAt(track),
+              });
+              const snapshot = hazards.snapshots()[0];
+              expect(snapshot).toBeDefined();
+              if (snapshot === undefined) return;
+              const rivalPosition = snapshot.position.clone().add(new THREE.Vector3(1, 0, 0));
+              const impacts = hazards.update(0.01, [
+                target('owner', snapshot.position),
+                target('rival', rivalPosition, toward(rivalPosition, snapshot.position, 8)),
+              ]);
+              expect(impacts.map(({ targetId }) => targetId)).toEqual(['rival']);
+              expect(hazards.activeCount()).toBe(0);
+              hazards.dispose();
+            });
+
+            it('allows owner self-hit once the 0.35 s immunity expires', () => {
+              const track = new CircuitAlpha();
+              const hazards = new HazardSystem(track);
+              hazards.spawn({
+                itemId: 'blast-orb',
+                ownerId: 'owner',
+                direction: 'backward',
+                config: BLAST_ORB_CONFIG,
+                launch: launchAt(track),
+              });
+              let snapshot = hazards.snapshots()[0];
+              expect(snapshot).toBeDefined();
+              if (snapshot === undefined) return;
+              const ownerPosition = snapshot.position.clone().add(new THREE.Vector3(1, 0, 0));
+              const owner = target('owner', ownerPosition, toward(ownerPosition, snapshot.position, 8));
+              expect(hazards.update(0.34, [owner])).toEqual([]);
+              expect(hazards.activeCount()).toBe(1);
+              snapshot = hazards.snapshots()[0];
+              expect(snapshot?.ownerImmunitySeconds).toBeCloseTo(0.01, 5);
+              const impacts = hazards.update(0.01, [owner]);
+              expect(impacts.map(({ targetId }) => targetId)).toEqual(['owner']);
+              hazards.dispose();
+            });
+
+            it('uses one-shot 4 m horizontal AoE with finished and immunity exclusions', () => {
+              const track = new CircuitAlpha();
+              const hazards = new HazardSystem(track);
+              hazards.spawnFixture('fixture', track.samples[0]?.clone() ?? new THREE.Vector3(), BLAST_ORB_CONFIG);
+              const snapshot = hazards.snapshots()[0];
+              expect(snapshot).toBeDefined();
+              if (snapshot === undefined) return;
+              const center = snapshot.position;
+              const triggerPosition = center.clone().add(new THREE.Vector3(1, 0, 0));
+              const impacts = hazards.update(1 / 60, [
+                target('inside', center.clone().add(new THREE.Vector3(3.999, 0, 0))),
+                target('edge', center.clone().add(new THREE.Vector3(4, 0, 0))),
+                target('outside', center.clone().add(new THREE.Vector3(4.001, 0, 0))),
+                target('immune', center, new THREE.Vector3(), { itemImmune: true }),
+                target('finished', center, new THREE.Vector3(), { finished: true }),
+                target('trigger', triggerPosition, toward(triggerPosition, center, 8)),
+              ]);
+              expect(impacts.map(({ targetId }) => targetId).sort()).toEqual(['edge', 'inside', 'trigger']);
+              expect(impacts.every(({ spinoutSeconds }) => spinoutSeconds === 1.2)).toBe(true);
+              expect(hazards.activeCount()).toBe(0);
+              hazards.dispose();
+            });
+
+            it('resolves a queued 5 m clear before movement/contact/fuse in the same step', () => {
+              const track = new CircuitAlpha();
+              const hazards = new HazardSystem(track);
+              hazards.spawnFixture('fixture', track.samples[0]?.clone() ?? new THREE.Vector3(), BLAST_ORB_CONFIG);
+              const snapshot = hazards.snapshots()[0];
+              expect(snapshot).toBeDefined();
+              if (snapshot === undefined) return;
+              hazards.queueClearWithinRadius(
+                snapshot.position.clone().add(new THREE.Vector3(5, 0, 0)),
+                5,
+              );
+              const impacts = hazards.update(3, [
+                target('victim', snapshot.position, new THREE.Vector3(20, 0, 0)),
+              ]);
+              expect(impacts).toEqual([]);
+              expect(hazards.activeCount()).toBe(0);
+              hazards.dispose();
+            });
+          });
+
+          describe('Blast Orb test fixture isolation', () => {
+            it('requires the explicit incoming query parameter', () => {
+              expect(incomingBlastOrbFromSearch('?testBlastOrbIncoming=1')).toBe(true);
+              expect(incomingBlastOrbFromSearch('?testBlastOrbIncoming=0')).toBe(false);
+              expect(incomingBlastOrbFromSearch('?testItem=blast-orb')).toBe(false);
+            });
+
+            it('spawns one armed real hazard after five race seconds without inventory', () => {
+              const track = new CircuitAlpha();
+              const hazards = new HazardSystem(track);
+              const fixture = new IncomingBlastOrbFixture(true);
+              const playerPosition = track.samples[0]?.clone() ?? new THREE.Vector3();
+              fixture.update(4.99, false, playerPosition, track, hazards);
+              expect(hazards.activeCount()).toBe(0);
+              fixture.update(5, false, playerPosition, track, hazards);
+              expect(hazards.activeCount()).toBe(1);
+              expect(hazards.snapshots()[0]?.ownerImmunitySeconds).toBe(0);
+              fixture.update(10, false, playerPosition, track, hazards);
+              expect(hazards.activeCount()).toBe(1);
+              hazards.dispose();
+            });
+          });
+          EOF
+
+          sed -i 's/^          //' src/game/items/ItemEffectDispatcher.ts src/game/items/ItemTestMode.ts tests/blast-orb.test.ts
+          git diff --check
+      - name: Install from lockfile
+        run: npm ci
+      - name: Validate implementation
+        run: npm run validate
+      - name: Commit validated implementation
+        shell: bash
+        run: |
+          rm .github/workflows/implement-blast-orb.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src tests .github/workflows/implement-blast-orb.yml
+          git diff --cached --check
+          git commit -m "Implement HazardSystem and Timed Blast Orb"
+          git push origin HEAD:feature/slice-5-blast-orb

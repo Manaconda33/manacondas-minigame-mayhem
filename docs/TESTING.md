@@ -609,3 +609,32 @@ After approved deployment, use:
 **Blast gameplay is not deployed yet.** The incoming fixture places one orb 8 m ahead on the legal route after five race seconds. Drive forward for an early-impact review; restart to repeat. It does not consume AI inventory or enable AI tactics. Forced pickup and the incoming fixture are independently opt-in and visibly marked.
 
 After publication, perform the eight desktop/mobile live checks in `docs/SLICE-5-BLAST-ORB-SCOPE.md`: pickup/charge, forward toss versus backward drop, fuse/pause, strong versus light contacts, 4 m blast and heavy spin/chase/rear, owner immunity/later self-hit, incoming/restart, and normal-URL accepted-item regressions. Record the deployed commit, CI/Pages result and Manny's feedback before marking Blast live accepted. Real Shockwave/Prismatic interactions, AI Blast/Slick avoidance, issue #106 and Slice 6 remain deferred.
+
+## Slice 5 Slick Trap checkpoint
+
+Automated evidence for approved PRD amendment 2.9 / ADR-070 must confirm:
+
+- rear-only deployment for both forward and backward ITEM intents, stationary approximately 1.75 m placement, zero inherited velocity, and guardrail inward containment without deletion or trigger;
+- shared 40-object capacity, failed-use charge preservation, two-per-owner cap, successful-third FIFO oldest replacement, and atomic failure preserving both existing Slicks;
+- exactly 12 race seconds of lifetime with pause freeze;
+- 0.35-second owner immunity, immediate rival eligibility, legal later self-trigger, unfinished-racer filtering, and generic immunity suppressing the trigger while leaving the Slick in place;
+- trigger boundaries immediately below/at/above 1.1 m and one-shot removal before effect resolution;
+- exactly 60% planar speed retention without accidental speed gain or extra standard/heavy momentum decay, plus one 360-degree / 0.85-second hostile-spin presentation with control suppression and accepted chase/rear `hit` / `frontHit` behavior;
+- no repeated-overlap effect or stacked yaw rates;
+- queued synthetic 5 m Shockwave clear removing both Slick and Blast Orb before same-step hazard trigger/detonation processing;
+- expiry, explicit removal, counter removal, restart, return-to-hub, and disposal returning hazard/capacity/VFX counts to baseline;
+- `?testItem=slick-trap`, opt-in `?testSlickAhead=1`, visible test-mode indication, fixture restart reset, AI-inventory/tactics isolation, and normal-URL isolation; and
+- accepted Nitro/Kinetic/Seeker/Apex/Blast behavior, probability-selector evidence, controller/camera/sprite, AI-race, and runtime-asset regressions remain passing.
+
+Focused deployed desktop/mobile live gate:
+
+1. Forced Slick pickup resolves correctly and successful use clears the one-slot inventory.
+2. Normal ITEM and Brake/Reverse + ITEM both drop the Slick behind the kart; neither creates a forward throw.
+3. The Slick remains fixed/readable, expires at approximately 12 race seconds, and freezes under pause.
+4. Crossing the approximately 1.1 m trigger applies one readable 360 spin with roughly 60% carried speed and correct chase/rear driver art.
+5. Immediate owner spawn overlap does not self-trigger; returning after 0.35 race seconds can trigger the owner's own Slick.
+6. Two active Slicks coexist for one owner; a third successful placement replaces the oldest and never leaves three active.
+7. `?testSlickAhead=1` presents a real victim-side Slick and restart removes/resets the fixture cleanly.
+8. Normal unforced gameplay and accepted Blast/Nitro/Kinetic/Seeker/Apex behavior remain unchanged.
+
+Record exact commit, hosted CI/Pages run, desktop/mobile results, defects, and Manny's acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint closes only the Slick functional gate proven by the deployed implementation. AI Blast/Slick avoidance, playable Shockwave, real Prismatic/Hyper-Drive interaction acceptance, remaining items, final Slice 5 soak/performance, and Slice 6 remain separate gates.

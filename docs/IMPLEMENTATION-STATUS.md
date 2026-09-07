@@ -2,9 +2,9 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO, KINETIC, SEEKER, APEX, AND BLAST ORB LIVE ACCEPTED**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO, KINETIC, SEEKER, APEX, AND BLAST ORB LIVE ACCEPTED / SLICK SCOPE APPROVED, GOVERNANCE MERGE PENDING**
 
-PRD baseline: **v1.1, working implementation amendment 2.8**.
+PRD baseline: **v1.1, working implementation amendment 2.9**.
 
 Kinetic live acceptance, 2026-09-06: PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run [34034999554](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34034999554) passed both validation and deployment. Manny explicitly passes the approved **42 m/s** base speed, retained angle-based ricochets, existing spinout, chase/rear perspectives, and normal unforced item selection. **Kinetic Disc is LIVE ACCEPTED.** His [final PR #105 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) supersedes the earlier partial-acceptance and corrective-publication gates. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for the historical diagnosis and final closeout.
 
@@ -35,6 +35,14 @@ PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58ba
 Manny approved the complete bounded Blast Orb proposal on 2026-09-07. The governed implementation is recorded in `docs/SLICE-5-BLAST-ORB-SCOPE.md`, PRD amendment 2.8, and ADR-069. The increment establishes the approved `HazardSystem`, shared 40-object projectile/hazard capacity, directional toss/drop behavior, 0.35-second owner immunity, 8 m/s qualifying early-impact threshold, 3.0-second fuse, 4.0 m AoE, 1.20-second heavy spin, generic immunity, and the synthetic 5 m Shockwave-clear boundary.
 
 The governance and gameplay checkpoints are merged and deployed. PR #117 post-merge CI/Pages run `34148220153` passed, and Manny's focused deployed live playtests passed on 2026-09-07. The Timed Blast Orb functional checklist item and reusable HazardSystem foundation evidence supported by this increment may be closed. Playable Shockwave, real counter acceptance, Slick, AI hazard avoidance, issue #106, remaining Slice 5 items, final soak/performance evidence, and Slice 6 remain deferred.
+
+## Slice 5 Slick Trap scope approval
+
+Manny approved the complete bounded Slick Trap scope as written on 2026-09-07. PRD amendment 2.9 and ADR-070 govern rear-only stationary 1.75 m placement, shared 40-object capacity, 0.35 s owner immunity, <=1.1 m trigger, 60% planar speed retention, one 360-degree / 0.85-second presentation, two-per-owner FIFO replacement, 12 race-second pause-safe lifetime, generic immunity semantics, queued hazard-clear ordering, and the `?testSlickAhead=1` fixture.
+
+This governance checkpoint also corrects ADR-069's stale pre-publication status: Timed Blast Orb and the reusable HazardSystem foundation are already live accepted through PR #117 / run `34148220153`, with durable acceptance merged in PR #118 at `a2bd4e3a873bcd6a2b67789ebc06ac2c3ccfec76` and run `34149673641`.
+
+Gameplay implementation remains gated on merge of this governance checkpoint and its post-merge CI/Pages pass. AI Blast/Slick avoidance, playable Shockwave, real Prismatic/Hyper-Drive interactions, remaining Slice 5 items, issue #106, final soak/performance closure, and Slice 6 remain deferred.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 

@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.8
+Version 1.1 - Final approved baseline; working implementation amendment 2.9
 
 August 16, 2026
 
@@ -229,6 +229,21 @@ The reusable hazard counter boundary may remove Blast Orbs within the approved 5
 | Accounts                   | None in v1                                  |
 | Public Deployment          | Approval-gated                              |
 | Scope Changes              | Approval-gated                              |
+
+
+## Approved implementation amendment 2.9 - Slick Trap hazard behavior
+
+Approved September 7, 2026 before Slick Trap gameplay implementation. The existing Slice 5 roster, rank probabilities, one-slot inventory, accepted Nitro/Kinetic/Seeker/Apex/Blast behavior, track/checkpoint authority, racer statistics, and Slice 6 lock remain unchanged. `docs/SLICE-5-SLICK-TRAP-SCOPE.md` and ADR-070 are normative for this bounded increment.
+
+Slick Trap is one charge and extends the accepted `HazardSystem`. It is rear-only: either forward ITEM intent or Brake/Reverse + ITEM places one stationary Slick approximately **1.75 m behind** the kart at track elevation with no inherited planar velocity. Guardrail overlap receives only minimum inward penetration correction. Each active Slick consumes one slot from the accepted shared maximum of 40 active/reserved projectile + hazard objects; capacity failure preserves the held charge.
+
+A Slick lives for **12 race seconds** and freezes under pause. The owner is immune for **0.35 race seconds** while other unfinished racers may trigger immediately. After arming, ordinary later owner self-trigger is legal. An unfinished, non-immune racer triggers at planar center distance **<= 1.1 m** with no closing-speed threshold. The Slick is removed before effect resolution so one placement resolves once. Generic item immunity suppresses the trigger/effect and leaves the Slick in place.
+
+A valid trigger retains **60% of the racer's current planar velocity** without increasing near-stationary speed, applies one **360-degree yaw presentation over 0.85 race seconds**, suppresses player drive controls for that presentation, and reuses the accepted perspective-correct hostile-hit camera/driver-state boundary. Do not add the standard/heavy spinout momentum-decay curve, extra impulse, damage, or stacked yaw rate.
+
+Each owner may have at most **two active Slicks**. A successful third deployment atomically retires that owner's oldest Slick and replaces it with the new placement; a failed new use preserves the held charge and both existing Slicks. The existing queued hazard-clear boundary applies generically to Slick and Blast Orb and resolves before Slick trigger processing in the same simulation step. Synthetic Shockwave evidence uses the existing approximately **5 m** clear radius; playable Shockwave remains deferred.
+
+Targeted acceptance reuses `?testItem=slick-trap` and adds opt-in `?testSlickAhead=1`, which places one fixture-owned Slick approximately 8 m ahead after five race seconds without consuming AI inventory or enabling AI tactics/avoidance. AI avoidance for both Blast Orb and Slick remains deferred until Slick itself is live accepted, at which point the shared hazard-response increment is separately approval-gated. Gameplay implementation, publication/deployment, and live acceptance remain separate gates.
 
 ## 1.1 Governance
 

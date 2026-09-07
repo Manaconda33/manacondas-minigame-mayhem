@@ -181,6 +181,35 @@ For deployed product-owner acceptance after merge:
 
 Record the deployed commit, CI/Pages run, desktop result, mobile result, any layout/readability defect, and Manny's explicit acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint does not authorize item effects or close Slice 5.
 
+## Slice 5 HazardSystem + Timed Blast Orb checkpoint
+
+Automated evidence for the approved PRD amendment 2.8 / ADR-069 increment must confirm:
+
+- one shared maximum of 40 active/reserved projectile + hazard objects, with full-capacity rejection preserving the held charge;
+- forward spawn approximately 1.75 m ahead at 14 m/s plus 0.35x inherited planar owner velocity capped at 12 m/s, and backward spawn approximately 1.75 m behind with 0.20x inherited planar velocity capped at 12 m/s;
+- deterministic 6 m/s² planar drag and guardrail containment without rail-triggered detonation;
+- exactly 3.0 race seconds of fuse time, frozen by pause;
+- 0.35-second owner immunity, with other racers still eligible to trigger a qualifying early detonation and legal later owner self-hit/self-blast;
+- early direct-impact detonation immediately below/at/above the 8 m/s planar relative-closing threshold;
+- one-shot 4.0 m horizontal AoE, finished-racer exclusion, per-racer generic immunity, collateral/owner handling, and 1.20-second heavy spin without repeated overlap damage;
+- queued synthetic 5 m Shockwave-clear queries resolving before Blast Orb movement/contact/fuse detonation in the same simulation step;
+- restart, explicit removal, counter removal, detonation, and disposal returning hazard/item-physics counts and procedural resources to baseline;
+- `?testItem=blast-orb` and opt-in `?testBlastOrbIncoming=1` isolation from normal distribution and AI inventory/tactics; and
+- existing Nitro, Kinetic, Seeker, Apex, controller/camera/sprite, AI-race, probability, and runtime-asset regressions remain passing.
+
+Focused deployed desktop/mobile live gate:
+
+1. Forced Blast Orb pickup resolves correctly and successful ITEM use clears the one-slot inventory.
+2. Forward use produces the approved short-range moving toss; backward modifier produces the slower drop.
+3. Fuse visibly resolves at approximately three race seconds and freezes while paused.
+4. A qualifying direct kart impact detonates early while light brush contact does not.
+5. Blast radius/collateral behavior reads as approximately 4 m and applies the accepted 1.20-second heavy spin/chase/rear presentation.
+6. Owner immunity prevents immediate self-hit while a later armed self-hit remains possible.
+7. Incoming fixture presents a real Blast Orb and cleans up on restart without enabling AI tactics.
+8. Normal unforced URL and accepted Nitro/Kinetic/Seeker/Apex behavior remain unchanged.
+
+Record exact commit, CI/Pages run, desktop/mobile results, defects, and Manny's acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint closes only proven Blast Orb/hazard-foundation gates; it does not approve playable Shockwave, AI hazard avoidance, remaining items, or Slice 5 completion.
+
 ## Slice 4 AI/grid manual matrix
 
 - Desktop/fine-pointer session: touch controls are absent; keyboard controls remain functional.

@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.7
+Version 1.1 - Final approved baseline; working implementation amendment 2.8
 
 August 16, 2026
 
@@ -110,6 +110,16 @@ Manny approved merging PR #107 and implementing `docs/SLICE-5-SEEKER-DRONE-SCOPE
 Approved September 7, 2026. Manny approved merging PR #110 and implementing the complete `docs/SLICE-5-APEX-MISSILE-SCOPE.md` proposal. Preserve section 15.5 / ITEM-007: current unfinished leader at terminal lock, 2.5-second warning, 5.5 m horizontal AoE, 1.20-second heavy spin, one active globally, and at least 18 race seconds between actual successful launches. Approved fill-ins: 0.6 s vertical rise to 24 m above track; 96 m/s bounded sky travel and overhead tracking; 1 m sky arrival; 10 s sky timeout / 15 s total maximum; 1.9 s overhead warning then 0.6 s terminal dive with 60 m/s horizontal tracking. Lock identity at warning start; before lock follow leader changes, after lock cancel on target finish/loss. Owner can become the leader and receive the blast; ordinary unfinished collateral racers also receive the heavy spin once, with no added impulse or multiplier. Dive ignores ordinary racer/rail contacts and blasts at its actual endpoint.
 
 Use atomic launch/charge commit and reserve one shared projectile slot for the full lifecycle. Held inventory does not reserve the active Apex slot; failed activation keeps its charge. Only successful launch starts the global cooldown; removal retains that timestamp; pause freezes it and new race resets it. Generic per-racer immunity blocks blast effects. Shockwave may clear only a diving missile within its 5 m 3D radius, before missile movement/blast in that simulation step. The marked incoming fixture uses normal leader targeting and the same global launch gate. This core increment tests counter boundaries without implementing playable Shockwave/Prismatic; real cross-item and live counter gates remain outstanding. General AI tactics, issue #106, and Slice 6 remain deferred. All other accepted gameplay and probability weights remain unchanged.
+
+## Approved implementation amendment 2.8 - HazardSystem and Timed Blast Orb
+
+Approved September 7, 2026. Manny approved the complete bounded `docs/SLICE-5-BLAST-ORB-SCOPE.md` proposal. Preserve section 15.6 and the approved Slice 5 item-system contract: Timed Blast Orb remains a one-charge forward/backward deployable hazard with an approximately 3.0-second fuse, 4.0 m horizontal blast radius, qualifying early direct-impact detonation, and the approved 1.20-second heavy explosive spinout. Normal rank probabilities remain unchanged.
+
+The approved implementation establishes `HazardSystem` as the owner of Blast Orb state, movement, fuse, collision checks, detonation, rendering, counter removal, and cleanup. Item-physics capacity becomes one shared maximum of 40 active/reserved projectile + hazard objects; Kinetic Disc, Seeker Drone, Apex reservations, and Blast Orb each consume one slot for their active lifecycle, and a full-capacity activation must preserve the held charge. Forward deployment spawns approximately 1.75 m ahead at 14 m/s base planar speed plus 0.35x inherited planar owner velocity capped at 12 m/s. Backward deployment spawns approximately 1.75 m behind with 0.20x inherited planar owner velocity capped at 12 m/s. Both use deterministic 6 m/s² planar drag. Guardrails contain the ground-bound orb and remove outward velocity without detonating it.
+
+Owner immunity lasts 0.35 s. Other racers may trigger a qualifying early detonation during that window, but the owner is excluded from that blast until immunity expires; later armed self-hit/self-blast is legal. Direct racer contact triggers early detonation only at at least 8 m/s planar relative closing speed. Fuse time is race-simulation time and freezes under pause. On each simulation step, queued Shockwave-clear queries resolve before movement/contact and fuse detonation. Blast resolution reuses the generic horizontal area-effect/immunity boundary, applies no extra impulse/damage/speed multiplier, and affects each eligible unfinished racer at most once.
+
+The reusable hazard counter boundary may remove Blast Orbs within the approved 5 m Shockwave radius, but playable Shockwave and real cross-item counter acceptance remain deferred. AI Blast-Orb/Slick avoidance is also deferred until both shared hazard classes exist. The marked incoming Blast Orb fixture is opt-in and must not consume AI inventory or alter normal item distribution. Issue #106, Slick, Prismatic, general AI item tactics, accepted Nitro/Kinetic/Seeker/Apex behavior, racer stats, track/checkpoint authority, character assets, and Slice 6 remain unchanged/deferred.
 
 # Contents
 

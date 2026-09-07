@@ -1,8 +1,8 @@
 # Slice 5 next increment: HazardSystem + Timed Blast Orb
 
-**Status: PROPOSED FOR MANNY REVIEW — NOT YET AUTHORIZED FOR IMPLEMENTATION.**
+**Status: APPROVED FOR IMPLEMENTATION by Manny, 2026-09-07. Governance publication/merge and gameplay implementation remain separate gates.**
 
-Baseline: `main` is `648506be658fb2da7a0e08466812c41d55622117`. PR #114 merged the reproducible 100,000-selection-per-rank / 800,000-total probability evidence checkpoint and post-merge CI/Pages passed. Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, item boxes, roulette/HUD/input, and the seeded distribution gate are already accepted. PRD v1.1 working amendment 2.7 and `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` remain authoritative.
+Baseline: `main` is `648506be658fb2da7a0e08466812c41d55622117`. PR #114 merged the reproducible 100,000-selection-per-rank / 800,000-total probability evidence checkpoint and post-merge CI/Pages passed. Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, item boxes, roulette/HUD/input, and the seeded distribution gate are already accepted. PRD v1.1 working amendment 2.8 / ADR-069 and `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` govern this approved increment.
 
 ## Why this increment is next
 
@@ -22,9 +22,9 @@ Timed Blast Orb is the first approved item owned by the planned `HazardSystem`. 
 - Pause, restart, expiry, removal, and disposal must leave no orphaned hazard/VFX state.
 - Normal probability weights remain unchanged.
 
-## Proposed implementation fill-ins requiring Manny approval
+## Approved implementation fill-ins
 
-| Choice | Proposed initial behavior |
+| Choice | Approved initial behavior |
 | --- | --- |
 | Hazard ownership | Add the approved `HazardSystem` as the owner of Blast Orb state, movement, fuse, collision checks, detonation, rendering, and cleanup. Keep item-specific behavior out of kart physics and `KartTimeTrial` except orchestration. |
 | Shared physics-object capacity | Replace the projectile-only 40-object counter with a shared item-physics capacity of **40 total active/reserved projectile + hazard objects**. Existing Kinetic, Seeker, and Apex continue consuming exactly one slot each. Blast Orb consumes one slot for its full lifecycle. A full-capacity use is rejected without consuming the held charge. |
@@ -38,7 +38,7 @@ Timed Blast Orb is the first approved item owned by the planned `HazardSystem`. 
 | Future Shockwave boundary | Add a generic `HazardSystem` clear-within-radius query that can remove Blast Orbs before their detonation step. Automated synthetic tests use the approved **5 m** Shockwave radius. No playable Shockwave is added here, and real Shockwave interaction remains a later acceptance gate. |
 | Presentation | Original procedural orb with a readable fuse pulse and short blast ring. Slice 5 functional readability only; no final audio/VFX/post-processing work. |
 
-These are initial implementation values, not silent balance changes. Any material adjustment after live evidence returns for Manny approval before publication.
+Manny approved all values and behaviors above on 2026-09-07. PRD amendment 2.8 / ADR-069 record implementation authority. Any material adjustment after live evidence returns for Manny approval before publication.
 
 ## Explicitly deferred from this increment
 
@@ -50,7 +50,7 @@ These are initial implementation values, not silent balance changes. Any materia
 - Issue #106 standings-display fix.
 - Any change to Nitro, Kinetic, Seeker, Apex, rank probabilities, racer stats, track/checkpoint geometry, character assets, or Slice 6.
 
-## Test fixture proposal
+## Approved test fixture
 
 Reuse `?testItem=blast-orb` for deterministic player pickup. Add opt-in `?testBlastOrbIncoming=1` for incoming-effect review: after five race seconds, place one fixture-owned armed Blast Orb on the legal route a short distance ahead of the player with a visible test badge. The fixture does not consume AI inventory, does not enable AI tactics, and is absent from normal gameplay.
 
@@ -75,7 +75,7 @@ Before publication review, automated evidence should cover:
 
 Run clean `npm ci`, `npm run validate`, `git diff --check`, Git LFS verification, and hosted PR CI before merge/deployment approval.
 
-## Proposed live acceptance gate after deployment
+## Approved live acceptance gate after deployment
 
 1. Forced Blast Orb pickup resolves correctly and successful ITEM use clears the one-slot inventory.
 2. Forward use produces the short-range moving toss; backward modifier produces the slower drop.

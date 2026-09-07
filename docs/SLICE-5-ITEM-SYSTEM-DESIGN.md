@@ -212,7 +212,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 ## Fifteen-item functional gate
 
 - [x] Kinetic Disc launches forward/backward, travels at the governed speed, ricochets no more than three times, and expires/cleans up.
-- [ ] Seeker selects the nearest valid racer ahead by race progress, respects arming/turn/lifetime behavior, does not teleport, and warns its target.
+- [x] Seeker selects the nearest valid racer ahead by race progress, respects arming/turn/lifetime behavior, does not teleport, and warns its target.
 - [ ] Apex respects one-active-global and 18-second restrictions, then attacks whoever is currently first at terminal lock.
 - [ ] Blast Orb supports directional deployment, approximately three-second fuse, qualifying early impact detonation, AoE resolution, and cleanup.
 - [ ] Blaze Orbs provide five charges and enforce the 0.55-second minimum cadence.

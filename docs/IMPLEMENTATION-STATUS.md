@@ -2,13 +2,13 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC LIVE ACCEPTED / SEEKER DRONE DEPLOYED / LIVE ACCEPTANCE PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC AND SEEKER DRONE LIVE ACCEPTED / APEX SCOPE PROPOSED**
 
 PRD baseline: **v1.1, working implementation amendment 2.6**.
 
-Latest live acceptance, 2026-09-06: PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run [34034999554](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34034999554) passed both validation and deployment. Manny explicitly passes the approved **42 m/s** base speed, retained angle-based ricochets, existing spinout, chase/rear perspectives, and normal unforced item selection. **Kinetic Disc is LIVE ACCEPTED.** His [final PR #105 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) supersedes the earlier partial-acceptance and corrective-publication gates. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for the historical diagnosis and final closeout.
+Kinetic live acceptance, 2026-09-06: PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run [34034999554](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34034999554) passed both validation and deployment. Manny explicitly passes the approved **42 m/s** base speed, retained angle-based ricochets, existing spinout, chase/rear perspectives, and normal unforced item selection. **Kinetic Disc is LIVE ACCEPTED.** His [final PR #105 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) supersedes the earlier partial-acceptance and corrective-publication gates. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for the historical diagnosis and final closeout.
 
-Manny approved merging documentation PR #107 and implementing **ItemTargeting + Homing Seeker Drone** under `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`. PR #107 merged at `f3932c9e9b21ab8a361a03826c39d9d6b146e2c1`; post-merge CI/Pages run `34068326448` passed. The Seeker implementation is now locally validated on `feature/slice-5-seeker-drone` under amendment 2.6 / ADR-067. Manny subsequently approved publication: PR #108 merged at `ef5dbaeccde123faedd00f625cf18e32c07875de`; CI/Pages run `34086473571` passed validation and deployment. Focused Seeker live acceptance is pending. Issue [#106](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106) remains a future-development standings-display defect and does not block Kinetic acceptance or this continuation.
+Manny approved merging documentation PR #107 and implementing **ItemTargeting + Homing Seeker Drone** under `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`. PR #107 merged at `f3932c9e9b21ab8a361a03826c39d9d6b146e2c1`; post-merge CI/Pages run `34068326448` passed. The Seeker implementation is now locally validated on `feature/slice-5-seeker-drone` under amendment 2.6 / ADR-067. Manny subsequently approved publication: PR #108 merged at `ef5dbaeccde123faedd00f625cf18e32c07875de`; CI/Pages run `34086473571` passed validation and deployment. Manny passed all six Seeker live checks and, after the lap-2 investigation, explicitly chose to continue Slice 5 on 2026-09-07. **Seeker Drone is LIVE ACCEPTED.** Diagnostic PR #109 is closed unmerged; interception/obstacle impact is plausible but the cause of the individual shot remains unconfirmed. Issue [#106](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106) remains a future-development standings-display defect and does not block Kinetic acceptance or this continuation.
 
 Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Slice 5 is active under the approved `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` contract and ADR-061. Slice 6 remains locked.
 
@@ -26,7 +26,7 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Approval gate:** Seeker implementation and publication are complete. Manny now performs the focused Seeker live acceptance below. Later items and Slice 6 remain locked.
+**Approval gate:** Seeker is live accepted. Manny authorized continuing Slice 5. The concrete next increment and proposed Apex fill-ins are prepared in `docs/SLICE-5-APEX-MISSILE-SCOPE.md` for review before gameplay implementation. Slice 6 remains locked.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -307,13 +307,13 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Deferred work
 
-- Remaining Slice 5 work includes the twelve other unimplemented item effects plus Seeker live acceptance, AI item-use policy, interaction/counter validation, soak/performance evidence, deployment, and full-slice live acceptance. Boxes, roulette/HUD/input, Nitro Surge, and Kinetic Disc are already live accepted.
+- Remaining Slice 5 work includes the twelve unimplemented item effects, AI item-use policy, interaction/counter validation, soak/performance evidence, deployment, and full-slice live acceptance. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, and Seeker Drone are already live accepted.
 - Further competitive-balance work remains deferred until explicitly reopened.
 - External PBR texture sets, HDR environment, baked AO assets, and other larger presentation additions remain outside the Dragon Queen checkpoint.
 
 ## Next recommended action
 
-Manny playtests deployed Seeker using the outgoing and incoming links and six focused checks in `docs/TESTING.md`. Record his result before starting the next item. Issue #106 remains deferred.
+Review the documentation closeout and `docs/SLICE-5-APEX-MISSILE-SCOPE.md`. The proposal covers Apex core gameplay plus tested counter boundaries; real Shockwave/Prismatic item interactions remain explicit later gates. After scope approval, record the approved fill-ins in the PRD/decision log and implement the bounded increment. Issue #106 remains deferred.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 
@@ -321,7 +321,7 @@ Do not reopen competitive-balance tuning while establishing the baseline item im
 
 **Slice 5 design: APPROVED 2026-09-05.**
 
-**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, AND KINETIC DISC LIVE ACCEPTED. SEEKER DRONE DEPLOYED; LIVE ACCEPTANCE PENDING.**
+**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, KINETIC DISC, AND SEEKER DRONE LIVE ACCEPTED. APEX CORE SCOPE PROPOSED.**
 
 **Slice 6: LOCKED pending Slice 5 validation, deployment, and Manny live acceptance.**
 
@@ -478,4 +478,17 @@ The known large-chunk warning remains non-blocking (KartTimeTrial about 3.55 MB 
 - Incoming test: https://manaconda33.github.io/manacondas-minigame-mayhem/?testSeekerIncoming=1
 - Normal URL: https://manaconda33.github.io/manacondas-minigame-mayhem/
 
-This follow-up records publication evidence only and does not change runtime code/assets. Its own push CI supplies the documentation checkpoint's validation result. Seeker is **DEPLOYED / AWAITING PRODUCT-OWNER LIVE ACCEPTANCE**, not live accepted. Desktop/mobile visual/audio confirmation remains Manny's next gate. Kinetic remains live accepted; issue #106 remains deferred; later items and Slice 6 remain locked.
+This publication checkpoint changed documentation only. Its CI/Pages run `34086652360` passed at `bea7a5fe4799d64eebde86a1746663dc001ebf4a`, with runtime/assets identical to the gameplay merge. The then-pending acceptance gate is superseded by Manny's final acceptance below. Kinetic remains live accepted and issue #106 remains deferred.
+
+
+## Seeker final live acceptance and Slice 5 continuation — 2026-09-07
+
+Manny reported all six Seeker live checks pass: outgoing acquisition/targeting/pursuit/charge use and forward launch; no-target charge retention; incoming warning escalation, volume and pause; accepted spinout and chase/rear perspectives; warning cleanup/restart; and normal selection with accepted Kinetic/Nitro behavior. He observed one warning disappear without a player hit at the lap gate and clarified lap 2.
+
+Investigation reproduced normal lap continuation and an AI interception near the gate. Manny then stated: “Based on your work, looks like the seeker must have hit another player or obstacle. Let's continue slice 5”. This closes Seeker live acceptance. Interception/obstacle impact is plausible, not a confirmed cause of the individual shot. No new defect or corrective acceptance gate is asserted. Diagnostic [PR #109](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/109) is superseded and closed unmerged; its branch preserves the investigation and optional instrumentation. See `docs/SEEKER-LAP-GATE-REVIEW-2026-09-07.md` for provenance.
+
+**Seeker Drone is LIVE ACCEPTED.** This acceptance applies to deployed PR #108 gameplay, not the unmerged diagnostic runtime. The PR #108 description records the closeout. Issue #106 remains future development and nonblocking.
+
+The next proposed bounded increment is **Apex Orbital Missile core lifecycle, leader targeting, warning, terminal blast, and counter boundaries**, detailed in `docs/SLICE-5-APEX-MISSILE-SCOPE.md`. Its fill-ins are proposals, not approved balance changes. The working PRD remains amendment 2.6. This checkpoint changes documentation only; no diagnostic code, assets, dependencies, workflows, or Apex runtime implementation is included.
+
+Local documentation checkpoint validation on 2026-09-07: `npm run validate`, `git diff --check`, and `git lfs fsck` passed. The unchanged gameplay suite passes **30 files / 181 tests**, **91.32% statement coverage**, strict TypeScript, zero-warning lint, existing AI/soak checks, branding/runtime-asset checks, and production build. The existing large-chunk warning remains nonblocking. Clean-install PR CI and the exact remote checkpoint SHA are recorded in the review PR; no new gameplay deployment or manual acceptance is claimed by this documentation change.

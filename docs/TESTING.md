@@ -506,7 +506,7 @@ After approved corrective deployment, use `?testItem=kinetic-disc`: confirm clea
 
 The focused Kinetic correction gate above **passed on 2026-09-06**: deployed PR #105 / `1497672c639adaf6ca71f2aa775d4e0c23572b33`, CI/Pages run `34034999554`, and Manny's [final acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832). Earlier pending-gate wording describes the test procedure, not the current acceptance state. Issue #106 is future development and does not invalidate this result.
 
-The approved Seeker increment is implemented under amendment 2.6. Its automated evidence and pending live gate follow.
+The approved Seeker increment is implemented under amendment 2.6. Its automated evidence and subsequently accepted live gate follow.
 
 
 ## Seeker Drone checkpoint
@@ -520,7 +520,7 @@ After separately approved gameplay deployment, use:
 - Combined test: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=seeker-drone&testSeekerIncoming=1`
 - Normal selection: `https://manaconda33.github.io/manacondas-minigame-mayhem/`
 
-These URLs now serve the Seeker runtime from PR #108 merge `ef5dbaeccde123faedd00f625cf18e32c07875de`; post-merge CI/Pages run `34086473571` passed. Product-owner live acceptance is pending. The incoming fixture fires after five race seconds and every sixteen seconds thereafter, from 45 m behind the player along the route; an intervening racer or guardrail may intercept it normally. Drive forward to observe the full warning progression; stop on a clear straight to verify impact. Its badge explicitly identifies incoming test mode.
+These URLs now serve the Seeker runtime from PR #108 merge `ef5dbaeccde123faedd00f625cf18e32c07875de`; post-merge CI/Pages run `34086473571` passed. Manny passed the six checks below and accepted continuation on 2026-09-07. The incoming fixture fires after five race seconds and every sixteen seconds thereafter, from 45 m behind the player along the route; an intervening racer or guardrail may intercept it normally. Drive forward to observe the full warning progression; stop on a clear straight to verify impact. Its badge explicitly identifies incoming test mode.
 
 Focused desktop/mobile live gate:
 
@@ -531,4 +531,8 @@ Focused desktop/mobile live gate:
 5. Let an incoming drone hit: confirm the accepted 0.85-second spinout and chase/rear perspective-correct driver art. Confirm warning cleanup after impact/expiry and on return to hub/restart.
 6. Briefly recheck accepted Kinetic/Nitro behavior and the normal unforced selector. Prior acceptance remains valid unless an actual regression is observed.
 
-Record Manny's result before starting the next item. Issue #106 remains a separate future-development defect, not part of this gate.
+Seeker is live accepted. The lap-2 disappearance investigation found plausible interception/obstacle causes without identifying the cause of Manny's specific shot. He chose to continue; diagnostic PR #109 is closed unmerged and no additional retest is required for this acceptance. Preserve these scenarios for regression checks. Issue #106 remains a separate future-development defect.
+
+## Next Apex checkpoint — proposed verification
+
+`docs/SLICE-5-APEX-MISSILE-SCOPE.md` defines the proposed implementation and automated/live evidence matrix. No Apex implementation or acceptance is claimed by this documentation checkpoint. The real Shockwave/Prismatic cross-item gate remains outstanding even if synthetic counter-boundary tests pass.

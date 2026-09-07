@@ -1,8 +1,10 @@
-# Slice 5 proposed next increment: AI hazard response
+# Slice 5 approved next increment: AI hazard response
 
-**Status: PROPOSED FOR PRODUCT-OWNER REVIEW. No gameplay implementation is authorized by this document.**
+**Status: APPROVED FOR GOVERNANCE. Gameplay implementation remains locked until this documentation checkpoint merges to `main` and its post-merge CI/Pages run passes.**
 
 Baseline: `main` at `190a7d1d926287c1c6cd15479a9e46ee2052d759`. Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, Timed Blast Orb, and Slick Trap are live accepted. Slice 5 remains active; Slice 6 remains locked.
+
+**Approval record:** Manny approved this AI hazard-response scope as written on 2026-09-07 and explicitly directed the governance checkpoint to correct the stale README Slick/count status. PRD working amendment 2.10 and ADR-071 govern the approved fill-ins below once this checkpoint merges and its post-merge CI/Pages gate passes.
 
 The PRD already requires AI obstacle avoidance to detect kart bodies, Slick hazards, Blast Orbs, and static track obstacles, temporarily deviate from the ideal spline, and return gradually rather than snapping. Existing `AiDriver` behavior already has bounded lane selection around nearby racer bodies. Blast Orb and Slick Trap were deliberately implemented first and their scopes explicitly deferred hazard avoidance until both hazard types existed. That prerequisite is now satisfied.
 
@@ -99,13 +101,13 @@ Run clean `npm ci`, `npm run validate`, `git diff --check`, Git LFS verification
 
 ## Approval / implementation gate
 
-If Manny approves this scope as written, the governance checkpoint should:
+Manny approved this scope as written on 2026-09-07. This governance checkpoint:
 
-1. record the bounded AI hazard-response behavior as PRD working amendment **2.10** and ADR-071;
-2. add the automated/live verification rules to `docs/TESTING.md`;
-3. update `docs/IMPLEMENTATION-STATUS.md` with the approved next increment;
-4. correct the stale Slick/remaining-item count in `README.md`; and
-5. remain documentation-only.
+1. records the bounded AI hazard-response behavior as PRD working amendment **2.10** and ADR-071;
+2. adds the automated/live verification rules to `docs/TESTING.md`;
+3. updates `docs/IMPLEMENTATION-STATUS.md` with the approved next increment;
+4. corrects the stale Slick/remaining-item count in `README.md`; and
+5. remains documentation-only.
 
 Gameplay implementation should begin only after that governance checkpoint merges to `main` and its post-merge CI/Pages run passes. Gameplay publication/deployment and live acceptance remain later separate gates.
 

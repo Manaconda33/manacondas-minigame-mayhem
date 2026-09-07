@@ -1,6 +1,6 @@
 # Slice 5 approved next increment: Slick Trap
 
-**Status: IMPLEMENTED. PR #119 governance merge and post-merge CI/Pages passed; Manny explicitly authorized gameplay implementation. Publication/deployment and live acceptance remain pending.**
+**Status: LIVE ACCEPTED. PR #120 merged and deployed successfully; Manny completed the deployed Slick Trap playtests and reported all checks passed on 2026-09-07.**
 
 Baseline: `main` at `a2bd4e3a873bcd6a2b67789ebc06ac2c3ccfec76`. Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, and Timed Blast Orb are live accepted. The Timed Blast Orb checkpoint established the reusable `HazardSystem` and shared 40-object item-physics capacity. Slice 5 remains active; Slice 6 remains locked.
 
@@ -111,4 +111,10 @@ The approved governance baseline is `2ce2212e5d89e192b9118ec07c655bacefbdf45a` (
 
 A lightweight surface sampler uses existing track meshes for patch height/normal, including the raised ramp and boost pads; no track geometry or physics changes. The procedural patch sits 0.04 m above its supporting surface to avoid overlap. This is presentation geometry, not a change to the approved 1.1 m planar center trigger.
 
-The eight deployed checks above remain pending. The gameplay PR records automated validation before publication review. Existing accepted items, probabilities, AI scope, issue #106 and Slice 6 gates remain as governed.
+The eight deployed checks above passed after PR #120 publication. Existing accepted items, probabilities, AI scope, issue #106 and Slice 6 gates remain as governed.
+
+## Live acceptance — 2026-09-07
+
+PR #120 was reviewed at head `d6f7f752eaa06f38954ed6fa3adab8a617b3d1b9`; hosted clean-install PR CI run `34153344029` passed. Manny approved the separate publication gate. PR #120 squash-merged to `main` at `bcc5bcc500b08ea42984eed8afa188fa87ba1cf9`; post-merge CI/Pages run `34153760001` passed validation and GitHub Pages deployment.
+
+Manny then completed the deployed eight-check acceptance matrix and reported **all playtests passed**. Product-owner evidence is PR #120 comment `5574748827`. This closes the Slick Trap functional/live-acceptance gate only. AI Blast/Slick avoidance, playable Shockwave and real cross-item counter acceptance, Prismatic/Hyper-Drive interactions, the nine remaining item effects, issue #106, final Slice 5 soak/performance closure, overall Slice 5 acceptance, and Slice 6 remain open.

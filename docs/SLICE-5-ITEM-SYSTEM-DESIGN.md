@@ -225,7 +225,7 @@ PRD amendment 2.9 / ADR-070 and `docs/SLICE-5-SLICK-TRAP-SCOPE.md` govern the ne
 - [ ] Frost Orbs provide three charges and apply the governed non-stacking speed/handling effect.
 - [ ] Arc Blade provides three charges, completes outbound/return movement, and prevents repeated continuous-overlap damage.
 - [ ] Arc Hammers provide five charges, enforce the 0.35-second cadence, bounce once after terrain impact, and expire.
-- [ ] Slick lasts approximately 12 seconds, triggers the approved spin/speed effect, and obeys the two-per-owner active cap.
+- [x] Slick lasts approximately 12 seconds, triggers the approved spin/speed effect, and obeys the two-per-owner active cap.
 - [ ] Shockwave pushes nearby racers and clears every supported projectile/hazard class.
 - [ ] Shockwave can neutralize Apex only during the supported terminal counter state.
 - [ ] Ink produces partial player screen obstruction for approximately 2.5 seconds and separately governed AI path-noise/reaction/precision impairment without making AI navigation impossible.
@@ -235,7 +235,9 @@ PRD amendment 2.9 / ADR-070 and `docs/SLICE-5-SLICK-TRAP-SCOPE.md` govern the ne
 - [ ] Prismatic Invincibility applies approximately six seconds of immunity, +12% speed, hostile-contact spin, warning/expiry transition, and clean restoration.
 
 
-Blast Orb acceptance evidence, 2026-09-07: gameplay PR #117 squash-merged at `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`; post-merge CI/Pages run `34148220153` passed; Manny completed the deployed live playtests and reported all checks pass. Product-owner evidence: PR #117 comment `5574069298`. This closes only the Timed Blast Orb functional gate and reusable HazardSystem foundation evidence proven by that increment; deferred Shockwave/Prismatic interactions, Slick, AI hazard avoidance, remaining items, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.
+Blast Orb acceptance evidence, 2026-09-07: gameplay PR #117 squash-merged at `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`; post-merge CI/Pages run `34148220153` passed; Manny completed the deployed live playtests and reported all checks pass. Product-owner evidence: PR #117 comment `5574069298`. This closes only the Timed Blast Orb functional gate and reusable HazardSystem foundation evidence proven by that increment; deferred Shockwave/Prismatic interactions, AI hazard avoidance, remaining items, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.
+Slick Trap acceptance evidence, 2026-09-07: gameplay PR #120 squash-merged at `bcc5bcc500b08ea42984eed8afa188fa87ba1cf9`; post-merge CI/Pages run `34153760001` passed; Manny completed the deployed eight-check live matrix and reported all playtests passed. Product-owner evidence: PR #120 comment `5574748827`. This closes only the Slick Trap functional gate; AI Blast/Slick avoidance, playable Shockwave/counter acceptance, the nine remaining item effects, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.
+
 ## Race, HUD, input, and AI integrity
 
 - [x] Left Shift and E both use the held item.

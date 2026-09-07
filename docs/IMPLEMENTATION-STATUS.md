@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO, KINETIC, SEEKER, APEX, AND BLAST ORB LIVE ACCEPTED / SLICK SCOPE APPROVED, GOVERNANCE MERGE PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO, KINETIC, SEEKER, APEX, BLAST ORB, AND SLICK TRAP LIVE ACCEPTED**
 
 PRD baseline: **v1.1, working implementation amendment 2.9**.
 
@@ -28,13 +28,13 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Blast Orb live acceptance, 2026-09-07:** PR #117 squash-merged to `main` at `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`; post-merge CI/Pages run `34148220153` passed validation and GitHub Pages deployment. Manny then completed the deployed Timed Blast Orb live playtests and reported that the live playtests pass. **Timed Blast Orb and the reusable HazardSystem foundation are LIVE ACCEPTED.** Product-owner evidence is recorded on PR #117 in comment `5574069298`. Real playable Shockwave/Prismatic interactions, Slick, AI Blast/Slick avoidance, issue #106, remaining Slice 5 items, final soak/performance gates, and Slice 6 remain later/deferred gates.
+**Blast Orb live acceptance, 2026-09-07:** PR #117 squash-merged to `main` at `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`; post-merge CI/Pages run `34148220153` passed validation and GitHub Pages deployment. Manny then completed the deployed Timed Blast Orb live playtests and reported that the live playtests pass. **Timed Blast Orb and the reusable HazardSystem foundation are LIVE ACCEPTED.** Product-owner evidence is recorded on PR #117 in comment `5574069298`. Real playable Shockwave/Prismatic interactions, AI Blast/Slick avoidance, issue #106, remaining Slice 5 items, final soak/performance gates, and Slice 6 remain later/deferred gates.
 
 ## Slice 5 HazardSystem + Timed Blast Orb scope approval
 
 Manny approved the complete bounded Blast Orb proposal on 2026-09-07. The governed implementation is recorded in `docs/SLICE-5-BLAST-ORB-SCOPE.md`, PRD amendment 2.8, and ADR-069. The increment establishes the approved `HazardSystem`, shared 40-object projectile/hazard capacity, directional toss/drop behavior, 0.35-second owner immunity, 8 m/s qualifying early-impact threshold, 3.0-second fuse, 4.0 m AoE, 1.20-second heavy spin, generic immunity, and the synthetic 5 m Shockwave-clear boundary.
 
-The governance and gameplay checkpoints are merged and deployed. PR #117 post-merge CI/Pages run `34148220153` passed, and Manny's focused deployed live playtests passed on 2026-09-07. The Timed Blast Orb functional checklist item and reusable HazardSystem foundation evidence supported by this increment may be closed. Playable Shockwave, real counter acceptance, Slick, AI hazard avoidance, issue #106, remaining Slice 5 items, final soak/performance evidence, and Slice 6 remain deferred.
+The governance and gameplay checkpoints are merged and deployed. PR #117 post-merge CI/Pages run `34148220153` passed, and Manny's focused deployed live playtests passed on 2026-09-07. The Timed Blast Orb functional checklist item and reusable HazardSystem foundation evidence supported by this increment may be closed. Playable Shockwave, real counter acceptance, AI hazard avoidance, issue #106, remaining Slice 5 items, final soak/performance evidence, and Slice 6 remain deferred.
 
 ## Slice 5 Slick Trap implementation checkpoint
 
@@ -44,14 +44,14 @@ Slick impacts use one 0.85-second hostile spin and scale the current planar velo
 
 The original procedural patch and animated ring sample existing road, dirt, raised ramp and boost-pad presentation surfaces once at placement so they remain visible at the current elevation. This changes no track geometry, collider, checkpoint or accepted Blast behavior. The ring uses the supporting surface normal with a 0.04 m anti-overlap offset. `?testSlickAhead=1` places one fixture-owned Slick 8 m ahead after five race seconds, retries capacity failure, displays a badge and resets with a new race.
 
-Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages successfully. Full `npm run validate` passed strict typecheck, zero-warning lint, **34 files / 254 tests**, **92.42% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted clean-install PR CI remains required before publication review. Live acceptance is pending; test URLs serve the prior accepted build until publication is separately approved and deployed.
+Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages successfully. Full `npm run validate` passed strict typecheck, zero-warning lint, **34 files / 254 tests**, **92.42% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted clean-install PR CI run `34153344029` passed at reviewed head `d6f7f752eaa06f38954ed6fa3adab8a617b3d1b9`. Manny approved publication; PR #120 squash-merged at `bcc5bcc500b08ea42984eed8afa188fa87ba1cf9`, and post-merge CI/Pages run `34153760001` passed validation and deployment. Manny then completed the deployed Slick Trap live playtests and reported all checks passed. Product-owner evidence is PR #120 comment `5574748827`. **Slick Trap is LIVE ACCEPTED.**
 
 
 Manny approved the complete bounded Slick Trap scope as written on 2026-09-07. PRD amendment 2.9 and ADR-070 govern rear-only stationary 1.75 m placement, shared 40-object capacity, 0.35 s owner immunity, <=1.1 m trigger, 60% planar speed retention, one 360-degree / 0.85-second presentation, two-per-owner FIFO replacement, 12 race-second pause-safe lifetime, generic immunity semantics, queued hazard-clear ordering, and the `?testSlickAhead=1` fixture.
 
 This governance checkpoint also corrects ADR-069's stale pre-publication status: Timed Blast Orb and the reusable HazardSystem foundation are already live accepted through PR #117 / run `34148220153`, with durable acceptance merged in PR #118 at `a2bd4e3a873bcd6a2b67789ebc06ac2c3ccfec76` and run `34149673641`.
 
-PR #119 merged at `2ce2212e5d89e192b9118ec07c655bacefbdf45a`; post-merge CI/Pages run `34151395918` passed. Manny then explicitly authorized the approved gameplay implementation. Slick gameplay is implemented on `feature/slice-5-slick-trap-implementation`; publication/deployment and product-owner live acceptance remain separate pending gates. AI Blast/Slick avoidance, playable Shockwave, real Prismatic/Hyper-Drive interactions, remaining Slice 5 items, issue #106, final soak/performance closure, and Slice 6 remain deferred.
+PR #119 merged at `2ce2212e5d89e192b9118ec07c655bacefbdf45a`; post-merge CI/Pages run `34151395918` passed. Manny then authorized gameplay implementation and later approved PR #120 publication. PR #120 squash-merged at `bcc5bcc500b08ea42984eed8afa188fa87ba1cf9`; post-merge run `34153760001` passed validation and GitHub Pages deployment. Manny completed the deployed eight-check Slick Trap acceptance and reported all playtests passed on 2026-09-07. **Slick Trap is LIVE ACCEPTED.** AI Blast/Slick avoidance, playable Shockwave, real Prismatic/Hyper-Drive interactions, the nine remaining item effects, issue #106, final soak/performance closure, and Slice 6 remain deferred.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 

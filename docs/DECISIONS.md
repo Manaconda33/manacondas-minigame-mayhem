@@ -582,7 +582,7 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 ## ADR-070: Approve bounded Slick Trap hazard behavior
 
 - **Date:** 2026-09-07
-- **Status:** Implemented; publication/deployment and live acceptance pending
+- **Status:** Live accepted / closed for Slick Trap core; AI hazard response and playable counter interactions deferred
 - **Context:** Timed Blast Orb and the reusable `HazardSystem` foundation are live accepted. Slick Trap is the next bounded Slice 5 item and already has governed rear-drop, lifetime, trigger, spin/speed, owner-cap, and future Shockwave-clear requirements; remaining operational fill-ins required product-owner approval before implementation.
 - **Decision:** Implement the complete approved behavior in `docs/SLICE-5-SLICK-TRAP-SCOPE.md` and PRD amendment 2.9: rear-only stationary 1.75 m drop; shared 40-object capacity; 0.35 s owner immunity; <=1.1 m unfinished/non-immune trigger; one-shot removal; 60% planar speed retention; one 360-degree yaw over 0.85 s with control suppression and accepted camera/driver-state presentation; two active per owner with successful-third FIFO replacement; 12 race-second pause-safe lifetime; generic immunity leaves the Slick in place; generic queued hazard clear resolves before triggers; and deterministic `?testSlickAhead=1` acceptance instrumentation.
 - **Counter boundary:** Synthetic 5 m Shockwave clearing proves the reusable hazard interface only. Playable Shockwave, real Prismatic/Hyper-Drive interactions, and cross-item counter acceptance remain deferred.
@@ -590,5 +590,6 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Preserved scope:** No probability, accepted-item tuning, racer stats, track/checkpoint geometry, character assets, issue #106 handling, or Slice 6 requirement changes.
 - **Evidence gate:** Automated and deployed checks in `docs/TESTING.md` and `docs/SLICE-5-SLICK-TRAP-SCOPE.md` must pass before publication/live acceptance claims.
 - **Approval:** Manny explicitly approved the complete Slick Trap scope as written on 2026-09-07 and directed the ADR-069 live-acceptance status correction in this governance checkpoint.
+- **Publication / live acceptance:** PR #120 reviewed head `d6f7f752eaa06f38954ed6fa3adab8a617b3d1b9` passed hosted PR CI run `34153344029`. Manny approved publication; PR #120 squash-merged at `bcc5bcc500b08ea42984eed8afa188fa87ba1cf9`, and post-merge CI/Pages run `34153760001` passed. Manny completed the deployed Slick Trap acceptance matrix and reported all playtests passed on 2026-09-07; product-owner evidence is PR #120 comment `5574748827`.
 
 - **Implementation checkpoint:** PR #119 governance merge `2ce2212e5d89e192b9118ec07c655bacefbdf45a` and CI/Pages `34151395918` passed. Manny authorized gameplay implementation. The gameplay feature branch extends HazardSystem and the generic hostile-spin boundary with the approved Slick behavior; surface placement derives from existing track meshes. See `docs/TESTING.md` and the gameplay PR for validation. No live acceptance is claimed.

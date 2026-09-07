@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC, SEEKER DRONE, AND APEX CORE LIVE ACCEPTED / SLICE 5 CONTINUES**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC, SEEKER DRONE, AND APEX CORE LIVE ACCEPTED / BLAST ORB VALIDATED, PUBLICATION PENDING**
 
 PRD baseline: **v1.1, working implementation amendment 2.8**.
 
@@ -28,13 +28,13 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Approval gate:** Manny approved **HazardSystem + Timed Blast Orb** on 2026-09-07 under `docs/SLICE-5-BLAST-ORB-SCOPE.md`, PRD amendment 2.8, and ADR-069. Merge of the governance checkpoint remains required before gameplay implementation begins. Gameplay publication/deployment and live acceptance remain separate gates. Real Shockwave/Prismatic interactions, AI Blast/Slick avoidance, issue #106, and Slice 6 remain later/deferred gates.
+**Approval gate:** Manny approved **HazardSystem + Timed Blast Orb** on 2026-09-07 under `docs/SLICE-5-BLAST-ORB-SCOPE.md`, PRD amendment 2.8, and ADR-069. PR #115 merged at `c2ca9887562b8dd0f8f943f28c1016e234103969`; post-merge CI/Pages `34144668993` passed. The approved gameplay is now implemented and locally validated. Gameplay publication/deployment and live acceptance remain separate gates. Real Shockwave/Prismatic interactions, AI Blast/Slick avoidance, issue #106, and Slice 6 remain later/deferred gates.
 
 ## Slice 5 HazardSystem + Timed Blast Orb scope approval
 
 Manny approved the complete bounded Blast Orb proposal on 2026-09-07. The governed implementation is recorded in `docs/SLICE-5-BLAST-ORB-SCOPE.md`, PRD amendment 2.8, and ADR-069. The increment establishes the approved `HazardSystem`, shared 40-object projectile/hazard capacity, directional toss/drop behavior, 0.35-second owner immunity, 8 m/s qualifying early-impact threshold, 3.0-second fuse, 4.0 m AoE, 1.20-second heavy spin, generic immunity, and the synthetic 5 m Shockwave-clear boundary.
 
-This approval does **not** mark Blast Orb implemented or accepted. Governance merge is the next checkpoint. After that, implementation must pass clean local/hosted validation, deployment, and Manny's focused desktop/mobile live gate before the Blast Orb functional checklist item may close. Playable Shockwave, real counter acceptance, Slick, AI hazard avoidance, issue #106, and Slice 6 remain deferred.
+The governance checkpoint is merged. Blast Orb implementation and local validation are complete as recorded below; hosted clean-install CI, gameplay publication, and Manny's focused desktop/mobile live gate remain required before the functional checklist item closes. Playable Shockwave, real counter acceptance, Slick, AI hazard avoidance, issue #106, and Slice 6 remain deferred.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -321,7 +321,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Next recommended action
 
-Prepare the next bounded Slice 5 item/system scope from the PRD and approved item-system design for Manny review before implementation. Preserve the accepted Nitro/Kinetic/Seeker/Apex behavior. Real Shockwave/Prismatic interactions and issue #106 remain deferred unless the next approved scope explicitly includes them.
+Review the HazardSystem + Timed Blast Orb gameplay PR after its clean-install CI passes, then approve merge/deployment and perform the eight focused checks in `docs/SLICE-5-BLAST-ORB-SCOPE.md`. Preserve accepted Nitro/Kinetic/Seeker/Apex behavior; real Shockwave/Prismatic interactions, AI hazard avoidance and issue #106 remain deferred.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 
@@ -522,3 +522,20 @@ Local `npm run validate`, `git diff --check` and `git lfs fsck` passed on 2026-0
 PR #114 adds `tests/item-distribution.test.ts`, which calls the production `selectItem()` / `effectiveItemWeights()` path with fixed Mulberry32 seeds for **100,000 selections per rank / 800,000 total selections**. Ranks 1-5 run at 0 m gap; ranks 6-8 run at the minimum legal 45 m Hyper-Drive gap so the full eligible catch-up table is exercised with the approved 1.18 gap factor. Apex is available and zero-weight items must remain impossible.
 
 Hosted PR CI run **34139123888** on checkpoint `94e90a7a8adfbe107dbd2095cae706596a1be7bc` passed dependency installation, typecheck, lint, the complete test suite including all eight 100,000-selection rank samples, and production build. Every eligible item remained within **0.5 percentage points** of its effective post-restriction/post-gap probability; the worst observed deviation was **0.315 percentage points** (Seeker Drone, rank 5). Full deterministic counts and methodology are recorded in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. This closes only the seeded-distribution and probability-report evidence gates; remaining item, counter, AI-policy, lifecycle/soak/performance, final publication, and Slice 5 acceptance gates remain open.
+
+
+## HazardSystem + Timed Blast Orb implementation checkpoint — 2026-09-07
+
+Implementation base is approved PR #115 merge `c2ca9887562b8dd0f8f943f28c1016e234103969`, tree `786c1b28c1fe521dc83531c87a01955a45f85714`; post-merge CI/Pages run `34144668993` passed. Local reconciliation matched this exact tree, including PR #114's distribution test/report. The gameplay branch is `feature/slice-5-blast-orb-implementation`, governed by amendment 2.8 / ADR-069.
+
+- `ItemPhysicsCapacity` owns one race-wide 40-slot budget. Kinetic/Seeker spawns, Apex reservations and hazards allocate unique slots and release their own objects on removal. Accepted projectile movement, collisions and tuning are unchanged.
+- `HazardSystem` owns ground-bound Blast Orb deployment, exact deterministic drag, owner immunity, fuse, direct closing-speed contact checks, rail containment, one-shot area resolution, procedural orb/fuse pulse, bounded blast-ring presentation and disposal. It reuses generic area immunity and existing 1.20-second spinout/camera/driver presentation.
+- Forward use spawns 1.75 m ahead at 14 m/s plus 0.35 times owner planar velocity after a 12 m/s clamp. Backward use spawns 1.75 m behind with 0.20 times that clamped velocity. Both decelerate by 6 m/s². Contact/presentation sphere radius is a 0.4 m engineering value; racer contact reuses the existing 1.05 m radius.
+- Owner immunity lasts 0.35 s. Rival-triggered early explosions exclude the owner during that window; later self-hit is legal. Direct contact uses at least 8 m/s relative closing speed, excluding separating/tangential brush overlaps. Fuse detonation occurs at 3.0 race seconds, resolving the 4 m horizontal AoE once per eligible racer.
+- Queued generic clear queries run before movement, contacts and fuse detonation. Synthetic 5 m 3D-radius tests verify boundary and same-step priority; playable Shockwave and real counter acceptance remain deferred.
+- Inventory consumption is transactional; full/invalid/rolled-back spawns preserve the held charge. Normal Blast selection filters full capacity without changing rank probabilities.
+- Existing `?testItem=blast-orb` supplies outgoing pickup. Explicit `?testBlastOrbIncoming=1` places one stationary fixture-owned orb 8 m ahead on the legal route after five race seconds, with a visible badge. It is armed against the player as a non-owner immediately, uses ordinary fuse/contact/capacity, retries capacity failure, and never spends AI inventory. Restart creates a fresh one-shot fixture.
+
+Local `npm run validate`, `git diff --check`, and `git lfs fsck` pass: **33 Vitest files / 233 tests**, **92.03% statement coverage**, strict typecheck, zero-warning lint, production build and branding/runtime assets. The retained local dependencies were used; hosted PR CI supplies independent clean `npm ci` evidence before publication review. Focused tests cover the approved thresholds/timers/directions, 40 mixed objects, five actual Circuit Alpha paths, queued clear priority, fixture isolation, and 100 cleanup cycles. Existing Nitro/Kinetic/Seeker/Apex, camera/sprite/controller, AI/numeric-soak and unchanged 800,000-selection probability checks pass.
+
+The existing large-chunk warning remains nonblocking (KartTimeTrial approximately 3.57 MB raw / 1.28 MB gzip). No dependency, workflow, track/racer asset, probability-matrix, general AI policy, issue #106 or Slice 6 changes are included. Gameplay publication and live desktop/mobile acceptance are pending; this checkpoint claims no new live visual evidence.

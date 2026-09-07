@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { ItemPhysicsCapacity, MAX_ITEM_PHYSICS_OBJECTS } from './ItemPhysicsCapacity';
 import { steerSeeker } from './SeekerGuidance';
 import { guardrailContact } from '../track/GuardrailSystem';
 import { CircuitAlpha } from '../track/CircuitAlpha';
@@ -66,7 +67,7 @@ interface ActiveProjectile {
 const RACER_HIT_RADIUS_METERS = 1.05;
 const PROJECTILE_SUBSTEP_METERS = 0.35;
 const MAX_PROJECTILE_SUBSTEPS = 12;
-export const MAX_ACTIVE_PROJECTILES = 40;
+export const MAX_ACTIVE_PROJECTILES = MAX_ITEM_PHYSICS_OBJECTS;
 const LOCAL_TRAVEL_AXIS = new THREE.Vector3(0, 0, 1);
 
 function validConfig(config: Readonly<ItemProjectileConfig>): boolean {
@@ -110,10 +111,12 @@ function squaredHorizontalDistance(a: THREE.Vector3, b: THREE.Vector3): number {
 export class ProjectileSystem {
   public readonly group = new THREE.Group();
   private readonly active = new Map<number, ActiveProjectile>();
-  private nextId = 1;
   private readonly reservations = new Set<number>();
 
-  public constructor(private readonly track: CircuitAlpha) {
+  public constructor(
+    private readonly track: CircuitAlpha,
+    public readonly capacity = new ItemPhysicsCapacity(),
+  ) {
     this.group.name = 'projectile-runtime';
   }
 
@@ -152,6 +155,8 @@ export class ProjectileSystem {
       .addScaledVector(launchDirection, 1.75 + request.config.radiusMeters);
     spawnPosition.y = Math.max(0.55, request.launch.position.y);
 
+    const id = this.capacity.acquire();
+    if (id === null) return null;
     const group = new THREE.Group();
     const spinner = new THREE.Group();
     const core = new THREE.Mesh(
@@ -194,10 +199,10 @@ export class ProjectileSystem {
     }
     group.add(spinner);
     group.position.copy(spawnPosition);
-    group.name = `projectile-${String(this.nextId)}`;
+    group.name = `projectile-${String(id)}`;
 
     const projectile: ActiveProjectile = {
-      id: this.nextId,
+      id,
       targetId: request.itemId === 'seeker-drone' ? (request.targetId ?? null) : null,
       itemId: request.itemId,
       ownerId: request.ownerId,
@@ -213,7 +218,6 @@ export class ProjectileSystem {
     orientProjectile(projectile);
     this.group.add(group);
     this.active.set(projectile.id, projectile);
-    this.nextId += 1;
     return projectile.id;
   }
 
@@ -373,6 +377,7 @@ export class ProjectileSystem {
     const projectile = this.active.get(projectileId);
     if (projectile === undefined) return false;
     this.active.delete(projectileId);
+    this.capacity.release(projectileId);
     this.group.remove(projectile.group);
     projectile.group.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
@@ -389,17 +394,19 @@ export class ProjectileSystem {
   /** Non-colliding item phases reserve capacity before becoming terminal. */
   public reserveSlot(): number | null {
     if (this.activeCount() >= MAX_ACTIVE_PROJECTILES) return null;
-    const id = this.nextId++;
+    const id = this.capacity.acquire();
+    if (id === null) return null;
     this.reservations.add(id);
     return id;
   }
 
   public releaseSlot(id: number): void {
     this.reservations.delete(id);
+    this.capacity.release(id);
   }
 
   public activeCount(): number {
-    return this.active.size + this.reservations.size;
+    return this.capacity.count();
   }
 
   public snapshots(): ProjectileSnapshot[] {
@@ -418,6 +425,7 @@ export class ProjectileSystem {
 
   public dispose(): void {
     for (const projectileId of [...this.active.keys()]) this.remove(projectileId);
+    for (const id of this.reservations) this.capacity.release(id);
     this.reservations.clear();
     this.group.clear();
   }

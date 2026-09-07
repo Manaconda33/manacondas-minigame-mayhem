@@ -19,3 +19,7 @@ export function incomingSeekerFromSearch(search: string): boolean {
 export function incomingApexFromSearch(search: string): boolean {
   return new URLSearchParams(search).get('testApexIncoming') === '1';
 }
+
+export function incomingBlastOrbFromSearch(search: string): boolean {
+  return new URLSearchParams(search).get('testBlastOrbIncoming') === '1';
+}

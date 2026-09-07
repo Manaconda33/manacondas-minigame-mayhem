@@ -592,3 +592,20 @@ Record **core live acceptance separately**. Synthetic immunity/pulse tests do no
 The reproducible distribution gate is implemented in `tests/item-distribution.test.ts`. It runs the production selector **100,000 times for each race rank (800,000 selections total)** using fixed Mulberry32 seeds `0x5A17C001` through `0x5A17C008`. Ranks 1-5 use a 0 m leader gap. Ranks 6-8 use exactly 45 m so Hyper-Drive is eligible and the approved 1.18 gap weighting is active. Apex availability is true. Each eligible item must remain within **0.5 percentage points** of the effective normalized weight and every zero-weight item must remain unselected.
 
 Hosted PR #114 CI run **34139123888** on `94e90a7a8adfbe107dbd2095cae706596a1be7bc` passed the distribution test as part of the complete CI test step. The largest absolute deviation was **0.315 percentage points**. The durable counts/report are in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. Re-run this test unchanged whenever selector logic, the rank matrix, dynamic gap weighting, or runtime eligibility changes; any intentional governed change must update the report and approval record rather than silently changing the seed/tolerance.
+
+
+## HazardSystem + Timed Blast Orb checkpoint
+
+`tests/blast-orb.test.ts` verifies forward/backward inventory use, capped inheritance and deterministic drag, invalid/full-capacity rollback, 40 mixed projectile/Apex/hazard slots, 3.0-second fuse/pause, below/at/above 8 m/s direct closing speed, separating/tangential contact rejection, owner exclusion before 0.35 s and legal later self-hit, once-only 4 m AoE/finished/immunity boundaries, rail containment, five actual Circuit Alpha paths, 5 m 3D clear priority at imminent detonation, explicit incoming isolation/retry/one-shot behavior, and 100 resource-cleanup cycles. The accepted distribution test remains unchanged.
+
+Local full gate passes **33 files / 233 tests**, **92.03% statement coverage**. Hosted clean-install CI and exact checkpoint SHA must pass before gameplay publication review.
+
+After approved deployment, use:
+
+- Outgoing pickup: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=blast-orb`
+- One incoming orb: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testBlastOrbIncoming=1`
+- Normal selection: `https://manaconda33.github.io/manacondas-minigame-mayhem/`
+
+**Blast gameplay is not deployed yet.** The incoming fixture places one orb 8 m ahead on the legal route after five race seconds. Drive forward for an early-impact review; restart to repeat. It does not consume AI inventory or enable AI tactics. Forced pickup and the incoming fixture are independently opt-in and visibly marked.
+
+After publication, perform the eight desktop/mobile live checks in `docs/SLICE-5-BLAST-ORB-SCOPE.md`: pickup/charge, forward toss versus backward drop, fuse/pause, strong versus light contacts, 4 m blast and heavy spin/chase/rear, owner immunity/later self-hit, incoming/restart, and normal-URL accepted-item regressions. Record the deployed commit, CI/Pages result and Manny's feedback before marking Blast live accepted. Real Shockwave/Prismatic interactions, AI Blast/Slick avoidance, issue #106 and Slice 6 remain deferred.

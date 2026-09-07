@@ -64,6 +64,22 @@ export const APEX_CONFIG = {
   counterRadius: 5,
 } as const;
 
+/** PRD amendment 2.8 / ADR-069. Radius is shared contact/presentation geometry. */
+export const BLAST_ORB_CONFIG = {
+  fuseSeconds: 3,
+  blastRadius: 4,
+  spinoutSeconds: 1.2,
+  ownerImmunitySeconds: 0.35,
+  impactClosingSpeed: 8,
+  forwardSpeed: 14,
+  forwardInheritance: 0.35,
+  backwardInheritance: 0.20,
+  inheritedSpeedCap: 12,
+  drag: 6,
+  spawnOffset: 1.75,
+  radius: 0.4,
+} as const;
+
 export interface ItemDefinition {
   id: ItemId;
   displayName: string;

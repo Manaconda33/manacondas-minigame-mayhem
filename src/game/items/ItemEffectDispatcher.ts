@@ -1,3 +1,4 @@
+import type { HazardSystem } from './HazardSystem';
 import type { ApexMissileSystem } from './ApexMissileSystem';
 import { nearestRacerAhead } from './ItemTargeting';
 import type { RacerProgress } from '../race/RaceDirector';
@@ -9,6 +10,7 @@ import { RacerEffects } from './RacerEffects';
 export type ItemUseResolution = 'rejected' | 'unsupported' | 'activated';
 
 export interface ItemEffectRuntime {
+  readonly hazardSystem?: HazardSystem;
   readonly apexSystem?: ApexMissileSystem;
   readonly racers?: readonly RacerProgress[];
   readonly projectileSystem?: ProjectileSystem;
@@ -24,6 +26,19 @@ export function executeItemUse(
 ): ItemUseResolution {
   const request = itemSystem.requestUse(racerId, direction);
   if (request === null) return 'rejected';
+
+  if (request.itemId === 'blast-orb') {
+    if (runtime?.hazardSystem === undefined || runtime.projectileLaunch === undefined)
+      return 'unsupported';
+    return runtime.hazardSystem.spawnBlastOrb(
+      racerId,
+      request.direction,
+      runtime.projectileLaunch,
+      () => itemSystem.commitUse(racerId),
+    ) !== null
+      ? 'activated'
+      : 'rejected';
+  }
 
   if (request.itemId === 'apex-missile') {
     if (runtime?.apexSystem === undefined || runtime.projectileLaunch === undefined)

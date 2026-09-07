@@ -4,6 +4,10 @@ import { guardrailContact } from '../track/GuardrailSystem';
 import { CircuitAlpha } from '../track/CircuitAlpha';
 import { SEEKER_GUIDANCE, type ItemId, type ItemProjectileConfig } from './itemDefinitions';
 import type { ItemUseDirection } from './ItemSystem';
+import {
+  ItemPhysicsCapacity,
+  MAX_ACTIVE_ITEM_PHYSICS_OBJECTS,
+} from './ItemPhysicsCapacity';
 
 export interface ProjectileLaunchContext {
   readonly position: THREE.Vector3;
@@ -51,6 +55,7 @@ export interface ProjectileSnapshot {
 interface ActiveProjectile {
   readonly targetId: string | null;
   readonly id: number;
+  readonly capacityReservationId: number;
   readonly itemId: ItemId;
   readonly ownerId: string;
   readonly config: Readonly<ItemProjectileConfig>;
@@ -66,7 +71,8 @@ interface ActiveProjectile {
 const RACER_HIT_RADIUS_METERS = 1.05;
 const PROJECTILE_SUBSTEP_METERS = 0.35;
 const MAX_PROJECTILE_SUBSTEPS = 12;
-export const MAX_ACTIVE_PROJECTILES = 40;
+/** Backward-compatible name; the governed limit is now shared with hazards. */
+export const MAX_ACTIVE_PROJECTILES = MAX_ACTIVE_ITEM_PHYSICS_OBJECTS;
 const LOCAL_TRAVEL_AXIS = new THREE.Vector3(0, 0, 1);
 
 function validConfig(config: Readonly<ItemProjectileConfig>): boolean {
@@ -113,13 +119,15 @@ export class ProjectileSystem {
   private nextId = 1;
   private readonly reservations = new Set<number>();
 
-  public constructor(private readonly track: CircuitAlpha) {
+  public constructor(
+    private readonly track: CircuitAlpha,
+    private readonly capacity = new ItemPhysicsCapacity(),
+  ) {
     this.group.name = 'projectile-runtime';
   }
 
   public spawn(request: ProjectileSpawnRequest): number | null {
     if (
-      this.activeCount() >= MAX_ACTIVE_PROJECTILES ||
       request.ownerId.trim().length === 0 ||
       (request.itemId === 'seeker-drone' &&
         (!request.targetId?.trim() || request.targetId === request.ownerId)) ||
@@ -142,6 +150,9 @@ export class ProjectileSystem {
     if (inheritedSpeed > request.config.maxInheritedSpeedMetersPerSecond && inheritedSpeed > 0) {
       inherited.multiplyScalar(request.config.maxInheritedSpeedMetersPerSecond / inheritedSpeed);
     }
+
+    const capacityReservationId = this.capacity.reserve();
+    if (capacityReservationId === null) return null;
 
     const velocity = launchDirection
       .clone()
@@ -198,6 +209,7 @@ export class ProjectileSystem {
 
     const projectile: ActiveProjectile = {
       id: this.nextId,
+      capacityReservationId,
       targetId: request.itemId === 'seeker-drone' ? (request.targetId ?? null) : null,
       itemId: request.itemId,
       ownerId: request.ownerId,
@@ -373,33 +385,28 @@ export class ProjectileSystem {
     const projectile = this.active.get(projectileId);
     if (projectile === undefined) return false;
     this.active.delete(projectileId);
+    this.capacity.release(projectile.capacityReservationId);
     this.group.remove(projectile.group);
-    projectile.group.traverse((object) => {
-      if (!(object instanceof THREE.Mesh)) return;
-      const mesh = object as THREE.Mesh;
-      mesh.geometry.dispose();
-      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-      materials.forEach((material) => {
-        material.dispose();
-      });
-    });
+    disposeObject(projectile.group);
     return true;
   }
 
   /** Non-colliding item phases reserve capacity before becoming terminal. */
   public reserveSlot(): number | null {
-    if (this.activeCount() >= MAX_ACTIVE_PROJECTILES) return null;
-    const id = this.nextId++;
-    this.reservations.add(id);
-    return id;
+    const reservationId = this.capacity.reserve();
+    if (reservationId === null) return null;
+    this.reservations.add(reservationId);
+    return reservationId;
   }
 
-  public releaseSlot(id: number): void {
-    this.reservations.delete(id);
+  public releaseSlot(reservationId: number): void {
+    if (!this.reservations.delete(reservationId)) return;
+    this.capacity.release(reservationId);
   }
 
+  /** Shared projectile + hazard count when the systems use the same capacity authority. */
   public activeCount(): number {
-    return this.active.size + this.reservations.size;
+    return this.capacity.activeCount();
   }
 
   public snapshots(): ProjectileSnapshot[] {
@@ -418,7 +425,16 @@ export class ProjectileSystem {
 
   public dispose(): void {
     for (const projectileId of [...this.active.keys()]) this.remove(projectileId);
-    this.reservations.clear();
+    for (const reservationId of [...this.reservations]) this.releaseSlot(reservationId);
     this.group.clear();
   }
+}
+
+function disposeObject(root: THREE.Object3D): void {
+  root.traverse((object) => {
+    if (!(object instanceof THREE.Mesh)) return;
+    object.geometry.dispose();
+    const materials = Array.isArray(object.material) ? object.material : [object.material];
+    materials.forEach((material) => material.dispose());
+  });
 }

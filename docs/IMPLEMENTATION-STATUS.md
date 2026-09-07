@@ -2,13 +2,13 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC LIVE ACCEPTED / SEEKER DRONE VALIDATED LOCALLY — PR REVIEW GATE**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC LIVE ACCEPTED / SEEKER DRONE DEPLOYED / LIVE ACCEPTANCE PENDING**
 
 PRD baseline: **v1.1, working implementation amendment 2.6**.
 
 Latest live acceptance, 2026-09-06: PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run [34034999554](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34034999554) passed both validation and deployment. Manny explicitly passes the approved **42 m/s** base speed, retained angle-based ricochets, existing spinout, chase/rear perspectives, and normal unforced item selection. **Kinetic Disc is LIVE ACCEPTED.** His [final PR #105 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) supersedes the earlier partial-acceptance and corrective-publication gates. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for the historical diagnosis and final closeout.
 
-Manny approved merging documentation PR #107 and implementing **ItemTargeting + Homing Seeker Drone** under `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`. PR #107 merged at `f3932c9e9b21ab8a361a03826c39d9d6b146e2c1`; post-merge CI/Pages run `34068326448` passed. The Seeker implementation is now locally validated on `feature/slice-5-seeker-drone` under amendment 2.6 / ADR-067. Gameplay merge/deployment and live acceptance remain pending. Issue [#106](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106) remains a future-development standings-display defect and does not block Kinetic acceptance or this continuation.
+Manny approved merging documentation PR #107 and implementing **ItemTargeting + Homing Seeker Drone** under `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`. PR #107 merged at `f3932c9e9b21ab8a361a03826c39d9d6b146e2c1`; post-merge CI/Pages run `34068326448` passed. The Seeker implementation is now locally validated on `feature/slice-5-seeker-drone` under amendment 2.6 / ADR-067. Manny subsequently approved publication: PR #108 merged at `ef5dbaeccde123faedd00f625cf18e32c07875de`; CI/Pages run `34086473571` passed validation and deployment. Focused Seeker live acceptance is pending. Issue [#106](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106) remains a future-development standings-display defect and does not block Kinetic acceptance or this continuation.
 
 Slice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**. The already-completed out-of-order Slice 4 AI/grid checkpoint remains retained. Slice 5 is active under the approved `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` contract and ADR-061. Slice 6 remains locked.
 
@@ -26,7 +26,7 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Approval gate:** Seeker scope and implementation are authorized. Review the validated gameplay PR after clean-install CI passes before merging/deploying it. Then perform the focused Seeker live acceptance below. Later items and Slice 6 remain locked.
+**Approval gate:** Seeker implementation and publication are complete. Manny now performs the focused Seeker live acceptance below. Later items and Slice 6 remain locked.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -313,7 +313,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Next recommended action
 
-Review the Seeker gameplay PR and its clean-install CI evidence. After Manny approves gameplay publication, merge/deploy and provide the focused outgoing and incoming-Seeker test links from `docs/TESTING.md`. Issue #106 remains deferred.
+Manny playtests deployed Seeker using the outgoing and incoming links and six focused checks in `docs/TESTING.md`. Record his result before starting the next item. Issue #106 remains deferred.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 
@@ -321,7 +321,7 @@ Do not reopen competitive-balance tuning while establishing the baseline item im
 
 **Slice 5 design: APPROVED 2026-09-05.**
 
-**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, AND KINETIC DISC LIVE ACCEPTED. SEEKER DRONE IMPLEMENTED / VALIDATED LOCALLY; PUBLICATION AND LIVE ACCEPTANCE PENDING.**
+**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, AND KINETIC DISC LIVE ACCEPTED. SEEKER DRONE DEPLOYED; LIVE ACCEPTANCE PENDING.**
 
 **Slice 6: LOCKED pending Slice 5 validation, deployment, and Manny live acceptance.**
 
@@ -464,4 +464,18 @@ Validation on 2026-09-07: `npm run validate`, `git diff --check`, and `git lfs f
 
 New evidence covers full-speed Manaconda/Krios/max-AI-allowance catches from a 30 m straight gap; actual Circuit Alpha pursuit at start fractions 0, 0.2, 0.4, 0.6, and 0.8; exact speed-change/turn bounds; arming/self-interception; target loss; rail destruction; lifetime/disposal; shared capacity and charge retention; warning escalation/overlap/removal; audio volume/pause/unavailable-context cleanup; opt-in incoming fixture isolation; and the offset finish-gate targeting regression. These controlled paths do not guarantee every shot hits on every bend. No live visual/audio or desktop/mobile acceptance is claimed before approved deployment.
 
-The known large-chunk warning remains non-blocking (KartTimeTrial about 3.55 MB minified / 1.28 MB gzip). No runtime assets, dependencies, workflows, racer physics/statistics, Nitro/Kinetic tuning, or issue #106 results code changed. The PR body supplies exact hosted head/run evidence. Gameplay publication and focused live acceptance remain separate gates; no next item or Slice 6 is authorized.
+The known large-chunk warning remains non-blocking (KartTimeTrial about 3.55 MB minified / 1.28 MB gzip). No runtime assets, dependencies, workflows, racer physics/statistics, Nitro/Kinetic tuning, or issue #106 results code changed. The PR body supplies exact hosted head/run evidence. Gameplay publication subsequently passed as recorded below; focused live acceptance remains pending. No next item or Slice 6 is authorized.
+
+
+## Seeker publication evidence — 2026-09-07
+
+- Gameplay PR: [#108](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/108), merged after Manny's explicit approval.
+- Validated PR head: `0271dfc1c5b639703afcf869a1ae773aa2f7fdad`; [PR CI 34069102117](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34069102117) passed clean install (198 packages, zero vulnerabilities), all 181 tests, and production validation.
+- Gameplay merge: `ef5dbaeccde123faedd00f625cf18e32c07875de`.
+- Post-merge [CI/Pages run 34086473571](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34086473571): validation and deployment passed.
+- Runtime source tree before this documentation-only publication record: `8fa52ebf18ab18c6fcd076d045f2821acc76c87b`.
+- Outgoing test: https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=seeker-drone
+- Incoming test: https://manaconda33.github.io/manacondas-minigame-mayhem/?testSeekerIncoming=1
+- Normal URL: https://manaconda33.github.io/manacondas-minigame-mayhem/
+
+This follow-up records publication evidence only and does not change runtime code/assets. Its own push CI supplies the documentation checkpoint's validation result. Seeker is **DEPLOYED / AWAITING PRODUCT-OWNER LIVE ACCEPTANCE**, not live accepted. Desktop/mobile visual/audio confirmation remains Manny's next gate. Kinetic remains live accepted; issue #106 remains deferred; later items and Slice 6 remain locked.

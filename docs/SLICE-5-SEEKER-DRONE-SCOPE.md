@@ -1,6 +1,6 @@
 # Slice 5 next increment: ItemTargeting + Homing Seeker Drone
 
-**Status: APPROVED FOR IMPLEMENTATION — Manny, 2026-09-06. Gameplay publication and live acceptance remain pending.**
+**Status: DEPLOYED / LIVE ACCEPTANCE PENDING. Scope approved by Manny, 2026-09-06; subsequent publication approved and completed, 2026-09-07.**
 
 Baseline: Kinetic Disc is live accepted at PR #105 merge `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run `34034999554` passed. Nitro Surge, boxes, roulette/HUD/input, and earlier accepted racer behavior remain accepted. Manny is ready to continue Slice 5. Manny approved this bounded scope; PRD amendment 2.6 / ADR-067 record its implementation choices. Section 15.4 and the approved Slice 5 design remain authoritative.
 
@@ -66,3 +66,6 @@ Merge/deployment review and product-owner live acceptance remain separate gates.
 ## Implementation evidence
 
 Implemented on `feature/slice-5-seeker-drone` from approved PR #107 merge `f3932c9e9b21ab8a361a03826c39d9d6b146e2c1`. Local validation passes 30 files / 181 tests, including five actual Circuit Alpha pursuit paths, full-speed moving targets, offset finish-gate progress, lifecycle/cap/arming, warning audio, and fixture isolation. See `docs/IMPLEMENTATION-STATUS.md` for evidence and `docs/TESTING.md` for the post-deployment manual gate. No Seeker live acceptance is claimed.
+
+
+Publication: PR #108 merged at `ef5dbaeccde123faedd00f625cf18e32c07875de` after Manny's approval; post-merge CI/Pages run `34086473571` passed. The focused desktop/mobile live gate above is now ready. No next item or Slice 6 is authorized.

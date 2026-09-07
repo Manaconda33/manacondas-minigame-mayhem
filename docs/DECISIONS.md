@@ -546,7 +546,9 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 ## ADR-067: Implement approved Seeker targeting and bounded pursuit
 
 - **Date:** 2026-09-06
-- **Status:** Approved for implementation; gameplay publication/live acceptance pending
+- **Status:** Deployed; product-owner live acceptance pending
 - **Approval:** Manny approved PR #107 merge and the complete Seeker scope before implementation.
 - **Decision:** Implement the fill-ins in `docs/SLICE-5-SEEKER-DRONE-SCOPE.md` and PRD amendment 2.6: nearest-ahead progress targeting, fixed target, forward launch, 42-56 m/s dynamic speed with 20 m/s² limit, 120 degrees/s turning, 0.5 s arming, 12 s lifetime, rail destruction, 0.85 s spinout, and escalating warning cues. Use the existing shared cap and effect/camera boundaries.
 - **Scope:** Seeker plus reusable targeting and opt-in incoming acceptance fixture only. Issue #106, other item effects, general AI tactics, and Slice 6 remain deferred.
+
+- **Publication:** Manny approved PR #108 merge/deployment; merge `ef5dbaeccde123faedd00f625cf18e32c07875de` and CI/Pages run `34086473571` passed. Focused Seeker live acceptance is pending.

@@ -520,7 +520,7 @@ After separately approved gameplay deployment, use:
 - Combined test: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=seeker-drone&testSeekerIncoming=1`
 - Normal selection: `https://manaconda33.github.io/manacondas-minigame-mayhem/`
 
-These URLs describe the pending deployment, not the currently deployed gameplay. The incoming fixture fires after five race seconds and every sixteen seconds thereafter, from 45 m behind the player along the route; an intervening racer or guardrail may intercept it normally. Drive forward to observe the full warning progression; stop on a clear straight to verify impact. Its badge explicitly identifies incoming test mode.
+These URLs now serve the Seeker runtime from PR #108 merge `ef5dbaeccde123faedd00f625cf18e32c07875de`; post-merge CI/Pages run `34086473571` passed. Product-owner live acceptance is pending. The incoming fixture fires after five race seconds and every sixteen seconds thereafter, from 45 m behind the player along the route; an intervening racer or guardrail may intercept it normally. Drive forward to observe the full warning progression; stop on a clear straight to verify impact. Its badge explicitly identifies incoming test mode.
 
 Focused desktop/mobile live gate:
 

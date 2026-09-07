@@ -1,10 +1,12 @@
-# Slice 5 proposed next increment: Slick Trap
+# Slice 5 approved next increment: Slick Trap
 
-**Status: PROPOSED / NOT YET AUTHORIZED FOR IMPLEMENTATION. Prepared for Manny review, 2026-09-07.**
+**Status: APPROVED FOR GOVERNANCE CHECKPOINT. Gameplay implementation remains gated on governance merge and post-merge CI/Pages. Approved by Manny, 2026-09-07.**
 
 Baseline: `main` at `a2bd4e3a873bcd6a2b67789ebc06ac2c3ccfec76`. Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, and Timed Blast Orb are live accepted. The Timed Blast Orb checkpoint established the reusable `HazardSystem` and shared 40-object item-physics capacity. Slice 5 remains active; Slice 6 remains locked.
 
-This proposal does not modify the PRD, gameplay code, item probabilities, balance values already approved for other items, racer statistics, track/checkpoint authority, assets, dependencies, AI tactics, or Slice 6 scope. Implementation requires a separate explicit Manny approval after review of the proposed fill-ins below.
+**Approval record:** Manny explicitly approved this Slick Trap scope as written on 2026-09-07 and directed that the stale ADR-069 Blast Orb status be corrected in the same governance checkpoint. PRD working amendment 2.9 and ADR-070 record the approved Slick fill-ins.
+
+This approved scope does not modify gameplay code, item probabilities, balance values already approved for other items, racer statistics, track/checkpoint authority, assets, dependencies, AI tactics, or Slice 6 scope. The approved fill-ins below become implementation-authoritative only after this governance checkpoint merges and its post-merge CI/Pages gate passes.
 
 ## Existing governed Slick requirements
 
@@ -94,8 +96,8 @@ Run clean `npm ci`, `npm run validate`, `git diff --check`, Git LFS verification
 - Final Slice 5 cleanup/object-count soak and performance closure beyond evidence directly exercised by this increment.
 - Slice 6.
 
-## Approval gate
+## Governance / implementation gate
 
-Manny approval of this proposal would authorize a documentation governance checkpoint that records the Slick behavior as the next PRD working amendment / ADR and its test matrix. Gameplay implementation would begin only after that governance checkpoint is merged and its post-merge CI/Pages gate passes.
+Manny approved the complete scope as written on 2026-09-07. This document, PRD amendment 2.9, ADR-070, `docs/TESTING.md`, and `docs/IMPLEMENTATION-STATUS.md` form the governance checkpoint. Gameplay implementation may begin only after this checkpoint merges to `main` and its post-merge CI/Pages run passes. Publication/deployment of gameplay and live acceptance remain later separate gates.
 
-Any requested change to the proposed 1.75 m drop offset, 0.35 s owner immunity, 0.85 s spin presentation, third-placement FIFO replacement rule, immunity semantics, fixture behavior, or other fill-in should be resolved before implementation authority is recorded.
+Any future change to the approved 1.75 m drop offset, 0.35 s owner immunity, 0.85 s spin presentation, 60% speed retention, third-placement FIFO replacement rule, immunity semantics, fixture behavior, or other governed fill-in requires the normal approval process before implementation tuning.

@@ -8,7 +8,7 @@
 
 **Implementation authorization:** Documentation and approved Slice 5 implementation are authorized after this design checkpoint is merged. This document does not itself mark any Slice 5 gameplay requirement complete.
 
-**Governing PRD:** v1.1, working implementation amendment 2.8.
+**Governing PRD:** v1.1, working implementation amendment 2.9.
 
 The existing PRD Sections 15-17, ITEM-001 through ITEM-008, AI-004, Slice 5 roadmap requirements, probability matrix, item state machines, and existing item values remain authoritative except where amendment 2.2 explicitly resolves previously unspecified implementation behavior.
 
@@ -193,6 +193,10 @@ Additional PRD restrictions remain:
 ## Original presentation contract for Slice 5
 
 Slice 5 may use procedural/simple original 3D item models, icons, VFX, and placeholder audio sufficient for gameplay readability and product-owner acceptance. It may not reuse protected franchise presentation. Final audio mix, final VFX/post-processing, and broader production polish remain Slice 6 work.
+
+## Slick Trap scope approval - approved 2026-09-07
+
+PRD amendment 2.9 / ADR-070 and `docs/SLICE-5-SLICK-TRAP-SCOPE.md` govern the next bounded Slick Trap item increment. The approved fill-ins are rear-only stationary 1.75 m placement, 0.35 s owner immunity, <=1.1 m trigger, 60% planar speed retention, one 360-degree / 0.85-second spin presentation, two active per owner with successful-third FIFO replacement, 12 race-second pause-safe lifetime, shared item-physics capacity, generic immunity that leaves the hazard in place, and generic queued hazard-clear ordering. `?testSlickAhead=1` is approved acceptance instrumentation. AI Blast/Slick avoidance remains a later shared increment after Slick live acceptance. The Slick functional checklist item remains unchecked until implementation, hosted validation, deployment, and Manny live acceptance prove it.
 
 # Slice 5 exit checklist
 

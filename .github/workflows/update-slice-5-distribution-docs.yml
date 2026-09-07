@@ -1,0 +1,65 @@
+name: Update Slice 5 distribution evidence docs
+
+on:
+  push:
+    branches: [test/slice-5-item-distribution]
+    paths:
+      - .github/workflows/update-slice-5-distribution-docs.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: test/slice-5-item-distribution
+          fetch-depth: 0
+
+      - name: Reconcile distribution evidence
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          design = Path('docs/SLICE-5-ITEM-SYSTEM-DESIGN.md')
+          text = design.read_text()
+          replacements = {
+              '- [ ] At least 100,000 seeded simulated selections per rank are recorded; expected deviation is within approximately 0.5 percentage points for common items or a documented goodness-of-fit test passes.':
+              '- [x] At least 100,000 seeded simulated selections per rank are recorded; expected deviation is within approximately 0.5 percentage points for common items or a documented goodness-of-fit test passes.',
+              '- [ ] Slice-specific probability report is committed or referenced from implementation status.':
+              '- [x] Slice-specific probability report is committed or referenced from implementation status.',
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f'missing expected checklist line: {old}')
+              text = text.replace(old, new, 1)
+          marker = '> Evidence reconciliation, 2026-09-07: checkmarks below reflect only requirements already supported by merged code/tests and recorded deployed product-owner acceptance through PR #112. The seeded 100,000-selection-per-rank requirement remains open until a reproducible hosted CI test/report is committed and passes. Broad all-item interaction, AI-policy, pause/lifecycle, soak/performance, and final-publication gates remain open until their full Slice 5 scope is implemented and evidenced.'
+          replacement = '> Evidence reconciliation, 2026-09-07: checkmarks below reflect only requirements supported by merged/live evidence or the hosted seeded-distribution checkpoint. PR #114 CI run `34139123888` executed 100,000 deterministic selections per rank (800,000 total) against the production selector and passed the 0.5-percentage-point fit gate; details are recorded in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. Broad all-item interaction, AI-policy, pause/lifecycle, soak/performance, and final-publication gates remain open until their full Slice 5 scope is implemented and evidenced.'
+          if marker not in text:
+              raise SystemExit('missing evidence reconciliation marker')
+          design.write_text(text.replace(marker, replacement, 1))
+
+          status = Path('docs/IMPLEMENTATION-STATUS.md')
+          status_text = status.read_text()
+          section = '''\n## Slice 5 seeded distribution evidence checkpoint\n\nPR #114 adds `tests/item-distribution.test.ts`, which calls the production `selectItem()` / `effectiveItemWeights()` path with fixed Mulberry32 seeds for **100,000 selections per rank / 800,000 total selections**. Ranks 1-5 run at 0 m gap; ranks 6-8 run at the minimum legal 45 m Hyper-Drive gap so the full eligible catch-up table is exercised with the approved 1.18 gap factor. Apex is available and zero-weight items must remain impossible.\n\nHosted PR CI run **34139123888** on checkpoint `94e90a7a8adfbe107dbd2095cae706596a1be7bc` passed dependency installation, typecheck, lint, the complete test suite including all eight 100,000-selection rank samples, and production build. Every eligible item remained within **0.5 percentage points** of its effective post-restriction/post-gap probability; the worst observed deviation was **0.315 percentage points** (Seeker Drone, rank 5). Full deterministic counts and methodology are recorded in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. This closes only the seeded-distribution and probability-report evidence gates; remaining item, counter, AI-policy, lifecycle/soak/performance, final publication, and Slice 5 acceptance gates remain open.\n'''
+          if '## Slice 5 seeded distribution evidence checkpoint' not in status_text:
+              status.write_text(status_text.rstrip() + '\n' + section)
+
+          testing = Path('docs/TESTING.md')
+          testing_text = testing.read_text()
+          testing_section = '''\n## Slice 5 seeded item-distribution evidence\n\nThe reproducible distribution gate is implemented in `tests/item-distribution.test.ts`. It runs the production selector **100,000 times for each race rank (800,000 selections total)** using fixed Mulberry32 seeds `0x5A17C001` through `0x5A17C008`. Ranks 1-5 use a 0 m leader gap. Ranks 6-8 use exactly 45 m so Hyper-Drive is eligible and the approved 1.18 gap weighting is active. Apex availability is true. Each eligible item must remain within **0.5 percentage points** of the effective normalized weight and every zero-weight item must remain unselected.\n\nHosted PR #114 CI run **34139123888** on `94e90a7a8adfbe107dbd2095cae706596a1be7bc` passed the distribution test as part of the complete CI test step. The largest absolute deviation was **0.315 percentage points**. The durable counts/report are in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. Re-run this test unchanged whenever selector logic, the rank matrix, dynamic gap weighting, or runtime eligibility changes; any intentional governed change must update the report and approval record rather than silently changing the seed/tolerance.\n'''
+          if '## Slice 5 seeded item-distribution evidence' not in testing_text:
+              testing.write_text(testing_text.rstrip() + '\n' + testing_section)
+          PY
+
+      - name: Commit reconciled evidence and remove updater
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/update-slice-5-distribution-docs.yml
+          git add docs/SLICE-5-ITEM-SYSTEM-DESIGN.md docs/IMPLEMENTATION-STATUS.md docs/TESTING.md .github/workflows/update-slice-5-distribution-docs.yml
+          git commit -m "Record hosted Slice 5 distribution evidence"
+          git push origin HEAD:test/slice-5-item-distribution

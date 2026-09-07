@@ -93,4 +93,4 @@ Passing this increment closes only the Timed Blast Orb functional gate and the r
 
 ## Implementation evidence
 
-The approved increment is implemented on `feature/slice-5-blast-orb`. Local full validation passes 33 files / 233 tests, with 92.03% statement coverage. See `docs/IMPLEMENTATION-STATUS.md` and the gameplay PR for source/CI evidence. The incoming fixture uses a single placement 8 m ahead after five race seconds; restart resets it. The 0.4 m orb contact/presentation radius is an engineering geometry value. Gameplay deployment, live acceptance, and real future Shockwave interaction acceptance are not claimed.
+The approved increment is implemented on `feature/slice-5-blast-orb-implementation`. Local full validation passes 33 files / 233 tests, with 92.03% statement coverage. See `docs/IMPLEMENTATION-STATUS.md` and the gameplay PR for source/CI evidence. The incoming fixture uses a single placement 8 m ahead after five race seconds; restart resets it. The 0.4 m orb contact/presentation radius is an engineering geometry value. Gameplay deployment, live acceptance, and real future Shockwave interaction acceptance are not claimed.

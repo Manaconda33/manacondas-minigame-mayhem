@@ -526,7 +526,7 @@ Hosted PR CI run **34139123888** on checkpoint `94e90a7a8adfbe107dbd2095cae70659
 
 ## HazardSystem + Timed Blast Orb implementation checkpoint — 2026-09-07
 
-Implementation base is approved PR #115 merge `c2ca9887562b8dd0f8f943f28c1016e234103969`, tree `786c1b28c1fe521dc83531c87a01955a45f85714`; post-merge CI/Pages run `34144668993` passed. Local reconciliation matched this exact tree, including PR #114's distribution test/report. The gameplay branch is `feature/slice-5-blast-orb`, governed by amendment 2.8 / ADR-069.
+Implementation base is approved PR #115 merge `c2ca9887562b8dd0f8f943f28c1016e234103969`, tree `786c1b28c1fe521dc83531c87a01955a45f85714`; post-merge CI/Pages run `34144668993` passed. Local reconciliation matched this exact tree, including PR #114's distribution test/report. The gameplay branch is `feature/slice-5-blast-orb-implementation`, governed by amendment 2.8 / ADR-069.
 
 - `ItemPhysicsCapacity` owns one race-wide 40-slot budget. Kinetic/Seeker spawns, Apex reservations and hazards allocate unique slots and release their own objects on removal. Accepted projectile movement, collisions and tuning are unchanged.
 - `HazardSystem` owns ground-bound Blast Orb deployment, exact deterministic drag, owner immunity, fuse, direct closing-speed contact checks, rail containment, one-shot area resolution, procedural orb/fuse pulse, bounded blast-ring presentation and disposal. It reuses generic area immunity and existing 1.20-second spinout/camera/driver presentation.

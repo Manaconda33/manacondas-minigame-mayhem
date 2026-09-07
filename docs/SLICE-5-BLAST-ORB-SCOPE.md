@@ -2,6 +2,8 @@
 
 **Status: APPROVED FOR IMPLEMENTATION by Manny, 2026-09-07. Governance publication/merge and gameplay implementation remain separate gates.**
 
+**Approval record:** Manny approved the complete scope on 2026-09-07; PR #115 is the governance publication checkpoint.
+
 Baseline: `main` is `648506be658fb2da7a0e08466812c41d55622117`. PR #114 merged the reproducible 100,000-selection-per-rank / 800,000-total probability evidence checkpoint and post-merge CI/Pages passed. Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, item boxes, roulette/HUD/input, and the seeded distribution gate are already accepted. PRD v1.1 working amendment 2.8 / ADR-069 and `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` govern this approved increment.
 
 ## Why this increment is next

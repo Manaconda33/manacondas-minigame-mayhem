@@ -543,7 +543,7 @@ After separately approved gameplay publication, provide these URLs with the exac
 - Incoming leader attack: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testApexIncoming=1`
 - Normal selection: `https://manaconda33.github.io/manacondas-minigame-mayhem/`
 
-**These links do not yet serve Apex.** This checkpoint awaits gameplay publication review. The incoming fixture starts after five race seconds and obeys the actual shared 18-second launch gate. It targets the current leader, not automatically the player: drive into first to receive warning/dive/impact. A marked test badge identifies it. Forced pickup does not bypass launch prerequisites.
+**These links serve the live-accepted Apex core from PR #111 merge `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`; post-merge CI/Pages run `34128841767` passed validation and deployment.** The incoming fixture starts after five race seconds and obeys the actual shared 18-second launch gate. It targets the current leader, not automatically the player: drive into first to receive warning/dive/impact. A marked test badge identifies it. Forced pickup does not bypass launch prerequisites.
 
 Core desktop/mobile acceptance:
 
@@ -553,5 +553,7 @@ Core desktop/mobile acceptance:
 4. Verify 5.5 m blast/collateral feel and 1.20 s heavy spin using accepted chase/rear camera and hit/front-hit art.
 5. Attempt held Apex while another is active or cooldown remains: charge stays held with feedback, then fires when eligible; restart resets the gate.
 6. Recheck normal unforced selection, accepted Seeker/Kinetic/Nitro, ordinary lap progression and restart/return-to-hub cleanup.
+
+**Apex core live acceptance passed on 2026-09-07.** Manny passed all outgoing checks, all incoming checks, and the normal governed-game regression against deployed PR #111 / `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`. Product-owner evidence is recorded on PR #111.
 
 Record **core live acceptance separately**. Synthetic immunity/pulse tests do not close real Shockwave/Prismatic cross-item or live counter acceptance. General AI tactics, final Slice 5 soak/performance gates, and Slice 6 remain outstanding. Issue #106 remains deferred and nonblocking.

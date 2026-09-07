@@ -1,6 +1,6 @@
 # Slice 5 next increment: Apex Orbital Missile core
 
-**Status: PROPOSED for Manny's scope approval; no Apex implementation authorized by this document.**
+**Status: APPROVED FOR IMPLEMENTATION by Manny, 2026-09-07. PR #110 merged at `1b3391cfd9731291980552fa6ad3c0d9e635ff6b`. Gameplay publication and core live acceptance remain separate gates.**
 
 Baseline: Seeker Drone is live accepted on 2026-09-07, following Nitro Surge and Kinetic Disc. PR #108 gameplay merge `ef5dbaeccde123faedd00f625cf18e32c07875de` passed CI/Pages `34086473571`; main documentation checkpoint `bea7a5fe4799d64eebde86a1746663dc001ebf4a` passed CI/Pages `34086652360`. Diagnostic PR #109 is closed unmerged. PRD v1.1 amendment 2.6, section 15.5, ITEM-007, and the approved Slice 5 design remain authoritative.
 
@@ -19,11 +19,11 @@ This is a bounded core checkpoint. Shockwave and Prismatic are not yet implement
 - Prismatic immunity prevents blast damage. A precisely timed Shockwave can neutralize Apex during its terminal state.
 - Preserve rank weights `0, 0, 0, 1, 3, 8, 11, 13`, existing gap weighting, one-slot inventory, pause-safe simulation, and the 40-projectile limit.
 
-## Proposed implementation fill-ins
+## Approved implementation fill-ins
 
-These choices become implementation authority only after Manny approves this scope. Record them in a new PRD amendment and ADR before runtime implementation; material changes return for review.
+Manny approved all choices below. PRD amendment 2.7 / ADR-068 record the implementation authority; material changes return for review.
 
-| Choice | Proposed initial behavior |
+| Choice | Approved initial behavior |
 | --- | --- |
 | Leader lookup | Select the unfinished racer with greatest normalized validated lap + progress; use stable racer ID for exact ties. Reuse the Seeker offset-finish normalization without writing race progress. Include the owner: a racer who becomes leader while holding/firing Apex can be targeted. Reject activation if no unfinished rival exists. |
 | Launch | Ignore reverse input. Rise vertically from the owner's launch position to **24 m above local track height over 0.6 s**. No racer/rail collision during rise or sky travel. |
@@ -64,3 +64,8 @@ After approved deployment, Manny's core live gate covers:
 6. Normal unforced URL and regression checks for Nitro, Kinetic, Seeker, and ordinary race progression.
 
 Record core acceptance separately from **pending real Shockwave/Prismatic counters**, AI tactics, full-slice soak/performance evidence, and final Slice 5 acceptance. This proposal does not unlock Slice 6.
+
+
+## Implementation checkpoint
+
+Implemented under amendment 2.7 / ADR-068 on `feature/slice-5-apex-missile`. PR #110 post-merge CI/Pages `34126575125` passed. Local full validation passes **31 files / 205 tests**, **91.79% statement coverage**, including five real-course moving-leader paths and 100 repeated complete lifecycles. See `docs/IMPLEMENTATION-STATUS.md` and the gameplay PR for exact validation/source evidence. Gameplay publication and core live acceptance remain pending; real Shockwave/Prismatic interaction acceptance remains a later gate.

@@ -1,5 +1,24 @@
 import type { SeekerWarningLevel } from '../game/items/SeekerWarnings';
 
+export interface WarningToneProfile {
+  readonly wave: OscillatorType;
+  readonly baseFrequency: number;
+  readonly levelStep: number;
+  readonly sweep: number;
+}
+const SEEKER_TONE: WarningToneProfile = {
+  wave: 'triangle',
+  baseFrequency: 480,
+  levelStep: 180,
+  sweep: 120,
+};
+export const APEX_WARNING_TONE: WarningToneProfile = {
+  wave: 'sawtooth',
+  baseFrequency: 240,
+  levelStep: 110,
+  sweep: -100,
+};
+
 /** Short synthesized warning pulses, owned by the race and explicitly cancellable. */
 export class SeekerWarningAudio {
   private context: AudioContext | null = null;
@@ -10,6 +29,7 @@ export class SeekerWarningAudio {
 
   public constructor(
     private readonly createContext: () => AudioContext = () => new AudioContext(),
+    private readonly tone: WarningToneProfile = SEEKER_TONE,
   ) {}
 
   public async unlock(): Promise<void> {
@@ -47,9 +67,15 @@ export class SeekerWarningAudio {
     try {
       const oscillator = context.createOscillator();
       const gain = context.createGain();
-      oscillator.type = 'triangle';
-      oscillator.frequency.setValueAtTime(480 + level * 180, context.currentTime);
-      oscillator.frequency.linearRampToValueAtTime(600 + level * 180, context.currentTime + 0.08);
+      oscillator.type = this.tone.wave;
+      oscillator.frequency.setValueAtTime(
+        this.tone.baseFrequency + level * this.tone.levelStep,
+        context.currentTime,
+      );
+      oscillator.frequency.linearRampToValueAtTime(
+        this.tone.baseFrequency + level * this.tone.levelStep + this.tone.sweep,
+        context.currentTime + 0.08,
+      );
       gain.gain.setValueAtTime(Math.min(1, volume) * 0.06, context.currentTime);
       oscillator.connect(gain).connect(context.destination);
       this.oscillator = oscillator;

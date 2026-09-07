@@ -552,3 +552,12 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Scope:** Seeker plus reusable targeting and opt-in incoming acceptance fixture only. Issue #106, other item effects, general AI tactics, and Slice 6 remain deferred.
 
 - **Publication:** Manny approved PR #108 merge/deployment; merge `ef5dbaeccde123faedd00f625cf18e32c07875de` and CI/Pages run `34086473571` passed. Manny passed all six live checks and accepted continuation on 2026-09-07 after reviewing the lap-2 investigation. Seeker is live accepted. Diagnostic PR #109 is closed unmerged; the specific shot's cause remains unconfirmed. See `docs/SEEKER-LAP-GATE-REVIEW-2026-09-07.md`.
+
+
+## ADR-068: Implement approved Apex core and launch-owned global availability
+
+- **Date:** 2026-09-07
+- **Status:** Implemented and locally validated; publication and core live acceptance pending
+- **Approval:** Manny approved PR #110 merge and its complete Apex scope. PR #110 merged at `1b3391cfd9731291980552fa6ad3c0d9e635ff6b`.
+- **Decision:** Implement all fill-ins in `docs/SLICE-5-APEX-MISSILE-SCOPE.md`, recorded in PRD amendment 2.7. Use separate item-domain Apex lifecycle, validated leader targeting, shared capacity reservation, atomic charge/launch commit, launch-time cooldown, original procedural presentation, warning audio, and generic area/counter boundaries.
+- **Boundary:** Counter-boundary automation does not complete real Shockwave/Prismatic interaction acceptance. Those playable items, general AI tactics, issue #106 and Slice 6 remain deferred. Preserve live-accepted Seeker/Kinetic/Nitro and race authority.

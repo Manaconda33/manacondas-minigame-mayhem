@@ -1,3 +1,4 @@
+import type { ApexMissileSystem } from './ApexMissileSystem';
 import { nearestRacerAhead } from './ItemTargeting';
 import type { RacerProgress } from '../race/RaceDirector';
 import { ITEM_DEFINITIONS } from './itemDefinitions';
@@ -8,6 +9,7 @@ import { RacerEffects } from './RacerEffects';
 export type ItemUseResolution = 'rejected' | 'unsupported' | 'activated';
 
 export interface ItemEffectRuntime {
+  readonly apexSystem?: ApexMissileSystem;
   readonly racers?: readonly RacerProgress[];
   readonly projectileSystem?: ProjectileSystem;
   readonly projectileLaunch?: ProjectileLaunchContext;
@@ -22,6 +24,19 @@ export function executeItemUse(
 ): ItemUseResolution {
   const request = itemSystem.requestUse(racerId, direction);
   if (request === null) return 'rejected';
+
+  if (request.itemId === 'apex-missile') {
+    if (runtime?.apexSystem === undefined || runtime.projectileLaunch === undefined)
+      return 'unsupported';
+    return runtime.apexSystem.launch(
+      racerId,
+      runtime.projectileLaunch.position,
+      runtime.racers ?? [],
+      () => itemSystem.commitUse(racerId),
+    )
+      ? 'activated'
+      : 'rejected';
+  }
 
   const definition = ITEM_DEFINITIONS[request.itemId];
   const projectile = definition.projectile;

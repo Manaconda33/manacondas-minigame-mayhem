@@ -15,3 +15,7 @@ export function forcedItemForRacer(forcedItem: ItemId | null, racerId: string): 
 export function incomingSeekerFromSearch(search: string): boolean {
   return new URLSearchParams(search).get('testSeekerIncoming') === '1';
 }
+
+export function incomingApexFromSearch(search: string): boolean {
+  return new URLSearchParams(search).get('testApexIncoming') === '1';
+}

@@ -111,6 +111,7 @@ export class ProjectileSystem {
   public readonly group = new THREE.Group();
   private readonly active = new Map<number, ActiveProjectile>();
   private nextId = 1;
+  private readonly reservations = new Set<number>();
 
   public constructor(private readonly track: CircuitAlpha) {
     this.group.name = 'projectile-runtime';
@@ -118,7 +119,7 @@ export class ProjectileSystem {
 
   public spawn(request: ProjectileSpawnRequest): number | null {
     if (
-      this.active.size >= MAX_ACTIVE_PROJECTILES ||
+      this.activeCount() >= MAX_ACTIVE_PROJECTILES ||
       request.ownerId.trim().length === 0 ||
       (request.itemId === 'seeker-drone' &&
         (!request.targetId?.trim() || request.targetId === request.ownerId)) ||
@@ -385,8 +386,20 @@ export class ProjectileSystem {
     return true;
   }
 
+  /** Non-colliding item phases reserve capacity before becoming terminal. */
+  public reserveSlot(): number | null {
+    if (this.activeCount() >= MAX_ACTIVE_PROJECTILES) return null;
+    const id = this.nextId++;
+    this.reservations.add(id);
+    return id;
+  }
+
+  public releaseSlot(id: number): void {
+    this.reservations.delete(id);
+  }
+
   public activeCount(): number {
-    return this.active.size;
+    return this.active.size + this.reservations.size;
   }
 
   public snapshots(): ProjectileSnapshot[] {
@@ -405,6 +418,7 @@ export class ProjectileSystem {
 
   public dispose(): void {
     for (const projectileId of [...this.active.keys()]) this.remove(projectileId);
+    this.reservations.clear();
     this.group.clear();
   }
 }

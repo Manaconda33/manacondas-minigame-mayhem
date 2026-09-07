@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.6
+Version 1.1 - Final approved baseline; working implementation amendment 2.7
 
 August 16, 2026
 
@@ -104,6 +104,12 @@ Retain the existing angle-of-incidence reflection, with projectile speed preserv
 
 Manny approved merging PR #107 and implementing `docs/SLICE-5-SEEKER-DRONE-SCOPE.md` on September 6, 2026. Seeker launches forward, locks the nearest unfinished rival strictly ahead by validated total race progress, and retains its charge on failed activation. Normal selection filters it when no target is ahead. Rank changes do not retarget; target finish/removal expires the drone. It starts at 42 m/s, approaches `clamp(target planar speed + 10, 42, 56)` m/s with at most 20 m/s² speed change, and receives no inherited launch velocity. It retains 0.5-second arming, 12-second total lifetime, and 120-degree/second maximum turning. Guidance physically follows the shared legal track route; no position/heading snap or teleport is permitted. Radius is 0.32 m. Guardrail contact destroys it without a bounce; armed racer interception, including later owner self-hit, destroys it and applies the accepted 0.85-second spinout. No racer damage occurs before arming. Warning marker/HUD and settings-aware synthesized tone escalate at estimated arrival thresholds of three and one seconds. Pause, target loss, hit, expiry, and disposal clean up warnings. The existing 40-projectile cap is shared. An opt-in marked incoming-Seeker fixture is authorized for live warning/impact acceptance, without enabling general AI tactics. Issue #106 remains deferred. Gameplay merge/deployment and live acceptance remain separately gated; Slice 6 remains locked.
 
+
+## Approved implementation amendment 2.7 - Apex Orbital Missile core
+
+Approved September 7, 2026. Manny approved merging PR #110 and implementing the complete `docs/SLICE-5-APEX-MISSILE-SCOPE.md` proposal. Preserve section 15.5 / ITEM-007: current unfinished leader at terminal lock, 2.5-second warning, 5.5 m horizontal AoE, 1.20-second heavy spin, one active globally, and at least 18 race seconds between actual successful launches. Approved fill-ins: 0.6 s vertical rise to 24 m above track; 96 m/s bounded sky travel and overhead tracking; 1 m sky arrival; 10 s sky timeout / 15 s total maximum; 1.9 s overhead warning then 0.6 s terminal dive with 60 m/s horizontal tracking. Lock identity at warning start; before lock follow leader changes, after lock cancel on target finish/loss. Owner can become the leader and receive the blast; ordinary unfinished collateral racers also receive the heavy spin once, with no added impulse or multiplier. Dive ignores ordinary racer/rail contacts and blasts at its actual endpoint.
+
+Use atomic launch/charge commit and reserve one shared projectile slot for the full lifecycle. Held inventory does not reserve the active Apex slot; failed activation keeps its charge. Only successful launch starts the global cooldown; removal retains that timestamp; pause freezes it and new race resets it. Generic per-racer immunity blocks blast effects. Shockwave may clear only a diving missile within its 5 m 3D radius, before missile movement/blast in that simulation step. The marked incoming fixture uses normal leader targeting and the same global launch gate. This core increment tests counter boundaries without implementing playable Shockwave/Prismatic; real cross-item and live counter gates remain outstanding. General AI tactics, issue #106, and Slice 6 remain deferred. All other accepted gameplay and probability weights remain unchanged.
 
 # Contents
 

@@ -862,6 +862,7 @@ h2 {
 }
 
 .seeker-warning,
+.apex-warning,
 .item-use-message {
   position: absolute;
   left: 50%;
@@ -880,3 +881,8 @@ h2 {
 .seeker-warning { top: 5.2rem; border: 1px solid #ffce81; }
 .seeker-warning[data-level="3"] { color: #ff7d96; border-color: #ff7d96; }
 .item-use-message { top: 7.7rem; }
+
+.apex-warning { top: 7.7rem; color: #dfb3ff; border: 1px solid #dfb3ff; }
+.apex-warning[data-phase="diving"] { color: #ff7dba; border-color: #ff7dba; }
+.seeker-warning[hidden] + .apex-warning { top: 5.2rem; }
+.apex-warning:not([hidden]) ~ .item-use-message { top: 10.2rem; }

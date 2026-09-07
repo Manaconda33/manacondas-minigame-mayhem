@@ -533,6 +533,25 @@ Focused desktop/mobile live gate:
 
 Seeker is live accepted. The lap-2 disappearance investigation found plausible interception/obstacle causes without identifying the cause of Manny's specific shot. He chose to continue; diagnostic PR #109 is closed unmerged and no additional retest is required for this acceptance. Preserve these scenarios for regression checks. Issue #106 remains a separate future-development defect.
 
-## Next Apex checkpoint — proposed verification
+## Apex Orbital Missile core checkpoint
 
-`docs/SLICE-5-APEX-MISSILE-SCOPE.md` defines the proposed implementation and automated/live evidence matrix. No Apex implementation or acceptance is claimed by this documentation checkpoint. The real Shockwave/Prismatic cross-item gate remains outstanding even if synthetic counter-boundary tests pass.
+`tests/apex-missile.test.ts` covers leader/tie/lap targeting, owner targeting and finish, target loss, inventory success/rejection/rollback, same-step competing holders, shared capacity, launch-time cooldown, pause/reset, phase timing, bounded sky/dive motion, lifetime, blast boundaries/collateral/immunity, terminal-only 3D pulse ordering, explicit incoming fixture, and 100-lifecycle resource cleanup. It uses five real Circuit Alpha moving-leader paths. The audio ownership suite runs the same volume/pause/gesture/disposal checks for both Seeker and Apex and verifies their distinct tone profiles.
+
+After separately approved gameplay publication, provide these URLs with the exact deployed commit and passed CI/Pages run:
+
+- Outgoing pickup: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=apex-missile`
+- Incoming leader attack: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testApexIncoming=1`
+- Normal selection: `https://manaconda33.github.io/manacondas-minigame-mayhem/`
+
+**These links do not yet serve Apex.** This checkpoint awaits gameplay publication review. The incoming fixture starts after five race seconds and obeys the actual shared 18-second launch gate. It targets the current leader, not automatically the player: drive into first to receive warning/dive/impact. A marked test badge identifies it. Forced pickup does not bypass launch prerequisites.
+
+Core desktop/mobile acceptance:
+
+1. Acquire/use Apex: vertical launch and readable sky travel; reverse input still launches upward; successful use frees the slot.
+2. Verify current leader at terminal lock; changes before lock are followed, changes after lock preserve identity; a firing owner who becomes leader can be attacked.
+3. Drive in first in incoming mode: verify target marker, HUD, distinct warning tone, 1.9 s overhead plus 0.6 s dive, master volume, pause and cleanup.
+4. Verify 5.5 m blast/collateral feel and 1.20 s heavy spin using accepted chase/rear camera and hit/front-hit art.
+5. Attempt held Apex while another is active or cooldown remains: charge stays held with feedback, then fires when eligible; restart resets the gate.
+6. Recheck normal unforced selection, accepted Seeker/Kinetic/Nitro, ordinary lap progression and restart/return-to-hub cleanup.
+
+Record **core live acceptance separately**. Synthetic immunity/pulse tests do not close real Shockwave/Prismatic cross-item or live counter acceptance. General AI tactics, final Slice 5 soak/performance gates, and Slice 6 remain outstanding. Issue #106 remains deferred and nonblocking.

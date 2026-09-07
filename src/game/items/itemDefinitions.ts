@@ -47,6 +47,23 @@ export const SEEKER_GUIDANCE = {
   warningUrgentSeconds: 1,
 } as const;
 
+/** PRD amendment 2.7 / ADR-068: approved Apex core values. */
+export const APEX_CONFIG = {
+  riseSeconds: 0.6,
+  skyHeight: 24,
+  skySpeed: 96,
+  arrivalRadius: 1,
+  skyTimeoutSeconds: 10,
+  lifetimeSeconds: 15,
+  overheadSeconds: 1.9,
+  diveSeconds: 0.6,
+  diveSpeed: 60,
+  blastRadius: 5.5,
+  spinoutSeconds: 1.2,
+  cooldownSeconds: 18,
+  counterRadius: 5,
+} as const;
+
 export interface ItemDefinition {
   id: ItemId;
   displayName: string;

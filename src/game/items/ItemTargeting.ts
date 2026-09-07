@@ -41,3 +41,27 @@ export function targetingProgressSnapshot(
     lap: progress.lap + (nextCheckpoint === 0 && progress.trackProgress < finishProgress ? 1 : 0),
   };
 }
+
+export function validTargetingProgress(racer: RacerProgress): boolean {
+  return (
+    !racer.finished &&
+    Number.isInteger(racer.lap) &&
+    racer.lap >= 0 &&
+    Number.isFinite(racer.trackProgress) &&
+    racer.trackProgress >= 0 &&
+    racer.trackProgress < 1
+  );
+}
+
+/** Includes the owner; no world-space proximity participates in leader choice. */
+export function currentRaceLeader(racers: readonly RacerProgress[]): RacerProgress | null {
+  let leader: RacerProgress | null = null;
+  for (const racer of racers) {
+    if (!validTargetingProgress(racer)) continue;
+    const total = racer.lap + racer.trackProgress;
+    const previous = leader === null ? -Infinity : leader.lap + leader.trackProgress;
+    if (total > previous || (total === previous && leader !== null && racer.id < leader.id))
+      leader = racer;
+  }
+  return leader;
+}

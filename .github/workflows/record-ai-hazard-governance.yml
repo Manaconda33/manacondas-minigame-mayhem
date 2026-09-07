@@ -28,6 +28,15 @@ jobs:
       - name: Record approved governance
         run: python .github/scripts/govern-ai-hazard.py
 
+      - name: Normalize markdown EOF
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          for name in ("docs/DECISIONS.md", "docs/TESTING.md"):
+              p = Path(name)
+              p.write_text(p.read_text().rstrip() + "\n")
+          PY
+
       - name: Install from lockfile
         run: npm ci
 

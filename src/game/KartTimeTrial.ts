@@ -3,7 +3,10 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Howler } from 'howler';
 import { SeekerWarningAudio } from '../audio/SeekerWarningAudio';
-import { IncomingSeekerFixture } from './items/IncomingSeekerFixture';
+import {
+  IncomingSeekerFixture,
+  incomingSeekerResolutionMessage,
+} from './items/IncomingSeekerFixture';
 import { nearestRacerAhead, targetingProgressSnapshot } from './items/ItemTargeting';
 import {
   seekerThreats,
@@ -587,6 +590,15 @@ export class KartTimeTrial {
       if (impact.targetId === 'player') {
         this.spinoutCameraAnchor.capture(this.kart.forward(), this.kart.velocity());
       }
+    }
+    const resolutionMessage = incomingSeekerResolutionMessage(
+      this.incomingSeekerTest,
+      this.projectiles.drainSeekerResolutions(),
+      (id) => this.opponents.find((opponent) => opponent.id === id)?.name ?? 'ANOTHER RACER',
+    );
+    if (resolutionMessage !== null) {
+      this.itemUseMessage = resolutionMessage;
+      this.itemUseMessageSeconds = 4;
     }
   }
 

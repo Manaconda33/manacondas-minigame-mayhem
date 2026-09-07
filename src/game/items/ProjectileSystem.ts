@@ -36,6 +36,17 @@ export interface ProjectileImpact {
   readonly spinoutSeconds: number;
 }
 
+export type SeekerEndReason =
+  'racer-hit' | 'guardrail' | 'expired' | 'target-finished' | 'target-lost' | 'removed';
+
+export interface SeekerResolution {
+  readonly projectileId: number;
+  readonly ownerId: string;
+  readonly targetId: string | null;
+  readonly reason: SeekerEndReason;
+  readonly hitRacerId: string | null;
+}
+
 export interface ProjectileSnapshot {
   readonly id: number;
   readonly ownerId: string;
@@ -111,6 +122,7 @@ export class ProjectileSystem {
   public readonly group = new THREE.Group();
   private readonly active = new Map<number, ActiveProjectile>();
   private nextId = 1;
+  private readonly seekerResolutions: SeekerResolution[] = [];
 
   public constructor(private readonly track: CircuitAlpha) {
     this.group.name = 'projectile-runtime';
@@ -308,13 +320,17 @@ export class ProjectileSystem {
     dt: number,
     targets: readonly ProjectileTarget[],
   ): ProjectileImpact | null {
-    const target = targets.find((racer) => racer.id === projectile.targetId && !racer.finished);
+    const target = targets.find((racer) => racer.id === projectile.targetId);
+    if (target?.finished) {
+      this.remove(projectile.id, 'target-finished');
+      return null;
+    }
     if (
       target === undefined ||
       !finiteVector(target.position) ||
       (target.velocity !== undefined && !finiteVector(target.velocity))
     ) {
-      this.remove(projectile.id);
+      this.remove(projectile.id, 'target-lost');
       return null;
     }
     // Bound integration by travel distance, including delayed frames. Lifetime
@@ -326,7 +342,7 @@ export class ProjectileSystem {
       projectile.remainingSeconds = Math.max(0, projectile.remainingSeconds - step);
       projectile.ownerArmSeconds = Math.max(0, projectile.ownerArmSeconds - step);
       if (projectile.remainingSeconds < 1e-9) {
-        this.remove(projectile.id);
+        this.remove(projectile.id, 'expired');
         return null;
       }
       steerSeeker(
@@ -344,7 +360,7 @@ export class ProjectileSystem {
         guardrailContact(this.track, projectile.group.position, projectile.config.radiusMeters) !==
         null
       ) {
-        this.remove(projectile.id);
+        this.remove(projectile.id, 'guardrail');
         return null;
       }
       if (projectile.ownerArmSeconds > 1e-9) continue;
@@ -355,7 +371,7 @@ export class ProjectileSystem {
           (RACER_HIT_RADIUS_METERS + projectile.config.radiusMeters) ** 2
         )
           continue;
-        this.remove(projectile.id);
+        this.remove(projectile.id, 'racer-hit', racer.id);
         return {
           projectileId: projectile.id,
           itemId: projectile.itemId,
@@ -368,10 +384,30 @@ export class ProjectileSystem {
     return null;
   }
 
-  public remove(projectileId: number): boolean {
+  public drainSeekerResolutions(): SeekerResolution[] {
+    return this.seekerResolutions.splice(0);
+  }
+
+  public remove(
+    projectileId: number,
+    reason: SeekerEndReason = 'removed',
+    hitRacerId: string | null = null,
+  ): boolean {
     const projectile = this.active.get(projectileId);
     if (projectile === undefined) return false;
     this.active.delete(projectileId);
+    if (projectile.itemId === 'seeker-drone') {
+      this.seekerResolutions.push({
+        projectileId,
+        ownerId: projectile.ownerId,
+        targetId: projectile.targetId,
+        reason,
+        hitRacerId,
+      });
+      // A forgotten consumer cannot grow this diagnostic queue beyond the
+      // existing maximum number of active projectiles.
+      if (this.seekerResolutions.length > MAX_ACTIVE_PROJECTILES) this.seekerResolutions.shift();
+    }
     this.group.remove(projectile.group);
     projectile.group.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
@@ -406,5 +442,6 @@ export class ProjectileSystem {
   public dispose(): void {
     for (const projectileId of [...this.active.keys()]) this.remove(projectileId);
     this.group.clear();
+    this.seekerResolutions.length = 0;
   }
 }

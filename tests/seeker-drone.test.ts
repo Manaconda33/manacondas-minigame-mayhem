@@ -245,6 +245,9 @@ describe('Seeker physical travel', () => {
       const other = { ...target(launch(track).position), id: 'other' };
       system.update(0.1, finished ? [{ ...other, id: 'target', finished: true }, other] : [other]);
       expect(system.activeCount()).toBe(0);
+      expect(system.drainSeekerResolutions()[0]?.reason).toBe(
+        finished ? 'target-finished' : 'target-lost',
+      );
       system.dispose();
     }
   });
@@ -275,6 +278,7 @@ describe('Seeker physical travel', () => {
       system.update(1 / 60, [target(launch(track).position.add(new THREE.Vector3(0, 0, 100)))]),
     ).toEqual([]);
     expect(system.activeCount()).toBe(0);
+    expect(system.drainSeekerResolutions()[0]?.reason).toBe('guardrail');
     system.dispose();
   });
   it('expires at 12s, freezes at zero dt and clears every object on disposal', () => {
@@ -295,6 +299,7 @@ describe('Seeker physical travel', () => {
     const racer = target(track.curve.getPointAt(0.2));
     system.update(1 / 60, [racer]);
     expect(system.activeCount()).toBe(0);
+    expect(system.drainSeekerResolutions()[0]?.reason).toBe('expired');
     spawn(system, track);
     system.dispose();
     expect(system.group.children).toHaveLength(0);

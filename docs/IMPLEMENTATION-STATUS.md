@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC LIVE ACCEPTED / SEEKER DRONE DEPLOYED / LIVE ACCEPTANCE PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC LIVE ACCEPTED / SEEKER CHECKS PASSED / LAP-2 THREAT DISAPPEARANCE UNDER INVESTIGATION**
 
 PRD baseline: **v1.1, working implementation amendment 2.6**.
 
@@ -26,7 +26,7 @@ Manny approved PR #100, which squash-merged to `main` at **`5f41f8fe68e361e451d1
 
 PR #101 then squash-merged to `main` at **`d732c989f87e2e76688590214c666843b58bad4b`**. Post-merge CI / Pages run **34027395842** passed validation and deployment. Pages artifact **9987498825** has digest `sha256:7da4cb6c6bb395e4a63b00bd15aa204a3139ae7e4809a3a0dc50113da77d8ed3`.
 
-**Approval gate:** Seeker implementation and publication are complete. Manny now performs the focused Seeker live acceptance below. Later items and Slice 6 remain locked.
+**Approval gate:** Manny passes all six Seeker checks but reports an incoming threat disappearing near the lap gate on lap 2. Preserve his passes. A diagnostic-only follow-up is prepared for publication review to make the disappearance reason visible; no lap-cancellation root cause is claimed. Full Seeker closeout and later items remain pending this investigation. Slice 6 remains locked.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 
@@ -313,7 +313,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Next recommended action
 
-Manny playtests deployed Seeker using the outgoing and incoming links and six focused checks in `docs/TESTING.md`. Record his result before starting the next item. Issue #106 remains deferred.
+Review the diagnostic follow-up PR, then obtain publication approval and repeat only the incoming lap-2 scenario with visible resolution feedback. The six broader checks already pass. Issue #106 remains deferred.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 
@@ -479,3 +479,15 @@ The known large-chunk warning remains non-blocking (KartTimeTrial about 3.55 MB 
 - Normal URL: https://manaconda33.github.io/manacondas-minigame-mayhem/
 
 This follow-up records publication evidence only and does not change runtime code/assets. Its own push CI supplies the documentation checkpoint's validation result. Seeker is **DEPLOYED / AWAITING PRODUCT-OWNER LIVE ACCEPTANCE**, not live accepted. Desktop/mobile visual/audio confirmation remains Manny's next gate. Kinetic remains live accepted; issue #106 remains deferred; later items and Slice 6 remain locked.
+
+
+## Seeker lap-2 report and diagnostic checkpoint — 2026-09-07
+
+Manny reports all six Seeker live checks pass. He additionally reports the incoming warning stopped at the lap gate and no drone arrived, and clarified this was **lap 2**. Ordinary lap crossing should not cancel the fixed target. The initial three-case real-track/lap-validator reproduction passes ordinary lap continuation and expected final-finish cancellation. A 125-shot approach diagnostic hits every moving target; stationary shoulder misses and an explicit AI-interception regression demonstrate possible non-lap removal causes, without establishing the cause of Manny's shot. See `docs/SEEKER-LAP-GATE-REVIEW-2026-09-07.md`.
+
+Branch `fix/seeker-incoming-resolution-feedback` adds only test-mode resolution feedback and regression coverage. It includes the earlier investigation branch's report and lap-gate tests. In explicit incoming mode, a four-second message identifies racer interception, guardrail impact, expiry, target finish/loss, or removal. The event queue is bounded/drained/disposed. Normal gameplay and all approved Seeker/Kinetic/Nitro values and collision/pursuit rules are preserved. This does not claim the reported lap-2 problem is fixed. No new PRD balance amendment is needed.
+
+The next live check is only the reported incoming lap-2 scenario after approved diagnostic publication, recording the resolution text. The broader passed checks remain accepted, issue #106 is deferred, and no next item is authorized. The diagnostic PR provides exact source and CI evidence; merge/deployment requires Manny's publication approval.
+
+
+Diagnostic validation: full local `npm run validate`, `git diff --check`, and `git lfs fsck` passed: **32 files / 187 tests**, **91.37% statement coverage**, strict typecheck, zero-warning lint, existing AI/soak checks, branding/runtime assets, and production build. The initial AI-interception fixture was adjusted to place the interception within the gate approach; no gameplay or assertion limit was relaxed. The existing bundle-size warning remains non-blocking. Hosted PR CI must independently perform clean `npm ci` and the full validation pipeline before publication review.

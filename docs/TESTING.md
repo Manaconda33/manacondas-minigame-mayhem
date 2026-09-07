@@ -532,3 +532,10 @@ Focused desktop/mobile live gate:
 6. Briefly recheck accepted Kinetic/Nitro behavior and the normal unforced selector. Prior acceptance remains valid unless an actual regression is observed.
 
 Record Manny's result before starting the next item. Issue #106 remains a separate future-development defect, not part of this gate.
+
+
+### Lap-2 investigation follow-up
+
+Manny passed the six checks above, then reported an incoming warning disappearing near the lap gate on lap 2. Do not interpret the final-finish expiry rule as explaining an ordinary lap report. Preserve his passes. `tests/seeker-lap-gate.test.ts` covers ordinary lap continuation versus final-finish cancellation; `tests/seeker-resolution.test.ts` covers near-gate AI interception and diagnostic filtering/queue cleanup. Existing Seeker tests also assert guardrail/lifetime/target-loss resolution reasons.
+
+After approved diagnostic deployment, use `?testSeekerIncoming=1` and repeat only that lap-2 approach. If the warning disappears, note the four-second `TEST SEEKER` resolution message in the existing feedback area. An interception message includes the racer name. Confirm normal and outgoing-only URLs do not show those incoming-fixture messages. No full six-check repeat is required unless a regression is observed. This instrumentation is not a claimed root-cause fix.

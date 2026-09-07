@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { CircuitAlpha } from '../track/CircuitAlpha';
-import type { ProjectileSystem } from './ProjectileSystem';
+import type { ProjectileSystem, SeekerResolution } from './ProjectileSystem';
 import { ITEM_DEFINITIONS } from './itemDefinitions';
 
 /** Explicit acceptance fixture; it never reads or spends any AI inventory. */
@@ -33,5 +33,34 @@ export class IncomingSeekerFixture {
         velocity: new THREE.Vector3(),
       },
     });
+  }
+}
+
+/** Explain completed fixture threats only in the explicitly marked test mode. */
+export function incomingSeekerResolutionMessage(
+  enabled: boolean,
+  resolutions: readonly SeekerResolution[],
+  racerName: (id: string) => string,
+): string | null {
+  if (!enabled) return null;
+  const resolution = [...resolutions]
+    .reverse()
+    .find((event) => event.ownerId === 'incoming-seeker-fixture' && event.targetId === 'player');
+  if (resolution === undefined) return null;
+  switch (resolution.reason) {
+    case 'racer-hit':
+      return resolution.hitRacerId === 'player'
+        ? 'TEST SEEKER · HIT YOU'
+        : `TEST SEEKER · INTERCEPTED BY ${racerName(resolution.hitRacerId ?? '').toUpperCase()}`;
+    case 'guardrail':
+      return 'TEST SEEKER · HIT GUARDRAIL';
+    case 'expired':
+      return 'TEST SEEKER · LIFETIME EXPIRED';
+    case 'target-finished':
+      return 'TEST SEEKER · CLEARED AT RACE FINISH';
+    case 'target-lost':
+      return 'TEST SEEKER · TARGET LOST';
+    case 'removed':
+      return 'TEST SEEKER · REMOVED';
   }
 }

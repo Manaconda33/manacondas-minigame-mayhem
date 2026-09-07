@@ -1,8 +1,10 @@
 # Slice 5 next increment: HazardSystem + Timed Blast Orb
 
-**Status: IMPLEMENTED / LOCALLY VALIDATED; gameplay publication and live acceptance pending. Scope approved by Manny, 2026-09-07.**
+**Status: LIVE ACCEPTED. Scope approved and deployed acceptance passed by Manny, 2026-09-07.**
 
 **Approval record:** Manny approved the complete scope on 2026-09-07; PR #115 merged at `c2ca9887562b8dd0f8f943f28c1016e234103969`; CI/Pages `34144668993` passed.
+
+**Live acceptance record:** PR #117 squash-merged at `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`; post-merge CI/Pages run `34148220153` passed. Manny then completed the deployed live playtests and reported that they pass. Product-owner evidence is recorded on PR #117 in comment `5574069298`. Timed Blast Orb and the reusable HazardSystem foundation are LIVE ACCEPTED.
 
 Baseline: `main` is `648506be658fb2da7a0e08466812c41d55622117`. PR #114 merged the reproducible 100,000-selection-per-rank / 800,000-total probability evidence checkpoint and post-merge CI/Pages passed. Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, item boxes, roulette/HUD/input, and the seeded distribution gate are already accepted. PRD v1.1 working amendment 2.8 / ADR-069 and `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` govern this approved increment.
 
@@ -93,4 +95,4 @@ Passing this increment closes only the Timed Blast Orb functional gate and the r
 
 ## Implementation evidence
 
-The approved increment is implemented on `feature/slice-5-blast-orb-implementation`. Local full validation passes 33 files / 233 tests, with 92.03% statement coverage. See `docs/IMPLEMENTATION-STATUS.md` and the gameplay PR for source/CI evidence. The incoming fixture uses a single placement 8 m ahead after five race seconds; restart resets it. The 0.4 m orb contact/presentation radius is an engineering geometry value. Gameplay deployment, live acceptance, and real future Shockwave interaction acceptance are not claimed.
+The approved increment is implemented on `feature/slice-5-blast-orb-implementation`. Local full validation passes 33 files / 233 tests, with 92.03% statement coverage. See `docs/IMPLEMENTATION-STATUS.md` and the gameplay PR for source/CI evidence. The incoming fixture uses a single placement 8 m ahead after five race seconds; restart resets it. The 0.4 m orb contact/presentation radius is an engineering geometry value. Gameplay deployment and Timed Blast Orb live acceptance are now proven by PR #117 and post-merge run `34148220153`. Real future Shockwave interaction acceptance remains explicitly unclaimed and deferred.

@@ -216,7 +216,7 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 - [x] Kinetic Disc launches forward/backward, travels at the governed speed, ricochets no more than three times, and expires/cleans up.
 - [x] Seeker selects the nearest valid racer ahead by race progress, respects arming/turn/lifetime behavior, does not teleport, and warns its target.
 - [x] Apex respects one-active-global and 18-second restrictions, then attacks whoever is currently first at terminal lock.
-- [ ] Blast Orb supports directional deployment, approximately three-second fuse, qualifying early impact detonation, AoE resolution, and cleanup.
+- [x] Blast Orb supports directional deployment, approximately three-second fuse, qualifying early impact detonation, AoE resolution, and cleanup.
 - [ ] Blaze Orbs provide five charges and enforce the 0.55-second minimum cadence.
 - [ ] Frost Orbs provide three charges and apply the governed non-stacking speed/handling effect.
 - [ ] Arc Blade provides three charges, completes outbound/return movement, and prevents repeated continuous-overlap damage.
@@ -230,6 +230,8 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 - [ ] Hyper-Drive Rocket follows Circuit Alpha's legal race path, performs automatic overtakes without teleporting, respects immunity, exits safely, and does not deliberately deposit the racer directly into first.
 - [ ] Prismatic Invincibility applies approximately six seconds of immunity, +12% speed, hostile-contact spin, warning/expiry transition, and clean restoration.
 
+
+Blast Orb acceptance evidence, 2026-09-07: gameplay PR #117 squash-merged at `9efbceaf06db3ba6c32ec0147b85ad0673c2d1da`; post-merge CI/Pages run `34148220153` passed; Manny completed the deployed live playtests and reported all checks pass. Product-owner evidence: PR #117 comment `5574069298`. This closes only the Timed Blast Orb functional gate and reusable HazardSystem foundation evidence proven by that increment; deferred Shockwave/Prismatic interactions, Slick, AI hazard avoidance, remaining items, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.
 ## Race, HUD, input, and AI integrity
 
 - [x] Left Shift and E both use the held item.

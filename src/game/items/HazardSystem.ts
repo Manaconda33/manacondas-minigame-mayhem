@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type { SlickSurface } from './SlickGroundSurface';
 import type { CircuitAlpha } from '../track/CircuitAlpha';
 import { guardrailContact } from '../track/GuardrailSystem';
 import { ItemPhysicsCapacity, MAX_ITEM_PHYSICS_OBJECTS } from './ItemPhysicsCapacity';
@@ -10,7 +11,7 @@ import type {
   ProjectileTarget,
 } from './ProjectileSystem';
 import type { ItemUseDirection } from './ItemSystem';
-import { BLAST_ORB_CONFIG as C } from './itemDefinitions';
+import { BLAST_ORB_CONFIG as C, SLICK_TRAP_CONFIG as S } from './itemDefinitions';
 
 export interface HazardTarget extends ProjectileTarget {
   readonly itemImmune?: boolean;
@@ -31,6 +32,13 @@ interface Orb {
   velocity: THREE.Vector3;
   age: number;
 }
+interface Slick {
+  id: number;
+  ownerId: string;
+  mesh: THREE.Mesh<THREE.CircleGeometry, THREE.MeshBasicMaterial>;
+  ring: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>;
+  age: number;
+}
 interface BlastVisual {
   mesh: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>;
   remaining: number;
@@ -39,6 +47,7 @@ interface BlastVisual {
 /** Ground-bound hazards own no racer progress or controller state. */
 export class HazardSystem {
   public readonly group = new THREE.Group();
+  private readonly slicks = new Map<number, Slick>();
   private readonly orbs = new Map<number, Orb>();
   private readonly clears: { center: THREE.Vector3; radius: number }[] = [];
   private readonly blasts: BlastVisual[] = [];
@@ -46,8 +55,103 @@ export class HazardSystem {
   public constructor(
     private readonly track: CircuitAlpha,
     private readonly capacity: ItemPhysicsCapacity,
+    private readonly slickSurface?: (position: THREE.Vector3) => SlickSurface | null,
   ) {
     this.group.name = 'hazard-runtime';
+  }
+
+  public canPlaceSlick(ownerId: string): boolean {
+    return (
+      this.capacity.count() < MAX_ITEM_PHYSICS_OBJECTS ||
+      this.ownerSlicks(ownerId).length >= S.maxPerOwner
+    );
+  }
+
+  private ownerSlicks(ownerId: string): Slick[] {
+    return [...this.slicks.values()].filter((slick) => slick.ownerId === ownerId);
+  }
+
+  /** Both ITEM directions deliberately share this rear-only placement. */
+  public spawnSlick(
+    ownerId: string,
+    launch: ProjectileLaunchContext,
+    commitCharge: () => boolean = () => true,
+  ): number | null {
+    if (
+      !finitePosition(launch.position) ||
+      !finitePosition(launch.forward) ||
+      !finitePosition(launch.velocity)
+    )
+      return null;
+    const forward = launch.forward.clone().setY(0);
+    if (forward.lengthSq() < 0.0001) return null;
+    return this.placeSlick(
+      ownerId,
+      launch.position.clone().addScaledVector(forward.normalize(), -S.spawnOffset),
+      commitCharge,
+    );
+  }
+
+  /** Fixture placement uses the production lifetime, trigger, capacity and owner cap. */
+  public placeSlick(
+    ownerId: string,
+    position: THREE.Vector3,
+    commitCharge: () => boolean = () => true,
+  ): number | null {
+    if (!ownerId.trim() || !finitePosition(position)) return null;
+    const owned = this.ownerSlicks(ownerId);
+    const oldest = owned.length >= S.maxPerOwner ? owned[0] : undefined;
+    const reserved = oldest === undefined ? this.capacity.acquire() : null;
+    const candidateSlot = reserved ?? oldest?.id;
+    if (candidateSlot === undefined) return null;
+    const mesh = new THREE.Mesh(
+      new THREE.CircleGeometry(S.triggerRadius, 32),
+      new THREE.MeshBasicMaterial({ color: 0x151222, side: THREE.DoubleSide }),
+    );
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(0.86, 1.02, 32),
+      new THREE.MeshBasicMaterial({
+        color: 0x9991cf,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.5,
+        depthWrite: false,
+      }),
+    );
+    mesh.position.copy(position);
+    const contact = guardrailContact(this.track, mesh.position, S.triggerRadius);
+    if (contact !== null) mesh.position.addScaledVector(contact.inwardNormal, contact.penetration);
+    const surface = this.slickSurface?.(mesh.position);
+    if (surface != null) {
+      mesh.position.copy(surface.point).addScaledVector(surface.normal, 0.04);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), surface.normal);
+    } else {
+      mesh.position.y = this.track.project(mesh.position).point.y + 0.04;
+      mesh.rotation.x = -Math.PI / 2;
+    }
+    ring.position.z = 0.006;
+    mesh.add(ring);
+    let committed = false;
+    try {
+      committed = commitCharge();
+      if (!committed) return null;
+      // All fallible gameplay prerequisites precede the inventory commit. Keep the
+      // old pair intact until success, then transfer its slot synchronously.
+      const id = oldest === undefined ? candidateSlot : this.capacity.replace(oldest.id);
+      if (oldest !== undefined) this.remove(oldest.id);
+      mesh.name = `slick-trap-${String(id)}`;
+      this.slicks.set(id, { id, ownerId, mesh, ring, age: 0 });
+      this.group.add(mesh);
+      return id;
+    } finally {
+      if (!committed) {
+        if (reserved !== null) this.capacity.release(reserved);
+        ring.geometry.dispose();
+        ring.material.dispose();
+        mesh.geometry.dispose();
+        mesh.material.dispose();
+      }
+    }
   }
 
   public spawnBlastOrb(
@@ -122,7 +226,7 @@ export class HazardSystem {
 
   public update(dt: number, targets: readonly HazardTarget[]): ProjectileImpact[] {
     if (!Number.isFinite(dt) || dt <= 0) return [];
-    for (const orb of this.orbs.values()) {
+    for (const orb of [...this.orbs.values(), ...this.slicks.values()]) {
       if (
         this.clears.some(
           ({ center, radius }) => center.distanceToSquared(orb.mesh.position) <= radius ** 2,
@@ -133,6 +237,35 @@ export class HazardSystem {
     this.clears.length = 0;
     this.updateBlasts(dt);
     const impacts: ProjectileImpact[] = [];
+    for (const slick of this.slicks.values()) {
+      slick.age += dt;
+      if (slick.age >= S.lifetimeSeconds - 1e-9) {
+        this.remove(slick.id);
+        continue;
+      }
+      slick.ring.material.opacity = 0.4 + 0.15 * Math.sin(slick.age * 3);
+      const target = targets.find(
+        (racer) =>
+          !racer.finished &&
+          !racer.itemImmune &&
+          finitePosition(racer.position) &&
+          !(racer.id === slick.ownerId && slick.age < S.ownerImmunitySeconds - 1e-9) &&
+          (racer.position.x - slick.mesh.position.x) ** 2 +
+            (racer.position.z - slick.mesh.position.z) ** 2 <=
+            S.triggerRadius ** 2,
+      );
+      if (target === undefined) continue;
+      this.remove(slick.id);
+      impacts.push({
+        projectileId: slick.id,
+        itemId: 'slick-trap',
+        targetId: target.id,
+        spinoutSeconds: S.spinoutSeconds,
+        spinDirection: slick.id % 2 === 0 ? 1 : -1,
+        planarSpeedRetention: S.planarSpeedRetention,
+        preserveSpinMomentum: true,
+      });
+    }
     for (const orb of [...this.orbs.values()]) {
       let remaining = Math.min(dt, C.fuseSeconds - orb.age);
       while (remaining > 1e-9 && this.orbs.has(orb.id)) {
@@ -261,6 +394,17 @@ export class HazardSystem {
   }
 
   public remove(id: number): boolean {
+    const slick = this.slicks.get(id);
+    if (slick !== undefined) {
+      this.slicks.delete(id);
+      this.capacity.release(id);
+      this.group.remove(slick.mesh);
+      slick.ring.geometry.dispose();
+      slick.ring.material.dispose();
+      slick.mesh.geometry.dispose();
+      slick.mesh.material.dispose();
+      return true;
+    }
     const orb = this.orbs.get(id);
     if (orb === undefined) return false;
     this.orbs.delete(id);
@@ -271,7 +415,17 @@ export class HazardSystem {
     return true;
   }
   public activeCount(): number {
-    return this.orbs.size;
+    return this.orbs.size + this.slicks.size;
+  }
+  public slickSnapshots(): HazardSnapshot[] {
+    return [...this.slicks.values()].map((slick) => ({
+      id: slick.id,
+      ownerId: slick.ownerId,
+      position: slick.mesh.position.clone(),
+      velocity: new THREE.Vector3(),
+      remainingSeconds: Math.max(0, S.lifetimeSeconds - slick.age),
+      ownerImmuneSeconds: Math.max(0, S.ownerImmunitySeconds - slick.age),
+    }));
   }
   public snapshots(): HazardSnapshot[] {
     return [...this.orbs.values()].map((orb) => ({
@@ -285,6 +439,7 @@ export class HazardSystem {
   }
   public dispose(): void {
     for (const id of this.orbs.keys()) this.remove(id);
+    for (const id of this.slicks.keys()) this.remove(id);
     while (this.blasts.length > 0) this.removeBlast(0);
     this.clears.length = 0;
     this.group.clear();

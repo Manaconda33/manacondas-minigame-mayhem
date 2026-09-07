@@ -27,6 +27,16 @@ export function executeItemUse(
   const request = itemSystem.requestUse(racerId, direction);
   if (request === null) return 'rejected';
 
+  if (request.itemId === 'slick-trap') {
+    if (runtime?.hazardSystem === undefined || runtime.projectileLaunch === undefined)
+      return 'unsupported';
+    return runtime.hazardSystem.spawnSlick(racerId, runtime.projectileLaunch, () =>
+      itemSystem.commitUse(racerId),
+    ) !== null
+      ? 'activated'
+      : 'rejected';
+  }
+
   if (request.itemId === 'blast-orb') {
     if (runtime?.hazardSystem === undefined || runtime.projectileLaunch === undefined)
       return 'unsupported';

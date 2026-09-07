@@ -21,6 +21,7 @@ export interface DriveInput {
   effectAccelerationMultiplier?: number;
   ignoreOffRoadSpeedPenalty?: boolean;
   effectSpinoutYawRateRadiansPerSecond?: number;
+  effectSpinoutPreserveMomentum?: boolean;
 }
 
 export type DriftTier = 'none' | 'blue' | 'orange' | 'purple';
@@ -81,7 +82,14 @@ export class KartController {
   }
 
   public update(input: DriveInput, surface: SurfaceType, dt: number): void {
-    if (this.updateForcedSpin(input.effectSpinoutYawRateRadiansPerSecond, dt)) return;
+    if (
+      this.updateForcedSpin(
+        input.effectSpinoutYawRateRadiansPerSecond,
+        dt,
+        input.effectSpinoutPreserveMomentum,
+      )
+    )
+      return;
 
     const velocity = this.body.linvel();
     const grounded = this.groundContactCount() >= 2;
@@ -216,7 +224,17 @@ export class KartController {
     this.wasGrounded = grounded;
   }
 
-  private updateForcedSpin(yawRateRadiansPerSecond: number | undefined, dt: number): boolean {
+  public retainPlanarVelocity(factor: number): void {
+    if (!Number.isFinite(factor) || factor < 0 || factor > 1) return;
+    const velocity = this.body.linvel();
+    this.body.setLinvel({ x: velocity.x * factor, y: velocity.y, z: velocity.z * factor }, true);
+  }
+
+  private updateForcedSpin(
+    yawRateRadiansPerSecond: number | undefined,
+    dt: number,
+    preserveMomentum = false,
+  ): boolean {
     if (
       yawRateRadiansPerSecond === undefined ||
       !Number.isFinite(yawRateRadiansPerSecond) ||
@@ -234,7 +252,7 @@ export class KartController {
     this.yaw += yawRateRadiansPerSecond * dt;
 
     const velocity = this.body.linvel();
-    const planarRetention = Math.exp(-0.55 * dt);
+    const planarRetention = preserveMomentum ? 1 : Math.exp(-0.55 * dt);
     this.body.setLinvel(
       {
         x: velocity.x * planarRetention,

@@ -8,6 +8,7 @@ export interface TemporaryBoostSpec {
 }
 
 export interface SpinoutSpec {
+  readonly preserveMomentum?: boolean;
   readonly id: string;
   readonly label: string;
   readonly durationSeconds: number;
@@ -16,6 +17,7 @@ export interface SpinoutSpec {
 }
 
 export interface SpinoutState {
+  readonly preserveMomentum: boolean;
   readonly id: string;
   readonly label: string;
   readonly remainingSeconds: number;
@@ -124,6 +126,7 @@ export class RacerEffects {
     const spinout = this.spinouts.get(racerId);
     if (spinout === undefined) return null;
     return {
+      preserveMomentum: spinout.preserveMomentum ?? false,
       id: spinout.id,
       label: spinout.label,
       remainingSeconds: spinout.remainingSeconds,

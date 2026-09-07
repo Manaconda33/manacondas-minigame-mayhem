@@ -36,13 +36,22 @@ Manny approved the complete bounded Blast Orb proposal on 2026-09-07. The govern
 
 The governance and gameplay checkpoints are merged and deployed. PR #117 post-merge CI/Pages run `34148220153` passed, and Manny's focused deployed live playtests passed on 2026-09-07. The Timed Blast Orb functional checklist item and reusable HazardSystem foundation evidence supported by this increment may be closed. Playable Shockwave, real counter acceptance, Slick, AI hazard avoidance, issue #106, remaining Slice 5 items, final soak/performance evidence, and Slice 6 remain deferred.
 
-## Slice 5 Slick Trap scope approval
+## Slice 5 Slick Trap implementation checkpoint
+
+The implementation extends `HazardSystem` with stationary Slick lifecycle, rear-only deployment, atomic two-per-owner FIFO replacement, shared capacity, first-valid-racer one-shot trigger, pause-safe expiry, and generic queued clearing for both hazard types. A successful replacement transfers the oldest placement's capacity slot without exceeding 40 or temporarily exposing three owned Slicks; failed commits retain both old placements and the charge.
+
+Slick impacts use one 0.85-second hostile spin and scale the current planar velocity by 0.6 exactly once. The generic spin controller has an explicit momentum-preserving option for Slick; accepted standard/heavy spins retain their existing decay. Player and AI effect dispatch reuse the accepted camera anchor and perspective-correct hit/frontHit selector. No AI deployment tactics or hazard avoidance is enabled.
+
+The original procedural patch and animated ring sample existing road, dirt, raised ramp and boost-pad presentation surfaces once at placement so they remain visible at the current elevation. This changes no track geometry, collider, checkpoint or accepted Blast behavior. The ring uses the supporting surface normal with a 0.04 m anti-overlap offset. `?testSlickAhead=1` places one fixture-owned Slick 8 m ahead after five race seconds, retries capacity failure, displays a badge and resets with a new race.
+
+Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages successfully. Full `npm run validate` passed strict typecheck, zero-warning lint, **34 files / 254 tests**, **92.42% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted clean-install PR CI remains required before publication review. Live acceptance is pending; test URLs serve the prior accepted build until publication is separately approved and deployed.
+
 
 Manny approved the complete bounded Slick Trap scope as written on 2026-09-07. PRD amendment 2.9 and ADR-070 govern rear-only stationary 1.75 m placement, shared 40-object capacity, 0.35 s owner immunity, <=1.1 m trigger, 60% planar speed retention, one 360-degree / 0.85-second presentation, two-per-owner FIFO replacement, 12 race-second pause-safe lifetime, generic immunity semantics, queued hazard-clear ordering, and the `?testSlickAhead=1` fixture.
 
 This governance checkpoint also corrects ADR-069's stale pre-publication status: Timed Blast Orb and the reusable HazardSystem foundation are already live accepted through PR #117 / run `34148220153`, with durable acceptance merged in PR #118 at `a2bd4e3a873bcd6a2b67789ebc06ac2c3ccfec76` and run `34149673641`.
 
-Gameplay implementation remains gated on merge of this governance checkpoint and its post-merge CI/Pages pass. AI Blast/Slick avoidance, playable Shockwave, real Prismatic/Hyper-Drive interactions, remaining Slice 5 items, issue #106, final soak/performance closure, and Slice 6 remain deferred.
+PR #119 merged at `2ce2212e5d89e192b9118ec07c655bacefbdf45a`; post-merge CI/Pages run `34151395918` passed. Manny then explicitly authorized the approved gameplay implementation. Slick gameplay is implemented on `feature/slice-5-slick-trap-implementation`; publication/deployment and product-owner live acceptance remain separate pending gates. AI Blast/Slick avoidance, playable Shockwave, real Prismatic/Hyper-Drive interactions, remaining Slice 5 items, issue #106, final soak/performance closure, and Slice 6 remain deferred.
 
 ## Slice 5 RacerEffects + Nitro Surge checkpoint
 

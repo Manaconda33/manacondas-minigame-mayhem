@@ -506,4 +506,29 @@ After approved corrective deployment, use `?testItem=kinetic-disc`: confirm clea
 
 The focused Kinetic correction gate above **passed on 2026-09-06**: deployed PR #105 / `1497672c639adaf6ca71f2aa775d4e0c23572b33`, CI/Pages run `34034999554`, and Manny's [final acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832). Earlier pending-gate wording describes the test procedure, not the current acceptance state. Issue #106 is future development and does not invalidate this result.
 
-The proposed Seeker increment's focused automated and live checks are in `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`. Those checks are prospective and are not represented as passing evidence.
+The approved Seeker increment is implemented under amendment 2.6. Its automated evidence and pending live gate follow.
+
+
+## Seeker Drone checkpoint
+
+`tests/seeker-drone.test.ts` and `tests/seeker-warning-audio.test.ts` cover nearest-ahead lap/progress and stable ties, offset finish-gate wrap, unchanged input race state, selection eligibility, unsuccessful-use charge retention, successful forward launch, full-speed Manaconda/Krios/max-AI catch-up, five real Circuit Alpha pursuit paths, bounded speed/acceleration/turning, arming, owner interception, rail destruction, target finish/removal, lifetime, shared cap, disposal, warning escalation/overlap/cleanup, volume/pause/browser audio fallback, and explicit incoming-fixture isolation. Full local gate on 2026-09-07: **30 files / 181 tests passed**. Existing Kinetic, Nitro, spinout/camera, AI, and runtime-asset tests also pass.
+
+After separately approved gameplay deployment, use:
+
+- Outgoing pickup test: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=seeker-drone`
+- Incoming warning/impact test: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testSeekerIncoming=1`
+- Combined test: `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=seeker-drone&testSeekerIncoming=1`
+- Normal selection: `https://manaconda33.github.io/manacondas-minigame-mayhem/`
+
+These URLs describe the pending deployment, not the currently deployed gameplay. The incoming fixture fires after five race seconds and every sixteen seconds thereafter, from 45 m behind the player along the route; an intervening racer or guardrail may intercept it normally. Drive forward to observe the full warning progression; stop on a clear straight to verify impact. Its badge explicitly identifies incoming test mode.
+
+Focused desktop/mobile live gate:
+
+1. Acquire Seeker, resolve roulette, and use Left Shift/E or mobile ITEM. Forward pursuit is visible; holding reverse does not fire Seeker backward. Successful launch frees the slot.
+2. From behind rivals, confirm nearest-ahead selection and readable catch-up on straight/curved sections. Confirm rail collision destroys the drone; shots are not guaranteed hits.
+3. From first with forced Seeker, use it with no rival ahead: feedback says no racer ahead, the charge remains held, and occupied-slot pickup stays blocked.
+4. In incoming mode, confirm target marker, escalating HUD warning and tone, master-volume silence/restoration, and clean pause/resume. Pausing during a tone stops audio immediately. The marked fixture is absent from a normal URL.
+5. Let an incoming drone hit: confirm the accepted 0.85-second spinout and chase/rear perspective-correct driver art. Confirm warning cleanup after impact/expiry and on return to hub/restart.
+6. Briefly recheck accepted Kinetic/Nitro behavior and the normal unforced selector. Prior acceptance remains valid unless an actual regression is observed.
+
+Record Manny's result before starting the next item. Issue #106 remains a separate future-development defect, not part of this gate.

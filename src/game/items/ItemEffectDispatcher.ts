@@ -1,3 +1,5 @@
+import { nearestRacerAhead } from './ItemTargeting';
+import type { RacerProgress } from '../race/RaceDirector';
 import { ITEM_DEFINITIONS } from './itemDefinitions';
 import { ItemSystem, type ItemUseDirection } from './ItemSystem';
 import { ProjectileSystem, type ProjectileLaunchContext } from './ProjectileSystem';
@@ -6,6 +8,7 @@ import { RacerEffects } from './RacerEffects';
 export type ItemUseResolution = 'rejected' | 'unsupported' | 'activated';
 
 export interface ItemEffectRuntime {
+  readonly racers?: readonly RacerProgress[];
   readonly projectileSystem?: ProjectileSystem;
   readonly projectileLaunch?: ProjectileLaunchContext;
 }
@@ -27,7 +30,11 @@ export function executeItemUse(
     const launch = runtime?.projectileLaunch;
     if (projectileSystem === undefined || launch === undefined) return 'unsupported';
 
+    const target =
+      request.itemId === 'seeker-drone' ? nearestRacerAhead(racerId, runtime?.racers ?? []) : null;
+    if (request.itemId === 'seeker-drone' && target === null) return 'rejected';
     const projectileId = projectileSystem.spawn({
+      targetId: target?.id,
       itemId: request.itemId,
       ownerId: racerId,
       direction: request.direction,

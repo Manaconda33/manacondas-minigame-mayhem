@@ -1,7 +1,8 @@
 import * as THREE from 'three';
+import { steerSeeker } from './SeekerGuidance';
 import { guardrailContact } from '../track/GuardrailSystem';
 import { CircuitAlpha } from '../track/CircuitAlpha';
-import type { ItemId, ItemProjectileConfig } from './itemDefinitions';
+import { SEEKER_GUIDANCE, type ItemId, type ItemProjectileConfig } from './itemDefinitions';
 import type { ItemUseDirection } from './ItemSystem';
 
 export interface ProjectileLaunchContext {
@@ -16,9 +17,11 @@ export interface ProjectileSpawnRequest {
   readonly direction: ItemUseDirection;
   readonly config: Readonly<ItemProjectileConfig>;
   readonly launch: ProjectileLaunchContext;
+  readonly targetId?: string;
 }
 
 export interface ProjectileTarget {
+  readonly velocity?: THREE.Vector3;
   readonly id: string;
   readonly position: THREE.Vector3;
   readonly forward: THREE.Vector3;
@@ -36,6 +39,7 @@ export interface ProjectileImpact {
 export interface ProjectileSnapshot {
   readonly id: number;
   readonly ownerId: string;
+  readonly targetId: string | null;
   readonly itemId: ItemId;
   readonly position: THREE.Vector3;
   readonly velocity: THREE.Vector3;
@@ -45,6 +49,7 @@ export interface ProjectileSnapshot {
 }
 
 interface ActiveProjectile {
+  readonly targetId: string | null;
   readonly id: number;
   readonly itemId: ItemId;
   readonly ownerId: string;
@@ -115,6 +120,8 @@ export class ProjectileSystem {
     if (
       this.active.size >= MAX_ACTIVE_PROJECTILES ||
       request.ownerId.trim().length === 0 ||
+      (request.itemId === 'seeker-drone' &&
+        (!request.targetId?.trim() || request.targetId === request.ownerId)) ||
       !validConfig(request.config) ||
       !finiteVector(request.launch.position) ||
       !finiteVector(request.launch.forward) ||
@@ -126,7 +133,8 @@ export class ProjectileSystem {
     const launchDirection = request.launch.forward.clone().setY(0);
     if (launchDirection.lengthSq() < 0.0001) return null;
     launchDirection.normalize();
-    if (request.direction === 'backward') launchDirection.multiplyScalar(-1);
+    if (request.direction === 'backward' && request.itemId !== 'seeker-drone')
+      launchDirection.multiplyScalar(-1);
 
     const inherited = request.launch.velocity.clone().setY(0);
     const inheritedSpeed = inherited.length();
@@ -172,12 +180,24 @@ export class ProjectileSystem {
       }),
     );
     spinner.add(core, ring);
+    if (request.itemId === 'seeker-drone') {
+      core.visible = false;
+      ring.material.color.setHex(0xffb347);
+      const hull = new THREE.Mesh(
+        new THREE.OctahedronGeometry(request.config.radiusMeters * 1.5),
+        new THREE.MeshBasicMaterial({ color: 0xffad45 }),
+      );
+      hull.scale.set(0.7, 0.65, 1.6);
+      group.add(hull);
+      ring.scale.set(1.8, 0.75, 1);
+    }
     group.add(spinner);
     group.position.copy(spawnPosition);
     group.name = `projectile-${String(this.nextId)}`;
 
     const projectile: ActiveProjectile = {
       id: this.nextId,
+      targetId: request.itemId === 'seeker-drone' ? (request.targetId ?? null) : null,
       itemId: request.itemId,
       ownerId: request.ownerId,
       config: request.config,
@@ -201,6 +221,11 @@ export class ProjectileSystem {
     const impacts: ProjectileImpact[] = [];
 
     for (const projectile of [...this.active.values()]) {
+      if (projectile.itemId === 'seeker-drone') {
+        const impact = this.updateSeeker(projectile, dt, targets);
+        if (impact !== null) impacts.push(impact);
+        continue;
+      }
       projectile.remainingSeconds -= dt;
       projectile.ownerArmSeconds = Math.max(0, projectile.ownerArmSeconds - dt);
       projectile.bounceCooldownSeconds = Math.max(0, projectile.bounceCooldownSeconds - dt);
@@ -278,6 +303,71 @@ export class ProjectileSystem {
     return impacts;
   }
 
+  private updateSeeker(
+    projectile: ActiveProjectile,
+    dt: number,
+    targets: readonly ProjectileTarget[],
+  ): ProjectileImpact | null {
+    const target = targets.find((racer) => racer.id === projectile.targetId && !racer.finished);
+    if (
+      target === undefined ||
+      !finiteVector(target.position) ||
+      (target.velocity !== undefined && !finiteVector(target.velocity))
+    ) {
+      this.remove(projectile.id);
+      return null;
+    }
+    // Bound integration by travel distance, including delayed frames. Lifetime
+    // bounds this loop even for an unusually large caller delta.
+    let remaining = Math.min(dt, projectile.remainingSeconds);
+    while (remaining > 1e-9) {
+      const step = Math.min(remaining, PROJECTILE_SUBSTEP_METERS / SEEKER_GUIDANCE.maxSpeed);
+      remaining -= step;
+      projectile.remainingSeconds = Math.max(0, projectile.remainingSeconds - step);
+      projectile.ownerArmSeconds = Math.max(0, projectile.ownerArmSeconds - step);
+      if (projectile.remainingSeconds < 1e-9) {
+        this.remove(projectile.id);
+        return null;
+      }
+      steerSeeker(
+        this.track,
+        projectile.group.position,
+        projectile.velocity,
+        target.position,
+        target.velocity ?? new THREE.Vector3(),
+        step,
+      );
+      projectile.group.position.addScaledVector(projectile.velocity, step);
+      projectile.spinner.rotation.z += step * 12;
+      orientProjectile(projectile);
+      if (
+        guardrailContact(this.track, projectile.group.position, projectile.config.radiusMeters) !==
+        null
+      ) {
+        this.remove(projectile.id);
+        return null;
+      }
+      if (projectile.ownerArmSeconds > 1e-9) continue;
+      for (const racer of targets) {
+        if (racer.finished || !finiteVector(racer.position)) continue;
+        if (
+          squaredHorizontalDistance(projectile.group.position, racer.position) >
+          (RACER_HIT_RADIUS_METERS + projectile.config.radiusMeters) ** 2
+        )
+          continue;
+        this.remove(projectile.id);
+        return {
+          projectileId: projectile.id,
+          itemId: projectile.itemId,
+          targetId: racer.id,
+          spinDirection: projectile.id % 2 === 0 ? 1 : -1,
+          spinoutSeconds: projectile.config.spinoutSeconds,
+        };
+      }
+    }
+    return null;
+  }
+
   public remove(projectileId: number): boolean {
     const projectile = this.active.get(projectileId);
     if (projectile === undefined) return false;
@@ -303,6 +393,7 @@ export class ProjectileSystem {
     return [...this.active.values()].map((projectile) => ({
       id: projectile.id,
       ownerId: projectile.ownerId,
+      targetId: projectile.targetId,
       itemId: projectile.itemId,
       position: projectile.group.position.clone(),
       velocity: projectile.velocity.clone(),

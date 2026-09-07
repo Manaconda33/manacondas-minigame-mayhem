@@ -127,10 +127,10 @@ describe('Slice 5 Nitro Surge item-use dispatch', () => {
     const items = new ItemSystem();
     const effects = new RacerEffects();
 
-    items.acquire('player', 'seeker-drone');
+    items.acquire('player', 'blast-orb');
     items.advance(ITEM_ROULETTE_SECONDS);
     expect(executeItemUse(items, effects, 'player', 'backward')).toBe('unsupported');
-    expect(items.heldItem('player')).toEqual({ itemId: 'seeker-drone', remainingCharges: 1 });
+    expect(items.heldItem('player')).toEqual({ itemId: 'blast-orb', remainingCharges: 1 });
     expect(items.canCollect('player')).toBe(false);
     expect(effects.driveModifiers('player').activeBoostLabel).toBeNull();
   });

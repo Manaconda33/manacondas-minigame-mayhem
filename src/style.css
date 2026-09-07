@@ -860,3 +860,23 @@ h2 {
     transition-duration: 0.01ms !important;
   }
 }
+
+.seeker-warning,
+.item-use-message {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: .45rem .7rem;
+  max-width: 80vw;
+  border-radius: .5rem;
+  background: rgb(20 12 28 / 88%);
+  color: #ffce81;
+  text-align: center;
+  font-size: .72rem;
+  font-weight: 800;
+  pointer-events: none;
+  z-index: 5;
+}
+.seeker-warning { top: 5.2rem; border: 1px solid #ffce81; }
+.seeker-warning[data-level="3"] { color: #ff7d96; border-color: #ff7d96; }
+.item-use-message { top: 7.7rem; }

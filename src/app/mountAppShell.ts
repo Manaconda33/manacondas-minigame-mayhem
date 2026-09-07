@@ -178,6 +178,8 @@ export function mountAppShell(root: HTMLElement): void {
         </div>
         <div id="wrong-way" class="warning" hidden>WRONG WAY</div>
         <div id="countdown" class="countdown">3</div>
+        <div id="seeker-warning" class="seeker-warning" role="status" hidden></div>
+        <div id="item-use-message" class="item-use-message" role="status" hidden></div>
         <div id="item-test-mode" class="item-test-mode" hidden></div>
         <div id="loading" class="loading-card"><span class="spinner"></span><h2>Initializing Circuit Alpha</h2><p>Loading Rapier physics and the procedural track…</p></div>
         <div id="finish" class="finish-card" hidden><p class="eyebrow">Grand Prix complete</p><h2 id="finish-place">1st place</h2><p id="finish-time">0:00.00</p><ol id="standings" class="standings"></ol>${button('Return to Hub', 'finish-menu', 'primary')}</div>
@@ -213,7 +215,19 @@ export function mountAppShell(root: HTMLElement): void {
       testMode.textContent =
         state.testModeItemLabel === null
           ? ''
-          : `TEST MODE · FORCED ${state.testModeItemLabel.toUpperCase()}`;
+          : `TEST MODE · ${state.testModeItemLabel.toUpperCase()}`;
+      const seekerWarning = getElement('#seeker-warning');
+      seekerWarning.hidden = state.seekerWarning === null;
+      seekerWarning.dataset.level = String(state.seekerWarning ?? 0);
+      seekerWarning.textContent =
+        state.seekerWarning === 3
+          ? 'SEEKER · IMPACT IMMINENT'
+          : state.seekerWarning === 2
+            ? 'SEEKER · CLOSING IN'
+            : 'SEEKER · TARGETED';
+      const useMessage = getElement('#item-use-message');
+      useMessage.hidden = state.itemUseMessage === null;
+      useMessage.textContent = state.itemUseMessage;
       const driftPanel = getElement('#drift-panel');
       driftPanel.dataset.tier = state.driftTier;
       getElement('#drift-fill').style.width = `${String(Math.round(state.driftCharge * 100))}%`;

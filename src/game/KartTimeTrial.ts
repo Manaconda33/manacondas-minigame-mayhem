@@ -2,6 +2,14 @@ import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Howler } from 'howler';
+import { SeekerWarningAudio } from '../audio/SeekerWarningAudio';
+import { IncomingSeekerFixture } from './items/IncomingSeekerFixture';
+import { nearestRacerAhead, targetingProgressSnapshot } from './items/ItemTargeting';
+import {
+  seekerThreats,
+  SeekerWarningVisual,
+  type SeekerWarningLevel,
+} from './items/SeekerWarnings';
 import { playDriftTierTone } from '../audio/driftTone';
 import { createKartTuning, type SurfaceType } from '../config/kartTuning';
 import { AiDriver } from './ai/AiDriver';
@@ -25,7 +33,11 @@ import { ItemBoxSystem } from './items/ItemBoxSystem';
 import { ProjectileSystem } from './items/ProjectileSystem';
 import { executeItemUse } from './items/ItemEffectDispatcher';
 import { selectItem } from './items/ItemSelector';
-import { forcedItemForRacer, forcedItemFromSearch } from './items/ItemTestMode';
+import {
+  forcedItemForRacer,
+  forcedItemFromSearch,
+  incomingSeekerFromSearch,
+} from './items/ItemTestMode';
 import { NitroSurgeVisual } from './items/NitroSurgeVisual';
 import { RacerEffects } from './items/RacerEffects';
 import {
@@ -67,6 +79,8 @@ export interface HudState {
   minimap: MinimapState;
   item: ItemHudSnapshot;
   testModeItemLabel: string | null;
+  seekerWarning: SeekerWarningLevel | null;
+  itemUseMessage: string | null;
 }
 
 export interface RaceResult {
@@ -166,6 +180,13 @@ export class KartTimeTrial {
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
   private readonly projectiles = new ProjectileSystem(this.track);
+  private readonly incomingSeekerTest = incomingSeekerFromSearch(window.location.search);
+  private readonly incomingSeekerFixture = new IncomingSeekerFixture(this.incomingSeekerTest);
+  private readonly seekerWarningVisual = new SeekerWarningVisual();
+  private readonly seekerWarningAudio = new SeekerWarningAudio();
+  private seekerWarning: SeekerWarningLevel | null = null;
+  private itemUseMessage: string | null = null;
+  private itemUseMessageSeconds = 0;
   private lastApexSelectionTime = Number.NEGATIVE_INFINITY;
 
   public static async create(options: TimeTrialOptions): Promise<KartTimeTrial> {
@@ -188,7 +209,7 @@ export class KartTimeTrial {
     this.scene.add(createTrackScene(this.track));
     this.itemBoxes = new ItemBoxSystem(this.track);
     this.scene.add(this.itemBoxes.group);
-    this.scene.add(this.projectiles.group);
+    this.scene.add(this.projectiles.group, this.seekerWarningVisual.group);
     this.kartMesh.add(this.nitroSurgeVisual.group);
     this.scene.add(new THREE.HemisphereLight(0xcbb7ff, 0x263822, 2.1));
     const sun = new THREE.DirectionalLight(0xffe8c5, 2.4);
@@ -239,12 +260,15 @@ export class KartTimeTrial {
     this.itemSystem.dispose();
     this.racerEffects.dispose();
     this.projectiles.dispose();
+    this.seekerWarningVisual.dispose();
+    this.seekerWarningAudio.dispose();
     this.spinoutCameraAnchor.clear();
     this.nitroSurgeVisual.dispose();
     this.renderer.dispose();
   }
 
   public setTouchControl(control: string, pressed: boolean): void {
+    if (pressed) void this.seekerWarningAudio.unlock();
     if (pressed) this.touchPressed.add(control);
     else this.touchPressed.delete(control);
     if (control === 'recover' && pressed) this.respawn();
@@ -334,7 +358,16 @@ export class KartTimeTrial {
         : projection.progress;
     this.itemSystem.advance(dt);
     this.racerEffects.advance(dt);
+    this.incomingSeekerFixture.update(
+      this.elapsed,
+      this.playerProgress.finished,
+      this.kart.position(),
+      this.track,
+      this.projectiles,
+    );
     this.updateProjectiles(dt);
+    this.itemUseMessageSeconds = Math.max(0, this.itemUseMessageSeconds - dt);
+    if (this.itemUseMessageSeconds === 0) this.itemUseMessage = null;
     this.updateItemBoxes(dt);
     if (this.playerProgress.finished && !this.finishReported) {
       this.finishReported = true;
@@ -520,23 +553,27 @@ export class KartTimeTrial {
     }
   }
 
-  private updateProjectiles(dt: number): void {
-    const targets = [
+  private projectileTargets() {
+    return [
       {
         id: 'player',
         position: this.kart.position(),
+        velocity: this.kart.velocity(),
         forward: this.kart.forward(),
         finished: this.playerProgress.finished,
       },
       ...this.opponents.map((opponent) => ({
         id: opponent.id,
         position: opponent.controller.position(),
+        velocity: opponent.controller.velocity(),
         forward: opponent.controller.forward(),
         finished: opponent.progress.finished,
       })),
     ];
+  }
 
-    for (const impact of this.projectiles.update(dt, targets)) {
+  private updateProjectiles(dt: number): void {
+    for (const impact of this.projectiles.update(dt, this.projectileTargets())) {
       const definition = ITEM_DEFINITIONS[impact.itemId];
       const activated = this.racerEffects.activateSpinout(impact.targetId, {
         id: `${impact.itemId}-spinout`,
@@ -551,6 +588,24 @@ export class KartTimeTrial {
         this.spinoutCameraAnchor.capture(this.kart.forward(), this.kart.velocity());
       }
     }
+  }
+
+  private itemTargetingProgress(): RacerProgress[] {
+    const finishProgress = this.track.startFinishDistance / this.trackLength;
+    return [
+      targetingProgressSnapshot(
+        this.playerProgress,
+        this.lapTracker.snapshot().nextCheckpoint,
+        finishProgress,
+      ),
+      ...this.opponents.map((opponent) =>
+        targetingProgressSnapshot(
+          opponent.progress,
+          opponent.lapTracker.snapshot().nextCheckpoint,
+          finishProgress,
+        ),
+      ),
+    ];
   }
 
   private currentStandings(): RacerProgress[] {
@@ -589,7 +644,16 @@ export class KartTimeTrial {
       const distanceBehindLeaderMeters = Math.max(0, (leaderTotal - racerTotal) * this.trackLength);
       const forcedItem = forcedItemForRacer(this.forcedTestItem, racerId);
       const apexAvailable = this.elapsed - this.lastApexSelectionTime >= 18;
-      const itemId = forcedItem ?? selectItem({ rank, distanceBehindLeaderMeters, apexAvailable });
+      const itemId =
+        forcedItem ??
+        selectItem({
+          rank,
+          distanceBehindLeaderMeters,
+          apexAvailable,
+          isRuntimeEligible: (id) =>
+            id !== 'seeker-drone' ||
+            nearestRacerAhead(racerId, this.itemTargetingProgress()) !== null,
+        });
       if (!this.itemSystem.acquire(racerId, itemId)) return false;
       if (forcedItem === null && itemId === 'apex-missile')
         this.lastApexSelectionTime = this.elapsed;
@@ -600,14 +664,28 @@ export class KartTimeTrial {
   private requestPlayerItemUse(): void {
     if (this.paused || this.playerProgress.finished) return;
     const reverseHeld = this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake');
-    executeItemUse(this.itemSystem, this.racerEffects, 'player', itemUseDirection(reverseHeld), {
-      projectileSystem: this.projectiles,
-      projectileLaunch: {
-        position: this.kart.position(),
-        forward: this.kart.forward(),
-        velocity: this.kart.velocity(),
+    const result = executeItemUse(
+      this.itemSystem,
+      this.racerEffects,
+      'player',
+      itemUseDirection(reverseHeld),
+      {
+        racers: this.itemTargetingProgress(),
+        projectileSystem: this.projectiles,
+        projectileLaunch: {
+          position: this.kart.position(),
+          forward: this.kart.forward(),
+          velocity: this.kart.velocity(),
+        },
       },
-    });
+    );
+    if (this.itemSystem.heldItem('player')?.itemId === 'seeker-drone' && result === 'rejected') {
+      this.itemUseMessage =
+        nearestRacerAhead('player', this.itemTargetingProgress()) === null
+          ? 'NO RACER AHEAD · SEEKER HELD'
+          : 'SEEKER NOT READY · ITEM HELD';
+      this.itemUseMessageSeconds = 1.5;
+    }
   }
 
   private respawn(): void {
@@ -674,6 +752,11 @@ export class KartTimeTrial {
       this.racerEffects.remainingSeconds('player', 'nitro-surge') > 0,
       this.elapsed,
     );
+    const targets = this.projectileTargets();
+    const threats = seekerThreats(this.projectiles.snapshots(), targets);
+    this.seekerWarning = threats.find((threat) => threat.targetId === 'player')?.level ?? null;
+    this.seekerWarningVisual.update(threats, targets, this.elapsed);
+    this.seekerWarningAudio.update(this.seekerWarning, dt, Howler.volume(), this.paused);
     this.updatePlayerDriverSprite();
   }
 
@@ -707,8 +790,17 @@ export class KartTimeTrial {
       position: this.currentStandings().findIndex(({ id }) => id === 'player') + 1,
       countdown: this.raceDirector.countdownLabel(),
       item: this.itemSystem.hudSnapshot('player'),
+      seekerWarning: this.seekerWarning,
+      itemUseMessage: this.itemUseMessage,
       testModeItemLabel:
-        this.forcedTestItem === null ? null : ITEM_DEFINITIONS[this.forcedTestItem].displayName,
+        [
+          this.forcedTestItem === null
+            ? ''
+            : `FORCED ${ITEM_DEFINITIONS[this.forcedTestItem].displayName}`,
+          this.incomingSeekerTest ? 'INCOMING SEEKER EVERY 16s' : '',
+        ]
+          .filter(Boolean)
+          .join(' · ') || null,
       minimap: {
         track: this.minimapTrack,
         racers: [
@@ -1043,6 +1135,7 @@ export class KartTimeTrial {
   }
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
+    void this.seekerWarningAudio.unlock();
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(event.code)) {
       event.preventDefault();
     }

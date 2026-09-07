@@ -542,3 +542,11 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **PRD impact:** Approved amendment 2.5 supersedes the earlier Kinetic speed only.
 - **Approval:** Manny explicitly replied `Approved` to 42 m/s base speed with the existing angle-based ricochet rule on 2026-09-06.
 - **Final acceptance:** PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run `34034999554` passed. Manny's [PR #105 comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) accepts 42 m/s, angle-based ricochets, spinout, chase/rear perspective, and normal item selection. This also closes the ADR-065 Kinetic/guardrail/spinout live gate. Issue #106 remains a separate non-blocking future-development defect.
+
+## ADR-067: Implement approved Seeker targeting and bounded pursuit
+
+- **Date:** 2026-09-06
+- **Status:** Approved for implementation; gameplay publication/live acceptance pending
+- **Approval:** Manny approved PR #107 merge and the complete Seeker scope before implementation.
+- **Decision:** Implement the fill-ins in `docs/SLICE-5-SEEKER-DRONE-SCOPE.md` and PRD amendment 2.6: nearest-ahead progress targeting, fixed target, forward launch, 42-56 m/s dynamic speed with 20 m/s² limit, 120 degrees/s turning, 0.5 s arming, 12 s lifetime, rail destruction, 0.85 s spinout, and escalating warning cues. Use the existing shared cap and effect/camera boundaries.
+- **Scope:** Seeker plus reusable targeting and opt-in incoming acceptance fixture only. Issue #106, other item effects, general AI tactics, and Slice 6 remain deferred.

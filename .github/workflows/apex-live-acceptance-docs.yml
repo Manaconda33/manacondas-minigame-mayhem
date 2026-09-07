@@ -1,0 +1,122 @@
+name: Apex live acceptance docs
+
+on:
+  push:
+    branches:
+      - docs/apex-live-acceptance
+
+permissions:
+  contents: write
+
+jobs:
+  update-docs:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/apex-live-acceptance
+          fetch-depth: 0
+
+      - name: Record Apex live acceptance
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{path}: expected exactly one match, found {count}: {old[:120]!r}')
+              p.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          status = 'docs/IMPLEMENTATION-STATUS.md'
+          replace_once(
+              status,
+              '**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC AND SEEKER DRONE LIVE ACCEPTED / APEX CORE VALIDATED / PUBLICATION PENDING**',
+              '**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC DISC, SEEKER DRONE, AND APEX CORE LIVE ACCEPTED / SLICE 5 CONTINUES**',
+          )
+          replace_once(
+              status,
+              'Issue [#106](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106) remains a future-development standings-display defect and does not block Kinetic acceptance or this continuation.\n\nSlice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**.',
+              'Issue [#106](https://github.com/Manaconda33/manacondas-minigame-mayhem/issues/106) remains a future-development standings-display defect and does not block Kinetic acceptance or this continuation.\n\nApex core live acceptance, 2026-09-07: PR #111 squash-merged to `main` at `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`; post-merge CI/Pages run [34128841767](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34128841767) passed validation and GitHub Pages deployment. Manny then passed all focused outgoing checks, all focused incoming checks, and the normal governed-selection regression. **Apex Orbital Missile core is LIVE ACCEPTED.** The [PR #111 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/111#issuecomment-5571794632) is the product-owner evidence. Real playable Shockwave/Prismatic counter interactions remain explicitly deferred and do not reopen the accepted Apex core gate.\n\nSlice 3 Character Selection & Avatar Ingestion is **COMPLETE / LIVE ACCEPTED**.',
+          )
+          replace_once(
+              status,
+              '**Approval gate:** Manny approved PR #110 merge and the complete Apex core scope on 2026-09-07. PR #110 merged at `1b3391cfd9731291980552fa6ad3c0d9e635ff6b`; CI/Pages run `34126575125` passed. Apex core is implemented under amendment 2.7 / ADR-068; gameplay publication and core live acceptance remain pending. Real Shockwave/Prismatic interactions and Slice 6 remain later gates.',
+              '**Approval gate:** Apex core is live accepted. The next bounded Slice 5 gameplay increment requires its own scope review and Manny approval before implementation. Real Shockwave/Prismatic interactions, issue #106, and Slice 6 remain later/deferred gates.',
+          )
+          replace_once(
+              status,
+              'Remaining Slice 5 work includes thirteen item effects beyond accepted Nitro Surge and Kinetic Disc, additional projectiles, hazards, buffs/debuffs and counters, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.',
+              'Remaining Slice 5 work includes eleven item effects beyond accepted Nitro Surge, Kinetic Disc, Seeker Drone, and Apex core, additional projectiles, hazards, buffs/debuffs and real counter interactions, Hyper-Drive Rocket autopilot, AI tactical item use and hazard response, performance/cap evidence, cleanup/soak evidence, and final full-slice live acceptance.',
+          )
+          replace_once(
+              status,
+              '- Remaining Slice 5 work includes the eleven other unimplemented item effects, Apex core publication/live acceptance and real counter integration, AI item-use policy, interaction/counter validation, soak/performance evidence, deployment, and full-slice live acceptance. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, and Seeker Drone are already live accepted.',
+              '- Remaining Slice 5 work includes the eleven other unimplemented item effects, real Shockwave/Prismatic and other counter integration, AI item-use policy, interaction/counter validation, soak/performance evidence, deployment, and full-slice live acceptance. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, and Apex core are already live accepted.',
+          )
+          replace_once(
+              status,
+              'Review the validated Apex gameplay PR and its clean-install CI for merge/deployment. After approved publication, use the focused outgoing and incoming acceptance matrix in `docs/TESTING.md`. Incoming Apex targets the actual leader; drive into first to receive its warning. Real Shockwave/Prismatic interactions remain pending; issue #106 remains deferred.',
+              'Prepare the next bounded Slice 5 item/system scope from the PRD and approved item-system design for Manny review before implementation. Preserve the accepted Nitro/Kinetic/Seeker/Apex behavior. Real Shockwave/Prismatic interactions and issue #106 remain deferred unless the next approved scope explicitly includes them.',
+          )
+          replace_once(
+              status,
+              '**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, KINETIC DISC, AND SEEKER DRONE LIVE ACCEPTED. APEX CORE IMPLEMENTED; PUBLICATION AND CORE LIVE ACCEPTANCE PENDING.**',
+              '**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, KINETIC DISC, SEEKER DRONE, AND APEX CORE LIVE ACCEPTED.**',
+          )
+          replace_once(
+              status,
+              'No new dependency, workflow, binary asset, general AI item policy, or issue #106 change is included. Seeker, Kinetic and Nitro remain live accepted. Apex core is not yet deployed or live accepted.\n\nLocal `npm run validate`, `git diff --check` and `git lfs fsck` passed on 2026-09-07:',
+              'No new dependency, workflow, binary asset, general AI item policy, or issue #106 change is included. Seeker, Kinetic and Nitro remain live accepted. PR #111 subsequently merged at `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`; post-merge CI/Pages run `34128841767` passed both validation and deployment. Manny passed every focused outgoing, incoming, and normal-URL regression check, so **Apex core is LIVE ACCEPTED**. Real Shockwave/Prismatic counter interactions remain deferred.\n\nLocal `npm run validate`, `git diff --check` and `git lfs fsck` passed on 2026-09-07:',
+          )
+
+          decisions = 'docs/DECISIONS.md'
+          replace_once(
+              decisions,
+              '- **Status:** Implemented and locally validated; publication and core live acceptance pending\n- **Approval:** Manny approved PR #110 merge and its complete Apex scope. PR #110 merged at `1b3391cfd9731291980552fa6ad3c0d9e635ff6b`.',
+              '- **Status:** Live accepted / closed for Apex core; real Shockwave/Prismatic interaction gates deferred\n- **Approval:** Manny approved PR #110 merge and its complete Apex scope. PR #110 merged at `1b3391cfd9731291980552fa6ad3c0d9e635ff6b`.',
+          )
+          replace_once(
+              decisions,
+              '- **Boundary:** Counter-boundary automation does not complete real Shockwave/Prismatic interaction acceptance. Those playable items, general AI tactics, issue #106 and Slice 6 remain deferred. Preserve live-accepted Seeker/Kinetic/Nitro and race authority.',
+              '- **Boundary:** Counter-boundary automation does not complete real Shockwave/Prismatic interaction acceptance. Those playable items, general AI tactics, issue #106 and Slice 6 remain deferred. Preserve live-accepted Seeker/Kinetic/Nitro and race authority.\n- **Publication / live acceptance:** PR #111 squash-merged at `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`; post-merge CI/Pages run `34128841767` passed validation and deployment. Manny passed all focused outgoing Apex checks, all focused incoming Apex checks, and the normal governed-selection regression on 2026-09-07. Apex core is live accepted; real Shockwave/Prismatic interaction acceptance remains a separate later gate.',
+          )
+
+          testing = 'docs/TESTING.md'
+          replace_once(
+              testing,
+              '**These links do not yet serve Apex.** This checkpoint awaits gameplay publication review. The incoming fixture starts after five race seconds and obeys the actual shared 18-second launch gate.',
+              '**These links serve the live-accepted Apex core from PR #111 merge `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`; post-merge CI/Pages run `34128841767` passed validation and deployment.** The incoming fixture starts after five race seconds and obeys the actual shared 18-second launch gate.',
+          )
+          replace_once(
+              testing,
+              '6. Recheck normal unforced selection, accepted Seeker/Kinetic/Nitro, ordinary lap progression and restart/return-to-hub cleanup.\n\nRecord **core live acceptance separately**.',
+              '6. Recheck normal unforced selection, accepted Seeker/Kinetic/Nitro, ordinary lap progression and restart/return-to-hub cleanup.\n\n**Apex core live acceptance passed on 2026-09-07.** Manny passed all outgoing checks, all incoming checks, and the normal governed-game regression against deployed PR #111 / `5f37923d2ea64c9e4e95baafb1eee356f5cf114b`. Product-owner evidence is recorded on PR #111.\n\nRecord **core live acceptance separately**.',
+          )
+
+          readme = 'README.md'
+          replace_once(
+              readme,
+              'Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation, visible item boxes, roulette, held-item HUD, desktop/mobile ITEM input, and RacerEffects + Nitro Surge are merged, deployed, and live accepted. The currently approved bounded Slice 5 increment is Ricochet Kinetic Disc with shared projectile/spinout foundations, Circuit Alpha guardrails, racer-to-guardrail collisions, and perspective-correct chase/rear spinout presentation. All other item effects, hazards, Rocket autopilot, and AI tactical item use remain later Slice 5 work.',
+              'Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation, visible item boxes, roulette, held-item HUD, desktop/mobile ITEM input, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, and Apex Orbital Missile core are merged, deployed, and live accepted. Eleven item effects remain unimplemented, together with real cross-item counter integration, Hyper-Drive Rocket autopilot, AI tactical item use/hazard response, soak/performance evidence, and final Slice 5 acceptance. Issue #106 remains a deferred standings-display defect. Slice 6 remains locked.',
+          )
+          PY
+
+          git diff --check
+          git diff -- docs/IMPLEMENTATION-STATUS.md docs/DECISIONS.md docs/TESTING.md README.md
+
+      - name: Commit documentation closeout and remove updater
+        shell: bash
+        run: |
+          rm .github/workflows/apex-live-acceptance-docs.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/IMPLEMENTATION-STATUS.md docs/DECISIONS.md docs/TESTING.md README.md .github/workflows/apex-live-acceptance-docs.yml
+          git diff --cached --check
+          git commit -m 'Record Apex core live acceptance'
+          git push origin HEAD:docs/apex-live-acceptance

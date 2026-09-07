@@ -196,24 +196,26 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 
 # Slice 5 exit checklist
 
+> Evidence reconciliation, 2026-09-07: checkmarks below reflect only requirements already supported by merged code/tests and recorded deployed product-owner acceptance through PR #112. The seeded 100,000-selection-per-rank requirement remains open until a reproducible hosted CI test/report is committed and passes. Broad all-item interaction, AI-policy, pause/lifecycle, soak/performance, and final-publication gates remain open until their full Slice 5 scope is implemented and evidenced.
+
 ## System and distribution
 
-- [ ] All fifteen PRD item IDs exist in one typed registry.
-- [ ] The eight rank tables remain exactly as approved and each totals 100%.
-- [ ] Dynamic gap weighting obeys the 1.00-1.35 PRD bound.
-- [ ] Runtime restrictions filter impossible items before selection and renormalize remaining weights.
+- [x] All fifteen PRD item IDs exist in one typed registry.
+- [x] The eight rank tables remain exactly as approved and each totals 100%.
+- [x] Dynamic gap weighting obeys the 1.00-1.35 PRD bound.
+- [x] Runtime restrictions filter impossible items before selection and renormalize remaining weights.
 - [ ] At least 100,000 seeded simulated selections per rank are recorded; expected deviation is within approximately 0.5 percentage points for common items or a documented goodness-of-fit test passes.
-- [ ] One-slot inventory works and an occupied racer cannot consume another box.
-- [ ] Roulette lasts approximately 0.85 seconds and freezes under pause.
-- [ ] Multi-charge item counts display correctly.
-- [ ] Item boxes pop on successful collection, immediately stop being collectible, disappear from the field, then fade back before becoming collectible at approximately 4.5 seconds.
-- [ ] Four eight-box rows exist at the approved approximate lap-progress locations and remain in the legal race corridor.
+- [x] One-slot inventory works and an occupied racer cannot consume another box.
+- [x] Roulette lasts approximately 0.85 seconds and freezes under pause.
+- [x] Multi-charge item counts display correctly.
+- [x] Item boxes pop on successful collection, immediately stop being collectible, disappear from the field, then fade back before becoming collectible at approximately 4.5 seconds.
+- [x] Four eight-box rows exist at the approved approximate lap-progress locations and remain in the legal race corridor.
 
 ## Fifteen-item functional gate
 
 - [x] Kinetic Disc launches forward/backward, travels at the governed speed, ricochets no more than three times, and expires/cleans up.
 - [x] Seeker selects the nearest valid racer ahead by race progress, respects arming/turn/lifetime behavior, does not teleport, and warns its target.
-- [ ] Apex respects one-active-global and 18-second restrictions, then attacks whoever is currently first at terminal lock.
+- [x] Apex respects one-active-global and 18-second restrictions, then attacks whoever is currently first at terminal lock.
 - [ ] Blast Orb supports directional deployment, approximately three-second fuse, qualifying early impact detonation, AoE resolution, and cleanup.
 - [ ] Blaze Orbs provide five charges and enforce the 0.55-second minimum cadence.
 - [ ] Frost Orbs provide three charges and apply the governed non-stacking speed/handling effect.
@@ -230,19 +232,19 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 
 ## Race, HUD, input, and AI integrity
 
-- [ ] Left Shift and E both use the held item.
-- [ ] S/Down + item performs backward-capable deployment where supported.
+- [x] Left Shift and E both use the held item.
+- [x] S/Down + item performs backward-capable deployment where supported.
 - [ ] Mobile `ITEM` control works and passes simultaneous-input testing.
-- [ ] Mobile Brake/Reverse + ITEM requests backward deployment where supported.
-- [ ] HUD shows roulette, held item, and correct remaining charge count.
+- [x] Mobile Brake/Reverse + ITEM requests backward deployment where supported.
+- [x] HUD shows roulette, held item, and correct remaining charge count.
 - [ ] AI acquires and uses items according to tactical circumstances.
 - [ ] AI recognizes Slicks and Blast Orbs as hazards.
-- [ ] Seeker/Apex targeting derives from validated race progress rather than visual proximity alone.
+- [x] Seeker/Apex targeting derives from validated race progress rather than visual proximity alone.
 - [ ] Item hits never directly mutate checkpoint sequence, lap count, finish place, or race-progress authority.
 - [ ] Hyper-Drive movement earns progress through legal movement/checkpoints rather than direct progress mutation.
-- [ ] Finished racers cannot obtain new items.
+- [x] Finished racers cannot obtain new items.
 - [ ] Pause freezes roulette, projectile, hazard, buff/debuff, arming, fuse, global cooldown, and item-window timers.
-- [ ] Existing AI steering, lane, speed-stat authority, recovery, and bounded rubber-band tests remain passing.
+- [x] Existing AI steering, lane, speed-stat authority, recovery, and bounded rubber-band tests remain passing.
 
 ## Reliability and performance
 

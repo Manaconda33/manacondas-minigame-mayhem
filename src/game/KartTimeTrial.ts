@@ -4,6 +4,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Howler } from 'howler';
 import { HazardSystem } from './items/HazardSystem';
 import { ItemPhysicsCapacity } from './items/ItemPhysicsCapacity';
+import { SlickGroundSurface } from './items/SlickGroundSurface';
+import { IncomingSlickFixture } from './items/IncomingSlickFixture';
 import { IncomingBlastOrbFixture } from './items/IncomingBlastOrbFixture';
 import { ApexMissileSystem, type ApexWarning } from './items/ApexMissileSystem';
 import { ApexPresentation } from './items/ApexPresentation';
@@ -45,6 +47,7 @@ import {
   incomingSeekerFromSearch,
   incomingApexFromSearch,
   incomingBlastOrbFromSearch,
+  incomingSlickFromSearch,
 } from './items/ItemTestMode';
 import { NitroSurgeVisual } from './items/NitroSurgeVisual';
 import { RacerEffects } from './items/RacerEffects';
@@ -140,6 +143,8 @@ export class KartTimeTrial {
   private readonly scene = new THREE.Scene();
   private readonly camera: THREE.PerspectiveCamera;
   private readonly track = new CircuitAlpha();
+  private readonly trackScene = createTrackScene(this.track);
+  private readonly slickGround = new SlickGroundSurface(this.trackScene);
   private readonly trackLength = this.track.curve.getLength();
   private readonly minimapTrack = normalizeMinimapTrack(this.track.samples);
   private readonly lapTracker = new LapTracker();
@@ -190,7 +195,11 @@ export class KartTimeTrial {
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
   private readonly itemPhysicsCapacity = new ItemPhysicsCapacity();
   private readonly projectiles = new ProjectileSystem(this.track, this.itemPhysicsCapacity);
-  private readonly hazards = new HazardSystem(this.track, this.itemPhysicsCapacity);
+  private readonly hazards = new HazardSystem(this.track, this.itemPhysicsCapacity, (position) =>
+    this.slickGround.at(position),
+  );
+  private readonly incomingSlickTest = incomingSlickFromSearch(window.location.search);
+  private readonly incomingSlickFixture = new IncomingSlickFixture(this.incomingSlickTest);
   private readonly incomingBlastTest = incomingBlastOrbFromSearch(window.location.search);
   private readonly incomingBlastFixture = new IncomingBlastOrbFixture(this.incomingBlastTest);
   private readonly incomingSeekerTest = incomingSeekerFromSearch(window.location.search);
@@ -223,7 +232,7 @@ export class KartTimeTrial {
 
     this.camera = new THREE.PerspectiveCamera(62, 1, 0.1, 900);
     this.chaseCamera = new ChaseCamera(this.camera);
-    this.scene.add(createTrackScene(this.track));
+    this.scene.add(this.trackScene);
     this.itemBoxes = new ItemBoxSystem(this.track);
     this.scene.add(this.itemBoxes.group);
     this.scene.add(
@@ -285,6 +294,7 @@ export class KartTimeTrial {
     this.apexPresentation.dispose();
     this.apexWarningAudio.dispose();
     this.hazards.dispose();
+    this.slickGround.dispose();
     this.projectiles.dispose();
     this.seekerWarningVisual.dispose();
     this.seekerWarningAudio.dispose();
@@ -347,6 +357,7 @@ export class KartTimeTrial {
       effectAccelerationMultiplier: driveModifiers.accelerationMultiplier,
       ignoreOffRoadSpeedPenalty: driveModifiers.ignoreOffRoadSpeedPenalty,
       effectSpinoutYawRateRadiansPerSecond: playerSpinout?.yawRateRadiansPerSecond,
+      effectSpinoutPreserveMomentum: playerSpinout?.preserveMomentum,
     };
     this.playerSteering = playerSpinout === null ? input.steering : 0;
     this.driverHitSeconds = Math.max(0, this.driverHitSeconds - dt);
@@ -456,6 +467,7 @@ export class KartTimeTrial {
               brake: false,
               drift: false,
               effectSpinoutYawRateRadiansPerSecond: spinout.yawRateRadiansPerSecond,
+              effectSpinoutPreserveMomentum: spinout.preserveMomentum,
             }
           : opponent.progress.finished
             ? { throttle: 0, steering: 0, brake: true, drift: false }
@@ -617,6 +629,13 @@ export class KartTimeTrial {
       this.track,
       this.hazards,
     );
+    this.incomingSlickFixture.update(
+      this.elapsed,
+      this.playerProgress.finished,
+      this.kart.position(),
+      this.track,
+      this.hazards,
+    );
     for (const impact of impacts) {
       const definition = ITEM_DEFINITIONS[impact.itemId];
       const activated = this.racerEffects.activateSpinout(impact.targetId, {
@@ -625,8 +644,16 @@ export class KartTimeTrial {
         durationSeconds: impact.spinoutSeconds,
         direction: impact.spinDirection,
         turns: 1,
+        preserveMomentum: impact.preserveSpinMomentum,
       });
       if (!activated) continue;
+      if (impact.planarSpeedRetention !== undefined) {
+        const controller =
+          impact.targetId === 'player'
+            ? this.kart
+            : this.opponents.find((opponent) => opponent.id === impact.targetId)?.controller;
+        controller?.retainPlanarVelocity(impact.planarSpeedRetention);
+      }
       this.activateDriverHit(impact.targetId, impact.spinoutSeconds);
       if (impact.targetId === 'player') {
         this.spinoutCameraAnchor.capture(this.kart.forward(), this.kart.velocity());
@@ -695,6 +722,7 @@ export class KartTimeTrial {
           distanceBehindLeaderMeters,
           apexAvailable,
           isRuntimeEligible: (id) =>
+            (id !== 'slick-trap' || this.hazards.canPlaceSlick(racerId)) &&
             (id !== 'blast-orb' || this.itemPhysicsCapacity.count() < 40) &&
             (id !== 'seeker-drone' ||
               nearestRacerAhead(racerId, this.itemTargetingProgress()) !== null),
@@ -724,6 +752,10 @@ export class KartTimeTrial {
         },
       },
     );
+    if (this.itemSystem.heldItem('player')?.itemId === 'slick-trap' && result === 'rejected') {
+      this.itemUseMessage = 'SLICK NOT READY · ITEM HELD';
+      this.itemUseMessageSeconds = 1.5;
+    }
     if (this.itemSystem.heldItem('player')?.itemId === 'blast-orb' && result === 'rejected') {
       this.itemUseMessage = 'BLAST ORB NOT READY · ITEM HELD';
       this.itemUseMessageSeconds = 1.5;
@@ -866,6 +898,7 @@ export class KartTimeTrial {
             : `FORCED ${ITEM_DEFINITIONS[this.forcedTestItem].displayName}`,
           this.incomingSeekerTest ? 'INCOMING SEEKER EVERY 16s' : '',
           this.incomingApexTest ? 'APEX ATTACKS LEADER · DRIVE INTO FIRST' : '',
+          this.incomingSlickTest ? 'ONE SLICK AHEAD AFTER 5s' : '',
           this.incomingBlastTest ? 'ONE BLAST ORB AHEAD AFTER 5s' : '',
         ]
           .filter(Boolean)

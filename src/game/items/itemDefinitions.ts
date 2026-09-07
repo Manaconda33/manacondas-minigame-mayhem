@@ -73,7 +73,7 @@ export const BLAST_ORB_CONFIG = {
   impactClosingSpeed: 8,
   forwardSpeed: 14,
   forwardInheritance: 0.35,
-  backwardInheritance: 0.20,
+  backwardInheritance: 0.2,
   inheritedSpeedCap: 12,
   drag: 6,
   spawnOffset: 1.75,
@@ -322,3 +322,14 @@ export const ITEM_BOX_LAYOUT = {
 export function probabilityTotalForRank(rank: RaceRank): number {
   return ITEM_IDS.reduce((total, itemId) => total + ITEM_PROBABILITY_BY_RANK[rank][itemId], 0);
 }
+
+/** PRD amendment 2.9 / ADR-070. */
+export const SLICK_TRAP_CONFIG = {
+  spawnOffset: 1.75,
+  ownerImmunitySeconds: 0.35,
+  triggerRadius: 1.1,
+  lifetimeSeconds: 12,
+  spinoutSeconds: 0.85,
+  planarSpeedRetention: 0.6,
+  maxPerOwner: 2,
+} as const;

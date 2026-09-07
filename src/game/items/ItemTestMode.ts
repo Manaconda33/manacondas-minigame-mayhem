@@ -23,3 +23,7 @@ export function incomingApexFromSearch(search: string): boolean {
 export function incomingBlastOrbFromSearch(search: string): boolean {
   return new URLSearchParams(search).get('testBlastOrbIncoming') === '1';
 }
+
+export function incomingSlickFromSearch(search: string): boolean {
+  return new URLSearchParams(search).get('testSlickAhead') === '1';
+}

@@ -12,6 +12,14 @@ export class ItemPhysicsCapacity {
     return id;
   }
 
+  /** Transfer an owned slot without transiently exceeding the global budget. */
+  public replace(id: number): number {
+    if (!this.slots.delete(id)) throw new Error('Cannot replace an unowned item slot');
+    const replacement = this.nextId++;
+    this.slots.add(replacement);
+    return replacement;
+  }
+
   public release(id: number): void {
     this.slots.delete(id);
   }

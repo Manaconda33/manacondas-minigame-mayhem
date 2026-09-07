@@ -1,6 +1,6 @@
 # Slice 5 approved next increment: Slick Trap
 
-**Status: APPROVED FOR GOVERNANCE CHECKPOINT. Gameplay implementation remains gated on governance merge and post-merge CI/Pages. Approved by Manny, 2026-09-07.**
+**Status: IMPLEMENTED. PR #119 governance merge and post-merge CI/Pages passed; Manny explicitly authorized gameplay implementation. Publication/deployment and live acceptance remain pending.**
 
 Baseline: `main` at `a2bd4e3a873bcd6a2b67789ebc06ac2c3ccfec76`. Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, and Timed Blast Orb are live accepted. The Timed Blast Orb checkpoint established the reusable `HazardSystem` and shared 40-object item-physics capacity. Slice 5 remains active; Slice 6 remains locked.
 
@@ -101,3 +101,14 @@ Run clean `npm ci`, `npm run validate`, `git diff --check`, Git LFS verification
 Manny approved the complete scope as written on 2026-09-07. This document, PRD amendment 2.9, ADR-070, `docs/TESTING.md`, and `docs/IMPLEMENTATION-STATUS.md` form the governance checkpoint. Gameplay implementation may begin only after this checkpoint merges to `main` and its post-merge CI/Pages run passes. Publication/deployment of gameplay and live acceptance remain later separate gates.
 
 Any future change to the approved 1.75 m drop offset, 0.35 s owner immunity, 0.85 s spin presentation, 60% speed retention, third-placement FIFO replacement rule, immunity semantics, fixture behavior, or other governed fill-in requires the normal approval process before implementation tuning.
+
+
+## Gameplay implementation checkpoint — 2026-09-07
+
+The approved governance baseline is `2ce2212e5d89e192b9118ec07c655bacefbdf45a` (PR #119), with successful post-merge CI/Pages run `34151395918`. The gameplay implementation is on `feature/slice-5-slick-trap-implementation`.
+
+`HazardSystem` owns both types, their shared clear ordering and disposal. Successful third Slick placement transfers the oldest owned capacity slot only after inventory commit; failure leaves both older Slicks intact. Slick's one-shot 0.6 velocity scale is separate from the generic yaw presentation, whose momentum-preserving option prevents standard/heavy decay from affecting Slick. The accepted camera and driver-frame contracts are reused.
+
+A lightweight surface sampler uses existing track meshes for patch height/normal, including the raised ramp and boost pads; no track geometry or physics changes. The procedural patch sits 0.04 m above its supporting surface to avoid overlap. This is presentation geometry, not a change to the approved 1.1 m planar center trigger.
+
+The eight deployed checks above remain pending. The gameplay PR records automated validation before publication review. Existing accepted items, probabilities, AI scope, issue #106 and Slice 6 gates remain as governed.

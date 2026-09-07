@@ -638,3 +638,18 @@ Focused deployed desktop/mobile live gate:
 8. Normal unforced gameplay and accepted Blast/Nitro/Kinetic/Seeker/Apex behavior remain unchanged.
 
 Record exact commit, hosted CI/Pages run, desktop/mobile results, defects, and Manny's acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint closes only the Slick functional gate proven by the deployed implementation. AI Blast/Slick avoidance, playable Shockwave, real Prismatic/Hyper-Drive interaction acceptance, remaining items, final Slice 5 soak/performance, and Slice 6 remain separate gates.
+
+
+## Slick Trap implementation evidence — 2026-09-07
+
+Governance baseline: PR #119 merge `2ce2212e5d89e192b9118ec07c655bacefbdf45a`, post-merge CI/Pages `34151395918` passed. Manny explicitly authorized the gameplay implementation.
+
+`tests/slick-trap.test.ts` covers both ITEM directions, inventory consumption/failure, invalid launch data, 40 mixed slots, full-budget FIFO replacement, owner independence, failed/throwing commit rollback, rail containment, lifetime/pause, exact owner/trigger boundaries, immunity/finished filtering, one-shot cleanup, generic 3D clear ordering, repeated resource disposal, fixture isolation/restart and real Circuit Alpha raised-surface placement. `tests/kart-controller-effects.test.ts` verifies zero/near-zero/moving 60% retention, one 360-degree spin across 51 fixed steps, control suppression, no additional planar decay, hostile-spin refresh, camera-heading stability and both hit/frontHit states. The existing accepted-item and rank-distribution suites remain required.
+
+Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages successfully. Full `npm run validate` passed strict typecheck, zero-warning lint, **34 files / 254 tests**, **92.42% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted clean-install PR CI remains required before publication review. After separately approved deployment, use:
+
+- Outgoing: https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=slick-trap
+- Incoming: https://manaconda33.github.io/manacondas-minigame-mayhem/?testSlickAhead=1
+- Normal: https://manaconda33.github.io/manacondas-minigame-mayhem/
+
+These links do not provide this gameplay until the gameplay PR is merged and its Pages run passes. Complete the eight Slick deployed checks above on desktop/mobile; include patch visibility on road, dirt, boost pads and the ramp. Automated camera/state checks are not a claim of live visual acceptance. Playable Shockwave, real Prismatic/Hyper-Drive interactions and AI hazard response remain separate gates.

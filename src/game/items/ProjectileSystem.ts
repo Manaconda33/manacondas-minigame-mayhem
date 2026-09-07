@@ -30,6 +30,8 @@ export interface ProjectileTarget {
 }
 
 export interface ProjectileImpact {
+  readonly planarSpeedRetention?: number;
+  readonly preserveSpinMomentum?: boolean;
   readonly projectileId: number;
   readonly itemId: ItemId;
   readonly targetId: string;

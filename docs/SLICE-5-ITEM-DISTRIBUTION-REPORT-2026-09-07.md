@@ -7,6 +7,7 @@
 - Sample size: **100,000 deterministic selections per rank; 800,000 total**.
 - Acceptance threshold: every eligible item must remain within **0.5 percentage points** of its effective post-restriction/post-gap probability; zero-weight items must never be selected.
 - Result: **PASS for all eight ranks**.
+- PR #114 reconciles only the seeded-distribution and probability-report evidence gates in the Slice 5 continuity documents; all broader Slice 5 gates remain open.
 
 ## Method
 

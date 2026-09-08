@@ -44,6 +44,12 @@ interface BlastVisual {
   remaining: number;
 }
 
+function squaredHorizontalDistance(a: THREE.Vector3, b: THREE.Vector3): number {
+  const x = a.x - b.x;
+  const z = a.z - b.z;
+  return x * x + z * z;
+}
+
 /** Ground-bound hazards own no racer progress or controller state. */
 export class HazardSystem {
   public readonly group = new THREE.Group();
@@ -229,7 +235,8 @@ export class HazardSystem {
     for (const orb of [...this.orbs.values(), ...this.slicks.values()]) {
       if (
         this.clears.some(
-          ({ center, radius }) => center.distanceToSquared(orb.mesh.position) <= radius ** 2,
+          ({ center, radius }) =>
+            squaredHorizontalDistance(center, orb.mesh.position) <= radius ** 2,
         )
       )
         this.remove(orb.id);

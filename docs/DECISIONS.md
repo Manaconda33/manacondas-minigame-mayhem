@@ -530,7 +530,6 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **PRD impact:** Recorded as approved implementation amendment 2.4. No item probability, inventory, AI item-policy, lap/checkpoint, or Slice 6 requirement changes.
 - **Approval:** Manny explicitly approved this expanded Kinetic Disc checkpoint on 2026-09-06.
 
-
 ## ADR-066: Raise Kinetic Disc speed after live catch-up testing
 
 - **Date:** 2026-09-06
@@ -552,7 +551,6 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Scope:** Seeker plus reusable targeting and opt-in incoming acceptance fixture only. Issue #106, other item effects, general AI tactics, and Slice 6 remain deferred.
 
 - **Publication:** Manny approved PR #108 merge/deployment; merge `ef5dbaeccde123faedd00f625cf18e32c07875de` and CI/Pages run `34086473571` passed. Manny passed all six live checks and accepted continuation on 2026-09-07 after reviewing the lap-2 investigation. Seeker is live accepted. Diagnostic PR #109 is closed unmerged; the specific shot's cause remains unconfirmed. See `docs/SEEKER-LAP-GATE-REVIEW-2026-09-07.md`.
-
 
 ## ADR-068: Implement approved Apex core and launch-owned global availability
 
@@ -594,7 +592,6 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 
 - **Implementation checkpoint:** PR #119 governance merge `2ce2212e5d89e192b9118ec07c655bacefbdf45a` and CI/Pages `34151395918` passed. Manny authorized gameplay implementation. The gameplay feature branch extends HazardSystem and the generic hostile-spin boundary with the approved Slick behavior; surface placement derives from existing track meshes. See `docs/TESTING.md` and the gameplay PR for validation. No live acceptance is claimed.
 
-
 ## ADR-071: Use bounded lane-intent AI avoidance for accepted Slick and Blast hazards
 
 - **Status:** Live accepted / closed for bounded Slick + Blast hazard response; full AI item policy and static-obstacle expansion remain deferred.
@@ -608,10 +605,11 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 
 ## ADR-072: Implement Acoustic Shockwave as an instantaneous ordered counter pulse
 
-- **Status:** Approved for implementation; gameplay not yet implemented.
+- **Status:** Gameplay merged/deployed; bounded correction and live acceptance pending.
 - **Date:** 2026-09-07.
 - **Context:** Slice 5 already exposes accepted counter boundaries for terminal Apex, Blast Orb, and Slick Trap. Shockwave is the highest-leverage next item because it closes those real interactions and establishes the ordinary-projectile counter contract before Blaze/Frost/Arc projectiles are added.
 - **Decision:** Use one instantaneous 5 m pulse centered on the user. Forward/backward ITEM direction is equivalent. Eligible unfinished non-owner/non-immune racers receive an outward planar velocity delta falling linearly from 6 m/s at the center to 2 m/s at 5 m, with no conventional spinout or transform snap. Kinetic Disc and Seeker Drone projectiles within 5 m are destroyed; Slick/Blast use the existing queued hazard clear; only terminal/dive Apex is counterable within the existing 5 m 3D boundary. Counter resolution precedes affected object movement/contact/fuse/blast in the same simulation step. Shockwave consumes one charge on a committed pulse, uses no persistent shared-capacity slot, and does not enable AI item tactics.
 - **Consequences:** Existing accepted item state machines remain authoritative except for their approved removal by a successful Shockwave pulse. Later ordinary projectile items can integrate against one established counter boundary. Final production audio/VFX remains Slice 6.
 - **Approval:** Manny approved the recommended Shockwave scope and the 6-to-2 m/s push falloff on 2026-09-07.
 - **Gate:** `docs/SLICE-5-SHOCKWAVE-SCOPE.md`, PRD amendment 2.11, `docs/TESTING.md`, and `docs/IMPLEMENTATION-STATUS.md` form the governance checkpoint. Gameplay may begin only after this checkpoint merges and post-merge CI/Pages passes; gameplay publication and live acceptance remain separate approvals.
+- **Publication review:** PR #126 squash-merged at `3f0c9e9d0d89961936beaec3294bfeef2a6c78fe`; post-merge CI/Pages run `34178644577` passed. Independent review then found that non-Apex clears used 3D rather than horizontal distance and that live target snapshots omitted generic immunity. The bounded correction uses horizontal X/Z distance for ordinary projectiles and hazards, preserves Apex's 3D terminal counter, and wires a neutral-by-default shared immunity source without enabling Prismatic or AI item tactics.

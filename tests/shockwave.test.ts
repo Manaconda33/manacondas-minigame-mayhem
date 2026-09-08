@@ -64,6 +64,18 @@ describe('Acoustic Shockwave Pulse', () => {
     },
   );
 
+  it('retains the charge and creates no pulse or visual when activation cannot commit', () => {
+    const items = new ItemSystem();
+    const shockwave = new ShockwaveSystem();
+    expect(items.acquire('player', 'shockwave')).toBe(true);
+    items.advance(1);
+    expect(shockwave.activate('player', new THREE.Vector3(), () => false)).toBe(false);
+    expect(items.heldItem('player')?.remainingCharges).toBe(1);
+    expect(shockwave.pendingCount()).toBe(0);
+    expect(shockwave.visualCount()).toBe(0);
+    shockwave.dispose();
+  });
+
   it('uses exact governed horizontal push falloff and deterministic finite coincident fallback', () => {
     const pulse: ShockwavePulse = { ownerId: 'owner', center: new THREE.Vector3() };
     const center = shockwavePushDelta(pulse, target('center', new THREE.Vector3()));
@@ -140,7 +152,10 @@ describe('Acoustic Shockwave Pulse', () => {
     const inside = projectiles.snapshots().find(({ id }) => id === insideId);
     expect(inside).toBeDefined();
     if (inside === undefined) return;
-    projectiles.queueClearWithinRadius(inside.position, 5);
+    projectiles.queueClearWithinRadius(
+      inside.position.clone().add(new THREE.Vector3(0, 100, 0)),
+      5,
+    );
     expect(projectiles.update(1 / 60, [])).toEqual([]);
     expect(projectiles.snapshots().some(({ id }) => id === insideId)).toBe(false);
     expect(projectiles.snapshots().some(({ id }) => id === outsideId)).toBe(true);
@@ -164,12 +179,42 @@ describe('Acoustic Shockwave Pulse', () => {
       forward: new THREE.Vector3(0, 0, 1),
       finished: false,
     };
-    projectiles.queueClearWithinRadius(seekerSnapshot.position, 5);
+    projectiles.queueClearWithinRadius(
+      seekerSnapshot.position.clone().add(new THREE.Vector3(0, -100, 0)),
+      5,
+    );
     expect(projectiles.update(1 / 60, [targetSnapshot])).toEqual([]);
     expect(projectiles.snapshots().some(({ id }) => id === seekerId)).toBe(false);
     expect(capacity.count()).toBe(1);
     projectiles.dispose();
     expect(capacity.count()).toBe(0);
+  });
+
+  it.each([
+    { offset: 4.9999, cleared: true },
+    { offset: 5, cleared: true },
+    { offset: 5.0001, cleared: false },
+  ])('uses the exact horizontal projectile-clear boundary at $offset m', ({ offset, cleared }) => {
+    const track = new CircuitAlpha();
+    const projectiles = new ProjectileSystem(track);
+    const config = ITEM_DEFINITIONS['kinetic-disc'].projectile;
+    expect(config).toBeDefined();
+    if (config === undefined) return;
+    const id = projectiles.spawn({
+      itemId: 'kinetic-disc',
+      ownerId: 'owner',
+      direction: 'forward',
+      config,
+      launch: launch(track),
+    });
+    expect(id).not.toBeNull();
+    const position = projectiles.snapshots().find((snapshot) => snapshot.id === id)?.position;
+    expect(position).toBeDefined();
+    if (id === null || position === undefined) return;
+    projectiles.queueClearWithinRadius(position.clone().add(new THREE.Vector3(offset, 100, 0)), 5);
+    projectiles.update(1e-6, []);
+    expect(projectiles.snapshots().some((snapshot) => snapshot.id === id)).toBe(!cleared);
+    projectiles.dispose();
   });
 
   it('lets a queued hazard clear win the same frame over Slick trigger and preserves outside hazard', () => {

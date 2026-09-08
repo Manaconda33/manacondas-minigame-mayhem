@@ -267,14 +267,13 @@ describe('Slick lifetime, trigger and clear boundaries', () => {
     expect(f.capacity.count()).toBe(0);
     expect(f.hazards.group.children).toHaveLength(0);
   });
-  it('clears both types in 3D at 5m before same-step contact/fuse, preserving outside hazards', () => {
+  it('clears both types horizontally at 5m before same-step contact/fuse', () => {
     const f = fixture();
     const slick = required(f.hazards.placeSlick('owner', new THREE.Vector3()));
     const orb = required(f.hazards.placeBlastOrb('owner', new THREE.Vector3()));
     f.hazards.update(2.999, []);
-    // Each center is 5m above the respective ground-bound hazard.
-    f.hazards.queueClearWithinRadius(new THREE.Vector3(0, 5.04, 0), 5);
-    f.hazards.queueClearWithinRadius(new THREE.Vector3(0, 5.4, 0), 5);
+    // Vertical separation is irrelevant; both hazards are exactly 5m away in X/Z.
+    f.hazards.queueClearWithinRadius(new THREE.Vector3(5, 100, 0), 5);
     f.hazards.placeSlick('outside', new THREE.Vector3(0, 0, 5.001));
     expect(f.hazards.update(0.01, [target()])).toEqual([]);
     expect(f.hazards.remove(slick)).toBe(false);

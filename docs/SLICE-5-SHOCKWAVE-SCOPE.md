@@ -1,8 +1,8 @@
 # Slice 5 Acoustic Shockwave Pulse Scope
 
-**Status: GOVERNANCE MERGED / GAMEPLAY IMPLEMENTATION AUTHORIZED; PUBLICATION AND LIVE ACCEPTANCE PENDING.**
+**Status: GAMEPLAY MERGED / DEPLOYED; CORRECTIVE REVIEW AND LIVE ACCEPTANCE PENDING.**
 
-Baseline `main`: `a20d5b14fcd9c02095c427d8d047607bf080cb01`.
+Deployed gameplay checkpoint: `3f0c9e9d0d89961936beaec3294bfeef2a6c78fe`.
 
 Governing PRD: **v1.1, working implementation amendment 2.11**. Decision: **ADR-072**.
 
@@ -69,3 +69,5 @@ The implementation must not special-case accepted Kinetic/Seeker/Hazard/Apex sta
 Manny approved this complete scope, including the 6-to-2 m/s racer push falloff, on 2026-09-07. This document, PRD amendment 2.11, ADR-072, `docs/TESTING.md`, `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, and `docs/IMPLEMENTATION-STATUS.md` form the governance checkpoint.
 
 Governance PR #125 squash-merged to `main` at `0825ed02f80a67e088416d2d55925309e38eabe5`; post-merge CI/Pages run `34177188784` passed validation and deployment. The gameplay gate is therefore cleared for `feature/slice-5-shockwave`. Gameplay publication/deployment and live acceptance remain later separate gates. No other item effect is authorized by this scope.
+
+Gameplay PR #126 squash-merged at `3f0c9e9d0d89961936beaec3294bfeef2a6c78fe`; post-merge CI/Pages run `34178644577` passed validation and deployment. Independent post-deployment review found that ordinary projectile/hazard clears used 3D distance instead of amendment 2.11's horizontal radius and that the live target snapshot omitted the generic immunity flag. A bounded corrective checkpoint addresses those findings without changing balance, accepted item behavior, AI tactics, or Slice 6 scope. Live acceptance remains blocked until that correction is validated, published, and deployed.

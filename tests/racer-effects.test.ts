@@ -11,6 +11,19 @@ function nitroBoost() {
 }
 
 describe('Slice 5 RacerEffects temporary boost foundation', () => {
+  it('owns a shared item-immunity flag that clear and disposal remove', () => {
+    const effects = new RacerEffects();
+    expect(effects.isItemImmune('player')).toBe(false);
+    expect(effects.setItemImmune('', true)).toBe(false);
+    expect(effects.setItemImmune('player', true)).toBe(true);
+    expect(effects.isItemImmune('player')).toBe(true);
+    effects.clear('player');
+    expect(effects.isItemImmune('player')).toBe(false);
+    effects.setItemImmune('player', true);
+    effects.dispose();
+    expect(effects.isItemImmune('player')).toBe(false);
+  });
+
   it('keeps Nitro Surge tuning in item configuration at the approved values', () => {
     expect(nitroBoost()).toEqual({
       durationSeconds: 2.4,

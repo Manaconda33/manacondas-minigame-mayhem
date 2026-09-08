@@ -622,6 +622,7 @@ export class KartTimeTrial {
         velocity: this.kart.velocity(),
         forward: this.kart.forward(),
         finished: this.playerProgress.finished,
+        itemImmune: this.racerEffects.isItemImmune('player'),
       },
       ...this.opponents.map((opponent) => ({
         id: opponent.id,
@@ -629,6 +630,7 @@ export class KartTimeTrial {
         velocity: opponent.controller.velocity(),
         forward: opponent.controller.forward(),
         finished: opponent.progress.finished,
+        itemImmune: this.racerEffects.isItemImmune(opponent.id),
       })),
     ];
   }

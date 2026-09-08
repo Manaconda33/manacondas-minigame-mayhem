@@ -1,0 +1,130 @@
+name: Record AI hazard response live acceptance
+
+on:
+  push:
+    branches:
+      - docs/ai-hazard-response-live-acceptance
+    paths:
+      - .github/workflows/record-ai-hazard-response-live-acceptance.yml
+
+permissions:
+  contents: write
+
+jobs:
+  record-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out acceptance branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/ai-hazard-response-live-acceptance
+          fetch-depth: 1
+          lfs: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Record live acceptance
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path: str, old: str, new: str) -> None:
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected one anchor, found {count}: {old[:180]!r}")
+              p.write_text(text.replace(old, new, 1).rstrip() + "\n")
+
+          # IMPLEMENTATION-STATUS: make the live state and bounded AI checkpoint truthful.
+          replace_once(
+              'docs/IMPLEMENTATION-STATUS.md',
+              '**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO, KINETIC, SEEKER, APEX, BLAST ORB, AND SLICK TRAP LIVE ACCEPTED**',
+              '**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO, KINETIC, SEEKER, APEX, BLAST ORB, SLICK TRAP, AND BOUNDED AI SLICK/BLAST HAZARD RESPONSE LIVE ACCEPTED**',
+          )
+          replace_once(
+              'docs/IMPLEMENTATION-STATUS.md',
+              'Publication/deployment and desktop/mobile live acceptance remain pending. The physical steering simulations demonstrate deviation and recovery, not guaranteed escape from every real impact or explosion.',
+              'Hosted clean-install gameplay PR CI run `34173735120` passed at reviewed head `2ebba5ee39b636251a20abc5bcf5230d8e063da2`. Manny approved publication; PR #123 squash-merged at `b6e92fc79dad27764df9fe6248b4a496503fec00`, and post-merge CI/Pages run `34174464098` passed validation and deployment. Manny then completed the deployed AI hazard-response playtest and reported that it passed. Product-owner evidence is PR #123 comment `5577444120`. **Bounded Slick Trap + Timed Blast Orb AI hazard response is LIVE ACCEPTED.** The physical steering simulations and live gate demonstrate believable bounded deviation/recovery, not guaranteed immunity from every real impact or explosion.',
+          )
+          replace_once(
+              'docs/IMPLEMENTATION-STATUS.md',
+              'PR #122 merged at `a782ee0996e032ffae06cb41dddafc7e62eed08c`; post-merge CI/Pages run `34157568033` passed. Manny explicitly authorized the bounded gameplay implementation. Gameplay publication/deployment and live acceptance are later separate gates. Full AI item tactics, playable Shockwave/counters, Prismatic/Hyper-Drive interactions, nine remaining item effects, issue #106, final soak/performance closure, overall Slice 5 acceptance, and Slice 6 remain open.',
+              'PR #122 merged at `a782ee0996e032ffae06cb41dddafc7e62eed08c`; post-merge CI/Pages run `34157568033` passed, and Manny authorized the bounded gameplay implementation. PR #123 then passed hosted PR CI at reviewed head `2ebba5ee39b636251a20abc5bcf5230d8e063da2`, squash-merged at `b6e92fc79dad27764df9fe6248b4a496503fec00`, and post-merge CI/Pages run `34174464098` passed validation and deployment. Manny completed the deployed eight-check live review and reported the playtest passed; product-owner evidence is PR #123 comment `5577444120`. **The bounded AI Slick/Blast hazard-response increment is LIVE ACCEPTED.** Full AI item tactics, playable Shockwave/counters, Prismatic/Hyper-Drive interactions, nine remaining item effects, issue #106, final soak/performance closure, overall Slice 5 acceptance, and Slice 6 remain open.',
+          )
+
+          # AI hazard-response scope: close publication/live gate while preserving explicit deferrals.
+          replace_once(
+              'docs/SLICE-5-AI-HAZARD-RESPONSE-SCOPE.md',
+              '**Status: IMPLEMENTED AND LOCALLY VALIDATED. PR #122 governance merge/deployment passed; gameplay publication/deployment and live acceptance remain pending.**',
+              '**Status: LIVE ACCEPTED. PR #123 merged and deployed successfully; Manny completed the deployed AI Slick/Blast hazard-response playtest and reported it passed on 2026-09-07.**',
+          )
+          replace_once(
+              'docs/SLICE-5-AI-HAZARD-RESPONSE-SCOPE.md',
+              'The approved fixture and visible target-name badge are included. The eight deployed checks above remain pending; the URLs serve the prior accepted build until this gameplay is separately approved and deployed.',
+              'The approved fixture and visible target-name badge are included. PR #123 passed hosted clean-install CI run `34173735120`, squash-merged at `b6e92fc79dad27764df9fe6248b4a496503fec00`, and post-merge CI/Pages run `34174464098` passed validation and deployment. Manny completed the eight deployed checks above and reported the playtest passed on 2026-09-07; product-owner evidence is PR #123 comment `5577444120`. This closes only the bounded Slick/Blast AI hazard-response gate. Full AI item acquisition/use, static-obstacle expansion, remaining effects/counters, issue #106, final soak/performance, overall Slice 5 acceptance, and Slice 6 remain open.',
+          )
+          scope = Path('docs/SLICE-5-AI-HAZARD-RESPONSE-SCOPE.md')
+          text = scope.read_text().rstrip()
+          if '## Live acceptance — 2026-09-07' not in text:
+              text += '''\n\n## Live acceptance — 2026-09-07\n\nGameplay PR #123 was reviewed at head `2ebba5ee39b636251a20abc5bcf5230d8e063da2`; hosted clean-install PR CI run `34173735120` passed. Manny approved the separate publication gate. PR #123 squash-merged to `main` at `b6e92fc79dad27764df9fe6248b4a496503fec00`; post-merge CI/Pages run `34174464098` passed validation and GitHub Pages deployment.\n\nManny then completed the deployed eight-check acceptance matrix and reported the playtest **passed**. Product-owner evidence is PR #123 comment `5577444120`. This closes the bounded Slick Trap + Timed Blast Orb AI hazard-response increment only. Full `AiItemPolicy`, static-obstacle expansion, playable Shockwave and real cross-item counter acceptance, Prismatic/Hyper-Drive interactions, the nine remaining item effects, issue #106, final Slice 5 soak/performance closure, overall Slice 5 acceptance, and Slice 6 remain open.\n'''
+          scope.write_text(text.rstrip() + '\n')
+
+          # ADR-071: close the bounded hazard-response gate and retain later AI/item boundaries.
+          replace_once(
+              'docs/DECISIONS.md',
+              '- **Status:** Implemented and locally validated; publication/deployment and live acceptance pending.',
+              '- **Status:** Live accepted / closed for bounded Slick + Blast hazard response; full AI item policy and static-obstacle expansion remain deferred.',
+          )
+          replace_once(
+              'docs/DECISIONS.md',
+              '- **Next gate:** Hosted gameplay PR CI and separate publication approval. Gameplay publication/deployment and product-owner live acceptance remain separate later gates.',
+              '- **Publication / live acceptance:** Gameplay PR #123 reviewed head `2ebba5ee39b636251a20abc5bcf5230d8e063da2` passed hosted PR CI run `34173735120`. Manny approved publication; PR #123 squash-merged at `b6e92fc79dad27764df9fe6248b4a496503fec00`, and post-merge CI/Pages run `34174464098` passed. Manny completed the deployed eight-check AI hazard-response matrix and reported the playtest passed on 2026-09-07; product-owner evidence is PR #123 comment `5577444120`.',
+          )
+
+          # Slice 5 exit checklist: close only the accepted hazard-recognition line and add evidence.
+          replace_once(
+              'docs/SLICE-5-ITEM-SYSTEM-DESIGN.md',
+              '- [ ] AI recognizes Slicks and Blast Orbs as hazards.',
+              '- [x] AI recognizes Slicks and Blast Orbs as hazards.',
+          )
+          design = Path('docs/SLICE-5-ITEM-SYSTEM-DESIGN.md')
+          text = design.read_text()
+          marker = '## Reliability and performance'
+          if text.count(marker) != 1:
+              raise SystemExit('Slice 5 reliability marker missing/ambiguous')
+          evidence = 'AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed head `2ebba5ee39b636251a20abc5bcf5230d8e063da2` passed hosted PR CI run `34173735120`; PR #123 squash-merged at `b6e92fc79dad27764df9fe6248b4a496503fec00`; post-merge CI/Pages run `34174464098` passed; Manny completed the deployed eight-check live matrix and reported the playtest passed. Product-owner evidence: PR #123 comment `5577444120`. This closes only the AI recognition/avoidance requirement for accepted Slick Trap and Timed Blast Orb hazards; full AI item acquisition/use, static-obstacle expansion, remaining items/counters, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.\n\n'
+          if 'AI hazard-response acceptance evidence, 2026-09-07:' not in text:
+              text = text.replace(marker, evidence + marker, 1)
+          design.write_text(text.rstrip() + '\n')
+
+          # Durable acceptance evidence record.
+          acceptance = Path('docs/AI-HAZARD-RESPONSE-LIVE-ACCEPTANCE-2026-09-07.md')
+          acceptance.write_text('''# AI Slick/Blast hazard-response live acceptance — 2026-09-07\n\n## Result\n\n**PASS / LIVE ACCEPTED.**\n\nManny completed the deployed bounded AI Slick Trap + Timed Blast Orb hazard-response playtest after gameplay PR #123 was published and reported that the playtest passed.\n\n## Publication evidence\n\n- Governance checkpoint: PR #122 merge `a782ee0996e032ffae06cb41dddafc7e62eed08c`; post-merge CI/Pages run `34157568033` passed.\n- Gameplay reviewed head: `2ebba5ee39b636251a20abc5bcf5230d8e063da2`.\n- Hosted clean-install gameplay PR CI: `34173735120` — PASS, including Git LFS verification, install, typecheck, lint, 36 Vitest files / 278 tests, and production build.\n- Gameplay publication: PR #123 squash merge `b6e92fc79dad27764df9fe6248b4a496503fec00`.\n- Post-merge CI / GitHub Pages: run `34174464098` — validation PASS, deployment PASS.\n- Product-owner acceptance evidence: PR #123 comment `5577444120`.\n\n## Live gate accepted\n\nThe accepted deployed checks are the eight rows governed by `docs/SLICE-5-AI-HAZARD-RESPONSE-SCOPE.md`:\n\n1. `?testAiHazardAvoidance=slick` visibly causes the targeted AI to deviate before a Slick when a clear lane exists, without teleporting or snapping laterally.\n2. The targeted AI returns gradually toward its normal lane after the Slick is passed or removed instead of snapping back.\n3. `?testAiHazardAvoidance=blast` visibly causes a route/lane response to the accepted Blast Orb before detonation when geometry permits.\n4. Avoidance remains road-bounded without obvious grass-cutting, wrong-way behavior, recovery loops, or collision deadlock.\n5. Other AI racers retain normal character-Speed-governed race behavior and believable nearby-racer passing/avoidance.\n6. Pause/restart freezes or clears fixture/avoidance state correctly.\n7. Normal unforced gameplay shows no fixture badge or forced hazard behavior.\n8. Accepted Nitro Surge, Kinetic Disc, Seeker Drone, Apex Orbital Missile core, Timed Blast Orb, and Slick Trap behavior remains unchanged.\n\n## Closed by this acceptance\n\n- PRD Section 21.5 bounded Slick Trap + Timed Blast Orb hazard-recognition/avoidance requirement exercised by this increment.\n- ADR-071 publication/deployment/live-acceptance gate.\n- The Slice 5 checklist row `AI recognizes Slicks and Blast Orbs as hazards.`\n\n## Still open / deferred\n\nFull AI item acquisition/use policy (`AiItemPolicy`) and tactical item timing remain open. Static track-obstacle behavior beyond the current governed road/guardrail/lane system remains separate. Nine item effects remain: Blaze Orbs, Frost Orbs, Arc Blade, Arc Hammers, Shockwave, Ink Splat, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic Invincibility. Playable Shockwave and real cross-item counter acceptance, Prismatic/Hyper-Drive interactions, issue #106, final all-item interaction matrix, lifecycle/object-count soak, performance closure, overall Slice 5 acceptance, and Slice 6 remain separate gates.\n\nNo gameplay code, PRD requirement, item probability, racer statistic, track/checkpoint authority, character asset, dependency, or accepted item behavior changes in this acceptance record.\n'''.rstrip() + '\n')
+          PY
+
+          rm .github/workflows/record-ai-hazard-response-live-acceptance.yml
+          git diff --check
+
+      - name: Install from lockfile
+        run: npm ci
+
+      - name: Validate repository
+        run: npm run validate
+
+      - name: Verify LFS runtime assets
+        run: git lfs fsck
+
+      - name: Commit acceptance checkpoint
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/IMPLEMENTATION-STATUS.md docs/SLICE-5-AI-HAZARD-RESPONSE-SCOPE.md docs/DECISIONS.md docs/SLICE-5-ITEM-SYSTEM-DESIGN.md docs/AI-HAZARD-RESPONSE-LIVE-ACCEPTANCE-2026-09-07.md .github/workflows/record-ai-hazard-response-live-acceptance.yml
+          git commit -m "Record AI hazard-response live acceptance"
+          git push origin HEAD:docs/ai-hazard-response-live-acceptance

@@ -14,6 +14,8 @@ The approved pulse is instantaneous and centered on the using kart. It pushes el
 
 Governance PR #125 squash-merged to `main` at `0825ed02f80a67e088416d2d55925309e38eabe5`; post-merge CI/Pages run `34177188784` passed validation and deployment, clearing the gameplay gate. Implementation is proceeding on `feature/slice-5-shockwave` and remains unpublished / not live accepted until its own hosted validation, review, approved merge/deployment, and deployed eight-check gate pass. This increment does not enable AI item acquisition/use, change item probabilities, alter racer stats, track/checkpoint authority, or begin Slice 6.
 
+Validated Shockwave gameplay checkpoint `33151f5489bf7cb09fdd97d4b4f3b54bb428a675` passed clean `npm ci`, `git diff --check`, `git lfs fsck`, strict typecheck, zero-warning lint, **37 files / 287 tests**, **91.8% statement coverage**, runtime asset/branding verification, production build, and changed-file Prettier verification in implementation run `34178410463`. The same-step integration refreshes racer target snapshots after Shockwave push so Seeker guidance and Blast contact logic observe the new planar velocity before their own update. Publication/deployment and live acceptance remain pending.
+
 Latest verified live checkpoint before this governance branch: `a20d5b14fcd9c02095c427d8d047607bf080cb01`; CI/Pages run `34175582838` passed validation and deployment. Bounded Slick/Blast AI hazard response is LIVE ACCEPTED. Nine item effects remain unimplemented, with Shockwave now the approved next bounded item increment.
 
 ## Slice 5 AI Slick/Blast hazard-response implementation checkpoint

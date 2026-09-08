@@ -689,6 +689,8 @@ No live acceptance is claimed. Full AI item tactics, remaining effects/counters,
 
 ## Slice 5 Acoustic Shockwave Pulse checkpoint
 
+Visibility regression: successful activation must put the ring above the existing rendered supporting surface, including dirt, boost pads and the ramp, rather than below the chassis. `tests/shockwave.test.ts` checks surface-normal placement and in-frustum above-surface vertices with production chase/rear camera geometry in portrait and landscape. It also verifies that presentation placement cannot move the gameplay pulse center. These geometric tests do not prove pixel contrast or visibility around kart meshes: after deployment, explicitly repeat moving/stationary activation in both cameras on desktop/mobile, including no nearby racer, pause/resume, and raised surfaces. Confirm the charge disappears and a cyan ring expands and fades; do not mark Shockwave live accepted on automated lifecycle counts alone.
+
 Automated evidence for PRD amendment 2.11 / ADR-072 must confirm:
 
 - one committed Shockwave consumes one charge even when no target is in range; invalid/paused/finished-racer activation cannot create duplicate pulses;

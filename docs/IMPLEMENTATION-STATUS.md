@@ -8,6 +8,14 @@ PRD baseline: **v1.1, working implementation amendment 2.11**.
 
 ## Slice 5 Acoustic Shockwave Pulse governance checkpoint
 
+### Visibility correction — awaiting publication
+
+Acceptance-harness PR #128 merged at `bd05aa3b19237e0405991f6c614ac91304a5b9ae`; post-merge run `34182800203` passed validation and Pages deployment. Manny subsequently reported that racer-push activation consumed the Shockwave charge but showed no visible ring. Shockwave is **NOT LIVE ACCEPTED**; this report blocks visual acceptance.
+
+The old VFX placed its horizontal ring 0.52 m below the kart center, beneath the road for a grounded 0.34 m half-height chassis. The bounded local correction samples the existing Slick ground-presentation surface, offsets the ring 0.08 m along its normal, and aligns to slopes. Missing surface data retains activation height instead of lowering the ring. Normal alpha blending replaces additive blending for contrast against bright surfaces. Duration remains 0.45 s; gameplay center, 5 m radius, push strength, counters and ordering are unchanged.
+
+Regression checks cover real road/dirt/boost/ramp anchoring, production chase/rear camera geometry at landscape/portrait aspect ratios, pause and expiry, fallback placement, and unchanged pulse center. These checks do not constitute rendered desktop/mobile acceptance; a deployed visual retest remains required after separately approved publication.
+
 Manny approved the recommended bounded **Acoustic Shockwave Pulse** scope on 2026-09-07, including the proposed racer push: an outward planar velocity delta that falls linearly from **6 m/s** at the pulse center to **2 m/s** at the governed **5 m** edge. PRD amendment **2.11**, ADR-072, `docs/SLICE-5-SHOCKWAVE-SCOPE.md`, and the Shockwave section in `docs/TESTING.md` are the governing implementation contract.
 
 The approved pulse is instantaneous and centered on the using kart. It pushes eligible unfinished non-owner racers without conventional spinout, destroys ordinary Kinetic Disc / Seeker Drone projectiles inside 5 m, clears Slick Trap / Timed Blast Orb hazards through the accepted queued hazard-clear boundary, and may neutralize only a terminal/dive Apex Missile inside the already accepted 5 m 3D counter radius. Counter resolution must occur before affected projectile/hazard/Apex movement or impact resolution in the same simulation step. Forward/backward ITEM intent is equivalent for Shockwave.

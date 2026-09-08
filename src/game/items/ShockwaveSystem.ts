@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { SHOCKWAVE_CONFIG as C } from './itemDefinitions';
+import type { SlickSurface } from './SlickGroundSurface';
 
 export interface ShockwaveTarget {
   readonly id: string;
@@ -96,7 +97,9 @@ export class ShockwaveSystem {
   private readonly visuals: ShockwaveVisual[] = [];
   private visualSerial = 0;
 
-  public constructor() {
+  public constructor(
+    private readonly groundSurface?: (position: THREE.Vector3) => SlickSurface | null,
+  ) {
     this.group.name = 'shockwave-runtime';
   }
 
@@ -195,13 +198,19 @@ export class ShockwaveSystem {
         transparent: true,
         opacity: 0.82,
         depthWrite: false,
-        blending: THREE.AdditiveBlending,
+        blending: THREE.NormalBlending,
       }),
     );
     mesh.name = `shockwave-pulse-${String(this.visualSerial++)}`;
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.copy(center);
-    mesh.position.y -= 0.52;
+    // Presentation only: the pulse queue retains the original kart center.
+    // Subtracting a chassis offset can bury the ring below the visible road.
+    const surface = this.groundSurface?.(center);
+    if (surface != null) {
+      mesh.position.copy(surface.point).addScaledVector(surface.normal, 0.08);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), surface.normal);
+    }
     mesh.scale.setScalar(0.65 / VISUAL_BASE_RADIUS);
     return { mesh, elapsed: 0 };
   }

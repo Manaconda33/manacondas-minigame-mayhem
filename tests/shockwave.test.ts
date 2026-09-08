@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
+import { createTrackScene } from '../src/game/track/createTrackScene';
+import { SlickGroundSurface } from '../src/game/items/SlickGroundSurface';
+import { ChaseCamera } from '../src/game/camera/ChaseCamera';
 import { executeItemUse } from '../src/game/items/ItemEffectDispatcher';
 import { ItemPhysicsCapacity } from '../src/game/items/ItemPhysicsCapacity';
 import { ItemSystem } from '../src/game/items/ItemSystem';
@@ -35,6 +38,97 @@ function target(
 }
 
 describe('Acoustic Shockwave Pulse', () => {
+  it('anchors the visible ring above real road, dirt, boost and ramp surfaces without moving the pulse', () => {
+    const track = new CircuitAlpha();
+    const scene = createTrackScene(track);
+    const ground = new SlickGroundSurface(scene);
+    const system = new ShockwaveSystem((position) => ground.at(position));
+    for (const progress of [0.1, 0.27, 0.45, 0.5, 0.815]) {
+      const center = track.curve.getPointAt(progress);
+      if (progress === 0.27) {
+        const tangent = track.curve.getTangentAt(progress);
+        center.addScaledVector(new THREE.Vector3(tangent.z, 0, -tangent.x), 3.75);
+      }
+      const surface = ground.at(center);
+      if (surface === null) throw new Error('Missing track surface');
+      center.y = surface.point.y + 0.34;
+      expect(center.y - 0.52).toBeLessThan(surface.point.y);
+      const original = center.clone();
+      expect(system.activate('player', center)).toBe(true);
+      const mesh = system.group.children[0] as THREE.Mesh<
+        THREE.RingGeometry,
+        THREE.MeshBasicMaterial
+      >;
+      expect(mesh.position.clone().sub(surface.point).dot(surface.normal)).toBeCloseTo(0.08, 7);
+      expect(
+        new THREE.Vector3(0, 0, 1).applyQuaternion(mesh.quaternion).dot(surface.normal),
+      ).toBeCloseTo(1, 7);
+      expect(mesh.material.blending).toBe(THREE.NormalBlending);
+      expect(mesh.material.depthTest).toBe(true);
+      expect(system.drainPulses()[0]?.center).toEqual(original);
+      expect(center).toEqual(original);
+      system.advance(0.2);
+      mesh.updateMatrixWorld(true);
+      // Exercise the production camera geometry in landscape and portrait.
+      // This is a geometric check, not a substitute for rendered live acceptance.
+      for (const rearView of [false, true]) {
+        for (const aspect of [16 / 9, 9 / 16]) {
+          const camera = new THREE.PerspectiveCamera(62, aspect, 0.1, 900);
+          new ChaseCamera(camera).update(center, track.curve.getTangentAt(progress), rearView, 10);
+          camera.updateMatrixWorld(true);
+          const vertices = mesh.geometry.getAttribute('position');
+          let visibleVertices = 0;
+          for (let index = 0; index < vertices.count; index += 1) {
+            const vertex = new THREE.Vector3()
+              .fromBufferAttribute(vertices, index)
+              .applyMatrix4(mesh.matrixWorld);
+            const supporting = ground.at(vertex);
+            const aboveGround = supporting !== null && vertex.y > supporting.point.y;
+            vertex.project(camera);
+            if (
+              aboveGround &&
+              Math.abs(vertex.x) < 1 &&
+              Math.abs(vertex.y) < 1 &&
+              Math.abs(vertex.z) < 1
+            )
+              visibleVertices += 1;
+          }
+          expect(visibleVertices).toBeGreaterThan(0);
+        }
+      }
+      const pausedPosition = mesh.position.clone();
+      const pausedScale = mesh.scale.clone();
+      const pausedOpacity = mesh.material.opacity;
+      expect(pausedOpacity).toBeGreaterThan(0);
+      system.advance(0);
+      expect(mesh.position).toEqual(pausedPosition);
+      expect(mesh.scale).toEqual(pausedScale);
+      expect(mesh.material.opacity).toBe(pausedOpacity);
+      system.advance(0.25);
+      expect(system.visualCount()).toBe(0);
+      expect(system.group.children).toHaveLength(0);
+    }
+    system.dispose();
+    ground.dispose();
+    scene.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        const mesh = object as THREE.Mesh;
+        mesh.geometry.dispose();
+        const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+        materials.forEach((material) => {
+          material.dispose();
+        });
+      }
+    });
+  });
+
+  it('keeps the fallback ring at activation height when no surface is available', () => {
+    const system = new ShockwaveSystem(() => null);
+    const center = new THREE.Vector3(0, 0.34, 0);
+    system.activate('player', center);
+    expect(system.group.children[0]?.position).toEqual(center);
+    system.dispose();
+  });
   it.each(['forward', 'backward'] as const)(
     'commits one charge for %s intent even with no target and queues one centered pulse',
     (direction) => {

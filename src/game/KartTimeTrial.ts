@@ -5,6 +5,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Howler } from 'howler';
 import { HazardSystem } from './items/HazardSystem';
+import { ShockwaveSystem } from './items/ShockwaveSystem';
+import { ShockwaveCounterFixture } from './items/ShockwaveCounterFixture';
 import { ItemPhysicsCapacity } from './items/ItemPhysicsCapacity';
 import { SlickGroundSurface } from './items/SlickGroundSurface';
 import { IncomingSlickFixture } from './items/IncomingSlickFixture';
@@ -50,6 +52,7 @@ import {
   incomingApexFromSearch,
   incomingBlastOrbFromSearch,
   incomingSlickFromSearch,
+  shockwaveCounterFromSearch,
 } from './items/ItemTestMode';
 import { NitroSurgeVisual } from './items/NitroSurgeVisual';
 import { RacerEffects } from './items/RacerEffects';
@@ -195,6 +198,9 @@ export class KartTimeTrial {
   private readonly racerEffects = new RacerEffects();
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
+  private readonly shockwave = new ShockwaveSystem();
+  private readonly shockwaveCounterTest = shockwaveCounterFromSearch(window.location.search);
+  private readonly shockwaveCounterFixture = new ShockwaveCounterFixture(this.shockwaveCounterTest);
   private readonly itemPhysicsCapacity = new ItemPhysicsCapacity();
   private readonly projectiles = new ProjectileSystem(this.track, this.itemPhysicsCapacity);
   private readonly hazards = new HazardSystem(this.track, this.itemPhysicsCapacity, (position) =>
@@ -243,6 +249,7 @@ export class KartTimeTrial {
     this.scene.add(
       this.projectiles.group,
       this.hazards.group,
+      this.shockwave.group,
       this.seekerWarningVisual.group,
       this.apexPresentation.group,
     );
@@ -303,6 +310,8 @@ export class KartTimeTrial {
     this.hazards.dispose();
     this.slickGround.dispose();
     this.projectiles.dispose();
+    this.shockwaveCounterFixture.reset();
+    this.shockwave.dispose();
     this.seekerWarningVisual.dispose();
     this.seekerWarningAudio.dispose();
     this.spinoutCameraAnchor.clear();
@@ -405,6 +414,7 @@ export class KartTimeTrial {
         : projection.progress;
     this.itemSystem.advance(dt);
     this.racerEffects.advance(dt);
+    this.shockwave.advance(dt);
     this.incomingSeekerFixture.update(
       this.elapsed,
       this.playerProgress.finished,
@@ -626,6 +636,32 @@ export class KartTimeTrial {
   private updateProjectiles(dt: number): void {
     const targets = this.projectileTargets();
     const racers = this.itemTargetingProgress();
+    this.shockwaveCounterFixture.update(
+      this.elapsed,
+      this.playerProgress.finished,
+      this.kart.position(),
+      this.track,
+      this.projectiles,
+      this.hazards,
+      this.apex,
+      racers,
+      targets,
+    );
+    for (const pulse of this.shockwave.drainPulses()) {
+      const pushes = this.shockwave.dispatch(pulse, {
+        projectileSystem: this.projectiles,
+        hazardSystem: this.hazards,
+        apexSystem: this.apex,
+        targets,
+      });
+      for (const push of pushes) {
+        const controller =
+          push.targetId === 'player'
+            ? this.kart
+            : this.opponents.find((opponent) => opponent.id === push.targetId)?.controller;
+        controller?.addPlanarVelocityDelta(push.velocityDelta);
+      }
+    }
     const impacts = [
       ...this.projectiles.update(dt, targets),
       ...this.apex.update(dt, racers, targets),
@@ -766,6 +802,7 @@ export class KartTimeTrial {
         projectileSystem: this.projectiles,
         apexSystem: this.apex,
         hazardSystem: this.hazards,
+        shockwaveSystem: this.shockwave,
         projectileLaunch: {
           position: this.kart.position(),
           forward: this.kart.forward(),
@@ -922,6 +959,7 @@ export class KartTimeTrial {
           this.aiHazardFixture.badge(),
           this.incomingSlickTest ? 'ONE SLICK AHEAD AFTER 5s' : '',
           this.incomingBlastTest ? 'ONE BLAST ORB AHEAD AFTER 5s' : '',
+          this.shockwaveCounterFixture.badge(),
         ]
           .filter(Boolean)
           .join(' · ') || null,

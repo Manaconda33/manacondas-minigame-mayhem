@@ -6,17 +6,15 @@
 
 PRD baseline: **v1.1, working implementation amendment 2.11**.
 
-
 ## Slice 5 Acoustic Shockwave Pulse governance checkpoint
 
 Manny approved the recommended bounded **Acoustic Shockwave Pulse** scope on 2026-09-07, including the proposed racer push: an outward planar velocity delta that falls linearly from **6 m/s** at the pulse center to **2 m/s** at the governed **5 m** edge. PRD amendment **2.11**, ADR-072, `docs/SLICE-5-SHOCKWAVE-SCOPE.md`, and the Shockwave section in `docs/TESTING.md` are the governing implementation contract.
 
 The approved pulse is instantaneous and centered on the using kart. It pushes eligible unfinished non-owner racers without conventional spinout, destroys ordinary Kinetic Disc / Seeker Drone projectiles inside 5 m, clears Slick Trap / Timed Blast Orb hazards through the accepted queued hazard-clear boundary, and may neutralize only a terminal/dive Apex Missile inside the already accepted 5 m 3D counter radius. Counter resolution must occur before affected projectile/hazard/Apex movement or impact resolution in the same simulation step. Forward/backward ITEM intent is equivalent for Shockwave.
 
-This governance checkpoint changes no gameplay source. It does not enable AI item acquisition/use, change item probabilities, alter racer stats, track/checkpoint authority, accepted Nitro/Kinetic/Seeker/Apex/Blast/Slick behavior outside the new counter interaction, or begin Slice 6. The gameplay implementation is gated until this documentation checkpoint merges to `main` and its post-merge CI/Pages run passes.
+Governance PR #125 squash-merged to `main` at `0825ed02f80a67e088416d2d55925309e38eabe5`; post-merge CI/Pages run `34177188784` passed validation and deployment, clearing the gameplay gate. Implementation is proceeding on `feature/slice-5-shockwave` and remains unpublished / not live accepted until its own hosted validation, review, approved merge/deployment, and deployed eight-check gate pass. This increment does not enable AI item acquisition/use, change item probabilities, alter racer stats, track/checkpoint authority, or begin Slice 6.
 
 Latest verified live checkpoint before this governance branch: `a20d5b14fcd9c02095c427d8d047607bf080cb01`; CI/Pages run `34175582838` passed validation and deployment. Bounded Slick/Blast AI hazard response is LIVE ACCEPTED. Nine item effects remain unimplemented, with Shockwave now the approved next bounded item increment.
-
 
 ## Slice 5 AI Slick/Blast hazard-response implementation checkpoint
 
@@ -27,7 +25,6 @@ The fixture places one real stationary hazard 12 m ahead on the first unfinished
 Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages. Full `npm run validate` passed strict typecheck, zero-warning lint, **36 files / 278 tests**, **92.75% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted PR CI is recorded in the gameplay PR before publication review.
 
 Hosted clean-install gameplay PR CI run `34173735120` passed at reviewed head `2ebba5ee39b636251a20abc5bcf5230d8e063da2`. Manny approved publication; PR #123 squash-merged at `b6e92fc79dad27764df9fe6248b4a496503fec00`, and post-merge CI/Pages run `34174464098` passed validation and deployment. Manny then completed the deployed AI hazard-response playtest and reported that it passed. Product-owner evidence is PR #123 comment `5577444120`. **Bounded Slick Trap + Timed Blast Orb AI hazard response is LIVE ACCEPTED.** The physical steering simulations and live gate demonstrate believable bounded deviation/recovery, not guaranteed immunity from every real impact or explosion.
-
 
 Manny approved the complete bounded AI hazard-response scope as written on 2026-09-07. PRD amendment 2.10 / ADR-071 governs read-only Slick/Blast awareness, 20 m wrapped route-relative lookahead, the existing five candidate lanes, 2.5 m Slick and 4.5 m Blast planning footprints, 0.5 s drag-aware Blast prediction capped by fuse, hazard-priority lane intent, greatest-minimum-clearance fallback, and a 0.6 race-second clear hold before gradual preferred-lane recovery.
 
@@ -74,7 +71,6 @@ Slick impacts use one 0.85-second hostile spin and scale the current planar velo
 The original procedural patch and animated ring sample existing road, dirt, raised ramp and boost-pad presentation surfaces once at placement so they remain visible at the current elevation. This changes no track geometry, collider, checkpoint or accepted Blast behavior. The ring uses the supporting surface normal with a 0.04 m anti-overlap offset. `?testSlickAhead=1` places one fixture-owned Slick 8 m ahead after five race seconds, retries capacity failure, displays a badge and resets with a new race.
 
 Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages successfully. Full `npm run validate` passed strict typecheck, zero-warning lint, **34 files / 254 tests**, **92.42% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted clean-install PR CI run `34153344029` passed at reviewed head `d6f7f752eaa06f38954ed6fa3adab8a617b3d1b9`. Manny approved publication; PR #120 squash-merged at `bcc5bcc500b08ea42984eed8afa188fa87ba1cf9`, and post-merge CI/Pages run `34153760001` passed validation and deployment. Manny then completed the deployed Slick Trap live playtests and reported all checks passed. Product-owner evidence is PR #120 comment `5574748827`. **Slick Trap is LIVE ACCEPTED.**
-
 
 Manny approved the complete bounded Slick Trap scope as written on 2026-09-07. PRD amendment 2.9 and ADR-070 govern rear-only stationary 1.75 m placement, shared 40-object capacity, 0.35 s owner immunity, <=1.1 m trigger, 60% planar speed retention, one 360-degree / 0.85-second presentation, two-per-owner FIFO replacement, 12 race-second pause-safe lifetime, generic immunity semantics, queued hazard-clear ordering, and the `?testSlickAhead=1` fixture.
 
@@ -367,7 +363,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Next recommended action
 
-Review and merge the approved Shockwave governance checkpoint after clean-install CI passes. After its post-merge CI/Pages run succeeds, implement only the bounded Acoustic Shockwave Pulse contract in `docs/SLICE-5-SHOCKWAVE-SCOPE.md` on a dedicated gameplay branch, preserving all accepted item behavior and the live-accepted Slick/Blast AI hazard response. Gameplay publication/deployment and live acceptance remain separate gates.
+Review the bounded Acoustic Shockwave Pulse gameplay implementation on `feature/slice-5-shockwave` after clean-install CI passes. Confirm the diff contains only the approved Shockwave/counter/fixture/test integration and continuity updates. Merge/deployment and the deployed eight-check live gate remain separate approvals; do not start another item until Shockwave is live accepted.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 
@@ -472,7 +468,6 @@ Clean GitHub-hosted validation run **34032879051**, job **101485584007**, passed
 
 **Closed gate:** The initial PR #104 concerns were resolved through PR #105 and its successful focused live retest. The final acceptance below supersedes this checkpoint's earlier restrictions.
 
-
 ## Kinetic Disc 42 m/s correction checkpoint
 
 Approved scope changes one runtime constant: Kinetic Disc base speed 28 -> 42 m/s. Tests use the actual racer speed formula for moving-target catch-up and preserve curved shallow-angle ricochets. The existing launch inheritance, projectile/guardrail/spinout/camera/sprite code, all character assets, and every other item remain unchanged. The earlier feedback-only branch `docs/kinetic-disc-live-review` is incorporated in this correction.
@@ -494,13 +489,11 @@ Live URL: https://manaconda33.github.io/manacondas-minigame-mayhem/
 
 The earlier passed PR #104 checks remain accepted. Issue #106 is a separate future-development standings-display defect and does not reopen this acceptance. This record does not claim full Slice 5 acceptance; thirteen item effects and the remaining system/AI/evidence gates are still outstanding. The subsequently approved Seeker scope is recorded in `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`.
 
-
 ## Acceptance reconciliation and Seeker proposal checkpoint
 
 This documentation-only checkpoint records the verified PR #105 merge, successful validation/deployment, final product-owner acceptance, and issue #106's deferred classification. It also prepares `docs/SLICE-5-SEEKER-DRONE-SCOPE.md` for review; no runtime, asset, dependency, or workflow changes are included. The working PRD remains amendment 2.5. Seeker's proposed numeric values and edge-case behavior are not approved or implemented.
 
 Local `npm run validate` and `git diff --check` passed on 2026-09-06: 28 Vitest files / 157 tests, strict TypeScript, zero-warning lint, existing AI integration and numeric soak, branding/runtime assets, and production build. The existing large-chunk warning remains non-blocking. Documentation PR #107 subsequently merged at `f3932c9e9b21ab8a361a03826c39d9d6b146e2c1` after approval; CI/Pages run `34068326448` passed. The proposal was approved for implementation.
-
 
 ## Seeker Drone implementation checkpoint — 2026-09-07
 
@@ -520,7 +513,6 @@ New evidence covers full-speed Manaconda/Krios/max-AI-allowance catches from a 3
 
 The known large-chunk warning remains non-blocking (KartTimeTrial about 3.55 MB minified / 1.28 MB gzip). No runtime assets, dependencies, workflows, racer physics/statistics, Nitro/Kinetic tuning, or issue #106 results code changed. The PR body supplies exact hosted head/run evidence. Gameplay publication subsequently passed as recorded below; focused live acceptance remains pending. No next item or Slice 6 is authorized.
 
-
 ## Seeker publication evidence — 2026-09-07
 
 - Gameplay PR: [#108](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/108), merged after Manny's explicit approval.
@@ -534,7 +526,6 @@ The known large-chunk warning remains non-blocking (KartTimeTrial about 3.55 MB 
 
 This publication checkpoint changed documentation only. Its CI/Pages run `34086652360` passed at `bea7a5fe4799d64eebde86a1746663dc001ebf4a`, with runtime/assets identical to the gameplay merge. The then-pending acceptance gate is superseded by Manny's final acceptance below. Kinetic remains live accepted and issue #106 remains deferred.
 
-
 ## Seeker final live acceptance and Slice 5 continuation — 2026-09-07
 
 Manny reported all six Seeker live checks pass: outgoing acquisition/targeting/pursuit/charge use and forward launch; no-target charge retention; incoming warning escalation, volume and pause; accepted spinout and chase/rear perspectives; warning cleanup/restart; and normal selection with accepted Kinetic/Nitro behavior. He observed one warning disappear without a player hit at the lap gate and clarified lap 2.
@@ -546,7 +537,6 @@ Investigation reproduced normal lap continuation and an AI interception near the
 The documentation-only PR #110 checkpoint proposed **Apex Orbital Missile core lifecycle, leader targeting, warning, terminal blast, and counter boundaries**, detailed in `docs/SLICE-5-APEX-MISSILE-SCOPE.md`. Manny subsequently approved the complete scope and merge. That approval supersedes its then-proposed status; amendment 2.7 / ADR-068 govern the implementation below. PR #109 diagnostic runtime remains excluded.
 
 Local documentation checkpoint validation on 2026-09-07: `npm run validate`, `git diff --check`, and `git lfs fsck` passed. The unchanged gameplay suite passes **30 files / 181 tests**, **91.32% statement coverage**, strict TypeScript, zero-warning lint, existing AI/soak checks, branding/runtime-asset checks, and production build. The existing large-chunk warning remains nonblocking. Clean-install PR CI and the exact remote checkpoint SHA are recorded in the review PR; no new gameplay deployment or manual acceptance is claimed by this documentation change.
-
 
 ## Apex Orbital Missile core implementation — 2026-09-07
 
@@ -568,7 +558,6 @@ Local `npm run validate`, `git diff --check` and `git lfs fsck` passed on 2026-0
 PR #114 adds `tests/item-distribution.test.ts`, which calls the production `selectItem()` / `effectiveItemWeights()` path with fixed Mulberry32 seeds for **100,000 selections per rank / 800,000 total selections**. Ranks 1-5 run at 0 m gap; ranks 6-8 run at the minimum legal 45 m Hyper-Drive gap so the full eligible catch-up table is exercised with the approved 1.18 gap factor. Apex is available and zero-weight items must remain impossible.
 
 Hosted PR CI run **34139123888** on checkpoint `94e90a7a8adfbe107dbd2095cae706596a1be7bc` passed dependency installation, typecheck, lint, the complete test suite including all eight 100,000-selection rank samples, and production build. Every eligible item remained within **0.5 percentage points** of its effective post-restriction/post-gap probability; the worst observed deviation was **0.315 percentage points** (Seeker Drone, rank 5). Full deterministic counts and methodology are recorded in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. This closes only the seeded-distribution and probability-report evidence gates; remaining item, counter, AI-policy, lifecycle/soak/performance, final publication, and Slice 5 acceptance gates remain open.
-
 
 ## HazardSystem + Timed Blast Orb implementation checkpoint — 2026-09-07
 

@@ -322,6 +322,14 @@ export class KartController {
     );
   }
 
+  /** Adds an exact planar velocity delta without moving or rotating the kart. */
+  public addPlanarVelocityDelta(delta: THREE.Vector3): boolean {
+    if (![delta.x, delta.z].every(Number.isFinite)) return false;
+    const velocity = this.body.linvel();
+    this.body.setLinvel({ x: velocity.x + delta.x, y: velocity.y, z: velocity.z + delta.z }, true);
+    return true;
+  }
+
   public resolveStaticBarrierCollision(
     inwardNormal: THREE.Vector3,
     penetration: number,

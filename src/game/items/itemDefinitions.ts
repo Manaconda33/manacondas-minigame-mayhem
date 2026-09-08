@@ -80,6 +80,14 @@ export const BLAST_ORB_CONFIG = {
   radius: 0.4,
 } as const;
 
+/** PRD amendment 2.11 / ADR-072: centered instantaneous counter pulse. */
+export const SHOCKWAVE_CONFIG = {
+  radius: 5,
+  centerPushMetersPerSecond: 6,
+  edgePushMetersPerSecond: 2,
+  visualSeconds: 0.45,
+} as const;
+
 export interface ItemDefinition {
   id: ItemId;
   displayName: string;

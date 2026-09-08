@@ -69,6 +69,15 @@ describe('Acoustic Shockwave Pulse', () => {
       expect(center).toEqual(original);
       system.advance(0.2);
       mesh.updateMatrixWorld(true);
+      const vertices = mesh.geometry.getAttribute('position');
+      const aboveSurfaceVertices: THREE.Vector3[] = [];
+      for (let index = 0; index < vertices.count; index += 1) {
+        const vertex = new THREE.Vector3()
+          .fromBufferAttribute(vertices, index)
+          .applyMatrix4(mesh.matrixWorld);
+        const supporting = ground.at(vertex);
+        if (supporting !== null && vertex.y > supporting.point.y) aboveSurfaceVertices.push(vertex);
+      }
       // Exercise the production camera geometry in landscape and portrait.
       // This is a geometric check, not a substitute for rendered live acceptance.
       for (const rearView of [false, true]) {
@@ -76,21 +85,10 @@ describe('Acoustic Shockwave Pulse', () => {
           const camera = new THREE.PerspectiveCamera(62, aspect, 0.1, 900);
           new ChaseCamera(camera).update(center, track.curve.getTangentAt(progress), rearView, 10);
           camera.updateMatrixWorld(true);
-          const vertices = mesh.geometry.getAttribute('position');
           let visibleVertices = 0;
-          for (let index = 0; index < vertices.count; index += 1) {
-            const vertex = new THREE.Vector3()
-              .fromBufferAttribute(vertices, index)
-              .applyMatrix4(mesh.matrixWorld);
-            const supporting = ground.at(vertex);
-            const aboveGround = supporting !== null && vertex.y > supporting.point.y;
-            vertex.project(camera);
-            if (
-              aboveGround &&
-              Math.abs(vertex.x) < 1 &&
-              Math.abs(vertex.y) < 1 &&
-              Math.abs(vertex.z) < 1
-            )
+          for (const worldVertex of aboveSurfaceVertices) {
+            const vertex = worldVertex.clone().project(camera);
+            if (Math.abs(vertex.x) < 1 && Math.abs(vertex.y) < 1 && Math.abs(vertex.z) < 1)
               visibleVertices += 1;
           }
           expect(visibleVertices).toBeGreaterThan(0);

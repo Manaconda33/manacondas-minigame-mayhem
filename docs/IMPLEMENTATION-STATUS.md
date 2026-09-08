@@ -8,6 +8,10 @@ PRD baseline: **v1.1, working implementation amendment 2.11**.
 
 ## Slice 5 Acoustic Shockwave Pulse governance checkpoint
 
+### Driver-following presentation — local change
+
+PR #129 deployed the surface-placement fix at `6b7fb700214e8e287194b5931d23990af5939083`; run `34244650552` passed validation and Pages deployment. Manny confirmed the cyan ring is visible and requested that it follow the moving driver until fading. The local presentation now resolves the visual owner's position each simulation step and refreshes ground placement. The pulse remains instantaneous at its original activation center; this does not create a moving damage/counter area or additional pushes. Duration, radius, balance, pause and cleanup rules remain unchanged. Publication and the visual retest remain pending.
+
 ### Visibility correction — awaiting publication
 
 Acceptance-harness PR #128 merged at `bd05aa3b19237e0405991f6c614ac91304a5b9ae`; post-merge run `34182800203` passed validation and Pages deployment. Manny subsequently reported that racer-push activation consumed the Shockwave charge but showed no visible ring. Shockwave is **NOT LIVE ACCEPTED**; this report blocks visual acceptance.

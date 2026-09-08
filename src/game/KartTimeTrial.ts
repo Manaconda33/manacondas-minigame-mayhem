@@ -198,7 +198,13 @@ export class KartTimeTrial {
   private readonly racerEffects = new RacerEffects();
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
-  private readonly shockwave = new ShockwaveSystem((position) => this.slickGround.at(position));
+  private readonly shockwave = new ShockwaveSystem(
+    (position) => this.slickGround.at(position),
+    (ownerId) =>
+      ownerId === 'player'
+        ? this.kart.position()
+        : this.opponents.find((opponent) => opponent.id === ownerId)?.controller.position(),
+  );
   private readonly shockwaveCounterTest = shockwaveCounterFromSearch(window.location.search);
   private readonly shockwaveCounterFixture = new ShockwaveCounterFixture(this.shockwaveCounterTest);
   private readonly itemPhysicsCapacity = new ItemPhysicsCapacity();

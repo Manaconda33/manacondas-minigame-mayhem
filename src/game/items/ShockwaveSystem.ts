@@ -33,6 +33,7 @@ export interface ShockwaveCounterRuntime {
 }
 
 interface ShockwaveVisual {
+  readonly ownerId: string;
   readonly mesh: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>;
   elapsed: number;
 }
@@ -99,6 +100,7 @@ export class ShockwaveSystem {
 
   public constructor(
     private readonly groundSurface?: (position: THREE.Vector3) => SlickSurface | null,
+    private readonly ownerPosition?: (ownerId: string) => THREE.Vector3 | undefined,
   ) {
     this.group.name = 'shockwave-runtime';
   }
@@ -115,7 +117,7 @@ export class ShockwaveSystem {
     )
       return false;
 
-    const visual = this.createVisual(center);
+    const visual = this.createVisual(ownerId, center);
     let committed = false;
     try {
       committed = commitCharge();
@@ -153,6 +155,9 @@ export class ShockwaveSystem {
     for (let index = this.visuals.length - 1; index >= 0; index -= 1) {
       const visual = this.visuals[index];
       if (visual === undefined) continue;
+      const position = this.ownerPosition?.(visual.ownerId);
+      if (position !== undefined && finitePosition(position))
+        this.positionVisual(visual.mesh, position);
       visual.elapsed += dt;
       const ratio = THREE.MathUtils.clamp(visual.elapsed / C.visualSeconds, 0, 1);
       const radius = THREE.MathUtils.lerp(0.65, C.radius, ratio);
@@ -189,7 +194,7 @@ export class ShockwaveSystem {
     this.group.clear();
   }
 
-  private createVisual(center: THREE.Vector3): ShockwaveVisual {
+  private createVisual(ownerId: string, center: THREE.Vector3): ShockwaveVisual {
     const mesh = new THREE.Mesh(
       new THREE.RingGeometry(0.72, VISUAL_BASE_RADIUS, 48),
       new THREE.MeshBasicMaterial({
@@ -202,7 +207,13 @@ export class ShockwaveSystem {
       }),
     );
     mesh.name = `shockwave-pulse-${String(this.visualSerial++)}`;
-    mesh.rotation.x = -Math.PI / 2;
+    this.positionVisual(mesh, center);
+    mesh.scale.setScalar(0.65 / VISUAL_BASE_RADIUS);
+    return { ownerId, mesh, elapsed: 0 };
+  }
+
+  private positionVisual(mesh: ShockwaveVisual['mesh'], center: THREE.Vector3): void {
+    mesh.rotation.set(-Math.PI / 2, 0, 0);
     mesh.position.copy(center);
     // Presentation only: the pulse queue retains the original kart center.
     // Subtracting a chassis offset can bury the ring below the visible road.
@@ -211,8 +222,6 @@ export class ShockwaveSystem {
       mesh.position.copy(surface.point).addScaledVector(surface.normal, 0.08);
       mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), surface.normal);
     }
-    mesh.scale.setScalar(0.65 / VISUAL_BASE_RADIUS);
-    return { mesh, elapsed: 0 };
   }
 
   private disposeVisual(visual: ShockwaveVisual): void {

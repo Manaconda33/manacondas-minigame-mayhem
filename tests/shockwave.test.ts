@@ -38,6 +38,32 @@ function target(
 }
 
 describe('Acoustic Shockwave Pulse', () => {
+  it('follows the owner visually while preserving the instantaneous activation center', () => {
+    const position = new THREE.Vector3(0, 0.34, 0);
+    const system = new ShockwaveSystem(
+      (point) => ({
+        point: new THREE.Vector3(point.x, point.x / 10, point.z),
+        normal: new THREE.Vector3(0, 1, 0),
+      }),
+      (id) => (id === 'player' ? position : undefined),
+    );
+    const original = position.clone();
+    system.activate('player', position);
+    position.set(8, 1.14, 2);
+    system.advance(0.2);
+    const mesh = system.group.children[0];
+    expect(mesh?.position.toArray()).toEqual([8, 0.88, 2]);
+    expect(system.drainPulses()).toEqual([{ ownerId: 'player', center: original }]);
+    position.set(10, 1.34, 3);
+    system.advance(0);
+    expect(mesh?.position.toArray()).toEqual([8, 0.88, 2]);
+    system.advance(0.1);
+    expect(mesh?.position.toArray()).toEqual([10, 1.08, 3]);
+    expect(system.drainPulses()).toEqual([]);
+    system.advance(0.2);
+    expect(system.visualCount()).toBe(0);
+    system.dispose();
+  });
   it('anchors the visible ring above real road, dirt, boost and ramp surfaces without moving the pulse', () => {
     const track = new CircuitAlpha();
     const scene = createTrackScene(track);

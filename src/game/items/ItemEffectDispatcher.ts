@@ -1,4 +1,5 @@
 import type { HazardSystem } from './HazardSystem';
+import type { ShockwaveSystem } from './ShockwaveSystem';
 import type { ApexMissileSystem } from './ApexMissileSystem';
 import { nearestRacerAhead } from './ItemTargeting';
 import type { RacerProgress } from '../race/RaceDirector';
@@ -11,6 +12,7 @@ export type ItemUseResolution = 'rejected' | 'unsupported' | 'activated';
 
 export interface ItemEffectRuntime {
   readonly hazardSystem?: HazardSystem;
+  readonly shockwaveSystem?: ShockwaveSystem;
   readonly apexSystem?: ApexMissileSystem;
   readonly racers?: readonly RacerProgress[];
   readonly projectileSystem?: ProjectileSystem;
@@ -26,6 +28,16 @@ export function executeItemUse(
 ): ItemUseResolution {
   const request = itemSystem.requestUse(racerId, direction);
   if (request === null) return 'rejected';
+
+  if (request.itemId === 'shockwave') {
+    if (runtime?.shockwaveSystem === undefined || runtime.projectileLaunch === undefined)
+      return 'unsupported';
+    return runtime.shockwaveSystem.activate(racerId, runtime.projectileLaunch.position, () =>
+      itemSystem.commitUse(racerId),
+    )
+      ? 'activated'
+      : 'rejected';
+  }
 
   if (request.itemId === 'slick-trap') {
     if (runtime?.hazardSystem === undefined || runtime.projectileLaunch === undefined)

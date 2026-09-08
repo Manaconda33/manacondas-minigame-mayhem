@@ -151,6 +151,24 @@ describe('generic spinout and static-barrier response', () => {
     },
   );
 
+  it('adds an exact finite planar velocity delta without moving, rotating, or changing vertical velocity', () => {
+    const { world, kart } = makeKart();
+    kart.applyArcadeCollisionImpulse(new Vector3(0.2, 0, 1), 8);
+    const beforePosition = kart.position();
+    const beforeForward = kart.forward();
+    const beforeVelocity = kart.velocity();
+    expect(kart.addPlanarVelocityDelta(new Vector3(3.5, 99, -1.25))).toBe(true);
+    const after = kart.velocity();
+    expect(after.x).toBeCloseTo(beforeVelocity.x + 3.5, 7);
+    expect(after.z).toBeCloseTo(beforeVelocity.z - 1.25, 7);
+    expect(after.y).toBe(beforeVelocity.y);
+    expect(kart.position()).toEqual(beforePosition);
+    expect(kart.forward()).toEqual(beforeForward);
+    expect(kart.addPlanarVelocityDelta(new Vector3(Number.NaN, 0, 1))).toBe(false);
+    expect(kart.velocity()).toEqual(after);
+    world.free();
+  });
+
   it('reflects outward barrier velocity and retains bounded tangential speed', () => {
     const { world, kart } = makeKart();
     step(world, kart, { throttle: 1, steering: 0, brake: false, drift: false }, 180);

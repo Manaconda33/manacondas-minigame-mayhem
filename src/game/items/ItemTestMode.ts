@@ -2,6 +2,17 @@ import { ITEM_IDS, type ItemId } from './itemDefinitions';
 
 const ITEM_ID_SET = new Set<string>(ITEM_IDS);
 
+export const SHOCKWAVE_COUNTER_TESTS = [
+  'racer',
+  'kinetic',
+  'seeker',
+  'slick',
+  'blast',
+  'apex',
+] as const;
+export type ShockwaveCounterTest = (typeof SHOCKWAVE_COUNTER_TESTS)[number];
+const SHOCKWAVE_COUNTER_TEST_SET = new Set<string>(SHOCKWAVE_COUNTER_TESTS);
+
 export function forcedItemFromSearch(search: string): ItemId | null {
   const value = new URLSearchParams(search).get('testItem');
   return value !== null && ITEM_ID_SET.has(value) ? (value as ItemId) : null;
@@ -26,4 +37,11 @@ export function incomingBlastOrbFromSearch(search: string): boolean {
 
 export function incomingSlickFromSearch(search: string): boolean {
   return new URLSearchParams(search).get('testSlickAhead') === '1';
+}
+
+export function shockwaveCounterFromSearch(search: string): ShockwaveCounterTest | null {
+  const value = new URLSearchParams(search).get('testShockwaveCounter');
+  return value !== null && SHOCKWAVE_COUNTER_TEST_SET.has(value)
+    ? (value as ShockwaveCounterTest)
+    : null;
 }

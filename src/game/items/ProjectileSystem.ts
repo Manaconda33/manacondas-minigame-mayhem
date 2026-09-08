@@ -114,6 +114,7 @@ export class ProjectileSystem {
   public readonly group = new THREE.Group();
   private readonly active = new Map<number, ActiveProjectile>();
   private readonly reservations = new Set<number>();
+  private readonly clears: { center: THREE.Vector3; radius: number }[] = [];
 
   public constructor(
     private readonly track: CircuitAlpha,
@@ -223,8 +224,20 @@ export class ProjectileSystem {
     return projectile.id;
   }
 
+  /** Queued Shockwave clears resolve before ordinary projectile movement/contact. */
+  public queueClearWithinRadius(center: THREE.Vector3, radius: number): void {
+    if (
+      finiteVector(center) &&
+      Number.isFinite(radius) &&
+      radius >= 0 &&
+      this.clears.length < MAX_ACTIVE_PROJECTILES
+    )
+      this.clears.push({ center: center.clone(), radius });
+  }
+
   public update(dt: number, targets: readonly ProjectileTarget[]): ProjectileImpact[] {
     if (!Number.isFinite(dt) || dt <= 0) return [];
+    this.resolveQueuedClears();
     const impacts: ProjectileImpact[] = [];
 
     for (const projectile of [...this.active.values()]) {
@@ -375,6 +388,20 @@ export class ProjectileSystem {
     return null;
   }
 
+  private resolveQueuedClears(): void {
+    for (const projectile of [...this.active.values()]) {
+      if (projectile.itemId !== 'kinetic-disc' && projectile.itemId !== 'seeker-drone') continue;
+      if (
+        this.clears.some(
+          ({ center, radius }) =>
+            center.distanceToSquared(projectile.group.position) <= radius * radius,
+        )
+      )
+        this.remove(projectile.id);
+    }
+    this.clears.length = 0;
+  }
+
   public remove(projectileId: number): boolean {
     const projectile = this.active.get(projectileId);
     if (projectile === undefined) return false;
@@ -429,6 +456,7 @@ export class ProjectileSystem {
     for (const projectileId of [...this.active.keys()]) this.remove(projectileId);
     for (const id of this.reservations) this.capacity.release(id);
     this.reservations.clear();
+    this.clears.length = 0;
     this.group.clear();
   }
 }

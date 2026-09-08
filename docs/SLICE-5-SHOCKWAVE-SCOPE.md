@@ -1,6 +1,6 @@
 # Slice 5 Acoustic Shockwave Pulse Scope
 
-**Status: APPROVED FOR IMPLEMENTATION; GAMEPLAY GATED UNTIL THIS GOVERNANCE CHECKPOINT MERGES AND POST-MERGE CI/PAGES PASSES.**
+**Status: GOVERNANCE MERGED / GAMEPLAY IMPLEMENTATION AUTHORIZED; PUBLICATION AND LIVE ACCEPTANCE PENDING.**
 
 Baseline `main`: `a20d5b14fcd9c02095c427d8d047607bf080cb01`.
 
@@ -68,4 +68,4 @@ The implementation must not special-case accepted Kinetic/Seeker/Hazard/Apex sta
 
 Manny approved this complete scope, including the 6-to-2 m/s racer push falloff, on 2026-09-07. This document, PRD amendment 2.11, ADR-072, `docs/TESTING.md`, `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, and `docs/IMPLEMENTATION-STATUS.md` form the governance checkpoint.
 
-Gameplay implementation may begin only after this documentation checkpoint merges to `main` and its post-merge CI/Pages run passes. Gameplay publication/deployment and live acceptance remain later separate gates. No other item effect is authorized by this scope.
+Governance PR #125 squash-merged to `main` at `0825ed02f80a67e088416d2d55925309e38eabe5`; post-merge CI/Pages run `34177188784` passed validation and deployment. The gameplay gate is therefore cleared for `feature/slice-5-shockwave`. Gameplay publication/deployment and live acceptance remain later separate gates. No other item effect is authorized by this scope.

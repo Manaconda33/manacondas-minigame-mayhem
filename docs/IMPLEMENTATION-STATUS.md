@@ -4,7 +4,18 @@
 
 **Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO, KINETIC, SEEKER, APEX, BLAST ORB, SLICK TRAP, AND BOUNDED AI SLICK/BLAST HAZARD RESPONSE LIVE ACCEPTED**
 
-PRD baseline: **v1.1, working implementation amendment 2.10**.
+PRD baseline: **v1.1, working implementation amendment 2.11**.
+
+
+## Slice 5 Acoustic Shockwave Pulse governance checkpoint
+
+Manny approved the recommended bounded **Acoustic Shockwave Pulse** scope on 2026-09-07, including the proposed racer push: an outward planar velocity delta that falls linearly from **6 m/s** at the pulse center to **2 m/s** at the governed **5 m** edge. PRD amendment **2.11**, ADR-072, `docs/SLICE-5-SHOCKWAVE-SCOPE.md`, and the Shockwave section in `docs/TESTING.md` are the governing implementation contract.
+
+The approved pulse is instantaneous and centered on the using kart. It pushes eligible unfinished non-owner racers without conventional spinout, destroys ordinary Kinetic Disc / Seeker Drone projectiles inside 5 m, clears Slick Trap / Timed Blast Orb hazards through the accepted queued hazard-clear boundary, and may neutralize only a terminal/dive Apex Missile inside the already accepted 5 m 3D counter radius. Counter resolution must occur before affected projectile/hazard/Apex movement or impact resolution in the same simulation step. Forward/backward ITEM intent is equivalent for Shockwave.
+
+This governance checkpoint changes no gameplay source. It does not enable AI item acquisition/use, change item probabilities, alter racer stats, track/checkpoint authority, accepted Nitro/Kinetic/Seeker/Apex/Blast/Slick behavior outside the new counter interaction, or begin Slice 6. The gameplay implementation is gated until this documentation checkpoint merges to `main` and its post-merge CI/Pages run passes.
+
+Latest verified live checkpoint before this governance branch: `a20d5b14fcd9c02095c427d8d047607bf080cb01`; CI/Pages run `34175582838` passed validation and deployment. Bounded Slick/Blast AI hazard response is LIVE ACCEPTED. Nine item effects remain unimplemented, with Shockwave now the approved next bounded item increment.
 
 
 ## Slice 5 AI Slick/Blast hazard-response implementation checkpoint
@@ -350,13 +361,13 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Deferred work
 
-- Remaining Slice 5 work includes the eleven other unimplemented item effects, real Shockwave/Prismatic and other counter integration, AI item-use policy, interaction/counter validation, soak/performance evidence, deployment, and full-slice live acceptance. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, and Apex core are already live accepted.
+- Nine item effects remain unimplemented: Acoustic Shockwave Pulse, Blaze Orbs, Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic Invincibility. Shockwave is the approved next bounded increment under amendment 2.11 / ADR-072. Full AI item-use policy, final interaction/counter validation, soak/performance evidence, issue #106, deployment evidence for later increments, and full-slice live acceptance remain open. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, Timed Blast Orb, Slick Trap, and bounded Slick/Blast AI hazard response are already live accepted.
 - Further competitive-balance work remains deferred until explicitly reopened.
 - External PBR texture sets, HDR environment, baked AO assets, and other larger presentation additions remain outside the Dragon Queen checkpoint.
 
 ## Next recommended action
 
-Review the HazardSystem + Timed Blast Orb gameplay PR after its clean-install CI passes, then approve merge/deployment and perform the eight focused checks in `docs/SLICE-5-BLAST-ORB-SCOPE.md`. Preserve accepted Nitro/Kinetic/Seeker/Apex behavior; real Shockwave/Prismatic interactions, AI hazard avoidance and issue #106 remain deferred.
+Review and merge the approved Shockwave governance checkpoint after clean-install CI passes. After its post-merge CI/Pages run succeeds, implement only the bounded Acoustic Shockwave Pulse contract in `docs/SLICE-5-SHOCKWAVE-SCOPE.md` on a dedicated gameplay branch, preserving all accepted item behavior and the live-accepted Slick/Blast AI hazard response. Gameplay publication/deployment and live acceptance remain separate gates.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 
@@ -364,7 +375,7 @@ Do not reopen competitive-balance tuning while establishing the baseline item im
 
 **Slice 5 design: APPROVED 2026-09-05.**
 
-**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, KINETIC DISC, SEEKER DRONE, AND APEX CORE LIVE ACCEPTED.**
+**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, KINETIC DISC, SEEKER DRONE, APEX CORE, TIMED BLAST ORB, SLICK TRAP, AND BOUNDED SLICK/BLAST AI HAZARD RESPONSE LIVE ACCEPTED; SHOCKWAVE GOVERNANCE APPROVED / GAMEPLAY GATED.**
 
 **Slice 6: LOCKED pending Slice 5 validation, deployment, and Manny live acceptance.**
 

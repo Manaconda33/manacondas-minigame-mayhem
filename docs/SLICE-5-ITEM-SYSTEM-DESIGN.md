@@ -8,7 +8,7 @@
 
 **Implementation authorization:** Documentation and approved Slice 5 implementation are authorized after this design checkpoint is merged. This document does not itself mark any Slice 5 gameplay requirement complete.
 
-**Governing PRD:** v1.1, working implementation amendment 2.10.
+**Governing PRD:** v1.1, working implementation amendment 2.11.
 
 The existing PRD Sections 15-17, ITEM-001 through ITEM-008, AI-004, Slice 5 roadmap requirements, probability matrix, item state machines, and existing item values remain authoritative except where amendment 2.2 explicitly resolves previously unspecified implementation behavior.
 
@@ -197,6 +197,11 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 ## Slick Trap scope approval - approved 2026-09-07
 
 PRD amendment 2.9 / ADR-070 and `docs/SLICE-5-SLICK-TRAP-SCOPE.md` govern the next bounded Slick Trap item increment. The approved fill-ins are rear-only stationary 1.75 m placement, 0.35 s owner immunity, <=1.1 m trigger, 60% planar speed retention, one 360-degree / 0.85-second spin presentation, two active per owner with successful-third FIFO replacement, 12 race-second pause-safe lifetime, shared item-physics capacity, generic immunity that leaves the hazard in place, and generic queued hazard-clear ordering. `?testSlickAhead=1` is approved acceptance instrumentation. AI Blast/Slick avoidance remains a later shared increment after Slick live acceptance. The Slick functional checklist item remains unchecked until implementation, hosted validation, deployment, and Manny live acceptance prove it.
+
+
+## Acoustic Shockwave Pulse scope approval - approved 2026-09-07
+
+PRD amendment 2.11 / ADR-072 and `docs/SLICE-5-SHOCKWAVE-SCOPE.md` govern the next bounded item increment. Shockwave remains a one-charge approximately 5 m instantaneous radial defense. The approved fill-ins are a non-spin racer push adding 6-to-2 m/s outward planar velocity falloff, same behavior for forward/backward ITEM intent, ordinary Kinetic/Seeker destruction, queued Slick/Blast clearing, terminal-only Apex neutralization, and counter-before-object-update ordering. Shockwave uses no persistent shared item-physics slot. General AI item acquisition/use remains deferred. The Shockwave checklist item stays incomplete until implementation, hosted validation, deployment, desktop/mobile live checks, and Manny acceptance prove it.
 
 # Slice 5 exit checklist
 

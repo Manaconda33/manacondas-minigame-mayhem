@@ -692,3 +692,32 @@ After separately approved merge and successful Pages deployment, complete the ei
 - Normal: https://manaconda33.github.io/manacondas-minigame-mayhem/
 
 No live acceptance is claimed. Full AI item tactics, remaining effects/counters, issue #106, final soak/performance and Slice 6 remain separate gates.
+
+## Slice 5 Acoustic Shockwave Pulse checkpoint
+
+Automated evidence for PRD amendment 2.11 / ADR-072 must confirm:
+
+- one committed Shockwave consumes one charge even when no target is in range; invalid/paused/finished-racer activation cannot create duplicate pulses;
+- forward and backward ITEM intent produce the same centered radial pulse;
+- horizontal radius boundaries immediately below, at, and above 5.0 m are deterministic;
+- eligible racer push adds an outward planar velocity delta that is 6.0 m/s at the center, 4.0 m/s at 2.5 m, and 2.0 m/s at 5.0 m, with a finite deterministic coincident-center fallback and no conventional spinout, teleport, or progress mutation;
+- owner, finished-racer, out-of-radius, and generic item-immunity cases are not pushed;
+- Kinetic Disc and Seeker Drone objects inside 5.0 m are destroyed before they can move or impact in that simulation step, while objects outside the radius remain active;
+- queued Slick Trap and Timed Blast Orb clears resolve before hazard trigger/contact/fuse processing and preserve shared-capacity accounting;
+- only terminal/dive Apex inside the existing 5.0 m 3D counter radius is neutralized; rise/sky/warning phases and out-of-radius terminal Apex remain active;
+- accepted Nitro/Kinetic/Seeker/Apex/Blast/Slick behavior, probability selection, Slick/Blast AI hazard response, racer stats, checkpoints/laps, camera/driver states, and the 40-object shared capacity remain regression-clean;
+- pressure-ring presentation is finite, pause-safe, restart-safe, and disposal-safe; and
+- `?testItem=shockwave` plus `?testShockwaveCounter=racer|kinetic|seeker|slick|blast|apex` remain explicit test instrumentation and do not alter normal distribution or enable AI tactics.
+
+Focused deployed desktop/mobile live gate after an approved gameplay merge:
+
+1. Forced Shockwave pickup resolves normally; ITEM produces one readable expanding pressure ring, consumes the held charge, and frees the inventory slot.
+2. A nearby rival is pushed outward without a conventional spinout, teleport, wrong-way snap, or race-progress mutation; a rival outside approximately 5 m is unaffected.
+3. Incoming Kinetic and Seeker counter fixtures are destroyed by a correctly timed pulse, while a deliberately early/out-of-range pulse does not erase them.
+4. Slick and Blast fixtures inside the pulse are cleared without triggering their accepted hostile effect; outside-range hazards remain governed normally.
+5. Incoming Apex can be neutralized only during terminal/dive timing inside the 5 m 3D boundary; earlier warning/sky phases cannot be erased.
+6. Pause/restart leaves no stuck pulse, warning, hazard, projectile, VFX, inventory, or shared-capacity state.
+7. Desktop Shift/E and mobile ITEM activation both work; Brake/Reverse + ITEM remains equivalent rather than directional for Shockwave.
+8. Normal unforced gameplay shows no Shockwave test badge/fixture, and accepted Nitro/Kinetic/Seeker/Apex/Blast/Slick plus Slick/Blast AI avoidance remain unchanged.
+
+Record exact gameplay commit, PR CI, post-merge CI/Pages run, desktop/mobile results, defects, and Manny's explicit live acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint closes only the Shockwave functional/counter increment; the other eight item effects, full AI item policy, final interaction matrix, soak/performance closure, issue #106, overall Slice 5 acceptance, and Slice 6 remain open.

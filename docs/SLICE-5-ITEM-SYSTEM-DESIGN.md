@@ -246,13 +246,15 @@ Slick Trap acceptance evidence, 2026-09-07: gameplay PR #120 squash-merged at `b
 - [x] Mobile Brake/Reverse + ITEM requests backward deployment where supported.
 - [x] HUD shows roulette, held item, and correct remaining charge count.
 - [ ] AI acquires and uses items according to tactical circumstances.
-- [ ] AI recognizes Slicks and Blast Orbs as hazards.
+- [x] AI recognizes Slicks and Blast Orbs as hazards.
 - [x] Seeker/Apex targeting derives from validated race progress rather than visual proximity alone.
 - [ ] Item hits never directly mutate checkpoint sequence, lap count, finish place, or race-progress authority.
 - [ ] Hyper-Drive movement earns progress through legal movement/checkpoints rather than direct progress mutation.
 - [x] Finished racers cannot obtain new items.
 - [ ] Pause freezes roulette, projectile, hazard, buff/debuff, arming, fuse, global cooldown, and item-window timers.
 - [x] Existing AI steering, lane, speed-stat authority, recovery, and bounded rubber-band tests remain passing.
+
+AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed head `2ebba5ee39b636251a20abc5bcf5230d8e063da2` passed hosted PR CI run `34173735120`; PR #123 squash-merged at `b6e92fc79dad27764df9fe6248b4a496503fec00`; post-merge CI/Pages run `34174464098` passed; Manny completed the deployed eight-check live matrix and reported the playtest passed. Product-owner evidence: PR #123 comment `5577444120`. This closes only the AI recognition/avoidance requirement for accepted Slick Trap and Timed Blast Orb hazards; full AI item acquisition/use, static-obstacle expansion, remaining items/counters, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.
 
 ## Reliability and performance
 

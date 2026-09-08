@@ -526,7 +526,6 @@ Automated and live validation for the Kinetic Disc checkpoint must verify:
 
 Recovery regression coverage also checks both rail sides at all 384 track samples, oblique reflection without overlap bounce spam, zero-time pause, failed-spawn/capacity inventory retention, the 40-projectile ceiling, deterministic effect refresh/disposal, half-turn then full-turn controller motion under held inputs, clean acceleration recovery, rear-view switching during an anchored spin, and hit-art priority through a finish-line crossing.
 
-
 ## Kinetic Disc speed correction regression gate
 
 Use the actual 42 m/s registry config and bounded inherited velocity. Forward launch from a fast kart must reach approximately 44.8 m/s; backward launch from rest is -42 m/s along the owner's forward axis. The moving-target regression advances targets at the actual Manaconda and Krios normal maximums, plus Krios with the 1.04 maximum AI allowance, from a 30 m initial gap on a clear straight and requires successful interception within three seconds. This uses an analytic straight-corridor fixture with the real projectile and shared guardrail contact math to isolate closing speed; it is not a guarantee of hits through turns or intervening obstacles. A shallow-angle Circuit Alpha trace must retain projectile speed, normal ricochets, valid same-side contacts, and eventual cleanup. All existing item/guardrail/spinout/camera/sprite gates must still pass.
@@ -536,7 +535,6 @@ After approved corrective deployment, use `?testItem=kinetic-disc`: confirm clea
 The focused Kinetic correction gate above **passed on 2026-09-06**: deployed PR #105 / `1497672c639adaf6ca71f2aa775d4e0c23572b33`, CI/Pages run `34034999554`, and Manny's [final acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832). Earlier pending-gate wording describes the test procedure, not the current acceptance state. Issue #106 is future development and does not invalidate this result.
 
 The approved Seeker increment is implemented under amendment 2.6. Its automated evidence and subsequently accepted live gate follow.
-
 
 ## Seeker Drone checkpoint
 
@@ -593,10 +591,9 @@ The reproducible distribution gate is implemented in `tests/item-distribution.te
 
 Hosted PR #114 CI run **34139123888** on `94e90a7a8adfbe107dbd2095cae706596a1be7bc` passed the distribution test as part of the complete CI test step. The largest absolute deviation was **0.315 percentage points**. The durable counts/report are in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. Re-run this test unchanged whenever selector logic, the rank matrix, dynamic gap weighting, or runtime eligibility changes; any intentional governed change must update the report and approval record rather than silently changing the seed/tolerance.
 
-
 ## HazardSystem + Timed Blast Orb checkpoint
 
-`tests/blast-orb.test.ts` verifies forward/backward inventory use, capped inheritance and deterministic drag, invalid/full-capacity rollback, 40 mixed projectile/Apex/hazard slots, 3.0-second fuse/pause, below/at/above 8 m/s direct closing speed, separating/tangential contact rejection, owner exclusion before 0.35 s and legal later self-hit, once-only 4 m AoE/finished/immunity boundaries, rail containment, five actual Circuit Alpha paths, 5 m 3D clear priority at imminent detonation, explicit incoming isolation/retry/one-shot behavior, and 100 resource-cleanup cycles. The accepted distribution test remains unchanged.
+`tests/blast-orb.test.ts` verifies forward/backward inventory use, capped inheritance and deterministic drag, invalid/full-capacity rollback, 40 mixed projectile/Apex/hazard slots, 3.0-second fuse/pause, below/at/above 8 m/s direct closing speed, separating/tangential contact rejection, owner exclusion before 0.35 s and legal later self-hit, once-only 4 m AoE/finished/immunity boundaries, rail containment, five actual Circuit Alpha paths, 5 m horizontal clear priority at imminent detonation, explicit incoming isolation/retry/one-shot behavior, and 100 resource-cleanup cycles. The accepted distribution test remains unchanged.
 
 Local full gate passes **33 files / 233 tests**, **92.03% statement coverage**. Hosted clean-install CI and exact checkpoint SHA must pass before gameplay publication review.
 
@@ -639,12 +636,11 @@ Focused deployed desktop/mobile live gate:
 
 Record exact commit, hosted CI/Pages run, desktop/mobile results, defects, and Manny's acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint closes only the Slick functional gate proven by the deployed implementation. AI Blast/Slick avoidance, playable Shockwave, real Prismatic/Hyper-Drive interaction acceptance, remaining items, final Slice 5 soak/performance, and Slice 6 remain separate gates.
 
-
 ## Slick Trap implementation evidence — 2026-09-07
 
 Governance baseline: PR #119 merge `2ce2212e5d89e192b9118ec07c655bacefbdf45a`, post-merge CI/Pages `34151395918` passed. Manny explicitly authorized the gameplay implementation.
 
-`tests/slick-trap.test.ts` covers both ITEM directions, inventory consumption/failure, invalid launch data, 40 mixed slots, full-budget FIFO replacement, owner independence, failed/throwing commit rollback, rail containment, lifetime/pause, exact owner/trigger boundaries, immunity/finished filtering, one-shot cleanup, generic 3D clear ordering, repeated resource disposal, fixture isolation/restart and real Circuit Alpha raised-surface placement. `tests/kart-controller-effects.test.ts` verifies zero/near-zero/moving 60% retention, one 360-degree spin across 51 fixed steps, control suppression, no additional planar decay, hostile-spin refresh, camera-heading stability and both hit/frontHit states. The existing accepted-item and rank-distribution suites remain required.
+`tests/slick-trap.test.ts` covers both ITEM directions, inventory consumption/failure, invalid launch data, 40 mixed slots, full-budget FIFO replacement, owner independence, failed/throwing commit rollback, rail containment, lifetime/pause, exact owner/trigger boundaries, immunity/finished filtering, one-shot cleanup, generic horizontal clear ordering, repeated resource disposal, fixture isolation/restart and real Circuit Alpha raised-surface placement. `tests/kart-controller-effects.test.ts` verifies zero/near-zero/moving 60% retention, one 360-degree spin across 51 fixed steps, control suppression, no additional planar decay, hostile-spin refresh, camera-heading stability and both hit/frontHit states. The existing accepted-item and rank-distribution suites remain required.
 
 Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages successfully. Full `npm run validate` passed strict typecheck, zero-warning lint, **34 files / 254 tests**, **92.42% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted clean-install PR CI remains required before publication review. After separately approved deployment, use:
 
@@ -653,7 +649,6 @@ Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages s
 - Normal: https://manaconda33.github.io/manacondas-minigame-mayhem/
 
 These links do not provide this gameplay until the gameplay PR is merged and its Pages run passes. Complete the eight Slick deployed checks above on desktop/mobile; include patch visibility on road, dirt, boost pads and the ramp. Automated camera/state checks are not a claim of live visual acceptance. Playable Shockwave, real Prismatic/Hyper-Drive interactions and AI hazard response remain separate gates.
-
 
 ## Slice 5 AI Slick/Blast hazard-response acceptance
 
@@ -675,7 +670,6 @@ Deployed acceptance must verify:
 8. Accepted Nitro, Kinetic, Seeker, Apex, Blast Orb, and Slick Trap behavior remains unchanged.
 
 Record exact implementation commit, hosted CI, post-merge CI/Pages, live desktop/mobile results, defects, and Manny's acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this increment closes only AI Blast/Slick movement-response evidence actually proven; it does not close full AI item tactics, remaining items/counters, issue #106, final soak/performance, overall Slice 5 acceptance, or Slice 6.
-
 
 ## AI hazard-response implementation evidence — 2026-09-08
 
@@ -699,11 +693,11 @@ Automated evidence for PRD amendment 2.11 / ADR-072 must confirm:
 
 - one committed Shockwave consumes one charge even when no target is in range; invalid/paused/finished-racer activation cannot create duplicate pulses;
 - forward and backward ITEM intent produce the same centered radial pulse;
-- horizontal radius boundaries immediately below, at, and above 5.0 m are deterministic;
+- horizontal X/Z radius boundaries immediately below, at, and above 5.0 m are deterministic for racers, ordinary projectiles, Slicks, and Blast Orbs regardless of vertical separation;
 - eligible racer push adds an outward planar velocity delta that is 6.0 m/s at the center, 4.0 m/s at 2.5 m, and 2.0 m/s at 5.0 m, with a finite deterministic coincident-center fallback and no conventional spinout, teleport, or progress mutation;
-- owner, finished-racer, out-of-radius, and generic item-immunity cases are not pushed;
-- Kinetic Disc and Seeker Drone objects inside 5.0 m are destroyed before they can move or impact in that simulation step, while objects outside the radius remain active;
-- queued Slick Trap and Timed Blast Orb clears resolve before hazard trigger/contact/fuse processing and preserve shared-capacity accounting;
+- owner, finished-racer, out-of-radius, and generic item-immunity cases are not pushed, and live target snapshots carry that immunity state;
+- Kinetic Disc and Seeker Drone objects inside 5.0 horizontal meters are destroyed before they can move or impact in that simulation step, while objects outside the horizontal radius remain active;
+- queued Slick Trap and Timed Blast Orb clears use horizontal X/Z distance, resolve before hazard trigger/contact/fuse processing, and preserve shared-capacity accounting;
 - only terminal/dive Apex inside the existing 5.0 m 3D counter radius is neutralized; rise/sky/warning phases and out-of-radius terminal Apex remain active;
 - accepted Nitro/Kinetic/Seeker/Apex/Blast/Slick behavior, probability selection, Slick/Blast AI hazard response, racer stats, checkpoints/laps, camera/driver states, and the 40-object shared capacity remain regression-clean;
 - pressure-ring presentation is finite, pause-safe, restart-safe, and disposal-safe; and

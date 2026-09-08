@@ -76,6 +76,7 @@ function validSpinoutSpec(spec: SpinoutSpec): boolean {
 export class RacerEffects {
   private readonly temporaryBoosts = new Map<string, ActiveTemporaryBoost>();
   private readonly spinouts = new Map<string, ActiveSpinout>();
+  private readonly itemImmuneRacers = new Set<string>();
 
   public activateTemporaryBoost(racerId: string, spec: TemporaryBoostSpec): boolean {
     if (racerId.trim().length === 0 || !validBoostSpec(spec)) return false;
@@ -135,6 +136,18 @@ export class RacerEffects {
     };
   }
 
+  /** Shared item-immunity boundary; no current item activates it in this increment. */
+  public setItemImmune(racerId: string, immune: boolean): boolean {
+    if (racerId.trim().length === 0) return false;
+    if (immune) this.itemImmuneRacers.add(racerId);
+    else this.itemImmuneRacers.delete(racerId);
+    return true;
+  }
+
+  public isItemImmune(racerId: string): boolean {
+    return this.itemImmuneRacers.has(racerId);
+  }
+
   public remainingSeconds(racerId: string, effectId?: string): number {
     const boost = this.temporaryBoosts.get(racerId);
     if (boost === undefined || (effectId !== undefined && boost.id !== effectId)) return 0;
@@ -162,10 +175,12 @@ export class RacerEffects {
   public clear(racerId: string): void {
     this.temporaryBoosts.delete(racerId);
     this.spinouts.delete(racerId);
+    this.itemImmuneRacers.delete(racerId);
   }
 
   public dispose(): void {
     this.temporaryBoosts.clear();
     this.spinouts.clear();
+    this.itemImmuneRacers.clear();
   }
 }

@@ -394,7 +394,7 @@ export class ProjectileSystem {
       if (
         this.clears.some(
           ({ center, radius }) =>
-            center.distanceToSquared(projectile.group.position) <= radius * radius,
+            squaredHorizontalDistance(center, projectile.group.position) <= radius * radius,
         )
       )
         this.remove(projectile.id);

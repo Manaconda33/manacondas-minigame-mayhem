@@ -270,15 +270,15 @@ describe('Blast fuse, contacts, immunity and containment', () => {
 });
 
 describe('Blast counter ordering, fixture and cleanup', () => {
-  it('clears inclusively within 5 m in 3D before expiry or qualifying impact, without a blast', () => {
+  it('clears inclusively within 5 horizontal meters before expiry or qualifying impact', () => {
     const f = fixture();
     f.hazards.placeBlastOrb('owner', new THREE.Vector3());
     f.hazards.update(2.999, []);
     const p = required(f.hazards.snapshots()[0]).position;
-    f.hazards.queueClearWithinRadius(p.clone().add(new THREE.Vector3(0, 5.001, 0)), 5);
+    f.hazards.queueClearWithinRadius(p.clone().add(new THREE.Vector3(5.001, 100, 0)), 5);
     f.hazards.update(0.0001, []);
     expect(f.hazards.activeCount()).toBe(1);
-    f.hazards.queueClearWithinRadius(p.clone().add(new THREE.Vector3(0, 5, 0)), 5);
+    f.hazards.queueClearWithinRadius(p.clone().add(new THREE.Vector3(5, 100, 0)), 5);
     expect(f.hazards.update(1, [target('rival', 1, -40)])).toEqual([]);
     expect(f.hazards.group.children).toHaveLength(0);
     expect(f.capacity.count()).toBe(0);

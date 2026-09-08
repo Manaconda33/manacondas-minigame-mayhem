@@ -1,3 +1,11 @@
+import {
+  AI_HAZARD_RESPONSE,
+  hazardRoutePosition,
+  relevantAiHazards,
+  hazardLaneClearance,
+  type AiHazardAwareness,
+  type RelevantHazard,
+} from './AiHazardAwareness';
 import * as THREE from 'three';
 import type { DriveInput } from '../physics/KartController';
 import type { CircuitAlpha } from '../track/CircuitAlpha';
@@ -47,6 +55,7 @@ export function aiTargetSpeed(
 export class AiDriver {
   private laneOffset: number;
   private laneHoldSeconds = 0;
+  private hazardClearHoldSeconds = 0;
 
   public constructor(
     private readonly track: CircuitAlpha,
@@ -63,10 +72,22 @@ export class AiDriver {
     playerProgressDelta = 0,
     nearbyRacers: readonly AiRacerAwareness[] = [],
     dt = 1 / 60,
+    hazards: readonly AiHazardAwareness[] = [],
+    racerId = '',
   ): DriveInput {
     const projection = this.track.project(position);
     const racersAhead = this.racersAhead(position, projection.tangent, nearbyRacers);
-    this.updateLane(racersAhead, speed, dt);
+    const threats =
+      hazards.length === 0
+        ? []
+        : relevantAiHazards(
+            hazards,
+            hazardRoutePosition(this.track, position).distance,
+            this.track.curve.getLength(),
+            speed,
+            racerId,
+          );
+    if (Number.isFinite(dt) && dt > 0) this.updateLane(racersAhead, speed, dt, threats);
 
     const lookahead = Math.max(1, Math.round(aiLookaheadMeters(speed) / this.track.sampleSpacing));
     const targetIndex = (projection.index + lookahead) % this.track.sampleCount;
@@ -105,6 +126,12 @@ export class AiDriver {
     return this.laneOffset;
   }
 
+  public reset(): void {
+    this.laneOffset = this.roadBoundedLane(this.profile.laneOffset);
+    this.laneHoldSeconds = 0;
+    this.hazardClearHoldSeconds = 0;
+  }
+
   private racersAhead(
     position: THREE.Vector3,
     tangent: THREE.Vector3,
@@ -123,7 +150,40 @@ export class AiDriver {
       .sort((a, b) => a.forwardGap - b.forwardGap);
   }
 
-  private updateLane(racersAhead: readonly NearbyRacer[], speed: number, dt: number): void {
+  private updateLane(
+    racersAhead: readonly NearbyRacer[],
+    speed: number,
+    dt: number,
+    hazards: readonly RelevantHazard[],
+  ): void {
+    if (hazards.length > 0) {
+      const preferred = this.roadBoundedLane(this.profile.laneOffset);
+      const candidates = candidateLaneOffsets.map((lane) => this.roadBoundedLane(lane));
+      const clear = candidates.filter((lane) => hazardLaneClearance(lane, hazards) > 0);
+      const choices = clear.length > 0 ? clear : candidates;
+      let bestLane = choices[0] ?? preferred;
+      for (const lane of choices) {
+        const clearance = hazardLaneClearance(lane, hazards);
+        const bestClearance = hazardLaneClearance(bestLane, hazards);
+        const betterClearance = clear.length === 0 && clearance > bestClearance + 1e-9;
+        const comparable = clear.length > 0 || Math.abs(clearance - bestClearance) <= 1e-9;
+        if (
+          betterClearance ||
+          (comparable &&
+            this.laneScore(lane, preferred, racersAhead) <
+              this.laneScore(bestLane, preferred, racersAhead))
+        )
+          bestLane = lane;
+      }
+      this.laneOffset = bestLane;
+      this.hazardClearHoldSeconds = AI_HAZARD_RESPONSE.clearHoldSeconds;
+      this.laneHoldSeconds = 0;
+      return;
+    }
+    if (this.hazardClearHoldSeconds > 0) {
+      this.hazardClearHoldSeconds = Math.max(0, this.hazardClearHoldSeconds - dt);
+      if (this.hazardClearHoldSeconds > 1e-9) return;
+    }
     this.laneHoldSeconds = Math.max(0, this.laneHoldSeconds - dt);
     if (this.laneHoldSeconds > 0) return;
 

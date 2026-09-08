@@ -1,3 +1,5 @@
+import { observeAiHazards } from './ai/AiHazardAwareness';
+import { AiHazardFixture, aiHazardTestFromSearch } from './ai/AiHazardFixture';
 import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -198,6 +200,9 @@ export class KartTimeTrial {
   private readonly hazards = new HazardSystem(this.track, this.itemPhysicsCapacity, (position) =>
     this.slickGround.at(position),
   );
+  private readonly aiHazardFixture = new AiHazardFixture(
+    aiHazardTestFromSearch(window.location.search),
+  );
   private readonly incomingSlickTest = incomingSlickFromSearch(window.location.search);
   private readonly incomingSlickFixture = new IncomingSlickFixture(this.incomingSlickTest);
   private readonly incomingBlastTest = incomingBlastOrbFromSearch(window.location.search);
@@ -293,6 +298,8 @@ export class KartTimeTrial {
     this.apex.dispose();
     this.apexPresentation.dispose();
     this.apexWarningAudio.dispose();
+    this.aiHazardFixture.reset();
+    for (const opponent of this.opponents) opponent.driver.reset();
     this.hazards.dispose();
     this.slickGround.dispose();
     this.projectiles.dispose();
@@ -437,6 +444,7 @@ export class KartTimeTrial {
   }
 
   private updateOpponents(dt: number): void {
+    const hazardAwareness = observeAiHazards(this.track, this.hazards.activeSnapshots());
     const playerTotal = this.playerProgress.lap + this.playerProgress.trackProgress;
     const observeRacer = (id: string, controller: KartController) => {
       const position = controller.position();
@@ -478,6 +486,8 @@ export class KartTimeTrial {
                 playerTotal - opponentTotal,
                 racerAwareness.filter(({ id }) => id !== opponent.id),
                 dt,
+                hazardAwareness,
+                opponent.id,
               );
       opponent.steering = spinout === null ? input.steering : 0;
       opponent.controller.update(input, projection.surface, dt);
@@ -633,6 +643,17 @@ export class KartTimeTrial {
       this.elapsed,
       this.playerProgress.finished,
       this.kart.position(),
+      this.track,
+      this.hazards,
+    );
+    this.aiHazardFixture.update(
+      this.elapsed,
+      this.opponents.map((opponent) => ({
+        id: opponent.id,
+        name: opponent.name,
+        position: opponent.controller.position(),
+        finished: opponent.progress.finished,
+      })),
       this.track,
       this.hazards,
     );
@@ -898,6 +919,7 @@ export class KartTimeTrial {
             : `FORCED ${ITEM_DEFINITIONS[this.forcedTestItem].displayName}`,
           this.incomingSeekerTest ? 'INCOMING SEEKER EVERY 16s' : '',
           this.incomingApexTest ? 'APEX ATTACKS LEADER · DRIVE INTO FIRST' : '',
+          this.aiHazardFixture.badge(),
           this.incomingSlickTest ? 'ONE SLICK AHEAD AFTER 5s' : '',
           this.incomingBlastTest ? 'ONE BLAST ORB AHEAD AFTER 5s' : '',
         ]

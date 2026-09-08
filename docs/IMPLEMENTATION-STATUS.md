@@ -7,13 +7,22 @@
 PRD baseline: **v1.1, working implementation amendment 2.10**.
 
 
-## Slice 5 AI Slick/Blast hazard-response governance checkpoint
+## Slice 5 AI Slick/Blast hazard-response implementation checkpoint
+
+`AiHazardAwareness` projects detached active hazard snapshots once per simulation step. Route position uses the existing projection plus local tangent refinement for planning only. `AiDriver` keeps its existing five candidates and nearby-racer score, prioritizes safe hazard clearance, uses maximum minimum signed footprint clearance when boxed in, and holds the avoidance intent for 0.6 race seconds after clearance. Controller movement, target-speed logic and race-progress authority are unchanged.
+
+The fixture places one real stationary hazard 12 m ahead on the first unfinished AI racer’s current route/lane after five seconds; capacity failure retries. Its badge identifies the hazard and target name. Normal URLs enable no fixture. Driver and fixture reset paths clear temporary state on disposal/restart.
+
+Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages. Full `npm run validate` passed strict typecheck, zero-warning lint, **36 files / 278 tests**, **92.75% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted PR CI is recorded in the gameplay PR before publication review.
+
+Publication/deployment and desktop/mobile live acceptance remain pending. The physical steering simulations demonstrate deviation and recovery, not guaranteed escape from every real impact or explosion.
+
 
 Manny approved the complete bounded AI hazard-response scope as written on 2026-09-07. PRD amendment 2.10 / ADR-071 governs read-only Slick/Blast awareness, 20 m wrapped route-relative lookahead, the existing five candidate lanes, 2.5 m Slick and 4.5 m Blast planning footprints, 0.5 s drag-aware Blast prediction capped by fuse, hazard-priority lane intent, greatest-minimum-clearance fallback, and a 0.6 race-second clear hold before gradual preferred-lane recovery.
 
-This checkpoint is documentation-only. It does not enable AI item acquisition/use or change accepted hazard behavior, probabilities, racer stats, track/checkpoints, Speed-stat authority, rubber banding, controller tuning, assets, dependencies, or Slice 6. Deterministic deployed review is governed through `?testAiHazardAvoidance=slick` and `?testAiHazardAvoidance=blast` plus a normal unforced URL.
+The approved gameplay is implemented on `feature/slice-5-ai-hazard-response`. It does not enable AI item acquisition/use or change accepted hazard behavior, probabilities, racer stats, track/checkpoints, Speed-stat authority, rubber banding, controller tuning, assets, dependencies, or Slice 6. Deterministic deployed review is governed through `?testAiHazardAvoidance=slick` and `?testAiHazardAvoidance=blast` plus a normal unforced URL.
 
-PR #122 is the governance checkpoint. Gameplay implementation remains locked until PR #122 merges to `main` and its post-merge CI/Pages run passes. Gameplay publication/deployment and live acceptance are later separate gates. Full AI item tactics, playable Shockwave/counters, Prismatic/Hyper-Drive interactions, nine remaining item effects, issue #106, final soak/performance closure, overall Slice 5 acceptance, and Slice 6 remain open.
+PR #122 merged at `a782ee0996e032ffae06cb41dddafc7e62eed08c`; post-merge CI/Pages run `34157568033` passed. Manny explicitly authorized the bounded gameplay implementation. Gameplay publication/deployment and live acceptance are later separate gates. Full AI item tactics, playable Shockwave/counters, Prismatic/Hyper-Drive interactions, nine remaining item effects, issue #106, final soak/performance closure, overall Slice 5 acceptance, and Slice 6 remain open.
 
 Kinetic live acceptance, 2026-09-06: PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run [34034999554](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/34034999554) passed both validation and deployment. Manny explicitly passes the approved **42 m/s** base speed, retained angle-based ricochets, existing spinout, chase/rear perspectives, and normal unforced item selection. **Kinetic Disc is LIVE ACCEPTED.** His [final PR #105 acceptance comment](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/105#issuecomment-5559436832) supersedes the earlier partial-acceptance and corrective-publication gates. See `docs/KINETIC-DISC-LIVE-REVIEW-2026-09-06.md` for the historical diagnosis and final closeout.
 

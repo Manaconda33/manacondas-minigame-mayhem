@@ -1,6 +1,6 @@
 # Slice 5 approved next increment: AI hazard response
 
-**Status: APPROVED FOR GOVERNANCE. Gameplay implementation remains locked until this documentation checkpoint merges to `main` and its post-merge CI/Pages run passes.**
+**Status: IMPLEMENTED AND LOCALLY VALIDATED. PR #122 governance merge/deployment passed; gameplay publication/deployment and live acceptance remain pending.**
 
 Baseline: `main` at `190a7d1d926287c1c6cd15479a9e46ee2052d759`. Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, Timed Blast Orb, and Slick Trap are live accepted. Slice 5 remains active; Slice 6 remains locked.
 
@@ -112,3 +112,14 @@ Manny approved this scope as written on 2026-09-07. This governance checkpoint:
 Gameplay implementation should begin only after that governance checkpoint merges to `main` and its post-merge CI/Pages run passes. Gameplay publication/deployment and live acceptance remain later separate gates.
 
 Any material change to the proposed 20 m lookahead, 2.5 m Slick planning footprint, 4.5 m Blast planning footprint, 0.5 s Blast prediction horizon, 0.6 s clear-hold, supported hazard classes, or lane-only response model requires product-owner approval before implementation tuning.
+
+
+## Gameplay implementation checkpoint — 2026-09-08
+
+PR #122 merged at `a782ee0996e032ffae06cb41dddafc7e62eed08c`; post-merge CI/Pages run `34157568033` passed. Manny explicitly authorized the bounded gameplay implementation.
+
+Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages. Full `npm run validate` passed strict typecheck, zero-warning lint, **36 files / 278 tests**, **92.75% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted PR CI is recorded in the gameplay PR before publication review.
+
+The implementation uses continuous local tangent refinement of existing route projections for planning, without altering checkpoint authority. Clearance is signed distance outside each hazard planning footprint. Among safe candidates, existing racer/preferred-lane scoring remains active; boxed-in choices maximize minimum clearance and use existing lane scoring to resolve ties. Blast prediction uses the accepted drag and fuse cap. Owner immunity exemptions require every considered closest-approach estimate to be strictly inside remaining immunity; stationary/receding cases receive no optimistic exemption.
+
+The approved fixture and visible target-name badge are included. The eight deployed checks above remain pending; the URLs serve the prior accepted build until this gameplay is separately approved and deployed.

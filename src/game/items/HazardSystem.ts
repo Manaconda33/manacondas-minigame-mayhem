@@ -417,6 +417,12 @@ export class HazardSystem {
   public activeCount(): number {
     return this.orbs.size + this.slicks.size;
   }
+  public activeSnapshots(): (HazardSnapshot & { readonly kind: 'slick' | 'blast' })[] {
+    return [
+      ...this.snapshots().map((snapshot) => ({ ...snapshot, kind: 'blast' as const })),
+      ...this.slickSnapshots().map((snapshot) => ({ ...snapshot, kind: 'slick' as const })),
+    ];
+  }
   public slickSnapshots(): HazardSnapshot[] {
     return [...this.slicks.values()].map((slick) => ({
       id: slick.id,

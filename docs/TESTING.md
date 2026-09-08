@@ -675,3 +675,20 @@ Deployed acceptance must verify:
 8. Accepted Nitro, Kinetic, Seeker, Apex, Blast Orb, and Slick Trap behavior remains unchanged.
 
 Record exact implementation commit, hosted CI, post-merge CI/Pages, live desktop/mobile results, defects, and Manny's acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this increment closes only AI Blast/Slick movement-response evidence actually proven; it does not close full AI item tactics, remaining items/counters, issue #106, final soak/performance, overall Slice 5 acceptance, or Slice 6.
+
+
+## AI hazard-response implementation evidence — 2026-09-08
+
+PR #122 merged at `a782ee0996e032ffae06cb41dddafc7e62eed08c`; post-merge CI/Pages run `34157568033` passed. Manny explicitly authorized the bounded gameplay implementation.
+
+Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages. Full `npm run validate` passed strict typecheck, zero-warning lint, **36 files / 278 tests**, **92.75% statement coverage**, branding/runtime-asset checks and production build. `git diff --check` and `git lfs fsck` passed. Hosted PR CI is recorded in the gameplay PR before publication review.
+
+`tests/ai-hazard-awareness.test.ts` covers wrapped route detection and the 20 m boundary, nearby route-distant rejection, both planning-footprint boundaries, drag/fuse prediction, owner-immunity exemptions, deterministic lane decisions, boxed-in clearance, racer coexistence, pause/hold/reset, detached snapshots and lifecycle removal, fixture capacity retry and normal-URL isolation. `tests/ai-hazard-response.integration.test.ts` runs four real Circuit Alpha/Rapier steering trajectories (both hazard types, left/right preferred lanes), verifying bounded displacement, road bounds, finite state, physical deviation and normal-lane recovery. These trajectories isolate movement response; they do not assert immunity or guaranteed collision avoidance. Existing three-lap AI, Speed-stat, accepted-item and rank-distribution suites pass unchanged.
+
+After separately approved merge and successful Pages deployment, complete the eight AI hazard-response deployed checks above on desktop/mobile:
+
+- Slick: https://manaconda33.github.io/manacondas-minigame-mayhem/?testAiHazardAvoidance=slick
+- Blast: https://manaconda33.github.io/manacondas-minigame-mayhem/?testAiHazardAvoidance=blast
+- Normal: https://manaconda33.github.io/manacondas-minigame-mayhem/
+
+No live acceptance is claimed. Full AI item tactics, remaining effects/counters, issue #106, final soak/performance and Slice 6 remain separate gates.

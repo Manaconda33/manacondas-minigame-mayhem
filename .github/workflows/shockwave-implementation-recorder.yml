@@ -27,9 +27,11 @@ jobs:
       - name: Install from lockfile
         run: npm ci
       - name: Apply approved Shockwave implementation
-        run: python tools/shockwave_implementation_recorder.py
+        run: |
+          python tools/shockwave_implementation_recorder.py
+          python tools/shockwave_lint_fix.py
       - name: Remove temporary recorder
-        run: rm .github/workflows/shockwave-implementation-recorder.yml tools/shockwave_implementation_recorder.py
+        run: rm .github/workflows/shockwave-implementation-recorder.yml tools/shockwave_implementation_recorder.py tools/shockwave_lint_fix.py
       - name: Format changed source and docs
         run: |
           npx prettier --write \

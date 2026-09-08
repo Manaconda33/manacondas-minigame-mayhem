@@ -1,8 +1,8 @@
 # Slice 5 Acoustic Shockwave Pulse Scope
 
-**Status: GAMEPLAY MERGED / DEPLOYED; CORRECTIVE REVIEW AND LIVE ACCEPTANCE PENDING.**
+**Status: GAMEPLAY CORRECTED / MERGED / DEPLOYED; ACCEPTANCE-HARNESS PUBLICATION AND LIVE ACCEPTANCE PENDING.**
 
-Deployed gameplay checkpoint: `3f0c9e9d0d89961936beaec3294bfeef2a6c78fe`.
+Deployed corrected gameplay checkpoint: `d9e80e7042a7bd313b2dbb91747750a027f23781`.
 
 Governing PRD: **v1.1, working implementation amendment 2.11**. Decision: **ADR-072**.
 
@@ -37,7 +37,7 @@ The implementation must not special-case accepted Kinetic/Seeker/Hazard/Apex sta
 ## Deterministic acceptance instrumentation
 
 - `?testItem=shockwave` forces only the player's pickup to Shockwave through the existing governed forced-item harness.
-- `?testShockwaveCounter=racer|kinetic|seeker|slick|blast|apex` may place exactly one marked bounded counter scenario for the player after race start. These fixtures must use production object/effect rules, must not spend AI inventory, must not enable AI tactical item use, and must reset cleanly.
+- `?testShockwaveCounter=racer|kinetic|seeker|slick|blast|apex` may place exactly one marked bounded counter scenario. Deployed acceptance links must combine it with `?testItem=shockwave`, and the selected production target must wait until that forced pickup is revealed and held. These fixtures must use production object/effect rules, must not spend AI inventory, must not enable AI tactical item use, and must reset cleanly.
 - A normal URL must never show a Shockwave test badge or force a counter target.
 
 ## Automated acceptance gate
@@ -71,3 +71,5 @@ Manny approved this complete scope, including the 6-to-2 m/s racer push falloff,
 Governance PR #125 squash-merged to `main` at `0825ed02f80a67e088416d2d55925309e38eabe5`; post-merge CI/Pages run `34177188784` passed validation and deployment. The gameplay gate is therefore cleared for `feature/slice-5-shockwave`. Gameplay publication/deployment and live acceptance remain later separate gates. No other item effect is authorized by this scope.
 
 Gameplay PR #126 squash-merged at `3f0c9e9d0d89961936beaec3294bfeef2a6c78fe`; post-merge CI/Pages run `34178644577` passed validation and deployment. Independent post-deployment review found that ordinary projectile/hazard clears used 3D distance instead of amendment 2.11's horizontal radius and that the live target snapshot omitted the generic immunity flag. A bounded corrective checkpoint addresses those findings without changing balance, accepted item behavior, AI tactics, or Slice 6 scope. Live acceptance remains blocked until that correction is validated, published, and deployed.
+
+Correction PR #127 passed run `34180823820`, squash-merged at `d9e80e7042a7bd313b2dbb91747750a027f23781`, and passed post-merge validation/deployment run `34181547791`. The gameplay findings are corrected and deployed. A later acceptance-harness review found that the originally supplied links omitted `testItem=shockwave` and that fixtures were time-based rather than held-item-ready. The bounded harness correction combines both query parameters and defers production target placement until the forced Shockwave is actionable; this instrumentation-only correction must deploy before Manny's live gate resumes.

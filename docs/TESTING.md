@@ -701,7 +701,8 @@ Automated evidence for PRD amendment 2.11 / ADR-072 must confirm:
 - only terminal/dive Apex inside the existing 5.0 m 3D counter radius is neutralized; rise/sky/warning phases and out-of-radius terminal Apex remain active;
 - accepted Nitro/Kinetic/Seeker/Apex/Blast/Slick behavior, probability selection, Slick/Blast AI hazard response, racer stats, checkpoints/laps, camera/driver states, and the 40-object shared capacity remain regression-clean;
 - pressure-ring presentation is finite, pause-safe, restart-safe, and disposal-safe; and
-- `?testItem=shockwave` plus `?testShockwaveCounter=racer|kinetic|seeker|slick|blast|apex` remain explicit test instrumentation and do not alter normal distribution or enable AI tactics.
+- the live counter links combine `?testItem=shockwave&testShockwaveCounter=racer|kinetic|seeker|slick|blast|apex`; the first parameter statically forces the player's next pickup and the second selects exactly one counter fixture, without altering normal distribution or enabling AI tactics;
+- each counter fixture waits until the forced Shockwave is revealed and held before it becomes actionable. Kinetic approaches from 18 route meters behind, Seeker from the proven 45 m route, Slick/Blast sit 3.5 m inward from the player's current lane, and Apex launches only while the player is the current race leader;
 
 Focused deployed desktop/mobile live gate after an approved gameplay merge:
 

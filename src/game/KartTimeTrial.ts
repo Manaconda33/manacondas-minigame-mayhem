@@ -638,9 +638,10 @@ export class KartTimeTrial {
   private updateProjectiles(dt: number): void {
     let targets = this.projectileTargets();
     const racers = this.itemTargetingProgress();
+    const playerItem = this.itemSystem.hudSnapshot('player');
     this.shockwaveCounterFixture.update(
-      this.elapsed,
       this.playerProgress.finished,
+      playerItem.phase === 'held' && playerItem.itemId === 'shockwave',
       this.kart.position(),
       this.track,
       this.projectiles,

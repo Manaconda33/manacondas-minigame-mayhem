@@ -1,6 +1,6 @@
 # Slice 5 approved next increment: AI hazard response
 
-**Status: IMPLEMENTED AND LOCALLY VALIDATED. PR #122 governance merge/deployment passed; gameplay publication/deployment and live acceptance remain pending.**
+**Status: LIVE ACCEPTED. PR #123 merged and deployed successfully; Manny completed the deployed AI Slick/Blast hazard-response playtest and reported it passed on 2026-09-07.**
 
 Baseline: `main` at `190a7d1d926287c1c6cd15479a9e46ee2052d759`. Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, Timed Blast Orb, and Slick Trap are live accepted. Slice 5 remains active; Slice 6 remains locked.
 
@@ -122,4 +122,10 @@ Clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages. 
 
 The implementation uses continuous local tangent refinement of existing route projections for planning, without altering checkpoint authority. Clearance is signed distance outside each hazard planning footprint. Among safe candidates, existing racer/preferred-lane scoring remains active; boxed-in choices maximize minimum clearance and use existing lane scoring to resolve ties. Blast prediction uses the accepted drag and fuse cap. Owner immunity exemptions require every considered closest-approach estimate to be strictly inside remaining immunity; stationary/receding cases receive no optimistic exemption.
 
-The approved fixture and visible target-name badge are included. The eight deployed checks above remain pending; the URLs serve the prior accepted build until this gameplay is separately approved and deployed.
+The approved fixture and visible target-name badge are included. PR #123 passed hosted clean-install CI run `34173735120`, squash-merged at `b6e92fc79dad27764df9fe6248b4a496503fec00`, and post-merge CI/Pages run `34174464098` passed validation and deployment. Manny completed the eight deployed checks above and reported the playtest passed on 2026-09-07; product-owner evidence is PR #123 comment `5577444120`. This closes only the bounded Slick/Blast AI hazard-response gate. Full AI item acquisition/use, static-obstacle expansion, remaining effects/counters, issue #106, final soak/performance, overall Slice 5 acceptance, and Slice 6 remain open.
+
+## Live acceptance — 2026-09-07
+
+Gameplay PR #123 was reviewed at head `2ebba5ee39b636251a20abc5bcf5230d8e063da2`; hosted clean-install PR CI run `34173735120` passed. Manny approved the separate publication gate. PR #123 squash-merged to `main` at `b6e92fc79dad27764df9fe6248b4a496503fec00`; post-merge CI/Pages run `34174464098` passed validation and GitHub Pages deployment.
+
+Manny then completed the deployed eight-check acceptance matrix and reported the playtest **passed**. Product-owner evidence is PR #123 comment `5577444120`. This closes the bounded Slick Trap + Timed Blast Orb AI hazard-response increment only. Full `AiItemPolicy`, static-obstacle expansion, playable Shockwave and real cross-item counter acceptance, Prismatic/Hyper-Drive interactions, the nine remaining item effects, issue #106, final Slice 5 soak/performance closure, overall Slice 5 acceptance, and Slice 6 remain open.

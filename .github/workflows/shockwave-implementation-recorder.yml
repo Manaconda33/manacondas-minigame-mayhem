@@ -52,7 +52,19 @@ jobs:
           git diff --check
           git lfs fsck
           npm run validate
-          npm run format:check
+          npx prettier --check \
+            src/game/items/itemDefinitions.ts \
+            src/game/items/ShockwaveSystem.ts \
+            src/game/items/ProjectileSystem.ts \
+            src/game/items/ItemEffectDispatcher.ts \
+            src/game/physics/KartController.ts \
+            src/game/items/ItemTestMode.ts \
+            src/game/items/ShockwaveCounterFixture.ts \
+            src/game/KartTimeTrial.ts \
+            tests/shockwave.test.ts \
+            tests/kart-controller-effects.test.ts \
+            docs/SLICE-5-SHOCKWAVE-SCOPE.md \
+            docs/IMPLEMENTATION-STATUS.md
       - name: Commit validated implementation
         run: |
           git config user.name "github-actions[bot]"

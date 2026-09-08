@@ -18,6 +18,23 @@ jobs:
           fetch-depth: 0
       - name: Record approved Shockwave governance
         run: python tools/shockwave_governance_recorder.py
+      - name: Normalize text endings
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          for name in (
+              "README.md",
+              "docs/PRD.md",
+              "docs/DECISIONS.md",
+              "docs/IMPLEMENTATION-STATUS.md",
+              "docs/TESTING.md",
+              "docs/SLICE-5-ITEM-SYSTEM-DESIGN.md",
+              "docs/SLICE-5-SHOCKWAVE-SCOPE.md",
+          ):
+              path = Path(name)
+              if path.exists():
+                  path.write_text(path.read_text().rstrip() + "\n")
+          PY
       - name: Commit governance checkpoint
         run: |
           git config user.name "github-actions[bot]"

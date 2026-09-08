@@ -14,7 +14,7 @@ import {
 } from '../src/game/items/ShockwaveSystem';
 import { HazardSystem } from '../src/game/items/HazardSystem';
 import { ITEM_DEFINITIONS } from '../src/game/items/itemDefinitions';
-import { shockwaveCounterFromSearch } from '../src/game/items/ItemTestMode';
+import { forcedItemFromSearch, shockwaveCounterFromSearch } from '../src/game/items/ItemTestMode';
 import { ShockwaveCounterFixture } from '../src/game/items/ShockwaveCounterFixture';
 import { ApexMissileSystem } from '../src/game/items/ApexMissileSystem';
 
@@ -242,11 +242,16 @@ describe('Acoustic Shockwave Pulse', () => {
     expect(hazards.slickSnapshots().some(({ id }) => id === outside)).toBe(true);
   });
 
-  it('parses only approved explicit counter fixture values and fixture placement is one-shot', () => {
+  it('parses a forced Shockwave and counter fixture together', () => {
+    const search = '?testItem=shockwave&testShockwaveCounter=kinetic';
+    expect(forcedItemFromSearch(search)).toBe('shockwave');
+    expect(shockwaveCounterFromSearch(search)).toBe('kinetic');
     expect(shockwaveCounterFromSearch('?testShockwaveCounter=kinetic')).toBe('kinetic');
     expect(shockwaveCounterFromSearch('?testShockwaveCounter=bogus')).toBeNull();
     expect(shockwaveCounterFromSearch('')).toBeNull();
+  });
 
+  it('waits for a revealed held Shockwave before placing one inward Slick fixture', () => {
     const track = new CircuitAlpha();
     const capacity = new ItemPhysicsCapacity();
     const projectiles = new ProjectileSystem(track, capacity);
@@ -281,12 +286,144 @@ describe('Acoustic Shockwave Pulse', () => {
         finished: false,
       },
     ];
-    fixture.update(4.99, false, player, track, projectiles, hazards, apex, racers, targets);
+    fixture.update(false, false, player, track, projectiles, hazards, apex, racers, targets);
     expect(hazards.activeCount()).toBe(0);
-    fixture.update(5, false, player, track, projectiles, hazards, apex, racers, targets);
-    fixture.update(10, false, player, track, projectiles, hazards, apex, racers, targets);
+    expect(fixture.badge()).toContain('COLLECT THE FORCED SHOCKWAVE');
+    fixture.update(false, true, player, track, projectiles, hazards, apex, racers, targets);
+    fixture.update(false, true, player, track, projectiles, hazards, apex, racers, targets);
     expect(hazards.activeCount()).toBe(1);
-    expect(fixture.badge()).toContain('ONE SLICK');
+    const slick = hazards.slickSnapshots()[0];
+    expect(slick).toBeDefined();
+    expect(
+      new THREE.Vector2(slick?.position.x, slick?.position.z).distanceTo(
+        new THREE.Vector2(player.x, player.z),
+      ),
+    ).toBeCloseTo(3.5, 5);
+    expect(fixture.badge()).toContain('SLICK 3.5m INWARD');
+  });
+
+  it('places production Kinetic, Seeker, Blast, and Apex scenarios only when actionable', () => {
+    const track = new CircuitAlpha();
+    const player = track.curve.getPointAt(0.4).setY(0.72);
+    const racers = [
+      {
+        id: 'player',
+        lap: 0,
+        trackProgress: 0.4,
+        finished: false,
+        finishTime: null,
+        finishPlace: null,
+      },
+      {
+        id: 'rival',
+        lap: 0,
+        trackProgress: 0.5,
+        finished: false,
+        finishTime: null,
+        finishPlace: null,
+      },
+    ];
+    const targets: ProjectileTarget[] = [
+      {
+        id: 'player',
+        position: player,
+        velocity: new THREE.Vector3(),
+        forward: track.curve.getTangentAt(0.4),
+        finished: false,
+      },
+      {
+        id: 'rival',
+        position: track.curve.getPointAt(0.5).setY(0.72),
+        velocity: new THREE.Vector3(),
+        forward: track.curve.getTangentAt(0.5),
+        finished: false,
+      },
+    ];
+    const makeSystems = () => {
+      const capacity = new ItemPhysicsCapacity();
+      const projectiles = new ProjectileSystem(track, capacity);
+      return {
+        projectiles,
+        hazards: new HazardSystem(track, capacity),
+        apex: new ApexMissileSystem(track, projectiles),
+      };
+    };
+
+    for (const [mode, itemId, ownerId] of [
+      ['kinetic', 'kinetic-disc', 'shockwave-counter-kinetic-fixture'],
+      ['seeker', 'seeker-drone', 'shockwave-counter-seeker-fixture'],
+    ] as const) {
+      const systems = makeSystems();
+      const fixture = new ShockwaveCounterFixture(mode);
+      fixture.update(
+        false,
+        true,
+        player,
+        track,
+        systems.projectiles,
+        systems.hazards,
+        systems.apex,
+        racers,
+        targets,
+      );
+      expect(systems.projectiles.snapshots()).toEqual([
+        expect.objectContaining({ itemId, ownerId, targetId: mode === 'seeker' ? 'player' : null }),
+      ]);
+    }
+
+    const blastSystems = makeSystems();
+    new ShockwaveCounterFixture('blast').update(
+      false,
+      true,
+      player,
+      track,
+      blastSystems.projectiles,
+      blastSystems.hazards,
+      blastSystems.apex,
+      racers,
+      targets,
+    );
+    const blast = blastSystems.hazards.snapshots()[0];
+    expect(blast?.ownerId).toBe('shockwave-counter-blast-fixture');
+    expect(
+      new THREE.Vector2(blast?.position.x, blast?.position.z).distanceTo(
+        new THREE.Vector2(player.x, player.z),
+      ),
+    ).toBeCloseTo(3.5, 5);
+
+    const apexSystems = makeSystems();
+    const apexFixture = new ShockwaveCounterFixture('apex');
+    apexFixture.update(
+      false,
+      true,
+      player,
+      track,
+      apexSystems.projectiles,
+      apexSystems.hazards,
+      apexSystems.apex,
+      racers,
+      targets,
+    );
+    expect(apexSystems.apex.snapshot()).toBeNull();
+    expect(apexFixture.badge()).toContain('DRIVE INTO FIRST');
+    const playerRacer = racers.find(({ id }) => id === 'player');
+    if (playerRacer === undefined) throw new Error('Missing player fixture');
+    playerRacer.trackProgress = 0.6;
+    apexFixture.update(
+      false,
+      true,
+      player,
+      track,
+      apexSystems.projectiles,
+      apexSystems.hazards,
+      apexSystems.apex,
+      racers,
+      targets,
+    );
+    expect(apexSystems.apex.snapshot()).toMatchObject({
+      ownerId: 'shockwave-counter-apex-fixture',
+      phase: 'rise',
+    });
   });
 
   it('keeps pulse VFX finite and reset/disposal clears pending and presentation state', () => {

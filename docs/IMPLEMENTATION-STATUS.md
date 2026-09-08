@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - SHOCKWAVE DEPLOYED / CORRECTION AND LIVE ACCEPTANCE PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - SHOCKWAVE CORRECTED / DEPLOYED; LIVE ACCEPTANCE PENDING**
 
 PRD baseline: **v1.1, working implementation amendment 2.11**.
 
@@ -18,9 +18,11 @@ Validated Shockwave gameplay checkpoint `33151f5489bf7cb09fdd97d4b4f3b54bb428a67
 
 Independent post-deployment review found two bounded integration defects: ordinary Kinetic/Seeker and Slick/Blast clears measured 3D distance instead of amendment 2.11's horizontal X/Z radius, and `KartTimeTrial` did not propagate the shared `itemImmune` state into its live target snapshots. The correction changes those clear calculations to horizontal distance, retains Apex's governed 3D counter unchanged, adds the generic immunity source/snapshot wiring without activating an immunity item, and strengthens boundary/transaction tests. It changes no balance value, probability, racer stat, track/checkpoint authority, AI acquisition/use, dependency, or Slice 6 scope. Full validation and publication evidence must be recorded before the deployed live gate resumes.
 
-Local correction validation passes: clean `npm ci`, strict typecheck, zero-warning lint, **37 test files / 292 tests**, **91.88% statement coverage**, production build, branding/runtime-asset verification, `git diff --check`, `git lfs fsck`, focused Shockwave/Apex/Blast/Slick/controller/effects regressions, and changed-file Prettier verification. New evidence covers elevated Kinetic/Seeker clearing, exact 4.9999/5.0/5.0001 m ordinary-projectile boundaries, horizontal elevated Slick/Blast clearing, failed Shockwave commit retention, and generic immunity cleanup. Hosted PR validation, merge/deployment, and Manny's live acceptance remain pending.
+Correction PR #127 passed hosted validation in run `34180823820`, then squash-merged to `main` at `d9e80e7042a7bd313b2dbb91747750a027f23781`. Post-merge CI/Pages run `34181547791` passed validation and deployment. Its validated evidence covers elevated Kinetic/Seeker clearing, exact 4.9999/5.0/5.0001 m ordinary-projectile boundaries, horizontal elevated Slick/Blast clearing, failed Shockwave commit retention, and generic immunity cleanup. The governed gameplay correction is deployed; Manny's live acceptance remains pending.
 
-Latest deployed checkpoint: `3f0c9e9d0d89961936beaec3294bfeef2a6c78fe`; CI/Pages run `34178644577` passed validation and deployment. Shockwave remains blocked from live acceptance by the bounded correction above. Eight other item effects remain unimplemented.
+The first acceptance links omitted `testItem=shockwave`, leaving item selection governed/random, and the counter fixtures could spawn before the forced pickup was revealed. A bounded test-instrumentation correction now requires the combined query, waits for a revealed held Shockwave before placing any target, gives Seeker the proven 45 m incoming route, places Slick/Blast 3.5 m inward from the player, and launches Apex only when the player is the current leader. This changes no gameplay rule, balance value, distribution, AI inventory/tactics, or production behavior outside explicit test mode. Publication/deployment of this acceptance-harness correction is pending.
+
+Latest deployed checkpoint: `d9e80e7042a7bd313b2dbb91747750a027f23781`; CI/Pages run `34181547791` passed validation and deployment. Shockwave is safe for the corrected focused live gate once the acceptance-harness correction is separately published and deployed. Eight other item effects remain unimplemented.
 
 ## Slice 5 AI Slick/Blast hazard-response implementation checkpoint
 
@@ -363,13 +365,13 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Deferred work
 
-- Nine item effects remain unimplemented: Acoustic Shockwave Pulse, Blaze Orbs, Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic Invincibility. Shockwave is the approved next bounded increment under amendment 2.11 / ADR-072. Full AI item-use policy, final interaction/counter validation, soak/performance evidence, issue #106, deployment evidence for later increments, and full-slice live acceptance remain open. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, Timed Blast Orb, Slick Trap, and bounded Slick/Blast AI hazard response are already live accepted.
+- Eight item effects remain unimplemented: Blaze Orbs, Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic Invincibility. Shockwave gameplay is implemented and deployed but still awaits focused live acceptance. Full AI item-use policy, final interaction/counter validation, soak/performance evidence, issue #106, deployment evidence for later increments, and full-slice live acceptance remain open. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, Timed Blast Orb, Slick Trap, and bounded Slick/Blast AI hazard response are already live accepted.
 - Further competitive-balance work remains deferred until explicitly reopened.
 - External PBR texture sets, HDR environment, baked AO assets, and other larger presentation additions remain outside the Dragon Queen checkpoint.
 
 ## Next recommended action
 
-Review the bounded Acoustic Shockwave Pulse gameplay implementation on `feature/slice-5-shockwave` after clean-install CI passes. Confirm the diff contains only the approved Shockwave/counter/fixture/test integration and continuity updates. Merge/deployment and the deployed eight-check live gate remain separate approvals; do not start another item until Shockwave is live accepted.
+Publish and deploy the bounded Shockwave acceptance-harness correction, then complete the corrected combined-query desktop/mobile live links and record Manny's result. Do not start another item until Shockwave is live accepted.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 
@@ -377,7 +379,7 @@ Do not reopen competitive-balance tuning while establishing the baseline item im
 
 **Slice 5 design: APPROVED 2026-09-05.**
 
-**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, KINETIC DISC, SEEKER DRONE, APEX CORE, TIMED BLAST ORB, SLICK TRAP, AND BOUNDED SLICK/BLAST AI HAZARD RESPONSE LIVE ACCEPTED; SHOCKWAVE GOVERNANCE APPROVED / GAMEPLAY GATED.**
+**Slice 5 implementation: IN PROGRESS; BOXES, ROULETTE/HUD/INPUT, NITRO SURGE, KINETIC DISC, SEEKER DRONE, APEX CORE, TIMED BLAST ORB, SLICK TRAP, AND BOUNDED SLICK/BLAST AI HAZARD RESPONSE LIVE ACCEPTED; SHOCKWAVE GAMEPLAY CORRECTED / DEPLOYED / LIVE ACCEPTANCE PENDING.**
 
 **Slice 6: LOCKED pending Slice 5 validation, deployment, and Manny live acceptance.**
 

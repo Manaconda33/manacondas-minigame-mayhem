@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.10
+Version 1.1 - Final approved baseline; working implementation amendment 2.11
 
 August 16, 2026
 
@@ -255,6 +255,19 @@ AI hazard awareness consumes read-only Slick Trap and Timed Blast Orb snapshots 
 Hazard clearance takes precedence over preferred-lane convenience while existing nearby-racer avoidance remains active where possible. If every candidate lane is conflicted, AI chooses the candidate with greatest minimum clearance rather than receiving guaranteed immunity. After the last relevant hazard clears or moves behind, AI holds the avoidance lane for at least **0.6 race seconds** before normal preferred-lane recovery. All lateral motion continues through existing steering dynamics: no teleport, transform snap, hidden speed boost, speed penalty, emergency brake rule, rubber-band change, or lap/checkpoint mutation is authorized.
 
 Awareness timers advance only with race simulation, so pause freezes the clear-hold. Removed/expired hazards disappear from awareness on the next simulation step; restart, return-to-hub, and disposal clear temporary avoidance state. Deterministic acceptance instrumentation may use `?testAiHazardAvoidance=slick` and `?testAiHazardAvoidance=blast` to place a real accepted hazard approximately 12 m ahead of the first unfinished AI after five race seconds without consuming AI inventory or enabling AI item tactics. Gameplay implementation, publication/deployment, and live acceptance remain separately gated.
+
+
+## Approved implementation amendment 2.11 - Acoustic Shockwave Pulse counter behavior
+
+Approved September 7, 2026 before Shockwave gameplay implementation. This amendment fills the operating details for the existing Section 15.12 Acoustic Shockwave Pulse without changing its approximately **5 m** radial-defense identity, the fifteen-item probability matrix, one-slot inventory, racer statistics, track/checkpoint authority, accepted item behavior, or the Slice 6 lock. `docs/SLICE-5-SHOCKWAVE-SCOPE.md` and ADR-072 are normative for this bounded increment.
+
+Shockwave is a one-charge instantaneous pulse centered on the using kart. Forward and backward ITEM intent are equivalent. A successful activation consumes its charge when the pulse is committed even if no target is inside the radius. Shockwave itself is not a persistent projectile/hazard and does not reserve a shared item-physics-capacity slot. The readable expanding pressure-ring presentation is gameplay VFX only; final production VFX/audio remains Slice 6.
+
+Eligible unfinished, non-owner, non-immune racers at horizontal center distance **<= 5.0 m** receive no conventional spinout, damage, teleport, or transform snap. Instead the pulse adds one outward planar velocity delta with magnitude linearly interpolated from **6.0 m/s at zero distance to 2.0 m/s at 5.0 m**. A deterministic finite fallback direction is required for coincident centers. The effect may not edit lap/checkpoint/rank/finish authority.
+
+Within the same 5.0 m horizontal radius, ordinary active Ricochet Kinetic Disc and Homing Seeker Drone projectiles are destroyed regardless of their owner-arming state. Slick Trap and Timed Blast Orb hazards are cleared through the accepted queued `HazardSystem` counter boundary. The existing Apex counter remains 3D: only a missile already in its terminal/dive state may be neutralized inside **5.0 m**; rise, sky-travel, and warning/overhead phases are not counterable. Counter queries must resolve before affected projectile/hazard/Apex movement, contact, fuse, or blast processing in that simulation step so a correctly timed pulse wins the frame.
+
+No AI item acquisition/use is enabled by this increment. The player-only `?testItem=shockwave` override and bounded `?testShockwaveCounter=<case>` acceptance fixtures may exercise racer, Kinetic, Seeker, Slick, Blast, and terminal-Apex cases without altering normal distribution or AI tactics. Pause/restart/disposal must leave no queued pulse or presentation state behind. Gameplay implementation, publication/deployment, and live acceptance remain separately gated.
 
 ## 1.1 Governance
 

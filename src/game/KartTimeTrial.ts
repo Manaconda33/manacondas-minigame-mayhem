@@ -634,7 +634,7 @@ export class KartTimeTrial {
   }
 
   private updateProjectiles(dt: number): void {
-    const targets = this.projectileTargets();
+    let targets = this.projectileTargets();
     const racers = this.itemTargetingProgress();
     this.shockwaveCounterFixture.update(
       this.elapsed,
@@ -662,6 +662,9 @@ export class KartTimeTrial {
         controller?.addPlanarVelocityDelta(push.velocityDelta);
       }
     }
+    // Shockwave changes racer velocity before projectile/hazard processing; refresh
+    // detached target snapshots so same-step guidance/contact sees that new velocity.
+    targets = this.projectileTargets();
     const impacts = [
       ...this.projectiles.update(dt, targets),
       ...this.apex.update(dt, racers, targets),

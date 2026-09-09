@@ -66,14 +66,14 @@ describe('Blaze deterministic acceptance fixtures', () => {
       hazards: runtime.hazards,
       apex: runtime.apex,
       shockwave: runtime.shockwave,
-      placeRacer: (position, forward) => {
+      placeRacer: (_position, forward) => {
         placedForwardLength = forward.length();
-        fixture.updateMarker(position);
         return 'rival';
       },
     });
     expect(fixture.controlledRacer()).toBe('rival');
     expect(placedForwardLength).toBe(0);
+    fixture.updateMarker(runtime.position);
     expect(fixture.group.visible).toBe(true);
     expect(fixture.badge()).toContain('BLAZE HIT');
     expect(fixture.badge()).toContain('STATIONARY RIVAL');

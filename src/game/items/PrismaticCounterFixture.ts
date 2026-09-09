@@ -5,10 +5,21 @@ import type { ProjectileSystem } from './ProjectileSystem';
 import type { HazardSystem } from './HazardSystem';
 import type { ApexMissileSystem } from './ApexMissileSystem';
 import type { ShockwaveSystem } from './ShockwaveSystem';
+import { BLAZE_ORB_CONFIG } from './BlazeOrbs';
 import { ITEM_DEFINITIONS, type ItemId } from './itemDefinitions';
 import { currentRaceLeader } from './ItemTargeting';
 
-const CASES = ['kinetic', 'seeker', 'slick', 'blast', 'apex', 'shockwave', 'racer'] as const;
+const CASES = [
+  'kinetic',
+  'seeker',
+  'blaze',
+  'blaze-hit',
+  'slick',
+  'blast',
+  'apex',
+  'shockwave',
+  'racer',
+] as const;
 export type PrismaticCase = (typeof CASES)[number];
 export interface PrismaticTest {
   mode: PrismaticCase;
@@ -16,8 +27,11 @@ export interface PrismaticTest {
 }
 export function prismaticTestFromSearch(search: string): PrismaticTest | null {
   const params = new URLSearchParams(search);
-  const mode = params.get('testPrismaticCounter');
-  const phase = params.get('testPrismaticPhase') ?? 'protected';
+  if (params.get('testItem') === 'blaze-orbs' && params.get('testBlaze') === 'hit')
+    return { mode: 'blaze-hit', expired: false };
+  const blazeMode = params.get('testBlaze') === 'prismatic' ? 'blaze' : null;
+  const mode = blazeMode ?? params.get('testPrismaticCounter');
+  const phase = params.get('testBlazePhase') ?? params.get('testPrismaticPhase') ?? 'protected';
   if (
     params.get('testItem') !== 'prismatic-invincibility' ||
     !CASES.includes(mode as PrismaticCase) ||
@@ -55,10 +69,10 @@ export class PrismaticCounterFixture {
   private seenActivation = false;
   public constructor(public readonly test: PrismaticTest | null) {
     this.marker =
-      test?.mode === 'racer'
+      test?.mode === 'racer' || test?.mode === 'blaze-hit'
         ? new THREE.Mesh(
             new THREE.ConeGeometry(0.45, 1, 4),
-            new THREE.MeshBasicMaterial({ color: 0x66ffff }),
+            new THREE.MeshBasicMaterial({ color: test.mode === 'blaze-hit' ? 0xff9b2f : 0x66ffff }),
           )
         : null;
     if (this.marker) {
@@ -67,6 +81,7 @@ export class PrismaticCounterFixture {
     }
     this.group.name = 'prismatic-test-rival-marker';
     this.group.visible = false;
+    if (test?.mode === 'blaze-hit') this.message = 'COLLECT BLAZE · STOP NEAR ROAD CENTER';
   }
 
   public updateMarker(position?: THREE.Vector3): void {
@@ -89,7 +104,7 @@ export class PrismaticCounterFixture {
     track: CircuitAlpha,
     racers: readonly RacerProgress[],
   ): boolean {
-    if (!this.test || this.stage === 'done') return true;
+    if (!this.test || this.stage === 'done' || this.test.mode === 'blaze-hit') return true;
     const projection = track.project(position);
     const ready =
       speed < 1 &&
@@ -110,6 +125,31 @@ export class PrismaticCounterFixture {
       this.finish('CANCELLED · RACE FINISHED');
       return;
     }
+
+    if (this.test.mode === 'blaze-hit') {
+      if (this.stage !== 'encounter') {
+        const projection = r.track.project(r.position);
+        const ready =
+          r.speed < 1 &&
+          Math.abs(projection.lateralOffset) < 2 &&
+          (projection.surface === 'asphalt' || projection.surface === 'boost');
+        if (!ready) {
+          this.message = 'COLLECT BLAZE · STOP NEAR ROAD CENTER';
+          return;
+        }
+        const targetProgress =
+          (projection.progress + 9 / r.track.curve.getLength() + 1) % 1;
+        this.racerId = r.placeRacer(r.track.curve.getPointAt(targetProgress), new THREE.Vector3());
+        if (this.racerId === null) {
+          this.finish('INCONCLUSIVE · NO TEST RIVAL · RESTART');
+          return;
+        }
+        this.stage = 'encounter';
+        this.message = 'ORANGE ARROW = STATIONARY RIVAL · AIM FOR SHORT SPIN';
+      }
+      return;
+    }
+
     if (!this.seenActivation) {
       if (r.held) {
         this.stage = 'ready';
@@ -139,12 +179,17 @@ export class PrismaticCounterFixture {
         };
       };
       const ownerId = 'prismatic-counter-fixture';
-      if (this.test.mode === 'kinetic' || this.test.mode === 'seeker') {
-        const itemId = this.test.mode === 'kinetic' ? 'kinetic-disc' : 'seeker-drone';
-        const config = ITEM_DEFINITIONS[itemId].projectile;
+      if (this.test.mode === 'kinetic' || this.test.mode === 'seeker' || this.test.mode === 'blaze') {
+        const itemId: ItemId =
+          this.test.mode === 'kinetic'
+            ? 'kinetic-disc'
+            : this.test.mode === 'seeker'
+              ? 'seeker-drone'
+              : 'blaze-orbs';
+        const config = itemId === 'blaze-orbs' ? BLAZE_ORB_CONFIG : ITEM_DEFINITIONS[itemId].projectile;
         if (!config) return;
-        const incoming = launch(this.test.mode === 'kinetic' ? -12 : -45);
-        if (this.test.mode === 'kinetic')
+        const incoming = launch(this.test.mode === 'seeker' ? -45 : -12);
+        if (this.test.mode !== 'seeker')
           incoming.forward.copy(r.position).sub(incoming.position).setY(0).normalize();
         this.objectId = r.projectiles.spawn({
           itemId,
@@ -194,23 +239,24 @@ export class PrismaticCounterFixture {
   }
 
   public observe(itemId: ItemId, blocked: boolean, targetId: string, objectId?: number): void {
-    if (!this.test || this.stage !== 'encounter') return;
-    const expected: Record<PrismaticCase, ItemId> = {
+    if (!this.test || this.stage !== 'encounter' || this.test.mode === 'blaze-hit') return;
+    const expected: Record<Exclude<PrismaticCase, 'blaze-hit'>, ItemId> = {
       kinetic: 'kinetic-disc',
       seeker: 'seeker-drone',
+      blaze: 'blaze-orbs',
       slick: 'slick-trap',
       blast: 'blast-orb',
       apex: 'apex-missile',
       shockwave: 'shockwave',
       racer: 'prismatic-invincibility',
     };
+    const expectedItem = expected[this.test.mode];
     if (
-      itemId !== expected[this.test.mode] ||
+      itemId !== expectedItem ||
       targetId !== (this.test.mode === 'racer' ? this.racerId : 'player') ||
       (this.objectId !== null && objectId !== this.objectId)
     )
       return;
-    // Racer encounters report whether the attacking Prismatic actually spun the rival.
     const correct =
       this.test.mode === 'racer' ? blocked === this.test.expired : blocked !== this.test.expired;
     this.finish(
@@ -229,8 +275,8 @@ export class PrismaticCounterFixture {
     this.message = message;
   }
   public badge(): string {
-    return this.test
-      ? `PRISMATIC ${this.test.mode.toUpperCase()} ${this.test.expired ? 'EXPIRED' : 'PROTECTED'} · ${this.message}`
-      : '';
+    if (!this.test) return '';
+    if (this.test.mode === 'blaze-hit') return `BLAZE HIT · ${this.message}`;
+    return `PRISMATIC ${this.test.mode.toUpperCase()} ${this.test.expired ? 'EXPIRED' : 'PROTECTED'} · ${this.message}`;
   }
 }

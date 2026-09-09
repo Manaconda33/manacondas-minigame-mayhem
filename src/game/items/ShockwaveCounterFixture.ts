@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import type { CircuitAlpha } from '../track/CircuitAlpha';
 import type { RacerProgress } from '../race/RaceDirector';
 import type { ApexMissileSystem, ApexTarget } from './ApexMissileSystem';
+import { BLAZE_ORB_CONFIG } from './BlazeOrbs';
 import type { HazardSystem } from './HazardSystem';
 import type { ShockwaveCounterTest } from './ItemTestMode';
 import { currentRaceLeader } from './ItemTargeting';
@@ -78,6 +79,20 @@ export class ShockwaveCounterFixture {
       return;
     }
 
+    if (this.mode === 'blaze') {
+      const incoming = launchAtOffset(-12);
+      incoming.forward.copy(playerPosition).sub(incoming.position).setY(0).normalize();
+      this.placed =
+        projectiles.spawn({
+          itemId: 'blaze-orbs',
+          ownerId: 'shockwave-counter-blaze-fixture',
+          direction: 'forward',
+          config: BLAZE_ORB_CONFIG,
+          launch: incoming,
+        }) !== null;
+      return;
+    }
+
     if (this.mode === 'slick') {
       this.placed =
         hazards.placeSlick('shockwave-counter-slick-fixture', inwardPosition()) !== null;
@@ -107,6 +122,7 @@ export class ShockwaveCounterFixture {
     if (this.mode === 'racer') return 'SHOCKWAVE COUNTER · USE WITHIN 5m OF A RACER';
     if (this.mode === 'kinetic') return 'SHOCKWAVE COUNTER · INCOMING KINETIC · TIME ITEM';
     if (this.mode === 'seeker') return 'SHOCKWAVE COUNTER · INCOMING SEEKER · TIME ITEM';
+    if (this.mode === 'blaze') return 'SHOCKWAVE COUNTER · INCOMING BLAZE · TIME ITEM';
     if (this.mode === 'slick') return 'SHOCKWAVE COUNTER · SLICK 3.5m INWARD · USE ITEM';
     if (this.mode === 'blast') return 'SHOCKWAVE COUNTER · BLAST 3.5m INWARD · USE ITEM';
     return 'SHOCKWAVE COUNTER · APEX INBOUND · COUNTER TERMINAL DIVE';

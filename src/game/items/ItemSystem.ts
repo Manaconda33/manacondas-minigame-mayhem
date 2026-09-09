@@ -4,6 +4,7 @@ import { ITEM_DEFINITIONS, ITEM_IDS, type ItemId } from './itemDefinitions';
 export const ITEM_ROULETTE_SECONDS = 0.85;
 export const ITEM_ROULETTE_STEP_SECONDS = 0.07;
 export const ITEM_USE_FEEDBACK_SECONDS = 0.45;
+export const BLAZE_ORB_CADENCE_SECONDS = 0.55;
 export const ITEM_USE_KEY_CODES = ['ShiftLeft', 'KeyE'] as const;
 
 export type ItemUseDirection = 'forward' | 'backward';
@@ -41,6 +42,7 @@ interface RacerItemState {
   inventory: ItemInventory;
   roulette: RouletteState | null;
   useFeedback: UseFeedbackState | null;
+  useCooldownRemaining: number;
 }
 
 const EMPTY_HUD: ItemHudSnapshot = {
@@ -91,6 +93,8 @@ export class ItemSystem {
         state.useFeedback.remaining -= dt;
         if (state.useFeedback.remaining <= 0) state.useFeedback = null;
       }
+
+      state.useCooldownRemaining = Math.max(0, state.useCooldownRemaining - dt);
     }
   }
 
@@ -100,6 +104,7 @@ export class ItemSystem {
 
     const held = state.inventory.snapshot();
     if (held === null) return null;
+    if (held.itemId === 'blaze-orbs' && state.useCooldownRemaining > 1e-9) return null;
 
     state.useFeedback = { direction, remaining: ITEM_USE_FEEDBACK_SECONDS };
     return {
@@ -113,7 +118,14 @@ export class ItemSystem {
   public commitUse(racerId: string): boolean {
     const state = this.racers.get(racerId);
     if (state?.roulette !== null) return false;
-    return state.inventory.consumeCharge();
+    const held = state.inventory.snapshot();
+    if (held === null || !state.inventory.consumeCharge()) return false;
+    if (held.itemId === 'blaze-orbs') state.useCooldownRemaining = BLAZE_ORB_CADENCE_SECONDS;
+    return true;
+  }
+
+  public useCooldownRemaining(racerId: string): number {
+    return this.racers.get(racerId)?.useCooldownRemaining ?? 0;
   }
 
   public heldItem(racerId: string): HeldItem | null {
@@ -164,6 +176,7 @@ export class ItemSystem {
     state.inventory.clear();
     state.roulette = null;
     state.useFeedback = null;
+    state.useCooldownRemaining = 0;
   }
 
   public dispose(): void {
@@ -178,6 +191,7 @@ export class ItemSystem {
       inventory: new ItemInventory(),
       roulette: null,
       useFeedback: null,
+      useCooldownRemaining: 0,
     };
     this.racers.set(racerId, state);
     return state;

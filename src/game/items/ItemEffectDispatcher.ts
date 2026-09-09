@@ -5,6 +5,7 @@ import type { ApexMissileSystem } from './ApexMissileSystem';
 import { nearestRacerAhead } from './ItemTargeting';
 import type { RacerProgress } from '../race/RaceDirector';
 import { ITEM_DEFINITIONS } from './itemDefinitions';
+import { BLAZE_ORB_CONFIG } from './BlazeOrbs';
 import { ItemSystem, type ItemUseDirection } from './ItemSystem';
 import { ProjectileSystem, type ProjectileLaunchContext } from './ProjectileSystem';
 import { RacerEffects } from './RacerEffects';
@@ -87,7 +88,7 @@ export function executeItemUse(
   }
 
   const definition = ITEM_DEFINITIONS[request.itemId];
-  const projectile = definition.projectile;
+  const projectile = request.itemId === 'blaze-orbs' ? BLAZE_ORB_CONFIG : definition.projectile;
   if (projectile !== undefined) {
     const projectileSystem = runtime?.projectileSystem;
     const launch = runtime?.projectileLaunch;

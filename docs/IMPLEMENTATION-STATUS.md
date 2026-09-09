@@ -4,9 +4,17 @@
 
 **Slice 5 - Item Boxes, Weapons & Position-Based Distribution - SHOCKWAVE LIVE ACCEPTED**
 
-PRD baseline: **v1.1, working implementation amendment 2.11**.
+PRD baseline: **v1.1, working implementation amendment 2.12**.
 
 ## Slice 5 Acoustic Shockwave Pulse governance checkpoint
+
+## Prismatic Invincibility governance checkpoint — scope approved 2026-09-09
+
+Manny approved the revised `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md`, including immunity to Slick spinout/slowdown, dirt/grass speed-cap/deceleration/acceleration penalties, and the following chromatic shell/particle/shimmer/fade presentation. PRD amendment 2.12 and ADR-073 record the complete six-second, 1.12x speed-cap, projectile absorption, per-victim blast immunity, and once-per-encounter hostile-contact contract. Independent boost timers, consistent same-step immunity expiry, and deterministic protected/expired fixtures are required.
+
+Implementation base is accepted PR #131 / main `aa7bf601ebadcba50d3a9d1045f98e488762d1f6` / passed validation and Pages run `34311517420`. This checkpoint changes documentation only. Governance publication remains pending approval; gameplay may begin after the governance checkpoint merges and post-merge validation/Pages passes. Gameplay publication and live acceptance remain later gates. Prismatic is not implemented or live accepted.
+
+### Shockwave acceptance evidence
 
 ### Final Shockwave live acceptance — 2026-09-09
 
@@ -393,7 +401,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Next recommended action
 
-Select the next bounded Slice 5 item proposal for Manny's review and approval. Shockwave's focused live gate is closed; implementation of the next item requires separate approval.
+Publish the approved Prismatic governance checkpoint after Manny's publication approval. After merge and successful post-merge validation/Pages, implement only the bounded amendment 2.12 / ADR-073 scope. Shockwave remains live accepted.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 

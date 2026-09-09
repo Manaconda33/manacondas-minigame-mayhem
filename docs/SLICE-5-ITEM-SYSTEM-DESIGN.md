@@ -8,7 +8,7 @@
 
 **Implementation authorization:** Documentation and approved Slice 5 implementation are authorized after this design checkpoint is merged. This document does not itself mark any Slice 5 gameplay requirement complete.
 
-**Governing PRD:** v1.1, working implementation amendment 2.11.
+**Governing PRD:** v1.1, working implementation amendment 2.12.
 
 The existing PRD Sections 15-17, ITEM-001 through ITEM-008, AI-004, Slice 5 roadmap requirements, probability matrix, item state machines, and existing item values remain authoritative except where amendment 2.2 explicitly resolves previously unspecified implementation behavior.
 
@@ -198,6 +198,10 @@ Slice 5 may use procedural/simple original 3D item models, icons, VFX, and place
 
 PRD amendment 2.9 / ADR-070 and `docs/SLICE-5-SLICK-TRAP-SCOPE.md` govern the next bounded Slick Trap item increment. The approved fill-ins are rear-only stationary 1.75 m placement, 0.35 s owner immunity, <=1.1 m trigger, 60% planar speed retention, one 360-degree / 0.85-second spin presentation, two active per owner with successful-third FIFO replacement, 12 race-second pause-safe lifetime, shared item-physics capacity, generic immunity that leaves the hazard in place, and generic queued hazard-clear ordering. `?testSlickAhead=1` is approved acceptance instrumentation. AI Blast/Slick avoidance remains a later shared increment after Slick live acceptance. The Slick functional checklist item remains unchecked until implementation, hosted validation, deployment, and Manny live acceptance prove it.
 
+
+## Prismatic Invincibility scope approval - approved 2026-09-09
+
+PRD amendment 2.12 / ADR-073 and `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md` govern the next bounded increment after Shockwave live acceptance. The approved contract is six seconds of item immunity, a 1.12x road-based cap, no dirt/grass slowdown, independently timed boost composition, projectile absorption, Slick persistence without protected-racer effects, per-victim Blast/Apex immunity, Shockwave push immunity, and one standard hostile-contact spin per encounter. The following chromatic shell/trail/shimmer/fade, countdown, musical layer, and deterministic protected/expired fixtures are approved. Gameplay remains pending the published governance gate and later implementation; keep its functional checklist unchecked until deployed acceptance.
 
 ## Acoustic Shockwave Pulse scope approval - approved 2026-09-07
 

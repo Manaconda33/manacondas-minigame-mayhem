@@ -1,3 +1,4 @@
+import type { PrismaticSystem } from './PrismaticSystem';
 import type { HazardSystem } from './HazardSystem';
 import type { ShockwaveSystem } from './ShockwaveSystem';
 import type { ApexMissileSystem } from './ApexMissileSystem';
@@ -11,6 +12,7 @@ import { RacerEffects } from './RacerEffects';
 export type ItemUseResolution = 'rejected' | 'unsupported' | 'activated';
 
 export interface ItemEffectRuntime {
+  readonly prismaticSystem?: PrismaticSystem;
   readonly hazardSystem?: HazardSystem;
   readonly shockwaveSystem?: ShockwaveSystem;
   readonly apexSystem?: ApexMissileSystem;
@@ -28,6 +30,15 @@ export function executeItemUse(
 ): ItemUseResolution {
   const request = itemSystem.requestUse(racerId, direction);
   if (request === null) return 'rejected';
+
+  if (request.itemId === 'prismatic-invincibility') {
+    if (!runtime?.prismaticSystem) return 'unsupported';
+    if (runtime.racers && !runtime.racers.some((r) => r.id === racerId && !r.finished))
+      return 'rejected';
+    return runtime.prismaticSystem.activate(racerId, () => itemSystem.commitUse(racerId))
+      ? 'activated'
+      : 'rejected';
+  }
 
   if (request.itemId === 'shockwave') {
     if (runtime?.shockwaveSystem === undefined || runtime.projectileLaunch === undefined)
@@ -103,15 +114,16 @@ export function executeItemUse(
   const boost = definition.boost;
   if (boost === undefined) return 'unsupported';
 
-  const activated = racerEffects.activateTemporaryBoost(racerId, {
-    id: request.itemId,
-    label: definition.displayName,
-    ...boost,
-  });
+  const activated = racerEffects.activateTemporaryBoost(
+    racerId,
+    {
+      id: request.itemId,
+      label: definition.displayName,
+      ...boost,
+    },
+    () => itemSystem.commitUse(racerId),
+  );
   if (!activated) return 'rejected';
 
-  if (itemSystem.commitUse(racerId)) return 'activated';
-
-  racerEffects.clearTemporaryBoost(racerId, request.itemId);
-  return 'rejected';
+  return 'activated';
 }

@@ -1,6 +1,6 @@
 # Slice 5 Prismatic Invincibility Scope
 
-**Status: SCOPE APPROVED — 2026-09-09. Governance publication pending; gameplay implementation follows the merged, validated governance checkpoint.**
+**Status: Governance deployed in PR #132; gameplay implemented locally — 2026-09-09. Gameplay publication and live acceptance pending.**
 
 Source checkpoint: GitHub main `aa7bf601ebadcba50d3a9d1045f98e488762d1f6`, PR #131; validation/Pages run `34311517420` passed. Shockwave is LIVE ACCEPTED. Governing contract: PRD v1.1, amendment 2.12, section 15.17, and ADR-073; ADR-061 retains the approved 1.12x speed-cap target.
 
@@ -59,7 +59,7 @@ Manny clarified that Slick must not spin a protected racer and explicitly reques
 
 ## Deterministic acceptance instrumentation
 
-The following query names are proposed, not deployed links:
+The following query names are implemented locally; they are not deployed until the gameplay publication gate passes:
 
 - `?testItem=prismatic-invincibility` forces the player's actual pickup outcome. Collecting a box is still required; roulette decoration may animate but the selected item is fixed.
 - Combine that parameter with `testPrismaticCounter=kinetic|seeker|slick|blast|apex|shockwave|racer` to select one visibly labeled scenario. Each fixture waits for the forced pickup to be revealed and held, then for successful activation before initiating its protected encounter.
@@ -94,4 +94,4 @@ The following query names are proposed, not deployed links:
 
 ## Approval gate
 
-Manny approved the revised operational contract and visual direction on 2026-09-09. PRD amendment 2.12 / ADR-073 record that decision. Publish the governance checkpoint after separate publication approval; gameplay may begin once it merges and post-merge validation/Pages passes. Gameplay publication and live acceptance remain separate gates. This checkpoint adds no runtime behavior and claims no Prismatic test pass.
+Manny approved the revised operational contract and visual direction on 2026-09-09. PRD amendment 2.12 / ADR-073 record that decision. Governance PR #132 merged at `16e8248498a8dea2086db832e5b7db386d4bd485`; post-merge validation/Pages run `34354999380` passed. Gameplay is implemented locally; evidence and limitations are recorded in `docs/IMPLEMENTATION-STATUS.md`. Gameplay publication and live acceptance remain separate gates.

@@ -251,6 +251,16 @@ export class HazardSystem {
         continue;
       }
       slick.ring.material.opacity = 0.4 + 0.15 * Math.sin(slick.age * 3);
+      for (const racer of targets) {
+        if (
+          !racer.finished &&
+          finitePosition(racer.position) &&
+          !(racer.id === slick.ownerId && slick.age < S.ownerImmunitySeconds - 1e-9) &&
+          squaredHorizontalDistance(racer.position, slick.mesh.position) <= S.triggerRadius ** 2 &&
+          racer.itemImmune
+        )
+          racer.onItemContact?.('slick-trap', true, slick.id);
+      }
       const target = targets.find(
         (racer) =>
           !racer.finished &&
@@ -262,6 +272,7 @@ export class HazardSystem {
             S.triggerRadius ** 2,
       );
       if (target === undefined) continue;
+      target.onItemContact?.('slick-trap', false, slick.id);
       this.remove(slick.id);
       impacts.push({
         projectileId: slick.id,
@@ -352,6 +363,8 @@ export class HazardSystem {
       orb.mesh.position,
       C.blastRadius,
       eligible,
+      'blast-orb',
+      orb.id,
     ).map((racer) => ({
       projectileId: orb.id,
       itemId: 'blast-orb',

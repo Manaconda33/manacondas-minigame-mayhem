@@ -617,7 +617,7 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 ## ADR-073: Implement timed Prismatic immunity and hostile contact
 
 - **Date:** 2026-09-09.
-- **Status:** Scope approved; governance publication pending. Gameplay follows the merged, validated governance checkpoint.
+- **Status:** Governance deployed in PR #132; gameplay implemented locally, pending publication and live acceptance.
 - **Context:** Shockwave is live accepted through PR #131. Prismatic is the next bounded increment exercising the existing shared immunity boundaries. Manny clarified Slick immunity and explicitly added dirt/grass slowdown immunity, then approved the revised scope and visual direction.
 - **Decision:** PRD amendment 2.12 and `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md` are normative. Use one committed charge, exactly six race seconds, a 1.12x road-based cap, normal acceleration, and no dirt/grass speed-cap/deceleration/acceleration penalty. Preserve terrain geometry and steering/traction. Refresh without stacking; maintain independent boost timers with maximum-only composition.
 - **Interactions:** Absorb valid armed Kinetic/Seeker contacts; leave Slick intact without triggering/spinning/slowing protected racers; preserve normal Blast/Apex resolution with per-victim immunity; block Shockwave push. Preserve ordinary physical kart/rail contact. Apply a 0.85-second one-turn hostile spin once per contact encounter below 2.35 m, rearming only after separation to at least 2.35 m. Finished/immune rivals are excluded. Activation does not cleanse existing spin or restore momentum.
@@ -625,3 +625,5 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Engineering contract:** Timed immunity ownership and boost composition must preserve other active sources and rollback. Drive, racer contact, and item impacts must agree on active/expired state. Fixed-item protected/expired fixtures must validate the actual encounter and distinguish misses/interceptions from immunity success.
 - **Boundary:** No other item implementation, probabilities, racer stats, accepted balance, race authority, dependencies, AI acquisition/use, or Slice 6 expansion. Future-item interaction acceptance remains deferred.
 - **Approval:** Manny approved the revised scope and visual description in Work. Governance publication, gameplay publication, and final live acceptance remain separately gated.
+
+- **Local implementation evidence:** PR #132 governance merge `16e8248498a8dea2086db832e5b7db386d4bd485` passed post-merge validation/Pages `34354999380`. See `docs/IMPLEMENTATION-STATUS.md` for gameplay validation, coverage interpretation, fixture corrections, and remaining live checks. No gameplay publication or live acceptance is claimed.

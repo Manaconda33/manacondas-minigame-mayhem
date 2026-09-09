@@ -7,6 +7,7 @@ export interface ShockwaveTarget {
   readonly position: THREE.Vector3;
   readonly finished: boolean;
   readonly itemImmune?: boolean;
+  readonly onItemContact?: (itemId: 'shockwave', blocked: boolean) => void;
 }
 
 export interface ShockwavePulse {
@@ -64,7 +65,6 @@ export function shockwavePushDelta(
   if (
     target.id === pulse.ownerId ||
     target.finished ||
-    target.itemImmune ||
     !finitePosition(pulse.center) ||
     !finitePosition(target.position)
   )
@@ -75,6 +75,8 @@ export function shockwavePushDelta(
   const distance = Math.hypot(dx, dz);
   if (!Number.isFinite(distance) || distance > C.radius) return null;
 
+  target.onItemContact?.('shockwave', target.itemImmune === true);
+  if (target.itemImmune) return null;
   const direction =
     distance > 1e-9
       ? new THREE.Vector3(dx / distance, 0, dz / distance)

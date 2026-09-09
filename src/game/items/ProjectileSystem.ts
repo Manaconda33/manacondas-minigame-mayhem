@@ -22,6 +22,8 @@ export interface ProjectileSpawnRequest {
 }
 
 export interface ProjectileTarget {
+  readonly itemImmune?: boolean;
+  readonly onItemContact?: (itemId: ItemId, blocked: boolean, objectId?: number) => void;
   readonly velocity?: THREE.Vector3;
   readonly id: string;
   readonly position: THREE.Vector3;
@@ -299,6 +301,12 @@ export class ProjectileSystem {
           )
             continue;
 
+          target.onItemContact?.(projectile.itemId, target.itemImmune === true, projectile.id);
+          if (target.itemImmune) {
+            this.remove(projectile.id);
+            destroyed = true;
+            break;
+          }
           const cross =
             projectile.velocity.x * target.forward.z - projectile.velocity.z * target.forward.x;
           const fallbackClockwise = (projectile.id + target.id.length) % 2 === 0;
@@ -375,7 +383,9 @@ export class ProjectileSystem {
           (RACER_HIT_RADIUS_METERS + projectile.config.radiusMeters) ** 2
         )
           continue;
+        racer.onItemContact?.(projectile.itemId, racer.itemImmune === true, projectile.id);
         this.remove(projectile.id);
+        if (racer.itemImmune) return null;
         return {
           projectileId: projectile.id,
           itemId: projectile.itemId,

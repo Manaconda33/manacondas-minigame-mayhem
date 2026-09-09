@@ -20,6 +20,7 @@ export interface DriveInput {
   effectSpeedCapMultiplier?: number;
   effectAccelerationMultiplier?: number;
   ignoreOffRoadSpeedPenalty?: boolean;
+  ignoreOffRoadAccelerationPenalty?: boolean;
   effectSpinoutYawRateRadiansPerSecond?: number;
   effectSpinoutPreserveMomentum?: boolean;
 }
@@ -134,7 +135,10 @@ export class KartController {
     }
 
     const surfaceSpeedFactor = surfaceSpeedMultiplier(surface, this.stats.traction);
-    const surfaceAccelerationFactor = surfaceAccelerationMultiplier(surface, this.stats.traction);
+    const surfaceAccelerationFactor =
+      input.ignoreOffRoadAccelerationPenalty && (surface === 'dirt' || surface === 'grass')
+        ? 1
+        : surfaceAccelerationMultiplier(surface, this.stats.traction);
     const ignoresOffRoadSpeedPenalty =
       input.ignoreOffRoadSpeedPenalty === true && (surface === 'dirt' || surface === 'grass');
     const effectiveSurfaceSpeedFactor = ignoresOffRoadSpeedPenalty ? 1 : surfaceSpeedFactor;
@@ -173,7 +177,11 @@ export class KartController {
     const driveSupported = grounded || centerGrounded;
 
     if (input.throttle > 0 && driveSupported) {
-      if ((surface === 'dirt' || surface === 'grass') && forwardSpeed > boostedMax) {
+      if (
+        !input.ignoreOffRoadAccelerationPenalty &&
+        (surface === 'dirt' || surface === 'grass') &&
+        forwardSpeed > boostedMax
+      ) {
         const tractionN = (this.stats.traction - 1) / 9;
         const surfaceLoss =
           (surface === 'grass' ? 8 : 5.5) * THREE.MathUtils.lerp(1.08, 0.92, tractionN);
@@ -181,7 +189,9 @@ export class KartController {
       } else {
         forwardSpeed = Math.min(boostedMax, forwardSpeed + acceleration * dt);
       }
-      const playableFloor = surfaceMinimumPlayableSpeed(surface);
+      const playableFloor = input.ignoreOffRoadAccelerationPenalty
+        ? 0
+        : surfaceMinimumPlayableSpeed(surface);
       if (playableFloor > 0 && forwardSpeed > 3) {
         forwardSpeed = Math.max(forwardSpeed, Math.min(playableFloor, boostedMax));
       }

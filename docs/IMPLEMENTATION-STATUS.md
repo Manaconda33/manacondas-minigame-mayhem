@@ -2,17 +2,27 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - SHOCKWAVE CORRECTED / DEPLOYED; LIVE ACCEPTANCE PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - SHOCKWAVE LIVE ACCEPTED**
 
 PRD baseline: **v1.1, working implementation amendment 2.11**.
 
 ## Slice 5 Acoustic Shockwave Pulse governance checkpoint
 
-### Driver-following presentation — local change
+### Final Shockwave live acceptance — 2026-09-09
+
+Manny reported in Work: “Push test approved.” This records product-owner approval of the racer-push test following the driver-following cyan-ring deployment in PR #130, at main commit `6b670ce72f774474207264c2c769836152210bd0` (post-merge validation/Pages run `34276704635` passed). It supersedes the earlier pending racer-push retest below. No specific device or camera coverage was reported.
+
+Manny subsequently stated in Work: “Approve all counter tests.” **Kinetic Disc, Seeker Drone, Slick Trap, Timed Blast Orb, and terminal Apex counter live tests are APPROVED**, closing the focused counter checks (3–5 in `docs/TESTING.md`) alongside the approved racer-push test. No specific device or camera coverage was reported for this approval.
+
+Asked whether pause/restart cleanup, desktop/mobile controls and reverse-ITEM equivalence, and normal-build regression checks also passed, Manny answered: “Yes.” This closes the remaining focused live checks (6–8), with pickup/charge and cyan-ring presentation already confirmed during the racer-push retest. **Acoustic Shockwave Pulse is LIVE ACCEPTED** on deployed PR #130 commit `6b670ce72f774474207264c2c769836152210bd0`. The platform checks are product-owner reported; no browser/device versions or independent rendered verification are claimed.
+
+This final acceptance supersedes the historical pending-publication and pending-acceptance statements below. It closes only the Shockwave functional/counter increment. Remaining item effects, full AI item policy, final Slice 5 interaction/soak/performance gates, issue #106, and Slice 6 remain open; no next item or slice is authorized by this acceptance. Manny explicitly approved publication of this documentation-only acceptance record. Its PR and Actions history provide publication evidence.
+
+### Historical driver-following presentation checkpoint — subsequently deployed in PR #130
 
 PR #129 deployed the surface-placement fix at `6b7fb700214e8e287194b5931d23990af5939083`; run `34244650552` passed validation and Pages deployment. Manny confirmed the cyan ring is visible and requested that it follow the moving driver until fading. The local presentation now resolves the visual owner's position each simulation step and refreshes ground placement. The pulse remains instantaneous at its original activation center; this does not create a moving damage/counter area or additional pushes. Duration, radius, balance, pause and cleanup rules remain unchanged. Publication and the visual retest remain pending.
 
-### Visibility correction — awaiting publication
+### Historical visibility correction checkpoint — subsequently deployed in PR #129
 
 Acceptance-harness PR #128 merged at `bd05aa3b19237e0405991f6c614ac91304a5b9ae`; post-merge run `34182800203` passed validation and Pages deployment. Manny subsequently reported that racer-push activation consumed the Shockwave charge but showed no visible ring. Shockwave is **NOT LIVE ACCEPTED**; this report blocks visual acceptance.
 
@@ -377,13 +387,13 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Deferred work
 
-- Eight item effects remain unimplemented: Blaze Orbs, Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic Invincibility. Shockwave gameplay is implemented and deployed but still awaits focused live acceptance. Full AI item-use policy, final interaction/counter validation, soak/performance evidence, issue #106, deployment evidence for later increments, and full-slice live acceptance remain open. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, Timed Blast Orb, Slick Trap, and bounded Slick/Blast AI hazard response are already live accepted.
+- Eight item effects remain unimplemented: Blaze Orbs, Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic Invincibility. Shockwave is deployed and LIVE ACCEPTED. Full AI item-use policy, final interaction/counter validation, soak/performance evidence, issue #106, deployment evidence for later increments, and full-slice live acceptance remain open. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, Timed Blast Orb, Slick Trap, and bounded Slick/Blast AI hazard response are already live accepted.
 - Further competitive-balance work remains deferred until explicitly reopened.
 - External PBR texture sets, HDR environment, baked AO assets, and other larger presentation additions remain outside the Dragon Queen checkpoint.
 
 ## Next recommended action
 
-Publish and deploy the bounded Shockwave acceptance-harness correction, then complete the corrected combined-query desktop/mobile live links and record Manny's result. Do not start another item until Shockwave is live accepted.
+Select the next bounded Slice 5 item proposal for Manny's review and approval. Shockwave's focused live gate is closed; implementation of the next item requires separate approval.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 

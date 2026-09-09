@@ -1,6 +1,14 @@
 # Slice 5 Blaze Orbs Scope
 
-**Status: SCOPE APPROVED by Manny in Work. Amendment 2.13 / ADR-074 govern the complete contract below. Governance publication is pending; gameplay follows the merged, validated governance checkpoint.**
+**Status: LIVE ACCEPTED. Amendment 2.13 / ADR-074 govern the complete contract below. Gameplay PR #135 is merged and deployed; Manny reported “Pass” on the deployed playtest on 2026-09-09.**
+
+## Live acceptance — 2026-09-09
+
+Gameplay PR #135 squash-merged to `main` at `a034d40e3185a17f3d5a04cbe330656fe7961b46` after hosted PR CI run `34403346241` passed on the exact reviewed head. Post-merge CI / GitHub Pages run `34403522142` passed clean install, Git LFS verification, strict typecheck, zero-warning lint, **42 test files / 339 tests**, production build, Pages artifact creation, and deployment.
+
+Manny then tested the deployed Blaze Orbs build and reported **“Pass.” Blaze Orbs is LIVE ACCEPTED.** Product-owner evidence is also recorded on PR #135 comment `5608640298`. No independent browser/device matrix, recording, or per-scenario result set is asserted beyond Manny’s reported deployed playtest pass.
+
+This acceptance closes the bounded Blaze Orbs increment only. Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, and Hyper-Drive Rocket remain open, along with full AI item tactics, final Slice 5 interaction/counter/soak/performance evidence, issue #106, and overall Slice 5 acceptance. Slice 6 remains locked.
 
 ## Purpose and base
 
@@ -53,4 +61,4 @@ Live gate: five shots and correct HUD; too-fast presses retain charges; forward/
 
 No Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, Rocket, AI item tactics, probability changes, accepted balance changes, racer stats, track/checkpoint authority, dependencies, binary assets, or Slice 6 expansion. Existing moderate dependency audit warnings remain a separate issue.
 
-Manny approved the complete scope in Work. Amendment 2.13 / ADR-074 and TESTING.md record that decision. Publish the governance checkpoint only after publication approval. Begin gameplay after that checkpoint merges and post-merge validation/Pages passes. Gameplay publication and live acceptance remain later gates. Slice 5 remains incomplete.
+Manny approved the complete scope in Work. Amendment 2.13 / ADR-074 and TESTING.md record that decision. Governance and gameplay publication are complete. Blaze Orbs is live accepted; Slice 5 remains incomplete pending the remaining item effects and final Slice 5 gates.

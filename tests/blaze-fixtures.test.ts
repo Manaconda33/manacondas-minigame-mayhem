@@ -54,7 +54,6 @@ describe('Blaze deterministic acceptance fixtures', () => {
     const fixture = new PrismaticCounterFixture(
       prismaticTestFromSearch('?testItem=blaze-orbs&testBlaze=hit'),
     );
-    let placedPosition: THREE.Vector3 | null = null;
     let placedForwardLength: number | null = null;
     fixture.update(1 / 60, {
       position: runtime.position,
@@ -69,15 +68,13 @@ describe('Blaze deterministic acceptance fixtures', () => {
       apex: runtime.apex,
       shockwave: runtime.shockwave,
       placeRacer: (position, forward) => {
-        placedPosition = position.clone();
         placedForwardLength = forward.length();
+        fixture.updateMarker(position);
         return 'rival';
       },
     });
     expect(fixture.controlledRacer()).toBe('rival');
-    expect(placedPosition).not.toBeNull();
     expect(placedForwardLength).toBe(0);
-    fixture.updateMarker(placedPosition ?? undefined);
     expect(fixture.group.visible).toBe(true);
     expect(fixture.badge()).toContain('BLAZE HIT');
     expect(fixture.badge()).toContain('STATIONARY RIVAL');

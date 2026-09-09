@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { Howler } from 'howler';
+import { playBlazeTone } from '../../audio/blazeTone';
 import { ItemPhysicsCapacity, MAX_ITEM_PHYSICS_OBJECTS } from './ItemPhysicsCapacity';
 import { steerSeeker } from './SeekerGuidance';
 import { guardrailContact } from '../track/GuardrailSystem';
@@ -68,9 +70,15 @@ interface ActiveProjectile {
   bounceCooldownSeconds: number;
 }
 
+interface BlazeBurst {
+  readonly group: THREE.Group;
+  remainingSeconds: number;
+}
+
 const RACER_HIT_RADIUS_METERS = 1.05;
 const PROJECTILE_SUBSTEP_METERS = 0.35;
 const MAX_PROJECTILE_SUBSTEPS = 12;
+const BLAZE_BURST_SECONDS = 0.18;
 export const MAX_ACTIVE_PROJECTILES = MAX_ITEM_PHYSICS_OBJECTS;
 const LOCAL_TRAVEL_AXIS = new THREE.Vector3(0, 0, 1);
 
@@ -112,11 +120,16 @@ function squaredHorizontalDistance(a: THREE.Vector3, b: THREE.Vector3): number {
   return x * x + z * z;
 }
 
+function howlerContext(): AudioContext | null | undefined {
+  return (Howler as unknown as { ctx?: AudioContext | null }).ctx;
+}
+
 export class ProjectileSystem {
   public readonly group = new THREE.Group();
   private readonly active = new Map<number, ActiveProjectile>();
   private readonly reservations = new Set<number>();
   private readonly clears: { center: THREE.Vector3; radius: number }[] = [];
+  private readonly blazeBursts: BlazeBurst[] = [];
 
   public constructor(
     private readonly track: CircuitAlpha,
@@ -201,6 +214,43 @@ export class ProjectileSystem {
       hull.scale.set(0.7, 0.65, 1.6);
       group.add(hull);
       ring.scale.set(1.8, 0.75, 1);
+    } else if (request.itemId === 'blaze-orbs') {
+      core.visible = false;
+      ring.material.color.setHex(0xff7a18);
+      ring.scale.set(1.1, 1.1, 1.1);
+      const glow = new THREE.Mesh(
+        new THREE.SphereGeometry(request.config.radiusMeters * 1.05, 14, 10),
+        new THREE.MeshBasicMaterial({
+          color: 0xff861c,
+          transparent: true,
+          opacity: 0.48,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        }),
+      );
+      glow.name = 'blaze-orb-glow';
+      const hotCore = new THREE.Mesh(
+        new THREE.SphereGeometry(request.config.radiusMeters * 0.68, 14, 10),
+        new THREE.MeshBasicMaterial({ color: 0xffe4a1 }),
+      );
+      hotCore.name = 'blaze-orb-hot-core';
+      const trail = new THREE.Group();
+      trail.name = 'blaze-ember-trail';
+      for (let index = 0; index < 4; index += 1) {
+        const ember = new THREE.Mesh(
+          new THREE.SphereGeometry(request.config.radiusMeters * (0.22 - index * 0.025), 7, 5),
+          new THREE.MeshBasicMaterial({
+            color: index % 2 === 0 ? 0xff9b2f : 0xffcf66,
+            transparent: true,
+            opacity: 0.72 - index * 0.12,
+            depthWrite: false,
+          }),
+        );
+        ember.position.set((index % 2 === 0 ? -1 : 1) * 0.035, 0, -0.22 - index * 0.16);
+        trail.add(ember);
+      }
+      group.add(glow, hotCore, trail);
+      group.userData.itemPresentation = 'blaze-orb';
     }
     group.add(spinner);
     group.position.copy(spawnPosition);
@@ -223,6 +273,10 @@ export class ProjectileSystem {
     orientProjectile(projectile);
     this.group.add(group);
     this.active.set(projectile.id, projectile);
+    if (request.itemId === 'blaze-orbs') {
+      this.spawnBlazeBurst(spawnPosition);
+      playBlazeTone('launch', howlerContext(), Howler.volume());
+    }
     return projectile.id;
   }
 
@@ -240,6 +294,7 @@ export class ProjectileSystem {
   public update(dt: number, targets: readonly ProjectileTarget[]): ProjectileImpact[] {
     if (!Number.isFinite(dt) || dt <= 0) return [];
     this.resolveQueuedClears();
+    this.advanceBlazeBursts(dt);
     const impacts: ProjectileImpact[] = [];
 
     for (const projectile of [...this.active.values()]) {
@@ -281,7 +336,7 @@ export class ProjectileSystem {
           const normalSpeed = projectile.velocity.dot(contact.inwardNormal);
           if (normalSpeed < -0.01 && projectile.bounceCooldownSeconds <= 0) {
             if (projectile.bounceCount >= projectile.config.maxWallBounces) {
-              this.remove(projectile.id);
+              this.remove(projectile.id, true);
               break;
             }
             projectile.velocity.addScaledVector(contact.inwardNormal, -2 * normalSpeed);
@@ -303,7 +358,7 @@ export class ProjectileSystem {
 
           target.onItemContact?.(projectile.itemId, target.itemImmune === true, projectile.id);
           if (target.itemImmune) {
-            this.remove(projectile.id);
+            this.remove(projectile.id, true);
             destroyed = true;
             break;
           }
@@ -319,7 +374,7 @@ export class ProjectileSystem {
             spinDirection,
             spinoutSeconds: projectile.config.spinoutSeconds,
           });
-          this.remove(projectile.id);
+          this.remove(projectile.id, true);
           destroyed = true;
           break;
         }
@@ -400,7 +455,12 @@ export class ProjectileSystem {
 
   private resolveQueuedClears(): void {
     for (const projectile of [...this.active.values()]) {
-      if (projectile.itemId !== 'kinetic-disc' && projectile.itemId !== 'seeker-drone') continue;
+      if (
+        projectile.itemId !== 'kinetic-disc' &&
+        projectile.itemId !== 'seeker-drone' &&
+        projectile.itemId !== 'blaze-orbs'
+      )
+        continue;
       if (
         this.clears.some(
           ({ center, radius }) =>
@@ -412,9 +472,13 @@ export class ProjectileSystem {
     this.clears.length = 0;
   }
 
-  public remove(projectileId: number): boolean {
+  public remove(projectileId: number, impactPresentation = false): boolean {
     const projectile = this.active.get(projectileId);
     if (projectile === undefined) return false;
+    if (impactPresentation && projectile.itemId === 'blaze-orbs') {
+      this.spawnBlazeBurst(projectile.group.position);
+      playBlazeTone('impact', howlerContext(), Howler.volume());
+    }
     this.active.delete(projectileId);
     this.capacity.release(projectileId);
     this.group.remove(projectile.group);
@@ -428,6 +492,55 @@ export class ProjectileSystem {
       });
     });
     return true;
+  }
+
+  private spawnBlazeBurst(position: THREE.Vector3): void {
+    const group = new THREE.Group();
+    group.name = 'blaze-spark-burst';
+    group.position.copy(position);
+    for (let index = 0; index < 6; index += 1) {
+      const angle = (index / 6) * Math.PI * 2;
+      const spark = new THREE.Mesh(
+        new THREE.SphereGeometry(0.045 + (index % 2) * 0.012, 6, 4),
+        new THREE.MeshBasicMaterial({
+          color: index % 2 === 0 ? 0xffb23e : 0xff6a18,
+          transparent: true,
+          opacity: 0.85,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        }),
+      );
+      spark.position.set(Math.cos(angle) * 0.28, (index % 3) * 0.05, Math.sin(angle) * 0.28);
+      group.add(spark);
+    }
+    this.group.add(group);
+    this.blazeBursts.push({ group, remainingSeconds: BLAZE_BURST_SECONDS });
+  }
+
+  private advanceBlazeBursts(dt: number): void {
+    for (let index = this.blazeBursts.length - 1; index >= 0; index -= 1) {
+      const burst = this.blazeBursts[index];
+      if (burst === undefined) continue;
+      burst.remainingSeconds = Math.max(0, burst.remainingSeconds - dt);
+      const ratio = burst.remainingSeconds / BLAZE_BURST_SECONDS;
+      burst.group.scale.setScalar(1 + (1 - ratio) * 0.7);
+      burst.group.traverse((object) => {
+        if (!(object instanceof THREE.Mesh)) return;
+        const materials = Array.isArray(object.material) ? object.material : [object.material];
+        for (const material of materials) {
+          if (material instanceof THREE.MeshBasicMaterial) material.opacity = 0.85 * ratio;
+        }
+      });
+      if (burst.remainingSeconds > 0) continue;
+      burst.group.removeFromParent();
+      burst.group.traverse((object) => {
+        if (!(object instanceof THREE.Mesh)) return;
+        object.geometry.dispose();
+        const materials = Array.isArray(object.material) ? object.material : [object.material];
+        materials.forEach((material) => material.dispose());
+      });
+      this.blazeBursts.splice(index, 1);
+    }
   }
 
   /** Non-colliding item phases reserve capacity before becoming terminal. */
@@ -467,6 +580,16 @@ export class ProjectileSystem {
     for (const id of this.reservations) this.capacity.release(id);
     this.reservations.clear();
     this.clears.length = 0;
+    for (const burst of this.blazeBursts) {
+      burst.group.removeFromParent();
+      burst.group.traverse((object) => {
+        if (!(object instanceof THREE.Mesh)) return;
+        object.geometry.dispose();
+        const materials = Array.isArray(object.material) ? object.material : [object.material];
+        materials.forEach((material) => material.dispose());
+      });
+    }
+    this.blazeBursts.length = 0;
     this.group.clear();
   }
 }

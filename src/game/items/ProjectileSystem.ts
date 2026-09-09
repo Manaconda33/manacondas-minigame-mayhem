@@ -400,8 +400,6 @@ export class ProjectileSystem {
       this.remove(projectile.id);
       return null;
     }
-    // Bound integration by travel distance, including delayed frames. Lifetime
-    // bounds this loop even for an unusually large caller delta.
     let remaining = Math.min(dt, projectile.remainingSeconds);
     while (remaining > 1e-9) {
       const step = Math.min(remaining, PROJECTILE_SUBSTEP_METERS / SEEKER_GUIDANCE.maxSpeed);
@@ -539,13 +537,14 @@ export class ProjectileSystem {
         const mesh = object as THREE.Mesh;
         mesh.geometry.dispose();
         const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-        materials.forEach((material) => material.dispose());
+        materials.forEach((material) => {
+          material.dispose();
+        });
       });
       this.blazeBursts.splice(index, 1);
     }
   }
 
-  /** Non-colliding item phases reserve capacity before becoming terminal. */
   public reserveSlot(): number | null {
     if (this.activeCount() >= MAX_ACTIVE_PROJECTILES) return null;
     const id = this.capacity.acquire();
@@ -589,7 +588,9 @@ export class ProjectileSystem {
         const mesh = object as THREE.Mesh;
         mesh.geometry.dispose();
         const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-        materials.forEach((material) => material.dispose());
+        materials.forEach((material) => {
+          material.dispose();
+        });
       });
     }
     this.blazeBursts.length = 0;

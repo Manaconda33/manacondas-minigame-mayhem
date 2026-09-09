@@ -9,6 +9,7 @@ export const SHOCKWAVE_COUNTER_TESTS = [
   'slick',
   'blast',
   'apex',
+  'blaze',
 ] as const;
 export type ShockwaveCounterTest = (typeof SHOCKWAVE_COUNTER_TESTS)[number];
 const SHOCKWAVE_COUNTER_TEST_SET = new Set<string>(SHOCKWAVE_COUNTER_TESTS);
@@ -40,7 +41,10 @@ export function incomingSlickFromSearch(search: string): boolean {
 }
 
 export function shockwaveCounterFromSearch(search: string): ShockwaveCounterTest | null {
-  const value = new URLSearchParams(search).get('testShockwaveCounter');
+  const params = new URLSearchParams(search);
+  if (params.get('testItem') === 'shockwave' && params.get('testBlaze') === 'shockwave')
+    return 'blaze';
+  const value = params.get('testShockwaveCounter');
   return value !== null && SHOCKWAVE_COUNTER_TEST_SET.has(value)
     ? (value as ShockwaveCounterTest)
     : null;

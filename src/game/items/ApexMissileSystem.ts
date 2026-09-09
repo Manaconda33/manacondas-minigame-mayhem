@@ -198,7 +198,7 @@ export class ApexMissileSystem {
         shot.phaseAge = 0;
         shot.diveStartY = shot.position.y;
       } else {
-        const victims = areaEffectVictims(shot.position, C.blastRadius, targets);
+        const victims = areaEffectVictims(shot.position, C.blastRadius, targets, 'apex-missile');
         this.blasts = [shot.position.clone()];
         const impacts: ProjectileImpact[] = victims.map((racer) => ({
           projectileId: shot.id,

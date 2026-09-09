@@ -237,15 +237,18 @@ export function mountAppShell(root: HTMLElement): void {
       const driftPanel = getElement('#drift-panel');
       driftPanel.dataset.tier = state.driftTier;
       getElement('#drift-fill').style.width = `${String(Math.round(state.driftCharge * 100))}%`;
-      getElement('#drift-label').textContent = state.airborne
-        ? 'AIRBORNE'
-        : state.activeBoostLabel !== null
-          ? `${state.activeBoostLabel.toUpperCase()} ACTIVE`
-          : state.boostActive
-            ? `${state.driftTier.toUpperCase()} BOOST`
-            : state.driftTier === 'none'
-              ? 'Hold Space + steer to drift'
-              : `${state.driftTier.toUpperCase()} CHARGE`;
+      getElement('#drift-label').textContent =
+        state.prismaticSeconds > 0
+          ? `PRISMATIC · ${state.prismaticSeconds.toFixed(1)}s`
+          : state.airborne
+            ? 'AIRBORNE'
+            : state.activeBoostLabel !== null
+              ? `${state.activeBoostLabel.toUpperCase()} ACTIVE`
+              : state.boostActive
+                ? `${state.driftTier.toUpperCase()} BOOST`
+                : state.driftTier === 'none'
+                  ? 'Hold Space + steer to drift'
+                  : `${state.driftTier.toUpperCase()} CHARGE`;
     };
     game = await KartTimeTrial.create({
       canvas,

@@ -1,3 +1,7 @@
+import { PrismaticSystem, PRISMATIC } from './items/PrismaticSystem';
+import { PrismaticVisual } from './items/PrismaticVisual';
+import { PrismaticMusic } from '../audio/PrismaticMusic';
+import { PrismaticCounterFixture, prismaticTestFromSearch } from './items/PrismaticCounterFixture';
 import { observeAiHazards } from './ai/AiHazardAwareness';
 import { AiHazardFixture, aiHazardTestFromSearch } from './ai/AiHazardFixture';
 import RAPIER from '@dimforge/rapier3d-compat';
@@ -98,6 +102,7 @@ export interface HudState {
   seekerWarning: SeekerWarningLevel | null;
   apexWarning: ApexWarning | null;
   itemUseMessage: string | null;
+  prismaticSeconds: number;
 }
 
 export interface RaceResult {
@@ -196,6 +201,14 @@ export class KartTimeTrial {
   private readonly itemBoxes: ItemBoxSystem;
   private readonly itemSystem = new ItemSystem();
   private readonly racerEffects = new RacerEffects();
+  private readonly prismatic = new PrismaticSystem(this.racerEffects);
+  private readonly prismaticVisual = new PrismaticVisual();
+  private readonly prismaticMusic = new PrismaticMusic();
+  private readonly prismaticContactVictims: string[] = [];
+  private prismaticFixtureContact: string | null = null;
+  private readonly prismaticFixture = new PrismaticCounterFixture(
+    prismaticTestFromSearch(window.location.search),
+  );
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
   private readonly shockwave = new ShockwaveSystem(
@@ -256,6 +269,8 @@ export class KartTimeTrial {
       this.projectiles.group,
       this.hazards.group,
       this.shockwave.group,
+      this.prismaticVisual.group,
+      this.prismaticFixture.group,
       this.seekerWarningVisual.group,
       this.apexPresentation.group,
     );
@@ -318,6 +333,10 @@ export class KartTimeTrial {
     this.projectiles.dispose();
     this.shockwaveCounterFixture.reset();
     this.shockwave.dispose();
+    this.prismatic.dispose();
+    this.prismaticVisual.dispose();
+    this.prismaticFixture.dispose();
+    this.prismaticMusic.dispose();
     this.seekerWarningVisual.dispose();
     this.seekerWarningAudio.dispose();
     this.spinoutCameraAnchor.clear();
@@ -329,6 +348,7 @@ export class KartTimeTrial {
     if (pressed) {
       void this.seekerWarningAudio.unlock();
       void this.apexWarningAudio.unlock();
+      void this.prismaticMusic.unlock();
     }
     if (pressed) this.touchPressed.add(control);
     else this.touchPressed.delete(control);
@@ -378,6 +398,7 @@ export class KartTimeTrial {
       effectSpeedCapMultiplier: driveModifiers.speedCapMultiplier,
       effectAccelerationMultiplier: driveModifiers.accelerationMultiplier,
       ignoreOffRoadSpeedPenalty: driveModifiers.ignoreOffRoadSpeedPenalty,
+      ignoreOffRoadAccelerationPenalty: driveModifiers.ignoreOffRoadAccelerationPenalty,
       effectSpinoutYawRateRadiansPerSecond: playerSpinout?.yawRateRadiansPerSecond,
       effectSpinoutPreserveMomentum: playerSpinout?.preserveMomentum,
     };
@@ -419,7 +440,7 @@ export class KartTimeTrial {
         ? 0
         : projection.progress;
     this.itemSystem.advance(dt);
-    this.racerEffects.advance(dt);
+    this.racerEffects.advance(dt, false, false);
     this.shockwave.advance(dt);
     this.incomingSeekerFixture.update(
       this.elapsed,
@@ -429,6 +450,10 @@ export class KartTimeTrial {
       this.projectiles,
     );
     this.updateProjectiles(dt);
+    // Protection uses the start-of-step state for drive, contact, and item impacts.
+    // Advance its clock only after all three consumers; the next step sees expiry.
+    this.racerEffects.advanceProtection(dt);
+    if (this.playerProgress.finished) this.prismatic.clear('player');
     this.itemUseMessageSeconds = Math.max(0, this.itemUseMessageSeconds - dt);
     if (this.itemUseMessageSeconds === 0) this.itemUseMessage = null;
     this.updateItemBoxes(dt);
@@ -506,6 +531,12 @@ export class KartTimeTrial {
                 opponent.id,
               );
       opponent.steering = spinout === null ? input.steering : 0;
+      if (this.prismaticFixture.controlledRacer() === opponent.id) {
+        input.throttle = 0;
+        input.steering = 0;
+        input.brake = false;
+        input.drift = false;
+      }
       opponent.controller.update(input, projection.surface, dt);
 
       const checkpoint = this.nearestCheckpoint(position);
@@ -520,10 +551,14 @@ export class KartTimeTrial {
         nextSnapshot.lap === 0 && nextSnapshot.nextCheckpoint === 1 && projection.progress > 0.8
           ? 0
           : projection.progress;
-      if (nextSnapshot.finished) this.raceDirector.registerFinish(opponent.progress);
+      if (nextSnapshot.finished) {
+        this.raceDirector.registerFinish(opponent.progress);
+        this.prismatic.clear(opponent.id);
+      }
 
       if ((projection.lateralDistance > 20 || position.y < -2) && opponent.recoveryCooldown === 0) {
         const tangent = projection.tangent;
+        this.prismatic.clear(opponent.id);
         opponent.controller.respawn(
           projection.point.clone().addScaledVector(tangent, 3),
           Math.atan2(tangent.x, tangent.z),
@@ -534,6 +569,22 @@ export class KartTimeTrial {
   }
 
   private resolveKartContacts(dt: number): void {
+    const targets = this.projectileTargets();
+    const victims = this.prismatic.contacts(targets);
+    this.prismaticContactVictims.push(...victims);
+    const fixtureRacer = this.prismaticFixture.controlledRacer();
+    const fixtureTarget = targets.find((r) => r.id === fixtureRacer);
+    const player = targets[0];
+    if (
+      fixtureTarget &&
+      !fixtureTarget.finished &&
+      player &&
+      !player.finished &&
+      player.position.clone().sub(fixtureTarget.position).setY(0).length() < PRISMATIC.contactRadius
+    ) {
+      this.prismaticFixtureContact = fixtureTarget.id;
+    }
+
     for (const [key, remaining] of this.contactCooldowns) {
       const next = remaining - dt;
       if (next <= 0) this.contactCooldowns.delete(key);
@@ -629,6 +680,14 @@ export class KartTimeTrial {
         forward: this.kart.forward(),
         finished: this.playerProgress.finished,
         itemImmune: this.racerEffects.isItemImmune('player'),
+        onItemContact: (
+          itemId: import('./items/itemDefinitions').ItemId,
+          blocked: boolean,
+          objectId?: number,
+        ) => {
+          if (blocked) this.prismaticVisual.blocked();
+          this.prismaticFixture.observe(itemId, blocked, 'player', objectId);
+        },
       },
       ...this.opponents.map((opponent) => ({
         id: opponent.id,
@@ -642,9 +701,43 @@ export class KartTimeTrial {
   }
 
   private updateProjectiles(dt: number): void {
+    const applied = new Set<string>();
+    for (const id of this.prismaticContactVictims.splice(0)) {
+      if (this.applyItemSpin(id, 'prismatic-invincibility', PRISMATIC.spinoutSeconds, 1))
+        applied.add(id);
+    }
+    if (this.prismaticFixtureContact !== null) {
+      const id = this.prismaticFixtureContact;
+      // Verify the committed effect, not merely the planned contact victim.
+      const spun = this.prismaticFixture.test?.expired
+        ? this.racerEffects.spinoutState(id) !== null
+        : applied.has(id);
+      this.prismaticFixture.observe('prismatic-invincibility', !spun, id);
+      this.prismaticFixtureContact = null;
+    }
     let targets = this.projectileTargets();
     const racers = this.itemTargetingProgress();
     const playerItem = this.itemSystem.hudSnapshot('player');
+    this.prismaticFixture.update(dt, {
+      position: this.kart.position(),
+      speed: this.kart.speedMetersPerSecond(),
+      finished: this.playerProgress.finished,
+      held: playerItem.phase === 'held' && playerItem.itemId === PRISMATIC.id,
+      remaining: this.prismatic.remaining('player'),
+      track: this.track,
+      racers,
+      projectiles: this.projectiles,
+      hazards: this.hazards,
+      apex: this.apex,
+      shockwave: this.shockwave,
+      placeRacer: (position, forward) => {
+        const opponent = this.opponents.find((r) => !r.progress.finished);
+        if (!opponent) return null;
+        opponent.controller.respawn(position, Math.atan2(forward.x, forward.z));
+        opponent.controller.addPlanarVelocityDelta(forward.clone().multiplyScalar(6));
+        return opponent.id;
+      },
+    });
     this.shockwaveCounterFixture.update(
       this.playerProgress.finished,
       playerItem.phase === 'held' && playerItem.itemId === 'shockwave',
@@ -730,6 +823,27 @@ export class KartTimeTrial {
     }
   }
 
+  private applyItemSpin(
+    targetId: string,
+    itemId: import('./items/itemDefinitions').ItemId,
+    duration: number,
+    direction: -1 | 1,
+  ): boolean {
+    const target = this.projectileTargets().find((racer) => racer.id === targetId);
+    if (!target || target.finished || this.racerEffects.isItemImmune(targetId)) return false;
+    this.racerEffects.activateSpinout(targetId, {
+      id: itemId + '-spinout',
+      label: ITEM_DEFINITIONS[itemId].displayName,
+      durationSeconds: duration,
+      direction,
+      turns: 1,
+    });
+    this.activateDriverHit(targetId, duration);
+    if (targetId === 'player')
+      this.spinoutCameraAnchor.capture(this.kart.forward(), this.kart.velocity());
+    return true;
+  }
+
   private itemTargetingProgress(): RacerProgress[] {
     const finishProgress = this.track.startFinishDistance / this.trackLength;
     return [
@@ -802,7 +916,22 @@ export class KartTimeTrial {
   }
 
   private requestPlayerItemUse(): void {
-    if (this.paused || this.playerProgress.finished) return;
+    if (
+      this.paused ||
+      this.playerProgress.finished ||
+      this.raceDirector.phase(false) === 'countdown'
+    )
+      return;
+    if (
+      this.itemSystem.heldItem('player')?.itemId === PRISMATIC.id &&
+      !this.prismaticFixture.activationAllowed(
+        this.kart.position(),
+        this.kart.speedMetersPerSecond(),
+        this.track,
+        this.itemTargetingProgress(),
+      )
+    )
+      return;
     const reverseHeld = this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake');
     const result = executeItemUse(
       this.itemSystem,
@@ -815,6 +944,7 @@ export class KartTimeTrial {
         apexSystem: this.apex,
         hazardSystem: this.hazards,
         shockwaveSystem: this.shockwave,
+        prismaticSystem: this.prismatic,
         projectileLaunch: {
           position: this.kart.position(),
           forward: this.kart.forward(),
@@ -844,11 +974,16 @@ export class KartTimeTrial {
   }
 
   private respawn(): void {
+    this.prismaticContactVictims.length = 0;
+    this.prismaticFixtureContact = null;
     const index = this.lastRecoveryIndex % this.track.sampleCount;
     const point = this.track.samples[index]?.clone() ?? this.track.checkpointPosition(0);
     const tangent = this.track.tangents[index]?.clone() ?? this.track.checkpointTangent(0);
     this.kart.respawn(point.addScaledVector(tangent, 4), Math.atan2(tangent.x, tangent.z));
     this.racerEffects.clearSpinout('player');
+    this.prismatic.clear('player');
+    this.prismaticVisual.clear();
+    this.prismaticMusic.update(0, 0, 0, false);
     this.spinoutCameraAnchor.clear();
     this.outOfBoundsSeconds = 0;
   }
@@ -925,6 +1060,16 @@ export class KartTimeTrial {
       this.apex.drainBlasts(),
       this.paused ? 0 : dt,
     );
+    this.prismaticFixture.updateMarker(
+      targets.find((racer) => racer.id === this.prismaticFixture.controlledRacer())?.position,
+    );
+    this.prismaticVisual.update(this.prismatic.remaining('player'), position, this.paused ? 0 : dt);
+    this.prismaticMusic.update(
+      this.prismatic.remaining('player'),
+      dt,
+      Howler.volume(),
+      this.paused,
+    );
     this.updatePlayerDriverSprite();
   }
 
@@ -961,6 +1106,7 @@ export class KartTimeTrial {
       seekerWarning: this.seekerWarning,
       apexWarning: this.apex.warningFor('player'),
       itemUseMessage: this.itemUseMessage,
+      prismaticSeconds: this.prismatic.remaining('player'),
       testModeItemLabel:
         [
           this.forcedTestItem === null
@@ -972,6 +1118,7 @@ export class KartTimeTrial {
           this.incomingSlickTest ? 'ONE SLICK AHEAD AFTER 5s' : '',
           this.incomingBlastTest ? 'ONE BLAST ORB AHEAD AFTER 5s' : '',
           this.shockwaveCounterFixture.badge(),
+          this.prismaticFixture.badge(),
         ]
           .filter(Boolean)
           .join(' · ') || null,
@@ -1311,6 +1458,7 @@ export class KartTimeTrial {
   private readonly onKeyDown = (event: KeyboardEvent): void => {
     void this.seekerWarningAudio.unlock();
     void this.apexWarningAudio.unlock();
+    void this.prismaticMusic.unlock();
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(event.code)) {
       event.preventDefault();
     }

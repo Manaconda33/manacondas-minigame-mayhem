@@ -12,7 +12,25 @@ PRD baseline: **v1.1, working implementation amendment 2.12**.
 
 Manny approved the revised `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md`, including immunity to Slick spinout/slowdown, dirt/grass speed-cap/deceleration/acceleration penalties, and the following chromatic shell/particle/shimmer/fade presentation. PRD amendment 2.12 and ADR-073 record the complete six-second, 1.12x speed-cap, projectile absorption, per-victim blast immunity, and once-per-encounter hostile-contact contract. Independent boost timers, consistent same-step immunity expiry, and deterministic protected/expired fixtures are required.
 
-Implementation base is accepted PR #131 / main `aa7bf601ebadcba50d3a9d1045f98e488762d1f6` / passed validation and Pages run `34311517420`. This checkpoint changes documentation only. Governance publication remains pending approval; gameplay may begin after the governance checkpoint merges and post-merge validation/Pages passes. Gameplay publication and live acceptance remain later gates. Prismatic is not implemented or live accepted.
+Governance PR [#132](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/132) merged at `16e8248498a8dea2086db832e5b7db386d4bd485`. PR CI `34354842688` and post-merge validation/Pages run `34354999380` passed. The governance gate is cleared. The gameplay checkpoint below remains local; gameplay publication and live acceptance are separate pending gates.
+
+## Prismatic gameplay checkpoint — local, unpublished — 2026-09-09
+
+Implemented under amendment 2.12 / ADR-073 on `feature/prismatic-invincibility`, based on the exact PR #132 governance tree `94192e24bc1cc0950538d4b1c36c71d36f395cef`:
+
+- Atomic single-charge activation and six-second timed protection, refreshed without duration stacking. Separate source ownership preserves Nitro and external immunity; strongest-only drive modifiers preserve independent expiry.
+- Road-based 1.12x cap and normal acceleration on protected dirt/grass, with ordinary terrain/traction retained. Existing off-road minimum-speed assistance is bypassed during protection so acceleration matches road behavior.
+- Actual armed Kinetic/Seeker absorption and capacity release; Slick immunity without patch consumption; ordinary Blast/Apex resolution with per-victim immunity; Shockwave push exclusion. Existing spinouts are not cleansed.
+- One 0.85-second hostile spin per encounter below 2.35 m, using accepted hit/camera contracts and ordinary physical collisions. Contact latches survive expiry/reacquisition while overlap continues; only separation rearms an existing encounter (recovery/cleanup removes its state).
+- Drive, contact, and item resolution share protection state for each simulation step. Protection advances after those consumers, without shifting accepted Nitro/spin timers. Shockwave target snapshots still refresh before projectile/hazard resolution.
+- Following translucent faceted shell, approved four-color transitions, fixed particle pool, brief blocked-hit shimmer, final-second fade, separate countdown, and original synthesized music honoring gesture unlock, master volume, pause, and cleanup.
+- Explicit fixed-item protected/expired fixtures for six item counters and racer contact. Encounters use production rules; misses/interceptions time out as INCONCLUSIVE. Racer fixture has a cyan arrow and verifies the applied spin after runtime rejection checks, rather than reporting success from a planned victim list. Test-only opponent setup leaves race progress/checkpoint state untouched and enables no AI inventory use.
+
+Validation: `npm run validate`, `git diff --check`, and `git lfs fsck` passed on 2026-09-09: **40 test files / 325 tests**, strict typecheck, zero-warning ESLint, branding/runtime-asset checks, and production build. Aggregate statement coverage is **79.88%**, with **95.37%** in the item domain. The existing nonblocking bundle-size warning remains (KartTimeTrial about 3.60 MB minified / 1.29 MB gzip). Retained local dependencies were used; a new clean `npm ci` and hosted PR validation must pass before merge. No dependencies, asset binaries, workflows, item probabilities, racer statistics, track/checkpoint authority, other item tuning, AI acquisition/use, or Slice 6 scope changed.
+
+Coverage includes actual `KartTimeTrial` methods for input, contact, projectile integration, and recovery using real Rapier controllers without WebGL startup. Importing that previously unmeasured runtime substantially enlarges the coverage denominator; the aggregate cannot be directly compared with the earlier 92.59% result. No coverage exclusion or threshold relaxation was introduced.
+
+Limitations: the camera test checks shell geometry in chase/rear frusta at portrait/landscape aspects; it is not a rendered browser or device test. Audio checks use a controlled AudioContext. Automated item fixtures prove production encounters at a controlled course location, not every arbitrary stopping point. Full renderer/surface readability, desktop/mobile input, audible presentation, finish/restart/hub cleanup, normal-build regressions, and Manny's eight-part live acceptance remain to be performed on the approved deployment. Slice 5 remains open.
 
 ### Shockwave acceptance evidence
 

@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import * as THREE from 'three';
 import { ApexMissileSystem } from '../src/game/items/ApexMissileSystem';
 import { HazardSystem } from '../src/game/items/HazardSystem';
 import { ItemPhysicsCapacity } from '../src/game/items/ItemPhysicsCapacity';

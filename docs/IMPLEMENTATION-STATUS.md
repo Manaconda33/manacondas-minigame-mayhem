@@ -2,13 +2,21 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - SHOCKWAVE LIVE ACCEPTED**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - PRISMATIC LIVE ACCEPTED; BLAZE SCOPE APPROVED**
 
-PRD baseline: **v1.1, working implementation amendment 2.12**.
+PRD baseline: **v1.1, working implementation amendment 2.13**.
 
-## Slice 5 Acoustic Shockwave Pulse governance checkpoint
+## Prismatic live acceptance and Slice 5 continuation
+
+Prismatic gameplay PR #133 squash-merged at `3d79a7cb5291c53444cf3ae53f261b4a60ea9f0a`. Hosted PR CI `34387276561` passed clean install, LFS, typecheck, zero-warning lint, 40 files / 325 tests, and production build. Post-merge CI/Pages `34387476666` passed validation and deployment. The deployed tree is `b3667318d6260be6ed940952ec5c5abbe71d1050`, identical to local checkpoint `f93dedad87e81651c3390b782b97b4de24536666`. Publication evidence is recorded in PR #133 comments `5606570496` and `5606595784`.
+
+Following deployment, Manny said “Approved.” and then “Accepted.” in Work. **Prismatic Invincibility is LIVE ACCEPTED** based on that product-owner acceptance. No individual browser/device versions, recordings, or per-scenario results were supplied; no independent rendered verification is asserted. This supersedes historical pending-publication/acceptance statements below. The unchanged dependency set produced three moderate npm audit warnings in hosted CI; no dependency remediation is claimed.
+
+Manny then directed “Continue with slice 5”. The next approved bounded increment is **Blaze Orbs**, specified in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`. Manny approved its complete operational scope in Work; amendment 2.13 / ADR-074 record the decision. Governance publication remains pending. This local documentation checkpoint records acceptance and approved scope; it publishes no changes and enables no Blaze gameplay. Seven item effects remain: Blaze, Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, and Hyper-Drive Rocket. Full AI item tactics, final interaction/soak/performance evidence, issue #106, and overall Slice 5 acceptance remain open. Slice 6 remains locked.
 
 ## Prismatic Invincibility governance checkpoint — scope approved 2026-09-09
+
+Continuation documentation validation: `npm run validate`, `git diff --check`, and `git lfs fsck` passed with 40 files / 325 tests, 79.88% statement coverage, strict typecheck, zero-warning lint, branding/runtime-asset checks, and production build. Retained local dependencies were used. This checkpoint changes documentation only; Blaze has no gameplay implementation tests or live acceptance. The existing bundle warning remains nonblocking. Governance publication remains pending approval.
 
 Manny approved the revised `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md`, including immunity to Slick spinout/slowdown, dirt/grass speed-cap/deceleration/acceleration penalties, and the following chromatic shell/particle/shimmer/fade presentation. PRD amendment 2.12 and ADR-073 record the complete six-second, 1.12x speed-cap, projectile absorption, per-victim blast immunity, and once-per-encounter hostile-contact contract. Independent boost timers, consistent same-step immunity expiry, and deterministic protected/expired fixtures are required.
 

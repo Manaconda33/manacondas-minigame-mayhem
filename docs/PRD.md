@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.12
+Version 1.1 - Final approved baseline; working implementation amendment 2.13
 
 August 16, 2026
 
@@ -282,6 +282,20 @@ Hostile contact applies one **0.85-second, one-turn standard spin** per encounte
 The approved readable presentation is a translucent faceted shell that follows kart/driver through turns and jumps; flowing cyan/violet/pink/gold highlights with a gentle pulse; a short fading particle trail; a brief blocked-item shimmer; a separate active countdown; and an original volume-aware musical layer. The final second fades smoothly without rapid flashing or a full-screen wash. Preserve driver, track, and hazard visibility. Pause freezes the state; expiry removes only this effect's contributions. Finish, recovery/respawn, restart, hub return, and disposal clear it. Drive, contact, and projectile/hazard processing must use a consistent active interval, including exact activation/expiry boundaries.
 
 The approved scope specifies fixed-item, held-ready, protected/expired acceptance fixtures with visible stages and verified encounters. The query names are not deployed until gameplay publication. No probability, accepted item balance, racer-stat, track/checkpoint, dependency, AI acquisition/use, or Slice 6 change is authorized. Governance publication, gameplay publication, and product-owner live acceptance retain their separate gates.
+
+## Approved implementation amendment 2.13 - Blaze Orbs
+
+Manny approved the complete Blaze Orbs scope in Work following Prismatic live acceptance. Section 15.7, ADR-074, and `docs/SLICE-5-BLAZE-ORBS-SCOPE.md` are normative. Preserve five charges, at least 0.55 race seconds between committed shots, and a 0.55-second short spin per valid hit.
+
+Each ITEM press launches one straight planar orb forward, or backward with Brake/Reverse. No automatic fire or target requirement. Use 42 m/s with no inherited kart velocity, 0.28 m radius, a 3.0-second lifetime, zero wall bounces, and 0.18-second owner immunity. Use the shared launch offset of 1.75 m plus radius, shared projectile height/terrain conventions, and existing 1.05 m racer collision radius. Other racers can be hit during owner arming; later normal contact may hit the owner. Destroy on first guardrail or valid racer contact. No splash, burning, extra speed-retention penalty, or damage-over-time. Repeated hits refresh the accepted short spin, without adding duration or spin rates.
+
+The first shot is immediately eligible; only a committed shot spends a charge and starts cadence. Rejection or full shared capacity retains the charge; failed transactions release reservations. The fifth shot frees the slot. Each orb uses one existing shared 40-object slot. Pause freezes cadence, movement, arming, and lifetime. Fired orbs retain ordinary projectile lifetime after owner finish; restart/disposal cleans all owned state.
+
+Prismatic or another active generic immunity source absorbs valid contact without hostile spin or hit sprite and releases projectile capacity. Shockwave destroys Blaze within its existing <=5 m horizontal counter radius before same-step movement/contact. Preserve accepted immunity timing and target snapshot refresh.
+
+Use an original amber-orange energy orb, hot core, short ember trail, finite sparks and short gesture/volume/pause-safe audio with bounded resources and both-camera readability. Approved fixed-item hit, Shockwave counter, and Prismatic protected/expired fixtures must report actual verified encounters; misses/interceptions do not count as success. Full details and test gates are in the scope and TESTING.md.
+
+No other item tuning, probabilities, racer stats, race authority, dependencies, AI item tactics, or Slice 6 expansion is authorized. Governance publication, gameplay publication, and live acceptance remain separate gates.
 
 ## 1.1 Governance
 

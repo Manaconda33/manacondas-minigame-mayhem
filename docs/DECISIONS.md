@@ -617,7 +617,7 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 ## ADR-073: Implement timed Prismatic immunity and hostile contact
 
 - **Date:** 2026-09-09.
-- **Status:** Governance deployed in PR #132; gameplay implemented locally, pending publication and live acceptance.
+- **Status:** Live accepted for the bounded Prismatic increment; remaining Slice 5 interactions remain open.
 - **Context:** Shockwave is live accepted through PR #131. Prismatic is the next bounded increment exercising the existing shared immunity boundaries. Manny clarified Slick immunity and explicitly added dirt/grass slowdown immunity, then approved the revised scope and visual direction.
 - **Decision:** PRD amendment 2.12 and `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md` are normative. Use one committed charge, exactly six race seconds, a 1.12x road-based cap, normal acceleration, and no dirt/grass speed-cap/deceleration/acceleration penalty. Preserve terrain geometry and steering/traction. Refresh without stacking; maintain independent boost timers with maximum-only composition.
 - **Interactions:** Absorb valid armed Kinetic/Seeker contacts; leave Slick intact without triggering/spinning/slowing protected racers; preserve normal Blast/Apex resolution with per-victim immunity; block Shockwave push. Preserve ordinary physical kart/rail contact. Apply a 0.85-second one-turn hostile spin once per contact encounter below 2.35 m, rearming only after separation to at least 2.35 m. Finished/immune rivals are excluded. Activation does not cleanse existing spin or restore momentum.
@@ -627,3 +627,12 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Approval:** Manny approved the revised scope and visual description in Work. Governance publication, gameplay publication, and final live acceptance remain separately gated.
 
 - **Local implementation evidence:** PR #132 governance merge `16e8248498a8dea2086db832e5b7db386d4bd485` passed post-merge validation/Pages `34354999380`. See `docs/IMPLEMENTATION-STATUS.md` for gameplay validation, coverage interpretation, fixture corrections, and remaining live checks. No gameplay publication or live acceptance is claimed.
+
+- **Subsequent publication and acceptance:** Gameplay PR #133 merged at `3d79a7cb5291c53444cf3ae53f261b4a60ea9f0a`; hosted PR CI `34387276561` and post-merge validation/Pages `34387476666` passed. Manny explicitly approved and accepted the deployed checkpoint in Work. This supersedes the preceding local-only status. No device-specific results were supplied.
+
+## ADR-074: Approve bounded Blaze Orbs increment
+
+- **Status:** Scope approved by Manny in Work; governance publication pending.
+- **Context:** Prismatic is live accepted. Blaze introduces rapid-fire multi-charge gameplay against the accepted projectile, spinout, Shockwave, and immunity boundaries.
+- **Decision:** PRD amendment 2.13 and `docs/SLICE-5-BLAZE-ORBS-SCOPE.md` are normative. Preserve five charges, minimum 0.55-second cadence, and the approved 0.55-second short spin. Use 42 m/s straight planar travel, 0.28 m radius, three-second lifetime, no velocity inheritance, forward/backward aim, no wall bounce, and 0.18-second owner arming.
+- **Boundary:** No other item tuning, probabilities, racer stats, race authority, dependencies, AI item tactics, or Slice 6 work. Manny approved the complete operational scope and presentation. Governance must merge and pass post-merge validation/Pages before gameplay begins; gameplay publication and live acceptance remain separate gates.

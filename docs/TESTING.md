@@ -2,7 +2,9 @@
 
 This file is the operational source of truth for local and CI validation. Update it when commands, environments, or evidence requirements change.
 
-## Slice 5 Prismatic Invincibility — local gameplay checkpoint, publication pending
+## Slice 5 Prismatic Invincibility — deployed and live accepted
+
+PR #133 deployed at `3d79a7cb5291c53444cf3ae53f261b4a60ea9f0a`; validation/Pages `34387476666` passed, and Manny approved and accepted the deployed checkpoint in Work. This supersedes the historical pre-publication wording below. No device-specific results were supplied. Retain the following instructions for regression testing. Blaze Orbs has an approved future test matrix in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`; no Blaze fixture is deployed yet. Amendment 2.13 / ADR-074 govern implementation after the governance checkpoint merges and post-merge validation/Pages passes.
 
 PRD amendment 2.12, ADR-073, and `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md` define the approved contract and the ten-part automated/eight-part live gates. Before gameplay publication, verify atomic use/refresh/rollback, exactly six seconds of consistent immunity across drive/contact/projectile/hazard processing, independent boost expiry, 1.12x cap with no dirt/grass slowdown, projectile absorption/capacity release, Slick persistence without protected-racer spin or slowdown, per-victim Blast/Apex immunity, Shockwave push exclusion, and once-per-encounter hostile contact. Test both sides of every duration/contact boundary and sustained overlap/separation/re-entry.
 
@@ -10,7 +12,7 @@ The approved following shell, particle trail, shimmer, countdown, and musical la
 
 ### Prismatic live test instructions — use only after approved gameplay deployment
 
-These URLs describe the local implementation. They are not working Prismatic gameplay acceptance links on the currently deployed PR #132 build. After publication, record the exact gameplay merge and passed Pages run before sending them for live testing.
+These URLs are deployed through PR #133 at the checkpoint recorded above. The setup instructions still apply to repeat testing.
 
 Each link forces the real pickup result; collect an item box and let the reveal finish. Stop below 1 m/s within 2 m of the road center on asphalt (avoid moving/boost/ramp sections for a stationary test). The HUD must say READY before ITEM will commit. For Apex, first reach first place and remain the leader until fixture launch. Activate once and stay still; expired links wait until the six-second protection ends before launching the encounter. The racer fixture places one existing rival ahead, marks it with a cyan arrow, and controls its approach without editing lap/checkpoint progress. A protected racer test checks the rival's hostile spin; its expired control checks ordinary contact without a Prismatic spin.
 
@@ -27,6 +29,12 @@ Each link forces the real pickup result; collect an item box and let the reveal 
 PASS means the instrumented contact occurred and matched the requested protection state; it does not certify all live visual or regression checks. Confirm the expected visible outcome as well. INCONCLUSIVE means no valid contact was verified (for example interception, a rail hit, movement away, or losing first for Apex); restart and repeat on a clear straight. FAIL means a verified encounter had the wrong outcome. Record case/phase, device, gameplay commit, badge, and observed behavior. Restart before each repeat.
 
 Use the forced pickup alone for driving, six-second timing, Nitro overlap, dirt/grass immunity, following visuals, pause/audio, expiry, recovery, and mobile/rear-camera checks. Use the normal URL with no parameters for fixture isolation and accepted-item/AI regressions. Automated counters do not replace the eight-part live gate in the scope document.
+
+## Blaze Orbs implementation validation gate
+
+Before gameplay publication, cover five-charge inventory and fifth-shot slot release; exact 0.55-second cadence including pause and rejected-use rollback; 42 m/s forward/backward shots without inherited velocity; 0.28 m radius, three-second lifetime and 0.18-second owner arming; first-wall destruction; 0.55-second spin refresh; shared capacity release; Prismatic absorption/expired control; and Shockwave horizontal 5 m edge/order behavior. Exercise actual dispatcher/contact paths and bounded lifecycle resources. No new Blaze test pass is claimed by this governance-only checkpoint.
+
+The approved fixed-item hit, Shockwave, and protected/expired Prismatic fixtures must establish a suitable course setup and report actual outcomes. Validate camera/surface readability, sound/volume/pause/cleanup, desktop/mobile direction/cadence/count, and normal-build isolation. Exact fixture parameters and the full live matrix are in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`. Run full local validation and clean-install hosted CI before gameplay publication; record deployment and Manny's live acceptance separately.
 
 ## Supported environment
 

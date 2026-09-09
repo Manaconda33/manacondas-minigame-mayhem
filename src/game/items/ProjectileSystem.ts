@@ -526,7 +526,8 @@ export class ProjectileSystem {
       burst.group.scale.setScalar(1 + (1 - ratio) * 0.7);
       burst.group.traverse((object) => {
         if (!(object instanceof THREE.Mesh)) return;
-        const materials = Array.isArray(object.material) ? object.material : [object.material];
+        const mesh = object as THREE.Mesh;
+        const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         for (const material of materials) {
           if (material instanceof THREE.MeshBasicMaterial) material.opacity = 0.85 * ratio;
         }
@@ -535,8 +536,9 @@ export class ProjectileSystem {
       burst.group.removeFromParent();
       burst.group.traverse((object) => {
         if (!(object instanceof THREE.Mesh)) return;
-        object.geometry.dispose();
-        const materials = Array.isArray(object.material) ? object.material : [object.material];
+        const mesh = object as THREE.Mesh;
+        mesh.geometry.dispose();
+        const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         materials.forEach((material) => material.dispose());
       });
       this.blazeBursts.splice(index, 1);
@@ -584,8 +586,9 @@ export class ProjectileSystem {
       burst.group.removeFromParent();
       burst.group.traverse((object) => {
         if (!(object instanceof THREE.Mesh)) return;
-        object.geometry.dispose();
-        const materials = Array.isArray(object.material) ? object.material : [object.material];
+        const mesh = object as THREE.Mesh;
+        mesh.geometry.dispose();
+        const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         materials.forEach((material) => material.dispose());
       });
     }

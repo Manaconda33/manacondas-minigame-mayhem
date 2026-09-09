@@ -5,10 +5,11 @@ import type { ProjectileSystem } from './ProjectileSystem';
 import type { HazardSystem } from './HazardSystem';
 import type { ApexMissileSystem } from './ApexMissileSystem';
 import type { ShockwaveSystem } from './ShockwaveSystem';
+import { BLAZE_ORB_CONFIG } from './BlazeOrbs';
 import { ITEM_DEFINITIONS, type ItemId } from './itemDefinitions';
 import { currentRaceLeader } from './ItemTargeting';
 
-const CASES = ['kinetic', 'seeker', 'slick', 'blast', 'apex', 'shockwave', 'racer'] as const;
+const CASES = ['kinetic', 'seeker', 'blaze', 'slick', 'blast', 'apex', 'shockwave', 'racer'] as const;
 export type PrismaticCase = (typeof CASES)[number];
 export interface PrismaticTest {
   mode: PrismaticCase;
@@ -16,8 +17,9 @@ export interface PrismaticTest {
 }
 export function prismaticTestFromSearch(search: string): PrismaticTest | null {
   const params = new URLSearchParams(search);
-  const mode = params.get('testPrismaticCounter');
-  const phase = params.get('testPrismaticPhase') ?? 'protected';
+  const blazeMode = params.get('testBlaze') === 'prismatic' ? 'blaze' : null;
+  const mode = blazeMode ?? params.get('testPrismaticCounter');
+  const phase = params.get('testBlazePhase') ?? params.get('testPrismaticPhase') ?? 'protected';
   if (
     params.get('testItem') !== 'prismatic-invincibility' ||
     !CASES.includes(mode as PrismaticCase) ||
@@ -139,12 +141,17 @@ export class PrismaticCounterFixture {
         };
       };
       const ownerId = 'prismatic-counter-fixture';
-      if (this.test.mode === 'kinetic' || this.test.mode === 'seeker') {
-        const itemId = this.test.mode === 'kinetic' ? 'kinetic-disc' : 'seeker-drone';
-        const config = ITEM_DEFINITIONS[itemId].projectile;
+      if (this.test.mode === 'kinetic' || this.test.mode === 'seeker' || this.test.mode === 'blaze') {
+        const itemId: ItemId =
+          this.test.mode === 'kinetic'
+            ? 'kinetic-disc'
+            : this.test.mode === 'seeker'
+              ? 'seeker-drone'
+              : 'blaze-orbs';
+        const config = itemId === 'blaze-orbs' ? BLAZE_ORB_CONFIG : ITEM_DEFINITIONS[itemId].projectile;
         if (!config) return;
-        const incoming = launch(this.test.mode === 'kinetic' ? -12 : -45);
-        if (this.test.mode === 'kinetic')
+        const incoming = launch(this.test.mode === 'seeker' ? -45 : -12);
+        if (this.test.mode !== 'seeker')
           incoming.forward.copy(r.position).sub(incoming.position).setY(0).normalize();
         this.objectId = r.projectiles.spawn({
           itemId,
@@ -198,6 +205,7 @@ export class PrismaticCounterFixture {
     const expected: Record<PrismaticCase, ItemId> = {
       kinetic: 'kinetic-disc',
       seeker: 'seeker-drone',
+      blaze: 'blaze-orbs',
       slick: 'slick-trap',
       blast: 'blast-orb',
       apex: 'apex-missile',
@@ -210,7 +218,6 @@ export class PrismaticCounterFixture {
       (this.objectId !== null && objectId !== this.objectId)
     )
       return;
-    // Racer encounters report whether the attacking Prismatic actually spun the rival.
     const correct =
       this.test.mode === 'racer' ? blocked === this.test.expired : blocked !== this.test.expired;
     this.finish(

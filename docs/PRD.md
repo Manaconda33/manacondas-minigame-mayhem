@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.11
+Version 1.1 - Final approved baseline; working implementation amendment 2.12
 
 August 16, 2026
 
@@ -268,6 +268,20 @@ Eligible unfinished, non-owner, non-immune racers at horizontal center distance 
 Within the same 5.0 m horizontal radius, ordinary active Ricochet Kinetic Disc and Homing Seeker Drone projectiles are destroyed regardless of their owner-arming state. Slick Trap and Timed Blast Orb hazards are cleared through the accepted queued `HazardSystem` counter boundary. The existing Apex counter remains 3D: only a missile already in its terminal/dive state may be neutralized inside **5.0 m**; rise, sky-travel, and warning/overhead phases are not counterable. Counter queries must resolve before affected projectile/hazard/Apex movement, contact, fuse, or blast processing in that simulation step so a correctly timed pulse wins the frame.
 
 No AI item acquisition/use is enabled by this increment. The player-only `?testItem=shockwave` override and bounded `?testShockwaveCounter=<case>` acceptance fixtures may exercise racer, Kinetic, Seeker, Slick, Blast, and terminal-Apex cases without altering normal distribution or AI tactics. Pause/restart/disposal must leave no queued pulse or presentation state behind. Gameplay implementation, publication/deployment, and live acceptance remain separately gated.
+
+## Approved implementation amendment 2.12 - Prismatic Invincibility
+
+Approved September 9, 2026, including Manny's explicit clarification that Prismatic prevents Slick spinout and dirt/grass slowdown. Section 15.17, ADR-073, and `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md` govern this bounded increment.
+
+A valid committed one-charge use frees the inventory slot and activates exactly **6.0 race seconds** of item immunity, a **1.12x road-based speed cap**, and hostile contact. Forward/reverse ITEM are equivalent. A repeat use refreshes duration rather than stacking. Ignore dirt/grass speed-cap, deceleration, and acceleration penalties while active; retain terrain geometry and steering/traction. Use normal acceleration, with no instantaneous speed multiplication or autopilot. Preserve independently timed Nitro and other accepted boosts; combine caps and acceleration by maximum, never multiplication. Activation does not clear an existing spinout or restore lost momentum.
+
+Valid armed Kinetic/Seeker contacts are absorbed, destroying the projectile without a hostile effect on the protected racer. Protected racers do not trigger or clear Slick and receive no spinout or speed reduction. Blast/Apex keep normal contact/fuse/targeting/explosion resolution, excluding protected victims while still affecting eligible others. Shockwave cannot push protected racers. Ordinary weight-based kart contact and guardrail physics remain active.
+
+Hostile contact applies one **0.85-second, one-turn standard spin** per encounter to an unfinished non-immune rival at the existing planar contact distance **< 2.35 m**. Sustained overlap cannot repeatedly refresh the spin; separation to **>= 2.35 m** rearms the pair. Two protected racers cannot spin one another. No additional speed-retention penalty, contact radius, teleport, heading snap, or race-progress mutation is introduced.
+
+The approved readable presentation is a translucent faceted shell that follows kart/driver through turns and jumps; flowing cyan/violet/pink/gold highlights with a gentle pulse; a short fading particle trail; a brief blocked-item shimmer; a separate active countdown; and an original volume-aware musical layer. The final second fades smoothly without rapid flashing or a full-screen wash. Preserve driver, track, and hazard visibility. Pause freezes the state; expiry removes only this effect's contributions. Finish, recovery/respawn, restart, hub return, and disposal clear it. Drive, contact, and projectile/hazard processing must use a consistent active interval, including exact activation/expiry boundaries.
+
+The approved scope specifies fixed-item, held-ready, protected/expired acceptance fixtures with visible stages and verified encounters. The query names are not deployed until gameplay publication. No probability, accepted item balance, racer-stat, track/checkpoint, dependency, AI acquisition/use, or Slice 6 change is authorized. Governance publication, gameplay publication, and product-owner live acceptance retain their separate gates.
 
 ## 1.1 Governance
 

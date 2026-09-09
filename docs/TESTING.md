@@ -2,6 +2,12 @@
 
 This file is the operational source of truth for local and CI validation. Update it when commands, environments, or evidence requirements change.
 
+## Slice 5 Prismatic Invincibility — approved governance, gameplay pending
+
+PRD amendment 2.12, ADR-073, and `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md` define the approved contract and the ten-part automated/eight-part live gates. Before gameplay publication, verify atomic use/refresh/rollback, exactly six seconds of consistent immunity across drive/contact/projectile/hazard processing, independent boost expiry, 1.12x cap with no dirt/grass slowdown, projectile absorption/capacity release, Slick persistence without protected-racer spin or slowdown, per-victim Blast/Apex immunity, Shockwave push exclusion, and once-per-encounter hostile contact. Test both sides of every duration/contact boundary and sustained overlap/separation/re-entry.
+
+The approved following shell, particle trail, shimmer, countdown, and musical layer require camera/surface, pause, volume, unavailable-audio, expiry, recovery, finish, reset, and disposal checks. Fixed-item protected/expired fixtures must reach and report their intended encounters using production rules; misses/interceptions cannot count as immunity passes. Run the full existing validation and hosted clean-install CI before gameplay publication. Deployed desktop/mobile results and Manny's acceptance remain required; this documentation checkpoint claims no Prismatic gameplay test pass.
+
 ## Supported environment
 
 - Node.js 22 LTS or newer compatible release

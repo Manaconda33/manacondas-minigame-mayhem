@@ -1,4 +1,7 @@
 import { PrismaticSystem, PRISMATIC } from './items/PrismaticSystem';
+import { FROST } from './items/FrostOrbs';
+import { FrostVisual } from './items/FrostVisual';
+import { FrostFixture, frostTestFromSearch } from './items/FrostFixture';
 import { PrismaticVisual } from './items/PrismaticVisual';
 import { PrismaticMusic } from '../audio/PrismaticMusic';
 import { PrismaticCounterFixture, prismaticTestFromSearch } from './items/PrismaticCounterFixture';
@@ -103,6 +106,8 @@ export interface HudState {
   apexWarning: ApexWarning | null;
   itemUseMessage: string | null;
   prismaticSeconds: number;
+  frostSeconds: number;
+  frostStacks: number;
 }
 
 export interface RaceResult {
@@ -203,6 +208,8 @@ export class KartTimeTrial {
   private readonly racerEffects = new RacerEffects();
   private readonly prismatic = new PrismaticSystem(this.racerEffects);
   private readonly prismaticVisual = new PrismaticVisual();
+  private readonly frostVisual = new FrostVisual();
+  private readonly frostFixture = new FrostFixture(frostTestFromSearch(window.location.search));
   private readonly prismaticMusic = new PrismaticMusic();
   private readonly prismaticContactVictims: string[] = [];
   private prismaticFixtureContact: string | null = null;
@@ -270,6 +277,8 @@ export class KartTimeTrial {
       this.hazards.group,
       this.shockwave.group,
       this.prismaticVisual.group,
+      this.frostVisual.group,
+      this.frostFixture.group,
       this.prismaticFixture.group,
       this.seekerWarningVisual.group,
       this.apexPresentation.group,
@@ -335,6 +344,8 @@ export class KartTimeTrial {
     this.shockwave.dispose();
     this.prismatic.dispose();
     this.prismaticVisual.dispose();
+    this.frostVisual.dispose();
+    this.frostFixture.dispose();
     this.prismaticFixture.dispose();
     this.prismaticMusic.dispose();
     this.seekerWarningVisual.dispose();
@@ -378,6 +389,7 @@ export class KartTimeTrial {
     }
     const position = this.kart.position(this.position);
     const projection = this.track.project(position);
+    this.racerEffects.advanceFrost(dt);
     const driveModifiers = this.racerEffects.driveModifiers('player');
     const playerSpinout = this.racerEffects.spinoutState('player');
     const input: DriveInput = {
@@ -397,6 +409,7 @@ export class KartTimeTrial {
       drift: this.isPressed('Space') || this.touchPressed.has('drift'),
       effectSpeedCapMultiplier: driveModifiers.speedCapMultiplier,
       effectAccelerationMultiplier: driveModifiers.accelerationMultiplier,
+      effectSteeringMultiplier: driveModifiers.steeringMultiplier,
       ignoreOffRoadSpeedPenalty: driveModifiers.ignoreOffRoadSpeedPenalty,
       ignoreOffRoadAccelerationPenalty: driveModifiers.ignoreOffRoadAccelerationPenalty,
       effectSpinoutYawRateRadiansPerSecond: playerSpinout?.yawRateRadiansPerSecond,
@@ -454,6 +467,7 @@ export class KartTimeTrial {
     // Advance its clock only after all three consumers; the next step sees expiry.
     this.racerEffects.advanceProtection(dt);
     if (this.playerProgress.finished) this.prismatic.clear('player');
+    if (this.playerProgress.finished) this.racerEffects.clearFrost('player');
     this.itemUseMessageSeconds = Math.max(0, this.itemUseMessageSeconds - dt);
     if (this.itemUseMessageSeconds === 0) this.itemUseMessage = null;
     this.updateItemBoxes(dt);
@@ -531,7 +545,13 @@ export class KartTimeTrial {
                 opponent.id,
               );
       opponent.steering = spinout === null ? input.steering : 0;
-      if (this.prismaticFixture.controlledRacer() === opponent.id) {
+      input.effectSteeringMultiplier = this.racerEffects.driveModifiers(
+        opponent.id,
+      ).steeringMultiplier;
+      if (
+        this.prismaticFixture.controlledRacer() === opponent.id ||
+        this.frostFixture.controlledRacer() === opponent.id
+      ) {
         input.throttle = 0;
         input.steering = 0;
         input.brake = false;
@@ -553,11 +573,13 @@ export class KartTimeTrial {
           : projection.progress;
       if (nextSnapshot.finished) {
         this.raceDirector.registerFinish(opponent.progress);
+        this.racerEffects.clearFrost(opponent.id);
         this.prismatic.clear(opponent.id);
       }
 
       if ((projection.lateralDistance > 20 || position.y < -2) && opponent.recoveryCooldown === 0) {
         const tangent = projection.tangent;
+        this.racerEffects.clearFrost(opponent.id);
         this.prismatic.clear(opponent.id);
         opponent.controller.respawn(
           projection.point.clone().addScaledVector(tangent, 3),
@@ -687,6 +709,14 @@ export class KartTimeTrial {
         ) => {
           if (blocked) this.prismaticVisual.blocked();
           this.prismaticFixture.observe(itemId, blocked, 'player', objectId);
+          if (itemId === 'frost-orbs')
+            this.frostFixture.observeContact(
+              objectId,
+              'player',
+              blocked,
+              this.kart.velocity().setY(0).length(),
+              this.frostEvidence(),
+            );
         },
       },
       ...this.opponents.map((opponent) => ({
@@ -696,6 +726,19 @@ export class KartTimeTrial {
         forward: opponent.controller.forward(),
         finished: opponent.progress.finished,
         itemImmune: this.racerEffects.isItemImmune(opponent.id),
+        onItemContact: (
+          itemId: import('./items/itemDefinitions').ItemId,
+          blocked: boolean,
+          objectId?: number,
+        ) => {
+          if (itemId === 'frost-orbs')
+            this.frostFixture.observeContact(
+              objectId,
+              opponent.id,
+              blocked,
+              opponent.controller.velocity().setY(0).length(),
+            );
+        },
       })),
     ];
   }
@@ -718,6 +761,29 @@ export class KartTimeTrial {
     let targets = this.projectileTargets();
     const racers = this.itemTargetingProgress();
     const playerItem = this.itemSystem.hudSnapshot('player');
+    this.frostFixture.update(dt, {
+      track: this.track,
+      projectiles: this.projectiles,
+      player: {
+        id: 'player',
+        position: this.kart.position(),
+        forward: this.kart.forward(),
+        velocity: this.kart.velocity(),
+        finished: this.playerProgress.finished,
+      },
+      held: playerItem.phase === 'held' ? playerItem.itemId : null,
+      protection: this.prismatic.remaining('player'),
+      placeRival: (position, forward, speed) => {
+        const opponent = this.opponents.find((r) => !r.progress.finished);
+        if (!opponent) return null;
+        this.racerEffects.clear(opponent.id);
+        opponent.controller.respawn(position, Math.atan2(forward.x, forward.z));
+        opponent.controller.addPlanarVelocityDelta(forward.clone().multiplyScalar(speed));
+        return opponent.id;
+      },
+      startPlayer: (velocity) =>
+        this.kart.addPlanarVelocityDelta(velocity.sub(this.kart.velocity().setY(0))),
+    });
     this.prismaticFixture.update(dt, {
       position: this.kart.position(),
       speed: this.kart.speedMetersPerSecond(),
@@ -750,6 +816,7 @@ export class KartTimeTrial {
       targets,
     );
     for (const pulse of this.shockwave.drainPulses()) {
+      this.frostFixture.observePulse(pulse.center, this.projectiles);
       const pushes = this.shockwave.dispatch(pulse, {
         projectileSystem: this.projectiles,
         hazardSystem: this.hazards,
@@ -768,10 +835,35 @@ export class KartTimeTrial {
     // detached target snapshots so same-step guidance/contact sees that new velocity.
     targets = this.projectileTargets();
     const impacts = [
-      ...this.projectiles.update(dt, targets),
+      ...this.projectiles.update(dt, targets, (impact) => {
+        if (impact.effect !== 'frost') return;
+        const controller =
+          impact.targetId === 'player'
+            ? this.kart
+            : this.opponents.find((opponent) => opponent.id === impact.targetId)?.controller;
+        if (!controller || !this.racerEffects.activateFrost(impact.targetId)) return;
+        const before = controller.velocity();
+        controller.retainPlanarVelocity(FROST.retention);
+        const frost = this.racerEffects.frostState(impact.targetId);
+        if (!frost) return;
+        this.frostFixture.observeApplied(
+          impact.targetId,
+          before,
+          controller.velocity(),
+          frost.stacks,
+          frost.remainingSeconds,
+          this.racerEffects.spinoutState(impact.targetId) !== null,
+          impact.projectileId,
+          this.racerEffects.driveModifiers(impact.targetId).steeringMultiplier ?? 1,
+        );
+        // Mutate the detached snapshot before the next projectile (including Seeker).
+        const target = targets.find((racer) => racer.id === impact.targetId);
+        target?.velocity.copy(controller.velocity());
+      }),
       ...this.apex.update(dt, racers, targets),
       ...this.hazards.update(dt, targets),
     ];
+    this.frostFixture.afterProjectiles(this.projectiles, this.frostEvidence());
     this.incomingApexFixture.update(this.elapsed, this.track, this.apex, racers, targets);
     this.incomingBlastFixture.update(
       this.elapsed,
@@ -799,6 +891,7 @@ export class KartTimeTrial {
       this.hazards,
     );
     for (const impact of impacts) {
+      if (impact.effect === 'frost') continue;
       const definition = ITEM_DEFINITIONS[impact.itemId];
       const activated = this.racerEffects.activateSpinout(impact.targetId, {
         id: `${impact.itemId}-spinout`,
@@ -821,6 +914,17 @@ export class KartTimeTrial {
         this.spinoutCameraAnchor.capture(this.kart.forward(), this.kart.velocity());
       }
     }
+  }
+
+  private frostEvidence() {
+    const frost = this.racerEffects.frostState('player');
+    return {
+      velocity: this.kart.velocity(),
+      stacks: frost?.stacks ?? 0,
+      remaining: frost?.remainingSeconds ?? 0,
+      steering: this.racerEffects.driveModifiers('player').steeringMultiplier ?? 1,
+      spun: this.racerEffects.spinoutState('player') !== null,
+    };
   }
 
   private applyItemSpin(
@@ -933,6 +1037,7 @@ export class KartTimeTrial {
     )
       return;
     const reverseHeld = this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake');
+    if (!this.frostFixture.activationAllowed(this.kart.position(), this.projectiles)) return;
     const result = executeItemUse(
       this.itemSystem,
       this.racerEffects,
@@ -974,6 +1079,7 @@ export class KartTimeTrial {
   }
 
   private respawn(): void {
+    this.frostFixture.cancel();
     this.prismaticContactVictims.length = 0;
     this.prismaticFixtureContact = null;
     const index = this.lastRecoveryIndex % this.track.sampleCount;
@@ -981,6 +1087,9 @@ export class KartTimeTrial {
     const tangent = this.track.tangents[index]?.clone() ?? this.track.checkpointTangent(0);
     this.kart.respawn(point.addScaledVector(tangent, 4), Math.atan2(tangent.x, tangent.z));
     this.racerEffects.clearSpinout('player');
+    this.racerEffects.clearFrost('player');
+    this.frostVisual.dispose();
+    this.projectiles.silenceFrostAudio();
     this.prismatic.clear('player');
     this.prismaticVisual.clear();
     this.prismaticMusic.update(0, 0, 0, false);
@@ -1064,6 +1173,16 @@ export class KartTimeTrial {
       targets.find((racer) => racer.id === this.prismaticFixture.controlledRacer())?.position,
     );
     this.prismaticVisual.update(this.prismatic.remaining('player'), position, this.paused ? 0 : dt);
+    this.frostFixture.updateMarker(targets);
+    this.frostVisual.update(
+      targets.map((target) => ({
+        id: target.id,
+        position: target.position,
+        remaining: this.racerEffects.frostState(target.id)?.remainingSeconds ?? 0,
+      })),
+      this.paused ? 0 : dt,
+    );
+    if (this.paused || Howler.volume() <= 0) this.projectiles.silenceFrostAudio();
     this.prismaticMusic.update(
       this.prismatic.remaining('player'),
       dt,
@@ -1107,6 +1226,8 @@ export class KartTimeTrial {
       apexWarning: this.apex.warningFor('player'),
       itemUseMessage: this.itemUseMessage,
       prismaticSeconds: this.prismatic.remaining('player'),
+      frostSeconds: this.racerEffects.frostState('player')?.remainingSeconds ?? 0,
+      frostStacks: this.racerEffects.frostState('player')?.stacks ?? 0,
       testModeItemLabel:
         [
           this.forcedTestItem === null
@@ -1119,6 +1240,7 @@ export class KartTimeTrial {
           this.incomingBlastTest ? 'ONE BLAST ORB AHEAD AFTER 5s' : '',
           this.shockwaveCounterFixture.badge(),
           this.prismaticFixture.badge(),
+          this.frostFixture.badge(),
         ]
           .filter(Boolean)
           .join(' · ') || null,

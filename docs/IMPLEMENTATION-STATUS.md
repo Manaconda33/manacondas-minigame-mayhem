@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - BLAZE LIVE ACCEPTED; FROST SCOPE APPROVED**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - BLAZE LIVE ACCEPTED; FROST GAMEPLAY LOCAL**
 
 PRD baseline: **v1.1, working implementation amendment 2.14**.
 
@@ -12,9 +12,13 @@ GitHub main `6ffef50800eea8b1f3f952c3d227020aebfe8913` records Blaze live accept
 
 This supersedes historical Blaze scope-only/local/pending statements below. Blaze's accepted validation baseline is 42 files / 339 tests. Six effects remain: Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive and Hyper-Drive Rocket. Full AI item tactics, final interaction/counter/soak/performance evidence, issue #106 and overall Slice 5 acceptance remain open; Slice 6 stays locked.
 
-The next approved bounded increment is Frost Orbs, detailed in `docs/SLICE-5-FROST-ORBS-SCOPE.md`. Manny approved valid repeat hits adding Frost stacks, with each subsequent hit resetting the shared 1.2-second handling-penalty timer; this is recorded as another 0.55 current-planar-velocity multiplier and another 0.80 steering multiplier per valid hit. Amendment 2.14 / ADR-075 govern the scope. Governance publication remains pending. This local checkpoint changes documentation only and publishes nothing.
+The current bounded increment is Frost Orbs, detailed in `docs/SLICE-5-FROST-ORBS-SCOPE.md`. Manny approved valid repeat hits adding Frost stacks, with each subsequent hit resetting the shared 1.2-second handling-penalty timer; this is recorded as another 0.55 current-planar-velocity multiplier and another 0.80 steering multiplier per valid hit. Amendment 2.14 / ADR-075 govern the scope. Governance PR #136 merged at `5703a2796ce5b941ea200e9af045423b334ca010`; hosted PR CI `34420581104` and post-merge validation/Pages `34420664848` passed, with evidence in PR comment `5610659206`.
 
-Frost governance publication was approved by Manny with the explicit instruction “do not implement gameplay.” Gameplay remains on hold until Manny separately authorizes it, even after this documentation checkpoint merges and deploys. Local validation on 2026-09-10 passed with retained dependencies: strict typecheck, zero-warning lint, 42 test files / 339 tests, 80.37% statement coverage, branding/runtime-asset checks, production build, `git diff --check`, and `git lfs fsck`. These are existing-game regression results; no Frost gameplay test pass is claimed. Hosted CI and post-merge deployment evidence will be recorded in the governance PR.
+Manny initially held gameplay, then explicitly authorized “Go ahead and develop the gameplay. Remove my hold.” The implementation on `feature/frost-orbs-gameplay` adds three-charge directional Frost shots, committed-use cadence, non-spin planar retention, independently owned cumulative steering stacks, immediate target-snapshot refresh, Prismatic absorption, Shockwave clearing, following crystal flecks/countdown and original bounded audio. Deterministic fixtures exercise actual moving encounters and gate early use without spending inventory. No probabilities, racer stats, accepted item balance, track/checkpoint authority, dependencies, assets, AI item acquisition/use, or Slice 6 scope changed.
+
+Local `npm run validate` passed on 2026-09-10: strict typecheck, zero-warning lint, **44 test files / 374 tests**, **80.67% statement coverage**, branding/runtime-asset checks and production build. Tests include simultaneous stacks, actual steering response with preserved drift charge, immediate Seeker/Blast velocity visibility, owner arming/expiry boundaries, protected/expired encounters, Shockwave edge/order, all five fixtures using real controller/physics/contact processing, and bounded VFX/audio cleanup. Initial fixture road-position checks and floating-point owner-arming boundary failures were corrected without changing governed values or validation thresholds. The existing large-bundle warning remains nonblocking. Hosted clean-install CI, gameplay publication, deployed visual/audio/device checks and Manny's live acceptance remain pending; no live result is inferred from automation.
+
+A subsequent clean local `npm ci --prefer-offline --fetch-retries=0` installed 198 packages and the full validation passed again with the same test count and coverage. `git diff --check` and `git lfs fsck` passed. No dependency lockfile or validation configuration changed. Hosted CI remains an independent publication requirement.
 
 ## Prismatic live acceptance and Slice 5 continuation
 
@@ -22,7 +26,7 @@ Prismatic gameplay PR #133 squash-merged at `3d79a7cb5291c53444cf3ae53f261b4a60e
 
 Following deployment, Manny said “Approved.” and then “Accepted.” in Work. **Prismatic Invincibility is LIVE ACCEPTED** based on that product-owner acceptance. No individual browser/device versions, recordings, or per-scenario results were supplied; no independent rendered verification is asserted. This supersedes historical pending-publication/acceptance statements below. The unchanged dependency set produced three moderate npm audit warnings in hosted CI; no dependency remediation is claimed.
 
-Manny then directed “Continue with slice 5”. At that earlier continuation checkpoint, the next approved bounded increment was **Blaze Orbs**, specified in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`; amendment 2.13 / ADR-074 record that decision. Blaze has since been published and live accepted as recorded above. The current approved increment is Frost Orbs in the section above; its governance publication remains pending. Six item effects remain: Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, and Hyper-Drive Rocket. Full AI item tactics, final interaction/soak/performance evidence, issue #106, and overall Slice 5 acceptance remain open. Slice 6 remains locked.
+Manny then directed “Continue with slice 5”. At that earlier continuation checkpoint, the next approved bounded increment was **Blaze Orbs**, specified in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`; amendment 2.13 / ADR-074 record that decision. Blaze has since been published and live accepted as recorded above. The current approved increment is Frost Orbs, now implemented locally under deployed governance as recorded above. Six effects still require live acceptance: Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, and Hyper-Drive Rocket. Full AI item tactics, final interaction/soak/performance evidence, issue #106, and overall Slice 5 acceptance remain open. Slice 6 remains locked.
 
 ## Prismatic Invincibility governance checkpoint — scope approved 2026-09-09
 
@@ -431,7 +435,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Deferred work
 
-- Six item effects remain unimplemented: Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, and Hyper-Drive Rocket. Shockwave, Blaze Orbs, and the previously accepted item systems are deployed and live accepted. Full AI item-use policy, final interaction/counter validation, soak/performance evidence, issue #106, deployment evidence for later increments, and full-slice live acceptance remain open. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, Timed Blast Orb, Slick Trap, and bounded Slick/Blast AI hazard response are already live accepted.
+- Five item effects remain unimplemented: Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, and Hyper-Drive Rocket. Frost Orbs is implemented locally with publication/live acceptance pending. Shockwave, Blaze Orbs, and the previously accepted item systems are deployed and live accepted. Full AI item-use policy, final interaction/counter validation, soak/performance evidence, issue #106, deployment evidence for later increments, and full-slice live acceptance remain open. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, Timed Blast Orb, Slick Trap, and bounded Slick/Blast AI hazard response are already live accepted.
 - Further competitive-balance work remains deferred until explicitly reopened.
 - External PBR texture sets, HDR environment, baked AO assets, and other larger presentation additions remain outside the Dragon Queen checkpoint.
 

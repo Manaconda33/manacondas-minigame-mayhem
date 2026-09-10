@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { Howler } from 'howler';
 import { playBlazeTone } from '../../audio/blazeTone';
+import { FrostAudio } from '../../audio/FrostAudio';
+import { frostCrystal } from './FrostVisual';
 import { ItemPhysicsCapacity, MAX_ITEM_PHYSICS_OBJECTS } from './ItemPhysicsCapacity';
 import { steerSeeker } from './SeekerGuidance';
 import { guardrailContact } from '../track/GuardrailSystem';
@@ -34,6 +36,7 @@ export interface ProjectileTarget {
 }
 
 export interface ProjectileImpact {
+  readonly effect?: 'frost';
   readonly planarSpeedRetention?: number;
   readonly preserveSpinMomentum?: boolean;
   readonly projectileId: number;
@@ -99,7 +102,7 @@ function validConfig(config: Readonly<ItemProjectileConfig>): boolean {
     Number.isFinite(config.ownerArmSeconds) &&
     config.ownerArmSeconds >= 0 &&
     Number.isFinite(config.spinoutSeconds) &&
-    config.spinoutSeconds > 0
+    (config.impactEffect === 'frost' ? config.spinoutSeconds === 0 : config.spinoutSeconds > 0)
   );
 }
 
@@ -125,6 +128,10 @@ function howlerContext(): AudioContext | null | undefined {
 }
 
 export class ProjectileSystem {
+  private readonly frostAudio = new FrostAudio();
+  public silenceFrostAudio(): void {
+    this.frostAudio.dispose();
+  }
   public readonly group = new THREE.Group();
   private readonly active = new Map<number, ActiveProjectile>();
   private readonly reservations = new Set<number>();
@@ -214,6 +221,21 @@ export class ProjectileSystem {
       hull.scale.set(0.7, 0.65, 1.6);
       group.add(hull);
       ring.scale.set(1.8, 0.75, 1);
+    } else if (request.itemId === 'frost-orbs') {
+      core.visible = false;
+      ring.visible = false;
+      const shell = frostCrystal(request.config.radiusMeters);
+      shell.name = 'frost-faceted-orb';
+      const whiteCore = frostCrystal(request.config.radiusMeters * 0.6, 0xffffff);
+      const trail = new THREE.Group();
+      trail.name = 'frost-crystal-trail';
+      for (let i = 0; i < 5; i++) {
+        const crystal = frostCrystal(0.065 - i * 0.008);
+        crystal.position.set((i % 2 ? 1 : -1) * 0.08, 0, -0.3 - i * 0.19);
+        trail.add(crystal);
+      }
+      group.add(shell, whiteCore, trail);
+      group.userData.itemPresentation = 'frost-orb';
     } else if (request.itemId === 'blaze-orbs') {
       core.visible = false;
       ring.material.color.setHex(0xff7a18);
@@ -273,6 +295,8 @@ export class ProjectileSystem {
     orientProjectile(projectile);
     this.group.add(group);
     this.active.set(projectile.id, projectile);
+    if (request.itemId === 'frost-orbs')
+      this.frostAudio.play('launch', howlerContext(), Howler.volume());
     if (request.itemId === 'blaze-orbs') {
       this.spawnBlazeBurst(spawnPosition);
       playBlazeTone('launch', howlerContext(), Howler.volume());
@@ -291,7 +315,11 @@ export class ProjectileSystem {
       this.clears.push({ center: center.clone(), radius });
   }
 
-  public update(dt: number, targets: readonly ProjectileTarget[]): ProjectileImpact[] {
+  public update(
+    dt: number,
+    targets: readonly ProjectileTarget[],
+    onImpact?: (impact: ProjectileImpact) => void,
+  ): ProjectileImpact[] {
     if (!Number.isFinite(dt) || dt <= 0) return [];
     this.resolveQueuedClears();
     this.advanceBlazeBursts(dt);
@@ -348,7 +376,11 @@ export class ProjectileSystem {
 
         for (const target of targets) {
           if (target.finished) continue;
-          if (target.id === projectile.ownerId && projectile.ownerArmSeconds > 0) continue;
+          if (
+            target.id === projectile.ownerId &&
+            projectile.ownerArmSeconds > (projectile.itemId === 'frost-orbs' ? 1e-9 : 0)
+          )
+            continue;
           const hitRadius = RACER_HIT_RADIUS_METERS + projectile.config.radiusMeters;
           if (
             squaredHorizontalDistance(projectile.group.position, target.position) >
@@ -367,13 +399,16 @@ export class ProjectileSystem {
           const fallbackClockwise = (projectile.id + target.id.length) % 2 === 0;
           const spinDirection: -1 | 1 =
             Math.abs(cross) < 0.05 ? (fallbackClockwise ? 1 : -1) : cross < 0 ? -1 : 1;
-          impacts.push({
+          const impact: ProjectileImpact = {
+            effect: projectile.config.impactEffect,
             projectileId: projectile.id,
             itemId: projectile.itemId,
             targetId: target.id,
             spinDirection,
             spinoutSeconds: projectile.config.spinoutSeconds,
-          });
+          };
+          impacts.push(impact);
+          onImpact?.(impact);
           this.remove(projectile.id, true);
           destroyed = true;
           break;
@@ -456,7 +491,8 @@ export class ProjectileSystem {
       if (
         projectile.itemId !== 'kinetic-disc' &&
         projectile.itemId !== 'seeker-drone' &&
-        projectile.itemId !== 'blaze-orbs'
+        projectile.itemId !== 'blaze-orbs' &&
+        projectile.itemId !== 'frost-orbs'
       )
         continue;
       if (
@@ -473,6 +509,10 @@ export class ProjectileSystem {
   public remove(projectileId: number, impactPresentation = false): boolean {
     const projectile = this.active.get(projectileId);
     if (projectile === undefined) return false;
+    if (impactPresentation && projectile.itemId === 'frost-orbs') {
+      this.spawnBlazeBurst(projectile.group.position, true);
+      this.frostAudio.play('impact', howlerContext(), Howler.volume());
+    }
     if (impactPresentation && projectile.itemId === 'blaze-orbs') {
       this.spawnBlazeBurst(projectile.group.position);
       playBlazeTone('impact', howlerContext(), Howler.volume());
@@ -492,16 +532,25 @@ export class ProjectileSystem {
     return true;
   }
 
-  private spawnBlazeBurst(position: THREE.Vector3): void {
+  private spawnBlazeBurst(position: THREE.Vector3, frost = false): void {
+    if (this.blazeBursts.length >= MAX_ACTIVE_PROJECTILES) return;
     const group = new THREE.Group();
-    group.name = 'blaze-spark-burst';
+    group.name = frost ? 'frost-crystal-burst' : 'blaze-spark-burst';
     group.position.copy(position);
     for (let index = 0; index < 6; index += 1) {
       const angle = (index / 6) * Math.PI * 2;
       const spark = new THREE.Mesh(
-        new THREE.SphereGeometry(0.045 + (index % 2) * 0.012, 6, 4),
+        frost
+          ? new THREE.OctahedronGeometry(0.06)
+          : new THREE.SphereGeometry(0.045 + (index % 2) * 0.012, 6, 4),
         new THREE.MeshBasicMaterial({
-          color: index % 2 === 0 ? 0xffb23e : 0xff6a18,
+          color: frost
+            ? index % 2 === 0
+              ? 0xffffff
+              : 0x9ae5ff
+            : index % 2 === 0
+              ? 0xffb23e
+              : 0xff6a18,
           transparent: true,
           opacity: 0.85,
           depthWrite: false,
@@ -577,6 +626,7 @@ export class ProjectileSystem {
   }
 
   public dispose(): void {
+    this.frostAudio.dispose();
     for (const projectileId of [...this.active.keys()]) this.remove(projectileId);
     for (const id of this.reservations) this.capacity.release(id);
     this.reservations.clear();

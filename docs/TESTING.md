@@ -2,9 +2,15 @@
 
 This file is the operational source of truth for local and CI validation. Update it when commands, environments, or evidence requirements change.
 
-## Slice 5 Frost Orbs — approved governance, gameplay pending
+## Slice 5 Frost Orbs — local gameplay, publication pending
 
-PRD amendment 2.14, ADR-075, and `docs/SLICE-5-FROST-ORBS-SCOPE.md` define the approved stacked Frost contract. Governance publication remains pending; no Frost gameplay or live acceptance is claimed. After implementation, validate each valid hit's cumulative 0.55 planar-velocity and 0.80 steering multipliers, shared 1.2-second timer reset, exact expiry, and cleanup. Existing Prismatic and Blaze sections below remain operational regression guidance.
+PRD amendment 2.14, ADR-075, and `docs/SLICE-5-FROST-ORBS-SCOPE.md` define the approved stacked Frost contract. Governance PR #136 is deployed and Manny lifted the implementation hold. Gameplay is implemented locally; publication and live acceptance are pending. `tests/frost-orbs.test.ts`, `tests/frost-presentation.test.ts`, `tests/kart-controller-effects.test.ts`, and `tests/prismatic-runtime.test.ts` cover flight/inventory boundaries, cumulative momentum/steering, independent timers, same-step velocity refresh, counters, real moving controller/physics fixture encounters, and bounded presentation cleanup. Existing Prismatic and Blaze sections remain operational regression guidance.
+
+Frost timers advance before drive at the start of an active simulation step. A timer expiring on that boundary restores neutral steering for that drive step; a later hit starts a new 1.2-second interval. Each impact applies its stack and velocity change immediately, including simultaneous impacts. Pause/countdown freezes the clock.
+
+After approved gameplay deployment, use the exact fixed-item parameters in the Frost scope. Collect a box and finish roulette, stop below 1 m/s within 2 m of the asphalt road center, face forward on a clear 45 m straight, and follow the fixture badge. Hit/refresh/Shockwave fixtures count down three seconds while stopped. The hit tests start both karts moving: fire at the marked rival; for refresh fire twice at least 0.55 seconds apart before the first 1.2-second penalty expires. The Shockwave fixture admits ITEM only when its incoming orb is within 5 m. Prismatic fixtures ask for activation while stopped; the expired control waits for protection to end before starting a moving encounter. Premature fixture use preserves inventory. Recovery, timeout, or a stationary/unverified encounter is INCONCLUSIVE; restart to retry.
+
+A fixture PASS certifies its measured encounter only. Complete the scope's desktop/mobile direction/cadence, chase/rear/elevation visibility, original sound/volume/pause, cleanup, and normal-build regression checks on the deployed build. No rendered or device-specific acceptance is claimed by local automation.
 
 ## Slice 5 Prismatic Invincibility — deployed and live accepted
 

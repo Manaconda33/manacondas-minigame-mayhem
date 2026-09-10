@@ -235,6 +235,18 @@ export function mountAppShell(root: HTMLElement): void {
       useMessage.hidden = state.itemUseMessage === null;
       useMessage.textContent = state.itemUseMessage;
       const driftPanel = getElement('#drift-panel');
+      let frostLabel = driftPanel.querySelector<HTMLElement>('[data-frost-countdown]');
+      if (!frostLabel) {
+        frostLabel = document.createElement('div');
+        frostLabel.dataset.frostCountdown = '';
+        frostLabel.style.color = '#a9eaff';
+        driftPanel.append(frostLabel);
+      }
+      frostLabel.hidden = !(state.frostSeconds > 0);
+      frostLabel.textContent =
+        state.frostSeconds > 0
+          ? `FROST ×${String(state.frostStacks)} · ${state.frostSeconds.toFixed(1)}s`
+          : '';
       driftPanel.dataset.tier = state.driftTier;
       getElement('#drift-fill').style.width = `${String(Math.round(state.driftCharge * 100))}%`;
       getElement('#drift-label').textContent =

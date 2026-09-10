@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.13
+Version 1.1 - Final approved baseline; working implementation amendment 2.14
 
 August 16, 2026
 
@@ -296,6 +296,14 @@ Prismatic or another active generic immunity source absorbs valid contact withou
 Use an original amber-orange energy orb, hot core, short ember trail, finite sparks and short gesture/volume/pause-safe audio with bounded resources and both-camera readability. Approved fixed-item hit, Shockwave counter, and Prismatic protected/expired fixtures must report actual verified encounters; misses/interceptions do not count as success. Full details and test gates are in the scope and TESTING.md.
 
 No other item tuning, probabilities, racer stats, race authority, dependencies, AI item tactics, or Slice 6 expansion is authorized. Governance publication, gameplay publication, and live acceptance remain separate gates.
+
+## Approved implementation amendment 2.14 - Frost Orbs stacked momentum and handling impairment
+
+Manny approved the complete Frost Orbs scope in Work following Blaze live acceptance. Section 15.8, ADR-075, and `docs/SLICE-5-FROST-ORBS-SCOPE.md` are normative. Preserve three charges and the existing ordinary-projectile/inventory, Prismatic, Shockwave, race-authority, AI, dependency, and Slice 6 boundaries.
+
+A valid Frost hit multiplies the affected racer's current planar X/Z velocity by **0.55** and applies one **0.80 steering-authority multiplier** for **1.2 race seconds**. Each subsequent valid hit while Frost is active adds another stack, multiplies the current planar X/Z velocity by 0.55 again, applies another 0.80 steering multiplier, and resets the shared 1.2-second timer. All active stacks expire together from the latest hit. Preserve Y velocity, heading, position, race progress, normal acceleration, drift inputs/charge, traction/grip, stats, and AI path decisions. Frost never adds spin, full freeze, extra speed cap, acceleration penalty, or momentum restoration on expiry.
+
+Use the approved Frost flight, arming, cadence, collision, counter, immunity, lifecycle, presentation, and deterministic-fixture boundaries in the scope document. No other item tuning, probabilities, racer stats, race authority, dependencies, AI item tactics, or Slice 6 work is authorized. Governance publication, gameplay publication, and live acceptance remain separate gates.
 
 ## 1.1 Governance
 
@@ -1221,7 +1229,7 @@ Five-charge rapid-fire offensive item with minimum shot cadence 0.55 s. Fast str
 
 ## 15.8 Frost Orbs
 
-Three charges. A hit reduces momentum rather than fully freezing: speed retention approximately 55%, handling penalty approximately 20%, duration approximately 1.2 s. Repeated hits refresh duration but do not stack multiplicatively.
+Three charges. A valid hit reduces momentum rather than fully freezing: multiply current planar velocity by 0.55 and apply one 0.80 steering multiplier for 1.2 race seconds. Each subsequent valid hit adds another stack, multiplies current planar velocity by 0.55 again, applies another 0.80 steering multiplier, and resets the shared 1.2-second timer; all active stacks expire together. No spin, full freeze, extra speed cap, acceleration penalty, or momentum restoration on expiry. Operational values and counter/fixture boundaries are governed by amendment 2.14, ADR-075, and `docs/SLICE-5-FROST-ORBS-SCOPE.md`.
 
 ## 15.9 Rebounding Arc Blade
 

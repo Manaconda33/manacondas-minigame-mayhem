@@ -2,9 +2,13 @@
 
 This file is the operational source of truth for local and CI validation. Update it when commands, environments, or evidence requirements change.
 
+## Slice 5 Frost Orbs — approved governance, gameplay pending
+
+PRD amendment 2.14, ADR-075, and `docs/SLICE-5-FROST-ORBS-SCOPE.md` define the approved stacked Frost contract. Governance publication remains pending; no Frost gameplay or live acceptance is claimed. After implementation, validate each valid hit's cumulative 0.55 planar-velocity and 0.80 steering multipliers, shared 1.2-second timer reset, exact expiry, and cleanup. Existing Prismatic and Blaze sections below remain operational regression guidance.
+
 ## Slice 5 Prismatic Invincibility — deployed and live accepted
 
-PR #133 deployed at `3d79a7cb5291c53444cf3ae53f261b4a60ea9f0a`; validation/Pages `34387476666` passed, and Manny approved and accepted the deployed checkpoint in Work. This supersedes the historical pre-publication wording below. No device-specific results were supplied. Retain the following instructions for regression testing. Blaze Orbs has an approved future test matrix in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`; no Blaze fixture is deployed yet. Amendment 2.13 / ADR-074 govern implementation after the governance checkpoint merges and post-merge validation/Pages passes.
+PR #133 deployed at `3d79a7cb5291c53444cf3ae53f261b4a60ea9f0a`; validation/Pages `34387476666` passed, and Manny approved and accepted the deployed checkpoint in Work. This supersedes the historical pre-publication wording below. No device-specific results were supplied. Retain the following instructions for regression testing. Blaze Orbs is live accepted under amendment 2.13 / ADR-074; its approved regression matrix remains in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`. No new Blaze fixture result is claimed by this section.
 
 PRD amendment 2.12, ADR-073, and `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md` define the approved contract and the ten-part automated/eight-part live gates. Before gameplay publication, verify atomic use/refresh/rollback, exactly six seconds of consistent immunity across drive/contact/projectile/hazard processing, independent boost expiry, 1.12x cap with no dirt/grass slowdown, projectile absorption/capacity release, Slick persistence without protected-racer spin or slowdown, per-victim Blast/Apex immunity, Shockwave push exclusion, and once-per-encounter hostile contact. Test both sides of every duration/contact boundary and sustained overlap/separation/re-entry.
 
@@ -508,7 +512,7 @@ This matrix is required in addition to the repository-wide validation commands a
 - Apex Missile: one active globally, minimum 18-second global interval, current leader at terminal lock, warning/sky/dive phases, 5.5 m AoE, heavy spin, Prismatic immunity, and precisely timed Shockwave terminal counter.
 - Blast Orb: directional deploy, three-second fuse, qualifying early direct-impact detonation, 4 m AoE, heavy spin, Shockwave cleanup.
 - Blaze Orbs: five charges, at least 0.55 seconds between shots, short 0.55-second spin, expiry cleanup.
-- Frost Orbs: three charges, approximately 55% momentum retention, approximately 20% handling penalty for approximately 1.2 seconds, refresh without multiplicative stacking.
+- Frost Orbs: three charges, approximately 55% momentum retention and approximately 20% handling penalty per valid hit, with repeat-hit stacks and a shared 1.2-second timer reset by each subsequent hit.
 - Arc Blade: three charges, curved outbound/return path, at most one rival hit outbound and one on return per throw, no repeated overlap damage.
 - Arc Hammers: five charges, at least 0.35-second cadence, ballistic movement, one terrain bounce, short post-bounce expiry.
 - Slick: rear drop, approximately 12-second lifetime, approximately 1.1 m trigger, approved 360-degree spin/60% speed-retention effect, two active per owner, Shockwave cleanup.

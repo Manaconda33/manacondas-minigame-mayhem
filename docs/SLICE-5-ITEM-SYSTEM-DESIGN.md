@@ -8,7 +8,7 @@
 
 **Implementation authorization:** Documentation and approved Slice 5 implementation are authorized after this design checkpoint is merged. This document does not itself mark any Slice 5 gameplay requirement complete.
 
-**Governing PRD:** v1.1, working implementation amendment 2.13.
+**Governing PRD:** v1.1, working implementation amendment 2.14.
 
 The existing PRD Sections 15-17, ITEM-001 through ITEM-008, AI-004, Slice 5 roadmap requirements, probability matrix, item state machines, and existing item values remain authoritative except where amendment 2.2 explicitly resolves previously unspecified implementation behavior.
 
@@ -110,23 +110,23 @@ Displays roulette, held item, active state where necessary, and remaining charge
 
 The PRD's standard approximately 0.85-second spinout and heavy approximately 1.20-second explosive spinout remain the common categories.
 
-| Item                       | Approved initial resolution                                                                                                                                               |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Ricochet Kinetic Disc      | Standard 0.85 s spinout; projectile destroyed on racer hit.                                                                                                               |
-| Homing Seeker Drone        | Standard 0.85 s spinout after valid guided hit.                                                                                                                           |
-| Apex Orbital Missile       | Heavy 1.20 s explosive spinout in the terminal AoE.                                                                                                                       |
-| Timed Blast Orb            | Heavy 1.20 s explosive spinout in the blast AoE.                                                                                                                          |
-| Blaze Orbs                 | Short 0.55 s spinout per successful hit.                                                                                                                                  |
-| Frost Orbs                 | No spin; retain approximately 55% momentum and apply approximately 20% handling penalty for approximately 1.2 s. Repeated hits refresh but do not stack multiplicatively. |
-| Rebounding Arc Blade       | Standard 0.85 s spinout; a rival may be hit once outbound and once on return.                                                                                             |
-| Kinetic Arc Hammers        | Standard 0.85 s spinout.                                                                                                                                                  |
-| Hazard Oil / Slick Trap    | 360-degree spin presentation plus approximately 60% speed retention.                                                                                                      |
-| Acoustic Shockwave Pulse   | Push/counter effect; no conventional spinout required.                                                                                                                    |
-| Vision-Obscuring Ink Splat | PRD visual/AI impairment only; no added spinout.                                                                                                                          |
-| Nitro Surge                | One-use boost; no hostile-contact spin.                                                                                                                                   |
-| Continuous Nitro Overdrive | Repeated pulse window; no hostile-contact spin.                                                                                                                           |
-| Hyper-Drive Rocket         | Autopilot/catch-up/immunity state.                                                                                                                                        |
-| Prismatic Invincibility    | PRD immunity/+12% speed plus hostile contact that spins rivals.                                                                                                           |
+| Item                       | Approved initial resolution                                                                                                                                                                               |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ricochet Kinetic Disc      | Standard 0.85 s spinout; projectile destroyed on racer hit.                                                                                                                                               |
+| Homing Seeker Drone        | Standard 0.85 s spinout after valid guided hit.                                                                                                                                                           |
+| Apex Orbital Missile       | Heavy 1.20 s explosive spinout in the terminal AoE.                                                                                                                                                       |
+| Timed Blast Orb            | Heavy 1.20 s explosive spinout in the blast AoE.                                                                                                                                                          |
+| Blaze Orbs                 | Short 0.55 s spinout per successful hit.                                                                                                                                                                  |
+| Frost Orbs                 | No spin; each valid hit multiplies current planar velocity by 0.55 and applies one 0.80 handling multiplier for 1.2 s. Subsequent hits add stacks and reset the shared timer; all stacks expire together. |
+| Rebounding Arc Blade       | Standard 0.85 s spinout; a rival may be hit once outbound and once on return.                                                                                                                             |
+| Kinetic Arc Hammers        | Standard 0.85 s spinout.                                                                                                                                                                                  |
+| Hazard Oil / Slick Trap    | 360-degree spin presentation plus approximately 60% speed retention.                                                                                                                                      |
+| Acoustic Shockwave Pulse   | Push/counter effect; no conventional spinout required.                                                                                                                                                    |
+| Vision-Obscuring Ink Splat | PRD visual/AI impairment only; no added spinout.                                                                                                                                                          |
+| Nitro Surge                | One-use boost; no hostile-contact spin.                                                                                                                                                                   |
+| Continuous Nitro Overdrive | Repeated pulse window; no hostile-contact spin.                                                                                                                                                           |
+| Hyper-Drive Rocket         | Autopilot/catch-up/immunity state.                                                                                                                                                                        |
+| Prismatic Invincibility    | PRD immunity/+12% speed plus hostile contact that spins rivals.                                                                                                                                           |
 
 ## Approved catch-up and boost tuning fill-ins
 
@@ -229,8 +229,8 @@ PRD amendment 2.11 / ADR-072 and `docs/SLICE-5-SHOCKWAVE-SCOPE.md` govern the ne
 - [x] Seeker selects the nearest valid racer ahead by race progress, respects arming/turn/lifetime behavior, does not teleport, and warns its target.
 - [x] Apex respects one-active-global and 18-second restrictions, then attacks whoever is currently first at terminal lock.
 - [x] Blast Orb supports directional deployment, approximately three-second fuse, qualifying early impact detonation, AoE resolution, and cleanup.
-- [ ] Blaze Orbs provide five charges and enforce the 0.55-second minimum cadence.
-- [ ] Frost Orbs provide three charges and apply the governed non-stacking speed/handling effect.
+- [x] Blaze Orbs provide five charges and enforce the 0.55-second minimum cadence.
+- [ ] Frost Orbs provide three charges and apply the governed stacked speed/handling effect.
 - [ ] Arc Blade provides three charges, completes outbound/return movement, and prevents repeated continuous-overlap damage.
 - [ ] Arc Hammers provide five charges, enforce the 0.35-second cadence, bounce once after terrain impact, and expire.
 - [x] Slick lasts approximately 12 seconds, triggers the approved spin/speed effect, and obeys the two-per-owner active cap.
@@ -248,6 +248,8 @@ Blast Orb acceptance evidence, 2026-09-07: gameplay PR #117 squash-merged at `9e
 Slick Trap acceptance evidence, 2026-09-07: gameplay PR #120 squash-merged at `bcc5bcc500b08ea42984eed8afa188fa87ba1cf9`; post-merge CI/Pages run `34153760001` passed; Manny completed the deployed eight-check live matrix and reported all playtests passed. Product-owner evidence: PR #120 comment `5574748827`. This closes only the Slick Trap functional gate; AI Blast/Slick avoidance, playable Shockwave/counter acceptance, the nine remaining item effects, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.
 
 ## Race, HUD, input, and AI integrity
+
+Blaze acceptance reconciliation: PR #135 gameplay and the governing Blaze scope at `6ffef50800eea8b1f3f952c3d227020aebfe8913` record Manny's deployed playtest pass. Follow-on CI/Pages `34404232942` passed validation and deployment. This closes the bounded Blaze functional row only; Frost and final all-item gates remain open. See IMPLEMENTATION-STATUS.md for evidence and reporting limits.
 
 - [x] Left Shift and E both use the held item.
 - [x] S/Down + item performs backward-capable deployment where supported.

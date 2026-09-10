@@ -19,6 +19,7 @@ export interface DriveInput {
   speedLimitMultiplier?: number;
   effectSpeedCapMultiplier?: number;
   effectAccelerationMultiplier?: number;
+  effectSteeringMultiplier?: number;
   ignoreOffRoadSpeedPenalty?: boolean;
   ignoreOffRoadAccelerationPenalty?: boolean;
   effectSpinoutYawRateRadiansPerSecond?: number;
@@ -102,7 +103,13 @@ export class KartController {
     const speedRatio = Math.min(Math.abs(forwardSpeed) / this.tuning.maxSpeed, 1);
     const steeringScale = THREE.MathUtils.lerp(1, 0.48, speedRatio);
     const steeringTarget =
-      input.steering * this.tuning.steeringRate * steeringScale * (this.drifting ? 1.45 : 1);
+      input.steering *
+      this.tuning.steeringRate *
+      steeringScale *
+      (this.drifting ? 1.45 : 1) *
+      (Number.isFinite(input.effectSteeringMultiplier)
+        ? THREE.MathUtils.clamp(input.effectSteeringMultiplier ?? 1, 0, 1)
+        : 1);
     this.currentSteer = THREE.MathUtils.damp(this.currentSteer, steeringTarget, 10, dt);
 
     const driftStarted = input.drift && !this.previousDriftPressed;

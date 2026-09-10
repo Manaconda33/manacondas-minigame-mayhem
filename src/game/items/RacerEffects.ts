@@ -1,3 +1,5 @@
+import { FROST } from './FrostOrbs';
+
 export interface TemporaryBoostSpec {
   readonly id: string;
   readonly label: string;
@@ -27,6 +29,7 @@ export interface SpinoutState {
 }
 
 export interface RacerDriveModifiers {
+  steeringMultiplier?: number;
   speedCapMultiplier: number;
   accelerationMultiplier: number;
   ignoreOffRoadSpeedPenalty: boolean;
@@ -76,6 +79,34 @@ function validSpinoutSpec(spec: SpinoutSpec): boolean {
 }
 
 export class RacerEffects {
+  private readonly frost = new Map<string, { stacks: number; remainingSeconds: number }>();
+
+  public activateFrost(racerId: string): boolean {
+    if (!racerId.trim() || this.isItemImmune(racerId)) return false;
+    this.frost.set(racerId, {
+      stacks: (this.frost.get(racerId)?.stacks ?? 0) + 1,
+      remainingSeconds: FROST.duration,
+    });
+    return true;
+  }
+
+  public frostState(racerId: string): { stacks: number; remainingSeconds: number } | null {
+    const state = this.frost.get(racerId);
+    return state ? { ...state } : null;
+  }
+
+  public clearFrost(racerId: string): void {
+    this.frost.delete(racerId);
+  }
+
+  /** Advance before drive and impacts; new end-of-step hits retain a full interval. */
+  public advanceFrost(dt: number, paused = false): void {
+    if (paused || !Number.isFinite(dt) || dt <= 0) return;
+    for (const [id, state] of this.frost) {
+      state.remainingSeconds = Math.max(0, state.remainingSeconds - dt);
+      if (state.remainingSeconds < 1e-9) this.frost.delete(id);
+    }
+  }
   private readonly temporaryBoosts = new Map<string, ActiveTemporaryBoost>();
   private readonly protections = new Map<string, Map<string, ActiveTemporaryBoost>>();
   private readonly spinouts = new Map<string, ActiveSpinout>();
@@ -135,6 +166,8 @@ export class RacerEffects {
     const temporary = this.temporaryBoosts.get(racerId);
     if (temporary) boosts.push(temporary);
     const modifiers: RacerDriveModifiers = { ...NEUTRAL_DRIVE_MODIFIERS };
+    const frost = this.frost.get(racerId);
+    if (frost) modifiers.steeringMultiplier = FROST.steering ** frost.stacks;
     for (const boost of boosts) {
       if (boost.speedCapMultiplier >= modifiers.speedCapMultiplier)
         modifiers.activeBoostLabel = boost.label;
@@ -224,6 +257,7 @@ export class RacerEffects {
   }
 
   public clear(racerId: string): void {
+    this.frost.delete(racerId);
     this.temporaryBoosts.delete(racerId);
     this.spinouts.delete(racerId);
     this.itemImmuneRacers.delete(racerId);
@@ -231,6 +265,7 @@ export class RacerEffects {
   }
 
   public dispose(): void {
+    this.frost.clear();
     this.temporaryBoosts.clear();
     this.spinouts.clear();
     this.itemImmuneRacers.clear();

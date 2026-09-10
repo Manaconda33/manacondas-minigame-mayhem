@@ -1,4 +1,5 @@
 import { ItemInventory, type HeldItem } from './ItemInventory';
+import { FROST } from './FrostOrbs';
 import { ITEM_DEFINITIONS, ITEM_IDS, type ItemId } from './itemDefinitions';
 
 export const ITEM_ROULETTE_SECONDS = 0.85;
@@ -104,7 +105,11 @@ export class ItemSystem {
 
     const held = state.inventory.snapshot();
     if (held === null) return null;
-    if (held.itemId === 'blaze-orbs' && state.useCooldownRemaining > 1e-9) return null;
+    if (
+      (held.itemId === 'blaze-orbs' || held.itemId === 'frost-orbs') &&
+      state.useCooldownRemaining > 1e-9
+    )
+      return null;
 
     state.useFeedback = { direction, remaining: ITEM_USE_FEEDBACK_SECONDS };
     return {
@@ -121,6 +126,7 @@ export class ItemSystem {
     const held = state.inventory.snapshot();
     if (held === null || !state.inventory.consumeCharge()) return false;
     if (held.itemId === 'blaze-orbs') state.useCooldownRemaining = BLAZE_ORB_CADENCE_SECONDS;
+    if (held.itemId === 'frost-orbs') state.useCooldownRemaining = FROST.cadence;
     return true;
   }
 

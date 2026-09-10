@@ -27,6 +27,7 @@ export interface ItemBoostConfig {
 }
 
 export interface ItemProjectileConfig {
+  impactEffect?: 'frost';
   speedMetersPerSecond: number;
   radiusMeters: number;
   lifetimeSeconds: number;

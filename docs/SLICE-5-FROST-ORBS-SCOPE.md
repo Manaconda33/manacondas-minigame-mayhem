@@ -1,6 +1,6 @@
 # Slice 5 Frost Orbs Scope
 
-**Status: SCOPE APPROVED by Manny in Work. Amendment 2.14 / ADR-075 govern the complete contract below. Governance publication is pending; gameplay follows the merged, validated governance checkpoint.**
+**Status: Gameplay implemented locally under amendment 2.14 / ADR-075. Governance PR #136 is deployed. Manny explicitly lifted the implementation hold; gameplay publication and live acceptance remain pending.**
 
 ## Purpose and authoritative base
 
@@ -35,7 +35,7 @@ A pale-blue faceted orb with a bright white core and a short, finite crystal-par
 
 At the authoritative checkpoint, `itemDefinitions.ts` registers three Frost charges without projectile configuration. `ProjectileImpact` and `KartTimeTrial.updateProjectiles()` currently assume spinout impacts. They need a typed non-spin effect path; do not pass a zero-duration spin through the existing spin/hit-camera contract. `RacerEffects` has independently owned boosts/protection/spins but no timed handling impairment. `KartController` already exposes planar velocity retention and a steering target; add a generic neutral-by-default steering modifier, not item-name branches in physics. Apply it without scaling raw input or drift charge. `ItemSystem` currently starts cadence specifically for Blaze; extend configuration/ownership carefully while preserving the accepted Blaze timing and rollback contract.
 
-Verify that other live effects coexist without source deletion, repeat impacts in one update share the new Frost state, and snapshots refresh when velocity changes before subsequent Seeker/Blast calculations. Preserve accepted Shockwave-before-projectile ordering and Prismatic protection timing. Frost is approved for implementation but is not implemented or live accepted.
+The implementation uses an independent Frost stack/timer, typed non-spin impacts, and a neutral-by-default steering modifier. Frost timers advance once at the start of each active simulation step, before controller input and projectile impacts. Expiry removes all stacks before that step's drive; later impacts begin a fresh 1.2-second interval, and each same-step hit immediately updates stacks and target velocity for subsequent Seeker/Blast processing. Paused/countdown steps do not advance Frost. Gameplay remains unpublished and not live accepted.
 
 ## Deterministic acceptance fixtures — approved, not deployed
 
@@ -53,10 +53,10 @@ Automated coverage must include configuration; three-charge use/rollback/full ca
 
 Live acceptance must cover three shots/cadence/direction on desktop and mobile; readable no-spin slowdown/steering impairment and normal recovery; repeat-hit refresh; Prismatic/expired and Shockwave controls; visual/audio/countdown readability in chase/rear and elevated terrain; pause/recovery/finish/restart/hub cleanup; normal-build and all accepted-item/AI hazard-response regressions. Record exact build/run, actual device/scenario evidence and Manny's acceptance without inferring missing test results.
 
-Run full validation, LFS checks and clean-install hosted CI before gameplay publication. No threshold relaxation or dependency changes. No Frost test pass is claimed because gameplay is not implemented.
+Run full validation, LFS checks and clean-install hosted CI before gameplay publication. No threshold relaxation or dependency changes. Local automated evidence is recorded in `docs/IMPLEMENTATION-STATUS.md`; it does not certify deployed camera, audio, desktop/mobile, or live acceptance results.
 
 ## Scope and approval gates
 
 No Arc Blade, Arc Hammers, Ink, Nitro Overdrive, Rocket, full AI item policy, probabilities, accepted item tuning, racer stats, track/checkpoint authority, dependencies, binary assets, or Slice 6 changes. Six item effects currently remain; final all-item/counter/soak/performance gates and issue #106 remain open.
 
-Manny approved the complete scope in Work. Amendment 2.14 / ADR-075 and TESTING.md record that decision. Manny subsequently approved governance publication with the explicit instruction “do not implement gameplay.” Governance merge and successful post-merge validation/Pages do not override that hold: gameplay requires Manny's separate authorization to resume. Gameplay publication and live acceptance remain later gates. Frost gameplay is not yet implemented.
+Manny approved the complete scope in Work and initially approved governance publication with “do not implement gameplay.” PR #136 merged at `5703a2796ce5b941ea200e9af045423b334ca010`; hosted PR CI `34420581104` and post-merge validation/Pages `34420664848` passed (PR evidence comment `5610659206`). Manny subsequently said “Go ahead and develop the gameplay. Remove my hold.” That explicit authorization clears the implementation hold. Gameplay publication and live acceptance remain separate later gates.

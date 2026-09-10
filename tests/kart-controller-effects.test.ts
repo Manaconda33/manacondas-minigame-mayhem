@@ -35,6 +35,49 @@ describe('generic spinout and static-barrier response', () => {
     }
   }
 
+  it.each([0.8, 0.64, 0.512])(
+    'scales actual steering by %s while preserving drift entry and charge',
+    (multiplier) => {
+      const baseline = makeKart();
+      const affected = makeKart();
+      const straight = { throttle: 1, steering: 0, brake: false, drift: false };
+      step(baseline.world, baseline.kart, straight, 180);
+      step(affected.world, affected.kart, straight, 180);
+      const turn = { ...straight, steering: 0.3, drift: true };
+      baseline.kart.update(turn, 'asphalt', 1 / 60);
+      affected.kart.update({ ...turn, effectSteeringMultiplier: multiplier }, 'asphalt', 1 / 60);
+      const yaw = (kart: KartController) => Math.atan2(kart.forward().x, kart.forward().z);
+      expect(yaw(affected.kart) / yaw(baseline.kart)).toBeCloseTo(multiplier, 4);
+      expect(affected.kart.feedback().drifting).toBe(true);
+      expect(affected.kart.feedback().chargeRatio).toBeCloseTo(
+        baseline.kart.feedback().chargeRatio,
+      );
+      baseline.world.free();
+      affected.world.free();
+    },
+  );
+
+  it('Frost momentum retention preserves vertical velocity, transform, and throttle acceleration', () => {
+    const r = makeKart();
+    const neutral = makeKart();
+    r.kart.body.setLinvel({ x: 6, y: 3, z: 10 }, true);
+    const position = r.kart.position();
+    const forward = r.kart.forward();
+    r.kart.retainPlanarVelocity(0.55);
+    expect(r.kart.velocity().x).toBeCloseTo(3.3);
+    expect(r.kart.velocity().z).toBeCloseTo(5.5);
+    expect(r.kart.velocity().y).toBe(3);
+    expect(r.kart.position()).toEqual(position);
+    expect(r.kart.forward()).toEqual(forward);
+    neutral.kart.body.setLinvel(r.kart.velocity(), true);
+    const input = { throttle: 1, steering: 0, brake: false, drift: false };
+    r.kart.update({ ...input, effectSteeringMultiplier: 0.64 }, 'asphalt', 1 / 60);
+    neutral.kart.update(input, 'asphalt', 1 / 60);
+    expect(r.kart.velocity()).toEqual(neutral.kart.velocity());
+    r.world.free();
+    neutral.world.free();
+  });
+
   it('rotates through one full standard spinout while bleeding planar speed', () => {
     const { world, kart } = makeKart();
     step(world, kart, { throttle: 1, steering: 0, brake: false, drift: false }, 180);

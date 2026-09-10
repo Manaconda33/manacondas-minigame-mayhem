@@ -632,7 +632,17 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 
 ## ADR-074: Approve bounded Blaze Orbs increment
 
-- **Status:** Scope approved by Manny in Work; governance publication pending.
+- **Status:** Live accepted for the bounded Blaze increment; remaining Slice 5 gates stay open.
 - **Context:** Prismatic is live accepted. Blaze introduces rapid-fire multi-charge gameplay against the accepted projectile, spinout, Shockwave, and immunity boundaries.
 - **Decision:** PRD amendment 2.13 and `docs/SLICE-5-BLAZE-ORBS-SCOPE.md` are normative. Preserve five charges, minimum 0.55-second cadence, and the approved 0.55-second short spin. Use 42 m/s straight planar travel, 0.28 m radius, three-second lifetime, no velocity inheritance, forward/backward aim, no wall bounce, and 0.18-second owner arming.
 - **Boundary:** No other item tuning, probabilities, racer stats, race authority, dependencies, AI item tactics, or Slice 6 work. Manny approved the complete operational scope and presentation. Governance must merge and pass post-merge validation/Pages before gameplay begins; gameplay publication and live acceptance remain separate gates.
+
+- **Subsequent acceptance:** PR #135 merged at `a034d40e3185a17f3d5a04cbe330656fe7961b46`; the governing scope at `6ffef50800eea8b1f3f952c3d227020aebfe8913` records Manny's “Pass” and PR comment `5608640298`. Follow-on validation/Pages `34404232942` passed. The historical publication gates above are satisfied for Blaze.
+
+## ADR-075: Approve bounded Frost momentum and handling impairment
+
+- **Status:** Scope approved by Manny; governance publication pending. No Frost gameplay implementation or live acceptance is claimed.
+- **Context:** Blaze is live accepted. Frost is the next bounded ordinary-projectile item and introduces a non-spin effect. Amendment 2.14 and section 15.8 preserve three charges, approximately 55% momentum retention per valid hit, approximately 20% handling impairment per active stack for 1.2 seconds, and no full freeze/spin. Manny approved repeat-hit stacking with each subsequent hit resetting the shared handling-penalty timer.
+- **Decision:** `docs/SLICE-5-FROST-ORBS-SCOPE.md` is normative. Each valid hit applies one 0.55 current-planar-velocity multiplier and one 0.80 steering multiplier; every subsequent valid hit adds another stack, applies the same multipliers again, and resets the shared 1.2-second timer. All active stacks expire together. Use the approved 42 m/s flight, 0.28 m radius, three-second lifetime, zero bounces, no inheritance, 0.18-second owner immunity and 0.55-second cadence. Normal acceleration remains available; no new freeze, spin, speed cap, acceleration penalty, or momentum restoration on expiry.
+- **Boundary:** Independent effect ownership, unchanged drift inputs/charge and race authority, typed non-spin resolution, Prismatic absorption, Shockwave ordering, actual velocity/steering verification, and deterministic moving fixtures are required. No other item tuning, AI item tactics, dependency or Slice 6 expansion is authorized.
+- **Approval:** Manny said “Sure, let's try it like that” after reviewing the cumulative stack and timer-reset interpretation. Governance publication, gameplay publication, and live acceptance remain separate gates.

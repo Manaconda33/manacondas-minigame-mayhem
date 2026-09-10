@@ -2,9 +2,19 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - PRISMATIC LIVE ACCEPTED; BLAZE SCOPE APPROVED**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - BLAZE LIVE ACCEPTED; FROST SCOPE APPROVED**
 
-PRD baseline: **v1.1, working implementation amendment 2.13**.
+PRD baseline: **v1.1, working implementation amendment 2.14**.
+
+## Blaze acceptance and Frost scope continuation
+
+GitHub main `6ffef50800eea8b1f3f952c3d227020aebfe8913` records Blaze live acceptance in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`. Gameplay PR #135 merged at `a034d40e3185a17f3d5a04cbe330656fe7961b46`; PR CI `34403346241` and initial post-merge CI/Pages `34403522142` passed. The scope records Manny's deployed “Pass” and PR #135 comment `5608640298`. Follow-on CI/Pages `34404232942` passed validation and deployment at the acceptance commit. Manny explicitly reaffirmed Blaze is LIVE ACCEPTED and directed Slice 5 continuation. No additional device/scenario evidence is inferred.
+
+This supersedes historical Blaze scope-only/local/pending statements below. Blaze's accepted validation baseline is 42 files / 339 tests. Six effects remain: Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive and Hyper-Drive Rocket. Full AI item tactics, final interaction/counter/soak/performance evidence, issue #106 and overall Slice 5 acceptance remain open; Slice 6 stays locked.
+
+The next approved bounded increment is Frost Orbs, detailed in `docs/SLICE-5-FROST-ORBS-SCOPE.md`. Manny approved valid repeat hits adding Frost stacks, with each subsequent hit resetting the shared 1.2-second handling-penalty timer; this is recorded as another 0.55 current-planar-velocity multiplier and another 0.80 steering multiplier per valid hit. Amendment 2.14 / ADR-075 govern the scope. Governance publication remains pending. This local checkpoint changes documentation only and publishes nothing.
+
+Frost governance publication was approved by Manny with the explicit instruction “do not implement gameplay.” Gameplay remains on hold until Manny separately authorizes it, even after this documentation checkpoint merges and deploys. Local validation on 2026-09-10 passed with retained dependencies: strict typecheck, zero-warning lint, 42 test files / 339 tests, 80.37% statement coverage, branding/runtime-asset checks, production build, `git diff --check`, and `git lfs fsck`. These are existing-game regression results; no Frost gameplay test pass is claimed. Hosted CI and post-merge deployment evidence will be recorded in the governance PR.
 
 ## Prismatic live acceptance and Slice 5 continuation
 
@@ -12,11 +22,11 @@ Prismatic gameplay PR #133 squash-merged at `3d79a7cb5291c53444cf3ae53f261b4a60e
 
 Following deployment, Manny said “Approved.” and then “Accepted.” in Work. **Prismatic Invincibility is LIVE ACCEPTED** based on that product-owner acceptance. No individual browser/device versions, recordings, or per-scenario results were supplied; no independent rendered verification is asserted. This supersedes historical pending-publication/acceptance statements below. The unchanged dependency set produced three moderate npm audit warnings in hosted CI; no dependency remediation is claimed.
 
-Manny then directed “Continue with slice 5”. The next approved bounded increment is **Blaze Orbs**, specified in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`. Manny approved its complete operational scope in Work; amendment 2.13 / ADR-074 record the decision. Governance publication remains pending. This local documentation checkpoint records acceptance and approved scope; it publishes no changes and enables no Blaze gameplay. Seven item effects remain: Blaze, Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, and Hyper-Drive Rocket. Full AI item tactics, final interaction/soak/performance evidence, issue #106, and overall Slice 5 acceptance remain open. Slice 6 remains locked.
+Manny then directed “Continue with slice 5”. At that earlier continuation checkpoint, the next approved bounded increment was **Blaze Orbs**, specified in `docs/SLICE-5-BLAZE-ORBS-SCOPE.md`; amendment 2.13 / ADR-074 record that decision. Blaze has since been published and live accepted as recorded above. The current approved increment is Frost Orbs in the section above; its governance publication remains pending. Six item effects remain: Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, and Hyper-Drive Rocket. Full AI item tactics, final interaction/soak/performance evidence, issue #106, and overall Slice 5 acceptance remain open. Slice 6 remains locked.
 
 ## Prismatic Invincibility governance checkpoint — scope approved 2026-09-09
 
-Continuation documentation validation: `npm run validate`, `git diff --check`, and `git lfs fsck` passed with 40 files / 325 tests, 79.88% statement coverage, strict typecheck, zero-warning lint, branding/runtime-asset checks, and production build. Retained local dependencies were used. This checkpoint changes documentation only; Blaze has no gameplay implementation tests or live acceptance. The existing bundle warning remains nonblocking. Governance publication remains pending approval.
+Historical continuation documentation validation: `npm run validate`, `git diff --check`, and `git lfs fsck` passed with 40 files / 325 tests, 79.88% statement coverage, strict typecheck, zero-warning lint, branding/runtime-asset checks, and production build. Retained local dependencies were used. That checkpoint changed documentation only; Blaze had no gameplay implementation tests or live acceptance at that time. The existing bundle warning remained nonblocking. Blaze's subsequent publication and acceptance are recorded above; these historical results are not Frost validation evidence.
 
 Manny approved the revised `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md`, including immunity to Slick spinout/slowdown, dirt/grass speed-cap/deceleration/acceleration penalties, and the following chromatic shell/particle/shimmer/fade presentation. PRD amendment 2.12 and ADR-073 record the complete six-second, 1.12x speed-cap, projectile absorption, per-victim blast immunity, and once-per-encounter hostile-contact contract. Independent boost timers, consistent same-step immunity expiry, and deterministic protected/expired fixtures are required.
 
@@ -421,7 +431,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Deferred work
 
-- Eight item effects remain unimplemented: Blaze Orbs, Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic Invincibility. Shockwave is deployed and LIVE ACCEPTED. Full AI item-use policy, final interaction/counter validation, soak/performance evidence, issue #106, deployment evidence for later increments, and full-slice live acceptance remain open. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, Timed Blast Orb, Slick Trap, and bounded Slick/Blast AI hazard response are already live accepted.
+- Six item effects remain unimplemented: Frost Orbs, Arc Blade, Arc Hammers, Ink Splat, Nitro Overdrive, and Hyper-Drive Rocket. Shockwave, Blaze Orbs, and the previously accepted item systems are deployed and live accepted. Full AI item-use policy, final interaction/counter validation, soak/performance evidence, issue #106, deployment evidence for later increments, and full-slice live acceptance remain open. Boxes, roulette/HUD/input, Nitro Surge, Kinetic Disc, Seeker Drone, Apex core, Timed Blast Orb, Slick Trap, and bounded Slick/Blast AI hazard response are already live accepted.
 - Further competitive-balance work remains deferred until explicitly reopened.
 - External PBR texture sets, HDR environment, baked AO assets, and other larger presentation additions remain outside the Dragon Queen checkpoint.
 

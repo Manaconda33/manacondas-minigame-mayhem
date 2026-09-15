@@ -8,7 +8,7 @@
 
 **Implementation authorization:** Documentation and approved Slice 5 implementation are authorized after this design checkpoint is merged. This document does not itself mark any Slice 5 gameplay requirement complete.
 
-**Governing PRD:** v1.1, working implementation amendment 2.14.
+**Governing PRD:** v1.1, working implementation amendment 2.15.
 
 The existing PRD Sections 15-17, ITEM-001 through ITEM-008, AI-004, Slice 5 roadmap requirements, probability matrix, item state machines, and existing item values remain authoritative except where amendment 2.2 explicitly resolves previously unspecified implementation behavior.
 
@@ -230,7 +230,7 @@ PRD amendment 2.11 / ADR-072 and `docs/SLICE-5-SHOCKWAVE-SCOPE.md` govern the ne
 - [x] Apex respects one-active-global and 18-second restrictions, then attacks whoever is currently first at terminal lock.
 - [x] Blast Orb supports directional deployment, approximately three-second fuse, qualifying early impact detonation, AoE resolution, and cleanup.
 - [x] Blaze Orbs provide five charges and enforce the 0.55-second minimum cadence.
-- [ ] Frost Orbs provide three charges and apply the governed stacked speed/handling effect.
+- [x] Frost Orbs provide three charges and apply the governed stacked speed/handling effect.
 - [ ] Arc Blade provides three charges, completes outbound/return movement, and prevents repeated continuous-overlap damage.
 - [ ] Arc Hammers provide five charges, enforce the 0.35-second cadence, bounce once after terrain impact, and expire.
 - [x] Slick lasts approximately 12 seconds, triggers the approved spin/speed effect, and obeys the two-per-owner active cap.
@@ -248,6 +248,8 @@ Blast Orb acceptance evidence, 2026-09-07: gameplay PR #117 squash-merged at `9e
 Slick Trap acceptance evidence, 2026-09-07: gameplay PR #120 squash-merged at `bcc5bcc500b08ea42984eed8afa188fa87ba1cf9`; post-merge CI/Pages run `34153760001` passed; Manny completed the deployed eight-check live matrix and reported all playtests passed. Product-owner evidence: PR #120 comment `5574748827`. This closes only the Slick Trap functional gate; AI Blast/Slick avoidance, playable Shockwave/counter acceptance, the nine remaining item effects, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.
 
 ## Race, HUD, input, and AI integrity
+
+Frost acceptance reconciliation: PR #137 comment `5625755529` and `docs/SLICE-5-FROST-ORBS-SCOPE.md` at `f44176ceef38dfeebee10f6d44a0c41fdb869629` record Manny's final live acceptance. Follow-on validation/Pages `34533224332` passed. This closes the bounded Frost functional row; final all-item gates remain open. Rebounding Arc Blade is approved next in `docs/SLICE-5-ARC-BLADE-SCOPE.md`, amendment 2.15 / ADR-076. Manny approved its full scope and governance publication on September 11, 2026; gameplay remains a later gate.
 
 Blaze acceptance reconciliation: PR #135 gameplay and the governing Blaze scope at `6ffef50800eea8b1f3f952c3d227020aebfe8913` record Manny's deployed playtest pass. Follow-on CI/Pages `34404232942` passed validation and deployment. This closes the bounded Blaze functional row only; Frost and final all-item gates remain open. See IMPLEMENTATION-STATUS.md for evidence and reporting limits.
 

@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.14
+Version 1.1 - Final approved baseline; working implementation amendment 2.15
 
 August 16, 2026
 
@@ -304,6 +304,14 @@ Manny approved the complete Frost Orbs scope in Work following Blaze live accept
 A valid Frost hit multiplies the affected racer's current planar X/Z velocity by **0.55** and applies one **0.80 steering-authority multiplier** for **1.2 race seconds**. Each subsequent valid hit while Frost is active adds another stack, multiplies the current planar X/Z velocity by 0.55 again, applies another 0.80 steering multiplier, and resets the shared 1.2-second timer. All active stacks expire together from the latest hit. Preserve Y velocity, heading, position, race progress, normal acceleration, drift inputs/charge, traction/grip, stats, and AI path decisions. Frost never adds spin, full freeze, extra speed cap, acceleration penalty, or momentum restoration on expiry.
 
 Use the approved Frost flight, arming, cadence, collision, counter, immunity, lifecycle, presentation, and deterministic-fixture boundaries in the scope document. No other item tuning, probabilities, racer stats, race authority, dependencies, AI item tactics, or Slice 6 work is authorized. Governance publication, gameplay publication, and live acceptance remain separate gates.
+
+## Approved implementation amendment 2.15 - Rebounding Arc Blade
+
+Manny approved the complete scope and its governance publication in Work on September 11, 2026, following Frost live acceptance. `docs/SLICE-5-ARC-BLADE-SCOPE.md` and ADR-076 govern the bounded increment. Preserve section 15.9's three charges, forward curved throw, return to owner, and once-per-rival-per-leg hit limit. Approved fill-ins are 0.55-second cadence, 42 m/s outbound travel, 30 m forward range with a 2 m rightward bow, 56 m/s direct return pursuit, 0.32 m radius, 0.18-second owner arming, and a four-second total lifetime. First guardrail contact destroys the blade; ordinary rival hits use the accepted 0.85-second spin and do not end the flight.
+
+The approved safe return catch gives no charge refund and explicitly excepts returning Arc owner contact from amendment 2.2's generic self-hit rule. Armed outbound owner contact remains eligible. A phase change during continuous overlap cannot cause a second hit until separation. Owner recovery/finish/removal cancels its blades. Prismatic absorption, Shockwave's <=5 m horizontal clear priority, independent effect ownership, shared capacity, rollback, and normal race authority remain in force.
+
+The primary test route will force Arc pickups while preserving unrestricted normal-race input. The scope document specifies the exact geometry, lifecycle, presentation and automated/live gates. This governance checkpoint changes no gameplay. No probability, dependency, AI item-use, other item balance or Slice 6 change is authorized. Verify governance merge and CI/Pages before the separately authorized gameplay increment; gameplay publication and live acceptance remain later gates.
 
 ## 1.1 Governance
 

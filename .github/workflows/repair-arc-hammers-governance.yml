@@ -1,15 +1,17 @@
-name: Repair Arc Hammers Governance Docs
+name: Repair Arc Hammers Testing Doc
 
 on:
   push:
-    branches: [feature/arc-hammers-gameplay]
+    branches:
+      - feature/arc-hammers-gameplay
+    paths:
+      - .github/workflows/repair-arc-hammers-governance.yml
 
 permissions:
   contents: write
 
 jobs:
   repair:
-    if: ${{ github.event.head_commit.message != 'Repair Arc Hammers testing doc' && github.event.head_commit.message != 'Remove temporary governance repair workflow' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -19,7 +21,7 @@ jobs:
           fetch-depth: 0
           lfs: false
 
-      - name: Restore clean TESTING source and apply Arc Hammers evidence
+      - name: Restore clean TESTING and apply Arc Hammers evidence
         run: |
           git fetch origin main
           git show origin/main:docs/TESTING.md > /tmp/TESTING.md

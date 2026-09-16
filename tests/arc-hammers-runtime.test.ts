@@ -33,7 +33,9 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  rigs.splice(0).forEach((rig) => rig.dispose());
+  rigs.splice(0).forEach((rig) => {
+    rig.dispose();
+  });
   vi.restoreAllMocks();
 });
 
@@ -78,11 +80,16 @@ function hammerRuntimeRig(index = 24, elevation = 0.72) {
   const rivalProgress = progress('rival');
   const racerEffects = new RacerEffects();
   const prismatic = new PrismaticSystem(racerEffects);
-  let game: ReturnType<typeof buildGame>;
+  const gameHolder: {
+    value: { arcFixture: ArcBladeCounterFixture; arcEvidence(): ArcCounterEvidence } | null;
+  } = { value: null };
   const projectiles = new ProjectileSystem(
     track,
     undefined,
-    (event) => game.arcFixture.observe(event, game.arcEvidence()),
+    (event) => {
+      const current = gameHolder.value;
+      if (current !== null) current.arcFixture.observe(event, current.arcEvidence());
+    },
     surfaceQuery,
   );
   const hazards = new HazardSystem(track, projectiles.capacity, surfaceQuery);
@@ -139,7 +146,8 @@ function hammerRuntimeRig(index = 24, elevation = 0.72) {
       arcEvidence(): ArcCounterEvidence;
     };
   }
-  game = buildGame();
+  const game = buildGame();
+  gameHolder.value = game;
 
   return {
     ...fields,
@@ -163,12 +171,7 @@ function hammerRuntimeRig(index = 24, elevation = 0.72) {
       fields.shockwave.dispose();
       projectiles.dispose();
       slickGround.dispose();
-      trackScene.traverse((object) => {
-        if (!(object instanceof THREE.Mesh)) return;
-        object.geometry.dispose();
-        const materials = Array.isArray(object.material) ? object.material : [object.material];
-        materials.forEach((material) => material.dispose());
-      });
+      trackScene.clear();
       world.free();
     },
   };

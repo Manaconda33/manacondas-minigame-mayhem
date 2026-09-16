@@ -41,6 +41,7 @@ jobs:
           assert '## Approved implementation amendment 2.17 - Kinetic Arc Hammers implementation authorization' not in prd
           prd = prd.replace(marker, amendment + marker, 1)
           assert 'Warning: truncated output' not in prd
+          assert prd.count('## Approved implementation amendment 2.17 - Kinetic Arc Hammers implementation authorization') == 1
           Path('docs/PRD.md').write_text(prd)
 
           dec = Path('/tmp/DECISIONS.md').read_text()
@@ -57,11 +58,15 @@ jobs:
           assert '## ADR-078: Authorize bounded Kinetic Arc Hammers implementation and original presentation' not in dec
           dec = dec.rstrip() + adr
           assert 'Warning: truncated output' not in dec
+          assert dec.count('## ADR-078: Authorize bounded Kinetic Arc Hammers implementation and original presentation') == 1
           Path('docs/DECISIONS.md').write_text(dec)
           PY
 
-          git diff --check
           ! grep -q 'Warning: truncated output' docs/PRD.md docs/DECISIONS.md
+          grep -q 'working implementation amendment 2.17' docs/PRD.md
+          test "$(grep -c '^## Approved implementation amendment 2.17 - Kinetic Arc Hammers implementation authorization$' docs/PRD.md)" -eq 1
+          test "$(grep -c '^## ADR-078: Authorize bounded Kinetic Arc Hammers implementation and original presentation$' docs/DECISIONS.md)" -eq 1
+          git diff --numstat origin/main -- docs/PRD.md docs/DECISIONS.md
 
       - name: Commit repaired governance docs
         run: |

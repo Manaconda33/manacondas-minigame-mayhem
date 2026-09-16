@@ -2,11 +2,11 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - KINETIC ARC HAMMERS LIVE ACCEPTED**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - INK SPLAT GOVERNANCE APPROVED**
 
-PRD baseline: **v1.1, approved implementation amendment 2.17 / ADR-078**.
+PRD baseline: **v1.1, approved implementation amendment 2.18 / ADR-079**.
 
-Latest verified pre-acceptance-record `main`: **`e53bf652b88fb50c29e80acbb68062d49e170d96`**.
+Latest verified pre-Ink-governance `main`: **`9ee6ee05fe71715a867a3c9a6b654904faf0e507`**.
 
 ## Kinetic Arc Hammers final state - 2026-09-16
 
@@ -20,6 +20,8 @@ Completion evidence:
 - Gameplay post-merge validation / GitHub Pages: **`35137681000` PASS**.
 - Publication-record reconciliation PR #145 merge: **`e53bf652b88fb50c29e80acbb68062d49e170d96`**.
 - PR #145 post-merge validation / GitHub Pages: **`35138696144` PASS**.
+- Arc Hammers live-acceptance reconciliation PR #146 merge: **`9ee6ee05fe71715a867a3c9a6b654904faf0e507`**.
+- PR #146 post-merge validation / GitHub Pages: **`35140143353` PASS**.
 - Manny completed the supplied deployed Arc Hammers review routes and reported **“All tests pass.”**
 - Product-owner evidence: PR #144 comment **`5703186707`**.
 - No browser/device-specific result is inferred beyond Manny's explicit all-tests-pass report.
@@ -36,7 +38,7 @@ Rebounding Arc Blade remains **LIVE ACCEPTED** under amendment 2.15 / ADR-076. G
 
 Live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, and **Kinetic Arc Hammers**.
 
-Three item effects remain unimplemented and not live accepted: **Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket**.
+Vision-Obscuring Ink Splat governance is approved under amendment 2.18 / ADR-079, but gameplay/presentation implementation remains explicitly held pending separate Manny authorization. Three item effects remain unimplemented and not live accepted: **Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket**.
 
 Remaining Slice 5 closure work also includes full AI item acquisition/use, final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, final desktop/mobile full-slice acceptance, and issue #106 disposition as appropriate. Slice 6 remains locked.
 
@@ -49,7 +51,7 @@ Remaining Slice 5 closure work also includes full AI item acquisition/use, final
 
 ## Next recommended action
 
-Begin the next bounded Slice 5 item governance/scoping increment for **Vision-Obscuring Ink Splat**. Do not implement Ink gameplay before its required scope/governance approval gate is complete. Slice 6 remains locked.
+After this docs-only governance checkpoint is published and verified, stop at the separate **Vision-Obscuring Ink Splat gameplay/presentation authorization gate**. Do not implement Ink until Manny explicitly authorizes that next increment. Slice 6 remains locked.
 
 ## Approval state
 
@@ -60,6 +62,8 @@ Begin the next bounded Slice 5 item governance/scoping increment for **Vision-Ob
 **Kinetic Arc Hammers scope/governance:** APPROVED / PUBLISHED.
 
 **Kinetic Arc Hammers gameplay + original presentation:** **LIVE ACCEPTED 2026-09-16** through PR #144 / `a129bbac75f919dc7136ac50dfd63564fe5cd52e` / runs `35137395927` and `35137681000` / product-owner comment `5703186707`.
+
+**Vision-Obscuring Ink Splat scope/governance:** **APPROVED 2026-09-16** under amendment 2.18 / ADR-079; governance publication is this docs-only checkpoint; gameplay/presentation remains held pending separate authorization.
 
 **Slice 5 implementation:** IN PROGRESS.
 

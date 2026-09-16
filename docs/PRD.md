@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 36937)
-Total output lines: 3081
-
 **MANACONDA'S**
 
 **MINIGAME MAYHEM**
@@ -282,7 +279,1511 @@ Valid armed Kinetic/Seeker contacts are absorbed, destroying the projectile with
 
 Hostile contact applies one **0.85-second, one-turn standard spin** per encounter to an unfinished non-immune rival at the existing planar contact distance **< 2.35 m**. Sustained overlap cannot repeatedly refresh the spin; separation to **>= 2.35 m** rearms the pair. Two protected racers cannot spin one another. No additional speed-retention penalty, contact radius, teleport, heading snap, or race-progress mutation is introduced.
 
-The approved readable presentation is a translucent faceted shell that follows kart/driver through turns and jumps; flowing cyan/violet/pink/gold highlights with a gentle pulse; a short fading particle trail; a brief blocked-item shimmer; a separate active countdown; and an original volume-aware musical layer. The final second fades smoothly without rapid flashing or a full-screen wash. Preserve driver, track, and hazard visibility. Pause freezes the state; expiry removes only this effect's contributions. Finish, recovery/respawn, restart, hub return, and disposal clear it. Drive, contact, and projectile/hazard processing must use a consistent active interval, includi…16937 tokens truncated…Maintain at minimum asset owner/source, approved use, approval status, source file, and production derivative. Unapproved likenesses must not be publicly deployed.
+The approved readable presentation is a translucent faceted shell that follows kart/driver through turns and jumps; flowing cyan/violet/pink/gold highlights with a gentle pulse; a short fading particle trail; a brief blocked-item shimmer; a separate active countdown; and an original volume-aware musical layer. The final second fades smoothly without rapid flashing or a full-screen wash. Preserve driver, track, and hazard visibility. Pause freezes the state; expiry removes only this effect's contributions. Finish, recovery/respawn, restart, hub return, and disposal clear it. Drive, contact, and projectile/hazard processing must use a consistent active interval, including exact activation/expiry boundaries.
+
+The approved scope specifies fixed-item, held-ready, protected/expired acceptance fixtures with visible stages and verified encounters. The query names are not deployed until gameplay publication. No probability, accepted item balance, racer-stat, track/checkpoint, dependency, AI acquisition/use, or Slice 6 change is authorized. Governance publication, gameplay publication, and product-owner live acceptance retain their separate gates.
+
+## Approved implementation amendment 2.13 - Blaze Orbs
+
+Manny approved the complete Blaze Orbs scope in Work following Prismatic live acceptance. Section 15.7, ADR-074, and `docs/SLICE-5-BLAZE-ORBS-SCOPE.md` are normative. Preserve five charges, at least 0.55 race seconds between committed shots, and a 0.55-second short spin per valid hit.
+
+Each ITEM press launches one straight planar orb forward, or backward with Brake/Reverse. No automatic fire or target requirement. Use 42 m/s with no inherited kart velocity, 0.28 m radius, a 3.0-second lifetime, zero wall bounces, and 0.18-second owner immunity. Use the shared launch offset of 1.75 m plus radius, shared projectile height/terrain conventions, and existing 1.05 m racer collision radius. Other racers can be hit during owner arming; later normal contact may hit the owner. Destroy on first guardrail or valid racer contact. No splash, burning, extra speed-retention penalty, or damage-over-time. Repeated hits refresh the accepted short spin, without adding duration or spin rates.
+
+The first shot is immediately eligible; only a committed shot spends a charge and starts cadence. Rejection or full shared capacity retains the charge; failed transactions release reservations. The fifth shot frees the slot. Each orb uses one existing shared 40-object slot. Pause freezes cadence, movement, arming, and lifetime. Fired orbs retain ordinary projectile lifetime after owner finish; restart/disposal cleans all owned state.
+
+Prismatic or another active generic immunity source absorbs valid contact without hostile spin or hit sprite and releases projectile capacity. Shockwave destroys Blaze within its existing <=5 m horizontal counter radius before same-step movement/contact. Preserve accepted immunity timing and target snapshot refresh.
+
+Use an original amber-orange energy orb, hot core, short ember trail, finite sparks and short gesture/volume/pause-safe audio with bounded resources and both-camera readability. Approved fixed-item hit, Shockwave counter, and Prismatic protected/expired fixtures must report actual verified encounters; misses/interceptions do not count as success. Full details and test gates are in the scope and TESTING.md.
+
+No other item tuning, probabilities, racer stats, race authority, dependencies, AI item tactics, or Slice 6 expansion is authorized. Governance publication, gameplay publication, and live acceptance remain separate gates.
+
+## Approved implementation amendment 2.14 - Frost Orbs stacked momentum and handling impairment
+
+Manny approved the complete Frost Orbs scope in Work following Blaze live acceptance. Section 15.8, ADR-075, and `docs/SLICE-5-FROST-ORBS-SCOPE.md` are normative. Preserve three charges and the existing ordinary-projectile/inventory, Prismatic, Shockwave, race-authority, AI, dependency, and Slice 6 boundaries.
+
+A valid Frost hit multiplies the affected racer's current planar X/Z velocity by **0.55** and applies one **0.80 steering-authority multiplier** for **1.2 race seconds**. Each subsequent valid hit while Frost is active adds another stack, multiplies the current planar X/Z velocity by 0.55 again, applies another 0.80 steering multiplier, and resets the shared 1.2-second timer. All active stacks expire together from the latest hit. Preserve Y velocity, heading, position, race progress, normal acceleration, drift inputs/charge, traction/grip, stats, and AI path decisions. Frost never adds spin, full freeze, extra speed cap, acceleration penalty, or momentum restoration on expiry.
+
+Use the approved Frost flight, arming, cadence, collision, counter, immunity, lifecycle, presentation, and deterministic-fixture boundaries in the scope document. No other item tuning, probabilities, racer stats, race authority, dependencies, AI item tactics, or Slice 6 work is authorized. Governance publication, gameplay publication, and live acceptance remain separate gates.
+
+## Approved implementation amendment 2.15 - Rebounding Arc Blade
+
+Manny approved the complete scope and its governance publication in Work on September 11, 2026, following Frost live acceptance. `docs/SLICE-5-ARC-BLADE-SCOPE.md` and ADR-076 govern the bounded increment. Preserve section 15.9's three charges, forward curved throw, return to owner, and once-per-rival-per-leg hit limit. Approved fill-ins are 0.55-second cadence, 42 m/s outbound travel, 30 m forward range with a 2 m rightward bow, 56 m/s direct return pursuit, 0.32 m radius, 0.18-second owner arming, and a four-second total lifetime. First guardrail contact destroys the blade; ordinary rival hits use the accepted 0.85-second spin and do not end the flight.
+
+The approved safe return catch gives no charge refund and explicitly excepts returning Arc owner contact from amendment 2.2's generic self-hit rule. Armed outbound owner contact remains eligible. A phase change during continuous overlap cannot cause a second hit until separation. Owner recovery/finish/removal cancels its blades. Prismatic absorption, Shockwave's <=5 m horizontal clear priority, independent effect ownership, shared capacity, rollback, and normal race authority remain in force.
+
+The primary test route will force Arc pickups while preserving unrestricted normal-race input. The scope document specifies the exact geometry, lifecycle, presentation and automated/live gates. This governance checkpoint changes no gameplay. No probability, dependency, AI item-use, other item balance or Slice 6 change is authorized. Verify governance merge and CI/Pages before the separately authorized gameplay increment; gameplay publication and live acceptance remain later gates.
+
+## Approved implementation amendment 2.16 - Kinetic Arc Hammers
+
+Approved September 16, 2026 after Rebounding Arc Blade live acceptance. `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` and ADR-077 govern this bounded increment. Preserve Section 15.10's five charges, minimum 0.35 race-second cadence, ballistic trajectories, exactly one terrain bounce, short post-bounce expiry, and the existing standard 0.85-second racer spin. Manny approved the complete operating contract while explicitly withholding gameplay implementation and asset/presentation development.
+
+One ITEM press throws one Hammer. Normal ITEM throws forward; Brake/Reverse + ITEM throws backward. The first throw is immediately eligible and only a committed use spends a charge or starts cadence. Launch uses 36 m/s horizontal base speed plus 0.20 times the owner's planar launch velocity after a 10 m/s pre-scale cap, 11 m/s initial upward velocity, 24 m/s^2 downward gravity, 0.36 m contact radius, the existing `1.75 m + radius` launch offset, and 0.18 race seconds of owner arming. After arming, normal later owner self-hit is legal.
+
+The first genuine descending contact with the actual supporting Circuit Alpha surface is the single terrain bounce. Retain 0.78 times tangential velocity and reflect the incoming surface-normal component at 0.55 restitution; asphalt, dirt, grass, boost and ramp surfaces use the same Hammer bounce physics. First guardrail contact destroys the Hammer and never counts as its terrain bounce. On the first terrain bounce, cap remaining lifetime to 0.75 race seconds; the next genuine terrain contact destroys it. A Hammer that never bounces has a 2.25 race-second hard lifetime. Resolve swept contacts chronologically, with same-time priority guardrail, then eligible racer, then terrain.
+
+The first eligible racer hit applies the accepted 0.85-second standard spin through existing RacerEffects/camera/driver-state authority and destroys the Hammer, with no piercing, AoE, extra velocity penalty, Frost stack, or race-progress mutation. Generic immunity and Prismatic absorb and destroy the Hammer without a hostile effect. Shockwave clears an active Hammer at horizontal distance <=5 m before same-step Hammer movement, bounce, or racer contact. Each active Hammer owns one existing shared 40-object item-physics slot; pause freezes all Hammer timing/motion/presentation state; owner recovery or finish does not cancel an already-fired Hammer; restart, hub return, and disposal clear it.
+
+The approved original procedural Hammer presentation and fixed-item/counter acceptance routes are future implementation contracts only. No model, VFX, audio, binary asset, or gameplay development is authorized by this governance checkpoint. No item probability, accepted-item tuning, racer statistic, track/checkpoint authority, AI item policy, dependency, or Slice 6 requirement changes.
+
+## Approved implementation amendment 2.17 - Kinetic Arc Hammers implementation authorization
+
+Approved September 16, 2026 after amendment 2.16 / ADR-077 governance publication cleared. Manny explicitly authorized the bounded Kinetic Arc Hammers gameplay implementation and all Arc Hammers original model, VFX, audio, and presentation development. The mechanics, values, acceptance routes, and boundaries remain those in amendment 2.16 / ADR-077 and `docs/SLICE-5-ARC-HAMMERS-SCOPE.md`; this amendment changes authorization state only and does not retune the governed contract.
+
+Implementation remains inside the existing item/inventory, ProjectileSystem, shared-capacity, RacerEffects, Shockwave, KartTimeTrial, and supporting-surface-query boundaries. Original procedural Hammer geometry, finite trail/bounce/impact VFX, and original procedural launch/bounce/hit audio are authorized for this bounded increment. Diagnostics must verify actual encounters and may not grant AI inventory, mutate race progress, or block normal ITEM input.
+
+This clears implementation only. Gameplay publication/deployment and product-owner live acceptance remain separate gates. No item probability, accepted item behavior, racer statistic, track/checkpoint authority, AI item acquisition/use, dependency, or Slice 6 final-polish change is authorized.
+
+## 1.1 Governance
+
+This PRD is the approved requirements baseline for implementation. The Word document is the approval artifact. Once Slice 0 creates the GitHub repository, the semantically equivalent Markdown copy at docs/PRD.md becomes the canonical working PRD for implementation and must remain aligned with this approved baseline.
+
+Material changes to any of the following require an explicit PRD revision and product-owner approval:
+
+- vertical-slice scope
+
+- six-character-stat model
+
+- item mechanics or balance model
+
+- number of racers
+
+- lap rules
+
+- input contract
+
+- supported browser baseline
+
+- asset rights or avatar representation
+
+- acceptance criteria
+
+- public deployment
+
+- production hosting
+
+- paid dependencies
+
+- telemetry/data collection
+
+Small, reversible implementation decisions inside the approved requirements may be made during implementation without reopening product scope. All material decisions and deviations must be recorded in docs/DECISIONS.md and reflected in docs/IMPLEMENTATION-STATUS.md.
+
+# 2. Executive Summary & Technical Architecture
+
+## 2.1 Product Definition
+
+Manaconda's Minigame Mayhem is a modular browser-based arcade platform with one complete launch-quality vertical slice: an eight-racer, three-lap 3D kart race featuring twelve selectable illustrated drivers inside stylized 3D karts.
+
+The first release must prove both that the hub can support multiple future games without rebuilding its shell, and that browser technology can deliver a polished, responsive, visually rich kart-racing experience at a sustained target of 60 FPS.
+
+The Kart Racer is not a menu prototype or physics demonstration. It must be playable from title screen through character selection, a full three-lap race, AI competition, items, finish ranking, and results.
+
+## 2.2 Product Outcome
+
+A desktop user must be able to complete the following uninterrupted product path:
+
+Open game -\> activate audio -\> choose Kart Racer -\> select one of 12 avatars -\> race seven AI opponents for three valid laps -\> use drift boosts and items -\> finish the race -\> see results -\> race again or return to the hub.
+
+No developer console, debug command, asset substitution, or manual state manipulation may be required to complete that path.
+
+## 2.3 Architecture Decision
+
+### Application
+
+- TypeScript
+
+- HTML5
+
+- CSS3
+
+- Vite build pipeline
+
+- ES modules
+
+- DOM-based menus and HUD
+
+- Canvas/WebGL game viewport
+
+- No mandatory UI framework
+
+### 3D Engine
+
+Three.js is the recommended baseline because it provides a mature browser ecosystem, direct rendering control, strong glTF support, established post-processing options, stable WebGL2 behavior, and a progressive WebGPU path without forcing a heavyweight application framework.
+
+### Physics
+
+Rapier 3D using its WASM implementation. Rapier owns rigid-body collision, broadphase/narrowphase, kart colliders, item colliders, trigger volumes, raycasts, and impulse resolution. Kart driving behavior remains predominantly custom arcade vehicle logic rather than physically simulated automotive wheel joints.
+
+### Audio
+
+- Howler.js for asset loading, music, UI sounds, and mixer control
+
+- Web Audio API for low-latency engine loops and spatial emitters
+
+- PannerNode for spatialized item and collision sounds
+
+- Gain nodes for channel buses
+
+### Application State
+
+BOOT  
+↓  
+TITLE  
+↓  
+MAIN_MENU  
+↓  
+CHARACTER_SELECT  
+↓  
+RACE_LOADING  
+↓  
+RACE_COUNTDOWN  
+↓  
+RACING  
+↓  
+RACE_FINISH  
+↓  
+RESULTS  
+  
+Overlay substates: SETTINGS / CONTROLS / PAUSED
+
+Overlay states may not corrupt the underlying screen state.
+
+## 2.4 Runtime Architecture
+
+Browser  
+\|  
++-- App Shell  
+\| +-- Screen State Machine  
+\| +-- Menu/UI Controller  
+\| +-- Settings  
+\| +-- Asset Loader  
+\|  
++-- Game Runtime  
+\| +-- Fixed-Step Simulation  
+\| +-- Racer Manager  
+\| +-- Kart Controller  
+\| +-- AI Controller  
+\| +-- Race Director  
+\| +-- Track System  
+\| +-- Item System  
+\| +-- Collision/Hazard System  
+\| +-- Camera System  
+\|  
++-- Three.js: Scene / Track / Karts / Avatar Sprites / VFX / Post Processing  
++-- Rapier: Kart Bodies / Track Collision / Trigger Volumes / Items  
++-- UI/HUD: Position / Lap / Item / Mini-map / Speed / Turbo / Notifications  
++-- Audio: Music / Engines / Items / Environment / UI
+
+## 2.5 Simulation Loop
+
+const SIM_STEP = 1 / 60;  
+const MAX_STEPS_PER_FRAME = 3;
+
+Runtime sequence:
+
+- sample player input
+
+- accumulate frame time
+
+- run zero to three fixed simulation steps
+
+- update Rapier
+
+- resolve race systems
+
+- interpolate visual transforms
+
+- render frame
+
+- update non-simulation UI
+
+Large tab/background delays must not cause unlimited simulation catch-up. When the game tab loses focus, simulation should pause or throttle, gameplay audio should attenuate, and normal fixed-step timing must resume cleanly on return.
+
+## 2.6 60 FPS Performance Budget
+
+| **System**                   | **Budget**          |
+|------------------------------|---------------------|
+| Main rendering submission    | \<= 5.5 ms CPU      |
+| Physics                      | \<= 2.5 ms          |
+| AI + race systems            | \<= 1.5 ms          |
+| Item/VFX systems             | \<= 1.0 ms          |
+| HUD/UI                       | \<= 1.0 ms          |
+| Audio/update                 | \<= 0.5 ms          |
+| Garbage collection/amortized | \<= 0.5 ms          |
+| CPU headroom                 | \>= 4.17 ms         |
+| GPU frame                    | \<= 12 ms preferred |
+| Total target                 | \<= 16.67 ms        |
+
+Scene budgets:
+
+- Visible triangles: target \<= 750,000
+
+- Draw calls: target \<= 250
+
+- Shadow-casting dynamic objects: \<= 12
+
+- Simultaneous gameplay particles: \<= 2,500
+
+- Simultaneous active physics projectiles: \<= 40
+
+- Simultaneous audio voices: \<= 32
+
+- Runtime JS heap after race load: target \<= 250 MB
+
+- Approximate GPU texture residency: target \<= 256 MB on Medium preset
+
+Download targets: app shell \<= 6 MB compressed before title; first playable Kart Racer content package target \<= 45 MB compressed; secondary avatar/kart assets may load lazily; audio uses compressed browser-supported formats with fallback.
+
+## 2.7 Repository as Durable Source of Truth
+
+The GitHub repository, not a chat or Cowork session, is the durable project record. Code, configuration, the working PRD, decision history, test evidence, implementation status, and session handoff information must be stored in the repository so another Cowork session can resume accurately without relying on conversational memory.
+
+The repository must be self-describing: a fresh collaborator or Cowork session should be able to determine what the product is, which slice is active, what is done, what is blocked, what decisions were made, and which command set proves repository health.
+
+# 3. Product Definition
+
+## 3.1 Hub
+
+The hub is a reusable launcher and shared presentation layer. The first version contains the Title Screen, Main Menu, Kart Racer card, future-game placeholder cards, Settings, Controls, and shared audio controls. Future game cards must be visibly unavailable rather than interactive dead ends.
+
+## 3.2 Kart Racer
+
+- 12 selectable drivers
+
+- standardized kart framework
+
+- six-stat character balancing
+
+- 1 player + 7 AI racers
+
+- three laps
+
+- Circuit Alpha
+
+- drift and three mini-turbo tiers
+
+- off-road surfaces
+
+- boost pads and ramps
+
+- stunt boost
+
+- position tracking
+
+- items
+
+- race HUD and mini-map
+
+- finish logic and results/podium
+
+# 4. Problem and Opportunity
+
+Browser mini-games commonly fail in one of two ways: technically lightweight experiences lack the visual and mechanical feedback expected from modern arcade games, or visually ambitious prototypes lack a maintainable structure for expanding beyond one experience.
+
+Manaconda's Minigame Mayhem should demonstrate that its character roster can support a polished interactive experience without requiring users to install a native executable. The Kart Racer is suited to this proof because it exercises 3D rendering, avatar integration, real-time physics, AI, audio, HUD, animation, input, camera systems, effects, and gameplay balance. If the architecture succeeds for this slice, the surrounding collection can host materially different minigames while preserving menus, settings, loading, input routing, content management, and overall visual identity.
+
+# 5. Users, Roles, and Authority
+
+## 5.1 Player
+
+Can launch the hub, change local settings, select a character, play the Kart Racer, pause/resume, view results, and replay. Cannot modify roster definitions, item probabilities, game assets, or race rules through the production UI.
+
+## 5.2 Content Maintainer
+
+Development-time role represented through files rather than a public interface. Can update character manifest, driver assets, kart visual configuration, audio files, and content labels. The vertical slice does not require an in-browser content-management system.
+
+## 5.3 Product Owner
+
+Approves roster identity, avatar likenesses, final visual direction, material game-balance changes, public deployment, new scope, production hosting, and changes to acceptance criteria.
+
+# 6. Goals and Success Measures
+
+## G-01 Complete Playable Loop
+
+A user can complete the entire flow from Title to Results without developer intervention.
+
+## G-02 Responsive Driving
+
+Keyboard input must produce predictable, arcade-responsive kart behavior. Player input should be captured within one simulation step and visibly affect motion normally within two rendered frames.
+
+## G-03 Competitive Race
+
+Seven AI racers navigate the entire course, complete valid laps, use items, overtake, recover from collisions, and produce plausible race variation.
+
+## G-04 Character Differentiation
+
+All 12 roster slots have measurably different performance profiles without creating an objectively dominant character.
+
+## G-05 Browser Performance
+
+Medium-quality target is 60 FPS at 1920x1080 on baseline desktop hardware with eight racers active. Median \>= 60 FPS; 95th-percentile frame time \<= 18.3 ms; no sustained sequence of \>50 ms frames under normal race load.
+
+## G-06 Extensible Hub
+
+Adding a future mini-game does not require rewriting Title Screen, Main Menu, global Settings, audio settings, or the game registration mechanism.
+
+## G-07 Asset Resilience
+
+Missing avatar art cannot make the race unusable.
+
+## G-08 Legally Distinct Presentation
+
+Items, names, silhouettes, icons, VFX, audio, menus, environments, and characters use original presentation for Manaconda's Minigame Mayhem rather than reproducing protected franchise presentation.
+
+# 7. Non-Goals
+
+The first vertical slice does not require:
+
+- network multiplayer
+
+- online accounts
+
+- matchmaking
+
+- mobile touch controls
+
+- gamepad support
+
+- track editor
+
+- custom kart builder
+
+- unlock economy
+
+- downloadable content
+
+- user-generated avatar uploads
+
+- online leaderboard
+
+- monetization
+
+- battle mode
+
+- multiple tracks
+
+- campaign mode
+
+- persistent progression
+
+- live-service backend
+
+- deterministic peer-to-peer simulation
+
+- real automotive simulation
+
+- VR
+
+The architecture should not deliberately prevent later additions, but these features may not expand v1 scope.
+
+# 8. Product Principles
+
+- Arcade readability over simulation realism.
+
+- Fast feedback over complex control combinations.
+
+- Characters feel different without creating trap choices.
+
+- The player should understand why something happened.
+
+- Catch-up systems should create tension, not obvious cheating.
+
+- The race must remain recoverable after mistakes.
+
+- Visual polish may degrade gracefully to preserve frame rate.
+
+- Gameplay systems outrank decorative effects.
+
+- Configuration should own balance constants rather than scattering numbers through code.
+
+- Missing non-critical content must fail gracefully.
+
+# 9. Scope
+
+## 9.1 In Scope
+
+### Hub
+
+- Title
+
+- Main Menu
+
+- Kart Racer launch
+
+- future game cards
+
+- Settings
+
+- Controls overlay
+
+- audio unlock
+
+### Racer
+
+- character selection
+
+- 12-character manifest
+
+- kart previews
+
+- Circuit Alpha
+
+- three laps
+
+- player kart
+
+- seven AI
+
+- drift
+
+- mini-turbo
+
+- items
+
+- HUD
+
+- mini-map
+
+- finish results
+
+### Technical
+
+- asset loader
+
+- quality settings
+
+- localStorage preferences
+
+- graphics fallback
+
+- audio mixer
+
+- race-state machine
+
+- deterministic progress system
+
+- performance instrumentation
+
+## 9.2 Out of Scope
+
+See Section 7, Non-Goals.
+
+# 10. User Experience & Screen Wireflows
+
+## 10.1 Primary Flow
+
+Load SPA -\> Title Screen -\> Audio Unlock -\> Main Menu Hub  
+  
+Main Menu -\> Kart Racer -\> Character Select -\> Race Load -\> Starting Grid -\> 3-2-1-Go -\> Race -\> Finish -\> Results  
+  
+Race -\> Esc/P -\> Pause -\> Resume / Restart / Quit to Hub  
+Results -\> Race Again / Character Select / Hub
+
+## 10.2 Title Screen
+
+Must contain the Manaconda's Minigame Mayhem logo/title, an original minigame icon, animated environmental or splash background, PRESS START / CLICK TO PLAY, audio state, and a subtle intro-theme loop after browser audio activation. The first interaction must satisfy browser audio-unlock requirements. No presentation line appears above the product title.
+
++--------------------------------------------------------------+  
+\| MANACONDA'S \|
+\| MINIGAME MAYHEM \|
+\| \|  
+\| \[ animated background scene \] \|  
+\| \|  
+\| PRESS START / CLICK TO PLAY \|  
+\| Audio On/Off \|  
++--------------------------------------------------------------+
+
+## 10.3 Main Menu Hub
+
++------------------------------------------------------------------+  
+\| MANACONDA'S MINIGAME MAYHEM SETTINGS \|
+\| \|  
+\| SELECT A GAME \|  
+\| \[ KART RACER / PLAY \] \[ FUTURE GAME / COMING SOON \] \[ FUTURE \] \|  
+\| \|  
+\| \[CONTROLS\] \[AUDIO\] \|  
++------------------------------------------------------------------+
+
+Future-game cards must be visually readable, display COMING SOON, reject activation, and never route to empty screens.
+
+## 10.4 Character Select Grid
+
++--------------------------------------------------------------------+  
+\| \<- HUB CHOOSE DRIVER \|  
+\| \|  
+\| \[A1\]\[A2\]\[A3\]\[A4\] \[ 3D KART PREVIEW \] \|  
+\| \[A5\]\[A6\]\[A7\]\[A8\] \|  
+\| \[A9\]\[A10\]\[A11\]\[A12\] DRIVER NAME / WEIGHT CLASS \|  
+\| \|  
+\| SPEED \#######--- 7 ACCEL \######---- 6 \|  
+\| WEIGHT \#####----- 5 HANDLING \#######--- 7 \|  
+\| MINI-TURBO \#####----- 5 TRACTION \######---- 6 \|  
+\| \[ START RACE \] \|  
++--------------------------------------------------------------------+
+
+Selection must update name, portrait, weight class, stat display, kart preview, and accent treatment. Preview kart rotates slowly while idle.
+
+## 10.5 Race HUD
+
++---------------------------------------------------------------------+  
+\| POSITION 3rd / 8 LAP 2 / 3 \|  
+\| \[ MINI-MAP \] \|  
+\| \|  
+\| 3D RACE VIEW \|  
+\| \|  
+\| \[PORTRAIT\] PLAYER / TURBO \[ITEM\] 94 km/h \|  
++---------------------------------------------------------------------+
+
+HUD must show current rank, racer count, current lap, item slot, active item count for multi-charge items, mini-map, player portrait, speed, drift-charge feedback, final-lap announcement, and wrong-way warning.
+
+The mini-map uses the same ordered Circuit Alpha samples that drive race progress. It renders the complete closed course and all eight live racer positions. Every racer marker must use a pixel-rendered head crop from that driver's approved 2D portrait. The player marker must be larger and use a gold outline; opponents use a dark outline so overlapping heads remain separable. The map must remain non-interactive and must not obscure track direction, countdown, warnings, driving controls, or the finish presentation. Desktop placement is below the lap HUD on the left. Mobile placement remains in the upper-left HUD column at a reduced size, clear of the centered rear/reset controls and bottom driving controls. The mini-map leaves the interface when the compact finish state begins so the victory pose remains visible.
+
+## 10.6 Pause Menu
+
++----------------------------+  
+\| PAUSED \|  
+\| RESUME \|  
+\| RESTART RACE \|  
+\| SETTINGS \|  
+\| CONTROLS \|  
+\| QUIT TO HUB \|  
++----------------------------+
+
+Pause freezes player, AI, projectiles, timers, lap timer, and item roulette. Music attenuates rather than restarting.
+
+## 10.7 Results
+
++-----------------------------------------------------+  
+\| RACE COMPLETE \|  
+\| 2nd 1st 3rd \|  
+\| \|  
+\| 1. PLAYER 03:08.442 \|  
+\| 2. DRIVER 2 +00:01.304 \|  
+\| 3. DRIVER 6 +00:04.208 \|  
+\| ... all eight racers \|  
+\| \[RACE AGAIN\] \[CHANGE DRIVER\] \[RETURN TO HUB\] \|  
++-----------------------------------------------------+
+
+Results must include all eight racers and finishing times.
+
+The results panel must be docked away from the center of the live race view, remain compact enough to preserve a clear view of the player's kart and victory pose, and keep all eight standings reachable by scrolling when required.
+
+# 11. Character & Avatar Pipeline Specification
+
+## 11.1 Roster Philosophy
+
+All 12 characters receive a six-stat budget of 36 total stat points. Stat range is integer 1-10. Attributes are Speed, Acceleration, Weight, Handling, Mini-Turbo, and Traction. Actual community identities are content inputs. Gameplay balance uses stable roster IDs so names and art can be mapped later without changing physics.
+
+## 11.2 Twelve-Slot Balance Table
+
+| **Slot** | **Archetype**       | **Class**     | **Spd** | **Acc** | **Wgt** | **Hdl** | **Turbo** | **Trac** | **Total** |
+|----------|---------------------|---------------|---------|---------|---------|---------|-----------|----------|-----------|
+| AA-01    | Feather Sprinter    | Featherweight | 6       | 9       | 2       | 8       | 7         | 4        | 36        |
+| AA-02    | Feather Technician  | Featherweight | 5       | 8       | 2       | 9       | 8         | 4        | 36        |
+| AA-03    | Feather Dirt Ace    | Featherweight | 5       | 8       | 3       | 7       | 6         | 7        | 36        |
+| AA-04    | Balanced Racer      | Medium        | 7       | 7       | 5       | 7       | 5         | 5        | 36        |
+| AA-05    | Drift Specialist    | Medium        | 6       | 7       | 5       | 6       | 9         | 3        | 36        |
+| AA-06    | Grip Specialist     | Medium        | 6       | 6       | 5       | 7       | 5         | 7        | 36        |
+| AA-07    | High-Speed Cruiser  | Cruiser       | 8       | 6       | 7       | 5       | 4         | 6        | 36        |
+| AA-08    | Turbo Bruiser       | Cruiser       | 7       | 5       | 7       | 4       | 8         | 5        | 36        |
+| AA-09    | Technical Cruiser   | Cruiser       | 7       | 6       | 6       | 6       | 6         | 5        | 36        |
+| AA-10    | Straight-Line Heavy | Heavyweight   | 10      | 4       | 9       | 3       | 4         | 6        | 36        |
+| AA-11    | Collision Tank      | Heavyweight   | 8       | 4       | 10      | 3       | 5         | 6        | 36        |
+| AA-12    | All-Surface Heavy   | Heavyweight   | 8       | 5       | 8       | 4       | 4         | 7        | 36        |
+
+No production character name should be assigned to a balance profile solely because of appearance or personality. Roster mapping is a content and balance decision.
+
+## 11.3 Stat Formulas
+
+### Speed
+
+vMax = 22.0 + (0.85 x Speed) m/s
+
+Range: Speed 1 = 22.85 m/s; Speed 10 = 30.50 m/s. Approximate 82-110 km/h. Boosts may temporarily exceed this cap.
+
+### Acceleration
+
+aLaunch = 4.0 + (0.55 x Acceleration) m/s^2  
+  
+speedRatio = currentSpeed / vMax  
+driveAccel = aLaunch x clamp(1 - 0.72 x speedRatio^2, 0.22, 1.0)  
+  
+recoveryMultiplier = 0.80 + 0.04 x Acceleration
+
+### Weight
+
+massKg = 105 + (11 x Weight)  
+  
+dominance = selfMass / (selfMass + otherMass)
+
+Range: Weight 1 = 116 kg; Weight 10 = 215 kg. Relative dominance distributes arcade collision impulse. Weight also affects airborne momentum, impact stability, and outward drift inertia. It does not directly increase engine power.
+
+### Handling
+
+steerMax = 0.30 + (0.018 x Handling) radians  
+steerHalfLife = 0.20 - (0.009 x Handling) seconds  
+speedSteerScale = lerp(1.0, 0.62, clamp(speed / vMax, 0, 1))
+
+Higher Handling provides larger available steering angle, faster response, and tighter turning radius while retaining high-speed stability.
+
+### Traction
+
+roadGrip = 1.02 + 0.018 x (Traction - 5.5)  
+offRoadRetention = 0.38 + (0.045 x Traction)  
+offRoadAccel = 0.55 + (0.035 x Traction)
+
+Off-road speed retention ranges from 42.5% to 83%; off-road acceleration ranges from 58.5% to 90%.
+
+### Mini-Turbo
+
+turboN = (MiniTurbo - 1) / 9  
+  
+Blue threshold = 0.95 - 0.18 x turboN seconds  
+Orange threshold = 1.90 - 0.35 x turboN seconds  
+Purple threshold = 3.15 - 0.60 x turboN seconds  
+  
+Blue duration = 0.55 + 0.15 x turboN  
+Orange duration = 0.90 + 0.25 x turboN  
+Purple duration = 1.35 + 0.40 x turboN  
+  
+potency = 0.92 + 0.16 x turboN
+
+| **Tier** | **Low Turbo** | **High Turbo** | **Speed-cap Multiplier** |
+|----------|---------------|----------------|--------------------------|
+| Blue     | 0.95 s        | 0.77 s         | 1.08                     |
+| Orange   | 1.90 s        | 1.55 s         | 1.12                     |
+| Purple   | 3.15 s        | 2.55 s         | 1.16                     |
+
+## 11.4 UI Portrait Specification
+
+256 x 256 px  
+PNG  
+sRGB  
+transparent background  
+straight alpha
+
+Used on Character Select, HUD, ranking badge, Results, and podium. Portrait must retain readable facial/detail silhouette when displayed at approximately 48 px.
+
+## 11.5 In-Game Driver Sprites
+
+512 x 512 px minimum per frame  
+PNG  
+transparent  
+sRGB  
+  
+Required: rear.png / front.png / steer-left.png / steer-right.png / hit.png / victory.png / front-steer-left.png / front-steer-right.png / front-hit.png / front-victory.png
+
+Rear is the default seated driving frame. Left and right trigger on hard steering or corresponding drift. Hit triggers for spinout, explosive hit, or major collision stun. Victory triggers after finish, on podium, and optionally for a major Purple Burst boost.
+
+Front is the seated view used only when the camera faces the front of the kart. It must preserve character identity, cockpit placement, steering-hand continuity, and kart occlusion. Front art requires its own product-owner approval and may not be created by mirroring another frame.
+
+Front-steer-left, front-steer-right, front-hit, and front-victory preserve the corresponding simulated action when the camera faces the front of the kart. They must keep the approved neutral-front seated footprint, camera-facing anatomy, cockpit occlusion, and character-specific steering-control ownership. They require product-owner approval and may not be inferred by mirroring rear-oriented art. Until a character's action package is approved, the neutral front frame is the only allowed camera-facing fallback.
+
+## 11.6 Sprite Atlas
+
+2048 x 1024 atlas  
+512 x 512 cells  
+  
+\[ REAR \]\[ LEFT \]\[ RIGHT \]\[ HIT \]  
+\[ VICTORY \]\[ EMPTY \]\[ EMPTY \]\[ EMPTY \]
+
+- 2-4 px RGB edge dilation under transparent boundaries
+
+- mipmaps enabled
+
+- anisotropy as supported
+
+- alphaTest approximately 0.02
+
+- depth-write disabled for sprite plane
+
+- depth-test enabled
+
+## 11.7 Cockpit Rendering
+
+Driver sprite is rendered on a kart-mounted plane parented to DriverMount. It follows kart position, pitch, and roll; faces the chase camera within a constrained yaw range; does not behave as a globally free billboard; and remains visually seated inside the cockpit. The kart body must occlude the lower sprite.
+
+## 11.8 Rear-View Camera
+
+C activates a backward-looking camera. While the camera faces the front of the player's kart, the runtime uses the approved front-facing driver frame. Before that frame is approved, the runtime must use a clearly recorded provisional fallback without presenting it as final art. Camera placement should keep the driver seated in the cockpit and preserve the kart silhouette.
+
+## 11.9 3D Kart Specification
+
+Preferred source format: glTF 2.0 / GLB.
+
+KartRoot  
++-- Chassis  
++-- AccentMesh  
++-- SteeringWheel  
++-- Wheel_FL  
++-- Wheel_FR  
++-- Wheel_RL  
++-- Wheel_RR  
++-- Exhaust_L  
++-- Exhaust_R  
++-- DriverMount  
++-- ItemMountRear  
++-- ItemMountForward
+
+Triangle targets: LOD0 \<= 25,000; LOD1 \<= 12,000; LOD2 \<= 5,000. Maximum principal materials: chassis, accent, tire, emissive detail. Accent color is controlled by character config.
+
+## 11.10 Procedural Placeholder System
+
+If avatar or kart content is unavailable, generate a stable palette from character ID, load the standard fallback kart, apply deterministic body/accent colors, create a CanvasTexture monogram, mount the badge on the kart, generate a portrait tile from initials, and use a neutral driver silhouette. Missing optional art produces a warning, not a fatal error.
+
+## 11.11 Folder Layout
+
+/public  
+/assets  
+/characters  
+/aa-01  
+portrait.png  
+/driver  
+rear.png  
+steer-left.png  
+steer-right.png  
+hit.png  
+victory.png  
+kart.glb  
+... /aa-12  
+/karts  
+fallback-kart.glb  
+/track  
+circuit-alpha.glb  
+circuit-alpha-collision.glb  
+circuit-alpha-nav.json  
+circuit-alpha-minimap.svg  
+/items  
+/models  
+/icons  
+/textures  
+/audio  
+/music  
+/engines  
+/items  
+/environment  
+/ui  
+  
+/src  
+/app  
+/game  
+/ai /camera /characters /items /physics /race /track /vfx  
+/ui  
+/audio  
+/config  
+/schemas
+
+## 11.12 Character Manifest
+
+{  
+"schemaVersion": "1.0.0",  
+"characters": \[  
+{  
+"id": "aa-01",  
+"name": "Avatar Name",  
+"weightClass": "featherweight",  
+"stats": {  
+"speed": 6,  
+"acceleration": 9,  
+"weight": 2,  
+"handling": 8,  
+"miniTurbo": 7,  
+"traction": 4  
+},  
+"portraitUrl": "/assets/characters/aa-01/portrait.png",  
+"kartModelUrl": "/assets/characters/aa-01/kart.glb",  
+"kart": {  
+"primaryColor": "#334455",  
+"accentColor": "#FFCC44"  
+},  
+"driverSprites": {  
+"rear": "/assets/characters/aa-01/driver/rear.png",  
+"steerLeft": "/assets/characters/aa-01/driver/steer-left.png",  
+"steerRight": "/assets/characters/aa-01/driver/steer-right.png",  
+"hit": "/assets/characters/aa-01/driver/hit.png",  
+"victory": "/assets/characters/aa-01/driver/victory.png"  
+}  
+}  
+\]  
+}
+
+Validation: id is required, stable, lowercase, and unique; name is required and 1-32 display characters; weightClass is one of featherweight, medium, cruiser, heavyweight; stats are integer 1-10; total stat points must equal 36 unless an approved balance revision changes the global budget. Missing content URLs invoke fallback behavior.
+
+# 12. Game Mechanics & Systems Design
+
+## 12.1 Input Mapping
+
+| **Action**          | **Primary** | **Alternate / Modifier**  |
+|---------------------|-------------|---------------------------|
+| Accelerate          | W           | Up Arrow                  |
+| Brake / Reverse     | S           | Down Arrow                |
+| Steer Left          | A           | Left Arrow                |
+| Steer Right         | D           | Right Arrow               |
+| Hop / Drift         | Space       | \-                        |
+| Use Item            | Left Shift  | E                         |
+| Rear View           | C           | \-                        |
+| Pause               | Escape      | P                         |
+| Backward Item Throw | Use Item    | Hold S / Down while using |
+
+Input uses KeyboardEvent.code rather than localized character output where possible. Browser-default actions conflicting with gameplay must be prevented while the game viewport has focus.
+
+## 12.2 Arcade Kart Controller
+
+Each kart uses one Rapier dynamic rigid body, compound chassis collider, ground raycasts, custom engine force, custom lateral grip, speed-sensitive steering, and custom drift state. No physically modeled gearbox is required.
+
+## 12.3 Ground Detection
+
+Four downward raycasts approximate wheel contact. A kart is grounded when at least two ground rays hit. Suspension correction uses spring/damper forces. Recommended ride height is approximately 0.45 m. Kart local up direction should align gradually toward the averaged ground normal to support ramps and banked corners.
+
+## 12.4 Normal Steering
+
+desiredSteer = inputX x steerMax x speedSteerScale
+
+Steering is smoothed using exponential decay rather than direct snapping. Yaw response should maintain an arcade feel rather than tire-level simulation.
+
+## 12.5 Lateral Grip
+
+vLat = dot(velocity, kartRight)  
+FGrip = -vLat x gripCoefficient
+
+Grip coefficient depends on surface, Traction, drift state, and temporary item effects.
+
+# 13. Drift & Mini-Turbo
+
+## 13.1 Drift Entry
+
+grounded  
+speed \>= 6.5 m/s  
+Space newly pressed  
+abs(steerInput) \>= 0.25 within entry window  
+not stunned  
+not autopilot
+
+Space initiates a brief hop of approximately 0.12 s. Drift direction locks from steering input.
+
+## 13.2 Drift State
+
+During drift, steering remains possible; rear lateral grip decreases; kart yaw response increases; visual slip angle increases; lateral momentum is preserved; and sparks charge. Target slip-angle operating window is 8-24 degrees.
+
+quality = clamp(abs(slipAngle) / targetSlipAngle, 0.65, 1.35)  
+charge += dt x quality
+
+Mini-Turbo modifies charge thresholds and resulting boost, not player input precision.
+
+## 13.3 Tier Feedback
+
+| **Tier**     | **Visual**                                  | **Audio**                    |
+|--------------|---------------------------------------------|------------------------------|
+| Blue Spark   | Blue wheel sparks                           | First escalating charge tone |
+| Orange Flame | Orange flame/spark mix; stronger wheel glow | Second charge confirmation   |
+| Purple Burst | Violet/purple energy; high-energy particles | High-pitch charge lock       |
+
+HUD may echo the charge state but the player must not need to read text during a corner.
+
+## 13.4 Drift Release
+
+if charge \>= purpleThreshold -\> Purple boost  
+else if charge \>= orangeThreshold -\> Orange boost  
+else if charge \>= blueThreshold -\> Blue boost  
+else -\> no boost  
+  
+charge resets after release
+
+## 13.5 Drift Cancellation
+
+Drift cancels on spinout, severe collision, airborne state \>0.6 s, speed \<3 m/s, player release, or autopilot activation.
+
+# 14. Collision Response
+
+## 14.1 Kart-to-Kart
+
+Collision response combines Rapier contact with an arcade lateral impulse. Relative weight affects displacement. A lighter racer colliding side-on with a heavy racer receives a greater lateral velocity change. Repeated continuous contacts must use an impulse cooldown to prevent vibration.
+
+An actual impact also reduces each racer's positive forward speed. The loss must be Weight-driven, measurable, and bounded so Weight 10 retains a clear advantage without becoming collision-immune:
+
+```text
+if closingSpeed < 0.75 m/s: retention = 1.0
+impactSeverity = clamp(closingSpeed / 16, 0.25, 1.0)
+weightN = clamp((Weight - 1) / 9, 0, 1)
+fullImpactLoss = lerp(0.31, 0.16, weightN)
+opponentPressure = clamp(1 + 0.015 * (otherWeight - Weight), 0.86, 1.14)
+retention = clamp(1 - fullImpactLoss * impactSeverity * opponentPressure, 0.65, 0.96)
+```
+
+Retention applies only to positive velocity along the kart's forward axis; lateral velocity and collision knockback remain intact. At maximum impact severity, equal Weight 1 racers retain 69% speed and equal Weight 10 racers retain 84%. Weight 10 versus Weight 1 retains approximately 86%, while Weight 1 versus Weight 10 retains 65%. Thus every racer risks meaningful speed loss, while heavier racers recover position more reliably after contact.
+
+## 14.2 Wall Collision
+
+| **Severity**      | **Response**                                          |
+|-------------------|-------------------------------------------------------|
+| Low-energy scrape | Speed loss \<=8%; sparks; no stun                     |
+| Medium collision  | Speed loss 15-30%; yaw disturbance                    |
+| Severe head-on    | Speed loss up to 45%; brief recovery steering penalty |
+
+Wall collisions should not repeatedly re-trigger every frame.
+
+## 14.3 Spinout
+
+Standard spin duration is approximately 0.85 s; heavy explosive spin approximately 1.20 s. During spin, steering is mostly disabled, throttle is ineffective or strongly reduced, velocity decays, and the hit sprite is active. Acceleration governs subsequent recovery.
+
+# 15. Item System & Distribution Logic
+
+## 15.1 Item Box
+
+Item boxes are track triggers with a rendered pickup object. On valid collection: item box deactivates, racer enters roulette state, a weighted item is selected, item appears in the slot, and the box begins respawn. Respawn target is 4.5 s; roulette presentation approximately 0.85 s. Selection may be determined immediately while animation continues visually.
+
+## 15.2 Inventory
+
+The vertical slice uses one active inventory slot. Multi-shot items report remaining charges in the same slot. A racer carrying an item cannot collect a second item.
+
+## 15.3 Ricochet Kinetic Disc
+
+Forward or backward unguided projectile. Speed ~42 m/s plus limited inherited velocity under amendment 2.5; radius ~0.32 m; lifetime 9 s; up to 3 wall bounces. On hit: standard spinout and projectile destruction. Wall reflection uses the contact normal. Visual identity is a luminous rotating kinetic disc with metallic-energy ricochet audio.
+
+## 15.4 Homing Seeker Drone
+
+Guided attack against the nearest valid racer ahead according to race-progress distance. Arming delay 0.5 s; maximum lifetime 12 s; maximum turn rate ~120 deg/s. Speed dynamically closes distance without teleporting. Target receives escalating warning cues.
+
+## 15.5 Apex Orbital Missile
+
+Rare anti-leader item. Launches vertically, travels in non-colliding sky state, locks the leader, warns, enters terminal dive, then creates an AoE blast. Approximate warning 2.5 s; blast radius 5.5 m; leader spin 1.2 s. Countered by Prismatic Invincibility or a precisely timed Shockwave in terminal state. One active globally; minimum 18 s global spawn interval.
+
+## 15.6 Timed Blast Orb
+
+Dropped or thrown forward/backward. Fuse 3.0 s; blast radius 4.0 m. May detonate early on a sufficiently strong direct kart impact.
+
+## 15.7 Blaze Orbs
+
+Five-charge rapid-fire offensive item with minimum shot cadence 0.55 s. Fast straight projectiles with limited lifetime; each successful hit causes a short spinout.
+
+## 15.8 Frost Orbs
+
+Three charges. A valid hit reduces momentum rather than fully freezing: multiply current planar velocity by 0.55 and apply one 0.80 steering multiplier for 1.2 race seconds. Each subsequent valid hit adds another stack, multiplies current planar velocity by 0.55 again, applies another 0.80 steering multiplier, and resets the shared 1.2-second timer; all active stacks expire together. No spin, full freeze, extra speed cap, acceleration penalty, or momentum restoration on expiry. Operational values and counter/fixture boundaries are governed by amendment 2.14, ADR-075, and `docs/SLICE-5-FROST-ORBS-SCOPE.md`.
+
+## 15.9 Rebounding Arc Blade
+
+Three charges. Launches forward, follows a curved outbound path, reaches maximum range, and returns to the owner. A rival may be hit once outbound and once on return; continuous overlap does not repeatedly damage.
+
+## 15.10 Kinetic Arc Hammers
+
+Five charges with a 0.35 s minimum cadence. Uses ballistic trajectories. Hammers bounce once after terrain impact and expire shortly afterward.
+
+## 15.11 Hazard Oil / Slick Trap
+
+Dropped behind the racer. Lifetime 12 s; trigger radius approximately 1.1 m. Contact causes a 360-degree spin and speed reduction. Per-racer active cap is two slicks.
+
+## 15.12 Acoustic Shockwave Pulse
+
+Instant radial defense with approximately 5 m radius. Pushes nearby racers, destroys ordinary projectiles, clears slicks and Blast Orbs, and can neutralize a terminal Apex Missile. Visual is an expanding pressure ring.
+
+## 15.13 Vision-Obscuring Ink Splat
+
+Affects racers ahead. Human view receives partial screen-space organic ink shapes fading over approximately 2.5 s. AI equivalent increases lateral path noise, adds approximately 80 ms reaction latency, and temporarily reduces precision without making navigation impossible.
+
+## 15.14 Nitro Surge
+
+One-use immediate boost lasting approximately 1.2 s. Provides strong acceleration, temporary higher speed cap, and ignores off-road speed penalty during the effect.
+
+## 15.15 Continuous Nitro Overdrive
+
+Activates a 6.0 s boost window. During the window the user may trigger repeated Nitro pulses no faster than once every 0.75 s; each pulse lasts approximately 0.9 s.
+
+## 15.16 Hyper-Drive Rocket
+
+Catch-up autopilot. Racer enters a distinct energy-rocket state with racing-line autopilot, collision immunity, hazard immunity, increased speed, and automatic overtakes. Maximum approximately 6 s. Exit must not deliberately place the player directly into first. Control fades back over approximately 0.3 s.
+
+## 15.17 Prismatic Invincibility
+
+Approximately 6 s. Grants hazard/projectile immunity, approximately +12% speed, and hostile contact that spins rivals. Uses a distinct chromatic pulse and music layer.
+
+# 16. Position-Based Probability Matrix
+
+| **Item**                | **1st** | **2nd** | **3rd** | **4th** | **5th** | **6th** | **7th** | **8th** |
+|-------------------------|---------|---------|---------|---------|---------|---------|---------|---------|
+| Kinetic Disc            | 18      | 16      | 14      | 10      | 8       | 5       | 3       | 2       |
+| Seeker Drone            | 0       | 8       | 12      | 14      | 15      | 12      | 10      | 6       |
+| Apex Missile            | 0       | 0       | 0       | 1       | 3       | 8       | 11      | 13      |
+| Blast Orb               | 2       | 4       | 6       | 8       | 10      | 9       | 8       | 6       |
+| Blaze Orbs              | 0       | 2       | 4       | 6       | 7       | 8       | 8       | 6       |
+| Frost Orbs              | 0       | 0       | 2       | 4       | 6       | 8       | 9       | 8       |
+| Arc Blade               | 5       | 6       | 7       | 8       | 8       | 7       | 6       | 4       |
+| Arc Hammers             | 0       | 1       | 2       | 4       | 6       | 7       | 8       | 6       |
+| Slick Trap              | 32      | 24      | 18      | 12      | 8       | 5       | 3       | 2       |
+| Shockwave               | 18      | 15      | 12      | 8       | 6       | 4       | 2       | 2       |
+| Ink Splat               | 0       | 0       | 2       | 4       | 6       | 7       | 8       | 8       |
+| Nitro Surge             | 22      | 20      | 16      | 15      | 12      | 8       | 6       | 5       |
+| Nitro Overdrive         | 0       | 0       | 0       | 2       | 3       | 6       | 9       | 13      |
+| Hyper-Drive Rocket      | 0       | 0       | 0       | 0       | 0       | 6       | 9       | 15      |
+| Prismatic Invincibility | 3       | 4       | 5       | 4       | 2       | 0       | 0       | 4       |
+| Total                   | 100     | 100     | 100     | 100     | 100     | 100     | 100     | 100     |
+
+## 16.1 Dynamic Adjustment
+
+gapFactor = clamp(1 + distanceBehindLeader / 250, 1.0, 1.35)
+
+For positions 6-8, Apex Missile, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic Invincibility may receive the gap multiplier. Remaining weights are renormalized. This prevents eighth place two meters behind seventh from receiving the same catch-up assistance as a racer 150 meters behind the field.
+
+## 16.2 Item Restrictions
+
+- Apex Missile: one active globally; minimum 18-second global cooldown.
+
+- Hyper-Drive Rocket: unavailable to places 1-5 and should require meaningful negative race-progress gap.
+
+- No item may spawn while its runtime prerequisite prevents use.
+
+- Final item table is configuration data, not hard-coded switch logic.
+
+# 17. Item State Machines
+
+## 17.1 Generic
+
+AVAILABLE_IN_TABLE -\> SELECTED -\> ROULETTE -\> HELD -\> ACTIVATING -\> ACTIVE -\> IMPACT / COMPLETE / EXPIRE -\> DESTROYED
+
+## 17.2 Projectile
+
+HELD -\> SPAWN -\> ARMING -\> FLYING -\> COLLISION? -\> IMPACT/DESTROY or EXPIRE/DESTROY
+
+## 17.3 Trap
+
+HELD -\> DROP -\> ARM -\> ACTIVE -\> TRIGGERED -\> DESTROY
+
+## 17.4 Multi-Charge
+
+HELD(n) -\> FIRE -\> HELD(n-1) -\> ... -\> EMPTY
+
+## 17.5 Autopilot
+
+HELD -\> ENTER_TRANSITION -\> AUTOPILOT -\> EXIT_TRANSITION -\> NORMAL_CONTROL
+
+## 17.6 Invincibility
+
+HELD -\> ACTIVE -\> EXPIRING_WARNING -\> NORMAL
+
+# 18. Track Blueprint & Level Design
+
+## 18.1 Circuit Alpha
+
+Target lap length approximately 0.90 km. Target average lap 30-45 seconds. Road width 9-12 m. Primary road surface is asphalt; secondary surfaces include dirt, grass, rumble/edge, boost surface, and ramps. The original 1.45 km target was superseded by approved implementation amendment 1.3 after Slice 1 manual testing.
+
+## 18.2 Track Segments
+
+| **Segment**           | **Approx. Distance** | **Feature**                            |
+|-----------------------|----------------------|----------------------------------------|
+| Start/Finish Straight | 0-112 m              | Wide asphalt, grid, first item cluster |
+| Banked Left           | 112-205 m            | Medium-radius 12-degree bank           |
+| Split S-Bend          | 205-292 m            | Safe asphalt vs shorter dirt line      |
+| Climb                 | 292-385 m            | Elevation gain and boost pads          |
+| Crest Ramp            | 385-435 m            | Jump and stunt boost                   |
+| Downhill Switchback   | 435-540 m            | Technical braking section              |
+| Fast Sweep            | 540-640 m            | High-speed handling test               |
+| Underpass             | 640-700 m            | Lighting transition                    |
+| Heavy Hairpin         | 700-790 m            | Collision/overtake zone                |
+| Final Chicane         | 790-855 m            | Drift opportunity                      |
+| Finish Approach       | 855-900 m            | Final boost opportunity                |
+
+## 18.3 Elevation
+
+Vertical range approximately 25-35 m. Elevation influences visuals, airborne state, and momentum but may not allow shortcutting major checkpoint sequences.
+
+## 18.4 Boost Pads
+
+Recommended: two on the climb, one after the technical hairpin, and one optional final-line pad. Boost effect approximately 0.8 s and must visibly activate on contact.
+
+## 18.5 Jump Ramp
+
+Ramp angle approximately 10-14 degrees; target aerial time 0.6-1.1 s. Timing near the jump crest may trigger a stunt, granting approximately 0.6 s landing boost. The stunt must not require a separate key.
+
+## 18.6 Surface Definitions
+
+| **Surface** | **Speed / Accel / Grip Behavior**                                   |
+|-------------|---------------------------------------------------------------------|
+| Asphalt     | speed 1.00; accel 1.00; base grip 1.00                              |
+| Dirt        | uses Traction; baseline speed retention ~0.60; reduced lateral grip; optional partial-width line with playable minimum speed |
+| Grass       | more severe than dirt; baseline speed retention ~0.48; playable minimum speed while throttle is held |
+| Boost Pad   | temporarily overrides normal acceleration                           |
+| Ramp        | asphalt grip before airborne transition                             |
+
+# 19. Checkpoints and Lap Validation
+
+## 19.1 Gates
+
+Recommended CP00 = Start/Finish and CP01-CP11 as sequential progress checkpoints. Every checkpoint is an invisible volume crossing the complete legal racing corridor.
+
+## 19.2 Progress State
+
+interface RacerProgress {  
+lap: number;  
+nextCheckpoint: number;  
+checkpointSequence: number\[\];  
+splineProgress: number;  
+totalRaceProgress: number;  
+finished: boolean;  
+}
+
+## 19.3 Valid Lap
+
+A lap increments only when every required checkpoint has been crossed in sequence, the racer crosses Start/Finish, crossing direction is valid, and the racer has not already triggered the gate during the current overlap. Reversing repeatedly across the finish line may not increment laps.
+
+## 19.4 Wrong Way
+
+dot(kartForward, localTrackForward)
+
+If the value remains below the wrong-way threshold, display WRONG WAY and do not alter checkpoint state.
+
+## 19.5 Recovery
+
+Respawn may occur when the kart is outside legal recovery bounds, inverted longer than 2.5 s, or motionless outside the race corridor longer than 4 s. Respawn uses the last valid recovery marker associated with checkpoint progress, with approximately 1.0-1.5 s recovery animation and approximately 1.0 s post-respawn invulnerability.
+
+# 20. Track Spline & Waypoint System
+
+Circuit Alpha owns a primary closed spline. Each spline sample may contain:
+
+interface TrackSample {  
+position: Vec3;  
+forward: Vec3;  
+right: Vec3;  
+up: Vec3;  
+widthLeft: number;  
+widthRight: number;  
+targetSpeed: number;  
+curvature: number;  
+surface: SurfaceType;  
+}
+
+AI navigation uses progress along this spline rather than discrete node-to-node steering alone. Candidate lane offsets are -0.75, -0.40, 0, +0.40, and +0.75 normalized across usable track width.
+
+# 21. AI Behavior System
+
+## 21.1 AI Pipeline
+
+- determine spline progress
+
+- calculate lookahead
+
+- evaluate desired speed
+
+- choose lane
+
+- inspect obstacles
+
+- calculate steer/throttle/brake
+
+- consider drift
+
+- consider item use
+
+## 21.2 Lookahead
+
+Dynamic lookahead 5-14 m, increasing with speed. Very short lookahead causing oscillation is prohibited.
+
+## 21.3 Desired Speed
+
+Precomputed racing-line speed considers curvature, road width, surface, jumps, nearby racers, and item hazards. AI should brake before turns rather than only reacting after excessive steering error.
+
+On a clear asphalt straight, each AI racer's neutral desired speed equals `createKartTuning(character.stats).maxSpeed`. Pace modifies the curvature penalty rather than the straight-line ceiling:
+
+```text
+cornerPenalty = lerp(0.48, 0.34, clamp(pace, 0, 1))
+desiredSpeed = characterMaxSpeed * (1 - clamp(corner, 0, 1) * cornerPenalty)
+```
+
+Temporary reductions for a blocking racer, surface, collision, hazard, or required braking remain valid. Grid position and AI profile assignment may not substitute an absolute target-speed range for the selected character's Speed stat.
+
+## 21.4 Overtaking
+
+AI periodically evaluates lane offsets using path curvature, collision risk, hazard risk, distance to opponents, off-road risk, and future track width. It switches only when candidate improvement exceeds hysteresis threshold to prevent lane thrashing.
+
+## 21.5 Obstacle Avoidance
+
+AI detects kart bodies, oil slicks, Blast Orbs, and static track obstacles; temporarily deviates from the ideal spline; then returns gradually rather than snapping.
+
+## 21.6 Rubber-Banding
+
+Rubber-banding is bounded. Trailing AI may receive up to +6% engine force and +4% top-speed allowance. Leading AI may receive at most -2% engine-force correction, but no reduction to its Speed-defined top-speed ceiling. No teleporting, impossible item immunity, or hidden collision changes. Race-progress gap, not rank alone, drives the correction.
+
+## 21.7 AI Items
+
+AI considers target distance, rear attackers, nearby projectiles, rank, track geometry, and current item. Seeker is used when a target ahead is within useful range; Slick when a rival is reasonably close behind; Shockwave is held defensively when practical; Nitro is preferred on straight or recovery lines; Rocket activates promptly.
+
+# 22. Camera System
+
+## 22.1 Chase Camera
+
+Camera target is a kart-local anchor slightly above and behind the chassis. Distance increases from approximately 5.2 m at low speed to 6.4 m at high speed. Height approximately 2.4-3.0 m. FOV transitions from approximately 62 degrees to 68 degrees at high speed. All transitions are smoothed.
+
+## 22.2 Drift Camera
+
+During sustained drift, apply a small horizontal offset, slight FOV increase, and mild roll limited to a few degrees. Camera motion may not obscure track direction.
+
+## 22.3 Collision Camera
+
+Impact response may use a short positional impulse and optional screen shake. Settings must allow reducing or disabling screen shake.
+
+## 22.4 Rear View
+
+While C is held or toggled according to final input implementation, camera faces behind the kart while movement controls remain unchanged and mini-map remains available. Return transition must be quick enough for racing use.
+
+# 23. Rendering, VFX & AAA Web Polish
+
+## 23.1 Lighting
+
+Recommended: HDR/environment contribution, directional sun/key, one principal shadow map, and baked/static environmental lighting where practical. Avoid many shadow-casting point lights.
+
+## 23.2 Materials
+
+Track uses PBR materials, roughness variation, selective normal maps, and baked AO. Kart uses semi-gloss chassis, configurable accent, and emissive boost elements.
+
+## 23.3 Shadows
+
+Dynamic shadows prioritize the player, nearby karts, and prominent projectiles. Low graphics preset may reduce resolution, distance, and caster count.
+
+## 23.4 Drift VFX
+
+Blue: short blue sparks. Orange: stronger orange sparks/flame. Purple: purple/violet burst, additional particles, and stronger exhaust pulse.
+
+## 23.5 Speed VFX
+
+At elevated velocity, use restrained speed lines, FOV expansion, and stronger exhaust. Boost adds an exhaust flare, subtle chromatic streak, and additional particles.
+
+## 23.6 Dust
+
+Off-road wheels emit instanced particles scaled by speed, wheel slip, and surface.
+
+## 23.7 Motion Blur
+
+Motion blur is quality-tier dependent. High may use full-screen directional or velocity-inspired blur; Medium uses simplified speed-edge blur; Low disables it. Gameplay must never miss the 60 FPS target solely to preserve motion blur.
+
+## 23.8 Bloom
+
+Bloom is limited to controlled emissive elements such as drift tiers, boost pads, item energy, and selected HUD transitions. It may not wash out the road.
+
+# 24. Audio Architecture
+
+## 24.1 Mixer
+
+Master  
++-- Music  
++-- Engines  
++-- Items  
++-- Environment  
++-- UI
+
+Each category has independent gain and persists locally.
+
+## 24.2 Engine Audio
+
+Use at least low-RPM and high-RPM loop layers. Synthetic RPM is based on normalized speed plus throttle influence. Pitch range target approximately 0.75-1.60. Crossfade avoids obvious loop switching. Nearby AI engines use spatial emitters and voice limiting.
+
+## 24.3 Drift Audio
+
+Components include tire squeal, spark tier cues, and boost-release cues. Tier transitions must be distinguishable without looking at the HUD.
+
+## 24.4 Item Audio
+
+Each item receives activation, travel loop where relevant, warning cue where relevant, and impact sound. Seeker and Apex warnings must be identifiable from generic item noise.
+
+## 24.5 Final Lap Music
+
+Preferred implementation is a pre-produced final-lap arrangement with a musically compatible bar-boundary transition. It should convey approximately an 8-12% intensity increase through tempo, percussion, instrumentation, or arrangement rather than merely restarting the same track faster.
+
+## 24.6 Finish Audio
+
+Race Director triggers a finish sting, player placement cue, and music transition. Results music must not overlap uncontrolled race stems.
+
+# 25. Data Model and Sources of Truth
+
+Core configuration objects:
+
+CharacterDefinition  
+KartVisualDefinition  
+RaceDefinition  
+TrackDefinition  
+CheckpointDefinition  
+SurfaceDefinition  
+ItemDefinition  
+ItemDistributionTable  
+AIProfile  
+GraphicsPreset  
+AudioSettings  
+PlayerSettings
+
+Runtime objects:
+
+RacerRuntime  
+RaceProgress  
+KartRuntime  
+ItemRuntime  
+ProjectileRuntime  
+HazardRuntime  
+DriftRuntime  
+AIState
+
+Persistent browser data is limited to volume settings, graphics settings, motion blur setting, screen shake setting, and last selected character. No race result persistence is required.
+
+# 26. Functional Requirements
+
+## Hub
+
+**HUB-001** The SPA must load into Title Screen without entering gameplay.
+
+**HUB-002** The first user interaction must unlock browser audio.
+
+**HUB-003** The Main Menu must list Kart Racer as playable.
+
+**HUB-004** Unavailable future games must be visibly marked and non-activating.
+
+**HUB-005** Settings and Controls must be available from Main Menu.
+
+**HUB-006** The title screen must show `Manaconda's Minigame Mayhem`, omit the former presentation line, and use the approved minigame mark instead of a letter monogram.
+
+**HUB-007** Browser metadata and the favicon must use the current product name and approved minigame mark.
+
+## Character Selection
+
+**CHAR-001** The system must load twelve roster entries from the character manifest.
+
+**CHAR-002** Selecting a driver must update portrait, name, class, six stats, and kart preview.
+
+**CHAR-003** Invalid or missing artwork must invoke procedural fallback rather than block selection.
+
+**CHAR-004** The player must explicitly confirm a selected driver before the race begins.
+
+## Race
+
+**RACE-001** A race must contain exactly eight active racers: one human and seven AI.
+
+**RACE-002** The standard race must require three valid laps.
+
+**RACE-003** Race ranking must derive from total validated race progress.
+
+**RACE-004** The race must provide a starting countdown.
+
+**RACE-005** Crossing the finish line after three valid laps must lock that racer's finish time and placement.
+
+**RACE-006** The player must be able to finish in any rank from first through eighth.
+
+## Physics
+
+**PHYS-001** All karts must use fixed-step simulation.
+
+**PHYS-002** Character stat values must affect the defined physics formulas.
+
+**PHYS-003** Kart-to-kart collision response must incorporate relative mass.
+
+**PHYS-004** Off-road behavior must use Traction.
+
+**PHYS-005** Karts must recover from inversion or unrecoverable track exits.
+
+**PHYS-006** Physics state must never generate NaN or infinite transforms during a normal race.
+
+## Drift
+
+**DRIFT-001** Space must initiate valid hop/drift behavior.
+
+**DRIFT-002** Drift must expose Blue, Orange, and Purple charge tiers.
+
+**DRIFT-003** Releasing drift must apply the highest achieved tier.
+
+**DRIFT-004** Mini-Turbo stat must modify both charge threshold and boost effectiveness.
+
+## Items
+
+**ITEM-001** Item boxes must use rank-weighted distribution.
+
+**ITEM-002** The item system must support the fifteen defined item types.
+
+**ITEM-003** Player inventory must contain one item slot.
+
+**ITEM-004** Items with multiple uses must display remaining charge count.
+
+**ITEM-005** Items must resolve cleanup after impact or expiration.
+
+**ITEM-006** Shockwave must destroy supported nearby threats.
+
+**ITEM-007** Apex Missile must target the first-place racer at terminal lock.
+
+**ITEM-008** Hyper-Drive Rocket must use track navigation rather than uncontrolled forward physics.
+
+## AI
+
+**AI-001** Every AI racer must complete Circuit Alpha without player involvement.
+
+**AI-002** AI must use track splines and dynamic lookahead.
+
+**AI-003** AI must avoid straightforward static hazards.
+
+**AI-004** AI must use items.
+
+**AI-005** Rubber-banding must remain inside documented limits.
+
+## Track
+
+**TRACK-001** Circuit Alpha must include all required surface types and features.
+
+**TRACK-002** Checkpoint sequence must prevent shortcut lap completion.
+
+**TRACK-003** Wrong-way traversal must not increment lap count.
+
+**TRACK-004** The mini-map must derive from the same track topology used by race progress.
+
+## UI
+
+**UI-001** HUD must display rank, lap, item, mini-map, portrait, and speed.
+
+**UI-002** Final lap must produce a clearly visible notification.
+
+**UI-003** Pause must stop race simulation.
+
+**UI-004** Results must show all eight finish positions.
+
+## Audio
+
+**AUD-001** Audio may not start before browser permission through interaction.
+
+**AUD-002** Engine pitch must respond continuously to kart state.
+
+**AUD-003** Final lap must alter musical presentation.
+
+**AUD-004** Independent master/music/effects-style controls must persist.
+
+## Performance
+
+**PERF-001** Rendering must support quality presets.
+
+**PERF-002** Decorative effects must be reducible independently of core simulation.
+
+**PERF-003** Representative eight-racer gameplay must meet performance acceptance conditions on baseline hardware.
+
+## Repository
+
+**REPO-001** The GitHub repository must be created before Slice 1 implementation begins.
+
+**REPO-002** The repository must contain the approved PRD, working Markdown PRD, architecture folders, status documentation, decision log, testing documentation, CI workflow, and documented developer commands.
+
+**REPO-003** A clean checkout must install, typecheck, lint, test, build, and run according to repository documentation.
+
+**REPO-004** Implementation status must be updated at every slice checkpoint so a new Cowork session can resume without relying on chat history.
+
+**REPO-005** Large binary asset handling must be configured before production binary art/audio is committed.
+
+**REPO-006** Slice 0 must not expand into Slice 1 gameplay implementation beyond a minimal app-shell proof.
+
+**REPO-007** The canonical repository and Pages base path must use `manacondas-minigame-mayhem`.
+
+**REPO-008** The production build must fail if the superseded product name or repository slug returns outside preserved history.
+
+# 27. Design and Content Requirements
+
+The visual language should be polished, colorful, kinetic, high-contrast, arcade-oriented, and original. Arcade-kart games may inspire it, but branding, items, characters, karts, UI, landmarks, sound, and effects must remain distinct. Presentation must extend beyond renamed familiar items, with separately authored silhouettes, VFX, audio, and icons.
+
+# 28. Privacy, Security, Rights & Access
+
+## 28.1 Data
+
+v1 requires no account and no server-side personal data. Local storage may contain only non-sensitive gameplay settings.
+
+## 28.2 Avatar Rights
+
+Before public release, every real-community-member avatar must have verified permission/provenance for the intended game use. Maintain at minimum asset owner/source, approved use, approval status, source file, and production derivative. Unapproved likenesses must not be publicly deployed.
 
 ## 28.3 External Libraries
 

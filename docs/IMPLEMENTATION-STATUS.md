@@ -2,11 +2,25 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - FROST LIVE ACCEPTED; ARC BLADE SCOPE APPROVED**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - FROST LIVE ACCEPTED; ARC BLADE LOCALLY VALIDATED / PUBLICATION PENDING**
 
 PRD baseline: **v1.1, working implementation amendment 2.15**.
 
-## Frost acceptance and Arc Blade continuation
+## Arc Blade gameplay checkpoint — 2026-09-16
+
+Governance PR #138 squash-merged at `7ce6511bc040d2b176ed528b687ed589fafd045d`. Hosted PR CI `35026904237` and post-merge validation/Pages `35027045477` passed; PR comment `5688523172` records publication. GitHub main was rechecked on September 16 and remains that commit. After the governance checkpoint, Manny authorized gameplay with “Proceed” and directed continuation on September 16. This local implementation on `feature/slice-5-arc-blade-gameplay` stays within amendment 2.15 / ADR-076. Gameplay publication and live acceptance remain separate, pending gates.
+
+Arc now provides three forward-only throws, the approved distance-parameterized curved outbound path and direct moving-owner return, per-leg hit sets with turnaround separation, safe owner catch without refund, chronological swept contacts and wall priority, immunity absorption, pre-movement Shockwave clearing, finite lifetime, shared capacity and owner cancellation. The existing runtime applies the accepted spin, driver hit state and velocity-oriented camera anchor. Invalid/full-capacity/failed-commit use preserves charge and cadence. Original procedural blade/trail/return accent, hit/catch flashes and gesture-unlocked bounded audio are included; pause/disposal cleanup uses race time and explicit resource release.
+
+The primary `?testItem=arc-blade` route keeps normal driving and unrestricted ITEM input. Optional Arc counter diagnostics predict an incoming encounter while the player drives; they never gate E/Left Shift/mobile ITEM, reposition racers, or grant AI inventory. They report PASS only for a confirmed in-range Shockwave clear or a measured Prismatic contact with the expected applied/blocked effect. Misses, interception, wall/catch/expiry and recovery produce INCONCLUSIVE. See `docs/TESTING.md` for the exact routes and their evidence limits; **no Arc link is playable on the published build yet**.
+
+Full local `npm run validate` passed on September 16 using retained dependencies: **48 test files / 431 tests**, **82.50% statement coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification and production build. `git diff --check` and `git lfs fsck` passed. New tests cover exact flight/cadence/arming/catch/expiry boundaries, both legs and shared capacity, actual Rapier/runtime spin/camera/counter paths, ordinary input while moving, multiple Circuit Alpha sections and elevated launches, pause/audio/resource disposal, 200 complete throws plus an 800-throw 40-object stress run. The existing large-bundle warning remains nonblocking; the kart chunk is 3,647.94 kB (1,303.57 kB gzip).
+
+An isolated non-coverage stress observation after allocation cleanup recorded 1,386 updates with 40 Arc objects and eight racer snapshots: median **0.772 ms**, p95 **1.834 ms**, maximum **7.863 ms**. This is local Node/JSDOM CPU evidence, not a rendered-browser/device performance pass or certification of the final all-item budget. Chase/rear frustum checks at mobile/desktop aspects passed after the camera intro completed. The connected browser rejected the local preview with `ERR_BLOCKED_BY_CLIENT`; no rendered visual, audible sound, actual device or live-acceptance pass is claimed. Hosted clean-install CI, deployment and Manny's live matrix remain required.
+
+No approved flight/balance values, item probabilities, racer stats, track/checkpoint authority, dependencies, runtime binary assets, accepted item behavior, AI acquisition/use, validation configuration or Slice 6 scope changed. Four item effects remain unimplemented (Arc Hammers, Ink, Nitro Overdrive, Hyper-Drive Rocket); Arc gameplay still awaits publication and live acceptance. Full AI tactics, final cross-item/soak/performance evidence, issue #106 and full Slice 5 acceptance remain open.
+
+## Historical Frost acceptance and Arc Blade governance continuation
 
 GitHub main `f44176ceef38dfeebee10f6d44a0c41fdb869629` records Frost live acceptance in `docs/SLICE-5-FROST-ORBS-SCOPE.md`. PR #137 gameplay merged at `b69648b429c78161593403ce0074b9df0567603e` after hosted CI `34475765908` passed; post-merge validation/Pages `34475955547` passed. Manny's final acceptance is PR #137 comment `5625755529`. It covers unrestricted racing, Shockwave, Prismatic protected/expired controls and the remaining live matrix. Follow-on acceptance-documentation CI/Pages `34533224332` passed. No additional device/browser-version evidence is inferred. **Frost is LIVE ACCEPTED**; this supersedes historical local/pending wording below.
 
@@ -455,7 +469,7 @@ Cleo / The Gilded Stitch remains archived and inactive. Alex fills the former AA
 
 ## Next recommended action
 
-Complete the approved Arc Blade governance publication under amendment 2.15 / ADR-076. Record hosted PR and post-merge validation/Pages evidence, then proceed to the separately authorized gameplay increment. Frost and earlier accepted items remain live accepted.
+Present the locally validated Arc Blade gameplay checkpoint for Manny's publication approval. After approval, publish the exact reviewed tree, require passing hosted clean-install CI before merge, verify post-merge validation/Pages, and provide the unrestricted fixed-item and verified counter routes for live acceptance. Frost and earlier accepted items remain live accepted.
 
 Do not reopen competitive-balance tuning while establishing the baseline item implementation unless objective Slice 5 evidence exposes a blocking defect. Do not begin Slice 6 until Slice 5 is live accepted.
 

@@ -2,6 +2,7 @@ import { PrismaticSystem, PRISMATIC } from './items/PrismaticSystem';
 import { FROST } from './items/FrostOrbs';
 import { FrostVisual } from './items/FrostVisual';
 import { FrostFixture, frostTestFromSearch } from './items/FrostFixture';
+import { ArcBladeCounterFixture, arcCounterFromSearch } from './items/ArcBladeCounterFixture';
 import { PrismaticVisual } from './items/PrismaticVisual';
 import { PrismaticMusic } from '../audio/PrismaticMusic';
 import { PrismaticCounterFixture, prismaticTestFromSearch } from './items/PrismaticCounterFixture';
@@ -210,6 +211,9 @@ export class KartTimeTrial {
   private readonly prismaticVisual = new PrismaticVisual();
   private readonly frostVisual = new FrostVisual();
   private readonly frostFixture = new FrostFixture(frostTestFromSearch(window.location.search));
+  private readonly arcFixture = new ArcBladeCounterFixture(
+    arcCounterFromSearch(window.location.search),
+  );
   private readonly prismaticMusic = new PrismaticMusic();
   private readonly prismaticContactVictims: string[] = [];
   private prismaticFixtureContact: string | null = null;
@@ -228,7 +232,13 @@ export class KartTimeTrial {
   private readonly shockwaveCounterTest = shockwaveCounterFromSearch(window.location.search);
   private readonly shockwaveCounterFixture = new ShockwaveCounterFixture(this.shockwaveCounterTest);
   private readonly itemPhysicsCapacity = new ItemPhysicsCapacity();
-  private readonly projectiles = new ProjectileSystem(this.track, this.itemPhysicsCapacity);
+  private readonly projectiles = new ProjectileSystem(
+    this.track,
+    this.itemPhysicsCapacity,
+    (event) => {
+      this.arcFixture.observe(event, this.arcEvidence());
+    },
+  );
   private readonly hazards = new HazardSystem(this.track, this.itemPhysicsCapacity, (position) =>
     this.slickGround.at(position),
   );
@@ -340,6 +350,7 @@ export class KartTimeTrial {
     this.hazards.dispose();
     this.slickGround.dispose();
     this.projectiles.dispose();
+    this.arcFixture.cancel(this.projectiles);
     this.shockwaveCounterFixture.reset();
     this.shockwave.dispose();
     this.prismatic.dispose();
@@ -357,6 +368,7 @@ export class KartTimeTrial {
 
   public setTouchControl(control: string, pressed: boolean): void {
     if (pressed) {
+      void this.projectiles.unlockArcAudio();
       void this.seekerWarningAudio.unlock();
       void this.apexWarningAudio.unlock();
       void this.prismaticMusic.unlock();
@@ -575,10 +587,12 @@ export class KartTimeTrial {
         this.raceDirector.registerFinish(opponent.progress);
         this.racerEffects.clearFrost(opponent.id);
         this.prismatic.clear(opponent.id);
+        this.projectiles.cancelOwnerArcs(opponent.id);
       }
 
       if ((projection.lateralDistance > 20 || position.y < -2) && opponent.recoveryCooldown === 0) {
         const tangent = projection.tangent;
+        this.projectiles.cancelOwnerArcs(opponent.id);
         this.racerEffects.clearFrost(opponent.id);
         this.prismatic.clear(opponent.id);
         opponent.controller.respawn(
@@ -761,6 +775,13 @@ export class KartTimeTrial {
     let targets = this.projectileTargets();
     const racers = this.itemTargetingProgress();
     const playerItem = this.itemSystem.hudSnapshot('player');
+    this.arcFixture.update(dt, {
+      track: this.track,
+      projectiles: this.projectiles,
+      targets,
+      held: playerItem.phase === 'held' ? playerItem.itemId : null,
+      protection: this.prismatic.remaining('player'),
+    });
     this.frostFixture.update(dt, {
       track: this.track,
       projectiles: this.projectiles,
@@ -817,6 +838,7 @@ export class KartTimeTrial {
     );
     for (const pulse of this.shockwave.drainPulses()) {
       this.frostFixture.observePulse(pulse.center, this.projectiles);
+      this.arcFixture.observePulse(pulse.center, this.projectiles);
       const pushes = this.shockwave.dispatch(pulse, {
         projectileSystem: this.projectiles,
         hazardSystem: this.hazards,
@@ -914,6 +936,18 @@ export class KartTimeTrial {
         this.spinoutCameraAnchor.capture(this.kart.forward(), this.kart.velocity());
       }
     }
+    this.arcFixture.afterProjectiles(this.projectiles, this.arcEvidence());
+  }
+
+  private arcEvidence() {
+    const spin = this.racerEffects.spinoutState('player');
+    return {
+      velocity: this.kart.velocity(),
+      protection: this.prismatic.remaining('player'),
+      immune: this.racerEffects.isItemImmune('player'),
+      spinId: spin?.id ?? null,
+      spinSeconds: spin?.remainingSeconds ?? 0,
+    };
   }
 
   private frostEvidence() {
@@ -1057,6 +1091,16 @@ export class KartTimeTrial {
         },
       },
     );
+    if (this.itemSystem.heldItem('player')?.itemId === 'arc-blade' && result === 'rejected') {
+      const cooldown = this.itemSystem.useCooldownRemaining('player');
+      this.itemUseMessage =
+        cooldown > 1e-9
+          ? `ARC READY IN ${cooldown.toFixed(1)}s`
+          : this.itemPhysicsCapacity.count() >= 40
+            ? 'TOO MANY ACTIVE ITEMS · ARC HELD'
+            : 'CLEAR SPACE NEEDED · ARC HELD';
+      this.itemUseMessageSeconds = 1.5;
+    }
     if (this.itemSystem.heldItem('player')?.itemId === 'slick-trap' && result === 'rejected') {
       this.itemUseMessage = 'SLICK NOT READY · ITEM HELD';
       this.itemUseMessageSeconds = 1.5;
@@ -1079,6 +1123,9 @@ export class KartTimeTrial {
   }
 
   private respawn(): void {
+    this.arcFixture.cancel(this.projectiles);
+    this.projectiles.cancelOwnerArcs('player');
+    this.projectiles.silenceArcAudio();
     this.frostFixture.cancel();
     this.prismaticContactVictims.length = 0;
     this.prismaticFixtureContact = null;
@@ -1183,6 +1230,7 @@ export class KartTimeTrial {
       this.paused ? 0 : dt,
     );
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceFrostAudio();
+    if (this.paused || Howler.volume() <= 0) this.projectiles.silenceArcAudio();
     this.prismaticMusic.update(
       this.prismatic.remaining('player'),
       dt,
@@ -1241,6 +1289,7 @@ export class KartTimeTrial {
           this.shockwaveCounterFixture.badge(),
           this.prismaticFixture.badge(),
           this.frostFixture.badge(),
+          this.arcFixture.badge(),
         ]
           .filter(Boolean)
           .join(' · ') || null,
@@ -1578,6 +1627,7 @@ export class KartTimeTrial {
   }
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
+    void this.projectiles.unlockArcAudio();
     void this.seekerWarningAudio.unlock();
     void this.apexWarningAudio.unlock();
     void this.prismaticMusic.unlock();

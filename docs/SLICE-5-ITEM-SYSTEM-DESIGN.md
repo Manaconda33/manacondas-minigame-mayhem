@@ -249,7 +249,7 @@ Slick Trap acceptance evidence, 2026-09-07: gameplay PR #120 squash-merged at `b
 
 ## Race, HUD, input, and AI integrity
 
-Frost acceptance reconciliation: PR #137 comment `5625755529` and `docs/SLICE-5-FROST-ORBS-SCOPE.md` at `f44176ceef38dfeebee10f6d44a0c41fdb869629` record Manny's final live acceptance. Follow-on validation/Pages `34533224332` passed. This closes the bounded Frost functional row; final all-item gates remain open. Rebounding Arc Blade is approved next in `docs/SLICE-5-ARC-BLADE-SCOPE.md`, amendment 2.15 / ADR-076. Manny approved its full scope and governance publication on September 11, 2026; gameplay remains a later gate.
+Frost acceptance reconciliation: PR #137 comment `5625755529` and `docs/SLICE-5-FROST-ORBS-SCOPE.md` at `f44176ceef38dfeebee10f6d44a0c41fdb869629` record Manny's final live acceptance. Follow-on validation/Pages `34533224332` passed. This closes the bounded Frost functional row; final all-item gates remain open. Rebounding Arc Blade is locally implemented and validated under `docs/SLICE-5-ARC-BLADE-SCOPE.md`, amendment 2.15 / ADR-076, following governance PR #138 and Manny's gameplay authorization. Local validation on September 16 passed 48 files / 431 tests and the full validation command. Gameplay publication and live acceptance remain pending, so the Arc acceptance row remains open.
 
 Blaze acceptance reconciliation: PR #135 gameplay and the governing Blaze scope at `6ffef50800eea8b1f3f952c3d227020aebfe8913` record Manny's deployed playtest pass. Follow-on CI/Pages `34404232942` passed validation and deployment. This closes the bounded Blaze functional row only; Frost and final all-item gates remain open. See IMPLEMENTATION-STATUS.md for evidence and reporting limits.
 

@@ -1,12 +1,12 @@
 # Slice 5 Kinetic Arc Hammers Scope
 
-**Status: SCOPE APPROVED BY MANNY ON SEPTEMBER 16, 2026. GOVERNANCE PUBLICATION IS IN PROGRESS. GAMEPLAY IMPLEMENTATION AND ASSET DEVELOPMENT ARE EXPLICITLY NOT AUTHORIZED.**
+**Status: SCOPE APPROVED AND GOVERNANCE PUBLISHED. PR #142 MERGED AT `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; POST-MERGE VALIDATION/PAGES `35124948452` PASSED. GAMEPLAY IMPLEMENTATION AND ASSET/PRESENTATION DEVELOPMENT REMAIN EXPLICITLY NOT AUTHORIZED.**
 
-This document is the approved bounded product/engineering contract for **PRD amendment 2.16 / ADR-077**. Manny approved the complete contract on September 16, 2026 and explicitly directed that gameplay and asset development remain off the table. The next permitted work is governance publication only: synchronize the canonical PRD, decision log, item-system checklist, testing/status records, and Word approval artifact, then validate and publish that documentation checkpoint. Gameplay requires a separate later authorization after the governance gate is fully cleared.
+This document is the approved bounded product/engineering contract for **PRD amendment 2.16 / ADR-077**. Manny approved the complete contract on September 16, 2026 and explicitly directed that gameplay and asset development remain off the table. The governance publication gate is now cleared through PR #142 and post-merge validation/Pages. No further Hammer work is authorized by that publication. Gameplay and asset/presentation development require a separate later Manny authorization.
 
 ## Authoritative starting point
 
-Continue from `main` `da6e7e178d30ed5e2d03103dd1bbe18ba120b97d`, after Rebounding Arc Blade live acceptance reconciliation and successful post-merge validation/Pages run `35121093818`.
+Governance is published on `main` at `ba7e20ab69666ce04ba253a147c93b1ae985db8f` after Rebounding Arc Blade live acceptance. Post-merge validation and GitHub Pages run `35124948452` passed.
 
 PRD Section 15.10 is fixed authority for Kinetic Arc Hammers:
 
@@ -143,7 +143,7 @@ Approved September 16, 2026. Kinetic Arc Hammers retain PRD Section 15.10's five
 
 ## ADR-077: Bound Kinetic Arc Hammers to one physical terrain rebound
 
-**Status:** Approved by Manny on September 16, 2026; canonical decision-log publication pending.
+**Status:** Governance published through PR #142 at `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; post-merge validation/Pages `35124948452` passed. Gameplay and asset/presentation development remain NOT AUTHORIZED.
 
 **Context:** PRD Section 15.10 defines the Hammer identity but leaves launch physics, bounce coefficients, collision ordering, lifetime boundaries, defensive counters and lifecycle behavior unspecified. The current runtime has reusable inventory/capacity/contact/counter systems but no ballistic terrain-bounce projectile path.
 
@@ -156,7 +156,7 @@ Approved September 16, 2026. Kinetic Arc Hammers retain PRD Section 15.10's five
 ## Approval gates
 
 1. **Scope approval:** **COMPLETE.** Manny approved the complete contract on September 16, 2026 and explicitly kept gameplay and asset development off the table.
-2. **Governance publication:** **IN PROGRESS / NOT YET CLEARED.** Synchronize canonical `docs/PRD.md`, `docs/DECISIONS.md`, `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, `docs/TESTING.md`, `docs/IMPLEMENTATION-STATUS.md`, and the Word PRD approval artifact required by PRD §31.3; validate, hosted CI, merge and Pages deployment.
+2. **Governance publication:** **COMPLETE.** PR #142 squash-merged at `ba7e20ab69666ce04ba253a147c93b1ae985db8f` after clean-head hosted CI `35124762217` passed; post-merge validation and GitHub Pages `35124948452` passed. Markdown governance and the 52-page Word PRD approval artifact are synchronized.
 3. **Gameplay authorization:** **NOT AUTHORIZED.** Separate from scope/governance publication. Do not begin gameplay or asset development unless Manny explicitly authorizes it after the governance gate is fully cleared.
 4. **Gameplay publication:** not applicable until separately authorized implementation exists.
 5. **Live acceptance:** not applicable until separately authorized gameplay is deployed.

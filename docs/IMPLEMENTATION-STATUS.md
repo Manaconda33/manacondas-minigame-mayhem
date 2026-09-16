@@ -2,47 +2,59 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - REBOUNDING ARC BLADE LIVE ACCEPTED; KINETIC ARC HAMMERS SCOPE APPROVED / GOVERNANCE PUBLICATION PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - REBOUNDING ARC BLADE LIVE ACCEPTED; KINETIC ARC HAMMERS GOVERNANCE PUBLISHED / IMPLEMENTATION HELD**
 
-PRD baseline on `main`: **v1.1, approved implementation amendment 2.15**. The PR #142 governance branch synchronizes approved amendment 2.16 / ADR-077 for publication.
+PRD baseline: **v1.1, approved implementation amendment 2.16 / ADR-077**.
 
-Latest verified `main`: **`da6e7e178d30ed5e2d03103dd1bbe18ba120b97d`**.
+Latest verified `main`: **`ba7e20ab69666ce04ba253a147c93b1ae985db8f`**.
 
-**Hard hold:** Manny approved the complete Kinetic Arc Hammers scope on September 16, 2026 and explicitly directed that Arc Hammers gameplay development and asset/presentation development remain off the table. The current checkpoint is documentation/governance only. Gameplay requires a separate later authorization after governance publication is fully cleared.
+**Hard hold:** Manny approved the complete Kinetic Arc Hammers scope on September 16, 2026 and explicitly directed that Arc Hammers gameplay development and asset/presentation development remain off the table. Governance publication is complete. No Hammer implementation or asset work may begin without a separate later Manny authorization.
 
-## Rebounding Arc Blade final publication and live acceptance - 2026-09-16
+## Rebounding Arc Blade final state
 
-Rebounding Arc Blade is **LIVE ACCEPTED** under amendment 2.15 / ADR-076. Governance PR #138 merged at `7ce6511bc040d2b176ed528b687ed589fafd045d`; gameplay PR #139 merged at `8822341b61900799e0166cfe94bf69cb3986bf0e`; hosted PR CI `35118244169` and post-merge validation/Pages `35118484183` passed with **48 test files / 431 tests**, **82.50% statement coverage**, strict typecheck, zero-warning lint, runtime/branding asset checks and production build. Manny reported all deployed Arc Blade live tests passed; PR #139 comment `5700594653` records the product-owner result. Acceptance reconciliation PR #140 and README alignment PR #141 subsequently merged, with post-merge runs `35120596434` and `35121093818` passing.
+Rebounding Arc Blade is **LIVE ACCEPTED** under amendment 2.15 / ADR-076. Gameplay PR #139 merged at `8822341b61900799e0166cfe94bf69cb3986bf0e`; post-merge validation/Pages `35118484183` passed; PR #139 comment `5700594653` records Manny's all-tests-pass deployed acceptance. Reconciliation PRs #140/#141 also passed post-merge CI/Pages.
 
-## Kinetic Arc Hammers approved scope - 2026-09-16
+## Kinetic Arc Hammers governance publication - 2026-09-16
 
-`docs/SLICE-5-ARC-HAMMERS-SCOPE.md`, amendment 2.16 and ADR-077 define the approved bounded contract: five charges; 0.35-second minimum commit cadence; forward/backward ballistic throws; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s^2 gravity, 0.20x capped planar inheritance; 0.36 m radius; 0.18-second owner arming; one supporting-surface bounce with 0.78 tangential retention / 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-wall and second-terrain-contact destruction; standard 0.85-second hit spin and destruction; later owner self-hit; generic/Prismatic immunity absorption; Shockwave <=5 m pre-movement clearing; guardrail > racer > terrain same-time priority; shared 40-object capacity; and pause/lifecycle cleanup.
+`docs/SLICE-5-ARC-HAMMERS-SCOPE.md`, PRD amendment 2.16 and ADR-077 are now the authoritative approved Hammer contract. PR #142 was limited to eight governance/PRD files and included no gameplay source, runtime asset, model, VFX/audio implementation, fixture, probability, tuning, racer-stat, track/checkpoint, AI-policy, dependency, or Slice 6 change.
 
-The future original procedural presentation and acceptance routes are approved **only as contract language**. No Hammer runtime source, gameplay code, model, VFX, audio, binary asset, fixture, or playable test route is authorized or created by this checkpoint.
+Publication evidence:
 
-## Governance publication checkpoint
+- Final clean PR head: `3fa42acf8fdab3e13f4ff2a3010205137bf2b0e9`.
+- Hosted PR CI `35124762217`: PASS, including Git LFS verification, clean `npm ci`, strict typecheck, zero-warning lint, **48 test files / 431 tests**, **82.50% statement coverage**, runtime/branding verification and production build.
+- PR #142 squash merge: **`ba7e20ab69666ce04ba253a147c93b1ae985db8f`**.
+- Post-merge validation / GitHub Pages: **`35124948452` PASS** for both validation and deploy jobs.
+- The synchronized Word PRD renders to 52 pages. Pages 1-44 and 49-50 remained pixel-identical to the prior approved artifact; all changed/new appendix pages were visually reviewed without clipping, overlap, missing glyphs, or footer errors.
+- Temporary governance transfer/synchronization tooling was removed before the final PR diff and merge.
+- The unchanged dependency set continues to report three moderate npm audit findings; no remediation is claimed here.
 
-The PR #142 governance tree synchronizes `docs/PRD.md`, `docs/DECISIONS.md`, `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, `docs/TESTING.md`, `docs/IMPLEMENTATION-STATUS.md`, `README.md`, `docs/SLICE-5-ARC-HAMMERS-SCOPE.md`, and the Word PRD approval artifact with amendment 2.16 / ADR-077. The Word artifact was rendered after synchronization: 52 pages, with pages 1-44 and 49-50 pixel-identical to the approved 2.15 artifact and all changed/new appendix pages visually reviewed without clipping, overlap, missing glyphs, or footer errors.
+The **governance gate is cleared**. This does **not** clear the gameplay or asset-development gates.
 
-No gameplay source or runtime asset is part of this governance synchronization. Before merge, the final tree must pass full repository validation, Git LFS verification and hosted PR CI. Temporary governance transfer tooling must be removed before merge. After merge, verify post-merge validation/Pages and then **STOP**. Gameplay/assets remain held.
+## Kinetic Arc Hammers approved contract summary
 
-## Slice 5 accepted functional increments
+Five charges; 0.35-second minimum commit cadence; forward/backward ballistic throws; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s^2 gravity and 0.20x capped planar inheritance; 0.36 m radius; 0.18-second owner arming; one actual supporting-surface bounce with 0.78 tangential retention / 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-wall and second-terrain-contact destruction; standard 0.85-second hit spin and destruction; later owner self-hit; generic/Prismatic immunity absorption; Shockwave <=5 m pre-movement clearing; guardrail > racer > terrain same-time priority; shared 40-object capacity; and pause/lifecycle cleanup.
 
-Deployed and live accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, and Rebounding Arc Blade. The seeded distribution evidence from PR #114 remains valid.
+The future original procedural presentation and future acceptance routes remain **contract language only**. No Hammer runtime source, model, VFX, audio, binary asset, fixture, or playable test route exists or is authorized by this checkpoint.
 
-Four item effects remain unimplemented and not live accepted: **Kinetic Arc Hammers, Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket**. Arc Hammers is scope-approved but implementation-held.
+## Slice 5 state
 
-## Known defects / unresolved items
+Deployed/live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, and Rebounding Arc Blade. The seeded distribution evidence from PR #114 remains valid.
+
+Four item effects remain unimplemented and not live accepted: **Kinetic Arc Hammers, Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket**. Arc Hammers is scope/governance approved but implementation-held.
+
+Remaining Slice 5 closure work also includes full AI item acquisition/use, final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, final desktop/mobile full-slice acceptance, and issue #106 disposition as appropriate. Slice 6 remains locked.
+
+## Known issues
 
 - Issue #106 remains future development and nonblocking for accepted item increments.
 - The existing production-build large-chunk warning remains known and nonblocking.
-- Three moderate npm audit findings remain in the unchanged dependency set; no remediation is part of this governance increment.
-- Full AI item acquisition/use, final all-item interaction/counter matrix, final lifecycle/object-count soak, final item/VFX performance evidence, and final desktop/mobile Slice 5 acceptance remain open.
-- Slice 6 remains locked.
+- Three moderate npm audit findings remain in the unchanged dependency set.
+- No Arc Blade defect is open.
+- Arc Hammers has no gameplay defect because gameplay does not exist and is not authorized.
 
 ## Next recommended action
 
-Complete and publish **governance documentation only** for amendment 2.16 / ADR-077. Require passing hosted CI before merge, verify post-merge validation/Pages, record the governance checkpoint, then stop. **Do not begin Kinetic Arc Hammers gameplay or asset/presentation development without a new explicit Manny authorization.**
+**STOP at this governance gate.** Await a new explicit Manny instruction before doing any Kinetic Arc Hammers gameplay or asset/presentation development. Do not infer implementation authorization from scope approval or governance publication. Slice 6 remains locked.
 
 ## Approval state
 
@@ -52,7 +64,7 @@ Complete and publish **governance documentation only** for amendment 2.16 / ADR-
 
 **Kinetic Arc Hammers scope:** APPROVED 2026-09-16.
 
-**Kinetic Arc Hammers governance publication:** PENDING PR #142 merge + post-merge verification.
+**Kinetic Arc Hammers governance publication:** COMPLETE through PR #142 / `ba7e20ab69666ce04ba253a147c93b1ae985db8f` / run `35124948452`.
 
 **Kinetic Arc Hammers gameplay:** NOT AUTHORIZED.
 

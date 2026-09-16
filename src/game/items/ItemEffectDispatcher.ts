@@ -12,6 +12,7 @@ import { ARC_HAMMER_PROJECTILE_CONFIG } from './ArcHammers';
 import { ItemSystem, type ItemUseDirection } from './ItemSystem';
 import { ProjectileSystem, type ProjectileLaunchContext } from './ProjectileSystem';
 import { RacerEffects } from './RacerEffects';
+import { InkSplatSystem, type InkApplicationResult } from './InkSplatSystem';
 
 export type ItemUseResolution = 'rejected' | 'unsupported' | 'activated';
 
@@ -23,6 +24,8 @@ export interface ItemEffectRuntime {
   readonly racers?: readonly RacerProgress[];
   readonly projectileSystem?: ProjectileSystem;
   readonly projectileLaunch?: ProjectileLaunchContext;
+  readonly inkSplatSystem?: InkSplatSystem;
+  readonly onInkResolution?: (result: InkApplicationResult) => void;
 }
 
 export function executeItemUse(
@@ -88,6 +91,18 @@ export function executeItemUse(
     )
       ? 'activated'
       : 'rejected';
+  }
+
+  if (request.itemId === 'ink-splat') {
+    if (runtime?.inkSplatSystem === undefined || runtime.racers === undefined) return 'unsupported';
+    const result = runtime.inkSplatSystem.apply(
+      racerId,
+      runtime.racers,
+      (targetId) => racerEffects.isItemImmune(targetId),
+      () => itemSystem.commitUse(racerId),
+    );
+    runtime.onInkResolution?.(result);
+    return result.accepted ? 'activated' : 'rejected';
   }
 
   if (request.itemId === 'arc-hammers') {

@@ -164,6 +164,13 @@ export function mountAppShell(root: HTMLElement): void {
     root.innerHTML = `
       <section class="game-shell" aria-label="Circuit Alpha Grand Prix">
         <canvas id="game-canvas" tabindex="0"></canvas>
+        <div id="ink-overlay" class="ink-overlay" aria-hidden="true" hidden>
+          <span class="ink-splat ink-splat-northwest"></span>
+          <span class="ink-splat ink-splat-northeast"></span>
+          <span class="ink-splat ink-splat-southwest"></span>
+          <span class="ink-splat ink-splat-center"></span>
+          <span class="ink-splat ink-splat-southeast"></span>
+        </div>
         <div class="hud top-left"><span>Lap</span><strong id="lap">1 / 3</strong></div>
         <div class="hud top-center"><span>Time</span><strong id="time">0:00.00</strong></div>
         <div class="hud top-right"><span>Speed</span><strong id="speed">0 km/h</strong></div>
@@ -209,6 +216,11 @@ export function mountAppShell(root: HTMLElement): void {
       getElement('#countdown').textContent = state.countdown;
       getElement('#countdown').hidden = state.countdown === '';
       getElement('#wrong-way').hidden = !state.wrongWay;
+      const inkOverlay = getElement('#ink-overlay');
+      inkOverlay.hidden = !state.ink.active;
+      inkOverlay.style.setProperty('--ink-fade', String(state.ink.fade));
+      inkOverlay.style.setProperty('--ink-coverage', String(state.ink.coverage));
+      inkOverlay.dataset.active = String(state.ink.active);
       updateRaceMinimap(minimap, state.minimap);
       updateItemHud(itemHud, state.item);
       const testMode = getElement('#item-test-mode');

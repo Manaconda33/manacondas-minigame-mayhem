@@ -7,6 +7,7 @@ import { KartController } from '../src/game/physics/KartController';
 import { createKartTuning, sliceOneDriver } from '../src/config/kartTuning';
 import { RacerEffects } from '../src/game/items/RacerEffects';
 import { FrostFixture } from '../src/game/items/FrostFixture';
+import { ArcBladeCounterFixture } from '../src/game/items/ArcBladeCounterFixture';
 import { FrostVisual } from '../src/game/items/FrostVisual';
 import { FROST_ORB_CONFIG } from '../src/game/items/FrostOrbs';
 import { PrismaticSystem, PRISMATIC } from '../src/game/items/PrismaticSystem';
@@ -66,6 +67,7 @@ function rig() {
     prismaticVisual,
     frostVisual: new FrostVisual(),
     frostFixture: new FrostFixture(null),
+    arcFixture: new ArcBladeCounterFixture(null),
     prismaticMusic,
     prismaticFixture: new PrismaticCounterFixture(null),
     prismaticContactVictims: [],

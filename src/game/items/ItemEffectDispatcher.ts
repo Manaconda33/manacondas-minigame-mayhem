@@ -7,6 +7,7 @@ import type { RacerProgress } from '../race/RaceDirector';
 import { ITEM_DEFINITIONS } from './itemDefinitions';
 import { BLAZE_ORB_CONFIG } from './BlazeOrbs';
 import { FROST_ORB_CONFIG } from './FrostOrbs';
+import { ARC_BLADE_CONFIG } from './ArcBlade';
 import { ItemSystem, type ItemUseDirection } from './ItemSystem';
 import { ProjectileSystem, type ProjectileLaunchContext } from './ProjectileSystem';
 import { RacerEffects } from './RacerEffects';
@@ -90,11 +91,13 @@ export function executeItemUse(
 
   const definition = ITEM_DEFINITIONS[request.itemId];
   const projectile =
-    request.itemId === 'frost-orbs'
-      ? FROST_ORB_CONFIG
-      : request.itemId === 'blaze-orbs'
-        ? BLAZE_ORB_CONFIG
-        : definition.projectile;
+    request.itemId === 'arc-blade'
+      ? ARC_BLADE_CONFIG
+      : request.itemId === 'frost-orbs'
+        ? FROST_ORB_CONFIG
+        : request.itemId === 'blaze-orbs'
+          ? BLAZE_ORB_CONFIG
+          : definition.projectile;
   if (projectile !== undefined) {
     const projectileSystem = runtime?.projectileSystem;
     const launch = runtime?.projectileLaunch;
@@ -103,15 +106,25 @@ export function executeItemUse(
     const target =
       request.itemId === 'seeker-drone' ? nearestRacerAhead(racerId, runtime?.racers ?? []) : null;
     if (request.itemId === 'seeker-drone' && target === null) return 'rejected';
-    const projectileId = projectileSystem.spawn({
-      targetId: target?.id,
-      itemId: request.itemId,
-      ownerId: racerId,
-      direction: request.direction,
-      config: projectile,
-      launch,
-    });
+    if (
+      request.itemId === 'arc-blade' &&
+      runtime?.racers &&
+      !runtime.racers.some((r) => r.id === racerId && !r.finished)
+    )
+      return 'rejected';
+    const projectileId = projectileSystem.spawn(
+      {
+        targetId: target?.id,
+        itemId: request.itemId,
+        ownerId: racerId,
+        direction: request.direction,
+        config: projectile,
+        launch,
+      },
+      request.itemId === 'arc-blade' ? () => itemSystem.commitUse(racerId) : undefined,
+    );
     if (projectileId === null) return 'rejected';
+    if (request.itemId === 'arc-blade') return 'activated';
     if (itemSystem.commitUse(racerId)) return 'activated';
 
     projectileSystem.remove(projectileId);

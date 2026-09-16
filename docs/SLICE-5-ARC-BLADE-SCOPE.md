@@ -1,6 +1,6 @@
 # Slice 5 Rebounding Arc Blade Scope
 
-**Status: SCOPE AND GOVERNANCE PUBLICATION APPROVED by Manny in Work on September 11, 2026. Amendment 2.15 / ADR-076 govern the complete contract below. Gameplay remains unimplemented; governance merge and successful CI/Pages precede the separately authorized gameplay increment.**
+**Status: GAMEPLAY LOCALLY IMPLEMENTED AND VALIDATED on September 16, 2026; gameplay publication and LIVE ACCEPTANCE pending. Manny approved the complete scope and governance publication on September 11. PR #138 and CI/Pages `35027045477` cleared governance; Manny subsequently authorized gameplay with “Proceed” and continued it on September 16. Amendment 2.15 / ADR-076 govern the unchanged contract below.**
 
 ## Authoritative starting point
 
@@ -37,7 +37,7 @@ Resolve contacts in order along actual travel, not racer-array order. A destruct
 
 Use an original three-segment violet/cyan energy blade with a small bright center and a short finite ribbon trail. It rotates visibly while traveling. The return leg has a distinct bright inner accent so the second pass is readable in chase and rear cameras. Ordinary hit sparks, a small catch flash, and brief original throw/return/catch tones communicate the state. No screen obstruction or additional racer animation beyond the accepted spin. The held HUD keeps the three-charge count; a catch never adds a charge. All presentation uses bounded procedural resources, honors volume/gesture unlock/pause/unavailable audio, and is cleaned up on reset/disposal. Final production polish remains Slice 6.
 
-## Engineering assessment
+## Pre-implementation engineering assessment
 
 At this base, `itemDefinitions.ts` registers three charges but no Arc projectile configuration. `ItemEffectDispatcher.ts` returns unsupported for the item, and the ordinary projectile loop destroys a projectile on first racer contact. Reusing that path unchanged would violate the return/multiple-racer contract.
 
@@ -62,6 +62,8 @@ Live gates: freely race with three forward throws and verify reverse input still
 
 ## Boundaries and approvals
 
+Local implementation evidence: `npm run validate` passed 48 files / 431 tests, strict typecheck, zero-warning lint, production build and 82.50% statement coverage; `git diff --check` and `git lfs fsck` passed. The tests include actual runtime/Rapier effects and moving counter encounters, mobile/desktop chase/rear frustum checks, and 1,000 throws of resource/lifecycle stress. Original audiovisual resources are procedural and bounded. The browser could not open the local preview, so rendered visuals, audible cues, device performance and all live acceptance remain unverified. The local 40-object CPU observation and exact publication gates are in `docs/IMPLEMENTATION-STATUS.md`. No deployed Arc gameplay or playable Arc link is claimed.
+
 No Arc Hammers, Ink, Overdrive, Rocket, full AI item tactics, probabilities, accepted item tuning, racer stats, track/checkpoint authority, binary assets, dependencies, or Slice 6 changes. Frost acceptance remains closed; its old diagnostic usability report is not reopened as a gameplay blocker or falsely claimed repaired.
 
-Manny explicitly approved the complete scope and governance publication on September 11, 2026, then directed continuation on September 15. This includes the new flight values, safe-catch exception and unrestricted test approach required by PRD section 1.1. Publish amendment 2.15 / ADR-076 and verify governance CI/Pages before the separately authorized gameplay increment. Gameplay publication and live acceptance remain later gates.
+Manny explicitly approved the complete scope and governance publication on September 11, 2026, then directed continuation on September 15. This includes the new flight values, safe-catch exception and unrestricted test approach required by PRD section 1.1. Governance publication and CI/Pages were completed through PR #138. Manny then authorized gameplay with “Proceed” and continued it on September 16. The local implementation and validation above satisfy that authorized increment. Gameplay publication approval, passing hosted clean-install CI, verified deployment and Manny's live acceptance remain pending.

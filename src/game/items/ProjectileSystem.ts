@@ -1,5 +1,14 @@
 import * as THREE from 'three';
 import { Howler } from 'howler';
+import { ArcBladeAudio } from '../../audio/ArcBladeAudio';
+import {
+  ArcBladeFlight,
+  ARC_BLADE_CONFIG,
+  type ArcEnd,
+  type ArcEvent,
+  type ArcPhase,
+} from './ArcBlade';
+import { ArcBladeFlashes, ArcBladeVisual } from './ArcBladeVisual';
 import { playBlazeTone } from '../../audio/blazeTone';
 import { FrostAudio } from '../../audio/FrostAudio';
 import { frostCrystal } from './FrostVisual';
@@ -26,6 +35,7 @@ export interface ProjectileSpawnRequest {
 }
 
 export interface ProjectileTarget {
+  readonly recovering?: boolean;
   readonly itemImmune?: boolean;
   readonly onItemContact?: (itemId: ItemId, blocked: boolean, objectId?: number) => void;
   readonly velocity?: THREE.Vector3;
@@ -47,6 +57,7 @@ export interface ProjectileImpact {
 }
 
 export interface ProjectileSnapshot {
+  readonly arcPhase?: ArcPhase;
   readonly id: number;
   readonly ownerId: string;
   readonly targetId: string | null;
@@ -59,6 +70,8 @@ export interface ProjectileSnapshot {
 }
 
 interface ActiveProjectile {
+  readonly arc?: ArcBladeFlight;
+  readonly arcVisual?: ArcBladeVisual;
   readonly targetId: string | null;
   readonly id: number;
   readonly itemId: ItemId;
@@ -128,6 +141,14 @@ function howlerContext(): AudioContext | null | undefined {
 }
 
 export class ProjectileSystem {
+  private readonly arcAudio = new ArcBladeAudio();
+  private readonly arcFlashes = new ArcBladeFlashes();
+  public silenceArcAudio(): void {
+    this.arcAudio.stop();
+  }
+  public unlockArcAudio(): Promise<void> {
+    return this.arcAudio.unlock();
+  }
   private readonly frostAudio = new FrostAudio();
   public silenceFrostAudio(): void {
     this.frostAudio.dispose();
@@ -141,17 +162,22 @@ export class ProjectileSystem {
   public constructor(
     private readonly track: CircuitAlpha,
     public readonly capacity = new ItemPhysicsCapacity(),
+    private readonly onArcEvent?: (event: ArcEvent) => void,
   ) {
     this.group.name = 'projectile-runtime';
   }
 
-  public spawn(request: ProjectileSpawnRequest): number | null {
+  public spawn(request: ProjectileSpawnRequest, commitArcUse?: () => boolean): number | null {
     if (
       this.activeCount() >= MAX_ACTIVE_PROJECTILES ||
       request.ownerId.trim().length === 0 ||
       (request.itemId === 'seeker-drone' &&
         (!request.targetId?.trim() || request.targetId === request.ownerId)) ||
       !validConfig(request.config) ||
+      (request.itemId === 'arc-blade' &&
+        Object.entries(ARC_BLADE_CONFIG).some(
+          ([key, value]) => request.config[key as keyof ItemProjectileConfig] !== value,
+        )) ||
       !finiteVector(request.launch.position) ||
       !finiteVector(request.launch.forward) ||
       !finiteVector(request.launch.velocity)
@@ -162,7 +188,11 @@ export class ProjectileSystem {
     const launchDirection = request.launch.forward.clone().setY(0);
     if (launchDirection.lengthSq() < 0.0001) return null;
     launchDirection.normalize();
-    if (request.direction === 'backward' && request.itemId !== 'seeker-drone')
+    if (
+      request.direction === 'backward' &&
+      request.itemId !== 'seeker-drone' &&
+      request.itemId !== 'arc-blade'
+    )
       launchDirection.multiplyScalar(-1);
 
     const inherited = request.launch.velocity.clone().setY(0);
@@ -179,6 +209,11 @@ export class ProjectileSystem {
       .clone()
       .addScaledVector(launchDirection, 1.75 + request.config.radiusMeters);
     spawnPosition.y = Math.max(0.55, request.launch.position.y);
+    if (
+      request.itemId === 'arc-blade' &&
+      guardrailContact(this.track, spawnPosition, request.config.radiusMeters)
+    )
+      return null;
 
     const id = this.capacity.acquire();
     if (id === null) return null;
@@ -278,7 +313,22 @@ export class ProjectileSystem {
     group.position.copy(spawnPosition);
     group.name = `projectile-${String(id)}`;
 
+    const arc =
+      request.itemId === 'arc-blade'
+        ? new ArcBladeFlight(spawnPosition.clone(), launchDirection.clone())
+        : undefined;
+    const arcVisual = arc ? new ArcBladeVisual() : undefined;
+    if (arcVisual) {
+      core.visible = false;
+      ring.visible = false;
+      group.add(arcVisual.blade);
+      this.group.add(arcVisual.trail);
+      group.userData.itemPresentation = 'arc-blade';
+    }
+
     const projectile: ActiveProjectile = {
+      arc,
+      arcVisual,
       id,
       targetId: request.itemId === 'seeker-drone' ? (request.targetId ?? null) : null,
       itemId: request.itemId,
@@ -286,7 +336,7 @@ export class ProjectileSystem {
       config: request.config,
       group,
       spinner,
-      velocity,
+      velocity: arc?.velocity.clone() ?? velocity,
       bounceCount: 0,
       remainingSeconds: request.config.lifetimeSeconds,
       ownerArmSeconds: request.config.ownerArmSeconds,
@@ -295,6 +345,14 @@ export class ProjectileSystem {
     orientProjectile(projectile);
     this.group.add(group);
     this.active.set(projectile.id, projectile);
+    if (arc) {
+      if (commitArcUse && !commitArcUse()) {
+        this.remove(projectile.id, false, 'rollback');
+        return null;
+      }
+      this.emitArc(projectile, 'launch');
+      this.arcAudio.play('launch', Howler.volume());
+    }
     if (request.itemId === 'frost-orbs')
       this.frostAudio.play('launch', howlerContext(), Howler.volume());
     if (request.itemId === 'blaze-orbs') {
@@ -323,9 +381,15 @@ export class ProjectileSystem {
     if (!Number.isFinite(dt) || dt <= 0) return [];
     this.resolveQueuedClears();
     this.advanceBlazeBursts(dt);
+    this.arcFlashes.update(dt);
+    if (this.arcFlashes.group.children.length === 0) this.arcFlashes.group.removeFromParent();
     const impacts: ProjectileImpact[] = [];
 
     for (const projectile of [...this.active.values()]) {
+      if (projectile.arc) {
+        this.updateArc(projectile, dt, targets, impacts, onImpact);
+        continue;
+      }
       if (projectile.itemId === 'seeker-drone') {
         const impact = this.updateSeeker(projectile, dt, targets);
         if (impact !== null) impacts.push(impact);
@@ -421,6 +485,97 @@ export class ProjectileSystem {
     return impacts;
   }
 
+  private emitArc(projectile: ActiveProjectile, kind: ArcEvent['kind'], targetId?: string): void {
+    if (projectile.arc)
+      this.onArcEvent?.({
+        id: projectile.id,
+        ownerId: projectile.ownerId,
+        phase: projectile.arc.phase,
+        kind,
+        targetId,
+      });
+  }
+
+  private arcFlash(position: THREE.Vector3, caught: boolean): void {
+    this.group.add(this.arcFlashes.group);
+    this.arcFlashes.emit(position, caught);
+  }
+
+  private updateArc(
+    projectile: ActiveProjectile,
+    dt: number,
+    targets: readonly ProjectileTarget[],
+    impacts: ProjectileImpact[],
+    onImpact?: (impact: ProjectileImpact) => void,
+  ): void {
+    const arc = projectile.arc;
+    if (!arc) return;
+    let previousRemaining = arc.remainingSeconds;
+    const reason = arc.update(
+      dt,
+      projectile.ownerId,
+      targets,
+      this.track,
+      (target) => {
+        projectile.group.position.copy(arc.position);
+        target.onItemContact?.('arc-blade', target.itemImmune === true, projectile.id);
+        this.emitArc(projectile, target.itemImmune ? 'absorbed' : 'hit', target.id);
+        this.arcFlash(arc.position, false);
+        if (target.itemImmune) return;
+        const cross = arc.velocity.x * target.forward.z - arc.velocity.z * target.forward.x;
+        const impact: ProjectileImpact = {
+          projectileId: projectile.id,
+          itemId: 'arc-blade',
+          targetId: target.id,
+          spinDirection:
+            Math.abs(cross) < 0.05
+              ? (projectile.id + target.id.length) % 2 === 0
+                ? 1
+                : -1
+              : cross < 0
+                ? -1
+                : 1,
+          spinoutSeconds: ARC_BLADE_CONFIG.spinoutSeconds,
+        };
+        impacts.push(impact);
+        onImpact?.(impact);
+      },
+      () => {
+        this.emitArc(projectile, 'return');
+        projectile.arcVisual?.update(arc.position, arc.phase, 0);
+        this.arcAudio.play('return', Howler.volume());
+      },
+      () => {
+        projectile.group.position.copy(arc.position);
+        projectile.velocity.copy(arc.velocity);
+        orientProjectile(projectile);
+        projectile.arcVisual?.update(
+          arc.position,
+          arc.phase,
+          previousRemaining - arc.remainingSeconds,
+        );
+        previousRemaining = arc.remainingSeconds;
+      },
+    );
+    projectile.group.position.copy(arc.position);
+    projectile.velocity.copy(arc.velocity);
+    projectile.remainingSeconds = arc.remainingSeconds;
+    projectile.ownerArmSeconds = arc.ownerArmSeconds;
+    if (reason) {
+      if (reason === 'catch') {
+        this.arcFlash(arc.position, true);
+        this.arcAudio.play('catch', Howler.volume());
+      }
+      this.remove(projectile.id, false, reason);
+    }
+  }
+
+  /** Arc return pursuit must not follow a recovery discontinuity. Other shots persist. */
+  public cancelOwnerArcs(ownerId: string): void {
+    for (const p of [...this.active.values()])
+      if (p.arc && p.ownerId === ownerId) this.remove(p.id);
+  }
+
   private updateSeeker(
     projectile: ActiveProjectile,
     dt: number,
@@ -492,7 +647,8 @@ export class ProjectileSystem {
         projectile.itemId !== 'kinetic-disc' &&
         projectile.itemId !== 'seeker-drone' &&
         projectile.itemId !== 'blaze-orbs' &&
-        projectile.itemId !== 'frost-orbs'
+        projectile.itemId !== 'frost-orbs' &&
+        projectile.itemId !== 'arc-blade'
       )
         continue;
       if (
@@ -501,14 +657,20 @@ export class ProjectileSystem {
             squaredHorizontalDistance(center, projectile.group.position) <= radius * radius,
         )
       )
-        this.remove(projectile.id);
+        this.remove(projectile.id, false, 'cleared');
     }
     this.clears.length = 0;
   }
 
-  public remove(projectileId: number, impactPresentation = false): boolean {
+  public remove(
+    projectileId: number,
+    impactPresentation = false,
+    arcEnd: ArcEnd = 'cancelled',
+  ): boolean {
     const projectile = this.active.get(projectileId);
     if (projectile === undefined) return false;
+    if (arcEnd !== 'absorbed') this.emitArc(projectile, arcEnd);
+    projectile.arcVisual?.dispose();
     if (impactPresentation && projectile.itemId === 'frost-orbs') {
       this.spawnBlazeBurst(projectile.group.position, true);
       this.frostAudio.play('impact', howlerContext(), Howler.volume());
@@ -622,10 +784,13 @@ export class ProjectileSystem {
       bounceCount: projectile.bounceCount,
       remainingSeconds: projectile.remainingSeconds,
       ownerArmSeconds: projectile.ownerArmSeconds,
+      ...(projectile.arc ? { arcPhase: projectile.arc.phase } : {}),
     }));
   }
 
   public dispose(): void {
+    this.arcAudio.dispose();
+    this.arcFlashes.dispose();
     this.frostAudio.dispose();
     for (const projectileId of [...this.active.keys()]) this.remove(projectileId);
     for (const id of this.reservations) this.capacity.release(id);

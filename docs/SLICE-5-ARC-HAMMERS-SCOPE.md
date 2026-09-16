@@ -1,6 +1,6 @@
 # Slice 5 Kinetic Arc Hammers Scope
 
-**Status: GAMEPLAY AND ORIGINAL PROCEDURAL PRESENTATION PUBLISHED. PR #144 MERGED AT `a129bbac75f919dc7136ac50dfd63564fe5cd52e`; HOSTED PR CI `35137395927` AND POST-MERGE VALIDATION/PAGES `35137681000` PASSED. PRODUCT-OWNER LIVE ACCEPTANCE REMAINS PENDING.**
+**Status: LIVE ACCEPTED. PR #144 MERGED AT `a129bbac75f919dc7136ac50dfd63564fe5cd52e`; HOSTED PR CI `35137395927` AND POST-MERGE VALIDATION/PAGES `35137681000` PASSED. MANNY REPORTED ALL DEPLOYED ARC HAMMERS TESTS PASSED ON 2026-09-16; PR #144 COMMENT `5703186707` RECORDS PRODUCT-OWNER EVIDENCE.**
 
 This document is the approved bounded product/engineering contract for **PRD amendment 2.16 / ADR-077**, with current implementation authorization recorded by **PRD amendment 2.17 / ADR-078**. Manny approved the complete contract on September 16, 2026 and subsequently explicitly authorized Arc Hammers gameplay plus all Arc Hammers model, VFX, audio and presentation development. The governance publication gate is cleared through PR #142 and post-merge validation/Pages. The bounded implementation below is now published and deployed through PR #144. This publication does not claim product-owner live acceptance and does not authorize Slice 6 final polish.
 
@@ -155,13 +155,13 @@ Approved September 16, 2026. Kinetic Arc Hammers retain PRD Section 15.10's five
 
 **Date:** 2026-09-16
 
-**Status:** Gameplay merged/deployed through PR #144 at `a129bbac75f919dc7136ac50dfd63564fe5cd52e`; hosted PR CI `35137395927` and post-merge validation/Pages `35137681000` passed. Live acceptance remains pending.
+**Status:** **LIVE ACCEPTED.** Gameplay merged/deployed through PR #144 at `a129bbac75f919dc7136ac50dfd63564fe5cd52e`; hosted PR CI `35137395927` and post-merge validation/Pages `35137681000` passed. Manny reported all deployed Hammer tests passed on 2026-09-16; PR #144 comment `5703186707` records the acceptance evidence.
 
 **Approval:** Manny explicitly authorized Arc Hammers gameplay and all Arc Hammers asset/model/VFX/audio/presentation development in Work after the amendment 2.16 governance publication gate had cleared.
 
 **Decision:** Implement the amendment 2.16 contract in the existing item/inventory, ProjectileSystem, shared-capacity, RacerEffects, Shockwave, KartTimeTrial and surface-query boundaries. Original procedural model geometry, finite trail/bounce/impact VFX and original procedural launch/bounce/hit audio are authorized for this bounded increment. Preserve the fixed-item route and optional counter routes from this scope; diagnostics must verify actual encounters and may not grant AI inventory, mutate race progress or block normal ITEM input.
 
-**Boundary:** Gameplay publication/deployment is complete, but Manny live acceptance is not yet claimed. The increment does not alter probabilities, accepted item behavior, racer statistics, track/checkpoint authority, AI item acquisition/use, dependencies or Slice 6 final polish.
+**Boundary:** Gameplay publication/deployment and bounded live acceptance are complete. No browser/device-specific result is inferred beyond Manny's explicit all-tests-pass report. The increment does not alter probabilities, accepted item behavior, racer statistics, track/checkpoint authority, AI item acquisition/use, dependencies or Slice 6 final polish.
 
 ## Approval gates
 
@@ -169,4 +169,4 @@ Approved September 16, 2026. Kinetic Arc Hammers retain PRD Section 15.10's five
 2. **Governance publication:** **COMPLETE.** PR #142 squash-merged at `ba7e20ab69666ce04ba253a147c93b1ae985db8f` after clean-head hosted CI `35124762217` passed; post-merge validation and GitHub Pages `35124948452` passed. Markdown governance and the 52-page Word PRD approval artifact are synchronized.
 3. **Gameplay and original presentation authorization:** **COMPLETE.** Manny explicitly authorized the bounded implementation in Work on September 16, 2026; ADR-078 records the decision.
 4. **Gameplay publication:** **COMPLETE.** Reviewed head `e395c63e3f0a425a985de2208e624adf2dd87574` passed hosted PR CI `35137395927`; PR #144 squash-merged at `a129bbac75f919dc7136ac50dfd63564fe5cd52e` and post-merge validation/Pages `35137681000` passed.
-5. **Live acceptance:** **PENDING.** Requires a published build, hosted validation/Pages and Manny's rendered desktop/mobile review.
+5. **Live acceptance:** **COMPLETE.** Manny reported all supplied deployed Arc Hammers tests passed on 2026-09-16; PR #144 comment `5703186707` records the product-owner evidence. No browser/device-specific result is inferred beyond that explicit report.

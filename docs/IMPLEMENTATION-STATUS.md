@@ -6,7 +6,7 @@
 
 PRD baseline: **v1.1, approved implementation amendment 2.18 / ADR-079**.
 
-Latest verified pre-acceptance-record `main`: **`e53bf652b88fb50c29e80acbb68062d49e170d96`**.
+Latest verified pre-Ink-governance `main`: **`9ee6ee05fe71715a867a3c9a6b654904faf0e507`**.
 
 ## Kinetic Arc Hammers final state - 2026-09-16
 
@@ -20,6 +20,8 @@ Completion evidence:
 - Gameplay post-merge validation / GitHub Pages: **`35137681000` PASS**.
 - Publication-record reconciliation PR #145 merge: **`e53bf652b88fb50c29e80acbb68062d49e170d96`**.
 - PR #145 post-merge validation / GitHub Pages: **`35138696144` PASS**.
+- Arc Hammers live-acceptance reconciliation PR #146 merge: **`9ee6ee05fe71715a867a3c9a6b654904faf0e507`**.
+- PR #146 post-merge validation / GitHub Pages: **`35140143353` PASS**.
 - Manny completed the supplied deployed Arc Hammers review routes and reported **“All tests pass.”**
 - Product-owner evidence: PR #144 comment **`5703186707`**.
 - No browser/device-specific result is inferred beyond Manny's explicit all-tests-pass report.

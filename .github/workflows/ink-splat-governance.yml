@@ -1,0 +1,36 @@
+name: Temporary Ink Splat governance materializer
+
+on:
+  push:
+    branches:
+      - docs/ink-splat-governance
+    paths:
+      - .github/tmp/ink-splat-governance.py
+      - .github/workflows/ink-splat-governance.yml
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/ink-splat-governance
+          fetch-depth: 0
+      - name: Apply approved governance scope
+        run: python .github/tmp/ink-splat-governance.py
+      - name: Commit governance docs
+        run: |
+          if git diff --quiet; then
+            echo "No governance changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md docs/PRD.md docs/DECISIONS.md docs/IMPLEMENTATION-STATUS.md docs/SLICE-5-ITEM-SYSTEM-DESIGN.md docs/SLICE-5-INK-SPLAT-SCOPE.md docs/TESTING.md
+          git commit -m "Record Vision-Obscuring Ink Splat governance scope"
+          git push origin HEAD:docs/ink-splat-governance

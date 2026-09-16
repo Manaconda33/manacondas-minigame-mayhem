@@ -2,13 +2,15 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - REBOUNDING ARC BLADE LIVE ACCEPTED; KINETIC ARC HAMMERS SCOPE PROPOSED / MANNY APPROVAL REQUIRED**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - REBOUNDING ARC BLADE LIVE ACCEPTED; KINETIC ARC HAMMERS SCOPE APPROVED / GOVERNANCE PUBLICATION INCOMPLETE**
 
-PRD baseline: **v1.1, working approved implementation amendment 2.15**.
+PRD baseline on `main`: **v1.1, approved implementation amendment 2.15**.
 
 Latest verified `main`: **`da6e7e178d30ed5e2d03103dd1bbe18ba120b97d`**.
 
-Proposed, not yet approved: **amendment 2.16 / ADR-077 - Kinetic Arc Hammers** in `docs/SLICE-5-ARC-HAMMERS-SCOPE.md`.
+Approved on September 16, 2026: **Kinetic Arc Hammers scope for amendment 2.16 / ADR-077**, recorded in `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` on this governance branch.
+
+**Hard hold:** Manny explicitly directed that Arc Hammers gameplay development and asset/presentation development remain off the table. Only governance/documentation work is authorized. Gameplay requires a separate later authorization after governance publication is fully cleared.
 
 This file is intentionally maintained as a current-state continuation record. Detailed historical checkpoints remain durable in Git history, item-specific scope documents, PR discussions, `docs/DECISIONS.md`, and `docs/TESTING.md`.
 
@@ -53,7 +55,7 @@ The seeded probability-distribution evidence remains valid: PR #114 exercised 10
 
 Four item effects remain unimplemented and not live accepted:
 
-1. **Kinetic Arc Hammers**
+1. **Kinetic Arc Hammers** - scope approved, gameplay and assets explicitly held.
 2. **Vision-Obscuring Ink Splat**
 3. **Continuous Nitro Overdrive**
 4. **Hyper-Drive Rocket**
@@ -70,28 +72,29 @@ Additional Slice 5 closure work remains open after those effects:
 
 Slice 6 remains locked until Slice 5 closes.
 
-## Kinetic Arc Hammers scope/governance proposal - awaiting Manny approval
+## Kinetic Arc Hammers scope approval - 2026-09-16
 
-PRD Section 15.10 fixes five charges, a 0.35-second minimum cadence, ballistic trajectories, exactly one terrain bounce and short post-bounce expiry. The approved item-system design fixes the standard 0.85-second spinout on valid racer hit.
+Manny approved the complete contract in `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` and explicitly instructed that **asset development and gameplay development remain off the table**.
 
-`docs/SLICE-5-ARC-HAMMERS-SCOPE.md` proposes amendment 2.16 / ADR-077 to resolve the remaining unspecified rules. Key proposed fill-ins are:
+The approved bounded contract preserves PRD Section 15.10's five charges, 0.35-second minimum cadence, ballistic trajectories, one terrain bounce and short post-bounce expiry, plus the already-approved 0.85-second standard racer spin. Approved fill-ins include forward/backward directional throws; 36 m/s horizontal launch, 11 m/s upward velocity and 24 m/s² gravity; 0.20x capped planar inheritance; 0.36 m radius and 0.18-second owner arming; one supporting-surface rebound with 0.78 tangential retention / 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-wall destruction; later owner self-hit; Prismatic/generic immunity absorption; Shockwave pre-movement clearing; deterministic guardrail > racer > terrain tie priority; existing shared 40-object capacity; pause/lifecycle cleanup; and a future original procedural presentation contract.
 
-- forward/backward directional throws;
-- 36 m/s horizontal launch, 11 m/s upward velocity and 24 m/s² downward gravity;
-- 0.20x planar owner-velocity inheritance capped at 10 m/s before scaling;
-- 0.36 m contact radius and 0.18-second owner arming;
-- one actual supporting-surface bounce with 0.78 tangential retention and 0.55 normal restitution;
-- a 0.75-second post-bounce lifetime cap and 2.25-second hard total lifetime;
-- first guardrail contact destruction and second genuine terrain-contact destruction;
-- first eligible racer hit applies only the accepted 0.85-second standard spin, then destroys the Hammer;
-- later owner self-hit, ordinary immunity/Prismatic absorption and Shockwave pre-movement clearing;
-- deterministic guardrail > racer > terrain tie priority;
-- one shared capacity slot per active Hammer with atomic rollback and pause/lifecycle cleanup; and
-- bounded original procedural presentation plus unrestricted fixed-item normal-race review.
+No gameplay source, runtime asset, audio/VFX implementation, item probability, accepted-item tuning, racer stat, track/checkpoint authority, AI item tactics, dependency, or Slice 6 change is authorized.
 
-The proposal is a review artifact only. **It does not alter the approved PRD, does not create ADR-077 as an approved decision, and does not authorize gameplay.**
+## Governance publication state
 
-If Manny approves the scope, the next step is a separate governance-publication checkpoint that synchronizes `docs/PRD.md`, `docs/DECISIONS.md`, the item-system checklist, `docs/TESTING.md`, this status file, and the Word PRD artifact, followed by hosted CI, merge and Pages deployment. Gameplay remains a separate later authorization gate.
+Scope approval is complete, but **governance publication is not yet cleared**.
+
+The required canonical publication set is:
+
+- `docs/PRD.md` - append approved amendment 2.16;
+- `docs/DECISIONS.md` - append approved ADR-077;
+- `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md` - record approved Hammer scope and reconcile Arc Blade completion;
+- `docs/TESTING.md` - record Arc Blade accepted state and Hammer future validation contract;
+- `docs/IMPLEMENTATION-STATUS.md` - this current-state record;
+- `README.md` - current-state summary; and
+- `docs/Manacondas_Minigame_Mayhem_PRD_v1.1.docx` - synchronize the Word approval artifact required by PRD §31.3.
+
+The connected GitHub text write path cannot modify the binary `.docx` artifact. That limitation is being treated as a real governance blocker rather than bypassed or falsely marked complete. The current PR must remain unmerged/draft until the Word approval artifact is synchronized and the complete documentation set passes hosted validation. This blocker authorizes **no gameplay or asset work**.
 
 ## Known defects / unresolved issues
 
@@ -99,6 +102,7 @@ If Manny approves the scope, the next step is a separate governance-publication 
 - The existing production-build large-chunk warning remains known and nonblocking.
 - Three moderate npm audit findings remain in the unchanged dependency set from the Arc Blade hosted run; no remediation is claimed here.
 - No open Arc Blade gameplay or acceptance defect is recorded.
+- Arc Hammers has no gameplay defect because gameplay does not yet exist and is not authorized.
 
 ## Deferred work
 
@@ -108,7 +112,7 @@ If Manny approves the scope, the next step is a separate governance-publication 
 
 ## Next recommended action
 
-**STOP FOR MANNY REVIEW.** Review `docs/SLICE-5-ARC-HAMMERS-SCOPE.md`. Do not publish amendment 2.16 / ADR-077 as approved and do not implement Kinetic Arc Hammers gameplay until Manny explicitly approves the proposed contract and subsequent governance gate.
+Complete **governance documentation only** for approved amendment 2.16 / ADR-077, including the Word PRD artifact. Then run the full repository validation, hosted PR CI, merge only after all documentation is synchronized, and verify post-merge Pages. **Stop after governance publication. Do not begin Kinetic Arc Hammers gameplay or asset development without a new explicit Manny authorization.**
 
 ## Approval state
 
@@ -116,9 +120,13 @@ If Manny approves the scope, the next step is a separate governance-publication 
 
 **Rebounding Arc Blade:** LIVE ACCEPTED 2026-09-16.
 
-**Kinetic Arc Hammers scope/governance:** PROPOSED / NOT APPROVED. Manny approval required.
+**Kinetic Arc Hammers scope:** APPROVED 2026-09-16.
+
+**Kinetic Arc Hammers governance publication:** INCOMPLETE / BLOCKED ON FULL CANONICAL DOC + WORD PRD SYNCHRONIZATION.
 
 **Kinetic Arc Hammers gameplay:** NOT AUTHORIZED.
+
+**Kinetic Arc Hammers asset/presentation development:** NOT AUTHORIZED.
 
 **Slice 5 implementation:** IN PROGRESS.
 

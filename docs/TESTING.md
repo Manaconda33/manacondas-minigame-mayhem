@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 24495)
+Total output lines: 795
+
 # Testing and Validation
 
 This file is the operational source of truth for local and CI validation. Update it when commands, environments, or evidence requirements change.
@@ -6,12 +9,12 @@ This file is the operational source of truth for local and CI validation. Update
 
 `docs/SLICE-5-ARC-BLADE-SCOPE.md` and amendment 2.15 / ADR-076 govern the accepted implementation. Governance PR #138 merged at `7ce6511bc040d2b176ed528b687ed589fafd045d`; gameplay PR #139 merged at `8822341b61900799e0166cfe94bf69cb3986bf0e`. Hosted PR CI `35118244169` and post-merge validation/Pages `35118484183` passed with **48 files / 431 tests**, **82.50% statement coverage**, strict typecheck, zero-warning lint, asset verification and production build. Manny reported that all deployed Arc Blade live tests passed on September 16, 2026; PR #139 comment `5700594653` is the product-owner evidence. No browser/device versions beyond that explicit report are inferred.
 
-| Coverage | Evidence |
-| --- | --- |
+| Coverage                         | Evidence                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Inventory, movement and contacts | `tests/arc-blade.test.ts`: three charges and exact cadence, rollback without cues, forward/reverse equivalence, measured curved path and moving-owner return, arming/catch/expiry boundaries, per-leg hit isolation and turnaround separation, chronological wall/contact/catch ordering, immunity/counters, shared mixed-object capacity and owner cancellation. Real Circuit Alpha curves and elevated sections are included. |
-| Actual runtime and input | `tests/arc-runtime.test.ts`: moving keyboard/mobile ITEM paths, ordinary race-state guards, actual Rapier/controller spin and camera/hit state, independent Frost/Nitro/Prismatic state, before-contact Shockwave clearing, recovery and all three moving diagnostics. Counter PASS requires a real measured encounter; a miss remains INCONCLUSIVE. |
-| Presentation and cleanup | `tests/arc-presentation.test.ts`: finite trail/return accent, mobile/desktop chase/rear frustums after the camera intro, bounded flashes and audio voices, gesture unlock/volume/pause/unavailable audio/disposal, and 200 complete throws returning resource counts to baseline. |
-| Stress | `tests/arc-soak.test.ts`: 800 throws with 40 simultaneous objects and eight racer snapshots, finite transforms and bounded capacity/resources. The isolated CPU observation was local Node/JSDOM evidence, not final rendered-device performance certification. |
+| Actual runtime and input         | `tests/arc-runtime.test.ts`: moving keyboard/mobile ITEM paths, ordinary race-state guards, actual Rapier/controller spin and camera/hit state, independent Frost/Nitro/Prismatic state, before-contact Shockwave clearing, recovery and all three moving diagnostics. Counter PASS requires a real measured encounter; a miss remains INCONCLUSIVE.                                                                            |
+| Presentation and cleanup         | `tests/arc-presentation.test.ts`: finite trail/return accent, mobile/desktop chase/rear frustums after the camera intro, bounded flashes and audio voices, gesture unlock/volume/pause/unavailable audio/disposal, and 200 complete throws returning resource counts to baseline.                                                                                                                                               |
+| Stress                           | `tests/arc-soak.test.ts`: 800 throws with 40 simultaneous objects and eight racer snapshots, finite transforms and bounded capacity/resources. The isolated CPU observation was local Node/JSDOM evidence, not final rendered-device performance certification.                                                                                                                                                                 |
 
 ### Arc Blade deployed regression routes
 
@@ -23,13 +26,15 @@ Use `?testItem=arc-blade` to race normally and verify the accepted three-charge/
 
 A miss, interception, wall/catch/expiry, recovery or unsuitable geometry remains INCONCLUSIVE rather than a protection pass. Preserve the accepted normal-build regression matrix, both cameras, desktop/mobile controls, readable original audiovisuals, and lifecycle cleanup in future regression testing.
 
-## Slice 5 Kinetic Arc Hammers - approved governance contract; gameplay/assets held
+## Slice 5 Kinetic Arc Hammers - implementation authorized; local validation in progress
 
-PRD amendment 2.16, ADR-077, and `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` define the approved future validation contract. **Manny explicitly did not authorize Arc Hammers gameplay implementation or asset/presentation development.** Therefore no Hammer runtime route, model, VFX/audio implementation, fixture, or gameplay test is deployed by this governance checkpoint.
+PRD amendment 2.16, ADR-077, ADR-078, and `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` define the authorized bounded contract. Manny explicitly authorized Arc Hammers gameplay and original model/VFX/audio/presentation development on 2026-09-16. The implementation is local and not yet published or live accepted.
 
-When gameplay is separately authorized later, automated validation must cover the exact approved values and boundaries: five charges; 0.35-second commit-only cadence; forward/backward input; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s^2 gravity and 0.20x capped planar inheritance; 0.36 m radius; 0.18-second owner arming; one genuine supporting-surface bounce with 0.78 tangential retention / 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-wall and second-terrain-contact destruction; 0.85-second standard hit spin; later self-hit; immunity/Prismatic absorption; Shockwave <=5 m pre-movement clearing; chronological collision ordering; shared-capacity rollback; pause/lifecycle cleanup; race-authority preservation; repeated-use soak; and full accepted-item/race regressions. Helper-only trajectories are insufficient: the real dispatcher, capacity, Circuit Alpha surface query, RacerEffects and runtime camera/contact path must be exercised.
+Automated validation must cover the exact approved values and boundaries: five charges; 0.35-second commit-only cadence; forward/backward input; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s^2 gravity and 0.20x capped planar inheritance; 0.36 m radius; 0.18-second owner arming; one genuine supporting-surface bounce with 0.78 tangential retention / 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-wall and second-terrain-contact destruction; 0.85-second standard hit spin; later self-hit; immunity/Prismatic absorption; Shockwave <=5 m pre-movement clearing; chronological collision ordering; shared-capacity rollback; pause/lifecycle cleanup; race-authority preservation; repeated-use soak; and full accepted-item/race regressions. Helper-only trajectories are insufficient: the real dispatcher, capacity, Circuit Alpha surface query, RacerEffects and runtime camera/contact path must be exercised.
 
-Future primary deployed review route, only after separately authorized gameplay publication: `?testItem=arc-hammers`. Future optional diagnostics are `?testItem=shockwave&testArcHammerCounter=shockwave` and the Prismatic protected/expired `testArcHammerCounter=prismatic` routes defined in the scope. They must never be treated as live or distributed as playable Hammer tests before that later deployment.
+Local primary review route: `?testItem=arc-hammers`. Optional diagnostics are `?testItem=shockwave&testArcHammerCounter=shockwave` and the Prismatic protected/expired `testArcHammerCounter=prismatic` routes defined in the scope. They may be exercised locally now, but must not be described as deployed/live until a publication and rendered acceptance checkpoint exists.
+
+Current local evidence: `tests/arc-hammers.test.ts` covers configuration/launch math, governed counter-route parsing, five-charge cadence/rollback, ballistic motion, supporting-surface bounce/cues, racer hit/immunity, owner arming, Shockwave pre-movement clearing, presentation cleanup and the shared capacity boundary. The focused item regression command passes 77 tests across five files. Full `npm run validate` now passes with 49 files / 441 tests, 81.99% statement coverage, typecheck, zero-warning lint, branding/LFS runtime-asset verification and production build. The existing Vite large-chunk warning remains nonblocking; hosted CI and rendered desktop/mobile acceptance remain pending.
 
 ## Slice 5 Frost Orbs — deployed and LIVE ACCEPTED
 
@@ -336,157 +341,7 @@ Run this matrix for every future production character, in addition to its slice-
 - Keeg sits correctly in the cockpit with the steering wheel forward of the driver.
 - Keeg's driving hands align with the steering-wheel center; the wheel must not cross his abdomen or float below his hands in chase view.
 - All ten driver states load from `keeg-runtime-20260901-3`.
-- Rear view preserves steering, hit, and victory through Keeg's matching front-facing action frames. The two steering silhouettes must read as opposite directions, and no Keeg front-action frame may contain wheel or kart geometry.
-- Chase and rear views confirm the mushroom shield is at the race-forward nose and the exhausts remain behind Keeg.
-- Keeg appears no more than once as an AI opponent when the player selects another character.
-- CI materializes and validates all three AA-04 GLBs; each begins with the binary glTF signature and declares `extras.forward: "-Z"`.
-- CI inflates every AA-04 PNG and validates its RGBA dimensions and PNG scanline filters; a header-only or partially decodable image must fail the build.
-- Product-owner acceptance is recorded only after the deployed game confirms Keeg is selectable and all approved assets load as intended on desktop and mobile.
-
-## Krios / Hornbreaker manual matrix
-
-- AA-10 renders Krios's approved portrait, Straight-Line Heavy descriptor, and 10 / 4 / 9 / 3 / 4 / 6 statistics.
-- `Race as Krios` loads The Hornbreaker rather than the fallback kart.
-- The Hornbreaker's low broad chassis, integrated front ram horns, oversized studded tires, open cockpit, and twin rear exhausts load without clipping or detached housings.
-- Krios sits correctly in the cockpit without floating or obscuring the kart silhouette.
-- Rear, front, steer-left, steer-right, hit, and victory driver states load from the controlled Krios runtime revision.
-- Rear view preserves steering, hit, and victory through Krios's matching front-facing action frames. No Krios frame contains wheel or kart geometry.
-- Front-steer-left, front-steer-right, and front-victory retain two substantial transparent enclosed horn apertures; no pale or checkerboard matte remains between the horns.
-- Chase and rear views confirm the integrated ram horns remain at the race-forward nose and the rear exhausts remain behind Krios.
-- Krios appears no more than once as an AI opponent when the player selects another character.
-- CI materializes and validates all three AA-10 GLBs: `kart.glb`, `kart-lod1.glb`, and `kart-lod2.glb`. Each must begin with the binary glTF signature and declare `extras.forward: "-Z"`.
-- Product-owner acceptance is recorded only after the deployed game confirms Krios is present and all approved assets load as intended.
-
-## Jennifer / Hearthwarden local integration matrix
-
-- AA-12 renders Jennifer's approved portrait, All-Surface Heavy descriptor, and 8 / 5 / 8 / 4 / 4 / 7 statistics.
-- `Race as Jennifer` loads The Hearthwarden rather than a placeholder or fallback kart.
-- CI materializes and validates `public/assets/characters/aa-12/kart.glb`, `kart-lod1.glb`, and `kart-lod2.glb`. Each must begin with the binary glTF signature and declare `extras.forward: "-Z"`.
-- LOD0, LOD1, and LOD2 remain within 25,000, 12,000, and 5,000 triangles while preserving the required thirteen-node hierarchy and one `SteeringWheel` node.
-- Direct GLB review confirms that the tree-of-life medallion intersects its central pear-wood boss and paired bronze braces, and that every rear herb stem enters its remedy box.
-- The kart-right dog perch, kart-left staff rack, wide tires, open cockpit, woven side panels, and rear exhausts remain attached at every LOD.
-- All ten driver states load from `jennifer-runtime-20260903-2`; every frame is wheel-free and keeps the Newfoundland on Jennifer's physical right.
-- `NEGATIVE_Z_KART_VISUAL_YAW` keeps the tree-of-life medallion at the race-forward nose and the remedy cargo behind Jennifer.
-- Chase-facing position `[0, 0.92, -0.12]` seats Jennifer behind the rear structure without hiding her head, shoulders, or dog.
-- Camera-facing position `[0, 0.84, -0.12]` and modeled-wheel position `[0, 1.86, -0.42]` place The Hearthwarden's single wheel between Jennifer's hands without covering her face.
-- Product-owner acceptance is recorded only after the deployed desktop and mobile game confirms orientation, every driver state, cockpit occlusion, dog-side continuity, and single-wheel presentation.
-
-## Dragon Queen / Sovereign Wyrm local integration matrix
-
-- AA-06 renders Dragon Queen's approved portrait, Grip Specialist descriptor, and 6 / 6 / 5 / 7 / 5 / 7 statistics.
-- `Race as Dragon Queen` loads The Sovereign Wyrm rather than a placeholder, Cleo, The Gilded Stitch, or a fallback kart.
-- CI materializes and validates `public/assets/characters/aa-06/kart.glb`, `kart-lod1.glb`, and `kart-lod2.glb`. Each begins with the binary glTF signature and declares `extras.forward: "-Z"`.
-- LOD0, LOD1, and LOD2 remain within 25,000, 12,000, and 5,000 triangles. Each retains the thirteen-node hierarchy and one `SteeringWheel` node.
-- All ten driver states load from `dragon-queen-runtime-20260904-1`. Every frame remains free of kart and control geometry, keeps both wings visible, and shows exactly one long tail.
-- `NEGATIVE_Z_KART_VISUAL_YAW` keeps the dragon shield at the race-forward nose and the open tail channel behind Dragon Queen.
-- Chase-facing position `[0, 0.95, -0.12]` keeps the wings above the bodywork and seats the lower body behind the cockpit edge.
-- Neutral, steer-left, hit, and victory camera-facing states use `[0, 0.84, -0.12]`; front-steer-right uses `[0, 0.80, -0.12]` to account for its higher foreclaw pose.
-- The kart's single modeled steering control remains between Dragon Queen's foreclaws in front view without covering her face.
-- Cleo's ten archived files at `public/assets/archive/characters/cleo-aa-06/` retain their recorded SHA-256 values and remain excluded from the active roster.
-- Product-owner acceptance is recorded only after the deployed desktop and mobile game confirms orientation, every driver state, cockpit occlusion, visible wings and tail, and single-control presentation.
-
-## Alex / Neon Vector production acceptance matrix
-
-- AA-01 renders Alex's approved portrait, Feather Sprinter descriptor, and 6 / 9 / 2 / 8 / 7 / 4 statistics.
-- `Race as Alex` loads The Neon Vector rather than the former AA-01 placeholder or a fallback kart.
-- CI materializes and validates `public/assets/characters/aa-01/kart.glb`, `kart-lod1.glb`, and `kart-lod2.glb`. Each begins with the binary glTF signature and declares `extras.forward: "-Z"`.
-- LOD0, LOD1, and LOD2 remain within 25,000, 12,000, and 5,000 triangles. Each retains the required thirteen-node hierarchy and one `SteeringWheel` node.
-- All ten driver states load from `alex-runtime-20260905-1`. Every frame is character-only, wheel-free, 512 x 512 transparent sRGBA, and retains Alex's cyan/magenta cheek-node identity.
-- `NEGATIVE_Z_KART_VISUAL_YAW` keeps The Neon Vector's triangle nose and twin violet exhausts race-forward and its cockpit-to-thruster conduits behind Alex.
-- Chase-facing position `[0, 0.92, -0.12]` keeps Alex seated behind the cockpit edge. Camera-facing position `[0, 0.84, -0.12]` keeps the modeled wheel visible between her hands; no sprite-owned wheel is permitted.
-- The approved Candidate 3 conduit pair remains structurally attached and readable in rear three-quarter and profile views; no floating hood emblem or steering-wheel intrusion is permitted.
-- Manny confirmed the deployed desktop/mobile game against checkpoint `daf1e3127478981e40cca9533300f8617f61004d` on 2026-09-05. Selection, orientation, all ten driver states, cockpit occlusion, conduit visibility, one-hand steering silhouettes, torso rotation, and single-wheel presentation pass. Alex / The Neon Vector is live accepted.
-
-## McFleurdel / Fleur de Nuit manual matrix
-
-- AA-07 renders McFleurdel's approved portrait, High-Speed Cruiser descriptor, and 8 / 6 / 7 / 5 / 4 / 6 statistics.
-- `Race as McFleurdel` loads The Fleur de Nuit rather than the fallback kart.
-- The approved black body, raised silver fleur-de-lis, black nose shield, plum throne cockpit, attached silver trim, four connected wheels, ivory candles, and violet flames load without clipping or floating geometry.
-- McFleurdel sits correctly in the cockpit with the steering wheel forward of the driver.
-- All ten driver states load from `mcfleurdel-runtime-20260901-2`.
-- Rear view preserves steering, hit, and victory through McFleurdel's matching front-facing action frames. Her front-action hair remains black on the viewer's left and white on the viewer's right.
-- Front-steer-left and front-steer-right must expose transparent background inside the black-hair curls and behind both arms. Any connected pale matte component of 30 pixels or more in the reviewed gap regions fails the runtime gate.
-- Chase and rear views confirm the fleur-de-lis shield is at the race-forward nose and exhausts remain behind McFleurdel.
-- McFleurdel appears no more than once as an AI opponent when the player selects another character.
-- CI materializes and validates all three AA-07 GLBs; each begins with the binary glTF signature and declares `extras.forward: "-Z"`.
-- CI inflates and validates every AA-07 PNG as complete RGBA image data.
-- Product-owner acceptance is recorded only after the deployed game confirms McFleurdel is selectable and all approved assets load as intended on desktop and mobile.
-
-## Toph / Grave Shift manual matrix
-
-- AA-08 renders Toph's approved portrait, Turbo Bruiser descriptor, and 7 / 5 / 7 / 4 / 8 / 5 statistics.
-- `Race as Toph` loads The Grave Shift rather than the fallback kart.
-- The approved purple-dominant armored body, bronze perimeter, low splitter, integrated sidepods, flat skull shield, angular thorn crown, enclosed rear engine, connected wide tires, and twin violet exhausts load without clipping or floating geometry.
-- Toph sits correctly in the open cockpit with the steering wheel forward of the driver.
-- All ten driver states load from `toph-runtime-20260902-2`.
-- Rear view preserves commanded steering, hit, and victory through Toph's matching front-action frames. Commanded left and right lean toward opposite camera sides.
-- Toph's front-action files have transparent corners and no retained checkerboard or pale fringe. None contains wheel or kart geometry; The Grave Shift supplies the only steering wheel.
-- Chase and rear views confirm the skull shield remains at the race-forward nose and the enclosed engine/exhausts remain behind Toph.
-- Toph appears no more than once as an AI opponent when the player selects another character.
-- CI materializes and validates all three AA-08 GLBs; each begins with the binary glTF signature and declares `extras.forward: "-Z"`.
-- CI inflates and validates every AA-08 PNG as complete RGBA image data.
-- Product-owner acceptance is recorded only after the deployed game confirms Toph is selectable and all approved assets load as intended on desktop and mobile.
-
-## Lula / Verdant Hart manual matrix
-
-- AA-03 renders Lula's approved portrait, Feather Dirt Ace descriptor, and 5 / 8 / 3 / 7 / 6 / 7 statistics.
-- `Race as Lula` loads The Verdant Hart rather than the fallback kart.
-- The low living-root body, unified stag face, brow-mounted antlers, embedded green leaves, connected wheel housings, and restrained wooden outlets load without clipping or floating geometry.
-- Lula sits correctly in the open cockpit with the steering wheel forward of the driver.
-- Rear, front, steer-left, steer-right, hit, and corrected victory states load from `lula-runtime-20260830-2`.
-- Chase and rear views confirm the stag face remains at the race-forward nose and the wooden outlets remain behind Lula.
-- Lula appears no more than once as an AI opponent when the player selects another character.
-- CI materializes and validates all three AA-03 GLBs; each begins with the binary glTF signature and declares `extras.forward: "-Z"`.
-- CI inflates and validates every AA-03 PNG as complete RGBA image data.
-- CI reconstructs every AA-03 PNG scanline and rejects any opaque neutral-white pixel outside the protected face/eye regions.
-- Portrait and front remain the skin-tone authority; rear, steer-left, steer-right, hit, and victory must use the same pale neutral complexion without altering pose, clothing, hair, or alpha edges.
-- The front-camera-only placement override must align Lula's hands with The Verdant Hart steering wheel without moving rear, steering, hit, victory, or AI states.
-- Product-owner acceptance is recorded only after the deployed game confirms Lula is selectable and all approved assets load as intended on desktop and mobile.
-- Manny confirmed the corrected live mobile deployment at checkpoint `ef74ca9eabb2a242c02d35d72c55377ee9b5529c` on 2026-08-30; the full Lula / Verdant Hart matrix passes.
-
-## Mobile finish-state matrix
-
-- Completing a race adds the `is-finished` state to the game shell before results become visible.
-- Lap, time, speed, position, surface, performance, drift guidance, game help, and touch-driving controls leave the finished mobile view.
-- The results card docks to the top of a portrait viewport and stays within 42% of the viewport height.
-- Standings scroll inside their own compact region; they do not expand the card over the kart or victory driver frame.
-- The lower chase-camera area remains unobstructed so the selected character's victory pose is visible.
-- The results card stays above all retired touch targets, and Return to Hub remains reachable without scrolling the page.
-- After the player finishes, the compact results panel leaves the live kart and victory pose clearly visible while all eight standings remain reachable.
-
-## Race minimap matrix
-
-- The rendered closed-course path is generated from Circuit Alpha's ordered samples, not a separately authored approximation.
-- Track normalization preserves the course aspect ratio and keeps every point inside the padded SVG view box.
-- Exactly eight markers appear during a full race: seven pixel-rendered head crops from approved driver portraits and one larger, gold-outlined player head drawn above them.
-- Marker positions interpolate closed-course progress and wrap cleanly from progress 1 back to 0.
-- Desktop places the map below the Lap HUD on the left without obscuring the track horizon, Surface HUD, or drift meter.
-- Mobile reduces the map in the upper-left HUD column so it stays clear of Position, centered REAR/RESET controls, and bottom steering/action controls.
-- Rear camera retains the minimap. The compact finish state hides it with the live HUD so it cannot obscure the victory pose or results controls.
-- The static track path is written only when its shared topology reference changes; normal HUD updates move markers without rebuilding the SVG course every frame.
-
-For live acceptance, complete at least one desktop and one mobile race. Confirm that all eight driver heads are recognizable, move continuously around the correct course shape, the player remains easy to identify in a cluster, mobile controls remain unobstructed, and the map disappears when results open.
-
-## Shared driver-sprite state matrix
-
-- Every active production driver supplies rear, front, steer-left, steer-right, hit, and victory as 512 x 512 transparent PNGs with transparent corners and no baked checkerboard or neutral-white background islands.
-- The player and every production AI racer use the same state priority: victory, hit, front during rear view, steering, then neutral rear.
-- Positive steering selects steer-left and negative steering selects steer-right for both player and AI racers; the dead zone returns to rear.
-- A kart contact activates hit for every involved production driver, including AI-to-AI contacts, for the same governed reaction window.
-- Each AI finisher activates victory independently of the player's finish state.
-- Holding desktop or mobile rear view activates front for all visible production racers because the camera faces the fronts of their karts; releasing rear view restores each racer's simulation-driven state.
-- While rear view is active, positive and negative steering select front-steer-left and front-steer-right, collision selects front-hit, and a finished racer selects front-victory. Direction names follow kart input direction rather than the viewer's mirrored screen side.
-- During the character-by-character rollout, a missing front-facing action texture falls back to the approved neutral front frame. It must not select a rear-oriented action texture, fall back to rear, or blank the driver.
-- All four front-facing action frames use the character's approved front placement and steering-control ownership. They must not move chase-oriented frames or introduce a duplicate wheel.
-- Kraken's live pilot must select front-steer-left and front-steer-right for the matching kart input while rear view is held, select front-hit during contact, and retain the approved front-victory presentation after finishing.
-- Releasing rear view during Kraken's steering or hit state must restore the matching chase-oriented action rather than leaving a front-facing frame active. All transitions must preserve his approved seated footprint, clean alpha edge, cockpit depth, and single modeled steering wheel.
-- Accu's body remains behind Pink Precision's modeled steering control in neutral, turning, hit, and victory views. Her sprite contains no opaque white/checkerboard pixels inside steering-wheel openings.
-
-Kraken live acceptance passed on 2026-09-01. Manny confirmed the requested steering, hit, victory, chase-state restoration, transparency, cockpit placement, and steering-wheel checks against deployed checkpoint `6b0b9239fa34edc521b4fa4e18a19a8397deaea3`.
-
-Manaconda and Krios live acceptance passed on 2026-09-01 against deployed checkpoint `2ca852b47f16b8221275ee2b5542650d609b9a0d`. Manny confirmed both steering directions, hit, victory, chase-state restoration, transparency, cockpit placement, and steering-control ownership. Manaconda shows exactly one sprite-owned wheel. Krios uses The Hornbreaker's modeled wheel without a duplicate, and no pale matte remains between his horns.
-
-Keeg and McFleurdel live acceptance passed on 2026-09-01 against deployed checkpoint `f8a2ed8be0d72fde62c9403dae4b15e94222f7da`. Manny confirmed both steering directions, hit, victory, chase-state restoration, transparency, cockpit placement, and steering-control ownership. Both drivers use their karts' modeled wheels without sprite duplicates. McFleurdel's reviewed black-curl interiors and arm gaps remain transparent.
+- Rear view preserves steering, hit, and victory…4495 tokens truncated…`. Manny confirmed both steering directions, hit, victory, chase-state restoration, transparency, cockpit placement, and steering-control ownership. Both drivers use their karts' modeled wheels without sprite duplicates. McFleurdel's reviewed black-curl interiors and arm gaps remain transparent.
 
 Lavi and Toph live acceptance passed. Their eight deployed source hashes, controlled revisions, PNG decoding, transparent corners, and modeled-wheel ownership passed. Manny accepted Toph at `[0, 0.45, -0.12]` on 2026-09-02, then accepted Lavi's corrected `[0, 0.9, -0.12]` camera-facing placement on 2026-09-03. Both drivers pass steering-left, steering-right, hit, victory, chase restoration, transparency, cockpit placement, and single-wheel presentation.
 

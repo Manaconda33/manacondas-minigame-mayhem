@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Howler } from 'howler';
 import { ArcBladeAudio } from '../../audio/ArcBladeAudio';
+import { ArcHammerAudio } from '../../audio/ArcHammerAudio';
 import {
   ArcBladeFlight,
   ARC_BLADE_CONFIG,
@@ -9,6 +10,16 @@ import {
   type ArcPhase,
 } from './ArcBlade';
 import { ArcBladeFlashes, ArcBladeVisual } from './ArcBladeVisual';
+import {
+  ARC_HAMMER_CONFIG,
+  hammerBounceVelocity,
+  hammerContactFraction,
+  hammerLaunchVelocity,
+  finiteHammerVector,
+  ARC_HAMMER_PROJECTILE_CONFIG,
+  type HammerSurfaceSample,
+} from './ArcHammers';
+import { ArcHammerCues, ArcHammerVisual } from './ArcHammerVisual';
 import { playBlazeTone } from '../../audio/blazeTone';
 import { FrostAudio } from '../../audio/FrostAudio';
 import { frostCrystal } from './FrostVisual';
@@ -24,6 +35,8 @@ export interface ProjectileLaunchContext {
   readonly forward: THREE.Vector3;
   readonly velocity: THREE.Vector3;
 }
+
+export type ProjectileSurfaceQuery = (position: THREE.Vector3) => HammerSurfaceSample | null;
 
 export interface ProjectileSpawnRequest {
   readonly itemId: ItemId;
@@ -72,6 +85,7 @@ export interface ProjectileSnapshot {
 interface ActiveProjectile {
   readonly arc?: ArcBladeFlight;
   readonly arcVisual?: ArcBladeVisual;
+  readonly hammerVisual?: ArcHammerVisual;
   readonly targetId: string | null;
   readonly id: number;
   readonly itemId: ItemId;
@@ -84,6 +98,7 @@ interface ActiveProjectile {
   remainingSeconds: number;
   ownerArmSeconds: number;
   bounceCooldownSeconds: number;
+  hammerTerrainCooldownSeconds: number;
 }
 
 interface BlazeBurst {
@@ -91,10 +106,21 @@ interface BlazeBurst {
   remainingSeconds: number;
 }
 
+interface HammerCollision {
+  readonly kind: 'wall' | 'racer' | 'terrain';
+  readonly fraction: number;
+  readonly target?: ProjectileTarget;
+  readonly surface?: HammerSurfaceSample;
+  readonly inwardNormal?: THREE.Vector3;
+  readonly penetration?: number;
+}
+
 const RACER_HIT_RADIUS_METERS = 1.05;
 const PROJECTILE_SUBSTEP_METERS = 0.35;
 const MAX_PROJECTILE_SUBSTEPS = 12;
 const BLAZE_BURST_SECONDS = 0.18;
+const HAMMER_SUBSTEP_METERS = 0.35;
+const HAMMER_CONTACT_EPSILON = 1e-6;
 export const MAX_ACTIVE_PROJECTILES = MAX_ITEM_PHYSICS_OBJECTS;
 const LOCAL_TRAVEL_AXIS = new THREE.Vector3(0, 0, 1);
 
@@ -136,18 +162,51 @@ function squaredHorizontalDistance(a: THREE.Vector3, b: THREE.Vector3): number {
   return x * x + z * z;
 }
 
+function hammerPositionAt(
+  start: THREE.Vector3,
+  velocity: THREE.Vector3,
+  seconds: number,
+): THREE.Vector3 {
+  return start
+    .clone()
+    .addScaledVector(velocity, seconds)
+    .add(
+      new THREE.Vector3(
+        0,
+        -0.5 * ARC_HAMMER_CONFIG.gravityMetersPerSecondSquared * seconds ** 2,
+        0,
+      ),
+    );
+}
+
+function hammerSurfaceGap(
+  position: THREE.Vector3,
+  surface: HammerSurfaceSample,
+  radius: number,
+): number {
+  return position.clone().sub(surface.point).dot(surface.normal) - radius;
+}
+
 function howlerContext(): AudioContext | null | undefined {
   return (Howler as unknown as { ctx?: AudioContext | null }).ctx;
 }
 
 export class ProjectileSystem {
   private readonly arcAudio = new ArcBladeAudio();
+  private readonly hammerAudio = new ArcHammerAudio();
   private readonly arcFlashes = new ArcBladeFlashes();
+  private readonly hammerCues = new ArcHammerCues();
   public silenceArcAudio(): void {
     this.arcAudio.stop();
   }
   public unlockArcAudio(): Promise<void> {
     return this.arcAudio.unlock();
+  }
+  public silenceHammerAudio(): void {
+    this.hammerAudio.stop();
+  }
+  public unlockHammerAudio(): Promise<void> {
+    return this.hammerAudio.unlock();
   }
   private readonly frostAudio = new FrostAudio();
   public silenceFrostAudio(): void {
@@ -163,6 +222,7 @@ export class ProjectileSystem {
     private readonly track: CircuitAlpha,
     public readonly capacity = new ItemPhysicsCapacity(),
     private readonly onArcEvent?: (event: ArcEvent) => void,
+    private readonly surfaceQuery?: ProjectileSurfaceQuery,
   ) {
     this.group.name = 'projectile-runtime';
   }
@@ -176,6 +236,10 @@ export class ProjectileSystem {
       !validConfig(request.config) ||
       (request.itemId === 'arc-blade' &&
         Object.entries(ARC_BLADE_CONFIG).some(
+          ([key, value]) => request.config[key as keyof ItemProjectileConfig] !== value,
+        )) ||
+      (request.itemId === 'arc-hammers' &&
+        Object.entries(ARC_HAMMER_PROJECTILE_CONFIG).some(
           ([key, value]) => request.config[key as keyof ItemProjectileConfig] !== value,
         )) ||
       !finiteVector(request.launch.position) ||
@@ -201,16 +265,20 @@ export class ProjectileSystem {
       inherited.multiplyScalar(request.config.maxInheritedSpeedMetersPerSecond / inheritedSpeed);
     }
 
-    const velocity = launchDirection
-      .clone()
-      .multiplyScalar(request.config.speedMetersPerSecond)
-      .addScaledVector(inherited, request.config.inheritedVelocityFactor);
+    const velocity =
+      request.itemId === 'arc-hammers'
+        ? hammerLaunchVelocity(request.launch.forward, request.launch.velocity, request.direction)
+        : launchDirection
+            .clone()
+            .multiplyScalar(request.config.speedMetersPerSecond)
+            .addScaledVector(inherited, request.config.inheritedVelocityFactor);
+    if (velocity === null) return null;
     const spawnPosition = request.launch.position
       .clone()
       .addScaledVector(launchDirection, 1.75 + request.config.radiusMeters);
     spawnPosition.y = Math.max(0.55, request.launch.position.y);
     if (
-      request.itemId === 'arc-blade' &&
+      (request.itemId === 'arc-blade' || request.itemId === 'arc-hammers') &&
       guardrailContact(this.track, spawnPosition, request.config.radiusMeters)
     )
       return null;
@@ -317,6 +385,14 @@ export class ProjectileSystem {
       request.itemId === 'arc-blade'
         ? new ArcBladeFlight(spawnPosition.clone(), launchDirection.clone())
         : undefined;
+    const hammerVisual = request.itemId === 'arc-hammers' ? new ArcHammerVisual() : undefined;
+    if (hammerVisual) {
+      core.visible = false;
+      ring.visible = false;
+      group.add(hammerVisual.hammer);
+      this.group.add(hammerVisual.trail);
+      group.userData.itemPresentation = 'arc-hammer';
+    }
     const arcVisual = arc ? new ArcBladeVisual() : undefined;
     if (arcVisual) {
       core.visible = false;
@@ -329,6 +405,7 @@ export class ProjectileSystem {
     const projectile: ActiveProjectile = {
       arc,
       arcVisual,
+      hammerVisual,
       id,
       targetId: request.itemId === 'seeker-drone' ? (request.targetId ?? null) : null,
       itemId: request.itemId,
@@ -341,15 +418,22 @@ export class ProjectileSystem {
       remainingSeconds: request.config.lifetimeSeconds,
       ownerArmSeconds: request.config.ownerArmSeconds,
       bounceCooldownSeconds: 0,
+      hammerTerrainCooldownSeconds: 0,
     };
     orientProjectile(projectile);
     this.group.add(group);
     this.active.set(projectile.id, projectile);
-    if (arc) {
-      if (commitArcUse && !commitArcUse()) {
+    if (commitArcUse && (arc !== undefined || request.itemId === 'arc-hammers')) {
+      if (!commitArcUse()) {
         this.remove(projectile.id, false, 'rollback');
         return null;
       }
+    }
+    if (hammerVisual) {
+      hammerVisual.update(spawnPosition, projectile.velocity, 0);
+      this.hammerAudio.play('launch', Howler.volume());
+    }
+    if (arc) {
       this.emitArc(projectile, 'launch');
       this.arcAudio.play('launch', Howler.volume());
     }
@@ -382,12 +466,18 @@ export class ProjectileSystem {
     this.resolveQueuedClears();
     this.advanceBlazeBursts(dt);
     this.arcFlashes.update(dt);
+    this.hammerCues.update(dt);
     if (this.arcFlashes.group.children.length === 0) this.arcFlashes.group.removeFromParent();
+    if (this.hammerCues.group.children.length === 0) this.hammerCues.group.removeFromParent();
     const impacts: ProjectileImpact[] = [];
 
     for (const projectile of [...this.active.values()]) {
       if (projectile.arc) {
         this.updateArc(projectile, dt, targets, impacts, onImpact);
+        continue;
+      }
+      if (projectile.itemId === 'arc-hammers') {
+        this.updateHammer(projectile, dt, targets, impacts, onImpact);
         continue;
       }
       if (projectile.itemId === 'seeker-drone') {
@@ -570,6 +660,256 @@ export class ProjectileSystem {
     }
   }
 
+  private updateHammer(
+    projectile: ActiveProjectile,
+    dt: number,
+    targets: readonly ProjectileTarget[],
+    impacts: ProjectileImpact[],
+    onImpact?: (impact: ProjectileImpact) => void,
+  ): void {
+    let timeRemaining = Math.min(dt, projectile.remainingSeconds);
+    let substeps = 0;
+    while (timeRemaining > HAMMER_CONTACT_EPSILON && this.active.has(projectile.id)) {
+      if (projectile.remainingSeconds <= HAMMER_CONTACT_EPSILON) {
+        this.remove(projectile.id);
+        return;
+      }
+      const speed = Math.max(projectile.velocity.length(), 1);
+      const step = Math.min(
+        timeRemaining,
+        projectile.remainingSeconds,
+        HAMMER_SUBSTEP_METERS / speed,
+      );
+      if (!Number.isFinite(step) || step <= HAMMER_CONTACT_EPSILON) {
+        this.remove(projectile.id);
+        return;
+      }
+
+      const start = projectile.group.position.clone();
+      const startVelocity = projectile.velocity.clone();
+      const end = hammerPositionAt(start, startVelocity, step);
+      const endVelocity = startVelocity.clone();
+      endVelocity.y -= ARC_HAMMER_CONFIG.gravityMetersPerSecondSquared * step;
+      const collision = this.hammerCollision(projectile, start, end, step, targets);
+      const consumed = collision === null ? step : step * collision.fraction;
+
+      projectile.group.position.copy(hammerPositionAt(start, startVelocity, consumed));
+      projectile.velocity.copy(startVelocity);
+      projectile.velocity.y -= ARC_HAMMER_CONFIG.gravityMetersPerSecondSquared * consumed;
+      projectile.remainingSeconds = Math.max(0, projectile.remainingSeconds - consumed);
+      projectile.ownerArmSeconds = Math.max(0, projectile.ownerArmSeconds - consumed);
+      projectile.hammerTerrainCooldownSeconds = Math.max(
+        0,
+        projectile.hammerTerrainCooldownSeconds - consumed,
+      );
+      projectile.hammerVisual?.update(projectile.group.position, projectile.velocity, consumed);
+      projectile.spinner.rotation.z += consumed * 20;
+      timeRemaining = Math.max(0, timeRemaining - consumed);
+      substeps += 1;
+
+      if (collision === null) {
+        projectile.group.position.copy(end);
+        projectile.velocity.copy(endVelocity);
+        projectile.hammerVisual?.update(projectile.group.position, projectile.velocity, 0);
+        if (projectile.remainingSeconds <= HAMMER_CONTACT_EPSILON) this.remove(projectile.id);
+        continue;
+      }
+
+      if (collision.kind === 'wall') {
+        if (collision.inwardNormal && collision.penetration !== undefined) {
+          projectile.group.position.addScaledVector(
+            collision.inwardNormal,
+            collision.penetration + 0.015,
+          );
+        }
+        this.remove(projectile.id, true);
+        return;
+      }
+
+      if (collision.kind === 'racer' && collision.target !== undefined) {
+        const target = collision.target;
+        target.onItemContact?.('arc-hammers', target.itemImmune === true, projectile.id);
+        if (target.itemImmune) {
+          this.remove(projectile.id, true);
+          return;
+        }
+        const cross =
+          projectile.velocity.x * target.forward.z - projectile.velocity.z * target.forward.x;
+        const fallbackClockwise = (projectile.id + target.id.length) % 2 === 0;
+        const spinDirection: -1 | 1 =
+          Math.abs(cross) < 0.05 ? (fallbackClockwise ? 1 : -1) : cross < 0 ? -1 : 1;
+        const impact: ProjectileImpact = {
+          projectileId: projectile.id,
+          itemId: 'arc-hammers',
+          targetId: target.id,
+          spinDirection,
+          spinoutSeconds: ARC_HAMMER_CONFIG.spinoutSeconds,
+        };
+        impacts.push(impact);
+        onImpact?.(impact);
+        this.remove(projectile.id, true);
+        return;
+      }
+
+      const surface = collision.surface;
+      if (surface === undefined) {
+        this.remove(projectile.id);
+        return;
+      }
+      if (projectile.bounceCount > 0) {
+        this.remove(projectile.id, true);
+        return;
+      }
+
+      const normal = surface.normal.clone().normalize();
+      projectile.group.position
+        .copy(surface.point)
+        .addScaledVector(normal, ARC_HAMMER_CONFIG.radiusMeters + 0.012);
+      projectile.velocity.copy(hammerBounceVelocity(projectile.velocity, normal));
+      if (!finiteHammerVector(projectile.velocity)) {
+        this.remove(projectile.id);
+        return;
+      }
+      projectile.bounceCount = 1;
+      projectile.hammerTerrainCooldownSeconds = ARC_HAMMER_CONFIG.terrainContactSuppressionSeconds;
+      projectile.remainingSeconds = Math.min(
+        projectile.remainingSeconds,
+        ARC_HAMMER_CONFIG.postBounceLifetimeSeconds,
+      );
+      this.group.add(this.hammerCues.group);
+      this.hammerCues.emitBounce(projectile.group.position);
+      this.hammerAudio.play('bounce', Howler.volume());
+      projectile.hammerVisual?.update(projectile.group.position, projectile.velocity, 0);
+    }
+    if (substeps > 0 && !this.active.has(projectile.id)) return;
+    if (projectile.remainingSeconds <= HAMMER_CONTACT_EPSILON) this.remove(projectile.id);
+  }
+
+  private hammerCollision(
+    projectile: ActiveProjectile,
+    start: THREE.Vector3,
+    end: THREE.Vector3,
+    step: number,
+    targets: readonly ProjectileTarget[],
+  ): HammerCollision | null {
+    const candidates: HammerCollision[] = [];
+    const endWall = guardrailContact(this.track, end, ARC_HAMMER_CONFIG.radiusMeters);
+    if (endWall !== null) {
+      let low = 0;
+      let high = 1;
+      for (let index = 0; index < 24; index += 1) {
+        const midpoint = (low + high) / 2;
+        const point = start.clone().lerp(end, midpoint);
+        if (guardrailContact(this.track, point, ARC_HAMMER_CONFIG.radiusMeters) !== null)
+          high = midpoint;
+        else low = midpoint;
+      }
+      const contact = guardrailContact(
+        this.track,
+        start.clone().lerp(end, high),
+        ARC_HAMMER_CONFIG.radiusMeters,
+      );
+      candidates.push({
+        kind: 'wall',
+        fraction: high,
+        inwardNormal: contact?.inwardNormal ?? endWall.inwardNormal,
+        penetration: contact?.penetration ?? endWall.penetration,
+      });
+    }
+
+    const hitRadius = RACER_HIT_RADIUS_METERS + ARC_HAMMER_CONFIG.radiusMeters;
+    for (const target of targets) {
+      if (target.finished || !finiteVector(target.position) || !finiteVector(target.forward))
+        continue;
+      let fraction = hammerContactFraction(start, end, target.position, hitRadius);
+      if (target.id === projectile.ownerId && projectile.ownerArmSeconds > HAMMER_CONTACT_EPSILON) {
+        if (projectile.ownerArmSeconds >= step - HAMMER_CONTACT_EPSILON) {
+          fraction = null;
+        } else {
+          const armedFraction = Math.min(1, projectile.ownerArmSeconds / step);
+          const armedStart = hammerPositionAt(
+            start,
+            projectile.velocity,
+            projectile.ownerArmSeconds,
+          );
+          const local = hammerContactFraction(armedStart, end, target.position, hitRadius);
+          fraction = local === null ? null : armedFraction + local * (1 - armedFraction);
+        }
+      }
+      if (fraction !== null) candidates.push({ kind: 'racer', fraction, target });
+    }
+
+    if (projectile.hammerTerrainCooldownSeconds <= HAMMER_CONTACT_EPSILON) {
+      const terrain = this.hammerTerrainCollision(start, end, step, projectile.velocity);
+      if (terrain !== null) candidates.push(terrain);
+    }
+
+    candidates.sort((a, b) => {
+      if (Math.abs(a.fraction - b.fraction) > 1e-7) return a.fraction - b.fraction;
+      const priority = { wall: 0, racer: 1, terrain: 2 } as const;
+      const priorityDelta = priority[a.kind] - priority[b.kind];
+      if (priorityDelta !== 0) return priorityDelta;
+      return (a.target?.id ?? '').localeCompare(b.target?.id ?? '');
+    });
+    const first = candidates[0];
+    return first ?? null;
+  }
+
+  private hammerTerrainCollision(
+    start: THREE.Vector3,
+    end: THREE.Vector3,
+    step: number,
+    velocity: THREE.Vector3,
+  ): HammerCollision | null {
+    const startSample = this.hammerSurfaceAt(start);
+    const endSample = this.hammerSurfaceAt(end);
+    if (startSample === null || endSample === null) return null;
+    const startGap = hammerSurfaceGap(start, startSample, ARC_HAMMER_CONFIG.radiusMeters);
+    const endGap = hammerSurfaceGap(end, endSample, ARC_HAMMER_CONFIG.radiusMeters);
+    if (endGap > HAMMER_CONTACT_EPSILON) return null;
+    if (startGap <= HAMMER_CONTACT_EPSILON) {
+      if (velocity.dot(startSample.normal) >= -HAMMER_CONTACT_EPSILON) return null;
+      return { kind: 'terrain', fraction: 0, surface: startSample };
+    }
+    if (velocity.dot(endSample.normal) >= -HAMMER_CONTACT_EPSILON && endGap > startGap) return null;
+
+    let low = 0;
+    let high = 1;
+    for (let index = 0; index < 24; index += 1) {
+      const midpoint = (low + high) / 2;
+      const point = hammerPositionAt(start, velocity, midpoint * step);
+      const sample = this.hammerSurfaceAt(point);
+      const gap =
+        sample === null
+          ? Number.POSITIVE_INFINITY
+          : hammerSurfaceGap(point, sample, ARC_HAMMER_CONFIG.radiusMeters);
+      if (gap <= HAMMER_CONTACT_EPSILON) high = midpoint;
+      else low = midpoint;
+    }
+    const point = hammerPositionAt(start, velocity, high * step);
+    return { kind: 'terrain', fraction: high, surface: this.hammerSurfaceAt(point) ?? endSample };
+  }
+
+  private hammerSurfaceAt(position: THREE.Vector3): HammerSurfaceSample | null {
+    if (this.surfaceQuery !== undefined) {
+      const queried = this.surfaceQuery(position);
+      if (
+        queried !== null &&
+        finiteHammerVector(queried.point) &&
+        finiteHammerVector(queried.normal) &&
+        queried.normal.lengthSq() > 1e-8
+      )
+        return { point: queried.point.clone(), normal: queried.normal.clone().normalize() };
+      return null;
+    }
+
+    const projection = this.track.project(position);
+    return {
+      point: projection.point.clone(),
+      normal: new THREE.Vector3(0, 1, 0),
+    };
+  }
+
   /** Arc return pursuit must not follow a recovery discontinuity. Other shots persist. */
   public cancelOwnerArcs(ownerId: string): void {
     for (const p of [...this.active.values()])
@@ -648,7 +988,8 @@ export class ProjectileSystem {
         projectile.itemId !== 'seeker-drone' &&
         projectile.itemId !== 'blaze-orbs' &&
         projectile.itemId !== 'frost-orbs' &&
-        projectile.itemId !== 'arc-blade'
+        projectile.itemId !== 'arc-blade' &&
+        projectile.itemId !== 'arc-hammers'
       )
         continue;
       if (
@@ -657,7 +998,7 @@ export class ProjectileSystem {
             squaredHorizontalDistance(center, projectile.group.position) <= radius * radius,
         )
       )
-        this.remove(projectile.id, false, 'cleared');
+        this.remove(projectile.id, projectile.itemId === 'arc-hammers', 'cleared');
     }
     this.clears.length = 0;
   }
@@ -671,6 +1012,14 @@ export class ProjectileSystem {
     if (projectile === undefined) return false;
     if (arcEnd !== 'absorbed') this.emitArc(projectile, arcEnd);
     projectile.arcVisual?.dispose();
+    if (projectile.hammerVisual) {
+      if (impactPresentation) {
+        this.group.add(this.hammerCues.group);
+        this.hammerCues.emitImpact(projectile.group.position);
+        this.hammerAudio.play('hit', Howler.volume());
+      }
+      projectile.hammerVisual.dispose();
+    }
     if (impactPresentation && projectile.itemId === 'frost-orbs') {
       this.spawnBlazeBurst(projectile.group.position, true);
       this.frostAudio.play('impact', howlerContext(), Howler.volume());
@@ -790,7 +1139,9 @@ export class ProjectileSystem {
 
   public dispose(): void {
     this.arcAudio.dispose();
+    this.hammerAudio.dispose();
     this.arcFlashes.dispose();
+    this.hammerCues.dispose();
     this.frostAudio.dispose();
     for (const projectileId of [...this.active.keys()]) this.remove(projectileId);
     for (const id of this.reservations) this.capacity.release(id);

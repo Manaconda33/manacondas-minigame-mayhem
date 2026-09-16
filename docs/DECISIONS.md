@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 28251)
+Total output lines: 677
+
 # Architecture and Product Decisions
 
 This file is the current decision register. The complete original ADR-001 through ADR-021 record is preserved verbatim at `docs/history/DECISIONS-through-ADR-021.md` and remains authoritative except where a later ADR explicitly supersedes an earlier decision.
@@ -279,197 +282,7 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Date:** 2026-09-03
 - **Status:** Approved
 - **Context:** Manny started Jennifer's one-character Slice 3 intake with a detailed written description and a supplied racer collage showing Jennifer, her Newfoundland companion, and a nature-built kart.
-- **Decision:** Lock Jennifer as a tall, sturdy druidic herbalist, caretaker, and protector with the physical features, clothing, staff, restrained magic, temperament, and massive gray Newfoundland defined in `docs/avatars/JENNIFER.md`. Treat the supplied collage as definitive visual authority for Jennifer, the dog, and the kart design language. The written character lock controls any conflict in color, body, material, or accessory detail.
-- **Required corrections from the reference:** Production art must use Jennifer's mandatory purple wire-rimmed glasses and the Newfoundland's gray coat even where the collage appears darker. The amethyst staff glow remains subtle.
-- **Provenance:** Manny confirmed that he controls the supplied reference and authorizes its transformation into public production game assets after later approval gates pass.
-- **Scope:** This decision approves identity, reference authority, and transformation rights only. It does not approve a kart name or final design, a companion implementation method, an AA profile, raster derivatives, GLB geometry, manifest activation, publication, or deployment.
-- **Next gate:** Approve the kart concept and companion treatment, then define driving feel and select among the still-available AA-01, AA-06, and AA-12 profiles.
-- **Approval:** Manny answered yes to the character lock, definitive-reference rule, and transformation authorization on 2026-09-03.
-
-## ADR-046: Lock Jennifer's Hearthwarden kart direction
-
-- **Date:** 2026-09-03
-- **Status:** Approved
-- **Context:** Jennifer's character and source authority were locked under ADR-045. Her racing reference established a broad pear-wood, bronze, green, and tree-medallion language, but the production kart required a name, construction rule, companion position, staff mount, and separation from Lula's living Verdant Hart.
-- **Decision:** Name Jennifer's kart The Hearthwarden. Build it as a low, broad druidic field roadster converted from a working apothecary wagon, using shaped pear wood, woven willow panels, bronze brackets, forest-green surfaces, turquoise accents, a round tree-of-life nose medallion, and restrained amethyst details. Four wide practical tires use bronze hubs with turquoise-green rim details.
-- **Companion treatment:** The massive gray Newfoundland rides on a reinforced right-rear perch and appears in all ten driver frames. The dog remains on the same physical side when camera facing changes. Jennifer's portrait stays solo so her face remains readable in small HUD and minimap uses.
-- **Staff and steering:** Jennifer's six-foot staff mounts upright on the left-rear rail, opposite the dog. The Hearthwarden supplies one modeled steering wheel; every driver raster remains free of wheel and kart geometry.
-- **Differentiation:** The Hearthwarden is a constructed field vehicle. It does not use The Verdant Hart's living-root chassis, stag face, antlers, structural foliage, or delicate silhouette. Secured vines, herbs, and flowers may appear only as cargo or trim.
-- **Effects:** Boost treatment uses restrained teal exhaust and brief herbal particles without turning Jennifer's practical magic into a large spectacle.
-- **Scope:** This locks the kart name and visual direction. It does not assign an AA profile, approve raster artwork or GLB geometry, activate the character manifest, publish assets, or deploy the package.
-- **Next gate:** Approve Jennifer's driving feel and one available AA profile before asset preparation.
-- **Approval:** Manny approved The Hearthwarden and the complete proposed kart lock on 2026-09-03.
-
-## ADR-047: Assign Jennifer and The Hearthwarden to AA-12
-
-- **Date:** 2026-09-03
-- **Status:** Approved
-- **Context:** Jennifer's character and The Hearthwarden were locked under ADR-045 and ADR-046. The available profiles were AA-01 Feather Sprinter, AA-06 Grip Specialist, and AA-12 All-Surface Heavy.
-- **Decision:** Assign Jennifer and The Hearthwarden to AA-12 All-Surface Heavy: Speed 8 / Acceleration 5 / Weight 8 / Handling 4 / Mini-Turbo 4 / Traction 7.
-- **Driving identity:** The Hearthwarden is a patient, planted racer that holds momentum, resists displacement, and remains dependable on dirt and grass. Acceleration 5 and Handling 4 make launch recovery and tight direction changes costly. Mini-Turbo 4 makes deliberate line choice more valuable than repeated drift boosts.
-- **Rationale:** AA-12 supports the approved heavy field-roadster construction and companion load while preserving clear weaknesses. It does not overlap Krios's Speed 10 straight-line dominance or Accu's Weight 10 collision specialization. AA-01 would make the package a fragile featherweight, while AA-06 would shift it toward a lighter and more agile grip identity.
-- **Roster impact:** AA-12 is assigned to Jennifer and is unavailable to later characters unless Manny approves a remap or retirement. AA-01 and AA-06 remain available. Jennifer remains outside `characterManifest` until her asset and implementation gates pass.
-- **Scope:** This decision locks the six-stat mapping and selection descriptor. It does not approve raster assets, GLB geometry, runtime activation, publication, or deployment.
-- **Next gate:** Prepare Jennifer's portrait candidate for visual review, followed by the ten driver states and kart geometry as separate approvals.
-- **Approval:** Manny approved Jennifer / The Hearthwarden for AA-12 All-Surface Heavy on 2026-09-03.
-
-## ADR-048: Lock Jennifer's corrected portrait design
-
-- **Date:** 2026-09-03
-- **Status:** Approved; runtime derivative complete
-- **Context:** Jennifer's character, kart, and balance mapping were approved under ADR-045 through ADR-047. The first portrait candidate retained visible makeup and heavier frames. A corrected candidate removed the makeup treatment and used thin purple wire-rimmed glasses while preserving the approved hair, expression, jewelry, and robe language.
-- **Decision:** Lock the corrected solo portrait as Jennifer's portrait design authority. It preserves her natural bare face, dark-teal eyes, thin purple wire-rimmed glasses, small sincere smile, dense dark chocolate-brown curls, half-up braids, threaded feathers, turquoise jewelry, and deep forest-green floral robe with restrained bronze detail.
-- **Technical state:** The approved 1254 x 1254 preview is an RGB PNG with a baked checkerboard and no alpha channel. Two built-in background-extraction passes failed to produce genuine transparency. The preview cannot enter the runtime path or satisfy the portrait contract.
-- **Scope:** This approval locks the portrait appearance only. It does not approve a runtime derivative, the ten driver states, kart geometry, manifest activation, publication, deployment, or live acceptance.
-- **Normalization sequence:** Manny approved deterministic edge-connected background removal on 2026-09-03. Defer that cleanup until the portrait and all ten driver-frame designs are approved, then normalize and validate the complete eleven-image set immediately before its asset commit.
-- **Closure:** After the ten-frame design approval, the portrait was normalized to a 256 x 256 transparent sRGBA PNG with transparent corners. The approved RGB preview remains outside the runtime path.
-- **Next gate:** Complete Jennifer's ten-frame driver design package without placing opaque previews in the runtime path.
-- **Approval:** Manny approved the corrected portrait design on 2026-09-03.
-
-## ADR-049: Approve and normalize Jennifer's ten-frame driver set
-
-- **Date:** 2026-09-03
-- **Status:** Approved and complete
-- **Context:** Jennifer's portrait was locked under ADR-048. The remaining 2D package required neutral, steer-left, steer-right, hit, and victory in both chase-facing and camera-facing orientations, with the Newfoundland permanently on Jennifer's physical right.
-- **Decision:** Approve all ten driver designs. The dog appears viewer-right in chase-facing art and viewer-left in camera-facing art. Steering pairs are directionally distinct; hit uses a controlled recoil and protective dog response; victory uses a restrained raised fist and proud dog posture. Every raster remains free of kart, wheel, seat, staff, and tire geometry.
-- **Normalization:** Manny authorized deterministic cleanup and directed that it occur only after all eleven designs were approved. `tools/assets/prepare_jennifer_2d.py` removes edge-connected checker pixels, enclosed pale checker pockets between curls, and the narrow pale source outline before premultiplied-alpha resizing.
-- **Evidence:** The runtime set contains one 256 x 256 portrait and ten 512 x 512 driver frames as transparent sRGBA PNGs with transparent corners. Dark- and light-background contact sheets show clean silhouettes and interior gaps. The runtime gate decodes every AA-12 PNG and rejects an opaque pale-neutral component of eight pixels or more; the largest current component is four pixels.
-- **Scope:** This approves and prepares Jennifer's 2D runtime package. It does not approve The Hearthwarden's GLB geometry, manifest activation, publication, deployment, or live acceptance.
-- **Next gate:** Prepare The Hearthwarden's deterministic LOD0, LOD1, and LOD2 geometry candidate for Manny's review.
-- **Approval:** Manny approved the ten-frame driver design set on 2026-09-03.
-
-## ADR-050: Approve The Hearthwarden Candidate 2 geometry
-
-- **Date:** 2026-09-03
-- **Status:** Approved and prepared
-- **Context:** The Hearthwarden required deterministic LOD0, LOD1, and LOD2 geometry under the approved kart lock. Candidate 1 matched the intended field-roadster identity but left the rear herb details and front tree-of-life medallion visually detached. Candidate 2 corrected both connections. Manny noted that this was the quickest kart-design approval cycle he could remember.
-- **Decision:** Approve Candidate 2 as The Hearthwarden's production geometry. Keep its constructed pear-wood frame, woven willow side panels, forest-green bodywork, aged bronze joints, turquoise accents, four wide tires, one modeled steering wheel, kart-right Newfoundland perch, kart-left staff rack, restrained amethyst, remedy cargo, and tree-of-life nose emblem.
-- **Connection corrections:** Rear herb stems extend below the remedy-box lids. The nose emblem overlaps a central pear-wood mounting boss, while two bronze stays connect it to the front frame.
-- **Evidence:** LOD0 uses 14,220 triangles with SHA-256 `2e787f1acef4fae95d12833424bb93939b3803233c40c51ed03d7c6e4ec18277`; LOD1 uses 8,604 with `420461571b7bfb9202c91c94b0513d40dc933ba63796051bb14c7904468891d9`; LOD2 uses 4,156 with `d139dbc9e263ad1090b208d217bc61df15d194a7f7d7b9025b131df1bd48d207`. All three provide four materials, thirteen required nodes, one `SteeringWheel` node, and `extras.forward: "-Z"`. Deterministic reruns matched byte for byte.
-- **Efficiency record:** The short cycle came from converting the kart lock into explicit silhouette, construction, asymmetry, and anti-overlap rules before modeling; checking current builder scale and runtime contracts first; reusing one deterministic exporter for all LODs; and pairing direct GLB review with a four-angle sheet. Future reviews must test numerical overlap for every attached detail and use a new filename for every revision so viewer caching cannot hide a correction.
-- **Scope:** This approval places the three GLBs in AA-12 and adds them to the materialization gate. It does not activate Jennifer in `characterManifest`, approve cockpit placement, publish, deploy, or record live acceptance.
-- **Next gate:** Prepare Jennifer's local runtime integration and cockpit-placement review.
-- **Approval:** Manny approved Candidate 2 on 2026-09-03 and asked that its faster workflow be preserved for later 3D assets.
-
-## ADR-051: Integrate Jennifer and The Hearthwarden locally
-
-- **Date:** 2026-09-03
-- **Status:** Locally integrated; publication pending
-- **Context:** Jennifer's character, AA-12 mapping, complete 2D package, and corrected Hearthwarden geometry were approved under ADR-045 through ADR-050. Manny approved proceeding to the local runtime integration gate.
-- **Decision:** Replace the AA-12 placeholder with Jennifer under controlled revision `jennifer-runtime-20260903-1`. Use her approved portrait, ten driver frames, The Hearthwarden LOD0 runtime kart, `NEGATIVE_Z_KART_VISUAL_YAW`, All-Surface Heavy descriptor, and 8 / 5 / 8 / 4 / 4 / 7 statistics. Preserve one modeled steering wheel by keeping every Jennifer frame wheel-free.
-- **Cockpit placement:** Use chase-facing driver position `[0, 0.92, -0.12]`, camera-facing position `[0, 0.84, -0.12]`, and camera-facing modeled-wheel position `[0, 1.86, -0.42]`.
-- **Evidence:** Manifest and app-shell contracts confirm AA-12 selection and race handoff, all approved asset URLs, controlled revision, profile statistics, negative-Z orientation, camera-specific placement, and modeled-wheel ownership. An offline render using the production scale/grounding math, deterministic GLB geometry, and approved PNGs confirms rear-structure occlusion, kart-right dog placement, and the wheel between Jennifer's hands without covering her face. The remote preview window could not reach the workspace loopback server, so deployed desktop and mobile playtests remain the visual authority. The full local gate passed with strict typecheck, zero-warning lint, 16 Vitest files / 84 tests, 83.19% statement coverage, 30 materialized GLBs, 83 decoded runtime PNGs, and a production build.
-- **Scope:** Local code, tests, records, and commit only. This does not authorize pushing the branch, opening or merging a pull request, deploying, or recording live acceptance.
-- **Next gate:** Request explicit publication approval, then complete deployed desktop and mobile acceptance.
-
-## ADR-052: Rebrand the product and authorize Jennifer's release
-
-- **Date:** 2026-09-03
-- **Status:** Approved for publication
-- **Context:** Jennifer and The Hearthwarden passed every local asset, mapping, geometry, and cockpit gate. Manny then approved publication and directed a complete public rebrand that removes the former product name, presentation line, repository slug, live URL, and AA letter logo.
-- **Decision:** Rename the public product to `Manaconda's Minigame Mayhem`, rename the canonical repository to `Manaconda33/manacondas-minigame-mayhem`, and move GitHub Pages to `/manacondas-minigame-mayhem/`. The title screen shows the new name without a presentation line. An original route-and-token minigame mark replaces the AA monogram in the shell and favicon.
-- **Compatibility rule:** Internal `aa-##` profile, archive, and asset keys remain stable implementation identifiers. They are not public brand copy. User-facing unassigned slots use neutral racer labels.
-- **Drift prevention:** Current product copy, metadata, package identity, repository guidance, public links, builder labels, Markdown PRD, and Word approval artifact use the new brand. The production build runs an automated guard that rejects the superseded display name or repository slug outside dated history.
-- **Validated binary treatment:** Existing approved GLB bytes remain unchanged so their accepted geometry hashes, cache revisions, and rollback evidence remain valid. Non-rendered generator metadata inside those immutable files is historical build provenance, not player-facing branding. Every maintained kart builder now emits the new generator label for future revisions.
-- **Jennifer release migration:** Because Jennifer had not yet been deployed, her three GLBs were regenerated with the new generator metadata and advanced to controlled revision `jennifer-runtime-20260903-2`. Geometry, triangle counts, materials, nodes, and orientation are unchanged. Release hashes are LOD0 `0415224b88770726152a3313b6e0fc517a626a6167558af7a6ccbd836b13f3f0`, LOD1 `545d22ab7f17a17fa14bdb6281db80ac070af159f0a700a57a3694f828e880a8`, and LOD2 `ff7cf64b9eb06defd47d708cf88dfd7780814d9a20d89ac967bc79c8d0baeeb9`.
-- **LFS materialization:** Temporary bridge run `33788191680` regenerated only Jennifer's three GLBs with NumPy 2.3.5 and Matplotlib 3.10.8, matched all release hashes, proved the committed pointers unchanged, uploaded only the three approved object IDs, deleted the runner cache, fetched the branch objects back, and passed `git lfs fsck`. The temporary workflow was removed before review.
-- **Scope:** Publish Jennifer's approved AA-12 runtime package in the same release. Gameplay, physics, balance, existing character visuals, and previously accepted asset bytes remain unchanged.
-- **Local evidence:** The rebrand guard passed across current source, metadata, documentation, filenames, and the Word artifact. Full validation passed with strict typecheck, zero-warning lint, 16 Vitest files / 84 tests, 83.19% statement coverage, 30 materialized runtime GLBs, 83 decoded runtime PNGs, a production build at the new Pages base, and `git lfs fsck`. The renamed 43-page Word PRD passed ZIP integrity and page-by-page rendered review; 30 unchanged pages remained pixel-identical to the approved source, and all 13 changed pages were inspected without clipping or collisions.
-- **Approval:** Manny approved publication, repository and Pages renaming, the complete public rebrand, and the new icon direction on 2026-09-03. Desktop and mobile live acceptance remain required after deployment.
-
-## ADR-053: Lock Dragon Queen, The Sovereign Wyrm, and AA-06
-
-- **Date:** 2026-09-03
-- **Status:** Approved for asset preparation
-- **Context:** Manny began a one-character Slice 3 intake for Dragon Queen with a detailed written description and a supplied racer collage. AA-01 and AA-06 were the only available balance profiles. Manny confirmed that he controls the image, authorized its transformation into public game assets, and designated it as the definitive visual reference.
-- **Character decision:** Dragon Queen is a literal sovereign dragon with deep navy scales, subtle gold flecking, molten-gold eyes, broad wings, a long scaled tail, dark-blue and gold ceremonial cloths, minimal royal jewelry, and calm benevolent authority. She must never become humanoid, dragonborn-like, feral, casually comic, or sexualized. Wings and tail remain visible in every portrait and driver-state silhouette.
-- **Kart decision:** Name her kart The Sovereign Wyrm. Preserve the reference's low royal grand-tourer body, midnight-blue finish, sculpted gold structural trim, jewel-like blue lighting, substantial tires, and gold dragon nose shield. Build the cockpit around literal dragon anatomy with wing clearance and a visible tail channel. The kart supplies one modeled steering control.
-- **Balance decision:** Assign Dragon Queen and The Sovereign Wyrm to AA-06 Grip Specialist: Speed 6 / Acceleration 6 / Weight 5 / Handling 7 / Mini-Turbo 5 / Traction 7. The profile expresses her control-first identity through stable handling and traction without turning appearance into heavyweight performance.
-- **Archive treatment:** Cleo remains inactive and restorable. Before Dragon Queen assets enter the standard AA-06 paths, move Cleo's complete approved package byte-for-byte to a dedicated archive location and update `archivedCleo` to those preserved paths. Do not delete, regenerate, or overwrite Cleo's files.
-- **Scope:** This approval locks identity, rights, reference authority, kart direction, name, and balance mapping. It does not approve raster derivatives, GLB geometry, runtime activation, publication, deployment, or live acceptance.
-- **Next gate:** Prepare one solo portrait candidate and stop for Manny's visual approval before creating the ten driver states.
-- **Approval:** Manny approved the definitive reference and transformation rights, The Sovereign Wyrm design/name, and AA-06 Grip Specialist mapping on 2026-09-03.
-
-## ADR-054: Lock Dragon Queen portrait Candidate 2
-
-- **Date:** 2026-09-03
-- **Status:** Approved for driver-state preparation
-- **Context:** Candidate 1 preserved Dragon Queen's identity but showed too much of her seated body, which would shrink her face below the established HUD and minimap presentation. Candidate 2 tightened the crop while retaining both wings and the long tail.
-- **Decision:** Lock Candidate 2 as Dragon Queen's portrait design authority. Preserve its deep navy scales, gold flecking, molten-gold eyes, long muzzle, crown, horns, broad wings, curling tail, layered ceremonial cloths, restrained jewelry, and calm sovereign expression.
-- **Normalization:** The approved 1254 x 1254 review export is RGB with a baked checkerboard. Keep it outside runtime paths. After all eleven raster designs are approved, remove the checkerboard deterministically and create the 256 x 256 transparent sRGBA derivative with premultiplied-alpha resizing.
-- **Scope:** This approval locks the portrait appearance only. It does not approve the runtime derivative, ten driver states, kart geometry, runtime activation, publication, deployment, or live acceptance.
-- **Next gate:** Prepare ten driver-state candidates from the approved portrait identity, then stop for Manny's visual review before normalization.
-- **Approval:** Manny approved Candidate 2 on 2026-09-03.
-
-## ADR-055: Approve Dragon Queen's ten driver states and staged 2D package
-
-- **Date:** 2026-09-04
-- **Status:** Approved and prepared outside runtime paths
-- **Context:** Dragon Queen required five chase-facing and five camera-facing driver designs derived from the approved portrait identity. Both wings and one long tail had to remain visible without adding kart or control geometry.
-- **Decision:** Approve rear, steer-left, steer-right, hit, victory, front, front-steer-left, front-steer-right, front-hit, and front-victory. The steering pairs show opposite commanded turns. Hit uses controlled recoil. Victory remains closed-mouth and uses a restrained draconic foreclaw salute.
-- **Rejected defects:** Candidate preparation exposed a duplicate tail in chase steer-right, a roaring chase victory, and a human-like circular finger gesture in front victory. Corrected replacements were reviewed as part of the approved set. Future derivatives must keep exactly one tail, avoid feral victory expressions, and avoid recognizable human hand signs.
-- **Normalization:** `tools/assets/prepare_dragon_queen_2d.py` preserves native alpha and removes edge-connected pale neutral checkerboards only from opaque review exports. It clears hidden RGB and uses premultiplied-alpha resizing. The outputs remain staged outside the AA-06 runtime path.
-- **Evidence:** Two deterministic runs produced the same eleven hashes. The relative-path SHA-256 manifest is `6be70b53cb3f63a33e349c7ba2e66d4d413034d32f47ab549d96f23bcc74d7fd`. The staged set contains one 256 x 256 portrait and ten 512 x 512 driver frames as 8-bit, non-interlaced sRGBA PNGs with transparent corners. A dark-matte sheet shows no checkerboard blocks or pale outer halos.
-- **Archive boundary:** Cleo's approved package still occupies `public/assets/characters/aa-06/`. No Cleo file was changed. The local integration gate must copy that package byte-for-byte to a dedicated archive and update `archivedCleo` before Dragon Queen enters the standard AA-06 paths.
-- **Scope:** This approval covers Dragon Queen's complete 2D design package and staged runtime derivatives. It does not approve The Sovereign Wyrm geometry, AA-06 activation, publication, deployment, or live acceptance.
-- **Next gate:** Prepare The Sovereign Wyrm's deterministic LOD0, LOD1, and LOD2 geometry candidate for Manny's review.
-- **Approval:** Manny approved the complete ten-frame driver-state sheet on 2026-09-04.
-
-## ADR-056: Approve The Sovereign Wyrm geometry Candidate 2
-
-- **Date:** 2026-09-04
-- **Status:** Approved for local runtime integration
-- **Context:** Dragon Queen's identity, 2D package, kart direction, and AA-06 mapping were already approved. The kart still required deterministic runtime geometry with a literal-dragon cockpit, readable royal construction, three LODs, one modeled control, and the shared negative-Z orientation contract.
-- **Rejected candidate:** Candidate 1 was withheld because its round nose read as a grille, its separate side scales read as dots, and the steering wheel dominated the cockpit.
-- **Decision:** Approve Candidate 2. It uses a shield-shaped prow, joined gold chevrons, a smaller lower steering control, midnight-blue bodywork, structural gold rails, blue jewel lights, substantial tires, broad wing clearance, and an open tail channel.
-- **Evidence:** LOD0 contains 12,164 triangles with SHA-256 `57b3f4b248ed96cd19b0c2b233aec4462fde73b102ad9acde8941550bf69e305`; LOD1 contains 7,268 with `31bdd684fb764fdb4d6e04726971e0bf3f34ee4f36aefbf652fcdf3b133053c3`; LOD2 contains 3,620 with `124ec43e1ada192d67a3d4fe6bb6c3ec1cdd3f9df6b6c22b1af05b25762197de`. Each GLB has four materials, thirteen required nodes, one `SteeringWheel`, and `extras.forward: "-Z"`. Repeated builds matched byte-for-byte.
-- **Scope:** Geometry approval allows local AA-06 integration after Cleo's approved package is copied unchanged to a dedicated archive. It does not authorize publication, deployment, or live acceptance.
-- **Next gate:** Preserve Cleo, integrate Dragon Queen locally, verify cockpit placement and runtime contracts, then request publication approval.
-- **Approval:** Manny approved Candidate 2 on 2026-09-04.
-
-## ADR-057: Integrate Dragon Queen and preserve Cleo locally
-
-- **Date:** 2026-09-04
-- **Status:** Locally integrated; publication pending
-- **Context:** Dragon Queen's identity, rights, AA-06 mapping, portrait, ten driver states, and Sovereign Wyrm Candidate 2 were approved. Cleo's inactive AA-06 package had to be preserved before Dragon Queen could occupy the standard runtime paths.
-- **Archive decision:** Copy Cleo's portrait, six driver frames, and three Gilded Stitch GLBs unchanged to `public/assets/archive/characters/cleo-aa-06/`. Point `archivedCleo` only to that package and pin all ten files to their approved SHA-256 values in the runtime verifier.
-- **Runtime decision:** Activate Dragon Queen at AA-06 under `dragon-queen-runtime-20260904-1`. Use The Sovereign Wyrm, `NEGATIVE_Z_KART_VISUAL_YAW`, all ten approved driver frames, the Grip Specialist 6 / 6 / 5 / 7 / 5 / 7 profile, and `[0, 0.95, -0.12]` for chase-facing and camera-facing placement.
-- **Cockpit evidence:** `tools/assets/render_dragon_queen_cockpit_review.py` uses the runtime model scale, ground offset, sprite size, and approved assets. The render keeps both wings above the bodywork, seats the lower body behind the cockpit edge, and places the kart's single modeled control between the foreclaws in front view. Two runs matched SHA-256 `7ee269aec57cd1cc95aaa17d66aedeaf2ffe20ccee460f56e7e91c82d6a8f917`.
-- **Validation:** The full local gate passes strict typecheck, zero-warning lint, 18 Vitest files / 91 tests, 89.7% statement coverage, 33 materialized runtime GLBs, 94 decoded runtime PNGs, the branding guard, production build, and `git lfs fsck`. The existing large-chunk warning is unchanged.
-- **Scope:** Local source, assets, tests, records, and commit only. This decision does not authorize pushing the branch, opening or merging a pull request, publishing, deploying, or recording live acceptance.
-- **Next gate:** Request explicit publication approval, then complete deployed desktop and mobile checks for selection, orientation, all driver states, cockpit occlusion, wing and tail visibility, and the single modeled control.
-
-## ADR-058: Correct Dragon Queen's camera-facing driver mounts
-
-- **Date:** 2026-09-04
-- **Status:** Front-camera correction approved for publication
-- **Context:** Dragon Queen passed every reported live playtest item except rear-view hand-to-control alignment. The five camera-facing frames shared the chase-facing `[0, 0.95, -0.12]` mount. The first correction lowered all five to `[0, 0.84, -0.12]`, but Manny found steer-right slightly high and requested review of the complete front-camera set.
-- **Decision:** Keep chase-facing states at `[0, 0.95, -0.12]`. Use `[0, 0.84, -0.12]` for front neutral, steer-left, hit, and victory. Use a state-specific `[0, 0.80, -0.12]` override for front-steer-right because its foreclaws sit higher within the approved raster. Keep the approved raster files, kart geometry, modeled-control position, sprite scale, depth, character mapping, statistics, and asset revision unchanged.
-- **Evidence:** The complete five-state front-camera renderer produced identical review sheets across two runs at SHA-256 `1375abc4e30eaecadb1409030e0fea3e6ca3dd793ad8916227e24925a94006b2`. Two focused placement suites pass 36 tests, pin the base and state-specific mount values, and verify override precedence. Full local validation passes strict typecheck, zero-warning lint, 18 test files / 92 tests, 89.71% statement coverage, 33 materialized runtime GLBs, 94 decoded runtime PNGs, the brand guard, production build, and `git lfs fsck`.
-- **Scope:** This approval authorizes publishing the correction branch. Pull-request merge, deployment, and acceptance closure remain separately governed.
-- **Next gate:** Publish the correction branch, complete the pull-request and deployment workflow, and retest rear-view neutral, steering, hit, and victory states on the deployed release.
-- **Approval:** Manny approved the complete front-camera placement sheet and authorized branch publication on 2026-09-04.
-
-## ADR-059: Integrate and deploy Alex and The Neon Vector
-
-- **Date:** 2026-09-05
-- **Status:** Live accepted / closed
-- **Context:** Manny approved Alex as the final Slice 3 racer for the formerly unassigned AA-01 profile. Her definitive reference, written character lock, warm clever competitor personality, The Neon Vector kart name and direction, Option A portrait, ten driver states, and Candidate 3 geometry were approved before integration.
-- **Decision:** Assign Alex to AA-01 Feather Sprinter with Speed 6 / Acceleration 9 / Weight 2 / Handling 8 / Mini-Turbo 7 / Traction 4. Activate `alex-runtime-20260905-1` in `characterManifest` with The Neon Vector, `NEGATIVE_Z_KART_VISUAL_YAW`, chase-facing driver position `[0, 0.92, -0.12]`, camera-facing position `[0, 0.84, -0.12]`, and the single modeled steering wheel supplied by the kart.
-- **Asset evidence:** Install the approved 256 x 256 portrait, ten 512 x 512 transparent character-only driver frames, and Candidate 3 LOD0/LOD1/LOD2 GLBs. The GLBs contain 10,396 / 6,444 / 3,420 triangles, four materials, thirteen required nodes, one `SteeringWheel`, and `extras.forward: "-Z"`. The approved rear cockpit-to-thruster conduits remain exposed.
-- **Validation evidence:** `npm ci` installed 198 lockfile-pinned packages. `npm run validate` passed strict typecheck, zero-warning lint, 18 Vitest files / 93 tests, 89.71% statement coverage, branding, 36 materialized GLBs, 105 decoded PNGs, and the production build. `git lfs fsck` and deterministic LOD hash comparisons passed. Temporary LFS bridge run `33989497206` uploaded and fetch-verified only the three approved GLBs. PR CI run `33989589113` passed; PR #92 merged at `617312394decfcb95af4f8fee6431ee9d339201b`; and main CI / Pages run `33989653688` passed validation and deployment with artifact `9976234566` at digest `sha256:e2188b050b5047f5985401eac22b5973c035c843ffaff214361ddbea6296e131`. Extracted deployment bytes match all fourteen approved Alex runtime files. The existing large-chunk warning remains non-blocking.
-- **Live acceptance:** Manny approved the complete deployed desktop/mobile matrix against checkpoint `daf1e3127478981e40cca9533300f8617f61004d` on 2026-09-05. Character Select, race startup, all five chase states, all five rear-view states, one-hand turn silhouettes, torso rotation, single-wheel ownership/alignment, seated occlusion, kart orientation, hood/steering geometry, exposed conduits, touch presentation, and existing-racer regressions passed.
-- **Scope:** This decision closes Alex publication, deployment, and product-owner acceptance while assigning the final balance profile. It does not authorize Slice 5.
-- **Next gate:** None for Alex. Hold after Slice 3 closure until Manny explicitly authorizes the next incomplete roadmap slice.
-- **Approval:** Manny approved the Alex integration checkpoint on 2026-09-05 and explicitly authorized publication/deployment after the full local gate passed.
-
-## ADR-060: Close Slice 3 after Alex live acceptance
-
-- **Date:** 2026-09-05
-- **Status:** Accepted / closed
-- **Context:** Alex was the twelfth and final production racer and the last unfilled Slice 3 balance-profile assignment. All automated, publication, deployment, artifact-integrity, and product-owner gates in `docs/SLICE-3-EXIT-CHECKLIST.md` are complete.
-- **Decision:** Mark **Slice 3 — Character Selection & Avatar Ingestion** `COMPLETE / LIVE ACCEPTED`. Preserve all twelve unique AA-01 through AA-12 mappings, the controlled character asset revisions, and Cleo's inactive archive package.
-- **Evidence:** Manny's final `Approved` confirms the requested deployed desktop/mobile Alex matrix. PR #92, PR CI run `33989589113`, merge `617312394decfcb95af4f8fee6431ee9d339201b`, main CI / Pages run `33989653688`, artifact `9976234566`, deployment-evidence PR #93, and deployed acceptance checkpoint `daf1e3127478981e40cca9533300f8617f61004d` provide the traceable release chain.
+- **Decision:** Lock Jennifer as a tall, sturdy druidic herbalist, caretaker, and protector with the physical features, clothing, staff, restrained magic, temperament, and…8251 tokens truncated…3989653688`, artifact `9976234566`, deployment-evidence PR #93, and deployed acceptance checkpoint `daf1e3127478981e40cca9533300f8617f61004d` provide the traceable release chain.
 - **Scope:** This closes Slice 3 only. Slice 4's already-completed out-of-order AI/grid work remains retained. Slice 5 Items, further balance changes, and unrelated presentation scope remain unauthorized.
 - **Next gate:** Await Manny's explicit approval before beginning Slice 5 or another bounded project task.
 - **Approval:** Manny approved the complete live result and Slice 3 closeout on 2026-09-05.
@@ -656,13 +469,22 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Boundary:** Preserve shared capacity, atomic inventory use, generic immunity, Shockwave ordering, accepted spin/camera behavior, other item tuning and racer/race authority. No probabilities, AI item acquisition/use, dependencies, assets, or Slice 6 work. Primary fixed-item tests allow normal driving and unrestricted ITEM input.
 - **Implementation:** Arc-specific flight state remains within ProjectileSystem's existing capacity/effect boundary. Distance lookup integrates the approved curve; swept subsegments split at arming, turnaround and expiry. Separate hit sets plus turnaround-overlap tracking prevent repeated damage. The shared runtime retains standard spin/camera authority. Procedural visuals and explicitly gesture-unlocked audio clean up on pause/disposal; moving diagnostics never block ITEM. No approved values or other item mechanics changed.
 - **Gate:** Closed. Hosted PR CI `35118244169`, merge `8822341b61900799e0166cfe94bf69cb3986bf0e`, post-merge validation/Pages `35118484183`, and Manny's all-tests-pass live acceptance complete the Arc Blade increment. No device/browser versions beyond that explicit report are inferred.
+
 ## ADR-077: Bound Kinetic Arc Hammers to one physical terrain rebound
 
 - **Date:** 2026-09-16
-- **Status:** Governance published through PR #142 at `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; post-merge validation and GitHub Pages `35124948452` passed. Gameplay and asset/presentation development remain NOT AUTHORIZED.
-- **Approval:** Manny approved the complete `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` contract and explicitly directed that gameplay implementation and asset/presentation development remain off the table.
+- **Status:** Historical governance publication checkpoint through PR #142 at `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; post-merge validation and GitHub Pages `35124948452` passed. The implementation gate is superseded by ADR-078.
+- **Approval at publication:** Manny approved the complete `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` contract. The separate implementation authorization is recorded in ADR-078.
 - **Context:** PRD Section 15.10 fixes five charges, a 0.35-second minimum cadence, ballistic trajectories, exactly one terrain bounce and short post-bounce expiry, while leaving launch physics, bounce coefficients, collision ordering, exact lifetimes, counters and lifecycle behavior unspecified. The existing runtime has reusable inventory, capacity, RacerEffects, immunity and Shockwave boundaries but no ballistic terrain-bounce projectile path.
 - **Decision:** Amendment 2.16 and the approved scope define forward/backward use; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s^2 gravity, 0.20x capped planar inheritance, 0.36 m radius, 0.18-second owner arming; one actual supporting-surface rebound with 0.78 tangential retention and 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-wall destruction; standard 0.85-second hit spin and destruction; later owner self-hit; Prismatic/generic immunity absorption; Shockwave pre-movement clearing; guardrail > racer > terrain same-time ordering; and existing shared-capacity/pause/cleanup authority.
 - **Architecture:** Any later authorized implementation keeps Hammer ballistic state inside the existing ProjectileSystem/item ownership boundary and samples the actual supporting race surface. It may add only the focused surface-query support necessary for the governed bounce; it does not move item logic into kart physics or redesign Circuit Alpha.
 - **Rationale:** The approved numbers create a visibly lobbed projectile that remains useful at kart-racing speeds while the short post-bounce interval prevents five charges from becoming persistent track clutter. Wall destruction keeps the Hammer mechanically distinct from Ricochet Kinetic Disc.
-- **Consequences:** A later separately authorized implementation requires bounded 3D ballistic/surface-contact tests, but no new gameplay subsystem, capacity pool, track rewrite, dependency, binary asset, or AI item policy. Gameplay and asset/presentation development remain separately gated and are not authorized by this decision publication.
+- **Consequences:** The authorized implementation requires bounded 3D ballistic/surface-contact tests, but no new gameplay subsystem, capacity pool, track rewrite, dependency, binary asset, or AI item policy.
+
+## ADR-078: Authorize bounded Kinetic Arc Hammers implementation and original presentation
+
+- **Date:** 2026-09-16.
+- **Status:** Implementation authorized; local feature work is in progress. Gameplay publication, deployment and live acceptance remain pending.
+- **Approval:** Manny explicitly authorized Arc Hammers gameplay and all Arc Hammers asset/model/VFX/audio/presentation development in Work after the amendment 2.16 governance publication gate had cleared.
+- **Decision:** Implement the amendment 2.16 contract in the existing item/inventory, ProjectileSystem, shared-capacity, RacerEffects, Shockwave, KartTimeTrial and supporting-surface-query boundaries. Original procedural model geometry, finite trail/bounce/impact VFX and original procedural launch/bounce/hit audio are authorized for this bounded increment. Preserve the fixed-item route and optional counter routes from the scope; diagnostics must verify actual encounters and may not grant AI inventory, mutate race progress or block normal ITEM input.
+- **Boundary:** This clears the implementation gate only. It does not claim a merged/public gameplay release, hosted deployment or Manny live acceptance. It does not alter probabilities, accepted item behavior, racer statistics, track/checkpoint authority, AI item acquisition/use, dependencies or Slice 6 final polish.

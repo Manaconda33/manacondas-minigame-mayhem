@@ -1,6 +1,7 @@
 import { ItemInventory, type HeldItem } from './ItemInventory';
 import { FROST } from './FrostOrbs';
 import { ARC } from './ArcBlade';
+import { ARC_HAMMER_CONFIG } from './ArcHammers';
 import { ITEM_DEFINITIONS, ITEM_IDS, type ItemId } from './itemDefinitions';
 
 export const ITEM_ROULETTE_SECONDS = 0.85;
@@ -109,7 +110,8 @@ export class ItemSystem {
     if (
       (held.itemId === 'blaze-orbs' ||
         held.itemId === 'frost-orbs' ||
-        held.itemId === 'arc-blade') &&
+        held.itemId === 'arc-blade' ||
+        held.itemId === 'arc-hammers') &&
       state.useCooldownRemaining > 1e-9
     )
       return null;
@@ -131,6 +133,8 @@ export class ItemSystem {
     if (held.itemId === 'blaze-orbs') state.useCooldownRemaining = BLAZE_ORB_CADENCE_SECONDS;
     if (held.itemId === 'frost-orbs') state.useCooldownRemaining = FROST.cadence;
     if (held.itemId === 'arc-blade') state.useCooldownRemaining = ARC.cadence;
+    if (held.itemId === 'arc-hammers')
+      state.useCooldownRemaining = ARC_HAMMER_CONFIG.cadenceSeconds;
     return true;
   }
 

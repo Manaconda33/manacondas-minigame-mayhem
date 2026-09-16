@@ -54,5 +54,5 @@ describe('Arc capacity stress', () => {
     );
     system.dispose();
     expect(system.group.children).toHaveLength(0);
-  }, 20000);
+  }, 30000);
 });

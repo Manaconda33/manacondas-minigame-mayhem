@@ -12,6 +12,7 @@ import { PrismaticCounterFixture } from '../src/game/items/PrismaticCounterFixtu
 import { PrismaticVisual } from '../src/game/items/PrismaticVisual';
 import { PrismaticMusic } from '../src/audio/PrismaticMusic';
 import { ArcBladeCounterFixture } from '../src/game/items/ArcBladeCounterFixture';
+import { ArcHammerCounterFixture } from '../src/game/items/ArcHammerCounterFixture';
 import { ItemSystem } from '../src/game/items/ItemSystem';
 import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
 import { ProjectileSystem, type ProjectileTarget } from '../src/game/items/ProjectileSystem';
@@ -79,6 +80,7 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
     frostVisual: new FrostVisual(),
     frostFixture: new FrostFixture(null),
     arcFixture: new ArcBladeCounterFixture(null),
+    arcHammerFixture: new ArcHammerCounterFixture(null),
     prismaticMusic: new PrismaticMusic(),
     prismaticFixture: new PrismaticCounterFixture(null),
     prismaticContactVictims: [],

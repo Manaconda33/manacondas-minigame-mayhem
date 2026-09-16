@@ -1,12 +1,16 @@
 # Slice 5 Rebounding Arc Blade Scope
 
-**Status: GAMEPLAY LOCALLY IMPLEMENTED AND VALIDATED on September 16, 2026; gameplay publication and LIVE ACCEPTANCE pending. Manny approved the complete scope and governance publication on September 11. PR #138 and CI/Pages `35027045477` cleared governance; Manny subsequently authorized gameplay with “Proceed” and continued it on September 16. Amendment 2.15 / ADR-076 govern the unchanged contract below.**
+**Status: LIVE ACCEPTED on September 16, 2026. Governance PR #138 and gameplay PR #139 are merged and deployed under amendment 2.15 / ADR-076. Manny reported that the deployed live acceptance passed on all tests. This closes the bounded Rebounding Arc Blade increment without changing any governed value below.**
 
-## Authoritative starting point
+## Authoritative publication and acceptance record
 
-Continue from GitHub main `f44176ceef38dfeebee10f6d44a0c41fdb869629`. That commit records Frost Orbs live acceptance in its governing scope; follow-on CI/Pages `34533224332` passed. PR #137 comment `5625755529` records Manny's final acceptance. The earlier scripted Frost single-hit setup complaint is not treated as a repaired fixture: Manny used unrestricted normal racing for the gameplay check and subsequently confirmed the rest of the live matrix.
+Governance PR #138 squash-merged at `7ce6511bc040d2b176ed528b687ed589fafd045d`; hosted PR CI `35026904237` and post-merge validation/Pages `35027045477` passed.
 
-PRD section 15.9 already specifies three charges, forward launch, a curved outbound path, a maximum range followed by return to the owner, and at most one hit per rival on each leg without continuous-overlap damage. Amendment 2.2 and the item-system design specify the standard 0.85-second spin. Manny approved the numerical flight/cadence fill-ins and return-owner interaction below together with the full scope.
+Gameplay PR #139 published the exact validated tree `56e788cc04a1a070a6144cd826ad635207550e92`, identical to local checkpoint `281783cf4d5136a99ba5ffe01b6573e2da4cce43`. Hosted PR CI `35118244169` passed on exact reviewed head `5c38663cc3000591f6706da310be68f72217a883`, then PR #139 squash-merged at `8822341b61900799e0166cfe94bf69cb3986bf0e`. Post-merge validation and GitHub Pages run `35118484183` passed both jobs. Both hosted validation runs passed clean lockfile install, Git LFS, strict typecheck, zero-warning lint, **48 test files / 431 tests**, **82.50% statement coverage**, runtime/branding asset verification, and production build.
+
+Manny then reported that the deployed Arc Blade live acceptance **passed on all tests**. PR #139 comment `5700594653` records that product-owner result. No browser/device versions, recordings, or additional scenario evidence beyond Manny's explicit all-tests-pass report are inferred.
+
+PRD section 15.9 specifies three charges, forward launch, a curved outbound path, maximum range followed by return to the owner, and at most one hit per rival on each leg without continuous-overlap damage. Amendment 2.2 and the item-system design specify the standard 0.85-second spin. Amendment 2.15 / ADR-076 and this file supply the approved numerical and edge-case contract.
 
 ## Approved operational contract
 
@@ -31,39 +35,51 @@ PRD section 15.9 already specifies three charges, forward launch, a curved outbo
 
 For an exact outbound shape, let `s` run from 0 to 30 m along launch forward and let right offset be `2 * sin(pi * s / 30)` m. Advance by distance along this curve at 42 m/s, rather than treating forward displacement alone as distance traveled. Phase transition occurs at `s = 30`, independent of owner motion. The return begins at that actual endpoint and moves toward the current owner in the X/Z plane. Keep snapshots finite and preserve the existing height convention. Break integration at arming/phase/expiry boundaries; collision substeps must not skip a racer, wall, owner catch, or the separation condition.
 
-Resolve contacts in order along actual travel, not racer-array order. A destructive event stops the rest of that movement segment; targets beyond a wall, immune interception, or owner catch cannot be hit. At a coincident wall/contact boundary the wall wins, and a valid owner return catch takes precedence over hostile damage at that same point. Queued Shockwave clearing still runs before flight processing.
+Resolve contacts in order along actual travel, not racer-array order. A destructive event stops the rest of that movement segment; targets beyond a wall, immune interception, or owner catch cannot be hit. At a coincident wall/contact boundary the wall wins, and a valid owner return catch takes precedence over hostile damage at that same point. Queued Shockwave clearing runs before flight processing.
 
 ## Approved presentation
 
 Use an original three-segment violet/cyan energy blade with a small bright center and a short finite ribbon trail. It rotates visibly while traveling. The return leg has a distinct bright inner accent so the second pass is readable in chase and rear cameras. Ordinary hit sparks, a small catch flash, and brief original throw/return/catch tones communicate the state. No screen obstruction or additional racer animation beyond the accepted spin. The held HUD keeps the three-charge count; a catch never adds a charge. All presentation uses bounded procedural resources, honors volume/gesture unlock/pause/unavailable audio, and is cleaned up on reset/disposal. Final production polish remains Slice 6.
 
-## Pre-implementation engineering assessment
+## Implemented engineering boundary
 
-At this base, `itemDefinitions.ts` registers three charges but no Arc projectile configuration. `ItemEffectDispatcher.ts` returns unsupported for the item, and the ordinary projectile loop destroys a projectile on first racer contact. Reusing that path unchanged would violate the return/multiple-racer contract.
+Arc flight state and per-leg contact bookkeeping live within the existing projectile/item boundary. The implementation preserves ordered Shockwave clearing, swept/substep contacts, shared immunity snapshots, accepted spin application, shared capacity ownership, and existing kart/race authority. Backward ITEM intent is normalized to forward only for Arc Blade. No item-specific kart-physics branch, second capacity pool, AI inventory/use, probability change, racer-stat change, or general refactor was introduced.
 
-Add Arc flight state and per-leg contact bookkeeping within the existing ProjectileSystem boundary, using a focused helper/module as needed. Do not add item-specific branches to kart physics, a second capacity pool, AI inventory/use, or general refactoring. Preserve the ordered Shockwave clear, swept/substep contacts, shared immunity snapshots, and accepted spin application. Normalize backward intent only for Arc, and configure its cadence without changing Blaze/Frost cadence. Tests must cover the actual dispatcher and KartTimeTrial spin/camera integration as well as the trajectory helper.
+## Deployed acceptance routes
 
-## Acceptance approach
+The deployed primary review route is `?testItem=arc-blade`, using fixed pickups with normal racing and unrestricted ITEM input. E, Left Shift and mobile ITEM remain ordinary input on this route; there is no stationary/readiness gate.
 
-The primary review link after implementation/deployment will be `?testItem=arc-blade`: fixed pickups with normal racing and unrestricted ITEM use. **Do not distribute it as a playable Arc link before gameplay deployment.** No test-only condition may block E, Left Shift, or mobile ITEM on this route. Manny's continuation preference is to race and throw freely rather than find a stationary setup or wait for a target/countdown.
+The deployed counter diagnostics are:
 
-Separate, explicitly opt-in counter diagnostics may stage incoming Arc blades while allowing ordinary driving and ITEM use. Approved parameters are `?testItem=shockwave&testArcBladeCounter=shockwave` and `?testItem=prismatic-invincibility&testArcBladeCounter=prismatic&testArcBladePhase=protected|expired`. Stage after the held item is ready; for Prismatic observe actual activation/expiry. A diagnostic may wait for a clear approach and explain that status, but cannot silently gate input or award a PASS for a miss. Failed geometry or interception is INCONCLUSIVE and retryable. These approved diagnostics must be proven in the runtime before publishing diagnostic links. Do not reuse the restrictive Frost single-hit setup gate.
+- `?testItem=shockwave&testArcBladeCounter=shockwave`
+- `?testItem=prismatic-invincibility&testArcBladeCounter=prismatic&testArcBladePhase=protected`
+- `?testItem=prismatic-invincibility&testArcBladeCounter=prismatic&testArcBladePhase=expired`
 
-Automated gates:
+Diagnostics stage only measured encounters, do not silently gate normal ITEM input, and treat misses/interception/invalid geometry as INCONCLUSIVE rather than PASS.
+
+## Automated acceptance evidence
+
+The 48-file / 431-test hosted suite covers:
 
 1. Three-charge use, third-shot release, first-shot eligibility, exact cadence/pause boundaries, one throw per press, forward/reverse-intent equivalence, invalid/full-capacity/failed-commit rollback and no refund.
 2. Measured 42 m/s path travel, launch-time orientation and 2 m bow, 30 m turn point, finite 56 m/s pursuit of moving owners, no inherited velocity or movement teleport, total lifetime, wall termination, and missing/finished/recovering owners.
-3. Actual standard-spin application, player hit sprite/camera contract, no extra velocity/progress mutation, different rivals hit in each leg, per-blade/per-leg hit isolation, and separation required across turnaround. Exercise a continuously overlapping racer at the phase boundary and repeat throws while spin is already active.
-4. Owner arming just below/at/above 0.18 seconds; outbound self-hit; return catch just inside/at/outside 1.37 m, wall/catch ordering, charge preservation on catch, and immune-owner catch.
-5. Immune/finished rival contact, protected/expired Prismatic, generic immunity, Frost/Nitro coexistence, Shockwave inside/edge/outside in both phases, and before-movement/contact clear order. Distinguish a destroyed blade from an attack that never contacted its target.
-6. Shared mixed-object capacity, independent simultaneous throws, repeated lifecycle soak with bounded trail/audio/contact records, reset/hub/disposal cleanup, and input/fixture isolation. Use real controller/physics paths and multiple Circuit Alpha sections, including curves and elevated terrain; helper-only tests are insufficient.
+3. Actual standard-spin application, player hit sprite/camera contract, no extra velocity/progress mutation, different rivals hit in each leg, per-blade/per-leg hit isolation, and separation required across turnaround.
+4. Owner arming around 0.18 seconds; outbound self-hit; return catch around 1.37 m; wall/catch ordering; charge preservation on catch; and immune-owner catch.
+5. Immune/finished rival contact, protected/expired Prismatic, generic immunity, Frost/Nitro coexistence, Shockwave inside/edge/outside in both phases, and before-movement/contact clear order.
+6. Shared mixed-object capacity, independent simultaneous throws, repeated lifecycle/resource soak, reset/hub/disposal cleanup, input/fixture isolation, actual runtime/Rapier paths, and multiple Circuit Alpha sections including elevated terrain.
 
-Live gates: freely race with three forward throws and verify reverse input still throws forward; check cadence/count, curved outbound/return, safe owner catch, standard rival spin and legitimate second-leg hit without repeated overlap spin. Verify Shockwave and protected/expired Prismatic, both cameras and desktop/mobile controls, readable original audiovisuals, pause/recovery/finish/restart/hub cleanup, and normal-build accepted-item/AI hazard-response behavior. Record only results actually reported; do not infer a device version or a counter pass from an unrestricted race pass.
+The accepted local/hosted stress evidence includes 1,000 complete Arc throws across repeated-use and full 40-object stress coverage. The isolated Node/JSDOM 40-object CPU observation is useful engineering evidence but is not treated as final all-item rendered-device performance certification.
 
-## Boundaries and approvals
+## Final live acceptance - 2026-09-16
 
-Local implementation evidence: `npm run validate` passed 48 files / 431 tests, strict typecheck, zero-warning lint, production build and 82.50% statement coverage; `git diff --check` and `git lfs fsck` passed. The tests include actual runtime/Rapier effects and moving counter encounters, mobile/desktop chase/rear frustum checks, and 1,000 throws of resource/lifecycle stress. Original audiovisual resources are procedural and bounded. The browser could not open the local preview, so rendered visuals, audible cues, device performance and all live acceptance remain unverified. The local 40-object CPU observation and exact publication gates are in `docs/IMPLEMENTATION-STATUS.md`. No deployed Arc gameplay or playable Arc link is claimed.
+Manny reported that **all deployed Arc Blade live tests passed**. This closes the complete live matrix defined for the increment: unrestricted racing, three forward throws, reverse-input forward normalization, cadence/count, curved outbound and return behavior, safe owner catch, rival standard spin and valid second-leg hit behavior, Shockwave, protected/expired Prismatic, both cameras, desktop/mobile controls, readable audiovisuals, pause/recovery/finish/restart/hub cleanup, and normal-build accepted-item / AI hazard-response regressions.
 
-No Arc Hammers, Ink, Overdrive, Rocket, full AI item tactics, probabilities, accepted item tuning, racer stats, track/checkpoint authority, binary assets, dependencies, or Slice 6 changes. Frost acceptance remains closed; its old diagnostic usability report is not reopened as a gameplay blocker or falsely claimed repaired.
+**Rebounding Arc Blade is LIVE ACCEPTED** on PR #139 merge `8822341b61900799e0166cfe94bf69cb3986bf0e` with post-merge validation/Pages run `35118484183`. Product-owner evidence is PR #139 comment `5700594653`.
 
-Manny explicitly approved the complete scope and governance publication on September 11, 2026, then directed continuation on September 15. This includes the new flight values, safe-catch exception and unrestricted test approach required by PRD section 1.1. Governance publication and CI/Pages were completed through PR #138. Manny then authorized gameplay with “Proceed” and continued it on September 16. The local implementation and validation above satisfy that authorized increment. Gameplay publication approval, passing hosted clean-install CI, verified deployment and Manny's live acceptance remain pending.
+## Boundaries and next gate
+
+No Arc Hammers, Ink, Overdrive, Rocket, full AI item tactics, probabilities, accepted item tuning, racer stats, track/checkpoint authority, binary assets, dependencies, or Slice 6 changes were included in this increment.
+
+Frost and all earlier accepted item increments remain closed. Four effects remain unimplemented: **Kinetic Arc Hammers, Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket**. Full AI item tactics, final all-item interaction/counter/soak/performance evidence, issue #106, and overall Slice 5 acceptance remain open. Slice 6 remains locked.
+
+The next bounded increment is a **Kinetic Arc Hammers scope/governance proposal**. Gameplay implementation is not authorized until Manny approves that scope and the approved governance checkpoint is published and validated.

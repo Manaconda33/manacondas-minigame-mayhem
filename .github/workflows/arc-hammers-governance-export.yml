@@ -33,6 +33,12 @@ jobs:
           cp tools/governance/sync_arc_hammers_governance.py /tmp/sync_arc_hammers_governance.py
           sed -i 's/a4d14894488433286d616181e24a3e7a61ad40394d3f59af93c5f54e0a688703/0e8a52fe715e86ab7df9331b675ff57f3ac66a77337049ccc87005f437f10ed3/' /tmp/sync_arc_hammers_governance.py
           python /tmp/sync_arc_hammers_governance.py
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('docs/DECISIONS.md')
+          p.write_text(p.read_text().rstrip() + '\n')
+          PY
+          echo '9fd715b52844ba8badfedcc708babc962d39c05c0d8d5f8fd2ff8bb86b66ddf6  docs/DECISIONS.md' | sha256sum -c -
 
       - name: Verify governance-only diff
         run: |

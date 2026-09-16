@@ -8,7 +8,7 @@
 
 **Implementation authorization:** Documentation and approved Slice 5 implementation are authorized after this design checkpoint is merged. This document does not itself mark any Slice 5 gameplay requirement complete.
 
-**Governing PRD:** v1.1, working implementation amendment 2.15.
+**Governing PRD:** v1.1, working implementation amendment 2.18.
 
 The existing PRD Sections 15-17, ITEM-001 through ITEM-008, AI-004, Slice 5 roadmap requirements, probability matrix, item state machines, and existing item values remain authoritative except where amendment 2.2 explicitly resolves previously unspecified implementation behavior.
 
@@ -310,3 +310,9 @@ For the Kinetic Disc checkpoint, amendment 2.4 adds continuous Circuit Alpha gua
 ## Kinetic Disc speed correction - approved 2026-09-06
 
 Amendment 2.5 / ADR-066 raises only Kinetic Disc base speed from 28 to **42 m/s**, retaining up to 2.8 m/s inherited contribution and the existing angle-based ricochet rule. This supersedes earlier speed references without changing lifetime, radius, bounce count, owner/self-hit, spinout, camera/sprites, or any other item. Same-side bounces on shallow curved sections remain valid. PR #105 merged at `1497672c639adaf6ca71f2aa775d4e0c23572b33`; CI/Pages run `34034999554` passed. Manny subsequently passed the focused retest and explicitly live accepted Kinetic Disc. Issue #106 is a separate, deferred standings-display defect and does not block this acceptance. Manny subsequently approved the Seeker increment in `docs/SLICE-5-SEEKER-DRONE-SCOPE.md`; amendment 2.6 / ADR-067 record its tuning and implementation contract. Seeker PR #108 subsequently merged at `ef5dbaeccde123faedd00f625cf18e32c07875de`; CI/Pages run `34086473571` passed. Seeker live acceptance remains pending.
+## Vision-Obscuring Ink Splat scope approval - approved 2026-09-16
+
+PRD amendment 2.18 / ADR-079 and `docs/SLICE-5-INK-SPLAT-SCOPE.md` govern the bounded Ink contract after Arc Hammers live acceptance. Ink is a one-charge, direction-independent instantaneous effect against every unfinished valid racer strictly ahead by lap-validated progress. No-target use rejects without consumption; a valid target set commits once even if protection blocks every target. Generic/Prismatic immunity blocks per-target application. Duration is 2.50 race seconds and repeat hits refresh without stacking. Human coverage is capped at approximately 35% below HUD/touch controls. AI impairment is 0.55 m smooth deterministic lateral path noise, 0.080-second reaction latency, and 0.88 steering-correction precision with road bounds and no speed/race-authority changes. Recovery preserves Ink; finish/restart/hub/disposal clear it; pause freezes it. Shockwave does not clear it. Ink owns no shared physics-capacity slot.
+
+This is governance scope only. Gameplay, VFX/audio/presentation implementation remains held pending a separate explicit Manny authorization after this checkpoint is published. No probability, accepted-item tuning, racer-stat, kart-physics, track/checkpoint, full AI item-use, dependency, Overdrive, Rocket, or Slice 6 change is authorized.
+

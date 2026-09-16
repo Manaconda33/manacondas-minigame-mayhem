@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.17
+Version 1.1 - Final approved baseline; working implementation amendment 2.18
 
 August 16, 2026
 
@@ -332,6 +332,22 @@ Approved September 16, 2026 after amendment 2.16 / ADR-077 governance publicatio
 Implementation remains inside the existing item/inventory, ProjectileSystem, shared-capacity, RacerEffects, Shockwave, KartTimeTrial, and supporting-surface-query boundaries. Original procedural Hammer geometry, finite trail/bounce/impact VFX, and original procedural launch/bounce/hit audio are authorized for this bounded increment. Diagnostics must verify actual encounters and may not grant AI inventory, mutate race progress, or block normal ITEM input.
 
 This clears implementation only. Gameplay publication/deployment and product-owner live acceptance remain separate gates. No item probability, accepted item behavior, racer statistic, track/checkpoint authority, AI item acquisition/use, dependency, or Slice 6 final-polish change is authorized.
+
+## Approved implementation amendment 2.18 - Vision-Obscuring Ink Splat
+
+Approved September 16, 2026 after Kinetic Arc Hammers live acceptance. `docs/SLICE-5-INK-SPLAT-SCOPE.md` and ADR-079 govern this bounded item contract. This governance checkpoint authorizes the scope only. Gameplay, VFX, audio, and presentation implementation remain held pending separate product-owner authorization.
+
+Vision-Obscuring Ink Splat remains a one-charge instantaneous effect. Normal ITEM and Brake/Reverse + ITEM are equivalent. A use targets every unfinished racer strictly ahead of the owner by lap-validated race progress; world-space distance and line of sight do not participate, and tied progress is not ahead. If no valid racer is ahead, activation is rejected and inventory is retained. If at least one valid racer is ahead, the use commits once even when all targets are protected by item immunity. Prismatic or generic item immunity blocks application per target. Immunity activated after Ink has already landed does not cleanse the active Ink state.
+
+Ink lasts exactly **2.50 race seconds**. A later valid Ink hit refreshes the target to 2.50 seconds without stacking opacity, coverage, AI path noise, reaction latency, or precision penalties. Human view uses partial organic screen-space shapes with peak obscuration capped at approximately **35% of the viewport** and a monotonic fade across the governed duration. The Ink layer stays above the rendered 3D scene but below HUD and touch controls. Ink applies no spin, speed loss, handling multiplier, player input delay, camera change, or race-progress mutation.
+
+Affected AI receives a smooth deterministic lateral target-path noise signal with **0.55 m amplitude**, **0.080 s steering/lane-decision reaction latency**, and a **0.88 steering-correction precision multiplier** for the same 2.50-second interval. The impairment must remain road-bounded and must not change AI base speed cap, acceleration, throttle authority, braking authority, rubber-band limits, racer statistics, checkpoint/lap authority, or existing hazard/racer avoidance ownership. Navigation must remain possible.
+
+Pause freezes Ink timing, fade, and AI impairment. Recovery does not cleanse Ink. Finish clears it immediately so results/victory presentation is unobscured. Racer removal, restart, hub return, and disposal clear it. Shockwave does not clear Ink because there is no persistent projectile or hazard. Frost, boosts, spinouts, surfaces, and Ink keep independent ownership.
+
+Any later authorized implementation must use a focused Ink state boundary, existing progress-authoritative targeting, atomic ItemSystem consumption, existing item-immunity authority, bounded AI-driver impairment, and a local human view overlay. Ink creates no world object and consumes no shared 40-object item-physics slot. Original procedural/CSS/SVG-style organic shapes and a short original impact cue may be developed only after separate implementation/presentation authorization; no protected-franchise presentation or production binary dependency is approved here.
+
+The future primary fixed-item route is `?testItem=ink-splat`. A deterministic incoming-Ink fixture may exercise the human overlay without enabling general AI item tactics. Prismatic protected/expired diagnostics must verify real resolved application or blocking. Automated evidence must cover cross-lap all-ahead targeting, no-target rollback, atomic consumption, immunity, refresh-not-stack behavior, pause/lifecycle cleanup, AI impairment bounds, unchanged speed/race authority, human overlay state, probability preservation, and production KartTimeTrial/controller/AI/HUD integration. Desktop/mobile live acceptance remains a later gate. No probability, accepted-item tuning, racer-stat, kart-physics, track/checkpoint, AI item-acquisition/tactical-use, dependency, Continuous Nitro Overdrive, Hyper-Drive Rocket, or Slice 6 change is authorized.
 
 ## 1.1 Governance
 

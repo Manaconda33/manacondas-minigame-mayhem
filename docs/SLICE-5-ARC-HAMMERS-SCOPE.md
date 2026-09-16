@@ -1,12 +1,12 @@
 # Slice 5 Kinetic Arc Hammers Scope
 
-**Status: SCOPE APPROVED AND GOVERNANCE PUBLISHED. PR #142 MERGED AT `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; POST-MERGE VALIDATION/PAGES `35124948452` PASSED. MANNY AUTHORIZED ARC HAMMERS GAMEPLAY AND ORIGINAL MODEL/VFX/AUDIO/PRESENTATION IMPLEMENTATION ON 2026-09-16. LOCAL IMPLEMENTATION IS IN PROGRESS; GAMEPLAY PUBLICATION AND LIVE ACCEPTANCE REMAIN PENDING.**
+**Status: GAMEPLAY AND ORIGINAL PROCEDURAL PRESENTATION PUBLISHED. PR #144 MERGED AT `a129bbac75f919dc7136ac50dfd63564fe5cd52e`; HOSTED PR CI `35137395927` AND POST-MERGE VALIDATION/PAGES `35137681000` PASSED. PRODUCT-OWNER LIVE ACCEPTANCE REMAINS PENDING.**
 
-This document is the approved bounded product/engineering contract for **PRD amendment 2.16 / ADR-077**, with current implementation authorization recorded by **PRD amendment 2.17 / ADR-078**. Manny approved the complete contract on September 16, 2026 and subsequently explicitly authorized Arc Hammers gameplay plus all Arc Hammers model, VFX, audio and presentation development. The governance publication gate is cleared through PR #142 and post-merge validation/Pages. This authorization permits the bounded implementation below; it does not claim gameplay publication, deployment or live acceptance, and it does not authorize Slice 6 final polish.
+This document is the approved bounded product/engineering contract for **PRD amendment 2.16 / ADR-077**, with current implementation authorization recorded by **PRD amendment 2.17 / ADR-078**. Manny approved the complete contract on September 16, 2026 and subsequently explicitly authorized Arc Hammers gameplay plus all Arc Hammers model, VFX, audio and presentation development. The governance publication gate is cleared through PR #142 and post-merge validation/Pages. The bounded implementation below is now published and deployed through PR #144. This publication does not claim product-owner live acceptance and does not authorize Slice 6 final polish.
 
 ## Authoritative starting point
 
-Governance is published on `main` at `ba7e20ab69666ce04ba253a147c93b1ae985db8f` after Rebounding Arc Blade live acceptance. Post-merge validation and GitHub Pages run `35124948452` passed.
+Governance remains rooted at PR #142. The gameplay/presentation implementation is published on `main` at `a129bbac75f919dc7136ac50dfd63564fe5cd52e`; hosted PR CI `35137395927` and post-merge validation/GitHub Pages `35137681000` passed.
 
 PRD Section 15.10 is fixed authority for Kinetic Arc Hammers:
 
@@ -155,18 +155,18 @@ Approved September 16, 2026. Kinetic Arc Hammers retain PRD Section 15.10's five
 
 **Date:** 2026-09-16
 
-**Status:** Implementation authorized; local feature work in progress. Gameplay publication, deployment and live acceptance remain pending.
+**Status:** Gameplay merged/deployed through PR #144 at `a129bbac75f919dc7136ac50dfd63564fe5cd52e`; hosted PR CI `35137395927` and post-merge validation/Pages `35137681000` passed. Live acceptance remains pending.
 
 **Approval:** Manny explicitly authorized Arc Hammers gameplay and all Arc Hammers asset/model/VFX/audio/presentation development in Work after the amendment 2.16 governance publication gate had cleared.
 
 **Decision:** Implement the amendment 2.16 contract in the existing item/inventory, ProjectileSystem, shared-capacity, RacerEffects, Shockwave, KartTimeTrial and surface-query boundaries. Original procedural model geometry, finite trail/bounce/impact VFX and original procedural launch/bounce/hit audio are authorized for this bounded increment. Preserve the fixed-item route and optional counter routes from this scope; diagnostics must verify actual encounters and may not grant AI inventory, mutate race progress or block normal ITEM input.
 
-**Boundary:** This clears the implementation gate only. It does not claim a merged/public gameplay release, hosted deployment or Manny live acceptance. It does not alter probabilities, accepted item behavior, racer statistics, track/checkpoint authority, AI item acquisition/use, dependencies or Slice 6 final polish.
+**Boundary:** Gameplay publication/deployment is complete, but Manny live acceptance is not yet claimed. The increment does not alter probabilities, accepted item behavior, racer statistics, track/checkpoint authority, AI item acquisition/use, dependencies or Slice 6 final polish.
 
 ## Approval gates
 
 1. **Scope approval:** **COMPLETE.** Manny approved the complete contract on September 16, 2026.
 2. **Governance publication:** **COMPLETE.** PR #142 squash-merged at `ba7e20ab69666ce04ba253a147c93b1ae985db8f` after clean-head hosted CI `35124762217` passed; post-merge validation and GitHub Pages `35124948452` passed. Markdown governance and the 52-page Word PRD approval artifact are synchronized.
 3. **Gameplay and original presentation authorization:** **COMPLETE.** Manny explicitly authorized the bounded implementation in Work on September 16, 2026; ADR-078 records the decision.
-4. **Gameplay publication:** **PENDING.** Local implementation and validation must complete before a publication request.
+4. **Gameplay publication:** **COMPLETE.** Reviewed head `e395c63e3f0a425a985de2208e624adf2dd87574` passed hosted PR CI `35137395927`; PR #144 squash-merged at `a129bbac75f919dc7136ac50dfd63564fe5cd52e` and post-merge validation/Pages `35137681000` passed.
 5. **Live acceptance:** **PENDING.** Requires a published build, hosted validation/Pages and Manny's rendered desktop/mobile review.

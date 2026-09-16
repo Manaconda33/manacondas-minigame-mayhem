@@ -1,0 +1,36 @@
+name: Arc Hammers Governance Export
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    if: github.head_ref == 'proposal/slice-5-arc-hammers-scope'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out pull-request head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          lfs: false
+
+      - name: Package governance source files
+        uses: actions/upload-artifact@v4
+        with:
+          name: arc-hammers-governance-source
+          if-no-files-found: error
+          retention-days: 1
+          path: |
+            README.md
+            docs/PRD.md
+            docs/DECISIONS.md
+            docs/IMPLEMENTATION-STATUS.md
+            docs/TESTING.md
+            docs/SLICE-5-ITEM-SYSTEM-DESIGN.md
+            docs/SLICE-5-ARC-HAMMERS-SCOPE.md
+            docs/Manacondas_Minigame_Mayhem_PRD_v1.1.docx

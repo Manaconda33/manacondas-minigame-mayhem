@@ -1,0 +1,72 @@
+name: Repair Arc Hammers Governance Docs
+
+on:
+  push:
+    branches: [feature/arc-hammers-gameplay]
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: ${{ github.event.head_commit.message != 'Repair Arc Hammers governance docs' && github.event.head_commit.message != 'Remove temporary governance repair workflow' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/arc-hammers-gameplay
+          fetch-depth: 0
+          lfs: false
+
+      - name: Restore clean governance sources and apply narrow authorization records
+        run: |
+          git fetch origin main
+          git show origin/main:docs/PRD.md > /tmp/PRD.md
+          git show origin/main:docs/DECISIONS.md > /tmp/DECISIONS.md
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          prd = Path('/tmp/PRD.md').read_text()
+          prd = re.sub(
+              r'Version 1\.1 - Final approved baseline; working implementation amendment 2\.\d+',
+              'Version 1.1 - Final approved baseline; working implementation amendment 2.17',
+              prd,
+              count=1,
+          )
+          marker = '## 1.1 Governance\n'
+          assert marker in prd
+          amendment = '''## Approved implementation amendment 2.17 - Kinetic Arc Hammers implementation authorization\n\nApproved September 16, 2026 after amendment 2.16 / ADR-077 governance publication cleared. Manny explicitly authorized the bounded Kinetic Arc Hammers gameplay implementation and all Arc Hammers original model, VFX, audio, and presentation development. The mechanics, values, acceptance routes, and boundaries remain those in amendment 2.16 / ADR-077 and `docs/SLICE-5-ARC-HAMMERS-SCOPE.md`; this amendment changes authorization state only and does not retune the governed contract.\n\nImplementation remains inside the existing item/inventory, ProjectileSystem, shared-capacity, RacerEffects, Shockwave, KartTimeTrial, and supporting-surface-query boundaries. Original procedural Hammer geometry, finite trail/bounce/impact VFX, and original procedural launch/bounce/hit audio are authorized for this bounded increment. Diagnostics must verify actual encounters and may not grant AI inventory, mutate race progress, or block normal ITEM input.\n\nThis clears implementation only. Gameplay publication/deployment and product-owner live acceptance remain separate gates. No item probability, accepted item behavior, racer statistic, track/checkpoint authority, AI item acquisition/use, dependency, or Slice 6 final-polish change is authorized.\n\n'''
+          assert '## Approved implementation amendment 2.17 - Kinetic Arc Hammers implementation authorization' not in prd
+          prd = prd.replace(marker, amendment + marker, 1)
+          assert 'Warning: truncated output' not in prd
+          Path('docs/PRD.md').write_text(prd)
+
+          dec = Path('/tmp/DECISIONS.md').read_text()
+          old_status = '- **Status:** Governance published through PR #142 at `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; post-merge validation and GitHub Pages `35124948452` passed. Gameplay and asset/presentation development remain NOT AUTHORIZED.'
+          new_status = '- **Status:** Historical governance publication checkpoint through PR #142 at `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; post-merge validation and GitHub Pages `35124948452` passed. The implementation gate is superseded by ADR-078.'
+          old_approval = '- **Approval:** Manny approved the complete `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` contract and explicitly directed that gameplay implementation and asset/presentation development remain off the table.'
+          new_approval = '- **Approval at publication:** Manny approved the complete `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` contract. The separate implementation authorization is recorded in ADR-078.'
+          old_consequence = '- **Consequences:** A later separately authorized implementation requires bounded 3D ballistic/surface-contact tests, but no new gameplay subsystem, capacity pool, track rewrite, dependency, binary asset, or AI item policy. Gameplay and asset/presentation development remain separately gated and are not authorized by this decision publication.'
+          new_consequence = '- **Consequences:** The authorized implementation requires bounded 3D ballistic/surface-contact tests, but no new gameplay subsystem, capacity pool, track rewrite, dependency, binary asset, or AI item policy.'
+          for old in (old_status, old_approval, old_consequence):
+              assert old in dec, old
+          dec = dec.replace(old_status, new_status, 1).replace(old_approval, new_approval, 1).replace(old_consequence, new_consequence, 1)
+          adr = '''\n\n## ADR-078: Authorize bounded Kinetic Arc Hammers implementation and original presentation\n\n- **Date:** 2026-09-16.\n- **Status:** Implementation authorized; local feature work is in progress. Gameplay publication, deployment and live acceptance remain pending.\n- **Approval:** Manny explicitly authorized Arc Hammers gameplay and all Arc Hammers asset/model/VFX/audio/presentation development in Work after the amendment 2.16 governance publication gate had cleared.\n- **Decision:** Implement the amendment 2.16 contract in the existing item/inventory, ProjectileSystem, shared-capacity, RacerEffects, Shockwave, KartTimeTrial and supporting-surface-query boundaries. Original procedural model geometry, finite trail/bounce/impact VFX and original procedural launch/bounce/hit audio are authorized for this bounded increment. Preserve the fixed-item route and optional counter routes from the scope; diagnostics must verify actual encounters and may not grant AI inventory, mutate race progress or block normal ITEM input.\n- **Boundary:** This clears the implementation gate only. It does not claim a merged/public gameplay release, hosted deployment or Manny live acceptance. It does not alter probabilities, accepted item behavior, racer statistics, track/checkpoint authority, AI item acquisition/use, dependencies or Slice 6 final polish.\n'''
+          assert '## ADR-078: Authorize bounded Kinetic Arc Hammers implementation and original presentation' not in dec
+          dec = dec.rstrip() + adr
+          assert 'Warning: truncated output' not in dec
+          Path('docs/DECISIONS.md').write_text(dec)
+          PY
+
+          git diff --check
+          ! grep -q 'Warning: truncated output' docs/PRD.md docs/DECISIONS.md
+
+      - name: Commit repaired governance docs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/PRD.md docs/DECISIONS.md
+          git commit -m 'Repair Arc Hammers governance docs'
+          git push origin HEAD:feature/arc-hammers-gameplay

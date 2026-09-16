@@ -208,7 +208,7 @@ PRD amendment 2.11 / ADR-072 and `docs/SLICE-5-SHOCKWAVE-SCOPE.md` govern the ne
 
 ## Kinetic Arc Hammers scope approval - approved 2026-09-16
 
-PRD amendment 2.16 / ADR-077 and `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` govern the bounded item contract; amendment 2.17 / ADR-078 records Manny's implementation authorization. The approved fill-ins are forward/backward directional throws; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s^2 gravity and 0.20x capped planar inheritance; 0.36 m radius and 0.18-second owner arming; exactly one actual supporting-surface rebound with 0.78 tangential retention and 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-guardrail destruction; standard 0.85-second hit spin/destruction; later owner self-hit; Prismatic/generic immunity absorption; Shockwave <=5 m pre-movement clearing; deterministic guardrail > racer > terrain same-time priority; shared 40-object capacity; and pause/lifecycle cleanup. Original procedural model/VFX/audio presentation and acceptance routes are implemented and deployed through PR #144 at `a129bbac75f919dc7136ac50dfd63564fe5cd52e`; hosted PR CI `35137395927` and post-merge validation/Pages `35137681000` passed. Keep the Arc Hammers functional checklist row open until Manny live acceptance is complete.
+PRD amendment 2.16 / ADR-077 and `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` govern the bounded item contract; amendment 2.17 / ADR-078 records Manny's implementation authorization. The approved fill-ins are forward/backward directional throws; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s^2 gravity and 0.20x capped planar inheritance; 0.36 m radius and 0.18-second owner arming; exactly one actual supporting-surface rebound with 0.78 tangential retention and 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-guardrail destruction; standard 0.85-second hit spin/destruction; later owner self-hit; Prismatic/generic immunity absorption; Shockwave <=5 m pre-movement clearing; deterministic guardrail > racer > terrain same-time priority; shared 40-object capacity; and pause/lifecycle cleanup. Original procedural model/VFX/audio presentation and acceptance routes are implemented, deployed, and **LIVE ACCEPTED** through PR #144 at `a129bbac75f919dc7136ac50dfd63564fe5cd52e`. Hosted PR CI `35137395927` and post-merge validation/Pages `35137681000` passed; Manny reported all deployed Hammer tests passed on 2026-09-16, recorded in PR #144 comment `5703186707`.
 
 # Slice 5 exit checklist
 
@@ -236,7 +236,7 @@ PRD amendment 2.16 / ADR-077 and `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` govern the 
 - [x] Blaze Orbs provide five charges and enforce the 0.55-second minimum cadence.
 - [x] Frost Orbs provide three charges and apply the governed stacked speed/handling effect.
 - [x] Arc Blade provides three charges, completes outbound/return movement, and prevents repeated continuous-overlap damage.
-- [ ] Arc Hammers provide five charges, enforce the 0.35-second cadence, bounce once after terrain impact, and expire.
+- [x] Arc Hammers provide five charges, enforce the 0.35-second cadence, bounce once after terrain impact, and expire.
 - [x] Slick lasts approximately 12 seconds, triggers the approved spin/speed effect, and obeys the two-per-owner active cap.
 - [ ] Shockwave pushes nearby racers and clears every supported projectile/hazard class.
 - [x] Shockwave can neutralize Apex only during the supported terminal counter state.

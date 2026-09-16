@@ -1,8 +1,8 @@
 # Slice 5 Kinetic Arc Hammers Scope
 
-**Status: SCOPE APPROVED AND GOVERNANCE PUBLISHED. PR #142 MERGED AT `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; POST-MERGE VALIDATION/PAGES `35124948452` PASSED. GAMEPLAY IMPLEMENTATION AND ASSET/PRESENTATION DEVELOPMENT REMAIN EXPLICITLY NOT AUTHORIZED.**
+**Status: SCOPE APPROVED AND GOVERNANCE PUBLISHED. PR #142 MERGED AT `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; POST-MERGE VALIDATION/PAGES `35124948452` PASSED. MANNY AUTHORIZED ARC HAMMERS GAMEPLAY AND ORIGINAL MODEL/VFX/AUDIO/PRESENTATION IMPLEMENTATION ON 2026-09-16. LOCAL IMPLEMENTATION IS IN PROGRESS; GAMEPLAY PUBLICATION AND LIVE ACCEPTANCE REMAIN PENDING.**
 
-This document is the approved bounded product/engineering contract for **PRD amendment 2.16 / ADR-077**. Manny approved the complete contract on September 16, 2026 and explicitly directed that gameplay and asset development remain off the table. The governance publication gate is now cleared through PR #142 and post-merge validation/Pages. No further Hammer work is authorized by that publication. Gameplay and asset/presentation development require a separate later Manny authorization.
+This document is the approved bounded product/engineering contract for **PRD amendment 2.16 / ADR-077**, with current implementation authorization recorded by **PRD amendment 2.17 / ADR-078**. Manny approved the complete contract on September 16, 2026 and subsequently explicitly authorized Arc Hammers gameplay plus all Arc Hammers model, VFX, audio and presentation development. The governance publication gate is cleared through PR #142 and post-merge validation/Pages. This authorization permits the bounded implementation below; it does not claim gameplay publication, deployment or live acceptance, and it does not authorize Slice 6 final polish.
 
 ## Authoritative starting point
 
@@ -18,30 +18,30 @@ PRD Section 15.10 is fixed authority for Kinetic Arc Hammers:
 
 The approved Slice 5 item-system design additionally fixes the standard **0.85-second spinout** for a valid Hammer racer hit, the existing one-slot/multi-charge inventory model, the existing rank probability weights, and the shared 40-object item-physics budget.
 
-The operational values below are now approved fill-ins for behavior the PRD previously left unspecified. They are not yet implemented.
+The operational values below are now approved fill-ins for behavior the PRD previously left unspecified. The implementation is in progress on a feature branch against the published `main` contract; the values remain authoritative and no hosted/live acceptance is claimed yet.
 
 ## Approved operational contract
 
-| Behavior | Approved contract | Authority |
-| --- | --- | --- |
-| Inventory | Five charges in the existing one-slot inventory. One committed throw consumes one charge; the fifth frees the slot. Multiple Hammers may coexist if cadence and shared capacity allow. No refund after impact, counter, expiry, or cleanup. | Five charges are PRD-fixed; existing multi-charge inventory contract. |
-| Input | One Hammer per ITEM press. Normal ITEM throws forward from current kart heading; Brake/Reverse + ITEM throws backward. Desktop E/Left Shift and mobile ITEM use the same directional contract. No automatic repeat or target prerequisite. | Approved fill-in using the existing directional-item input contract. |
-| Cadence | First throw is immediately eligible. At least **0.35 race seconds** between successfully committed throws. Rejected/full-capacity/invalid use consumes no charge and starts no cooldown. Pause freezes the cadence clock. | 0.35 s is PRD-fixed; rollback/pause follow accepted item transaction rules. |
-| Launch | Horizontal base speed **36 m/s** plus **0.20x** the owner's launch-time planar velocity, with inherited planar speed capped at **10 m/s** before scaling (maximum 2 m/s inherited contribution). Initial upward velocity is **11 m/s**. Backward use reverses only the 36 m/s launch axis; inherited owner velocity remains physical world velocity. | Approved fill-in. |
-| Gravity | Apply constant **24 m/s² downward** world gravity to Hammer flight. No homing, steering, racing-line correction, speed boost-pad effect, or target magnetism. | Approved fill-in. |
-| Size and spawn | Horizontal/contact radius **0.36 m**. Reuse the shared `1.75 m + projectile radius` directional launch offset and ordinary safe launch-height convention. A spawn overlapping a guardrail or lacking finite launch data is rejected atomically. | Radius approved; offset/rollback reuse accepted projectile conventions. |
-| Terrain bounce | The first genuine descending contact with the actual supporting Circuit Alpha terrain/road surface produces the single PRD-required bounce. Resolve against the supporting-surface normal: retain **0.78x tangential velocity** and reflect the incoming normal component at **0.55x restitution**. Asphalt, dirt, grass, boost-pad and ramp supporting surfaces use the same Hammer bounce physics; terrain type does not add another item effect. | One terrain bounce is PRD-fixed; coefficients and surface-uniform treatment approved. |
-| Post-bounce expiry | On the first terrain bounce, cap remaining lifetime to **0.75 race seconds**. Any second terrain contact destroys the Hammer immediately. A Hammer that never reaches terrain has a hard total lifetime of **2.25 race seconds** from launch. | Short post-bounce expiry is PRD-fixed; exact timers approved. |
-| Guardrails | First guardrail contact destroys the Hammer. Guardrails never count as the terrain bounce and never ricochet the Hammer. | Approved clarification preserving the distinction between terrain bounce and wall contact. |
-| Racer hit | First eligible racer contact applies the accepted standard **0.85-second spinout** through the existing RacerEffects / hit-sprite / camera path, then destroys the Hammer. No piercing, AoE, extra velocity multiplier, Frost stack, progress mutation, or repeated overlap effect. | 0.85 s already approved; destruction/no-extra-effects approved clarification. |
-| Owner arming | Ignore owner contact for **0.18 race seconds** after launch. After arming, ordinary Hammer contact may hit the owner, including after the terrain bounce. Bounce does not reset arming. | Generic later self-hit is approved; 0.18 s approved item value matching accepted ordinary-projectile precedent. |
-| Immunity | An eligible contact with an item-immune racer, including Prismatic, absorbs/destroys the Hammer with no hostile effect. Finished racers are skipped. Immunity does not reflect or preserve the Hammer. | Accepted ordinary-projectile immunity behavior. |
-| Collision ordering | Resolve contacts chronologically along swept/substep travel. At the same collision time, **guardrail > eligible racer > terrain**. A destructive event ends that movement segment so a Hammer cannot hit a racer through a wall or bounce through a coincident racer. | Approved deterministic ordering. |
-| Shockwave | A queued Shockwave clears an active Hammer at horizontal distance `<= 5 m` before same-step Hammer movement, terrain bounce, or racer contact. Outside-range Hammers continue normally. | Extends the accepted Shockwave ordinary-projectile boundary to the new class. |
-| Effect coexistence | Hammer spin refreshes according to existing standard-spin rules. Nitro, Frost, Prismatic, drift charge, surface handling and race authority remain independently owned by their existing systems. | Existing generic-effects boundary. |
-| Capacity and rollback | Each active Hammer owns exactly one slot in the existing shared 40-object item-physics capacity. Release exactly once on hit, immunity, Shockwave, wall, second terrain contact, post-bounce expiry, hard expiry, reset/disposal, or failed commit rollback. | Existing shared-capacity/transaction contract. |
-| Owner lifecycle | A fired Hammer is independent of owner motion after launch and therefore is **not** cancelled by ordinary owner recovery or finish; it resolves through its short normal lifetime. Race restart, return to hub and runtime disposal clear all Hammer state. | Approved behavior matching ordinary non-homing fired projectiles; no Arc-Blade-style owner pursuit exists. |
-| Pause | Pause freezes flight, gravity integration, cadence, arming, lifetime, post-bounce timer, procedural trail/rotation and Hammer audio. | Existing pause contract. |
+| Behavior              | Approved contract                                                                                                                                                                                                                                                                                                                                                                                                                                   | Authority                                                                                                       |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Inventory             | Five charges in the existing one-slot inventory. One committed throw consumes one charge; the fifth frees the slot. Multiple Hammers may coexist if cadence and shared capacity allow. No refund after impact, counter, expiry, or cleanup.                                                                                                                                                                                                         | Five charges are PRD-fixed; existing multi-charge inventory contract.                                           |
+| Input                 | One Hammer per ITEM press. Normal ITEM throws forward from current kart heading; Brake/Reverse + ITEM throws backward. Desktop E/Left Shift and mobile ITEM use the same directional contract. No automatic repeat or target prerequisite.                                                                                                                                                                                                          | Approved fill-in using the existing directional-item input contract.                                            |
+| Cadence               | First throw is immediately eligible. At least **0.35 race seconds** between successfully committed throws. Rejected/full-capacity/invalid use consumes no charge and starts no cooldown. Pause freezes the cadence clock.                                                                                                                                                                                                                           | 0.35 s is PRD-fixed; rollback/pause follow accepted item transaction rules.                                     |
+| Launch                | Horizontal base speed **36 m/s** plus **0.20x** the owner's launch-time planar velocity, with inherited planar speed capped at **10 m/s** before scaling (maximum 2 m/s inherited contribution). Initial upward velocity is **11 m/s**. Backward use reverses only the 36 m/s launch axis; inherited owner velocity remains physical world velocity.                                                                                                | Approved fill-in.                                                                                               |
+| Gravity               | Apply constant **24 m/s² downward** world gravity to Hammer flight. No homing, steering, racing-line correction, speed boost-pad effect, or target magnetism.                                                                                                                                                                                                                                                                                       | Approved fill-in.                                                                                               |
+| Size and spawn        | Horizontal/contact radius **0.36 m**. Reuse the shared `1.75 m + projectile radius` directional launch offset and ordinary safe launch-height convention. A spawn overlapping a guardrail or lacking finite launch data is rejected atomically.                                                                                                                                                                                                     | Radius approved; offset/rollback reuse accepted projectile conventions.                                         |
+| Terrain bounce        | The first genuine descending contact with the actual supporting Circuit Alpha terrain/road surface produces the single PRD-required bounce. Resolve against the supporting-surface normal: retain **0.78x tangential velocity** and reflect the incoming normal component at **0.55x restitution**. Asphalt, dirt, grass, boost-pad and ramp supporting surfaces use the same Hammer bounce physics; terrain type does not add another item effect. | One terrain bounce is PRD-fixed; coefficients and surface-uniform treatment approved.                           |
+| Post-bounce expiry    | On the first terrain bounce, cap remaining lifetime to **0.75 race seconds**. Any second terrain contact destroys the Hammer immediately. A Hammer that never reaches terrain has a hard total lifetime of **2.25 race seconds** from launch.                                                                                                                                                                                                       | Short post-bounce expiry is PRD-fixed; exact timers approved.                                                   |
+| Guardrails            | First guardrail contact destroys the Hammer. Guardrails never count as the terrain bounce and never ricochet the Hammer.                                                                                                                                                                                                                                                                                                                            | Approved clarification preserving the distinction between terrain bounce and wall contact.                      |
+| Racer hit             | First eligible racer contact applies the accepted standard **0.85-second spinout** through the existing RacerEffects / hit-sprite / camera path, then destroys the Hammer. No piercing, AoE, extra velocity multiplier, Frost stack, progress mutation, or repeated overlap effect.                                                                                                                                                                 | 0.85 s already approved; destruction/no-extra-effects approved clarification.                                   |
+| Owner arming          | Ignore owner contact for **0.18 race seconds** after launch. After arming, ordinary Hammer contact may hit the owner, including after the terrain bounce. Bounce does not reset arming.                                                                                                                                                                                                                                                             | Generic later self-hit is approved; 0.18 s approved item value matching accepted ordinary-projectile precedent. |
+| Immunity              | An eligible contact with an item-immune racer, including Prismatic, absorbs/destroys the Hammer with no hostile effect. Finished racers are skipped. Immunity does not reflect or preserve the Hammer.                                                                                                                                                                                                                                              | Accepted ordinary-projectile immunity behavior.                                                                 |
+| Collision ordering    | Resolve contacts chronologically along swept/substep travel. At the same collision time, **guardrail > eligible racer > terrain**. A destructive event ends that movement segment so a Hammer cannot hit a racer through a wall or bounce through a coincident racer.                                                                                                                                                                               | Approved deterministic ordering.                                                                                |
+| Shockwave             | A queued Shockwave clears an active Hammer at horizontal distance `<= 5 m` before same-step Hammer movement, terrain bounce, or racer contact. Outside-range Hammers continue normally.                                                                                                                                                                                                                                                             | Extends the accepted Shockwave ordinary-projectile boundary to the new class.                                   |
+| Effect coexistence    | Hammer spin refreshes according to existing standard-spin rules. Nitro, Frost, Prismatic, drift charge, surface handling and race authority remain independently owned by their existing systems.                                                                                                                                                                                                                                                   | Existing generic-effects boundary.                                                                              |
+| Capacity and rollback | Each active Hammer owns exactly one slot in the existing shared 40-object item-physics capacity. Release exactly once on hit, immunity, Shockwave, wall, second terrain contact, post-bounce expiry, hard expiry, reset/disposal, or failed commit rollback.                                                                                                                                                                                        | Existing shared-capacity/transaction contract.                                                                  |
+| Owner lifecycle       | A fired Hammer is independent of owner motion after launch and therefore is **not** cancelled by ordinary owner recovery or finish; it resolves through its short normal lifetime. Race restart, return to hub and runtime disposal clear all Hammer state.                                                                                                                                                                                         | Approved behavior matching ordinary non-homing fired projectiles; no Arc-Blade-style owner pursuit exists.      |
+| Pause                 | Pause freezes flight, gravity integration, cadence, arming, lifetime, post-bounce timer, procedural trail/rotation and Hammer audio.                                                                                                                                                                                                                                                                                                                | Existing pause contract.                                                                                        |
 
 ### Ballistic integration requirements
 
@@ -62,32 +62,32 @@ Use an original compact double-headed kinetic hammer silhouette built from proce
 - a small impact flash on racer/immunity/counter resolution; and
 - distinct short original launch, bounce and hit tones.
 
-This is a future implementation contract only. **No asset creation, procedural model implementation, VFX implementation, audio implementation, or other presentation development is authorized by the current governance checkpoint.** Final production audio/VFX polish remains Slice 6.
+The local implementation uses original procedural geometry, finite VFX cues/trails and gesture-unlocked procedural audio as authorized by Manny. Final production audio/VFX polish remains Slice 6.
 
 ## Engineering assessment
 
-Current `ITEM_DEFINITIONS` already registers `arc-hammers` with five charges and the approved probability matrix, but it has no projectile/ballistic configuration. `ItemEffectDispatcher` therefore reaches no supported projectile or boost path for Arc Hammers and returns `unsupported`.
+`ITEM_DEFINITIONS` registers `arc-hammers` with five charges and the approved probability matrix. The local implementation adds the governed `ARC_HAMMER_PROJECTILE_CONFIG` adapter and an atomic `ItemEffectDispatcher` branch that commits a charge only after shared projectile capacity and launch validation succeed.
 
-The current ordinary `ProjectileSystem` integrates planar constant-velocity projectiles and guardrail contacts; its special Arc Blade helper handles curved outbound/return travel. Reusing either path unchanged would not satisfy ballistic Y motion, supporting-surface contact, or the exactly-one-terrain-bounce contract.
+The existing `ProjectileSystem` retains planar ordinary projectiles and the Arc Blade curved-flight helper, with a focused Hammer branch for ballistic Y motion, swept guardrail/racer/terrain ordering, actual supporting-surface sampling and one rebound. `KartTimeTrial` supplies the existing `SlickGroundSurface` query without changing Circuit Alpha race authority or kart surface physics.
 
-If gameplay is separately authorized later, the bounded implementation shape is:
+The authorized bounded implementation shape is now present locally:
 
 1. Add a focused Hammer ballistic state/helper within the existing `ProjectileSystem` ownership boundary rather than adding item logic to kart physics.
 2. Reuse shared item capacity, inventory transaction, target snapshots, RacerEffects spin application, Shockwave queue ordering, generic immunity, resource cleanup and item presentation ownership.
 3. Add only the supporting-surface query needed to resolve Hammer terrain contact across road/dirt/boost/ramp geometry; do not change Circuit Alpha race authority or kart surface behavior.
 4. Keep Hammer tuning in configuration. Do not alter Kinetic Disc, Arc Blade, Blaze, Frost, accepted item balance, rank weights, AI inventory policy, dependencies, or binary assets.
 
-Nothing in this engineering assessment authorizes implementation now.
+Manny's explicit 2026-09-16 authorization clears the gameplay and original presentation implementation gate without expanding the contract or changing other item/race systems.
 
 ## Approved acceptance instrumentation contract
 
-Primary deployed review route after a separately approved gameplay publication:
+Primary review route for the approved gameplay publication:
 
 `?testItem=arc-hammers`
 
 This route will provide fixed Hammer pickups while preserving normal racing and unrestricted E / Left Shift / mobile ITEM use. It must not require stopping, a readiness countdown, or a target lock. Manny must be able to fire all five charges while driving and deliberately test forward/backward arcs and terrain bounces.
 
-Optional incoming counter diagnostics may be implemented only if their measured encounter semantics are proven in runtime:
+Optional incoming counter diagnostics are implemented locally and may be published only after their measured encounter semantics are proven in runtime:
 
 - `?testItem=shockwave&testArcHammerCounter=shockwave`
 - `?testItem=prismatic-invincibility&testArcHammerCounter=prismatic&testArcHammerPhase=protected`
@@ -109,7 +109,7 @@ Helper-only trajectory tests are insufficient. At least one integration path mus
 
 ## Approved deployed live gate
 
-After separately authorized gameplay implementation, approved gameplay publication, and successful hosted CI/Pages:
+After this authorized implementation is complete, approved gameplay publication, and successful hosted CI/Pages:
 
 1. Collect Arc Hammers in the fixed-item route and verify exactly five charges, ordinary roulette/HUD behavior, fifth-shot slot release and the 0.35 s minimum cadence; too-fast use retains the charge.
 2. While racing normally, verify forward ITEM produces a readable forward ballistic arc and Brake/Reverse + ITEM produces a backward ballistic arc on desktop and mobile.
@@ -124,10 +124,8 @@ Record only checks actually observed. Automated trajectory/camera tests do not s
 
 ## Explicit boundaries
 
-This approval does **not** authorize or change:
+This authorization does **not** expand or change:
 
-- **Arc Hammers gameplay implementation;**
-- **Arc Hammers asset development, procedural model/VFX/audio implementation, or other presentation development;**
 - item probability weights or dynamic distribution;
 - accepted Kinetic Disc, Arc Blade, Blaze, Frost, Shockwave, Prismatic, Blast, Slick, Seeker, Apex or Nitro Surge behavior;
 - racer statistics or kart physics;
@@ -139,11 +137,11 @@ This approval does **not** authorize or change:
 
 ## Approved amendment 2.16 text
 
-Approved September 16, 2026. Kinetic Arc Hammers retain PRD Section 15.10's five charges, 0.35-second minimum cadence, ballistic travel, exactly one terrain bounce and short post-bounce expiry. Amendment 2.16 fills the operational contract with the values and ordering in this document: directional forward/backward use; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s² gravity, 0.20x capped planar inheritance, 0.36 m radius and 0.18 s owner arming; one supporting-surface bounce with 0.78 tangential retention and 0.55 normal restitution; 0.75 s post-bounce and 2.25 s hard lifetime; first-wall destruction; standard 0.85 s spin and hit destruction; later owner self-hit; ordinary immunity/Prismatic absorption; Shockwave pre-movement clearing; deterministic collision ordering; shared 40-object capacity; pause/lifecycle cleanup; and bounded original procedural presentation. No other item, probability, racer, track, AI, dependency or Slice 6 requirement changes. Scope approval does not authorize gameplay or asset development; those remain separately gated.
+Approved September 16, 2026. Kinetic Arc Hammers retain PRD Section 15.10's five charges, 0.35-second minimum cadence, ballistic travel, exactly one terrain bounce and short post-bounce expiry. Amendment 2.16 fills the operational contract with the values and ordering in this document: directional forward/backward use; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s² gravity, 0.20x capped planar inheritance, 0.36 m radius and 0.18 s owner arming; one supporting-surface bounce with 0.78 tangential retention and 0.55 normal restitution; 0.75 s post-bounce and 2.25 s hard lifetime; first-wall destruction; standard 0.85 s spin and hit destruction; later owner self-hit; ordinary immunity/Prismatic absorption; Shockwave pre-movement clearing; deterministic collision ordering; shared 40-object capacity; pause/lifecycle cleanup; and bounded original procedural presentation. No other item, probability, racer, track, AI, dependency or Slice 6 requirement changes. Amendment 2.17 separately clears implementation of this bounded contract.
 
 ## ADR-077: Bound Kinetic Arc Hammers to one physical terrain rebound
 
-**Status:** Governance published through PR #142 at `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; post-merge validation/Pages `35124948452` passed. Gameplay and asset/presentation development remain NOT AUTHORIZED.
+**Status:** Historical governance publication checkpoint: PR #142 at `ba7e20ab69666ce04ba253a147c93b1ae985db8f`; post-merge validation/Pages `35124948452` passed. The implementation gate is now superseded by ADR-078.
 
 **Context:** PRD Section 15.10 defines the Hammer identity but leaves launch physics, bounce coefficients, collision ordering, lifetime boundaries, defensive counters and lifecycle behavior unspecified. The current runtime has reusable inventory/capacity/contact/counter systems but no ballistic terrain-bounce projectile path.
 
@@ -151,12 +149,24 @@ Approved September 16, 2026. Kinetic Arc Hammers retain PRD Section 15.10's five
 
 **Rationale:** The approved numbers create a visibly lobbed forward/backward projectile with enough pre-bounce travel to matter at kart-racing speeds and a short, readable second arc without turning five charges into long-lived track clutter. A single surface-normal rebound expresses the PRD identity while wall destruction prevents the Hammer from becoming a second ricochet-disc system.
 
-**Consequences:** A later authorized implementation will require bounded 3D ballistic/surface contact logic and additional deterministic tests, but no new gameplay subsystem, capacity pool, track rewrite, dependency, binary asset, or AI item policy.
+**Consequences:** The authorized implementation requires bounded 3D ballistic/surface contact logic and additional deterministic tests, but no new gameplay subsystem, capacity pool, track rewrite, dependency, binary asset, or AI item policy.
+
+## ADR-078: Authorize bounded Kinetic Arc Hammers implementation and original presentation
+
+**Date:** 2026-09-16
+
+**Status:** Implementation authorized; local feature work in progress. Gameplay publication, deployment and live acceptance remain pending.
+
+**Approval:** Manny explicitly authorized Arc Hammers gameplay and all Arc Hammers asset/model/VFX/audio/presentation development in Work after the amendment 2.16 governance publication gate had cleared.
+
+**Decision:** Implement the amendment 2.16 contract in the existing item/inventory, ProjectileSystem, shared-capacity, RacerEffects, Shockwave, KartTimeTrial and surface-query boundaries. Original procedural model geometry, finite trail/bounce/impact VFX and original procedural launch/bounce/hit audio are authorized for this bounded increment. Preserve the fixed-item route and optional counter routes from this scope; diagnostics must verify actual encounters and may not grant AI inventory, mutate race progress or block normal ITEM input.
+
+**Boundary:** This clears the implementation gate only. It does not claim a merged/public gameplay release, hosted deployment or Manny live acceptance. It does not alter probabilities, accepted item behavior, racer statistics, track/checkpoint authority, AI item acquisition/use, dependencies or Slice 6 final polish.
 
 ## Approval gates
 
-1. **Scope approval:** **COMPLETE.** Manny approved the complete contract on September 16, 2026 and explicitly kept gameplay and asset development off the table.
+1. **Scope approval:** **COMPLETE.** Manny approved the complete contract on September 16, 2026.
 2. **Governance publication:** **COMPLETE.** PR #142 squash-merged at `ba7e20ab69666ce04ba253a147c93b1ae985db8f` after clean-head hosted CI `35124762217` passed; post-merge validation and GitHub Pages `35124948452` passed. Markdown governance and the 52-page Word PRD approval artifact are synchronized.
-3. **Gameplay authorization:** **NOT AUTHORIZED.** Separate from scope/governance publication. Do not begin gameplay or asset development unless Manny explicitly authorizes it after the governance gate is fully cleared.
-4. **Gameplay publication:** not applicable until separately authorized implementation exists.
-5. **Live acceptance:** not applicable until separately authorized gameplay is deployed.
+3. **Gameplay and original presentation authorization:** **COMPLETE.** Manny explicitly authorized the bounded implementation in Work on September 16, 2026; ADR-078 records the decision.
+4. **Gameplay publication:** **PENDING.** Local implementation and validation must complete before a publication request.
+5. **Live acceptance:** **PENDING.** Requires a published build, hosted validation/Pages and Manny's rendered desktop/mobile review.

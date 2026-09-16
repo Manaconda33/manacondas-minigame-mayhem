@@ -2,13 +2,13 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - REBOUNDING ARC BLADE LIVE ACCEPTED; KINETIC ARC HAMMERS GOVERNANCE PUBLISHED / IMPLEMENTATION HELD**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - REBOUNDING ARC BLADE LIVE ACCEPTED; KINETIC ARC HAMMERS IMPLEMENTATION IN PROGRESS**
 
-PRD baseline: **v1.1, approved implementation amendment 2.16 / ADR-077**.
+PRD baseline: **v1.1, approved implementation amendment 2.17 / ADR-078**.
 
 Latest verified `main`: **`ba7e20ab69666ce04ba253a147c93b1ae985db8f`**.
 
-**Hard hold:** Manny approved the complete Kinetic Arc Hammers scope on September 16, 2026 and explicitly directed that Arc Hammers gameplay development and asset/presentation development remain off the table. Governance publication is complete. No Hammer implementation or asset work may begin without a separate later Manny authorization.
+**Authorization:** Manny approved the complete Kinetic Arc Hammers scope on September 16, 2026 and explicitly authorized Arc Hammers gameplay plus original model/VFX/audio/presentation development after governance publication. This clears implementation only; merge/publication, hosted deployment and live acceptance remain separate gates.
 
 ## Rebounding Arc Blade final state
 
@@ -28,19 +28,39 @@ Publication evidence:
 - Temporary governance transfer/synchronization tooling was removed before the final PR diff and merge.
 - The unchanged dependency set continues to report three moderate npm audit findings; no remediation is claimed here.
 
-The **governance gate is cleared**. This does **not** clear the gameplay or asset-development gates.
+The **governance gate is cleared**. ADR-078 separately clears the bounded implementation gate; gameplay publication and live acceptance remain pending.
+
+## Kinetic Arc Hammers local implementation checkpoint - 2026-09-16
+
+Manny's explicit Work authorization is recorded in PRD amendment 2.17 / ADR-078. The bounded implementation now includes:
+
+- Arc Hammers configuration, launch inheritance, ballistic gravity, one supporting-surface rebound, collision ordering, owner arming, standard racer hit/immunity handling, Shockwave clearing, shared-capacity rollback and finite lifecycle cleanup inside `ProjectileSystem`.
+- Real dispatcher/inventory transaction wiring for five charges and the 0.35-second committed-use cadence.
+- An actual `SlickGroundSurface` query from `KartTimeTrial` for supporting-surface contact.
+- Original procedural double-headed Hammer geometry, finite trail, bounce/impact cues and gesture-unlocked procedural launch/bounce/hit audio.
+- Opt-in fixed-item and counter-route instrumentation: `?testItem=arc-hammers`, the Shockwave counter route, and Prismatic protected/expired counter routes. Counter results remain INCONCLUSIVE on misses and do not alter race authority or normal ITEM input.
+
+Local evidence:
+
+- `npx vitest run tests/arc-hammers.test.ts tests/projectile-system.test.ts tests/shockwave.test.ts tests/arc-blade.test.ts tests/item-system.test.ts`: **5 files / 77 tests passed**.
+- `npm run typecheck`: **PASS**.
+- `npm run lint`: **PASS**, zero warnings.
+- `npm run validate`: **PASS** — **49 files / 441 tests**, **81.99% statement coverage**, typecheck, zero-warning lint, branding/LFS runtime-asset verification and production build. The existing Vite large-chunk warning remains nonblocking.
+- Clean-install/hosted CI, rendered browser checks, desktop/mobile checks and Manny live acceptance remain pending.
+
+This is not a published or live-accepted Hammer checkpoint.
 
 ## Kinetic Arc Hammers approved contract summary
 
 Five charges; 0.35-second minimum commit cadence; forward/backward ballistic throws; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s^2 gravity and 0.20x capped planar inheritance; 0.36 m radius; 0.18-second owner arming; one actual supporting-surface bounce with 0.78 tangential retention / 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-wall and second-terrain-contact destruction; standard 0.85-second hit spin and destruction; later owner self-hit; generic/Prismatic immunity absorption; Shockwave <=5 m pre-movement clearing; guardrail > racer > terrain same-time priority; shared 40-object capacity; and pause/lifecycle cleanup.
 
-The future original procedural presentation and future acceptance routes remain **contract language only**. No Hammer runtime source, model, VFX, audio, binary asset, fixture, or playable test route exists or is authorized by this checkpoint.
+The original procedural presentation and acceptance routes are authorized and implemented locally. No Hammer binary asset is required by the current procedural presentation. The route is not yet deployed or live accepted.
 
 ## Slice 5 state
 
 Deployed/live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, and Rebounding Arc Blade. The seeded distribution evidence from PR #114 remains valid.
 
-Four item effects remain unimplemented and not live accepted: **Kinetic Arc Hammers, Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket**. Arc Hammers is scope/governance approved but implementation-held.
+Three item effects remain unimplemented and not live accepted: **Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket**. Arc Hammers has a local implementation but is not yet published or live accepted.
 
 Remaining Slice 5 closure work also includes full AI item acquisition/use, final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, final desktop/mobile full-slice acceptance, and issue #106 disposition as appropriate. Slice 6 remains locked.
 
@@ -50,11 +70,11 @@ Remaining Slice 5 closure work also includes full AI item acquisition/use, final
 - The existing production-build large-chunk warning remains known and nonblocking.
 - Three moderate npm audit findings remain in the unchanged dependency set.
 - No Arc Blade defect is open.
-- Arc Hammers has no gameplay defect because gameplay does not exist and is not authorized.
+- Arc Hammers local implementation has no known failing focused test; full validation, build, hosted deployment and rendered acceptance are still open.
 
 ## Next recommended action
 
-**STOP at this governance gate.** Await a new explicit Manny instruction before doing any Kinetic Arc Hammers gameplay or asset/presentation development. Do not infer implementation authorization from scope approval or governance publication. Slice 6 remains locked.
+**Finish local validation and prepare a feature-branch publication request.** Do not merge/deploy or claim live acceptance until full validation, hosted CI/Pages and Manny's rendered review are complete. Slice 6 remains locked.
 
 ## Approval state
 
@@ -66,9 +86,9 @@ Remaining Slice 5 closure work also includes full AI item acquisition/use, final
 
 **Kinetic Arc Hammers governance publication:** COMPLETE through PR #142 / `ba7e20ab69666ce04ba253a147c93b1ae985db8f` / run `35124948452`.
 
-**Kinetic Arc Hammers gameplay:** NOT AUTHORIZED.
+**Kinetic Arc Hammers gameplay:** IMPLEMENTATION AUTHORIZED; LOCAL VALIDATION IN PROGRESS.
 
-**Kinetic Arc Hammers asset/presentation development:** NOT AUTHORIZED.
+**Kinetic Arc Hammers asset/presentation development:** IMPLEMENTATION AUTHORIZED; LOCAL VALIDATION IN PROGRESS.
 
 **Slice 5 implementation:** IN PROGRESS.
 

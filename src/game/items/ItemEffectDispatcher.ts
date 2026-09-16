@@ -8,6 +8,7 @@ import { ITEM_DEFINITIONS } from './itemDefinitions';
 import { BLAZE_ORB_CONFIG } from './BlazeOrbs';
 import { FROST_ORB_CONFIG } from './FrostOrbs';
 import { ARC_BLADE_CONFIG } from './ArcBlade';
+import { ARC_HAMMER_PROJECTILE_CONFIG } from './ArcHammers';
 import { ItemSystem, type ItemUseDirection } from './ItemSystem';
 import { ProjectileSystem, type ProjectileLaunchContext } from './ProjectileSystem';
 import { RacerEffects } from './RacerEffects';
@@ -87,6 +88,23 @@ export function executeItemUse(
     )
       ? 'activated'
       : 'rejected';
+  }
+
+  if (request.itemId === 'arc-hammers') {
+    const projectileSystem = runtime?.projectileSystem;
+    const launch = runtime?.projectileLaunch;
+    if (projectileSystem === undefined || launch === undefined) return 'unsupported';
+    const projectileId = projectileSystem.spawn(
+      {
+        itemId: request.itemId,
+        ownerId: racerId,
+        direction: request.direction,
+        config: ARC_HAMMER_PROJECTILE_CONFIG,
+        launch,
+      },
+      () => itemSystem.commitUse(racerId),
+    );
+    return projectileId === null ? 'rejected' : 'activated';
   }
 
   const definition = ITEM_DEFINITIONS[request.itemId];

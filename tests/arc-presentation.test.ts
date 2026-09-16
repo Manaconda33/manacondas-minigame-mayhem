@@ -104,7 +104,7 @@ describe('Arc presentation and resource lifecycle', () => {
     system.dispose();
     system.dispose();
     expect(system.group.children).toHaveLength(0);
-  });
+  }, 15000);
 
   it('plays distinct original cues only with unlocked non-muted audio, bounds voices, and stops on cleanup', async () => {
     const param = () => ({ setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() });

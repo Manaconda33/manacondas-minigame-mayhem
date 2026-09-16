@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.15
+Version 1.1 - Final approved baseline; working implementation amendment 2.17
 
 August 16, 2026
 
@@ -324,6 +324,14 @@ The first genuine descending contact with the actual supporting Circuit Alpha su
 The first eligible racer hit applies the accepted 0.85-second standard spin through existing RacerEffects/camera/driver-state authority and destroys the Hammer, with no piercing, AoE, extra velocity penalty, Frost stack, or race-progress mutation. Generic immunity and Prismatic absorb and destroy the Hammer without a hostile effect. Shockwave clears an active Hammer at horizontal distance <=5 m before same-step Hammer movement, bounce, or racer contact. Each active Hammer owns one existing shared 40-object item-physics slot; pause freezes all Hammer timing/motion/presentation state; owner recovery or finish does not cancel an already-fired Hammer; restart, hub return, and disposal clear it.
 
 The approved original procedural Hammer presentation and fixed-item/counter acceptance routes are future implementation contracts only. No model, VFX, audio, binary asset, or gameplay development is authorized by this governance checkpoint. No item probability, accepted-item tuning, racer statistic, track/checkpoint authority, AI item policy, dependency, or Slice 6 requirement changes.
+
+## Approved implementation amendment 2.17 - Kinetic Arc Hammers implementation authorization
+
+Approved September 16, 2026 after amendment 2.16 / ADR-077 governance publication cleared. Manny explicitly authorized the bounded Kinetic Arc Hammers gameplay implementation and all Arc Hammers original model, VFX, audio, and presentation development. The mechanics, values, acceptance routes, and boundaries remain those in amendment 2.16 / ADR-077 and `docs/SLICE-5-ARC-HAMMERS-SCOPE.md`; this amendment changes authorization state only and does not retune the governed contract.
+
+Implementation remains inside the existing item/inventory, ProjectileSystem, shared-capacity, RacerEffects, Shockwave, KartTimeTrial, and supporting-surface-query boundaries. Original procedural Hammer geometry, finite trail/bounce/impact VFX, and original procedural launch/bounce/hit audio are authorized for this bounded increment. Diagnostics must verify actual encounters and may not grant AI inventory, mutate race progress, or block normal ITEM input.
+
+This clears implementation only. Gameplay publication/deployment and product-owner live acceptance remain separate gates. No item probability, accepted item behavior, racer statistic, track/checkpoint authority, AI item acquisition/use, dependency, or Slice 6 final-polish change is authorized.
 
 ## 1.1 Governance
 

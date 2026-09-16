@@ -206,6 +206,10 @@ PRD amendment 2.12 / ADR-073 and `docs/SLICE-5-PRISMATIC-INVINCIBILITY-SCOPE.md`
 
 PRD amendment 2.11 / ADR-072 and `docs/SLICE-5-SHOCKWAVE-SCOPE.md` govern the next bounded item increment. Shockwave remains a one-charge approximately 5 m instantaneous radial defense. The approved fill-ins are a non-spin racer push adding 6-to-2 m/s outward planar velocity falloff, same behavior for forward/backward ITEM intent, ordinary Kinetic/Seeker destruction, queued Slick/Blast clearing, terminal-only Apex neutralization, and counter-before-object-update ordering. Shockwave uses no persistent shared item-physics slot. General AI item acquisition/use remains deferred. The Shockwave checklist item stays incomplete until implementation, hosted validation, deployment, desktop/mobile live checks, and Manny acceptance prove it.
 
+## Kinetic Arc Hammers scope approval - approved 2026-09-16
+
+PRD amendment 2.16 / ADR-077 and `docs/SLICE-5-ARC-HAMMERS-SCOPE.md` govern the next bounded item contract. The approved fill-ins are forward/backward directional throws; 36 m/s horizontal launch, 11 m/s upward velocity, 24 m/s^2 gravity and 0.20x capped planar inheritance; 0.36 m radius and 0.18-second owner arming; exactly one actual supporting-surface rebound with 0.78 tangential retention and 0.55 normal restitution; 0.75-second post-bounce and 2.25-second hard lifetime; first-guardrail destruction; standard 0.85-second hit spin/destruction; later owner self-hit; Prismatic/generic immunity absorption; Shockwave <=5 m pre-movement clearing; deterministic guardrail > racer > terrain same-time priority; shared 40-object capacity; and pause/lifecycle cleanup. The future original procedural presentation and acceptance routes are approved as a contract only. **Manny explicitly withheld Arc Hammers gameplay implementation and asset/presentation development.** Keep the Arc Hammers functional checklist row open until separately authorized gameplay is implemented, validated, deployed and live accepted.
+
 # Slice 5 exit checklist
 
 > Evidence reconciliation, 2026-09-07: checkmarks below reflect only requirements supported by merged/live evidence or the hosted seeded-distribution checkpoint. PR #114 CI run `34139123888` executed 100,000 deterministic selections per rank (800,000 total) against the production selector and passed the 0.5-percentage-point fit gate; details are recorded in `docs/SLICE-5-ITEM-DISTRIBUTION-REPORT-2026-09-07.md`. Broad all-item interaction, AI-policy, pause/lifecycle, soak/performance, and final-publication gates remain open until their full Slice 5 scope is implemented and evidenced.
@@ -231,7 +235,7 @@ PRD amendment 2.11 / ADR-072 and `docs/SLICE-5-SHOCKWAVE-SCOPE.md` govern the ne
 - [x] Blast Orb supports directional deployment, approximately three-second fuse, qualifying early impact detonation, AoE resolution, and cleanup.
 - [x] Blaze Orbs provide five charges and enforce the 0.55-second minimum cadence.
 - [x] Frost Orbs provide three charges and apply the governed stacked speed/handling effect.
-- [ ] Arc Blade provides three charges, completes outbound/return movement, and prevents repeated continuous-overlap damage.
+- [x] Arc Blade provides three charges, completes outbound/return movement, and prevents repeated continuous-overlap damage.
 - [ ] Arc Hammers provide five charges, enforce the 0.35-second cadence, bounce once after terrain impact, and expire.
 - [x] Slick lasts approximately 12 seconds, triggers the approved spin/speed effect, and obeys the two-per-owner active cap.
 - [ ] Shockwave pushes nearby racers and clears every supported projectile/hazard class.
@@ -249,7 +253,7 @@ Slick Trap acceptance evidence, 2026-09-07: gameplay PR #120 squash-merged at `b
 
 ## Race, HUD, input, and AI integrity
 
-Frost acceptance reconciliation: PR #137 comment `5625755529` and `docs/SLICE-5-FROST-ORBS-SCOPE.md` at `f44176ceef38dfeebee10f6d44a0c41fdb869629` record Manny's final live acceptance. Follow-on validation/Pages `34533224332` passed. This closes the bounded Frost functional row; final all-item gates remain open. Rebounding Arc Blade is locally implemented and validated under `docs/SLICE-5-ARC-BLADE-SCOPE.md`, amendment 2.15 / ADR-076, following governance PR #138 and Manny's gameplay authorization. Local validation on September 16 passed 48 files / 431 tests and the full validation command. Gameplay publication and live acceptance remain pending, so the Arc acceptance row remains open.
+Frost acceptance reconciliation: PR #137 comment `5625755529` and `docs/SLICE-5-FROST-ORBS-SCOPE.md` at `f44176ceef38dfeebee10f6d44a0c41fdb869629` record Manny's final live acceptance. Follow-on validation/Pages `34533224332` passed. Rebounding Arc Blade is also live accepted: gameplay PR #139 merged at `8822341b61900799e0166cfe94bf69cb3986bf0e`, post-merge validation/Pages `35118484183` passed, and PR #139 comment `5700594653` records Manny's all-tests-pass deployed acceptance. Arc Hammers scope is approved under amendment 2.16 / ADR-077, but gameplay and asset/presentation development remain explicitly unauthorized, so its functional row stays open. Final all-item gates remain open.
 
 Blaze acceptance reconciliation: PR #135 gameplay and the governing Blaze scope at `6ffef50800eea8b1f3f952c3d227020aebfe8913` record Manny's deployed playtest pass. Follow-on CI/Pages `34404232942` passed validation and deployment. This closes the bounded Blaze functional row only; Frost and final all-item gates remain open. See IMPLEMENTATION-STATUS.md for evidence and reporting limits.
 

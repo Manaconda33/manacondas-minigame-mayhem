@@ -20,7 +20,7 @@ describe('Ink AI reaction latency', () => {
       const base: InkAiImpairmentSnapshot = {
         remainingSeconds: 2.5,
         noiseAmplitudeMeters: 0.95,
-        noisePhaseRadians: -Math.PI / 2 + index * (Math.PI / 5),
+        noisePhaseRadians: -Math.PI / 2 + index * (Math.PI / 7),
         reactionLatencySeconds: 0.16,
         steeringPrecisionMultiplier: 0.74,
       };

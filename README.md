@@ -12,7 +12,7 @@ Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. Th
 
 Full AI item tactics merged through PR #158 at `cb67183b902e7732b3cab8d95af3e865890b1835`. The first deployed review exposed a bounded lap/finish/standings authority inconsistency and missing racer-owned AI boost/power-up visuals; ADR-084 authorized only those corrections. Corrective PR #159 merged at `e36477022a5fc8363da074dfca302ff263b9758a`, post-merge validation and GitHub Pages run `35265993137` passed, and Manny reported **“all live tests accepted.”** PR #159 comment `5720570319` records the product-owner evidence. No new item balance, AI tactics, audio, assets, race rules, or Slice 6 scope were introduced by the correction.
 
-Remaining Slice 5 closure work is final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, final desktop/mobile full-slice acceptance, and issue #106 disposition as appropriate. Slice 6 remains locked.
+Issue #106 results synchronization is now merged, deployed, live accepted on desktop and mobile, and closed through PR #163 at `5136a002ec1d39b13f8470fd4b5449ce6df5bcf2`; post-merge CI/Pages run `35282030810` passed. Remaining Slice 5 closure work is final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, and final desktop/mobile full-slice acceptance. Slice 6 remains locked.
 
 Implementation and review must continue against `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, `docs/IMPLEMENTATION-STATUS.md`, and `docs/TESTING.md`. Slice 6 remains locked until the remaining Slice 5 closure gates are complete.
 

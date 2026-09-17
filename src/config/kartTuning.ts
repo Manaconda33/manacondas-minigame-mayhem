@@ -50,22 +50,23 @@ export const sliceOneDriver: DriverStats = {
 export const BALANCE_CANDIDATE_B = {
   neutralStat: 6,
   neutralAcceleration: 7.3,
-  accelerationPerPoint: 0.75,
-  recoveryThresholdRatio: 0.85,
-  recoveryPerPoint: 0.08,
-  recoveryMinimum: 0.6,
-  recoveryMaximum: 1.32,
+  accelerationExponentPerPoint: 0.16,
+  recoveryThresholdRatio: 0.9,
+  recoveryExponentPerPoint: 0.16,
+  recoveryMinimum: 0.55,
+  recoveryMaximum: 1.6,
   steeringResponseNeutral: 10,
-  steeringResponsePerPoint: 1.25,
-  steeringResponseMinimum: 5,
-  steeringResponseMaximum: 15,
-  cornerLossNeutralPerSecond: 0.16,
-  cornerLossPerHandlingPoint: 0.02,
-  cornerLossMinimumPerSecond: 0.08,
-  cornerLossMaximumPerSecond: 0.26,
-  cornerSpeedPressureStart: 18,
-  cornerSpeedPressureFull: 33,
-  cornerSpeedPressureMaximum: 1.25,
+  steeringResponsePerPoint: 1.5,
+  steeringResponseMinimum: 4.5,
+  steeringResponseMaximum: 15.5,
+  handlingComfortSpeedBase: 22.5,
+  handlingComfortSpeedPerPoint: 1.35,
+  handlingExcessSpeedScale: 6,
+  handlingCornerLossPerSecond: 0.5,
+  handlingCornerLossMaximumPressure: 1.25,
+  aiCornerPenaltyPerHandlingPoint: 0.13,
+  aiCornerPenaltyMinimum: 0.5,
+  aiCornerPenaltyMaximum: 1.5,
 } as const;
 
 function clamp(value: number, minimum: number, maximum: number): number {
@@ -79,10 +80,11 @@ export function candidateBAccelerationRecoveryMultiplier(
   const threshold = BALANCE_CANDIDATE_B.recoveryThresholdRatio;
   const deficit = clamp((threshold - speedRatio) / threshold, 0, 1);
   return clamp(
-    1 +
-      BALANCE_CANDIDATE_B.recoveryPerPoint *
+    Math.exp(
+      BALANCE_CANDIDATE_B.recoveryExponentPerPoint *
         (acceleration - BALANCE_CANDIDATE_B.neutralStat) *
         deficit,
+    ),
     BALANCE_CANDIDATE_B.recoveryMinimum,
     BALANCE_CANDIDATE_B.recoveryMaximum,
   );
@@ -98,33 +100,56 @@ export function candidateBSteeringResponseRate(handling: number): number {
   );
 }
 
+export function candidateBHandlingComfortSpeed(handling: number): number {
+  return (
+    BALANCE_CANDIDATE_B.handlingComfortSpeedBase +
+    BALANCE_CANDIDATE_B.handlingComfortSpeedPerPoint * handling
+  );
+}
+
 /**
  * Returns the exponential forward-speed loss rate for a steering demand.
- * Absolute speed, rather than the racer's own speed ratio, creates the intended
- * Realized Speed interaction: a low-Handling kart pays more to exploit a very
- * high Speed ceiling without changing that ceiling on a straight.
+ * A kart never loses its Speed-defined straight-line ceiling. Instead Handling
+ * defines a comfort speed for lateral demand. Driving above that comfort speed
+ * creates nonlinear corner loss, so low Handling costs more on a Speed-10 kart
+ * than on an otherwise identical slower kart.
  */
 export function candidateBHandlingCornerLossRate(
   handling: number,
   speedMetersPerSecond: number,
   steeringInput: number,
 ): number {
-  const handlingLoss = clamp(
-    BALANCE_CANDIDATE_B.cornerLossNeutralPerSecond -
-      BALANCE_CANDIDATE_B.cornerLossPerHandlingPoint *
-        (handling - BALANCE_CANDIDATE_B.neutralStat),
-    BALANCE_CANDIDATE_B.cornerLossMinimumPerSecond,
-    BALANCE_CANDIDATE_B.cornerLossMaximumPerSecond,
+  const excessSpeed = Math.max(
+    0,
+    Math.abs(speedMetersPerSecond) - candidateBHandlingComfortSpeed(handling),
   );
   const speedPressure = clamp(
-    (Math.abs(speedMetersPerSecond) - BALANCE_CANDIDATE_B.cornerSpeedPressureStart) /
-      (BALANCE_CANDIDATE_B.cornerSpeedPressureFull -
-        BALANCE_CANDIDATE_B.cornerSpeedPressureStart),
+    excessSpeed / BALANCE_CANDIDATE_B.handlingExcessSpeedScale,
     0,
-    BALANCE_CANDIDATE_B.cornerSpeedPressureMaximum,
+    BALANCE_CANDIDATE_B.handlingCornerLossMaximumPressure,
   );
   const turnLoad = clamp(Math.abs(steeringInput), 0, 1);
-  return handlingLoss * turnLoad * turnLoad * speedPressure * speedPressure;
+  return (
+    BALANCE_CANDIDATE_B.handlingCornerLossPerSecond *
+    turnLoad *
+    turnLoad *
+    speedPressure *
+    speedPressure
+  );
+}
+
+/**
+ * Mirrors Candidate B's Handling authority in AI planning. It changes only the
+ * corner penalty; corner=0 still returns the full Speed-defined maximum.
+ */
+export function candidateBAiCornerPenaltyScale(handling: number): number {
+  return clamp(
+    1 -
+      BALANCE_CANDIDATE_B.aiCornerPenaltyPerHandlingPoint *
+        (handling - BALANCE_CANDIDATE_B.neutralStat),
+    BALANCE_CANDIDATE_B.aiCornerPenaltyMinimum,
+    BALANCE_CANDIDATE_B.aiCornerPenaltyMaximum,
+  );
 }
 
 export function createKartTuning(stats: DriverStats): KartTuning {
@@ -133,10 +158,14 @@ export function createKartTuning(stats: DriverStats): KartTuning {
   return {
     // Candidate B deliberately preserves the approved 23-33 m/s Speed range.
     maxSpeed: 23 + normalized(stats.speed) * 10,
+    // Exponential centering makes high/low Acceleration meaningfully distinct
+    // without moving the existing stat-6 value of 7.3 m/s^2.
     acceleration:
-      BALANCE_CANDIDATE_B.neutralAcceleration +
-      BALANCE_CANDIDATE_B.accelerationPerPoint *
-        (stats.acceleration - BALANCE_CANDIDATE_B.neutralStat),
+      BALANCE_CANDIDATE_B.neutralAcceleration *
+      Math.exp(
+        BALANCE_CANDIDATE_B.accelerationExponentPerPoint *
+          (stats.acceleration - BALANCE_CANDIDATE_B.neutralStat),
+      ),
     mass: 105 + normalized(stats.weight) * 75,
     steeringRate: 1.3 + normalized(stats.handling) * 1.1,
     lateralGrip: 5.5 + normalized(stats.traction) * 3.5,

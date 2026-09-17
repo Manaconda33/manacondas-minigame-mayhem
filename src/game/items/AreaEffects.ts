@@ -6,7 +6,12 @@ export interface AreaEffectTarget {
   readonly position: Vector3;
   readonly finished: boolean;
   readonly itemImmune?: boolean;
+  readonly groundHazardImmune?: boolean;
   readonly onItemContact?: (itemId: ItemId, blocked: boolean, objectId?: number) => void;
+}
+
+export interface AreaEffectOptions {
+  readonly respectGroundHazardImmunity?: boolean;
 }
 
 export function finitePosition(position: Vector3): boolean {
@@ -20,6 +25,7 @@ export function areaEffectVictims<T extends AreaEffectTarget>(
   targets: readonly T[],
   itemId?: ItemId,
   objectId?: number,
+  options?: AreaEffectOptions,
 ): T[] {
   if (!finitePosition(center) || !Number.isFinite(radius) || radius < 0) return [];
   const seen = new Set<string>();
@@ -29,7 +35,10 @@ export function areaEffectVictims<T extends AreaEffectTarget>(
     const dz = target.position.z - center.z;
     if (dx * dx + dz * dz > radius * radius) return false;
     seen.add(target.id);
-    if (itemId) target.onItemContact?.(itemId, target.itemImmune === true, objectId);
-    return !target.itemImmune;
+    const blocked =
+      target.itemImmune === true ||
+      (options?.respectGroundHazardImmunity === true && target.groundHazardImmune === true);
+    if (itemId) target.onItemContact?.(itemId, blocked, objectId);
+    return !blocked;
   });
 }

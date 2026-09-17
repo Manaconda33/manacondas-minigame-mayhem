@@ -91,7 +91,7 @@ describe('Nitro Overdrive production item path', () => {
     expect(items.heldItem('player')).toEqual({ itemId: 'nitro-overdrive', remainingCharges: 1 });
   });
 
-  it('keeps the player-only boundary closed to AI activation', () => {
+  it('supports atomic activation for an AI racer', () => {
     const items = new ItemSystem();
     const effects = new RacerEffects();
     const overdrive = new NitroOverdriveSystem(effects);
@@ -100,9 +100,12 @@ describe('Nitro Overdrive production item path', () => {
 
     expect(
       executeItemUse(items, effects, 'ai-1', 'forward', { nitroOverdriveSystem: overdrive }),
-    ).toBe('rejected');
-    expect(items.heldItem('ai-1')).toEqual({ itemId: 'nitro-overdrive', remainingCharges: 1 });
-    expect(overdrive.isActive('ai-1')).toBe(false);
+    ).toBe('activated');
+    expect(items.heldItem('ai-1')).toBeNull();
+    expect(overdrive.snapshot('ai-1')).toMatchObject({ active: true, windowRemainingSeconds: 6 });
+
+    overdrive.advance(NITRO_OVERDRIVE_CONFIG.pulseCadenceSeconds);
+    expect(overdrive.pulse('ai-1')).toBe(true);
   });
 
   it('accepts pulses only at the cadence boundary and refreshes one source', () => {

@@ -19,10 +19,10 @@ import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Howler } from 'howler';
-import { HazardSystem } from './items/HazardSystem';
+import { HazardSystem, type HazardSnapshot } from './items/HazardSystem';
 import { ShockwaveSystem } from './items/ShockwaveSystem';
 import { ShockwaveCounterFixture } from './items/ShockwaveCounterFixture';
-import { ItemPhysicsCapacity } from './items/ItemPhysicsCapacity';
+import { ItemPhysicsCapacity, MAX_ITEM_PHYSICS_OBJECTS } from './items/ItemPhysicsCapacity';
 import { SlickGroundSurface } from './items/SlickGroundSurface';
 import { IncomingSlickFixture } from './items/IncomingSlickFixture';
 import { IncomingBlastOrbFixture } from './items/IncomingBlastOrbFixture';
@@ -41,7 +41,8 @@ import {
 } from './items/SeekerWarnings';
 import { playDriftTierTone } from '../audio/driftTone';
 import { createKartTuning, type SurfaceType } from '../config/kartTuning';
-import { AiDriver } from './ai/AiDriver';
+import { AiDriver, type AiRacerAwareness } from './ai/AiDriver';
+import { AiItemPolicy, driveInputWithItemModifiers } from './ai/AiItemPolicy';
 import { ChaseCamera } from './camera/ChaseCamera';
 import { SpinoutCameraAnchor } from './camera/SpinoutCameraAnchor';
 import { FixedStepRunner } from './physics/FixedStepRunner';
@@ -50,7 +51,7 @@ import type { DriftTier } from './physics/KartController';
 import { collisionImpulseShares, collisionSpeedRetention } from './physics/KartCollision';
 import { LapTracker } from './race/LapTracker';
 import { RaceDirector, rankRacers, type RacerProgress } from './race/RaceDirector';
-import { CircuitAlpha } from './track/CircuitAlpha';
+import { CircuitAlpha, type TrackProjection } from './track/CircuitAlpha';
 import { createTrackScene } from './track/createTrackScene';
 import {
   GUARDRAIL_KART_RADIUS_METERS,
@@ -59,12 +60,15 @@ import {
   guardrailContact,
 } from './track/GuardrailSystem';
 import { ItemBoxSystem } from './items/ItemBoxSystem';
-import { ProjectileSystem } from './items/ProjectileSystem';
+import { ProjectileSystem, type ProjectileSnapshot } from './items/ProjectileSystem';
 import { executeItemUse } from './items/ItemEffectDispatcher';
 import { selectItem } from './items/ItemSelector';
 import {
   forcedItemForRacer,
   forcedItemFromSearch,
+  aiForcedItemForRacer,
+  aiForcedItemFromSearch,
+  aiForcedRacerFromSearch,
   incomingSeekerFromSearch,
   incomingApexFromSearch,
   incomingBlastOrbFromSearch,
@@ -146,6 +150,7 @@ interface AiRacer {
   portrait: string;
   controller: KartController;
   driver: AiDriver;
+  characterMaxSpeed: number;
   mesh: THREE.Group;
   driverVisual: DriverSpriteVisual | null;
   driverHitSeconds: number;
@@ -187,6 +192,7 @@ export class KartTimeTrial {
   private readonly driftLights: THREE.Mesh[] = [];
   private readonly kart: KartController;
   private readonly opponents: AiRacer[] = [];
+  private readonly aiItemPolicy = new AiItemPolicy();
   private readonly chaseCamera: ChaseCamera;
   private readonly spinoutCameraAnchor = new SpinoutCameraAnchor();
   private readonly position = new THREE.Vector3();
@@ -249,6 +255,8 @@ export class KartTimeTrial {
     prismaticTestFromSearch(window.location.search),
   );
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
+  private readonly forcedAiItem = aiForcedItemFromSearch(window.location.search);
+  private readonly forcedAiRacer = aiForcedRacerFromSearch(window.location.search);
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
   private readonly nitroOverdriveVisual = new NitroOverdriveVisual();
   private readonly hyperDriveRocketVisual = new HyperDriveRocketVisual();
@@ -583,7 +591,11 @@ export class KartTimeTrial {
   }
 
   private updateOpponents(dt: number): void {
-    const hazardAwareness = observeAiHazards(this.track, this.hazards.activeSnapshots());
+    const hazardSnapshots = this.hazards.activeSnapshots();
+    const hazardAwareness = observeAiHazards(this.track, hazardSnapshots);
+    const projectileSnapshots = this.projectiles.snapshots();
+    const targetingRacers = this.itemTargetingProgress();
+    const standings = this.currentStandings();
     const playerTotal = this.playerProgress.lap + this.playerProgress.trackProgress;
     const observeRacer = (id: string, controller: KartController) => {
       const position = controller.position();
@@ -606,7 +618,18 @@ export class KartTimeTrial {
       const snapshot = opponent.lapTracker.snapshot();
       const opponentTotal = snapshot.lap + projection.progress;
       const spinout = this.racerEffects.spinoutState(opponent.id);
-      const input: DriveInput =
+      if (!opponent.progress.finished && spinout === null) {
+        this.updateAiItemUse(
+          opponent,
+          projection,
+          racerAwareness,
+          targetingRacers,
+          standings,
+          projectileSnapshots,
+          hazardSnapshots,
+        );
+      }
+      let input: DriveInput =
         spinout !== null
           ? {
               throttle: 0,
@@ -629,10 +652,20 @@ export class KartTimeTrial {
                 opponent.id,
                 this.inkSplat.aiSnapshot(opponent.id),
               );
+      input = driveInputWithItemModifiers(
+        input,
+        this.racerEffects.driveModifiers(opponent.id),
+      );
+      if (spinout === null) {
+        input = this.hyperDriveRocket.inputFor(
+          opponent.id,
+          position,
+          opponent.controller.forward(),
+          opponent.controller.speedMetersPerSecond(),
+          input,
+        );
+      }
       opponent.steering = spinout === null ? input.steering : 0;
-      input.effectSteeringMultiplier = this.racerEffects.driveModifiers(
-        opponent.id,
-      ).steeringMultiplier;
       if (
         this.prismaticFixture.controlledRacer() === opponent.id ||
         this.frostFixture.controlledRacer() === opponent.id
@@ -658,6 +691,9 @@ export class KartTimeTrial {
           : projection.progress;
       if (nextSnapshot.finished) {
         this.raceDirector.registerFinish(opponent.progress);
+        this.itemSystem.clear(opponent.id);
+        this.nitroOverdrive.clear(opponent.id);
+        this.hyperDriveRocket.clear(opponent.id);
         this.racerEffects.clearFrost(opponent.id);
         this.prismatic.clear(opponent.id);
         this.inkSplat.clear(opponent.id);
@@ -676,6 +712,82 @@ export class KartTimeTrial {
         opponent.recoveryCooldown = 1.5;
       }
     }
+  }
+
+  private updateAiItemUse(
+    opponent: AiRacer,
+    projection: TrackProjection,
+    awareness: readonly AiRacerAwareness[],
+    racers: readonly RacerProgress[],
+    standings: readonly RacerProgress[],
+    projectiles: readonly ProjectileSnapshot[],
+    hazards: readonly HazardSnapshot[],
+  ): void {
+    const heldItem = this.itemSystem.heldItem(opponent.id);
+    const racerIndex = standings.findIndex(({ id }) => id === opponent.id);
+    const racer = racers.find(({ id }) => id === opponent.id);
+    const leader = standings[0];
+    if (heldItem === null || racer === undefined || racerIndex < 0 || leader === undefined) return;
+
+    const leaderTotal = leader.lap + leader.trackProgress;
+    const racerTotal = racer.lap + racer.trackProgress;
+    const decision = this.aiItemPolicy.decide({
+      racerId: opponent.id,
+      currentItem: heldItem.itemId,
+      rank: Math.min(8, Math.max(1, racerIndex + 1)) as RaceRank,
+      distanceBehindLeaderMeters: Math.max(0, (leaderTotal - racerTotal) * this.trackLength),
+      racers,
+      awareness,
+      position: opponent.controller.position(),
+      forward: opponent.controller.forward(),
+      speed: opponent.controller.speedMetersPerSecond(),
+      characterMaxSpeed: opponent.characterMaxSpeed,
+      trackLength: this.trackLength,
+      surface: projection.surface,
+      cornerFactor: THREE.MathUtils.clamp(
+        1 - opponent.controller.forward().dot(projection.tangent),
+        0,
+        1,
+      ),
+      canPlaceSlick: this.hazards.canPlaceSlick(opponent.id),
+      itemPhysicsCapacityAvailable: this.itemPhysicsCapacity.count() < MAX_ITEM_PHYSICS_OBJECTS,
+      apexAvailable: this.apex.available(opponent.id, racers),
+      overdriveActive: this.nitroOverdrive.snapshot(opponent.id).active,
+      overdriveNextPulseRemaining: this.nitroOverdrive.snapshot(opponent.id)
+        .nextPulseRemainingSeconds,
+      rocketActive: this.hyperDriveRocket.isActive(opponent.id),
+      projectiles,
+      hazards,
+    });
+
+    if (decision.action === 'wait') return;
+    if (decision.action === 'pulse') {
+      this.nitroOverdrive.pulse(opponent.id);
+      return;
+    }
+
+    executeItemUse(
+      this.itemSystem,
+      this.racerEffects,
+      opponent.id,
+      decision.direction,
+      {
+        racers,
+        projectileSystem: this.projectiles,
+        projectileLaunch: {
+          position: opponent.controller.position(),
+          forward: opponent.controller.forward(),
+          velocity: opponent.controller.velocity(),
+        },
+        apexSystem: this.apex,
+        hazardSystem: this.hazards,
+        shockwaveSystem: this.shockwave,
+        prismaticSystem: this.prismatic,
+        inkSplatSystem: this.inkSplat,
+        nitroOverdriveSystem: this.nitroOverdrive,
+        hyperDriveRocketSystem: this.hyperDriveRocket,
+      },
+    );
   }
 
   private resolveKartContacts(dt: number): void {
@@ -1135,15 +1247,20 @@ export class KartTimeTrial {
       const leaderTotal = leader.lap + leader.trackProgress;
       const distanceBehindLeaderMeters = Math.max(0, (leaderTotal - racerTotal) * this.trackLength);
       const forcedItem = forcedItemForRacer(this.forcedTestItem, racerId);
+      const forcedAiItem = aiForcedItemForRacer(
+        this.forcedAiItem,
+        this.forcedAiRacer,
+        racerId,
+      );
       const apexAvailable = this.apex.available(racerId, this.itemTargetingProgress());
       const itemId =
         forcedItem ??
+        forcedAiItem ??
         selectItem({
           rank,
           distanceBehindLeaderMeters,
           apexAvailable,
           isRuntimeEligible: (id) =>
-            (id !== 'nitro-overdrive' || racerId === 'player') &&
             (id !== 'slick-trap' || this.hazards.canPlaceSlick(racerId)) &&
             (id !== 'blast-orb' || this.itemPhysicsCapacity.count() < 40) &&
             (id !== 'seeker-drone' ||
@@ -1443,6 +1560,9 @@ export class KartTimeTrial {
           this.forcedTestItem === null
             ? ''
             : `FORCED ${ITEM_DEFINITIONS[this.forcedTestItem].displayName}`,
+          this.forcedAiItem === null || this.forcedAiRacer === null
+            ? ''
+            : `AI ${this.forcedAiRacer.toUpperCase()} FORCED ${ITEM_DEFINITIONS[this.forcedAiItem].displayName}`,
           this.incomingSeekerTest ? 'INCOMING SEEKER EVERY 16s' : '',
           this.incomingApexTest ? 'APEX ATTACKS LEADER · DRIVE INTO FIRST' : '',
           this.aiHazardFixture.badge(),
@@ -1709,6 +1829,7 @@ export class KartTimeTrial {
           },
           tuning.maxSpeed,
         ),
+        characterMaxSpeed: tuning.maxSpeed,
         mesh: visual.group,
         driverVisual: visual.driverVisual,
         driverHitSeconds: 0,

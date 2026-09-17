@@ -18,6 +18,7 @@ export interface AiDriverProfile {
 }
 
 export interface AiRacerAwareness {
+  id?: string;
   position: THREE.Vector3;
   speed: number;
   lateralOffset: number;

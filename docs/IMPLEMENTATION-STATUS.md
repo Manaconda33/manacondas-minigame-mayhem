@@ -4,9 +4,9 @@
 
 **Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO OVERDRIVE LIVE ACCEPTED; HYPER-DRIVE LIVE ACCEPTED; SLICE 5 CLOSURE OPEN**
 
-PRD baseline: **v1.1, approved implementation amendments 2.18-2.21 / ADR-079-082**.
+PRD baseline: **v1.1, approved implementation amendments 2.18-2.22 / ADR-079-083**.
 
-Latest verified merged `main`: **`4ae7c6aece6070bb95df889be7059eb91195cd1e`**.
+Latest verified merged `main`: **`512d529a854614b1153dc6b6ba0da4f07c5663ed`**.
 
 Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. The tuned amendment merged through PR #149 at **`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`**; hosted PR CI **`35173826253`** and post-merge validation/Pages **`35188684882`** passed. Manny reported **“Pass”** on 2026-09-17; PR #149 comment **`5709839182`** records live acceptance.
 
@@ -81,6 +81,14 @@ Authorization and publication evidence:
 - Product-owner acceptance evidence is recorded in PR #156 comment `5718483417`.
 - The deployed player-only review route is `?testItem=hyper-drive-rocket`. General AI item acquisition/use/tactics and remaining full-Slice-5 closure gates are unchanged and remain open.
 
+## Full AI item tactics implementation - IN PROGRESS
+
+Full AI item acquisition/use/tactics is being implemented under PRD amendment 2.22 / ADR-083 and `docs/SLICE-5-AI-ITEM-TACTICS-SCOPE.md`. This increment is **not merged, deployed, or live accepted**.
+
+The local implementation adds a stateless `AiItemPolicy` with explicit target, rear-pressure, defensive-threat, useful-line, and first-legal-opportunity decisions for all fifteen governed item IDs. AI dispatch uses the existing `ItemSystem`, `ItemEffectDispatcher`, projectile/hazard/counter systems, `RacerEffects`, Nitro Overdrive, and Hyper-Drive Rocket seams. AI controller input now receives all active effect modifiers and Rocket input remains composed through the legal autopilot. AI finish cleanup clears inventory and active item state without changing race authority.
+
+The opt-in deterministic fixture is `?testAiItem=<item-id>&testAiRacer=ai-1`; the existing `?testItem=<item-id>` fixture remains player-only. Local typecheck and the full Vitest suite currently pass: **57 test files / 492 tests**. Lint, production build, hosted PR CI, deployment, desktop/mobile review, soak/performance evidence, and Manny's live acceptance remain pending.
+
 ## Slice 5 accepted/deployed state
 
 Live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, **Kinetic Arc Hammers**, **Continuous Nitro Overdrive**, and **Hyper-Drive Rocket**.
@@ -98,7 +106,7 @@ Remaining Slice 5 closure work also includes full AI item acquisition/use, final
 
 ## Next recommended action
 
-Continue the remaining full-Slice-5 closure work; Slice 6 remains locked.
+Complete local validation and open the full AI item tactics gameplay PR for review; Slice 6 remains locked.
 
 ## Approval state
 
@@ -116,6 +124,8 @@ Continue the remaining full-Slice-5 closure work; Slice 6 remains locked.
 
 **Hyper-Drive Rocket gameplay + original presentation:** **LIVE ACCEPTED 2026-09-17** through PR #156 / `4ae7c6aece6070bb95df889be7059eb91195cd1e` / post-merge validation and Pages `35251643282` / product-owner comment `5718483417`.
 
-**Slice 5 implementation:** IN PROGRESS; Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket are live accepted. Remaining Slice 5 closure gates are still open.
+**Full AI item tactics:** **IMPLEMENTATION IN PROGRESS** under amendment 2.22 / ADR-083; publication, deployment, desktop/mobile review, and live acceptance remain open.
+
+**Slice 5 implementation:** IN PROGRESS; Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket are live accepted. Full AI item tactics and remaining Slice 5 closure gates are still open.
 
 **Slice 6:** LOCKED pending remaining Slice 5 validation/closure work and Manny's full-slice acceptance.

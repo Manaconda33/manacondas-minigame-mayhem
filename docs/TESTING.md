@@ -804,9 +804,9 @@ The deployed primary route is `?testItem=ink-splat`. A deterministic incoming-In
 Manny's deployed review passed the required live matrix: one-charge consumption, racers-ahead impairment, human readability and fade, HUD/touch usability, refresh-without-stacking, visibly reduced but legal AI precision, pause/recovery/finish/restart/hub lifecycle, Prismatic protected/expired behavior, and normal unforced item behavior.
 
 
-## Continuous Nitro Overdrive governance checkpoint
+## Continuous Nitro Overdrive implementation checkpoint
 
-Amendment 2.20 / ADR-081 and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md define the governance-only contract. No Nitro Overdrive gameplay or presentation test pass is claimed until a separately authorized implementation is published and deployed.
+Amendment 2.20 / ADR-081 and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md define the approved contract. Manny authorized gameplay, VFX, audio, and presentation implementation after governance PR #151 and hosted validation/Pages run `35223980439` passed. The local implementation checkpoint is automated-test validated but is not yet published or live accepted.
 
 Before gameplay publication, automated evidence must exercise the real ItemEffectDispatcher/KartTimeTrial/controller/HUD paths and verify:
 
@@ -819,6 +819,8 @@ Before gameplay publication, automated evidence must exercise the real ItemEffec
 - composition with Nitro Surge, Prismatic, drift boosts, boost pads, dirt, grass, ramps, and normal surfaces without permanent-stat or race-authority changes;
 - player-only ?testItem=nitro-overdrive isolation, unchanged normal selection, and no AI item inventory/tactical use;
 - desktop and mobile ITEM routing, HUD state, original VFX/audio lifecycle, and chase/rear readability.
+
+The authorized local checkpoint passed **55 test files / 473 tests** with **81.99% statement / 77.32% branch / 86.55% function / 83.55% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. The new production-path coverage includes `tests/nitro-overdrive.test.ts` and the real `KartTimeTrial` input seam through `tests/arc-runtime-rig.ts`; visual/audio cleanup is covered locally. Hosted gameplay PR CI **35229580296** passed; merge, Pages deployment, and product-owner live acceptance remain required.
 
 After a successful gameplay publication and Pages deployment, use:
 

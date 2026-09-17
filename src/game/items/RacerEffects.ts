@@ -107,7 +107,7 @@ export class RacerEffects {
       if (state.remainingSeconds < 1e-9) this.frost.delete(id);
     }
   }
-  private readonly temporaryBoosts = new Map<string, ActiveTemporaryBoost>();
+  private readonly temporaryBoosts = new Map<string, Map<string, ActiveTemporaryBoost>>();
   private readonly protections = new Map<string, Map<string, ActiveTemporaryBoost>>();
   private readonly spinouts = new Map<string, ActiveSpinout>();
   private readonly itemImmuneRacers = new Set<string>();
@@ -120,10 +120,12 @@ export class RacerEffects {
     if (racerId.trim().length === 0 || !validBoostSpec(spec)) return false;
 
     if (!commit()) return false;
-    this.temporaryBoosts.set(racerId, {
+    const sources = this.temporaryBoosts.get(racerId) ?? new Map<string, ActiveTemporaryBoost>();
+    sources.set(spec.id, {
       ...spec,
       remainingSeconds: spec.durationSeconds,
     });
+    this.temporaryBoosts.set(racerId, sources);
     return true;
   }
 
@@ -151,9 +153,12 @@ export class RacerEffects {
   public advance(dt: number, paused = false, protection = true): void {
     if (paused || !Number.isFinite(dt) || dt <= 0) return;
     if (protection) this.advanceProtection(dt);
-    for (const [racerId, boost] of this.temporaryBoosts) {
-      boost.remainingSeconds -= dt;
-      if (boost.remainingSeconds <= 0) this.temporaryBoosts.delete(racerId);
+    for (const [racerId, sources] of this.temporaryBoosts) {
+      for (const [id, boost] of sources) {
+        boost.remainingSeconds = Math.max(0, boost.remainingSeconds - dt);
+        if (boost.remainingSeconds <= 0) sources.delete(id);
+      }
+      if (sources.size === 0) this.temporaryBoosts.delete(racerId);
     }
     for (const [racerId, spinout] of this.spinouts) {
       spinout.remainingSeconds -= dt;
@@ -163,8 +168,7 @@ export class RacerEffects {
 
   public driveModifiers(racerId: string): RacerDriveModifiers {
     const boosts = [...(this.protections.get(racerId)?.values() ?? [])];
-    const temporary = this.temporaryBoosts.get(racerId);
-    if (temporary) boosts.push(temporary);
+    boosts.push(...(this.temporaryBoosts.get(racerId)?.values() ?? []));
     const modifiers: RacerDriveModifiers = { ...NEUTRAL_DRIVE_MODIFIERS };
     const frost = this.frost.get(racerId);
     if (frost) modifiers.steeringMultiplier = FROST.steering ** frost.stacks;
@@ -233,9 +237,10 @@ export class RacerEffects {
   }
 
   public remainingSeconds(racerId: string, effectId?: string): number {
-    const boost = this.temporaryBoosts.get(racerId);
-    if (boost === undefined || (effectId !== undefined && boost.id !== effectId)) return 0;
-    return boost.remainingSeconds;
+    const sources = this.temporaryBoosts.get(racerId);
+    if (sources === undefined) return 0;
+    if (effectId !== undefined) return sources.get(effectId)?.remainingSeconds ?? 0;
+    return Math.max(...[...sources.values()].map((source) => source.remainingSeconds), 0);
   }
 
   public spinoutRemainingSeconds(racerId: string, effectId?: string): number {
@@ -245,9 +250,15 @@ export class RacerEffects {
   }
 
   public clearTemporaryBoost(racerId: string, effectId?: string): boolean {
-    const boost = this.temporaryBoosts.get(racerId);
-    if (boost === undefined || (effectId !== undefined && boost.id !== effectId)) return false;
-    return this.temporaryBoosts.delete(racerId);
+    const sources = this.temporaryBoosts.get(racerId);
+    if (sources === undefined) return false;
+    if (effectId === undefined) {
+      this.temporaryBoosts.delete(racerId);
+      return true;
+    }
+    if (!sources.delete(effectId)) return false;
+    if (sources.size === 0) this.temporaryBoosts.delete(racerId);
+    return true;
   }
 
   public clearSpinout(racerId: string, effectId?: string): boolean {

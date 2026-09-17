@@ -93,7 +93,7 @@ describe('Hyper-Drive Rocket bounded system', () => {
     ).toBeGreaterThan(0);
   });
 
-  it('keeps the approved tuning, atomic slot release, and player-only activation boundary', () => {
+  it('keeps the approved tuning and supports atomic AI activation', () => {
     expect(HYPER_DRIVE_ROCKET_CONFIG).toMatchObject({
       windowSeconds: 6,
       controlReturnSeconds: 0.3,
@@ -104,12 +104,12 @@ describe('Hyper-Drive Rocket bounded system', () => {
 
     const items = new ItemSystem();
     const effects = new RacerEffects();
-    const playerOnly = new HyperDriveRocketSystem(new CircuitAlpha(), effects);
+    const rocket = new HyperDriveRocketSystem(new CircuitAlpha(), effects);
 
-    activate(items, effects, playerOnly);
+    activate(items, effects, rocket);
     expect(items.heldItem('player')).toBeNull();
     expect(items.canCollect('player')).toBe(true);
-    expect(playerOnly.snapshot('player')).toMatchObject({
+    expect(rocket.snapshot('player')).toMatchObject({
       active: true,
       phase: 'autopilot',
       windowRemainingSeconds: 6,
@@ -127,15 +127,13 @@ describe('Hyper-Drive Rocket bounded system', () => {
     expect(
       executeItemUse(aiItems, effects, 'ai-1', 'forward', {
         racers: [progress('ai-1')],
-        hyperDriveRocketSystem: playerOnly,
+        hyperDriveRocketSystem: rocket,
       }),
-    ).toBe('rejected');
-    expect(aiItems.heldItem('ai-1')).toEqual({
-      itemId: 'hyper-drive-rocket',
-      remainingCharges: 1,
-    });
+    ).toBe('activated');
+    expect(aiItems.heldItem('ai-1')).toBeNull();
+    expect(rocket.isActive('ai-1')).toBe(true);
 
-    playerOnly.dispose();
+    rocket.dispose();
   });
 
   it('retains the held charge on invalid or failed activation', () => {

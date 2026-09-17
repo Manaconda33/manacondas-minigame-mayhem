@@ -52,9 +52,8 @@ export function executeItemUse(
   if (request.itemId === 'hyper-drive-rocket') {
     if (runtime?.hyperDriveRocketSystem === undefined) return 'unsupported';
     if (
-      racerId !== 'player' ||
-      (runtime.racers !== undefined &&
-        !runtime.racers.some((racer) => racer.id === racerId && !racer.finished))
+      runtime.racers !== undefined &&
+      !runtime.racers.some((racer) => racer.id === racerId && !racer.finished)
     )
       return 'rejected';
     return runtime.hyperDriveRocketSystem.activate(racerId, () => itemSystem.commitUse(racerId))

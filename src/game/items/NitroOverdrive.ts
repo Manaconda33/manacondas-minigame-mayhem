@@ -1,6 +1,6 @@
 import { RacerEffects } from './RacerEffects';
 
-/** Amendment 2.20 / ADR-081: bounded, player-triggered continuous boost window. */
+/** Amendment 2.20 / ADR-081: bounded, racer-triggered continuous boost window. */
 export const NITRO_OVERDRIVE_CONFIG = {
   id: 'nitro-overdrive-pulse',
   label: 'Continuous Nitro Overdrive',
@@ -35,7 +35,7 @@ export class NitroOverdriveSystem {
   public constructor(private readonly effects: RacerEffects) {}
 
   public activate(racerId: string, commit: () => boolean): boolean {
-    if (this.disposed || racerId !== 'player' || this.states.has(racerId)) return false;
+    if (this.disposed || racerId.trim().length === 0 || this.states.has(racerId)) return false;
 
     const pulseDuration = Math.min(
       NITRO_OVERDRIVE_CONFIG.pulseDurationSeconds,
@@ -52,7 +52,7 @@ export class NitroOverdriveSystem {
   }
 
   public pulse(racerId: string): boolean {
-    if (this.disposed || racerId !== 'player') return false;
+    if (this.disposed || racerId.trim().length === 0) return false;
     const state = this.states.get(racerId);
     if (state === undefined || state.nextPulseRemainingSeconds > EPSILON) return false;
 

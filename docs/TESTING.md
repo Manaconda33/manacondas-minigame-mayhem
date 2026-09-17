@@ -191,6 +191,38 @@ For live acceptance, observe AI-controlled low-, medium-, and high-Speed charact
 
 For live acceptance, collide Accu and a light racer with comparable approach speeds in both directions. Confirm that Accu retains visibly more momentum but still suffers a noticeable slowdown, the light racer accepts greater risk, lateral knockback remains readable, and bumper-to-bumper contact does not continuously drain speed.
 
+## Slice 5 full AI item tactics checkpoint
+
+Automated evidence for ADR-083 / `docs/SLICE-5-AI-ITEM-TACTICS-SCOPE.md` must confirm:
+
+- every governed item ID has a deterministic `AiItemPolicy` decision path;
+- progress-valid ahead targeting, rear-attacker direction, defensive threat detection, useful-line checks, and no-target waits remain bounded and deterministic;
+- AI Overdrive and Hyper-Drive Rocket activate through the generic dispatcher/system paths, while multi-charge cadence remains owned by `ItemSystem`;
+- AI drive modifiers reach `KartController` for speed cap, acceleration, steering, and off-road authority, and Rocket input remains composed through its legal autopilot;
+- AI finish cleanup clears inventory and active item state without changing checkpoint/lap/rank/finish authority;
+- `?testAiItem=<item-id>&testAiRacer=ai-1` is isolated from player-only `?testItem=<item-id>`, normal item selection, roulette timing, and other AI inventories; and
+- the existing selector probability report, AI spline/hazard response, item interaction, lifecycle, and runtime-asset regressions remain passing.
+
+For deployed product-owner acceptance after merge, use the normal unforced route first, then representative deterministic routes such as:
+
+```text
+https://manaconda33.github.io/manacondas-minigame-mayhem/?testAiItem=seeker-drone&testAiRacer=ai-1
+https://manaconda33.github.io/manacondas-minigame-mayhem/?testAiItem=shockwave&testAiRacer=ai-1
+https://manaconda33.github.io/manacondas-minigame-mayhem/?testAiItem=nitro-overdrive&testAiRacer=ai-1
+https://manaconda33.github.io/manacondas-minigame-mayhem/?testAiItem=hyper-drive-rocket&testAiRacer=ai-1
+```
+
+1. On the normal route, observe multiple AI racers collect and resolve items without player inventory forcing.
+2. On a forced AI route, confirm the HUD badge identifies exactly one target racer and the target still completes the normal roulette before policy use.
+3. Confirm Seeker/Ink/offensive items wait for a valid ahead target and resolve through the existing projectile/effect systems.
+4. Confirm Slick/rear-directed items use a real rear approach and do not change the item definition's placement rules.
+5. Confirm Shockwave and Prismatic remain held until a real projectile, hazard, or contact threat is present, then resolve through their existing counter/immunity systems.
+6. Confirm Nitro Surge/Overdrive use a useful straight or recovery line, Rocket activates promptly, and all boost movement remains legal spline/controller movement.
+7. Confirm AI racers retain normal steering, lane selection, hazard avoidance, lap/checkpoint authority, and finish ordering throughout item use.
+8. Confirm pause, finish, recovery, restart, and disposal leave no stale AI item, effect, projectile, hazard, timer, VFX, or audio state.
+
+Record the deployed commit, CI/Pages run, desktop/mobile result, representative routes, any policy/interaction/lifecycle defect, and Manny's explicit acceptance in `docs/IMPLEMENTATION-STATUS.md`. This checkpoint does not by itself close the final all-item, soak/performance, or Slice 5 gates.
+
 ## Slice 5 RacerEffects and Nitro Surge checkpoint
 
 Automated evidence for this bounded checkpoint must confirm:

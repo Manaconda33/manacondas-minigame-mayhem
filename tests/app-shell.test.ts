@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { APP_TITLE, markGameFinished, mountAppShell } from '../src/app/mountAppShell';
+import { APP_TITLE, markGameFinished, mountAppShell, standingsMarkup } from '../src/app/mountAppShell';
 import { raceMinimapMarkup } from '../src/app/raceMinimap';
 
 describe('Slice 0 app shell', () => {
@@ -84,6 +84,25 @@ describe('Slice 0 app shell', () => {
     markGameFinished(shell);
 
     expect(shell.classList.contains('is-finished')).toBe(true);
+  });
+
+  it('refreshes post-finish standings markup as later racers finish', () => {
+    const initial = standingsMarkup([
+      { name: 'YOU', place: 1, time: 62.5 },
+      { name: 'Krios', place: null, time: null },
+      { name: 'Alex', place: null, time: null },
+    ]);
+    expect(initial).toContain('Krios</span><strong>RACING');
+    expect(initial).toContain('Alex</span><strong>RACING');
+
+    const updated = standingsMarkup([
+      { name: 'YOU', place: 1, time: 62.5 },
+      { name: 'Krios', place: 2, time: 64.25 },
+      { name: 'Alex', place: 3, time: 65.75 },
+    ]);
+    expect(updated).not.toContain('RACING');
+    expect(updated).toContain('2. Krios</span><strong>1:04.25');
+    expect(updated).toContain('3. Alex</span><strong>1:05.75');
   });
 
   it('provides a non-interactive race minimap surface for responsive HUD placement', () => {

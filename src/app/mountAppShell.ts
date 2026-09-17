@@ -1,6 +1,6 @@
 import { Howler } from 'howler';
 import { resumeAudioContext } from '../audio/driftTone';
-import type { HudState, KartTimeTrial as KartTimeTrialInstance } from '../game/KartTimeTrial';
+import type { HudState, RaceResult, KartTimeTrial as KartTimeTrialInstance } from '../game/KartTimeTrial';
 import { isMobileSession } from './mobileSession';
 import { characterById, characterManifest, type CharacterDefinition } from '../characters/manifest';
 import { itemHudMarkup, updateItemHud } from './itemHud';
@@ -17,6 +17,15 @@ function formatTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   const remainder = seconds - minutes * 60;
   return `${String(minutes)}:${remainder.toFixed(2).padStart(5, '0')}`;
+}
+
+export function standingsMarkup(standings: RaceResult['standings']): string {
+  return standings
+    .map(
+      (racer, index) =>
+        `<li><span>${String(index + 1)}. ${racer.name}</span><strong>${racer.time === null ? 'RACING' : formatTime(racer.time)}</strong></li>`,
+    )
+    .join('');
 }
 
 function button(label: string, action: string, className = ''): string {
@@ -290,10 +299,14 @@ export function mountAppShell(root: HTMLElement): void {
                   ? 'Hold Space + steer to drift'
                   : `${state.driftTier.toUpperCase()} CHARGE`;
     };
+    const renderStandings = (standings: RaceResult['standings']): void => {
+      getElement('#standings').innerHTML = standingsMarkup(standings);
+    };
     game = await KartTimeTrial.create({
       canvas,
       character: selectedCharacter,
       onHud: updateHud,
+      onStandings: renderStandings,
       onFinish: (result) => {
         const gameShell = getElement('.game-shell');
         markGameFinished(gameShell);
@@ -302,12 +315,7 @@ export function mountAppShell(root: HTMLElement): void {
           result.place === 1 ? 'st' : result.place === 2 ? 'nd' : result.place === 3 ? 'rd' : 'th';
         getElement('#finish-place').textContent = `${String(result.place)}${suffix} place`;
         getElement('#finish-time').textContent = formatTime(result.time);
-        getElement('#standings').innerHTML = result.standings
-          .map(
-            (racer, index) =>
-              `<li><span>${String(index + 1)}. ${racer.name}</span><strong>${racer.time === null ? 'RACING' : formatTime(racer.time)}</strong></li>`,
-          )
-          .join('');
+        renderStandings(result.standings);
       },
     });
     const loading = root.querySelector('#loading');

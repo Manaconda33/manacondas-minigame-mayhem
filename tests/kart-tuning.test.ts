@@ -20,10 +20,15 @@ describe('kart tuning and surface behavior', () => {
     expect(tuning.mass).toBeGreaterThan(105);
   });
 
-  it('widens Candidate B acceleration around the unchanged stat-6 baseline', () => {
-    expect(createKartTuning({ ...sliceOneDriver, acceleration: 4 }).acceleration).toBeCloseTo(5.8);
-    expect(createKartTuning({ ...sliceOneDriver, acceleration: 6 }).acceleration).toBeCloseTo(7.3);
-    expect(createKartTuning({ ...sliceOneDriver, acceleration: 8 }).acceleration).toBeCloseTo(8.8);
+  it('adds Candidate B acceleration specialization without weakening the PRD floor', () => {
+    const low = createKartTuning({ ...sliceOneDriver, acceleration: 4 }).acceleration;
+    const neutral = createKartTuning({ ...sliceOneDriver, acceleration: 6 }).acceleration;
+    const high = createKartTuning({ ...sliceOneDriver, acceleration: 8 }).acceleration;
+
+    expect(low).toBeCloseTo(6.2);
+    expect(neutral).toBeCloseTo(7.3);
+    expect(high).toBeGreaterThan(8.4);
+    expect(high).toBeCloseTo(7.3 * Math.exp(0.32));
   });
 
   it('preserves the approved Speed ceiling while changing Acceleration', () => {

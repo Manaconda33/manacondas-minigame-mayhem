@@ -7,6 +7,7 @@ import {
   type RelevantHazard,
 } from './AiHazardAwareness';
 import * as THREE from 'three';
+import { candidateBAiCornerPenaltyScale } from '../../config/kartTuning';
 import type { DriveInput } from '../physics/KartController';
 import type { CircuitAlpha } from '../track/CircuitAlpha';
 import type { InkAiImpairmentSnapshot } from '../items/InkSplatSystem';
@@ -50,8 +51,11 @@ export function aiTargetSpeed(
   pace: number,
   corner: number,
   playerProgressDelta: number,
+  handling = 6,
 ): number {
-  const cornerPenalty = THREE.MathUtils.lerp(0.48, 0.34, THREE.MathUtils.clamp(pace, 0, 1));
+  const cornerPenalty =
+    THREE.MathUtils.lerp(0.48, 0.34, THREE.MathUtils.clamp(pace, 0, 1)) *
+    candidateBAiCornerPenaltyScale(handling);
   return (
     characterMaxSpeed *
     (1 - THREE.MathUtils.clamp(corner, 0, 1) * cornerPenalty) *
@@ -81,6 +85,7 @@ export class AiDriver {
     private readonly track: CircuitAlpha,
     private readonly profile: AiDriverProfile,
     private readonly characterMaxSpeed: number,
+    private readonly handling = 6,
   ) {
     this.laneOffset = this.roadBoundedLane(profile.laneOffset);
   }
@@ -148,6 +153,7 @@ export class AiDriver {
       this.profile.pace,
       corner,
       playerProgressDelta,
+      this.handling,
     );
     const blocker = racersAhead.find(
       (racer) => racer.forwardGap < 5.5 && Math.abs(racer.lateralOffset - this.laneOffset) < 1.5,

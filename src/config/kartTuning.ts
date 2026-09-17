@@ -65,8 +65,9 @@ export const BALANCE_CANDIDATE_B = {
   handlingCornerLossPerSecond: 0.5,
   handlingCornerLossMaximumPressure: 1.25,
   aiCornerPenaltyPerHandlingPoint: 0.13,
+  aiCornerPenaltyPerExcessSpeed: 0.18,
   aiCornerPenaltyMinimum: 0.5,
-  aiCornerPenaltyMaximum: 1.5,
+  aiCornerPenaltyMaximum: 2.6,
 } as const;
 
 function clamp(value: number, minimum: number, maximum: number): number {
@@ -139,14 +140,22 @@ export function candidateBHandlingCornerLossRate(
 }
 
 /**
- * Mirrors Candidate B's Handling authority in AI planning. It changes only the
- * corner penalty; corner=0 still returns the full Speed-defined maximum.
+ * Mirrors Candidate B's Handling authority in AI planning. The first term is
+ * pure Handling; the second charges only the portion of a racer's Speed ceiling
+ * above its Handling comfort speed. A zero-corner straight is still untouched
+ * because AiDriver multiplies this scale by corner severity.
  */
-export function candidateBAiCornerPenaltyScale(handling: number): number {
-  return clamp(
+export function candidateBAiCornerPenaltyScale(
+  handling: number,
+  characterMaxSpeed = candidateBHandlingComfortSpeed(handling),
+): number {
+  const handlingScale =
     1 -
-      BALANCE_CANDIDATE_B.aiCornerPenaltyPerHandlingPoint *
-        (handling - BALANCE_CANDIDATE_B.neutralStat),
+    BALANCE_CANDIDATE_B.aiCornerPenaltyPerHandlingPoint *
+      (handling - BALANCE_CANDIDATE_B.neutralStat);
+  const excessSpeed = Math.max(0, characterMaxSpeed - candidateBHandlingComfortSpeed(handling));
+  return clamp(
+    handlingScale + BALANCE_CANDIDATE_B.aiCornerPenaltyPerExcessSpeed * excessSpeed,
     BALANCE_CANDIDATE_B.aiCornerPenaltyMinimum,
     BALANCE_CANDIDATE_B.aiCornerPenaltyMaximum,
   );

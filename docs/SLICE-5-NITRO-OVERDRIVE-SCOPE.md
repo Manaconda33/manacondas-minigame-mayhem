@@ -2,19 +2,19 @@
 
 ## Approval state
 
-**Status:** APPROVED GOVERNANCE SCOPE - gameplay, VFX, audio, and presentation implementation are not authorized by this publication.
+**Status:** IMPLEMENTATION AUTHORIZED - local gameplay/presentation checkpoint pending PR CI and publication.
 
 **Governance approval:** Manny, 2026-09-17
 
 **Governing PRD:** v1.1, approved implementation amendment 2.20 / ADR-081; PRD Section 15.15
 
-This document defines the bounded contract for Continuous Nitro Overdrive. It resolves the operating details required before implementation while keeping implementation, publication, deployment, and product-owner live acceptance as separate gates.
+This document defines the bounded contract for Continuous Nitro Overdrive. It resolves the operating details required for implementation while keeping publication, deployment, and product-owner live acceptance as separate gates.
 
 ## Context and boundary
 
-Vision-Obscuring Ink Splat is live accepted. Continuous Nitro Overdrive and Hyper-Drive Rocket are the two remaining unimplemented item effects. Nitro Overdrive is the next bounded increment because it exercises the existing generic boost, item transaction, HUD, pause, and presentation boundaries without requiring Rocket's legal-path autopilot or automatic-overtake system.
+Vision-Obscuring Ink Splat is live accepted. Continuous Nitro Overdrive and Hyper-Drive Rocket are the two remaining non-live-accepted item effects. Nitro Overdrive is the next bounded increment because it exercises the existing generic boost, item transaction, HUD, pause, and presentation boundaries without requiring Rocket's legal-path autopilot or automatic-overtake system.
 
-This checkpoint authorizes only the Nitro Overdrive governance contract below. It does not authorize gameplay or presentation implementation until a separate implementation authorization is recorded after this governance publication passes hosted validation and GitHub Pages.
+The governance publication and hosted validation gate have cleared. Manny separately authorized the bounded gameplay, VFX, audio, and presentation implementation on 2026-09-17. This checkpoint records that authorization and the resulting local implementation; publication, deployment, and product-owner live acceptance remain separate gates.
 
 ## Approved operational contract
 
@@ -104,6 +104,12 @@ The implementation checkpoint must prove, through the production dispatch/orches
 
 A passing automated suite does not claim live visual or product-owner acceptance.
 
+## Local implementation checkpoint
+
+The authorized local implementation adds the focused `NitroOverdriveSystem`, keyed temporary-boost composition in `RacerEffects`, production dispatcher and `KartTimeTrial` input/lifecycle wiring, a separate active-window HUD state, original procedural rear VFX, and original procedural activation/pulse audio. The player-only `?testItem=nitro-overdrive` override remains isolated from AI inventory and selector policy.
+
+Local validation passed after implementation: **55 test files / 472 tests**, **82.03% statement / 77.33% branch / 86.55% function / 83.61% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. The build retains the known Vite large-chunk warning. Hosted gameplay PR CI, merge, Pages deployment, and product-owner live acceptance are not claimed by this checkpoint.
+
 ## Focused deployed live gate
 
 After separate gameplay authorization, publication, deployment, and successful Pages validation, the live review must cover:
@@ -138,7 +144,7 @@ This bounded checkpoint does not authorize or change:
 ## Approval gates
 
 1. **Scope/governance approval:** COMPLETE. Manny approved this bounded contract on 2026-09-17.
-2. **Governance publication:** pending this PR and hosted validation/Pages.
-3. **Gameplay/presentation implementation authorization:** separate gate after governance publication.
+2. **Governance publication:** COMPLETE. PR #151 merged at `6c1fe1b78274b25c23fe6fc0a2090e26c086febb`; hosted PR CI and post-merge validation/Pages run `35223980439` passed.
+3. **Gameplay/presentation implementation authorization:** COMPLETE. Manny explicitly authorized the bounded Nitro Overdrive implementation on 2026-09-17 after the governance publication gate cleared.
 4. **Gameplay publication and product-owner live acceptance:** separate later gates.
 5. **Slice 5 closure:** remains blocked by Hyper-Drive Rocket, full AI item-use/tactics, all-item interaction/counter evidence, soak/performance, final full-slice acceptance, and other recorded closure requirements.

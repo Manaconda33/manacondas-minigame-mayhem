@@ -16,6 +16,8 @@ import { ArcHammerCounterFixture } from '../src/game/items/ArcHammerCounterFixtu
 import { ItemSystem } from '../src/game/items/ItemSystem';
 import { InkSplatSystem } from '../src/game/items/InkSplatSystem';
 import { InkSplatAudio } from '../src/audio/InkSplatAudio';
+import { NitroOverdriveSystem } from '../src/game/items/NitroOverdrive';
+import { NitroOverdriveAudio } from '../src/audio/NitroOverdriveAudio';
 import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
 import { ProjectileSystem, type ProjectileTarget } from '../src/game/items/ProjectileSystem';
 import { HazardSystem } from '../src/game/items/HazardSystem';
@@ -59,6 +61,7 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
   const playerProgress = progress('player');
   const rivalProgress = progress('rival');
   const racerEffects = new RacerEffects();
+  const nitroOverdrive = new NitroOverdriveSystem(racerEffects);
   const prismatic = new PrismaticSystem(racerEffects);
   const projectiles = new ProjectileSystem(track, undefined, (e) => {
     game.arcFixture.observe(e, game.arcEvidence());
@@ -71,6 +74,8 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
     opponents: [{ id: 'rival', controller: rival, progress: rivalProgress, driverHitSeconds: 0 }],
     playerProgress,
     racerEffects,
+    nitroOverdrive,
+    nitroOverdriveAudio: new NitroOverdriveAudio(),
     prismatic,
     projectiles,
     hazards,
@@ -132,6 +137,8 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
       game.frostFixture.dispose();
       game.frostVisual.dispose();
       prismatic.dispose();
+      fields.nitroOverdrive.dispose();
+      fields.nitroOverdriveAudio.dispose();
       racerEffects.dispose();
       fields.prismaticVisual.dispose();
       fields.prismaticMusic.dispose();

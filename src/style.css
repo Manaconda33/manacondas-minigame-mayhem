@@ -705,6 +705,14 @@ h2 {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+.overdrive-status {
+  margin-top: 0.5rem;
+  color: #8ff6ff;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 .drift-meter {
   height: 0.48rem;
   overflow: hidden;

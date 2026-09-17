@@ -13,6 +13,7 @@ import { ItemSystem, type ItemUseDirection } from './ItemSystem';
 import { ProjectileSystem, type ProjectileLaunchContext } from './ProjectileSystem';
 import { RacerEffects } from './RacerEffects';
 import { InkSplatSystem, type InkApplicationResult } from './InkSplatSystem';
+import type { NitroOverdriveSystem } from './NitroOverdrive';
 
 export type ItemUseResolution = 'rejected' | 'unsupported' | 'activated';
 
@@ -26,6 +27,7 @@ export interface ItemEffectRuntime {
   readonly projectileLaunch?: ProjectileLaunchContext;
   readonly inkSplatSystem?: InkSplatSystem;
   readonly onInkResolution?: (result: InkApplicationResult) => void;
+  readonly nitroOverdriveSystem?: NitroOverdriveSystem;
 }
 
 export function executeItemUse(
@@ -37,6 +39,13 @@ export function executeItemUse(
 ): ItemUseResolution {
   const request = itemSystem.requestUse(racerId, direction);
   if (request === null) return 'rejected';
+
+  if (request.itemId === 'nitro-overdrive') {
+    if (runtime?.nitroOverdriveSystem === undefined) return 'unsupported';
+    return runtime.nitroOverdriveSystem.activate(racerId, () => itemSystem.commitUse(racerId))
+      ? 'activated'
+      : 'rejected';
+  }
 
   if (request.itemId === 'prismatic-invincibility') {
     if (!runtime?.prismaticSystem) return 'unsupported';

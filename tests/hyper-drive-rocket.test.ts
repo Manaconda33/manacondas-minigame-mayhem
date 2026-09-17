@@ -13,8 +13,8 @@ import { ItemSystem, ITEM_ROULETTE_SECONDS } from '../src/game/items/ItemSystem'
 import { RacerEffects } from '../src/game/items/RacerEffects';
 import { FROST_ORB_CONFIG } from '../src/game/items/FrostOrbs';
 import { KartController } from '../src/game/physics/KartController';
-import { crossesForwardCheckpointGate } from '../src/game/race/CheckpointGate';
 import { createKartTuning, sliceOneDriver } from '../src/config/kartTuning';
+import { crossesForwardCheckpointGate } from '../src/game/race/CheckpointGate';
 import { LapTracker } from '../src/game/race/LapTracker';
 import { rankRacers } from '../src/game/race/RaceDirector';
 import { shockwavePushDelta } from '../src/game/items/ShockwaveSystem';

@@ -803,28 +803,22 @@ export class KartTimeTrial {
       return;
     }
 
-    executeItemUse(
-      this.itemSystem,
-      this.racerEffects,
-      opponent.id,
-      decision.direction,
-      {
-        racers,
-        projectileSystem: this.projectiles,
-        projectileLaunch: {
-          position: opponent.controller.position(),
-          forward: opponent.controller.forward(),
-          velocity: opponent.controller.velocity(),
-        },
-        apexSystem: this.apex,
-        hazardSystem: this.hazards,
-        shockwaveSystem: this.shockwave,
-        prismaticSystem: this.prismatic,
-        inkSplatSystem: this.inkSplat,
-        nitroOverdriveSystem: this.nitroOverdrive,
-        hyperDriveRocketSystem: this.hyperDriveRocket,
+    executeItemUse(this.itemSystem, this.racerEffects, opponent.id, decision.direction, {
+      racers,
+      projectileSystem: this.projectiles,
+      projectileLaunch: {
+        position: opponent.controller.position(),
+        forward: opponent.controller.forward(),
+        velocity: opponent.controller.velocity(),
       },
-    );
+      apexSystem: this.apex,
+      hazardSystem: this.hazards,
+      shockwaveSystem: this.shockwave,
+      prismaticSystem: this.prismatic,
+      inkSplatSystem: this.inkSplat,
+      nitroOverdriveSystem: this.nitroOverdrive,
+      hyperDriveRocketSystem: this.hyperDriveRocket,
+    });
   }
 
   private resolveKartContacts(dt: number): void {
@@ -1290,11 +1284,7 @@ export class KartTimeTrial {
       const leaderTotal = leader.lap + leader.trackProgress;
       const distanceBehindLeaderMeters = Math.max(0, (leaderTotal - racerTotal) * this.trackLength);
       const forcedItem = forcedItemForRacer(this.forcedTestItem, racerId);
-      const forcedAiItem = aiForcedItemForRacer(
-        this.forcedAiItem,
-        this.forcedAiRacer,
-        racerId,
-      );
+      const forcedAiItem = aiForcedItemForRacer(this.forcedAiItem, this.forcedAiRacer, racerId);
       const apexAvailable = this.apex.available(racerId, this.itemTargetingProgress());
       const itemId =
         forcedItem ??

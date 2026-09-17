@@ -889,3 +889,7 @@ Before any later implementation publication, automated evidence must exercise th
 The approved player-only route is `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=hyper-drive-rocket`; the normal unforced URL remains required for selector and regression isolation. This route may force the next player pickup only; it must not mutate rank, gap, lap, checkpoint, progress, or AI inventory. A miss, invalid fixture, no legal movement, or encounter that never reaches its intended condition is **INCONCLUSIVE**, not PASS.
 
 Governance publication is complete after local documentation validation, hosted PR CI, and post-merge validation/Pages. Only after a separate implementation authorization may gameplay work begin; gameplay publication and Manny's live acceptance remain distinct later gates.
+
+## Issue #106 post-finish results synchronization
+
+The bounded Issue #106 regression gate verifies presentation only. Finish as the player before at least two AI racers, keep the results card open, and confirm each later AI finish refreshes the standings from the authoritative race state. Finished racers must replace `RACING` with their locked finish time/order, the final displayed order must match authoritative standings, and the player's locked place/time must not change. Repeat on desktop and mobile. This gate must not alter checkpoint/lap authority, AI behavior, item balance, race timing, or victory/results entry behavior.

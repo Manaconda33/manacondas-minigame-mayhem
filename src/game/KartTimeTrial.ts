@@ -145,6 +145,7 @@ export interface TimeTrialOptions {
   character: CharacterDefinition;
   onHud: (state: HudState) => void;
   onFinish: (result: RaceResult) => void;
+  onStandings?: (standings: RaceResult['standings']) => void;
 }
 
 interface AiRacer {
@@ -569,17 +570,21 @@ export class KartTimeTrial {
         time: this.playerProgress.finishTime ?? this.elapsed,
         place:
           this.playerProgress.finishPlace ?? standings.findIndex(({ id }) => id === 'player') + 1,
-        standings: standings.map((racer) => ({
-          name:
-            racer.id === 'player'
-              ? 'YOU'
-              : (this.opponents.find(({ id }) => id === racer.id)?.name ?? racer.id),
-          place: racer.finishPlace,
-          time: racer.finishTime,
-        })),
+        standings: this.resultStandings(),
       });
     }
   };
+
+  private resultStandings(): RaceResult['standings'] {
+    return this.currentStandings().map((racer) => ({
+      name:
+        racer.id === 'player'
+          ? 'YOU'
+          : (this.opponents.find(({ id }) => id === racer.id)?.name ?? racer.id),
+      place: racer.finishPlace,
+      time: racer.finishTime,
+    }));
+  }
 
   private crossedCheckpoint(
     previousPosition: THREE.Vector3,
@@ -647,6 +652,7 @@ export class KartTimeTrial {
     this.prismatic.clear(opponent.id);
     this.inkSplat.clear(opponent.id);
     this.projectiles.cancelOwnerArcs(opponent.id);
+    if (this.playerProgress.finished) this.options.onStandings?.(this.resultStandings());
   }
 
   private recoverOpponent(opponent: AiRacer, projection: TrackProjection): void {

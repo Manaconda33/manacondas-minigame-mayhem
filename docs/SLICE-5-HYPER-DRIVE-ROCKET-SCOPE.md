@@ -2,13 +2,13 @@
 
 ## Governance state
 
-**Status:** PROPOSED GOVERNANCE SCOPE - gameplay, VFX, audio, and presentation implementation are not authorized by this document.
+**Status:** APPROVED / PUBLISHED GOVERNANCE SCOPE - gameplay, VFX, audio, and presentation implementation are not authorized by this document.
 
 **Work authorization:** Manny approved beginning the next bounded Hyper-Drive Rocket checkpoint in Work on 2026-09-17.
 
 **Proposed governing PRD amendment:** 2.21 / ADR-082; PRD Section 15.16
 
-This document converts the existing Hyper-Drive Rocket requirements into an operational contract for review. It is a governance proposal, not a gameplay implementation authorization. Publication of this proposal, if approved, must be followed by hosted validation before a separate implementation gate.
+This document converts the existing Hyper-Drive Rocket requirements into the approved operational contract. It is a governance publication, not a gameplay implementation authorization. PR #154 merged at `ae977623bdc7a209634816e1cea8ef4a799b98c8`; post-merge validation and Pages run `35243454845` passed. A separate implementation gate remains required.
 
 ## Context and boundary
 
@@ -36,7 +36,7 @@ The proposal reuses Circuit Alpha projection/checkpoints, KartController movemen
 | AI boundary | This increment does not enable general AI item acquisition, selection, tactical timing, or use. A production player-only test route may exercise Rocket; normal AI inventory policy and the later full AI item-tactics gate remain unchanged. The autopilot seam may be racer-generic so later AI use does not require a second navigation implementation. |
 | Capacity | Rocket creates no projectile, hazard, collider, or shared 40-object item-physics reservation. |
 
-The initial proposed collision/hazard boundary is intentionally conservative: Rocket protects the racer from hostile racer contact and supported ground/area hazards, but does not silently grant projectile immunity or alter track geometry. Any broader immunity requires a separate product decision rather than implementation inference.
+The approved collision/hazard boundary is intentionally conservative: Rocket protects the racer from hostile racer contact and supported ground/area hazards, but does not silently grant projectile immunity or alter track geometry. Any broader immunity requires a separate product decision rather than implementation inference.
 
 ## Lifecycle and state ownership
 
@@ -116,21 +116,21 @@ Record only checks actually observed. A miss, no rival, invalid fixture, impossi
 
 ## Explicit exclusions
 
-This proposed bounded checkpoint does not authorize or change:
+This approved bounded checkpoint does not authorize or change:
 
 - gameplay, VFX, audio, or presentation implementation before a separate authorization;
 - general AI item acquisition, selection, tactical timing, or use;
 - any item probability, gap factor, rank distribution, or selector behavior beyond documenting existing Rocket eligibility;
 - direct lap, checkpoint, rank, finish, transform, velocity, or racer-stat mutation;
 - a second navigation/race-authority system, teleport, forced first-place placement, or uncontrolled forward physics;
-- projectile immunity unless separately approved; Rocket's proposed immunity is limited to racer contact and supported ground/area hazards;
+- projectile immunity unless separately approved; Rocket's approved immunity is limited to racer contact and supported ground/area hazards;
 - accepted item behavior, counter behavior, issue #106, dependencies, binary assets, or Slice 6 final polish;
-- any balance tuning outside the proposed 1.25x cap, six-second state, and 0.30-second control return.
+- any balance tuning outside the approved 1.25x cap, six-second state, and 0.30-second control return.
 
-## Proposed approval gates
+## Approval gates
 
-1. **Scope/governance approval:** pending Manny's review of this operational contract.
-2. **Governance publication:** a docs-only PR must merge and pass hosted validation/Pages.
+1. **Scope/governance approval:** COMPLETE. Manny reviewed and approved this operational contract.
+2. **Governance publication:** COMPLETE. PR #154 merged at `ae977623bdc7a209634816e1cea8ef4a799b98c8`; post-merge validation and Pages run `35243454845` passed.
 3. **Gameplay/presentation implementation authorization:** separate later gate after governance publication.
 4. **Gameplay publication and product-owner live acceptance:** separate later gates.
 5. **Slice 5 closure:** remains blocked by full AI item-use/tactics, final all-item interaction/counter evidence, soak/performance, final full-slice acceptance, and other recorded closure requirements.

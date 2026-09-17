@@ -2,9 +2,9 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO OVERDRIVE LIVE ACCEPTED; HYPER-DRIVE GOVERNANCE PROPOSAL IN REVIEW; SLICE 5 CLOSURE OPEN**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO OVERDRIVE LIVE ACCEPTED; HYPER-DRIVE GOVERNANCE PUBLISHED; SLICE 5 CLOSURE OPEN**
 
-PRD baseline: **v1.1, approved implementation amendments 2.18-2.20 / ADR-079-081; proposed Hyper-Drive governance amendment 2.21 / ADR-082**.
+PRD baseline: **v1.1, approved implementation amendments 2.18-2.21 / ADR-079-082**.
 
 Latest verified merged `main`: **`23c1aa2b11931807af34330b0b45b69297a15451`**.
 
@@ -66,17 +66,17 @@ The published implementation adds the bounded Overdrive state/transaction path, 
 
 The deployed player-only route is `?testItem=nitro-overdrive`. Manny reported **“Pass”** on 2026-09-17. No browser/device-specific result is inferred beyond that explicit report. Hyper-Drive Rocket, full AI item use/tactics, final cross-item evidence, soak/performance, issue #106, and final Slice 5 closure remain open.
 
-## Hyper-Drive Rocket governance proposal - 2026-09-17
+## Hyper-Drive Rocket governance - APPROVED / PUBLISHED 2026-09-17
 
-Hyper-Drive Rocket is the next bounded Slice 5 item approved for work. `docs/SLICE-5-HYPER-DRIVE-ROCKET-SCOPE.md` proposes amendment 2.21 / ADR-082: one atomic charge; the existing rank 6-8 and at-least-45-meter selector eligibility; an exactly 6.0 race-second state; legal Circuit Alpha projection/autopilot through normal controller input; a 1.25x speed-cap target; ordinary movement-earned overtakes; a final 0.30-second control return; source-scoped racer-contact and supported ground/area-hazard immunity; pause/lifecycle cleanup; and original procedural presentation.
+Hyper-Drive Rocket is the next bounded Slice 5 item approved for work. `docs/SLICE-5-HYPER-DRIVE-ROCKET-SCOPE.md` records amendment 2.21 / ADR-082: one atomic charge; the existing rank 6-8 and at-least-45-meter selector eligibility; an exactly 6.0 race-second state; legal Circuit Alpha projection/autopilot through normal controller input; a 1.25x speed-cap target; ordinary movement-earned overtakes; a final 0.30-second control return; source-scoped racer-contact and supported ground/area-hazard immunity; pause/lifecycle cleanup; and original procedural presentation.
 
-This is a governance proposal only. No Hyper-Drive gameplay, VFX, audio, or presentation implementation is claimed or authorized by this checkpoint. General AI item acquisition/use/tactics remains a separate full-Slice-5 gate. Scope review, docs-only publication with hosted CI/Pages, and separate implementation authorization are still required. The proposed player-only route is `?testItem=hyper-drive-rocket`.
+Governance publication is complete through PR #154, merged at `ae977623bdc7a209634816e1cea8ef4a799b98c8`; post-merge validation and Pages run `35243454845` passed. No Hyper-Drive gameplay, VFX, audio, or presentation implementation is claimed or authorized by this checkpoint. General AI item acquisition/use/tactics remains a separate full-Slice-5 gate, and separate implementation authorization is still required. The player-only route is `?testItem=hyper-drive-rocket`.
 
 ## Slice 5 accepted/deployed state
 
 Live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, **Kinetic Arc Hammers**, and **Continuous Nitro Overdrive**.
 
-Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Continuous Nitro Overdrive is merged, deployed, and live accepted under amendment 2.20 / ADR-081 through PR #152. **Hyper-Drive Rocket governance is proposed/in review under amendment 2.21 / ADR-082; gameplay and presentation implementation remain held.**
+Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Continuous Nitro Overdrive is merged, deployed, and live accepted under amendment 2.20 / ADR-081 through PR #152. **Hyper-Drive Rocket governance is approved/published under amendment 2.21 / ADR-082; gameplay and presentation implementation remain held.**
 
 Remaining Slice 5 closure work also includes full AI item acquisition/use, final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, final desktop/mobile full-slice acceptance, and issue #106 disposition as appropriate. Slice 6 remains locked.
 
@@ -89,7 +89,7 @@ Remaining Slice 5 closure work also includes full AI item acquisition/use, final
 
 ## Next recommended action
 
-Review and, if approved, publish the bounded Hyper-Drive Rocket governance scope; then hold at the separate implementation-authorization gate while completing the remaining full-slice validation/closure work. Slice 6 remains locked.
+Hold Hyper-Drive Rocket at the separate implementation-authorization gate while completing the remaining full-slice validation/closure work. Slice 6 remains locked.
 
 ## Approval state
 
@@ -103,8 +103,8 @@ Review and, if approved, publish the bounded Hyper-Drive Rocket governance scope
 
 **Vision-Obscuring Ink Splat scope/governance:** **APPROVED / PUBLISHED 2026-09-16** under amendment 2.18 / ADR-079. **Amendment 2.19 / ADR-080 AI tuning:** **LIVE ACCEPTED 2026-09-17** through PR #149 / \`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f\` / post-merge run \`35188684882\` / product-owner comment \`5709839182\`.
 
-**Hyper-Drive Rocket scope/governance:** **PROPOSED / IN REVIEW 2026-09-17** under proposed amendment 2.21 / ADR-082; gameplay, VFX, audio, and presentation implementation are not authorized by the proposal.
+**Hyper-Drive Rocket scope/governance:** **APPROVED / PUBLISHED 2026-09-17** under amendment 2.21 / ADR-082 through PR #154 / `ae977623bdc7a209634816e1cea8ef4a799b98c8` / post-merge validation and Pages `35243454845`; gameplay, VFX, audio, and presentation implementation are not authorized by this governance checkpoint.
 
-**Slice 5 implementation:** IN PROGRESS; Ink Splat and Continuous Nitro Overdrive are live accepted, and Hyper-Drive Rocket governance is in review. Remaining Slice 5 closure gates are still open.
+**Slice 5 implementation:** IN PROGRESS; Ink Splat and Continuous Nitro Overdrive are live accepted, and Hyper-Drive Rocket governance is published. Remaining Slice 5 closure gates are still open.
 
 **Slice 6:** LOCKED pending remaining Slice 5 validation/closure work and Manny's full-slice acceptance.

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   candidateBAccelerationRecoveryMultiplier,
+  candidateBAiCornerPenaltyScale,
   candidateBHandlingCornerLossRate,
   candidateBSteeringResponseRate,
   createKartTuning,
@@ -54,6 +55,16 @@ describe('kart tuning and surface behavior', () => {
     expect(candidateBHandlingCornerLossRate(3, 33, 1)).toBeGreaterThan(
       candidateBHandlingCornerLossRate(3, 26, 1),
     );
+  });
+
+  it('charges AI corner planning when Speed exceeds Handling comfort', () => {
+    expect(candidateBAiCornerPenaltyScale(3, 33)).toBeGreaterThan(
+      candidateBAiCornerPenaltyScale(3, 30.8),
+    );
+    expect(candidateBAiCornerPenaltyScale(3, 33)).toBeGreaterThan(
+      candidateBAiCornerPenaltyScale(8, 33),
+    );
+    expect(candidateBAiCornerPenaltyScale(8, 28.6)).toBeLessThan(1);
   });
 
   it('makes high Handling rebuild steering authority faster after a disturbance', () => {

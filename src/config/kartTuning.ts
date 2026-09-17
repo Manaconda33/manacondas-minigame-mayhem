@@ -150,7 +150,7 @@ export function candidateBHandlingCornerLossRate(
  */
 export function candidateBAiCornerPenaltyScale(
   handling: number,
-  characterMaxSpeed = BALANCE_CANDIDATE_B.aiCornerReferenceSpeed,
+  characterMaxSpeed: number = BALANCE_CANDIDATE_B.aiCornerReferenceSpeed,
 ): number {
   const excessSpeed = Math.max(
     0,

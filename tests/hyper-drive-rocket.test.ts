@@ -13,6 +13,7 @@ import { ItemSystem, ITEM_ROULETTE_SECONDS } from '../src/game/items/ItemSystem'
 import { RacerEffects } from '../src/game/items/RacerEffects';
 import { FROST_ORB_CONFIG } from '../src/game/items/FrostOrbs';
 import { KartController } from '../src/game/physics/KartController';
+import { crossesForwardCheckpointGate } from '../src/game/race/CheckpointGate';
 import { createKartTuning, sliceOneDriver } from '../src/config/kartTuning';
 import { LapTracker } from '../src/game/race/LapTracker';
 import { rankRacers } from '../src/game/race/RaceDirector';
@@ -332,7 +333,6 @@ describe('Hyper-Drive Rocket production runtime path', () => {
     activate(new ItemSystem(), effects, rocket);
     const lapTracker = new LapTracker();
     lapTracker.reset(0);
-    let lastCheckpoint = -1;
     const playerProgress = progress('player');
     const rivalProgress = progress('rival');
     playerProgress.lap = 0;
@@ -341,11 +341,12 @@ describe('Hyper-Drive Rocket production runtime path', () => {
     const initialPlayerProgress = track.project(player.position()).progress;
 
     for (let frame = 0; frame < 360; frame += 1) {
-      const projection = track.project(player.position());
+      const positionBeforeStep = player.position();
+      const projection = track.project(positionBeforeStep);
       const modifiers = effects.driveModifiers('player');
       const input = rocket.inputFor(
         'player',
-        player.position(),
+        positionBeforeStep,
         player.forward(),
         player.speedMetersPerSecond(),
         {
@@ -364,17 +365,16 @@ describe('Hyper-Drive Rocket production runtime path', () => {
       effects.advance(1 / 60, false, false);
       const after = track.project(player.position());
       playerProgress.trackProgress = after.progress;
-      for (let checkpoint = 0; checkpoint < track.checkpointIndices.length; checkpoint += 1) {
-        if (
-          checkpoint !== lastCheckpoint &&
-          player.position().distanceToSquared(track.lapCheckpointPosition(checkpoint)) < 13 ** 2
-        ) {
-          if (
-            lapTracker.enterCheckpoint(checkpoint, player.forward().dot(after.tangent), frame / 60)
-          )
-            lastCheckpoint = checkpoint;
-        }
-      }
+      const checkpoint = lapTracker.snapshot().nextCheckpoint;
+      if (
+        crossesForwardCheckpointGate(
+          positionBeforeStep,
+          player.position(),
+          track.lapCheckpointPosition(checkpoint),
+          track.lapCheckpointTangent(checkpoint),
+        )
+      )
+        lapTracker.enterCheckpoint(checkpoint, 1, frame / 60);
       const elapsedProgress = (after.progress - initialPlayerProgress + 1) % 1;
       if (elapsedProgress > 0.01) playerProgress.lap = lapTracker.snapshot().lap;
     }

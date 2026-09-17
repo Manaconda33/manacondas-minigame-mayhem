@@ -112,6 +112,17 @@ export class CircuitAlpha {
     return this.checkpointPosition(index);
   }
 
+  public lapCheckpointProgress(index: number): number {
+    if (index === 0) return this.startFinishDistance / this.curve.getLength();
+    return (this.checkpointIndices[index] ?? 0) / this.sampleCount;
+  }
+
+  public lapCheckpointTangent(index: number): THREE.Vector3 {
+    if (index === 0)
+      return this.curve.getTangentAt(this.startFinishDistance / this.curve.getLength()).normalize();
+    return this.checkpointTangent(index);
+  }
+
   public checkpointTangent(index: number): THREE.Vector3 {
     const sampleIndex = this.checkpointIndices[index] ?? 0;
     return this.tangents[sampleIndex]?.clone() ?? new THREE.Vector3(0, 0, 1);

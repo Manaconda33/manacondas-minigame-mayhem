@@ -14,6 +14,8 @@ import { PrismaticMusic } from '../src/audio/PrismaticMusic';
 import { ArcBladeCounterFixture } from '../src/game/items/ArcBladeCounterFixture';
 import { ArcHammerCounterFixture } from '../src/game/items/ArcHammerCounterFixture';
 import { ItemSystem } from '../src/game/items/ItemSystem';
+import { InkSplatSystem } from '../src/game/items/InkSplatSystem';
+import { InkSplatAudio } from '../src/audio/InkSplatAudio';
 import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
 import { ProjectileSystem, type ProjectileTarget } from '../src/game/items/ProjectileSystem';
 import { HazardSystem } from '../src/game/items/HazardSystem';
@@ -74,6 +76,8 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
     hazards,
     apex,
     itemSystem: new ItemSystem(),
+    inkSplat: new InkSplatSystem(),
+    inkAudio: new InkSplatAudio(),
     itemPhysicsCapacity: projectiles.capacity,
     shockwave: new ShockwaveSystem(),
     prismaticVisual: new PrismaticVisual(),
@@ -131,6 +135,8 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
       racerEffects.dispose();
       fields.prismaticVisual.dispose();
       fields.prismaticMusic.dispose();
+      fields.inkSplat.dispose();
+      fields.inkAudio.dispose();
       apex.dispose();
       hazards.dispose();
       fields.shockwave.dispose();

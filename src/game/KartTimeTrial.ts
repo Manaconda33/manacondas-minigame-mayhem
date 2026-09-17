@@ -9,6 +9,7 @@ import {
 } from './items/ArcHammerCounterFixture';
 import { PrismaticVisual } from './items/PrismaticVisual';
 import { PrismaticMusic } from '../audio/PrismaticMusic';
+import { InkSplatAudio } from '../audio/InkSplatAudio';
 import { PrismaticCounterFixture, prismaticTestFromSearch } from './items/PrismaticCounterFixture';
 import { observeAiHazards } from './ai/AiHazardAwareness';
 import { AiHazardFixture, aiHazardTestFromSearch } from './ai/AiHazardFixture';
@@ -28,6 +29,8 @@ import { ApexPresentation } from './items/ApexPresentation';
 import { IncomingApexFixture } from './items/IncomingApexFixture';
 import { SeekerWarningAudio, APEX_WARNING_TONE } from '../audio/SeekerWarningAudio';
 import { IncomingSeekerFixture } from './items/IncomingSeekerFixture';
+import { InkSplatCounterFixture, inkSplatCounterFromSearch } from './items/InkSplatCounterFixture';
+import { InkSplatSystem, type InkViewSnapshot } from './items/InkSplatSystem';
 import { nearestRacerAhead, targetingProgressSnapshot } from './items/ItemTargeting';
 import {
   seekerThreats,
@@ -113,6 +116,7 @@ export interface HudState {
   prismaticSeconds: number;
   frostSeconds: number;
   frostStacks: number;
+  ink: InkViewSnapshot;
 }
 
 export interface RaceResult {
@@ -212,6 +216,11 @@ export class KartTimeTrial {
   private readonly itemSystem = new ItemSystem();
   private readonly racerEffects = new RacerEffects();
   private readonly prismatic = new PrismaticSystem(this.racerEffects);
+  private readonly inkSplat = new InkSplatSystem();
+  private readonly inkAudio = new InkSplatAudio();
+  private readonly inkFixture = new InkSplatCounterFixture(
+    inkSplatCounterFromSearch(window.location.search),
+  );
   private readonly prismaticVisual = new PrismaticVisual();
   private readonly frostVisual = new FrostVisual();
   private readonly frostFixture = new FrostFixture(frostTestFromSearch(window.location.search));
@@ -298,6 +307,7 @@ export class KartTimeTrial {
       this.frostVisual.group,
       this.frostFixture.group,
       this.prismaticFixture.group,
+      this.inkFixture.group,
       this.seekerWarningVisual.group,
       this.apexPresentation.group,
     );
@@ -363,6 +373,9 @@ export class KartTimeTrial {
     this.shockwaveCounterFixture.reset();
     this.shockwave.dispose();
     this.prismatic.dispose();
+    this.inkSplat.dispose();
+    this.inkAudio.dispose();
+    this.inkFixture.dispose();
     this.prismaticVisual.dispose();
     this.frostVisual.dispose();
     this.frostFixture.dispose();
@@ -382,6 +395,7 @@ export class KartTimeTrial {
       void this.seekerWarningAudio.unlock();
       void this.apexWarningAudio.unlock();
       void this.prismaticMusic.unlock();
+      void this.inkAudioIfPresent()?.unlock();
     }
     if (pressed) this.touchPressed.add(control);
     else this.touchPressed.delete(control);
@@ -412,6 +426,7 @@ export class KartTimeTrial {
     const position = this.kart.position(this.position);
     const projection = this.track.project(position);
     this.racerEffects.advanceFrost(dt);
+    this.inkSplat.advance(dt);
     const driveModifiers = this.racerEffects.driveModifiers('player');
     const playerSpinout = this.racerEffects.spinoutState('player');
     const input: DriveInput = {
@@ -490,6 +505,7 @@ export class KartTimeTrial {
     this.racerEffects.advanceProtection(dt);
     if (this.playerProgress.finished) this.prismatic.clear('player');
     if (this.playerProgress.finished) this.racerEffects.clearFrost('player');
+    if (this.playerProgress.finished) this.inkSplat.clear('player');
     this.itemUseMessageSeconds = Math.max(0, this.itemUseMessageSeconds - dt);
     if (this.itemUseMessageSeconds === 0) this.itemUseMessage = null;
     this.updateItemBoxes(dt);
@@ -565,6 +581,7 @@ export class KartTimeTrial {
                 dt,
                 hazardAwareness,
                 opponent.id,
+                this.inkSplat.aiSnapshot(opponent.id),
               );
       opponent.steering = spinout === null ? input.steering : 0;
       input.effectSteeringMultiplier = this.racerEffects.driveModifiers(
@@ -597,6 +614,7 @@ export class KartTimeTrial {
         this.raceDirector.registerFinish(opponent.progress);
         this.racerEffects.clearFrost(opponent.id);
         this.prismatic.clear(opponent.id);
+        this.inkSplat.clear(opponent.id);
         this.projectiles.cancelOwnerArcs(opponent.id);
       }
 
@@ -921,6 +939,13 @@ export class KartTimeTrial {
       this.track,
       this.hazards,
     );
+    this.inkFixtureIfPresent()?.update(dt, {
+      racers,
+      playerFinished: this.playerProgress.finished,
+      protectionRemaining: this.prismatic.remaining('player'),
+      ink: this.inkSplat,
+      isImmune: (racerId) => this.racerEffects.isItemImmune(racerId),
+    });
     this.aiHazardFixture.update(
       this.elapsed,
       this.opponents.map((opponent) => ({
@@ -1105,6 +1130,10 @@ export class KartTimeTrial {
         hazardSystem: this.hazards,
         shockwaveSystem: this.shockwave,
         prismaticSystem: this.prismatic,
+        inkSplatSystem: this.inkSplat,
+        onInkResolution: (resolution) => {
+          if (resolution.accepted) this.inkAudioIfPresent()?.play(Howler.volume());
+        },
         projectileLaunch: {
           position: this.kart.position(),
           forward: this.kart.forward(),
@@ -1149,6 +1178,10 @@ export class KartTimeTrial {
         nearestRacerAhead('player', this.itemTargetingProgress()) === null
           ? 'NO RACER AHEAD · SEEKER HELD'
           : 'SEEKER NOT READY · ITEM HELD';
+      this.itemUseMessageSeconds = 1.5;
+    }
+    if (this.itemSystem.heldItem('player')?.itemId === 'ink-splat' && result === 'rejected') {
+      this.itemUseMessage = 'NO RACER AHEAD · INK HELD';
       this.itemUseMessageSeconds = 1.5;
     }
   }
@@ -1264,6 +1297,7 @@ export class KartTimeTrial {
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceFrostAudio();
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceArcAudio();
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceHammerAudio();
+    if (this.paused || Howler.volume() <= 0) this.inkAudioIfPresent()?.stop();
     this.prismaticMusic.update(
       this.prismatic.remaining('player'),
       dt,
@@ -1309,6 +1343,7 @@ export class KartTimeTrial {
       prismaticSeconds: this.prismatic.remaining('player'),
       frostSeconds: this.racerEffects.frostState('player')?.remainingSeconds ?? 0,
       frostStacks: this.racerEffects.frostState('player')?.stacks ?? 0,
+      ink: this.inkSplat.viewSnapshot('player'),
       testModeItemLabel:
         [
           this.forcedTestItem === null
@@ -1324,6 +1359,7 @@ export class KartTimeTrial {
           this.frostFixture.badge(),
           this.arcFixture.badge(),
           this.arcHammerFixture.badge(),
+          this.inkFixture.badge(),
         ]
           .filter(Boolean)
           .join(' · ') || null,
@@ -1666,6 +1702,7 @@ export class KartTimeTrial {
     void this.seekerWarningAudio.unlock();
     void this.apexWarningAudio.unlock();
     void this.prismaticMusic.unlock();
+    void this.inkAudioIfPresent()?.unlock();
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(event.code)) {
       event.preventDefault();
     }
@@ -1683,6 +1720,14 @@ export class KartTimeTrial {
 
   private isPressed(...codes: string[]): boolean {
     return codes.some((code) => this.pressed.has(code));
+  }
+
+  private inkAudioIfPresent(): InkSplatAudio | undefined {
+    return (this as unknown as { inkAudio?: InkSplatAudio }).inkAudio;
+  }
+
+  private inkFixtureIfPresent(): InkSplatCounterFixture | undefined {
+    return (this as unknown as { inkFixture?: InkSplatCounterFixture }).inkFixture;
   }
 
   private readonly resize = (): void => {

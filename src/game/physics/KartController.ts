@@ -1,6 +1,9 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
 import {
+  candidateBAccelerationRecoveryMultiplier,
+  candidateBHandlingCornerLossRate,
+  candidateBSteeringResponseRate,
   driftBoostProfile,
   driftThresholds,
   surfaceAccelerationMultiplier,
@@ -110,7 +113,12 @@ export class KartController {
       (Number.isFinite(input.effectSteeringMultiplier)
         ? THREE.MathUtils.clamp(input.effectSteeringMultiplier ?? 1, 0, 1)
         : 1);
-    this.currentSteer = THREE.MathUtils.damp(this.currentSteer, steeringTarget, 10, dt);
+    this.currentSteer = THREE.MathUtils.damp(
+      this.currentSteer,
+      steeringTarget,
+      candidateBSteeringResponseRate(this.stats.handling),
+      dt,
+    );
 
     const driftStarted = input.drift && !this.previousDriftPressed;
     if (
@@ -175,9 +183,14 @@ export class KartController {
       0.22,
       1,
     );
+    const recoveryMultiplier = candidateBAccelerationRecoveryMultiplier(
+      this.stats.acceleration,
+      launchSpeedRatio,
+    );
     const acceleration =
       this.tuning.acceleration *
       launchTaper *
+      recoveryMultiplier *
       surfaceAccelerationFactor *
       Math.max(this.boostRemaining > 0 ? 1.35 : 1, effectAccelerationMultiplier);
     const centerGrounded = Math.abs(velocity.y) < 0.35 && this.hasCenterGroundSupport();
@@ -209,6 +222,16 @@ export class KartController {
     }
 
     if (input.brake) forwardSpeed = THREE.MathUtils.damp(forwardSpeed, 0, 5.5, dt);
+
+    if (forwardSpeed > 0 && driveSupported) {
+      const cornerLossRate = candidateBHandlingCornerLossRate(
+        this.stats.handling,
+        forwardSpeed,
+        input.steering,
+      );
+      const driftLossScale = this.drifting ? 0.72 : 1;
+      forwardSpeed *= Math.exp(-cornerLossRate * driftLossScale * dt);
+    }
 
     const retainedLateral = THREE.MathUtils.damp(
       lateralSpeed,

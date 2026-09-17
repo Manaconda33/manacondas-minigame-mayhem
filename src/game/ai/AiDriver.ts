@@ -29,6 +29,11 @@ interface NearbyRacer {
   speed: number;
 }
 
+interface SteeringSample {
+  time: number;
+  steering: number;
+}
+
 const candidateLaneOffsets = [-3.3, -1.65, 0, 1.65, 3.3] as const;
 
 export function aiLookaheadMeters(speed: number): number {
@@ -53,13 +58,23 @@ export function aiTargetSpeed(
   );
 }
 
+function latestSteeringAtOrBefore(
+  history: readonly SteeringSample[],
+  cutoffSeconds: number,
+): number | null {
+  for (let index = history.length - 1; index >= 0; index -= 1) {
+    const sample = history[index];
+    if (sample !== undefined && sample.time <= cutoffSeconds) return sample.steering;
+  }
+  return null;
+}
+
 export class AiDriver {
   private laneOffset: number;
   private laneHoldSeconds = 0;
   private hazardClearHoldSeconds = 0;
   private steeringClockSeconds = 0;
-  private readonly steeringHistory: { time: number; steering: number }[] = [];
-  private readonly laneHistory: { time: number; lane: number }[] = [];
+  private readonly steeringHistory: SteeringSample[] = [];
 
   public constructor(
     private readonly track: CircuitAlpha,
@@ -103,18 +118,7 @@ export class AiDriver {
     const laneWave =
       Math.sin(projection.progress * Math.PI * 8 + this.profile.aggression * 4) * 0.16;
     const inkNoise = ink === null ? 0 : Math.sin(ink.noisePhaseRadians) * ink.noiseAmplitudeMeters;
-    this.laneHistory.push({ time: now, lane: this.laneOffset });
-    while (this.laneHistory.length > 0) {
-      const oldest = this.laneHistory[0];
-      if (oldest === undefined || now - oldest.time <= 0.3) break;
-      this.laneHistory.shift();
-    }
-    const delayedLane =
-      ink === null
-        ? this.laneOffset
-        : (this.laneHistory.find((sample) => sample.time <= now - ink.reactionLatencySeconds)
-            ?.lane ?? this.profile.laneOffset);
-    target.addScaledVector(right, this.roadBoundedLane(delayedLane + laneWave + inkNoise));
+    target.addScaledVector(right, this.roadBoundedLane(this.laneOffset + laneWave + inkNoise));
 
     const desired = target.sub(position).setY(0).normalize();
     const cross = forward.z * desired.x - forward.x * desired.z;
@@ -129,12 +133,13 @@ export class AiDriver {
       if (oldest === undefined || now - oldest.time <= 0.3) break;
       this.steeringHistory.shift();
     }
-    const delayedSteering =
+    const steering =
       ink === null
         ? candidateSteering
-        : (this.steeringHistory.find((sample) => sample.time <= now - ink.reactionLatencySeconds)
-            ?.steering ?? 0);
-    const steering = delayedSteering;
+        : (latestSteeringAtOrBefore(
+            this.steeringHistory,
+            now - ink.reactionLatencySeconds,
+          ) ?? 0);
     if (Number.isFinite(dt) && dt > 0) this.steeringClockSeconds += dt;
     const corner = 1 - Math.max(0, forward.dot(tangent));
     let targetSpeed = aiTargetSpeed(
@@ -167,7 +172,6 @@ export class AiDriver {
     this.hazardClearHoldSeconds = 0;
     this.steeringClockSeconds = 0;
     this.steeringHistory.length = 0;
-    this.laneHistory.length = 0;
   }
 
   private racersAhead(

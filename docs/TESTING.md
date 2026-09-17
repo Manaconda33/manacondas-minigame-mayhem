@@ -828,3 +828,24 @@ After a successful gameplay publication and Pages deployment, use:
 - Normal isolation: https://manaconda33.github.io/manacondas-minigame-mayhem/
 
 The deployed review must verify first use, slot release, new-item collection during the window, visible repeated pulses, cadence rejection, six-second expiry, pause/resume, accepted-boost overlap, normal surface penalties, desktop/mobile controls, chase/rear presentation, cleanup, and normal unforced isolation. An automated pass does not establish live acceptance. Record the exact commit, PR CI, post-merge validation/Pages run, device/browser results, defects, and Manny's explicit acceptance before closing this item.
+
+## Hyper-Drive Rocket governance checkpoint - proposal
+
+`docs/SLICE-5-HYPER-DRIVE-ROCKET-SCOPE.md`, proposed amendment 2.21, and ADR-082 define the next bounded governance checkpoint. This proposal is not gameplay, VFX, audio, or presentation implementation authorization. Do not claim a Rocket gameplay pass, live deployment, or Slice 5 closure from this documentation checkpoint.
+
+Before any later implementation publication, automated evidence must exercise the real production seams and verify:
+
+- existing selector eligibility at, below, and above rank 6-8 and the 45 m leader-gap boundary, with unchanged matrix/gap weighting;
+- atomic one-charge activation, immediate slot release, later collection, and failed-transaction/invalid-owner rollback;
+- exactly 6.0 race seconds including a bounded 0.30-second control-return blend, with pause freeze and no steering/braking cancellation;
+- Circuit Alpha projection/lookahead and normal `KartController` input for legal movement, with no direct transform, velocity, checkpoint, lap, rank, finish, or racer-stat mutation;
+- a 1.25x speed-cap target with normal acceleration, traction, braking, steering, asphalt/dirt/grass/boost-pad/ramp behavior, and no off-road bypass;
+- ordinary racer-contact protection and Slick/Blast/Shockwave hostile-effect protection while hazards remain active for other racers, without silently extending protection to projectiles;
+- a real rival overtake through movement/progress/checkpoint traversal, with no teleport or forced first-place deposit;
+- recovery, finish, restart, hub return, racer removal, disposal, and presentation cleanup without refunding or restarting the state;
+- source-scoped composition with Nitro/Overdrive/Prismatic and existing surfaces/boosts, plus desktop/mobile/pause/HUD/VFX/audio and normal-URL isolation; and
+- player-only fixture behavior with AI inventory/tactical-use regression coverage. General AI item acquisition/use remains a separate full-Slice-5 gate.
+
+The proposed player-only route is `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=hyper-drive-rocket`; the normal unforced URL remains required for selector and regression isolation. This route may force the next player pickup only; it must not mutate rank, gap, lap, checkpoint, progress, or AI inventory. A miss, invalid fixture, no legal movement, or encounter that never reaches its intended condition is **INCONCLUSIVE**, not PASS.
+
+Governance publication requires local documentation validation, hosted PR CI, and post-merge validation/Pages. Only after that checkpoint is separately approved may gameplay implementation be authorized; gameplay publication and Manny's live acceptance remain distinct later gates.

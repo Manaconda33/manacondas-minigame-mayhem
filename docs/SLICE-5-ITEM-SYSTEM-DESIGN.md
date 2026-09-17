@@ -8,7 +8,7 @@
 
 **Implementation authorization:** Documentation and approved Slice 5 implementation are authorized after this design checkpoint is merged. This document does not itself mark any Slice 5 gameplay requirement complete.
 
-**Governing PRD:** v1.1, working implementation amendment 2.18.
+**Governing PRD:** v1.1, working implementation amendment 2.20.
 
 The existing PRD Sections 15-17, ITEM-001 through ITEM-008, AI-004, Slice 5 roadmap requirements, probability matrix, item state machines, and existing item values remain authoritative except where amendment 2.2 explicitly resolves previously unspecified implementation behavior.
 
@@ -316,3 +316,8 @@ PRD amendment 2.18 / ADR-079 and `docs/SLICE-5-INK-SPLAT-SCOPE.md` govern the bo
 
 This is governance scope only. Gameplay, VFX/audio/presentation implementation remains held pending a separate explicit Manny authorization after this checkpoint is published. No probability, accepted-item tuning, racer-stat, kart-physics, track/checkpoint, full AI item-use, dependency, Overdrive, Rocket, or Slice 6 change is authorized.
 
+
+
+## Continuous Nitro Overdrive scope approval - approved 2026-09-17
+
+PRD amendment 2.20 / ADR-081 and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md govern the next bounded item increment. The approved fill-ins are one committed charge; immediate first pulse; exactly 6.0 race seconds; subsequent pulses no faster than every 0.75 race seconds; approximately 0.9-second non-stacking pulses; a 1.15x normal speed cap; neutral additional acceleration; normal dirt/grass penalties; maximum-authority composition with existing boosts; and pause/lifecycle cleanup. Original procedural exhaust/pulse VFX, readable HUD state, and short original audio cues are authorized by the scope, while final production polish remains Slice 6. General AI item acquisition/use, Hyper-Drive Rocket, probability changes, racer-stat changes, race authority, and Slice 6 expansion remain excluded. Gameplay publication and live acceptance remain separate gates.

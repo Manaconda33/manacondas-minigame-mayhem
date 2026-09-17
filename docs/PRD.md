@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.18
+Version 1.1 - Final approved baseline; working implementation amendment 2.20
 
 August 16, 2026
 
@@ -348,6 +348,17 @@ Pause freezes Ink timing, fade, and AI impairment. Recovery does not cleanse Ink
 Any later authorized implementation must use a focused Ink state boundary, existing progress-authoritative targeting, atomic ItemSystem consumption, existing item-immunity authority, bounded AI-driver impairment, and a local human view overlay. Ink creates no world object and consumes no shared 40-object item-physics slot. Original procedural/CSS/SVG-style organic shapes and a short original impact cue may be developed only after separate implementation/presentation authorization; no protected-franchise presentation or production binary dependency is approved here.
 
 The future primary fixed-item route is `?testItem=ink-splat`. A deterministic incoming-Ink fixture may exercise the human overlay without enabling general AI item tactics. Prismatic protected/expired diagnostics must verify real resolved application or blocking. Automated evidence must cover cross-lap all-ahead targeting, no-target rollback, atomic consumption, immunity, refresh-not-stack behavior, pause/lifecycle cleanup, AI impairment bounds, unchanged speed/race authority, human overlay state, probability preservation, and production KartTimeTrial/controller/AI/HUD integration. Desktop/mobile live acceptance remains a later gate. No probability, accepted-item tuning, racer-stat, kart-physics, track/checkpoint, AI item-acquisition/tactical-use, dependency, Continuous Nitro Overdrive, Hyper-Drive Rocket, or Slice 6 change is authorized.
+
+
+## Approved implementation amendment 2.19 - Vision-Obscuring Ink Splat AI impairment tuning
+
+Approved September 17, 2026 after live review of the deployed 2.18 Ink implementation. Amendment 2.19 / ADR-080 supersedes only the three AI impairment constants in the Ink contract: smooth deterministic lateral target-path noise is **0.95 m**, steering/lane-decision reaction latency is **0.160 s**, and the Ink-only steering-correction precision multiplier is **0.74**. The 2.50-second duration, legal-road bounding, unchanged speed/throttle/braking/acceleration/rubber-band authority, targeting, inventory, immunity, human coverage, lifecycle, and no-shared-capacity boundaries remain unchanged. Manny reported **“Pass”** on the deployed tuned route; the publication and acceptance evidence is recorded in the current implementation status and Ink scope documents.
+
+## Approved implementation amendment 2.20 - Continuous Nitro Overdrive governance scope
+
+Approved September 17, 2026. PRD Section 15.15, ADR-081, and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md are normative for this bounded governance checkpoint. Continuous Nitro Overdrive uses one committed inventory charge to start an exactly **6.0 race-second** window and an immediately eligible first pulse. Later ITEM presses may commit pulses no faster than once every **0.75 race seconds**; each accepted pulse supplies an approximately **0.9-second** temporary boost with a **1.15x** normal speed cap and neutral additional acceleration. Repeated pulses refresh one source rather than stacking, and no pulse extends past the six-second window.
+
+The charge is consumed atomically on initial activation and the inventory slot is freed immediately. Pause freezes the window, cadence, pulse, HUD, VFX, and audio. Normal surface penalties, steering, traction, permanent statistics, race authority, and existing maximum-authority boost composition remain unchanged. The item adds no hostile effect, immunity, projectile, hazard, or shared-capacity object. Forward and backward ITEM intent are equivalent. General AI item acquisition/use, Hyper-Drive Rocket, item probability changes, and Slice 6 final polish remain outside this checkpoint. This amendment authorizes governance only; gameplay, presentation implementation, publication, deployment, and product-owner acceptance remain separate gates.
 
 ## 1.1 Governance
 

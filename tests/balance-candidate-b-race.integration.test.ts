@@ -2,7 +2,7 @@ import RAPIER from '@dimforge/rapier3d-compat';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { characterManifest } from '../src/characters/manifest';
 import { createKartTuning } from '../src/config/kartTuning';
-import { AiDriver } from '../src/game/ai/AiDriver';
+import { AiDriver, aiLookaheadMeters } from '../src/game/ai/AiDriver';
 import { KartController } from '../src/game/physics/KartController';
 import { crossesForwardCheckpointGate } from '../src/game/race/CheckpointGate';
 import { LapTracker } from '../src/game/race/LapTracker';
@@ -21,6 +21,10 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
       maximumSpeed: number;
       observedMaximumSpeed: number;
       grassRatio: number;
+      averageDriverCornerFactor: number;
+      maximumDriverCornerFactor: number;
+      averageTrackCurvatureFactor: number;
+      maximumTrackCurvatureFactor: number;
     }[] = [];
 
     for (const character of characterManifest) {
@@ -46,23 +50,31 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
       let grassFrames = 0;
       let simulatedFrames = 0;
       let observedMaximumSpeed = 0;
+      let driverCornerFactorTotal = 0;
+      let maximumDriverCornerFactor = 0;
+      let trackCurvatureFactorTotal = 0;
+      let maximumTrackCurvatureFactor = 0;
       let finishSeconds = Number.NaN;
 
       for (let step = 0; step < 24_000 && !laps.snapshot().finished; step += 1) {
         const positionBeforeStep = kart.position();
         const projection = track.project(positionBeforeStep);
+        const forward = kart.forward();
+        const speed = kart.speedMetersPerSecond();
+        const lookahead = Math.max(1, Math.round(aiLookaheadMeters(speed) / track.sampleSpacing));
+        const targetIndex = (projection.index + lookahead) % track.sampleCount;
+        const targetTangent = track.tangents[targetIndex]?.clone() ?? projection.tangent.clone();
+        const driverCornerFactor = 1 - Math.max(0, forward.dot(targetTangent));
+        const trackCurvatureFactor = 1 - Math.max(0, projection.tangent.dot(targetTangent));
+        driverCornerFactorTotal += driverCornerFactor;
+        maximumDriverCornerFactor = Math.max(maximumDriverCornerFactor, driverCornerFactor);
+        trackCurvatureFactorTotal += trackCurvatureFactor;
+        maximumTrackCurvatureFactor = Math.max(maximumTrackCurvatureFactor, trackCurvatureFactor);
         simulatedFrames += 1;
         if (projection.surface === 'grass') grassFrames += 1;
-        observedMaximumSpeed = Math.max(observedMaximumSpeed, kart.speedMetersPerSecond());
+        observedMaximumSpeed = Math.max(observedMaximumSpeed, speed);
         kart.update(
-          driver.input(
-            positionBeforeStep,
-            kart.forward(),
-            kart.speedMetersPerSecond(),
-            0,
-            [],
-            1 / 60,
-          ),
+          driver.input(positionBeforeStep, forward, speed, 0, [], 1 / 60),
           projection.surface,
           1 / 60,
         );
@@ -93,6 +105,10 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
         maximumSpeed: tuning.maxSpeed,
         observedMaximumSpeed,
         grassRatio: grassFrames / simulatedFrames,
+        averageDriverCornerFactor: driverCornerFactorTotal / simulatedFrames,
+        maximumDriverCornerFactor,
+        averageTrackCurvatureFactor: trackCurvatureFactorTotal / simulatedFrames,
+        maximumTrackCurvatureFactor,
       });
     }
 

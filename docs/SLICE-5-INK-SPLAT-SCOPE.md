@@ -2,13 +2,27 @@
 
 ## Approval state
 
-**Status:** APPROVED GOVERNANCE SCOPE - GAMEPLAY/PRESENTATION IMPLEMENTATION HELD
+**Status:** APPROVED GOVERNANCE SCOPE - AI TUNING AMENDMENT APPROVED
 
 **Product-owner approval:** Manny, 2026-09-16
 
-**Governing PRD:** v1.1, approved implementation amendment 2.18 / ADR-079
+**Governing PRD:** v1.1, approved implementation amendments 2.18-2.19 / ADR-079-080
 
-This document defines the bounded implementation contract for Vision-Obscuring Ink Splat. Publication of this scope does not authorize gameplay, VFX, audio, or presentation development. A separate explicit product-owner authorization is required before implementation begins.
+This document defines the bounded implementation contract for Vision-Obscuring Ink Splat. The original 2.18 publication did not authorize gameplay, VFX, audio, or presentation development; Amendment 2.19 authorizes only the bounded AI impairment tuning described below. Tuned gameplay publication and live acceptance remain separately gated.
+
+## Amendment 2.19 / ADR-080 - AI impairment tuning
+
+**Status:** APPROVED TUNING AMENDMENT - bounded implementation update in progress
+
+**Product-owner approval:** Manny, 2026-09-17
+
+Live review of the merged 2.18 implementation found that its AI impairment was technically active but below the intended perceptual threshold. Amendment 2.19 supersedes only the three AI impairment constants below; all other 2.18 targeting, inventory, immunity, lifecycle, human presentation, architecture, and exclusion boundaries remain unchanged.
+
+- Lateral target-path noise: **0.95 m amplitude**
+- Reaction latency: **0.160 seconds**
+- Steering precision multiplier: **0.74**
+
+The tuning remains smooth, deterministic, legally road-bounded, and independent of AI speed, throttle, braking, acceleration, rubber-band, physics, and race authority. The active duration remains **2.50 race seconds**.
 
 ## Baseline preserved
 
@@ -53,9 +67,9 @@ This document defines the bounded implementation contract for Vision-Obscuring I
 
 During the same 2.50-race-second interval, affected AI receives all three bounded impairments:
 
-1. **Lateral target-path noise:** smooth deterministic zero-mean signal with **0.55 m amplitude** added to the ordinary lateral target before final legal-road bounding. No frame-random jitter.
-2. **Reaction latency:** **0.080 seconds** of steering/lane-decision latency. The implementation must use bounded simulation-history/buffered decision state rather than pausing the AI or withholding throttle.
-3. **Precision multiplier:** **0.88** applied to steering correction authority for the Ink interval. This is an Ink-only steering precision effect, not a racer-stat mutation.
+1. **Lateral target-path noise:** smooth deterministic zero-mean signal with **0.95 m amplitude** added to the ordinary lateral target before final legal-road bounding. No frame-random jitter.
+2. **Reaction latency:** **0.160 seconds** of steering/lane-decision latency. The implementation must use bounded simulation-history/buffered decision state rather than pausing the AI or withholding throttle.
+3. **Precision multiplier:** **0.74** applied to steering correction authority for the Ink interval. This is an Ink-only steering precision effect, not a racer-stat mutation.
 
 The AI impairment must preserve:
 
@@ -129,8 +143,8 @@ Future implementation tests must prove at minimum:
 - Prismatic/generic immunity blocks application while active and does not retroactively cleanse landed Ink;
 - pause freezes timers/fade/AI impairment; recovery preserves; finish/restart/hub/disposal clear as governed;
 - human overlay state respects duration, bounded coverage, monotonic fade, and HUD/touch layering contract;
-- AI noise is deterministic/smooth and capped to 0.55 m amplitude;
-- 80 ms reaction latency and 0.88 steering precision are active only during Ink;
+- AI noise is deterministic/smooth and capped to 0.95 m amplitude;
+- 160 ms reaction latency and 0.74 steering precision are active only during Ink;
 - AI target remains legally road-bounded and base speed/acceleration/rubber-band/race authority remain unchanged;
 - Ink uses no shared projectile/hazard capacity;
 - ordinary item probabilities remain unchanged;
@@ -157,7 +171,7 @@ Do not infer browser/device results that Manny does not explicitly report.
 
 ## Explicit exclusions
 
-This governance checkpoint does not authorize or change:
+The original 2.18 governance checkpoint does not authorize or change the following. Amendment 2.19 authorizes only the bounded AI tuning update described above:
 
 - Ink gameplay implementation;
 - Ink VFX, audio, or presentation development;

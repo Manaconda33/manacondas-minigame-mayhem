@@ -220,9 +220,9 @@ describe('Ink Splat contract values and diagnostic routing', () => {
     );
     const first = system.aiSnapshot('ai-1');
     expect(first).toMatchObject({
-      noiseAmplitudeMeters: 0.55,
-      reactionLatencySeconds: 0.08,
-      steeringPrecisionMultiplier: 0.88,
+      noiseAmplitudeMeters: 0.95,
+      reactionLatencySeconds: 0.16,
+      steeringPrecisionMultiplier: 0.74,
     });
     system.advance(1 / 60);
     const second = system.aiSnapshot('ai-1');
@@ -231,7 +231,7 @@ describe('Ink Splat contract values and diagnostic routing', () => {
     ).toBeLessThan(0.1);
     expect(
       Math.abs(Math.sin(first?.noisePhaseRadians ?? 0) * INK_SPLAT_CONFIG.aiNoiseAmplitudeMeters),
-    ).toBeLessThanOrEqual(0.55);
+    ).toBeLessThanOrEqual(0.95);
   });
 
   it('runs incoming and Prismatic counter fixtures through the real Ink resolver', () => {
@@ -282,10 +282,10 @@ describe('Ink Splat contract values and diagnostic routing', () => {
     if (position === undefined || tangent === undefined) throw new Error('Missing test sample');
     const impairment: InkAiImpairmentSnapshot = {
       remainingSeconds: 2.5,
-      noiseAmplitudeMeters: 0.55,
+      noiseAmplitudeMeters: 0.95,
       noisePhaseRadians: 1.2,
-      reactionLatencySeconds: 0.08,
-      steeringPrecisionMultiplier: 0.88,
+      reactionLatencySeconds: 0.16,
+      steeringPrecisionMultiplier: 0.74,
     };
     const firstDriver = new AiDriver(track, { laneOffset: 0.7, pace: 0.6, aggression: 0.5 }, 30);
     const secondDriver = new AiDriver(track, { laneOffset: 0.7, pace: 0.6, aggression: 0.5 }, 30);

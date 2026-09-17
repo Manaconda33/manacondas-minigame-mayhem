@@ -19,10 +19,10 @@ describe('Ink AI reaction latency', () => {
     for (let index = 0; index <= 10; index += 1) {
       const base: InkAiImpairmentSnapshot = {
         remainingSeconds: 2.5,
-        noiseAmplitudeMeters: 0.55,
+        noiseAmplitudeMeters: 0.95,
         noisePhaseRadians: -Math.PI / 2 + index * (Math.PI / 5),
-        reactionLatencySeconds: 0.08,
-        steeringPrecisionMultiplier: 0.88,
+        reactionLatencySeconds: 0.16,
+        steeringPrecisionMultiplier: 0.74,
       };
       delayed.push(
         delayedDriver.input(position, tangent, 15, 0, [], 1 / 60, [], 'ai-delayed', base)

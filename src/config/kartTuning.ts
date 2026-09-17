@@ -154,18 +154,21 @@ export function candidateBAiCornerPenaltyScale(handling: number): number {
 
 export function createKartTuning(stats: DriverStats): KartTuning {
   const normalized = (value: number): number => (value - 1) / 9;
+  const prdLaunchAcceleration = 4 + 0.55 * stats.acceleration;
+  const specializedAcceleration =
+    BALANCE_CANDIDATE_B.neutralAcceleration *
+    Math.exp(
+      BALANCE_CANDIDATE_B.accelerationExponentPerPoint *
+        (stats.acceleration - BALANCE_CANDIDATE_B.neutralStat),
+    );
 
   return {
     // Candidate B deliberately preserves the approved 23-33 m/s Speed range.
     maxSpeed: 23 + normalized(stats.speed) * 10,
-    // Exponential centering makes high/low Acceleration meaningfully distinct
-    // without moving the existing stat-6 value of 7.3 m/s^2.
-    acceleration:
-      BALANCE_CANDIDATE_B.neutralAcceleration *
-      Math.exp(
-        BALANCE_CANDIDATE_B.accelerationExponentPerPoint *
-          (stats.acceleration - BALANCE_CANDIDATE_B.neutralStat),
-      ),
+    // Never weaken the approved PRD launch curve. Candidate B adds nonlinear
+    // authority only where specialization exceeds that baseline, preserving
+    // ten-second convergence for low-Acceleration high-Speed builds.
+    acceleration: Math.max(prdLaunchAcceleration, specializedAcceleration),
     mass: 105 + normalized(stats.weight) * 75,
     steeringRate: 1.3 + normalized(stats.handling) * 1.1,
     lateralGrip: 5.5 + normalized(stats.traction) * 3.5,

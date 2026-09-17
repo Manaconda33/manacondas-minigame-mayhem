@@ -40,6 +40,7 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
         track,
         { laneOffset: 0, pace: 0.7, aggression: 0.6 },
         tuning.maxSpeed,
+        character.stats.handling,
       );
       const laps = new LapTracker();
       let grassFrames = 0;

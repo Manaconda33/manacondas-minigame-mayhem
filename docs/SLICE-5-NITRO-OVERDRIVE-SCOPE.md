@@ -2,7 +2,7 @@
 
 ## Approval state
 
-**Status:** IMPLEMENTATION AUTHORIZED - local gameplay/presentation checkpoint pending PR CI and publication.
+**Status:** IMPLEMENTATION AUTHORIZED - PR CI passed; publication and live acceptance pending.
 
 **Governance approval:** Manny, 2026-09-17
 
@@ -108,7 +108,7 @@ A passing automated suite does not claim live visual or product-owner acceptance
 
 The authorized local implementation adds the focused `NitroOverdriveSystem`, keyed temporary-boost composition in `RacerEffects`, production dispatcher and `KartTimeTrial` input/lifecycle wiring, a separate active-window HUD state, original procedural rear VFX, and original procedural activation/pulse audio. The player-only `?testItem=nitro-overdrive` override remains isolated from AI inventory and selector policy.
 
-Local validation passed after implementation: **55 test files / 472 tests**, **82.03% statement / 77.33% branch / 86.55% function / 83.61% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. The build retains the known Vite large-chunk warning. Hosted gameplay PR CI, merge, Pages deployment, and product-owner live acceptance are not claimed by this checkpoint.
+Local validation passed after implementation: **55 test files / 473 tests**, **81.99% statement / 77.32% branch / 86.55% function / 83.55% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. Hosted gameplay PR CI **35229580296** passed. Merge, Pages deployment, and product-owner live acceptance are not claimed by this checkpoint; the build retains the known Vite large-chunk warning.
 
 ## Focused deployed live gate
 

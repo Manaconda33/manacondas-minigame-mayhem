@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO OVERDRIVE IMPLEMENTATION AUTHORIZED; LOCAL CHECKPOINT PENDING PR/CI**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO OVERDRIVE PR CI PASSED; PUBLICATION PENDING**
 
 PRD baseline: **v1.1, approved implementation amendments 2.18-2.20 / ADR-079-081**.
 
@@ -62,9 +62,9 @@ Continuous Nitro Overdrive governance is approved under amendment 2.20 / ADR-081
 
 The approved contract is one charge; immediate first pulse on committed activation; an exactly 6.0 race-second window; subsequent ITEM pulses no faster than every 0.75 race seconds; approximately 0.9-second non-stacking pulses; a 1.15x normal speed cap; neutral additional acceleration; normal dirt/grass penalties; maximum-authority composition with accepted boosts; pause-safe timing; and full expiry/finish/restart/hub/disposal cleanup. The item creates no hostile effect, immunity, projectile, hazard, or shared-capacity object.
 
-The authorized local implementation adds the bounded Overdrive state/transaction path, keyed generic temporary-boost composition, production player desktop/mobile ITEM routing, separate active-window HUD state, original procedural rear VFX, and original procedural activation/pulse audio. Local validation passed with **55 test files / 472 tests**, **82.03% statement / 77.33% branch / 86.55% function / 83.61% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. The known Vite large-chunk warning remains nonblocking.
+The authorized local implementation adds the bounded Overdrive state/transaction path, keyed generic temporary-boost composition, production player desktop/mobile ITEM routing, separate active-window HUD state, original procedural rear VFX, and original procedural activation/pulse audio. Local validation passed with **55 test files / 473 tests**, **81.99% statement / 77.32% branch / 86.55% function / 83.55% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. Hosted gameplay PR #152 CI run **35229580296** passed. The known Vite large-chunk warning remains nonblocking.
 
-The player-only route is `?testItem=nitro-overdrive`, but the current live Pages build predates this implementation. Gameplay PR CI, merge, Pages deployment, and product-owner live acceptance are not claimed by this status update. Hyper-Drive Rocket, full AI item use/tactics, final cross-item evidence, soak/performance, issue #106, and Slice 5 closure remain open.
+The player-only route is `?testItem=nitro-overdrive`, but the current live Pages build predates this implementation. Merge, Pages deployment, and product-owner live acceptance are not claimed by this status update. Hyper-Drive Rocket, full AI item use/tactics, final cross-item evidence, soak/performance, issue #106, and Slice 5 closure remain open.
 
 ## Slice 5 accepted/deployed state
 

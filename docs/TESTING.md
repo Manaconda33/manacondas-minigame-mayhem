@@ -820,7 +820,7 @@ Before gameplay publication, automated evidence must exercise the real ItemEffec
 - player-only ?testItem=nitro-overdrive isolation, unchanged normal selection, and no AI item inventory/tactical use;
 - desktop and mobile ITEM routing, HUD state, original VFX/audio lifecycle, and chase/rear readability.
 
-The authorized local checkpoint passed **55 test files / 472 tests** with **82.03% statement / 77.33% branch / 86.55% function / 83.61% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. The new production-path coverage includes `tests/nitro-overdrive.test.ts` and the real `KartTimeTrial` input seam through `tests/arc-runtime-rig.ts`; visual/audio cleanup is covered locally. Hosted gameplay PR CI, merge, Pages deployment, and product-owner live acceptance remain required.
+The authorized local checkpoint passed **55 test files / 473 tests** with **81.99% statement / 77.32% branch / 86.55% function / 83.55% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. The new production-path coverage includes `tests/nitro-overdrive.test.ts` and the real `KartTimeTrial` input seam through `tests/arc-runtime-rig.ts`; visual/audio cleanup is covered locally. Hosted gameplay PR CI **35229580296** passed; merge, Pages deployment, and product-owner live acceptance remain required.
 
 After a successful gameplay publication and Pages deployment, use:
 

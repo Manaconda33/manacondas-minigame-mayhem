@@ -55,7 +55,7 @@ export function aiTargetSpeed(
 ): number {
   const cornerPenalty =
     THREE.MathUtils.lerp(0.48, 0.34, THREE.MathUtils.clamp(pace, 0, 1)) *
-    candidateBAiCornerPenaltyScale(handling);
+    candidateBAiCornerPenaltyScale(handling, characterMaxSpeed);
   return (
     characterMaxSpeed *
     (1 - THREE.MathUtils.clamp(corner, 0, 1) * cornerPenalty) *

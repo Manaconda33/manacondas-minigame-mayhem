@@ -829,9 +829,9 @@ After a successful gameplay publication and Pages deployment, use:
 
 The deployed review must verify first use, slot release, new-item collection during the window, visible repeated pulses, cadence rejection, six-second expiry, pause/resume, accepted-boost overlap, normal surface penalties, desktop/mobile controls, chase/rear presentation, cleanup, and normal unforced isolation. An automated pass does not establish live acceptance. Record the exact commit, PR CI, post-merge validation/Pages run, device/browser results, defects, and Manny's explicit acceptance before closing this item.
 
-## Hyper-Drive Rocket governance checkpoint - proposal
+## Hyper-Drive Rocket governance checkpoint - APPROVED / PUBLISHED
 
-`docs/SLICE-5-HYPER-DRIVE-ROCKET-SCOPE.md`, proposed amendment 2.21, and ADR-082 define the next bounded governance checkpoint. This proposal is not gameplay, VFX, audio, or presentation implementation authorization. Do not claim a Rocket gameplay pass, live deployment, or Slice 5 closure from this documentation checkpoint.
+`docs/SLICE-5-HYPER-DRIVE-ROCKET-SCOPE.md`, approved amendment 2.21, and ADR-082 define the published bounded governance checkpoint. PR #154 squash-merged at `ae977623bdc7a209634816e1cea8ef4a799b98c8`; post-merge validation and Pages run `35243454845` passed. This checkpoint is not gameplay, VFX, audio, or presentation implementation authorization. Do not claim a Rocket gameplay pass or Slice 5 closure from this governance publication.
 
 Before any later implementation publication, automated evidence must exercise the real production seams and verify:
 
@@ -846,6 +846,6 @@ Before any later implementation publication, automated evidence must exercise th
 - source-scoped composition with Nitro/Overdrive/Prismatic and existing surfaces/boosts, plus desktop/mobile/pause/HUD/VFX/audio and normal-URL isolation; and
 - player-only fixture behavior with AI inventory/tactical-use regression coverage. General AI item acquisition/use remains a separate full-Slice-5 gate.
 
-The proposed player-only route is `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=hyper-drive-rocket`; the normal unforced URL remains required for selector and regression isolation. This route may force the next player pickup only; it must not mutate rank, gap, lap, checkpoint, progress, or AI inventory. A miss, invalid fixture, no legal movement, or encounter that never reaches its intended condition is **INCONCLUSIVE**, not PASS.
+The approved player-only route is `https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=hyper-drive-rocket`; the normal unforced URL remains required for selector and regression isolation. This route may force the next player pickup only; it must not mutate rank, gap, lap, checkpoint, progress, or AI inventory. A miss, invalid fixture, no legal movement, or encounter that never reaches its intended condition is **INCONCLUSIVE**, not PASS.
 
-Governance publication requires local documentation validation, hosted PR CI, and post-merge validation/Pages. Only after that checkpoint is separately approved may gameplay implementation be authorized; gameplay publication and Manny's live acceptance remain distinct later gates.
+Governance publication is complete after local documentation validation, hosted PR CI, and post-merge validation/Pages. Only after a separate implementation authorization may gameplay work begin; gameplay publication and Manny's live acceptance remain distinct later gates.

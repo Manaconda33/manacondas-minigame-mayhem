@@ -802,3 +802,27 @@ Automated coverage proves progress-authoritative all-racers-ahead targeting acro
 The deployed primary route is `?testItem=ink-splat`. A deterministic incoming-Ink fixture exercises the human overlay without enabling general AI item tactics. Prismatic protected/expired fixtures verify actual resolved application/blocking. A miss, no-target setup, invalid/finished target, or fixture that never reaches the intended encounter is **INCONCLUSIVE**, not PASS.
 
 Manny's deployed review passed the required live matrix: one-charge consumption, racers-ahead impairment, human readability and fade, HUD/touch usability, refresh-without-stacking, visibly reduced but legal AI precision, pause/recovery/finish/restart/hub lifecycle, Prismatic protected/expired behavior, and normal unforced item behavior.
+
+
+## Continuous Nitro Overdrive governance checkpoint
+
+Amendment 2.20 / ADR-081 and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md define the governance-only contract. No Nitro Overdrive gameplay or presentation test pass is claimed until a separately authorized implementation is published and deployed.
+
+Before gameplay publication, automated evidence must exercise the real ItemEffectDispatcher/KartTimeTrial/controller/HUD paths and verify:
+
+- one-charge atomic activation, immediate inventory release, and first-pulse eligibility;
+- exact six-second window, 0.75-second minimum pulse cadence, approximately 0.9-second pulse, 1.15x cap, neutral acceleration, and no off-road override;
+- rejected early presses retain all state, do not emit pulse presentation, and do not extend the window;
+- accepted pulses refresh one source without stacking and are clipped by the window boundary;
+- pause freezes window, cadence, pulse, HUD, VFX, and audio;
+- expiry, recovery, finish, restart, hub return, racer removal, and disposal cleanup;
+- composition with Nitro Surge, Prismatic, drift boosts, boost pads, dirt, grass, ramps, and normal surfaces without permanent-stat or race-authority changes;
+- player-only ?testItem=nitro-overdrive isolation, unchanged normal selection, and no AI item inventory/tactical use;
+- desktop and mobile ITEM routing, HUD state, original VFX/audio lifecycle, and chase/rear readability.
+
+After a successful gameplay publication and Pages deployment, use:
+
+- Overdrive: https://manaconda33.github.io/manacondas-minigame-mayhem/?testItem=nitro-overdrive
+- Normal isolation: https://manaconda33.github.io/manacondas-minigame-mayhem/
+
+The deployed review must verify first use, slot release, new-item collection during the window, visible repeated pulses, cadence rejection, six-second expiry, pause/resume, accepted-boost overlap, normal surface penalties, desktop/mobile controls, chase/rear presentation, cleanup, and normal unforced isolation. An automated pass does not establish live acceptance. Record the exact commit, PR CI, post-merge validation/Pages run, device/browser results, defects, and Manny's explicit acceptance before closing this item.

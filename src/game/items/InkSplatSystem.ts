@@ -5,9 +5,9 @@ import { racersAheadByProgress } from './ItemTargeting';
 export const INK_SPLAT_CONFIG = {
   durationSeconds: 2.5,
   humanCoverage: 0.35,
-  aiNoiseAmplitudeMeters: 0.55,
-  aiReactionLatencySeconds: 0.08,
-  aiSteeringPrecisionMultiplier: 0.88,
+  aiNoiseAmplitudeMeters: 0.95,
+  aiReactionLatencySeconds: 0.16,
+  aiSteeringPrecisionMultiplier: 0.74,
   aiNoiseFrequencyHz: 0.78,
 } as const;
 

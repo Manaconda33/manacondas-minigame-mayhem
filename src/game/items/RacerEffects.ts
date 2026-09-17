@@ -111,6 +111,8 @@ export class RacerEffects {
   private readonly protections = new Map<string, Map<string, ActiveTemporaryBoost>>();
   private readonly spinouts = new Map<string, ActiveSpinout>();
   private readonly itemImmuneRacers = new Set<string>();
+  private readonly racerContactImmunity = new Map<string, Set<string>>();
+  private readonly groundHazardImmunity = new Map<string, Set<string>>();
 
   public activateTemporaryBoost(
     racerId: string,
@@ -236,6 +238,24 @@ export class RacerEffects {
     return this.itemImmuneRacers.has(racerId) || (this.protections.get(racerId)?.size ?? 0) > 0;
   }
 
+  /** Source-scoped immunity for ordinary racer-to-racer contact only. */
+  public setRacerContactImmunity(racerId: string, source: string, immune: boolean): boolean {
+    return this.setSourceFlag(this.racerContactImmunity, racerId, source, immune);
+  }
+
+  public isRacerContactImmune(racerId: string): boolean {
+    return (this.racerContactImmunity.get(racerId)?.size ?? 0) > 0;
+  }
+
+  /** Source-scoped immunity for supported ground/area hazards only. */
+  public setGroundHazardImmunity(racerId: string, source: string, immune: boolean): boolean {
+    return this.setSourceFlag(this.groundHazardImmunity, racerId, source, immune);
+  }
+
+  public isGroundHazardImmune(racerId: string): boolean {
+    return (this.groundHazardImmunity.get(racerId)?.size ?? 0) > 0;
+  }
+
   public remainingSeconds(racerId: string, effectId?: string): number {
     const sources = this.temporaryBoosts.get(racerId);
     if (sources === undefined) return 0;
@@ -273,6 +293,8 @@ export class RacerEffects {
     this.spinouts.delete(racerId);
     this.itemImmuneRacers.delete(racerId);
     this.protections.delete(racerId);
+    this.racerContactImmunity.delete(racerId);
+    this.groundHazardImmunity.delete(racerId);
   }
 
   public dispose(): void {
@@ -281,5 +303,28 @@ export class RacerEffects {
     this.spinouts.clear();
     this.itemImmuneRacers.clear();
     this.protections.clear();
+    this.racerContactImmunity.clear();
+    this.groundHazardImmunity.clear();
+  }
+
+  private setSourceFlag(
+    sourcesByRacer: Map<string, Set<string>>,
+    racerId: string,
+    source: string,
+    enabled: boolean,
+  ): boolean {
+    if (racerId.trim().length === 0 || source.trim().length === 0) return false;
+    if (enabled) {
+      const sources = sourcesByRacer.get(racerId) ?? new Set<string>();
+      sources.add(source);
+      sourcesByRacer.set(racerId, sources);
+      return true;
+    }
+
+    const sources = sourcesByRacer.get(racerId);
+    if (sources === undefined) return true;
+    sources.delete(source);
+    if (sources.size === 0) sourcesByRacer.delete(racerId);
+    return true;
   }
 }

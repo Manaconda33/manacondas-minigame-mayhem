@@ -11,6 +11,7 @@ import { PrismaticVisual } from './items/PrismaticVisual';
 import { PrismaticMusic } from '../audio/PrismaticMusic';
 import { InkSplatAudio } from '../audio/InkSplatAudio';
 import { NitroOverdriveAudio } from '../audio/NitroOverdriveAudio';
+import { HyperDriveRocketAudio } from '../audio/HyperDriveRocketAudio';
 import { PrismaticCounterFixture, prismaticTestFromSearch } from './items/PrismaticCounterFixture';
 import { observeAiHazards } from './ai/AiHazardAwareness';
 import { AiHazardFixture, aiHazardTestFromSearch } from './ai/AiHazardFixture';
@@ -73,6 +74,8 @@ import {
 import { NitroSurgeVisual } from './items/NitroSurgeVisual';
 import { NitroOverdriveVisual } from './items/NitroOverdriveVisual';
 import { NitroOverdriveSystem, type NitroOverdriveSnapshot } from './items/NitroOverdrive';
+import { HyperDriveRocketSystem, type HyperDriveRocketSnapshot } from './items/HyperDriveRocket';
+import { HyperDriveRocketVisual } from './items/HyperDriveRocketVisual';
 import { RacerEffects } from './items/RacerEffects';
 import {
   ItemSystem,
@@ -120,6 +123,7 @@ export interface HudState {
   frostSeconds: number;
   frostStacks: number;
   nitroOverdrive: NitroOverdriveSnapshot;
+  hyperDriveRocket: HyperDriveRocketSnapshot;
   ink: InkViewSnapshot;
 }
 
@@ -220,10 +224,12 @@ export class KartTimeTrial {
   private readonly itemSystem = new ItemSystem();
   private readonly racerEffects = new RacerEffects();
   private readonly nitroOverdrive = new NitroOverdriveSystem(this.racerEffects);
+  private readonly hyperDriveRocket = new HyperDriveRocketSystem(this.track, this.racerEffects);
   private readonly prismatic = new PrismaticSystem(this.racerEffects);
   private readonly inkSplat = new InkSplatSystem();
   private readonly inkAudio = new InkSplatAudio();
   private readonly nitroOverdriveAudio = new NitroOverdriveAudio();
+  private readonly hyperDriveRocketAudio = new HyperDriveRocketAudio();
   private readonly inkFixture = new InkSplatCounterFixture(
     inkSplatCounterFromSearch(window.location.search),
   );
@@ -245,6 +251,7 @@ export class KartTimeTrial {
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
   private readonly nitroOverdriveVisual = new NitroOverdriveVisual();
+  private readonly hyperDriveRocketVisual = new HyperDriveRocketVisual();
   private readonly shockwave = new ShockwaveSystem(
     (position) => this.slickGround.at(position),
     (ownerId) =>
@@ -318,7 +325,11 @@ export class KartTimeTrial {
       this.seekerWarningVisual.group,
       this.apexPresentation.group,
     );
-    this.kartMesh.add(this.nitroSurgeVisual.group, this.nitroOverdriveVisual.group);
+    this.kartMesh.add(
+      this.nitroSurgeVisual.group,
+      this.nitroOverdriveVisual.group,
+      this.hyperDriveRocketVisual.group,
+    );
     this.scene.add(new THREE.HemisphereLight(0xcbb7ff, 0x263822, 2.1));
     const sun = new THREE.DirectionalLight(0xffe8c5, 2.4);
     sun.position.set(-120, 180, -80);
@@ -368,6 +379,8 @@ export class KartTimeTrial {
     this.itemSystem.dispose();
     this.nitroOverdrive.dispose();
     this.nitroOverdriveAudio.dispose();
+    this.hyperDriveRocket.dispose();
+    this.hyperDriveRocketAudio.dispose();
     this.racerEffects.dispose();
     this.apex.dispose();
     this.apexPresentation.dispose();
@@ -395,6 +408,7 @@ export class KartTimeTrial {
     this.spinoutCameraAnchor.clear();
     this.nitroSurgeVisual.dispose();
     this.nitroOverdriveVisual.dispose();
+    this.hyperDriveRocketVisual.dispose();
     this.renderer.dispose();
   }
 
@@ -407,6 +421,7 @@ export class KartTimeTrial {
       void this.prismaticMusic.unlock();
       void this.inkAudioIfPresent()?.unlock();
       void this.nitroOverdriveAudioIfPresent()?.unlock();
+      void this.hyperDriveRocketAudioIfPresent()?.unlock();
     }
     if (pressed) this.touchPressed.add(control);
     else this.touchPressed.delete(control);
@@ -440,7 +455,7 @@ export class KartTimeTrial {
     this.inkSplat.advance(dt);
     const driveModifiers = this.racerEffects.driveModifiers('player');
     const playerSpinout = this.racerEffects.spinoutState('player');
-    const input: DriveInput = {
+    const normalInput: DriveInput = {
       throttle:
         this.isPressed('KeyW', 'ArrowUp') || this.touchPressed.has('accelerate')
           ? 1
@@ -463,6 +478,14 @@ export class KartTimeTrial {
       effectSpinoutYawRateRadiansPerSecond: playerSpinout?.yawRateRadiansPerSecond,
       effectSpinoutPreserveMomentum: playerSpinout?.preserveMomentum,
     };
+    const input =
+      this.hyperDriveRocketIfPresent()?.inputFor(
+        'player',
+        position,
+        this.kart.forward(this.forward),
+        this.kart.speedMetersPerSecond(),
+        normalInput,
+      ) ?? normalInput;
     this.playerSteering = playerSpinout === null ? input.steering : 0;
     this.driverHitSeconds = Math.max(0, this.driverHitSeconds - dt);
 
@@ -502,6 +525,11 @@ export class KartTimeTrial {
         : projection.progress;
     this.itemSystem.advance(dt);
     this.nitroOverdriveIfPresent()?.advance(dt);
+    const rocketBeforeAdvance = this.hyperDriveRocketSnapshot();
+    this.hyperDriveRocketIfPresent()?.advance(dt);
+    const rocketAfterAdvance = this.hyperDriveRocketSnapshot();
+    if (rocketBeforeAdvance.active && !rocketAfterAdvance.active)
+      this.hyperDriveRocketAudioIfPresent()?.play('return', Howler.volume());
     this.racerEffects.advance(dt, false, false);
     this.shockwave.advance(dt);
     this.incomingSeekerFixture.update(
@@ -520,6 +548,8 @@ export class KartTimeTrial {
     if (this.playerProgress.finished) {
       this.nitroOverdriveIfPresent()?.clear('player');
       this.nitroOverdriveAudioIfPresent()?.stop();
+      this.hyperDriveRocketIfPresent()?.clear('player');
+      this.hyperDriveRocketAudioIfPresent()?.stop();
     }
     if (this.playerProgress.finished) this.inkSplat.clear('player');
     this.itemUseMessageSeconds = Math.max(0, this.itemUseMessageSeconds - dt);
@@ -688,19 +718,25 @@ export class KartTimeTrial {
         const relativeVelocity = a.controller.velocity().sub(b.controller.velocity());
         const closingSpeed = Math.max(0, -relativeVelocity.dot(direction));
         const impulses = collisionImpulseShares(a.controller.mass(), b.controller.mass(), 55);
-        a.controller.applyArcadeCollisionImpulse(direction, impulses.first);
-        b.controller.applyArcadeCollisionImpulse(
-          direction.clone().multiplyScalar(-1),
-          impulses.second,
-        );
-        a.controller.applyCollisionSpeedRetention(
-          collisionSpeedRetention(a.controller.weight(), b.controller.weight(), closingSpeed),
-        );
-        b.controller.applyCollisionSpeedRetention(
-          collisionSpeedRetention(b.controller.weight(), a.controller.weight(), closingSpeed),
-        );
-        this.activateDriverHit(a.id);
-        this.activateDriverHit(b.id);
+        const aContactImmune = this.racerEffects.isRacerContactImmune(a.id);
+        const bContactImmune = this.racerEffects.isRacerContactImmune(b.id);
+        if (!aContactImmune) {
+          a.controller.applyArcadeCollisionImpulse(direction, impulses.first);
+          a.controller.applyCollisionSpeedRetention(
+            collisionSpeedRetention(a.controller.weight(), b.controller.weight(), closingSpeed),
+          );
+          this.activateDriverHit(a.id);
+        }
+        if (!bContactImmune) {
+          b.controller.applyArcadeCollisionImpulse(
+            direction.clone().multiplyScalar(-1),
+            impulses.second,
+          );
+          b.controller.applyCollisionSpeedRetention(
+            collisionSpeedRetention(b.controller.weight(), a.controller.weight(), closingSpeed),
+          );
+          this.activateDriverHit(b.id);
+        }
         this.contactCooldowns.set(key, 0.18);
       }
     }
@@ -760,6 +796,7 @@ export class KartTimeTrial {
         forward: this.kart.forward(),
         finished: this.playerProgress.finished,
         itemImmune: this.racerEffects.isItemImmune('player'),
+        groundHazardImmune: this.racerEffects.isGroundHazardImmune('player'),
         onItemContact: (
           itemId: import('./items/itemDefinitions').ItemId,
           blocked: boolean,
@@ -786,6 +823,7 @@ export class KartTimeTrial {
         forward: opponent.controller.forward(),
         finished: opponent.progress.finished,
         itemImmune: this.racerEffects.isItemImmune(opponent.id),
+        groundHazardImmune: this.racerEffects.isGroundHazardImmune(opponent.id),
         onItemContact: (
           itemId: import('./items/itemDefinitions').ItemId,
           blocked: boolean,
@@ -1142,6 +1180,7 @@ export class KartTimeTrial {
       return;
     const reverseHeld = this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake');
     if (!this.frostFixture.activationAllowed(this.kart.position(), this.projectiles)) return;
+    const hyperDriveRocket = this.hyperDriveRocketIfPresent();
     const result = executeItemUse(
       this.itemSystem,
       this.racerEffects,
@@ -1156,6 +1195,7 @@ export class KartTimeTrial {
         prismaticSystem: this.prismatic,
         inkSplatSystem: this.inkSplat,
         nitroOverdriveSystem: nitroOverdrive,
+        hyperDriveRocketSystem: hyperDriveRocket,
         onInkResolution: (resolution) => {
           if (resolution.accepted) this.inkAudioIfPresent()?.play(Howler.volume());
         },
@@ -1170,6 +1210,12 @@ export class KartTimeTrial {
       this.nitroOverdriveAudioIfPresent()?.play('activate', Howler.volume());
     if (heldItemId === 'nitro-overdrive' && result === 'rejected') {
       this.itemUseMessage = 'OVERDRIVE NOT READY · ITEM HELD';
+      this.itemUseMessageSeconds = 1.5;
+    }
+    if (heldItemId === 'hyper-drive-rocket' && result === 'activated')
+      this.hyperDriveRocketAudioIfPresent()?.play('activate', Howler.volume());
+    if (heldItemId === 'hyper-drive-rocket' && result === 'rejected') {
+      this.itemUseMessage = 'ROCKET NOT READY · ITEM HELD';
       this.itemUseMessageSeconds = 1.5;
     }
     if (this.itemSystem.heldItem('player')?.itemId === 'arc-blade' && result === 'rejected') {
@@ -1300,6 +1346,8 @@ export class KartTimeTrial {
       nitroOverdrive.pulseRemainingSeconds > 0,
       this.elapsed,
     );
+    const hyperDriveRocket = this.hyperDriveRocketSnapshot();
+    this.hyperDriveRocketVisualIfPresent()?.update(hyperDriveRocket, this.elapsed);
     const targets = this.projectileTargets();
     const threats = seekerThreats(this.projectiles.snapshots(), targets);
     this.seekerWarning = threats.find((threat) => threat.targetId === 'player')?.level ?? null;
@@ -1336,6 +1384,12 @@ export class KartTimeTrial {
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceHammerAudio();
     if (this.paused || Howler.volume() <= 0) this.inkAudioIfPresent()?.stop();
     if (this.paused || Howler.volume() <= 0) this.nitroOverdriveAudioIfPresent()?.stop();
+    this.hyperDriveRocketAudioIfPresent()?.update(
+      hyperDriveRocket.active,
+      hyperDriveRocket.autopilotWeight,
+      Howler.volume(),
+      this.paused,
+    );
     this.prismaticMusic.update(
       this.prismatic.remaining('player'),
       dt,
@@ -1382,6 +1436,7 @@ export class KartTimeTrial {
       frostSeconds: this.racerEffects.frostState('player')?.remainingSeconds ?? 0,
       frostStacks: this.racerEffects.frostState('player')?.stacks ?? 0,
       nitroOverdrive: this.nitroOverdriveSnapshot(),
+      hyperDriveRocket: this.hyperDriveRocketSnapshot(),
       ink: this.inkSplat.viewSnapshot('player'),
       testModeItemLabel:
         [
@@ -1743,6 +1798,7 @@ export class KartTimeTrial {
     void this.prismaticMusic.unlock();
     void this.inkAudioIfPresent()?.unlock();
     void this.nitroOverdriveAudioIfPresent()?.unlock();
+    void this.hyperDriveRocketAudioIfPresent()?.unlock();
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(event.code)) {
       event.preventDefault();
     }
@@ -1779,6 +1835,20 @@ export class KartTimeTrial {
       .nitroOverdriveVisual;
   }
 
+  private hyperDriveRocketIfPresent(): HyperDriveRocketSystem | undefined {
+    return (this as unknown as { hyperDriveRocket?: HyperDriveRocketSystem }).hyperDriveRocket;
+  }
+
+  private hyperDriveRocketAudioIfPresent(): HyperDriveRocketAudio | undefined {
+    return (this as unknown as { hyperDriveRocketAudio?: HyperDriveRocketAudio })
+      .hyperDriveRocketAudio;
+  }
+
+  private hyperDriveRocketVisualIfPresent(): HyperDriveRocketVisual | undefined {
+    return (this as unknown as { hyperDriveRocketVisual?: HyperDriveRocketVisual })
+      .hyperDriveRocketVisual;
+  }
+
   private nitroOverdriveSnapshot(): NitroOverdriveSnapshot {
     return (
       this.nitroOverdriveIfPresent()?.snapshot('player') ?? {
@@ -1786,6 +1856,18 @@ export class KartTimeTrial {
         windowRemainingSeconds: 0,
         pulseRemainingSeconds: 0,
         nextPulseRemainingSeconds: 0,
+      }
+    );
+  }
+
+  private hyperDriveRocketSnapshot(): HyperDriveRocketSnapshot {
+    return (
+      this.hyperDriveRocketIfPresent()?.snapshot('player') ?? {
+        active: false,
+        phase: 'inactive',
+        windowRemainingSeconds: 0,
+        returnBlendRemainingSeconds: 0,
+        autopilotWeight: 0,
       }
     );
   }

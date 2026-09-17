@@ -14,6 +14,7 @@ import { ProjectileSystem, type ProjectileLaunchContext } from './ProjectileSyst
 import { RacerEffects } from './RacerEffects';
 import { InkSplatSystem, type InkApplicationResult } from './InkSplatSystem';
 import type { NitroOverdriveSystem } from './NitroOverdrive';
+import type { HyperDriveRocketSystem } from './HyperDriveRocket';
 
 export type ItemUseResolution = 'rejected' | 'unsupported' | 'activated';
 
@@ -28,6 +29,7 @@ export interface ItemEffectRuntime {
   readonly inkSplatSystem?: InkSplatSystem;
   readonly onInkResolution?: (result: InkApplicationResult) => void;
   readonly nitroOverdriveSystem?: NitroOverdriveSystem;
+  readonly hyperDriveRocketSystem?: HyperDriveRocketSystem;
 }
 
 export function executeItemUse(
@@ -43,6 +45,19 @@ export function executeItemUse(
   if (request.itemId === 'nitro-overdrive') {
     if (runtime?.nitroOverdriveSystem === undefined) return 'unsupported';
     return runtime.nitroOverdriveSystem.activate(racerId, () => itemSystem.commitUse(racerId))
+      ? 'activated'
+      : 'rejected';
+  }
+
+  if (request.itemId === 'hyper-drive-rocket') {
+    if (runtime?.hyperDriveRocketSystem === undefined) return 'unsupported';
+    if (
+      racerId !== 'player' ||
+      (runtime.racers !== undefined &&
+        !runtime.racers.some((racer) => racer.id === racerId && !racer.finished))
+    )
+      return 'rejected';
+    return runtime.hyperDriveRocketSystem.activate(racerId, () => itemSystem.commitUse(racerId))
       ? 'activated'
       : 'rejected';
   }

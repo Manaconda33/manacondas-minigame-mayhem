@@ -183,6 +183,7 @@ export function mountAppShell(root: HTMLElement): void {
           <span id="drift-label">Hold Space + steer to drift</span>
           <div class="drift-meter"><i id="drift-fill"></i></div>
           <div id="overdrive-status" class="overdrive-status" role="status" hidden></div>
+          <div id="rocket-status" class="rocket-status" role="status" hidden></div>
         </div>
         <div id="wrong-way" class="warning" hidden>WRONG WAY</div>
         <div id="countdown" class="countdown">3</div>
@@ -256,6 +257,12 @@ export function mountAppShell(root: HTMLElement): void {
           : state.nitroOverdrive.nextPulseRemainingSeconds > 0
             ? `OVERDRIVE LOCK · ${state.nitroOverdrive.nextPulseRemainingSeconds.toFixed(1)}s · WINDOW ${state.nitroOverdrive.windowRemainingSeconds.toFixed(1)}s`
             : `OVERDRIVE READY · WINDOW ${state.nitroOverdrive.windowRemainingSeconds.toFixed(1)}s`;
+      const rocketStatus = getElement('#rocket-status');
+      rocketStatus.hidden = !state.hyperDriveRocket.active;
+      rocketStatus.textContent =
+        state.hyperDriveRocket.phase === 'returning'
+          ? `ROCKET RETURN · ${state.hyperDriveRocket.returnBlendRemainingSeconds.toFixed(2)}s`
+          : `ROCKET AUTOPILOT · ${state.hyperDriveRocket.windowRemainingSeconds.toFixed(1)}s`;
       let frostLabel = driftPanel.querySelector<HTMLElement>('[data-frost-countdown]');
       if (!frostLabel) {
         frostLabel = document.createElement('div');

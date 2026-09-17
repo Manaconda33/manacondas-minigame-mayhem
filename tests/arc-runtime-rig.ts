@@ -18,6 +18,9 @@ import { InkSplatSystem } from '../src/game/items/InkSplatSystem';
 import { InkSplatAudio } from '../src/audio/InkSplatAudio';
 import { NitroOverdriveSystem } from '../src/game/items/NitroOverdrive';
 import { NitroOverdriveAudio } from '../src/audio/NitroOverdriveAudio';
+import { HyperDriveRocketSystem } from '../src/game/items/HyperDriveRocket';
+import { HyperDriveRocketAudio } from '../src/audio/HyperDriveRocketAudio';
+import { HyperDriveRocketVisual } from '../src/game/items/HyperDriveRocketVisual';
 import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
 import { ProjectileSystem, type ProjectileTarget } from '../src/game/items/ProjectileSystem';
 import { HazardSystem } from '../src/game/items/HazardSystem';
@@ -62,6 +65,7 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
   const rivalProgress = progress('rival');
   const racerEffects = new RacerEffects();
   const nitroOverdrive = new NitroOverdriveSystem(racerEffects);
+  const hyperDriveRocket = new HyperDriveRocketSystem(track, racerEffects);
   const prismatic = new PrismaticSystem(racerEffects);
   const projectiles = new ProjectileSystem(track, undefined, (e) => {
     game.arcFixture.observe(e, game.arcEvidence());
@@ -76,6 +80,9 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
     racerEffects,
     nitroOverdrive,
     nitroOverdriveAudio: new NitroOverdriveAudio(),
+    hyperDriveRocket,
+    hyperDriveRocketAudio: new HyperDriveRocketAudio(),
+    hyperDriveRocketVisual: new HyperDriveRocketVisual(),
     prismatic,
     projectiles,
     hazards,
@@ -119,6 +126,7 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
     fields,
   ) as unknown as typeof fields & {
     updateProjectiles(dt: number): void;
+    resolveKartContacts(dt: number): void;
     requestPlayerItemUse(): void;
     respawn(): void;
     projectileTargets(): ProjectileTarget[];
@@ -139,6 +147,9 @@ export function arcRuntimeRig(index = 24, elevation = 0.35) {
       prismatic.dispose();
       fields.nitroOverdrive.dispose();
       fields.nitroOverdriveAudio.dispose();
+      fields.hyperDriveRocket.dispose();
+      fields.hyperDriveRocketAudio.dispose();
+      fields.hyperDriveRocketVisual.dispose();
       racerEffects.dispose();
       fields.prismaticVisual.dispose();
       fields.prismaticMusic.dispose();

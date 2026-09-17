@@ -15,6 +15,7 @@ import { BLAST_ORB_CONFIG as C, SLICK_TRAP_CONFIG as S } from './itemDefinitions
 
 export interface HazardTarget extends ProjectileTarget {
   readonly itemImmune?: boolean;
+  readonly groundHazardImmune?: boolean;
 }
 
 export interface HazardSnapshot {
@@ -257,7 +258,7 @@ export class HazardSystem {
           finitePosition(racer.position) &&
           !(racer.id === slick.ownerId && slick.age < S.ownerImmunitySeconds - 1e-9) &&
           squaredHorizontalDistance(racer.position, slick.mesh.position) <= S.triggerRadius ** 2 &&
-          racer.itemImmune
+          (racer.itemImmune || racer.groundHazardImmune)
         )
           racer.onItemContact?.('slick-trap', true, slick.id);
       }
@@ -265,6 +266,7 @@ export class HazardSystem {
         (racer) =>
           !racer.finished &&
           !racer.itemImmune &&
+          !racer.groundHazardImmune &&
           finitePosition(racer.position) &&
           !(racer.id === slick.ownerId && slick.age < S.ownerImmunitySeconds - 1e-9) &&
           (racer.position.x - slick.mesh.position.x) ** 2 +
@@ -332,6 +334,7 @@ export class HazardSystem {
         (racer.id === orb.ownerId && orb.age < C.ownerImmunitySeconds - 1e-9)
       )
         return false;
+      if (racer.itemImmune || racer.groundHazardImmune) return false;
       const toward = racer.position.clone().sub(orb.mesh.position).setY(0);
       if (toward.lengthSq() > (1.05 + C.radius) ** 2) return false;
       const relative = orb.velocity
@@ -365,6 +368,7 @@ export class HazardSystem {
       eligible,
       'blast-orb',
       orb.id,
+      { respectGroundHazardImmunity: true },
     ).map((racer) => ({
       projectileId: orb.id,
       itemId: 'blast-orb',

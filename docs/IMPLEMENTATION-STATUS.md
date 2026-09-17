@@ -2,13 +2,13 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - INK SPLAT AI TUNING AMENDMENT IN PROGRESS**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - INK SPLAT TUNING LIVE ACCEPTED**
 
 PRD baseline: **v1.1, approved implementation amendments 2.18-2.19 / ADR-079-080**.
 
 Latest verified pre-Ink-governance `main`: **`9ee6ee05fe71715a867a3c9a6b654904faf0e507`**.
 
-Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. Live acceptance remains open; the approved AI tuning amendment is on a follow-up branch.
+Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. The tuned amendment merged through PR #149 at **`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`**; hosted PR CI **`35173826253`** and post-merge validation/Pages **`35188684882`** passed. Manny reported **“Pass”** on 2026-09-17; PR #149 comment **`5709839182`** records live acceptance.
 
 ## Kinetic Arc Hammers final state - 2026-09-16
 
@@ -36,40 +36,30 @@ The four deployed acceptance routes covered primary Arc Hammers gameplay, Shockw
 
 Rebounding Arc Blade remains **LIVE ACCEPTED** under amendment 2.15 / ADR-076. Gameplay PR #139 merged at `8822341b61900799e0166cfe94bf69cb3986bf0e`; post-merge validation/Pages `35118484183` passed; PR #139 comment `5700594653` records Manny's deployed acceptance.
 
-## Vision-Obscuring Ink Splat deployed implementation and tuning - 2026-09-17
+## Vision-Obscuring Ink Splat deployed implementation and tuning - LIVE ACCEPTED 2026-09-17
 
-Vision-Obscuring Ink Splat implementation and original presentation are **MERGED / DEPLOYED** through PR #148. Manny's live review found the original AI impairment below the intended perceptual threshold; the approved 2.19 / ADR-080 tuning amendment is **IN PROGRESS**, not yet deployed or live accepted.
+Vision-Obscuring Ink Splat implementation, original presentation, and Amendment 2.19 AI tuning are **MERGED / DEPLOYED / LIVE ACCEPTED** through PRs #148 and #149. Manny reported **“Pass”** after reviewing the deployed tuned `?testItem=ink-splat` route.
 
-Authorization evidence:
+Authorization and publication evidence:
 
-- Governance publication PR #147 merged at `b62c96ae8297150d8f4cafaede4623d5b01a1e0b` under amendment 2.18 / ADR-079.
-- PR CI `35145111221` and post-merge validation/Pages `35145254188` passed.
+- Governance publication PR #147 merged at `b62c96ae8297150d8f4cafaede4623d5b01a1e0b`; hosted PR CI `35145111221` and post-merge validation/Pages `35145254188` passed.
 - Publication evidence is recorded in PR #147 comment `5703901606`.
-- Manny then explicitly authorized bounded Vision-Obscuring Ink Splat gameplay, VFX, audio, and presentation implementation in Work.
 - PR #148 merged at `2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`; hosted PR CI `35168738421` and post-merge validation/Pages `35168880807` passed.
-- Manny approved Amendment 2.19 / ADR-080 tuning: 0.95 m lateral noise, 0.160-second reaction latency, and 0.74 steering precision; duration and all other boundaries remain unchanged.
+- Amendment 2.19 / ADR-080 tuned the AI impairment to 0.95 m lateral noise, 0.160-second reaction latency, and a 0.74 steering precision multiplier; duration and all other boundaries remain unchanged.
+- PR #149 squash-merged at `af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`; hosted PR CI `35173826253` and post-merge validation/Pages `35188684882` passed.
+- Manny reported **“Pass”** on 2026-09-17; PR #149 comment `5709839182` records the product-owner evidence.
 
-The deployed implementation includes:
+The published bounded implementation includes progress-authoritative all-racers-ahead targeting, atomic one-charge dispatch, per-target immunity, refresh-without-stacking, lifecycle state, legal-road-bounded AI impairment, CSS organic screen overlay below HUD/touch controls, procedural impact audio, and the `?testItem=ink-splat` route.
 
-- progress-authoritative all-racers-ahead targeting, atomic one-charge dispatch, per-target immunity, refresh-without-stacking, and lifecycle state in `InkSplatSystem`;
-- AI noise/history impairment through `AiDriver`, with legal-road bounding and unchanged throttle/speed authority;
-- CSS organic screen overlay below HUD/touch controls, procedural impact audio, explicit incoming/Prismatic fixtures, and the `?testItem=ink-splat` route;
-- focused state/audio tests and production-path runtime tests for targeting, inventory, immunity, pause/expiry, recovery, capacity, fixture resolution, and deterministic AI behavior.
+Hosted post-merge validation passed clean install, Git LFS/runtime-asset verification, strict typecheck, zero-warning lint, **54 test files / 463 tests**, **81.97% statement / 77.31% branch / 86.56% function / 83.52% line coverage**, branding/runtime-asset verification, and production build. Existing Vite large-chunk warning remains known/nonblocking.
 
-Baseline validation:
-
-- Clean `npm ci --prefer-offline --fetch-retries=0`: PASS.
-- `git lfs fsck`: PASS.
-- `npm run validate`: PASS — **53 test files / 462 tests**, **81.99% statement / 77.34% branch / 86.58% function / 83.54% line coverage**, branding/runtime-asset verification, and production build.
-- Existing Vite large-chunk warning remains known/nonblocking.
-
-The remaining Ink gates are tuned implementation review, a separate tuning publication PR, post-merge validation/Pages for the tuned values, and Manny's desktop/mobile live acceptance. No tuned merge, deployment, or live result is claimed by this checkpoint.
+The tuned Ink increment is closed at live acceptance. Slice 5 remains active for its remaining bounded work; Slice 6 remains locked.
 
 ## Slice 5 accepted/deployed state
 
 Live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, and **Kinetic Arc Hammers**.
 
-Vision-Obscuring Ink Splat gameplay/presentation is merged and deployed under amendment 2.18 / ADR-079 through PR #148, but remains not live accepted. Amendment 2.19 / ADR-080 tuning is approved and in progress. Three item effects remain not live accepted: **Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket**.
+Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Two item effects remain not live accepted: **Continuous Nitro Overdrive and Hyper-Drive Rocket**.
 
 Remaining Slice 5 closure work also includes full AI item acquisition/use, final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, final desktop/mobile full-slice acceptance, and issue #106 disposition as appropriate. Slice 6 remains locked.
 
@@ -82,7 +72,7 @@ Remaining Slice 5 closure work also includes full AI item acquisition/use, final
 
 ## Next recommended action
 
-Complete tuned Ink validation, then prepare the separate tuning publication checkpoint. Do not merge, deploy, or claim tuned live acceptance from this branch. Slice 6 remains locked.
+Continue Slice 5 only through separately approved bounded increments and complete the remaining full-slice validation/closure gates. Slice 6 remains locked.
 
 ## Approval state
 
@@ -94,8 +84,8 @@ Complete tuned Ink validation, then prepare the separate tuning publication chec
 
 **Kinetic Arc Hammers gameplay + original presentation:** **LIVE ACCEPTED 2026-09-16** through PR #144 / `a129bbac75f919dc7136ac50dfd63564fe5cd52e` / runs `35137395927` and `35137681000` / product-owner comment `5703186707`.
 
-**Vision-Obscuring Ink Splat scope/governance:** **APPROVED / PUBLISHED 2026-09-16** under amendment 2.18 / ADR-079; implementation is merged/deployed through PR #148 and not live accepted. **Amendment 2.19 / ADR-080 AI tuning:** APPROVED 2026-09-17 and IN PROGRESS on a follow-up branch.
+**Vision-Obscuring Ink Splat scope/governance:** **APPROVED / PUBLISHED 2026-09-16** under amendment 2.18 / ADR-079. **Amendment 2.19 / ADR-080 AI tuning:** **LIVE ACCEPTED 2026-09-17** through PR #149 / \`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f\` / post-merge run \`35188684882\` / product-owner comment \`5709839182\`.
 
-**Slice 5 implementation:** IN PROGRESS.
+**Slice 5 implementation:** IN PROGRESS; the bounded Ink Splat increment is live accepted.
 
-**Slice 6:** LOCKED pending full Slice 5 validation, deployment, and Manny live acceptance.
+**Slice 6:** LOCKED pending remaining Slice 5 validation/closure work and Manny's full-slice acceptance.

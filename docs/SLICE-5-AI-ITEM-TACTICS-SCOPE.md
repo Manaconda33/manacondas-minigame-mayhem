@@ -1,8 +1,8 @@
 # Slice 5 Full AI Item Tactics
 
-Status: gameplay implementation increment authorized September 17, 2026; hosted publication and product-owner live acceptance remain open.
+Status: **LIVE ACCEPTED September 17, 2026.** Full AI item tactics merged/deployed through PR #158; the bounded ADR-084 race-authority / AI-presentation corrective merged/deployed through PR #159 and passed product-owner live review.
 
-Normative references: PRD Section 21.7, PRD amendment 2.22, and ADR-083.
+Normative references: PRD Section 21.7, PRD amendment 2.22, ADR-083, and ADR-084.
 
 ## Objective
 
@@ -60,6 +60,15 @@ The deployed acceptance pass must cover the normal unforced race plus representa
 - The existing 100,000-selections-per-rank probability report remains valid; no selector weights or item definitions may change in this increment.
 - Existing AI spline, hazard response, item interaction, race-progress, lifecycle, and runtime-asset regressions remain required.
 
+## Final deployed acceptance
+
+- Full AI item tactics PR #158 merged at `cb67183b902e7732b3cab8d95af3e865890b1835`; hosted PR CI `35255837582` and post-merge validation / GitHub Pages `35256074171` passed.
+- The first deployed review exposed a bounded race-authority inconsistency and missing racer-owned AI visuals. ADR-084 authorized only those corrections and did not change item balance, policy thresholds, probabilities, racer statistics, track layout, audio, assets, or Slice 6 scope.
+- Corrective PR #159 merged at `e36477022a5fc8363da074dfca302ff263b9758a`. Its pre-publication clean validation passed **60 test files / 499 tests**, **81.48% statement / 76.81% branch / 85.88% function / 83.19% line coverage**, strict typecheck, zero-warning lint, runtime-asset/branding verification, production build, `git diff --check`, and `git lfs fsck`.
+- Post-merge validation and GitHub Pages run `35265993137` completed successfully.
+- Manny reported **“all live tests accepted.”** PR #159 comment `5720570319` records the product-owner evidence. Lap/finish/standings consistency and the existing Nitro Surge, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic racer-owned visuals for AI passed the deployed review, with no new defect reported.
+- No browser/device-specific result is inferred beyond Manny's explicit acceptance. This closes the full-AI-tactics / ADR-084 acceptance gate only. Final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, final desktop/mobile full-slice acceptance, issue #106 disposition, and Slice 5 closure remain separate. Slice 6 remains locked.
+
 ## Exclusions
 
-This increment does not retune any item, alter racer statistics, expand hazard recognition, add a second physics/race system, change checkpoint/lap authority, add Slice 6 polish, or introduce protected binary assets. AI-specific audio/VFX polish is not required for the gameplay gate; existing item-world presentation remains the source of truth.
+This increment does not retune any item, alter racer statistics, expand hazard recognition, add a second physics/race system, change checkpoint/lap authority, add Slice 6 polish, or introduce protected binary assets. No new AI-specific audio or presentation assets were added; ADR-084 only exposes the existing racer-owned Nitro Surge, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic visuals to AI racers.

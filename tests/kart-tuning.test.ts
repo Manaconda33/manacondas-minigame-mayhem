@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  candidateBAccelerationRecoveryMultiplier,
+  candidateBHandlingCornerLossRate,
+  candidateBSteeringResponseRate,
   createKartTuning,
   driftBoostProfile,
   driftThresholds,
@@ -17,9 +20,41 @@ describe('kart tuning and surface behavior', () => {
     expect(tuning.mass).toBeGreaterThan(105);
   });
 
-  it('uses the PRD launch-acceleration curve', () => {
-    expect(createKartTuning({ ...sliceOneDriver, acceleration: 4 }).acceleration).toBeCloseTo(6.2);
-    expect(createKartTuning({ ...sliceOneDriver, acceleration: 8 }).acceleration).toBeCloseTo(8.4);
+  it('widens Candidate B acceleration around the unchanged stat-6 baseline', () => {
+    expect(createKartTuning({ ...sliceOneDriver, acceleration: 4 }).acceleration).toBeCloseTo(5.8);
+    expect(createKartTuning({ ...sliceOneDriver, acceleration: 6 }).acceleration).toBeCloseTo(7.3);
+    expect(createKartTuning({ ...sliceOneDriver, acceleration: 8 }).acceleration).toBeCloseTo(8.8);
+  });
+
+  it('preserves the approved Speed ceiling while changing Acceleration', () => {
+    const lowAcceleration = createKartTuning({ ...sliceOneDriver, speed: 10, acceleration: 4 });
+    const highAcceleration = createKartTuning({ ...sliceOneDriver, speed: 10, acceleration: 9 });
+    expect(lowAcceleration.maxSpeed).toBeCloseTo(33);
+    expect(highAcceleration.maxSpeed).toBeCloseTo(33);
+  });
+
+  it('makes Candidate B recovery authority respond only to meaningful speed deficit', () => {
+    expect(candidateBAccelerationRecoveryMultiplier(6, 0.4)).toBeCloseTo(1);
+    expect(candidateBAccelerationRecoveryMultiplier(4, 0.4)).toBeLessThan(1);
+    expect(candidateBAccelerationRecoveryMultiplier(9, 0.4)).toBeGreaterThan(1);
+    expect(candidateBAccelerationRecoveryMultiplier(4, 0.9)).toBeCloseTo(1);
+    expect(candidateBAccelerationRecoveryMultiplier(9, 0.9)).toBeCloseTo(1);
+  });
+
+  it('prices high-speed steering demand through Handling without changing straight speed', () => {
+    expect(candidateBHandlingCornerLossRate(3, 33, 0)).toBe(0);
+    expect(candidateBHandlingCornerLossRate(3, 33, 1)).toBeGreaterThan(
+      candidateBHandlingCornerLossRate(8, 33, 1),
+    );
+    expect(candidateBHandlingCornerLossRate(3, 33, 1)).toBeGreaterThan(
+      candidateBHandlingCornerLossRate(3, 26, 1),
+    );
+  });
+
+  it('makes high Handling rebuild steering authority faster after a disturbance', () => {
+    expect(candidateBSteeringResponseRate(3)).toBeLessThan(candidateBSteeringResponseRate(6));
+    expect(candidateBSteeringResponseRate(6)).toBeCloseTo(10);
+    expect(candidateBSteeringResponseRate(9)).toBeGreaterThan(candidateBSteeringResponseRate(6));
   });
 
   it('makes grass slower than dirt and asphalt', () => {

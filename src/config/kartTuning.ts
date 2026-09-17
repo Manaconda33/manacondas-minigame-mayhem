@@ -64,10 +64,12 @@ export const BALANCE_CANDIDATE_B = {
   handlingExcessSpeedScale: 6,
   handlingCornerLossPerSecond: 0.5,
   handlingCornerLossMaximumPressure: 1.25,
-  aiCornerPenaltyPerHandlingPoint: 0.13,
-  aiCornerPenaltyPerExcessSpeed: 0.18,
-  aiCornerPenaltyMinimum: 0.5,
-  aiCornerPenaltyMaximum: 2.6,
+  aiCornerReferenceSpeed: 27.444444444444443,
+  aiCornerBasePressure: 0.25,
+  aiCornerPenaltyPerExcessSpeed: 0.32,
+  aiCornerPenaltyPerHandlingPoint: 0.04,
+  aiCornerPenaltyMinimum: 0.15,
+  aiCornerPenaltyMaximum: 2.4,
 } as const;
 
 function clamp(value: number, minimum: number, maximum: number): number {
@@ -140,22 +142,25 @@ export function candidateBHandlingCornerLossRate(
 }
 
 /**
- * Mirrors Candidate B's Handling authority in AI planning. The first term is
- * pure Handling; the second charges only the portion of a racer's Speed ceiling
- * above its Handling comfort speed. A zero-corner straight is still untouched
- * because AiDriver multiplies this scale by corner severity.
+ * Converts the racer's straight-line ceiling into the amount of advance
+ * corner-speed planning it needs. Speed above the Speed-5 baseline costs more
+ * to carry through a bend, while Handling supplies a smaller discount or
+ * penalty. This leaves Speed fully authoritative on a zero-corner straight and
+ * lets the controller's stronger Handling model own the physical turn itself.
  */
 export function candidateBAiCornerPenaltyScale(
   handling: number,
-  characterMaxSpeed = candidateBHandlingComfortSpeed(handling),
+  characterMaxSpeed = BALANCE_CANDIDATE_B.aiCornerReferenceSpeed,
 ): number {
-  const handlingScale =
-    1 -
-    BALANCE_CANDIDATE_B.aiCornerPenaltyPerHandlingPoint *
-      (handling - BALANCE_CANDIDATE_B.neutralStat);
-  const excessSpeed = Math.max(0, characterMaxSpeed - candidateBHandlingComfortSpeed(handling));
+  const excessSpeed = Math.max(
+    0,
+    characterMaxSpeed - BALANCE_CANDIDATE_B.aiCornerReferenceSpeed,
+  );
   return clamp(
-    handlingScale + BALANCE_CANDIDATE_B.aiCornerPenaltyPerExcessSpeed * excessSpeed,
+    BALANCE_CANDIDATE_B.aiCornerBasePressure +
+      BALANCE_CANDIDATE_B.aiCornerPenaltyPerExcessSpeed * excessSpeed -
+      BALANCE_CANDIDATE_B.aiCornerPenaltyPerHandlingPoint *
+        (handling - BALANCE_CANDIDATE_B.neutralStat),
     BALANCE_CANDIDATE_B.aiCornerPenaltyMinimum,
     BALANCE_CANDIDATE_B.aiCornerPenaltyMaximum,
   );

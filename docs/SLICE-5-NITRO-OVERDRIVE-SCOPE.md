@@ -2,19 +2,19 @@
 
 ## Approval state
 
-**Status:** IMPLEMENTATION AUTHORIZED - PR CI passed; publication and live acceptance pending.
+**Status:** LIVE ACCEPTED - merged, deployed, and accepted 2026-09-17.
 
 **Governance approval:** Manny, 2026-09-17
 
 **Governing PRD:** v1.1, approved implementation amendment 2.20 / ADR-081; PRD Section 15.15
 
-This document defines the bounded contract for Continuous Nitro Overdrive. It resolves the operating details required for implementation while keeping publication, deployment, and product-owner live acceptance as separate gates.
+This document defines the bounded contract for Continuous Nitro Overdrive. The bounded gameplay, original presentation, publication, deployment, and product-owner live acceptance gates are complete; the contract remains normative for regression and Slice 5 closure review.
 
 ## Context and boundary
 
-Vision-Obscuring Ink Splat is live accepted. Continuous Nitro Overdrive and Hyper-Drive Rocket are the two remaining non-live-accepted item effects. Nitro Overdrive is the next bounded increment because it exercises the existing generic boost, item transaction, HUD, pause, and presentation boundaries without requiring Rocket's legal-path autopilot or automatic-overtake system.
+Vision-Obscuring Ink Splat is live accepted. Continuous Nitro Overdrive is live accepted; Hyper-Drive Rocket remains the remaining non-live-accepted item effect. Nitro Overdrive exercised the existing generic boost, item transaction, HUD, pause, and presentation boundaries without requiring Rocket's legal-path autopilot or automatic-overtake system.
 
-The governance publication and hosted validation gate have cleared. Manny separately authorized the bounded gameplay, VFX, audio, and presentation implementation on 2026-09-17. This checkpoint records that authorization and the resulting local implementation; publication, deployment, and product-owner live acceptance remain separate gates.
+The governance publication and hosted validation gate cleared before implementation. Manny separately authorized the bounded gameplay, VFX, audio, and presentation implementation on 2026-09-17. Gameplay PR #152 merged, post-merge validation/Pages passed, and Manny reported **“Pass”** on the deployed route on 2026-09-17.
 
 ## Approved operational contract
 
@@ -104,11 +104,11 @@ The implementation checkpoint must prove, through the production dispatch/orches
 
 A passing automated suite does not claim live visual or product-owner acceptance.
 
-## Local implementation checkpoint
+## Published implementation and acceptance evidence
 
 The authorized local implementation adds the focused `NitroOverdriveSystem`, keyed temporary-boost composition in `RacerEffects`, production dispatcher and `KartTimeTrial` input/lifecycle wiring, a separate active-window HUD state, original procedural rear VFX, and original procedural activation/pulse audio. The player-only `?testItem=nitro-overdrive` override remains isolated from AI inventory and selector policy.
 
-Local validation passed after implementation: **55 test files / 473 tests**, **81.99% statement / 77.32% branch / 86.55% function / 83.55% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. Hosted gameplay PR CI **35229580296** passed. Merge, Pages deployment, and product-owner live acceptance are not claimed by this checkpoint; the build retains the known Vite large-chunk warning.
+Validation passed after implementation: **55 test files / 473 tests**, **81.99% statement / 77.32% branch / 86.55% function / 83.55% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. PR #152 squash-merged at `59897fcd48b8f7b8e156764f75a44360bf0f2281`; hosted PR CI **35230154302** and post-merge validation/Pages **35230540886** passed. The deployed route is `?testItem=nitro-overdrive`. Manny reported **“Pass”** on 2026-09-17. No browser/device-specific result is inferred beyond that explicit report. The known Vite large-chunk warning remains nonblocking.
 
 ## Focused deployed live gate
 
@@ -126,7 +126,7 @@ After separate gameplay authorization, publication, deployment, and successful P
 10. Desktop and mobile ITEM controls behave equivalently, and chase/rear cameras retain readable original presentation.
 11. A normal unforced URL shows no fixture badge or forced Overdrive behavior, and AI racers retain their existing non-item-tactical behavior.
 
-Record the exact implementation commit, hosted PR CI, post-merge validation/Pages run, deployment URL, desktop/mobile results, observed defects, and Manny's explicit acceptance in docs/IMPLEMENTATION-STATUS.md. PASS requires an actual resolved effect and visible outcome; INCONCLUSIVE is not PASS.
+Record the exact implementation commit, hosted PR CI, post-merge validation/Pages run, deployment URL, desktop/mobile results, observed defects, and Manny's explicit acceptance in docs/IMPLEMENTATION-STATUS.md. PASS requires an actual resolved effect and visible outcome; INCONCLUSIVE is not PASS. Manny's deployed review result was **“Pass”** on 2026-09-17; no additional browser/device-specific result is inferred.
 
 ## Explicit exclusions
 
@@ -146,5 +146,5 @@ This bounded checkpoint does not authorize or change:
 1. **Scope/governance approval:** COMPLETE. Manny approved this bounded contract on 2026-09-17.
 2. **Governance publication:** COMPLETE. PR #151 merged at `6c1fe1b78274b25c23fe6fc0a2090e26c086febb`; hosted PR CI and post-merge validation/Pages run `35223980439` passed.
 3. **Gameplay/presentation implementation authorization:** COMPLETE. Manny explicitly authorized the bounded Nitro Overdrive implementation on 2026-09-17 after the governance publication gate cleared.
-4. **Gameplay publication and product-owner live acceptance:** separate later gates.
+4. **Gameplay publication and product-owner live acceptance:** COMPLETE. PR #152 squash-merged at `59897fcd48b8f7b8e156764f75a44360bf0f2281`; hosted PR CI `35230154302` and post-merge validation/Pages `35230540886` passed. Manny reported **“Pass”** on the deployed `?testItem=nitro-overdrive` route on 2026-09-17.
 5. **Slice 5 closure:** remains blocked by Hyper-Drive Rocket, full AI item-use/tactics, all-item interaction/counter evidence, soak/performance, final full-slice acceptance, and other recorded closure requirements.

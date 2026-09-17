@@ -2,11 +2,11 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO OVERDRIVE PR CI PASSED; PUBLICATION PENDING**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO OVERDRIVE LIVE ACCEPTED; SLICE 5 CLOSURE OPEN**
 
 PRD baseline: **v1.1, approved implementation amendments 2.18-2.20 / ADR-079-081**.
 
-Latest verified pre-Ink-governance `main`: **`9ee6ee05fe71715a867a3c9a6b654904faf0e507`**.
+Latest verified merged `main`: **`59897fcd48b8f7b8e156764f75a44360bf0f2281`**.
 
 Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. The tuned amendment merged through PR #149 at **`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`**; hosted PR CI **`35173826253`** and post-merge validation/Pages **`35188684882`** passed. Manny reported **“Pass”** on 2026-09-17; PR #149 comment **`5709839182`** records live acceptance.
 
@@ -56,21 +56,21 @@ Hosted post-merge validation passed clean install, Git LFS/runtime-asset verific
 The tuned Ink increment is closed at live acceptance. Slice 5 remains active for its remaining bounded work; Slice 6 remains locked.
 
 
-## Continuous Nitro Overdrive implementation checkpoint - AUTHORIZED 2026-09-17
+## Continuous Nitro Overdrive final state - LIVE ACCEPTED 2026-09-17
 
-Continuous Nitro Overdrive governance is approved under amendment 2.20 / ADR-081 and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md. Governance PR #151 merged at `6c1fe1b78274b25c23fe6fc0a2090e26c086febb`; hosted PR CI and post-merge validation/Pages run `35223980439` passed. Manny separately authorized gameplay, VFX, audio, and presentation implementation on 2026-09-17.
+Continuous Nitro Overdrive governance, gameplay, VFX, audio, and presentation are complete and LIVE ACCEPTED under amendment 2.20 / ADR-081 and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md. Governance PR #151 merged at `6c1fe1b78274b25c23fe6fc0a2090e26c086febb`; hosted PR CI and post-merge validation/Pages run `35223980439` passed. Manny separately authorized the bounded implementation and later reported **“Pass”** on the deployed player-only route.
 
 The approved contract is one charge; immediate first pulse on committed activation; an exactly 6.0 race-second window; subsequent ITEM pulses no faster than every 0.75 race seconds; approximately 0.9-second non-stacking pulses; a 1.15x normal speed cap; neutral additional acceleration; normal dirt/grass penalties; maximum-authority composition with accepted boosts; pause-safe timing; and full expiry/finish/restart/hub/disposal cleanup. The item creates no hostile effect, immunity, projectile, hazard, or shared-capacity object.
 
-The authorized local implementation adds the bounded Overdrive state/transaction path, keyed generic temporary-boost composition, production player desktop/mobile ITEM routing, separate active-window HUD state, original procedural rear VFX, and original procedural activation/pulse audio. Local validation passed with **55 test files / 473 tests**, **81.99% statement / 77.32% branch / 86.55% function / 83.55% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. Hosted gameplay PR #152 CI run **35229580296** passed. The known Vite large-chunk warning remains nonblocking.
+The published implementation adds the bounded Overdrive state/transaction path, keyed generic temporary-boost composition, production player desktop/mobile ITEM routing, separate active-window HUD state, original procedural rear VFX, and original procedural activation/pulse audio. Validation passed with **55 test files / 473 tests**, **81.99% statement / 77.32% branch / 86.55% function / 83.55% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. Hosted gameplay PR #152 CI `35230154302` passed; post-merge validation and GitHub Pages deployment `35230540886` also passed. The known Vite large-chunk warning remains nonblocking.
 
-The player-only route is `?testItem=nitro-overdrive`, but the current live Pages build predates this implementation. Merge, Pages deployment, and product-owner live acceptance are not claimed by this status update. Hyper-Drive Rocket, full AI item use/tactics, final cross-item evidence, soak/performance, issue #106, and Slice 5 closure remain open.
+The deployed player-only route is `?testItem=nitro-overdrive`. Manny reported **“Pass”** on 2026-09-17. No browser/device-specific result is inferred beyond that explicit report. Hyper-Drive Rocket, full AI item use/tactics, final cross-item evidence, soak/performance, issue #106, and final Slice 5 closure remain open.
 
 ## Slice 5 accepted/deployed state
 
-Live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, and **Kinetic Arc Hammers**.
+Live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, **Kinetic Arc Hammers**, and **Continuous Nitro Overdrive**.
 
-Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Continuous Nitro Overdrive is implementation-authorized with a locally validated checkpoint pending publication; **Hyper-Drive Rocket** remains unimplemented.
+Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Continuous Nitro Overdrive is merged, deployed, and live accepted under amendment 2.20 / ADR-081 through PR #152; **Hyper-Drive Rocket** remains unimplemented.
 
 Remaining Slice 5 closure work also includes full AI item acquisition/use, final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, final desktop/mobile full-slice acceptance, and issue #106 disposition as appropriate. Slice 6 remains locked.
 
@@ -97,6 +97,6 @@ Continue Slice 5 only through separately approved bounded increments and complet
 
 **Vision-Obscuring Ink Splat scope/governance:** **APPROVED / PUBLISHED 2026-09-16** under amendment 2.18 / ADR-079. **Amendment 2.19 / ADR-080 AI tuning:** **LIVE ACCEPTED 2026-09-17** through PR #149 / \`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f\` / post-merge run \`35188684882\` / product-owner comment \`5709839182\`.
 
-**Slice 5 implementation:** IN PROGRESS; Ink Splat is live accepted and Continuous Nitro Overdrive is implementation-authorized with a locally validated checkpoint pending gameplay PR CI/publication.
+**Slice 5 implementation:** IN PROGRESS; Ink Splat and Continuous Nitro Overdrive are live accepted. Remaining Slice 5 closure gates are still open.
 
 **Slice 6:** LOCKED pending remaining Slice 5 validation/closure work and Manny's full-slice acceptance.

@@ -33,7 +33,7 @@ import { SeekerWarningAudio, APEX_WARNING_TONE } from '../audio/SeekerWarningAud
 import { IncomingSeekerFixture } from './items/IncomingSeekerFixture';
 import { InkSplatCounterFixture, inkSplatCounterFromSearch } from './items/InkSplatCounterFixture';
 import { InkSplatSystem, type InkViewSnapshot } from './items/InkSplatSystem';
-import { nearestRacerAhead, targetingProgressSnapshot } from './items/ItemTargeting';
+import { nearestRacerAhead } from './items/ItemTargeting';
 import {
   seekerThreats,
   SeekerWarningVisual,
@@ -51,6 +51,8 @@ import type { DriftTier } from './physics/KartController';
 import { collisionImpulseShares, collisionSpeedRetention } from './physics/KartCollision';
 import { LapTracker } from './race/LapTracker';
 import { RaceDirector, rankRacers, type RacerProgress } from './race/RaceDirector';
+import { crossesForwardCheckpointGate } from './race/CheckpointGate';
+import { validatedRaceProgressSnapshot } from './race/ValidatedRaceProgress';
 import { CircuitAlpha, type TrackProjection } from './track/CircuitAlpha';
 import { createTrackScene } from './track/createTrackScene';
 import {
@@ -76,6 +78,7 @@ import {
   shockwaveCounterFromSearch,
 } from './items/ItemTestMode';
 import { NitroSurgeVisual } from './items/NitroSurgeVisual';
+import { RacerItemVisuals } from './items/RacerItemVisuals';
 import { NitroOverdriveVisual } from './items/NitroOverdriveVisual';
 import { NitroOverdriveSystem, type NitroOverdriveSnapshot } from './items/NitroOverdrive';
 import { HyperDriveRocketSystem, type HyperDriveRocketSnapshot } from './items/HyperDriveRocket';
@@ -157,7 +160,8 @@ interface AiRacer {
   steering: number;
   lapTracker: LapTracker;
   progress: RacerProgress;
-  lastCheckpointOverlap: number;
+  stepStartPosition: THREE.Vector3;
+  itemVisuals: RacerItemVisuals;
   recoveryCooldown: number;
 }
 
@@ -173,6 +177,7 @@ interface DriverSpriteVisual {
 interface OpponentVisual {
   group: THREE.Group;
   driverVisual: DriverSpriteVisual | null;
+  itemVisuals: RacerItemVisuals;
 }
 
 export class KartTimeTrial {
@@ -197,12 +202,12 @@ export class KartTimeTrial {
   private readonly spinoutCameraAnchor = new SpinoutCameraAnchor();
   private readonly position = new THREE.Vector3();
   private readonly forward = new THREE.Vector3();
+  private readonly playerStepStartPosition = new THREE.Vector3();
   private readonly world: RAPIER.World;
   private animationFrame = 0;
   private lastFrame = performance.now();
   private elapsed = 0;
   private paused = false;
-  private lastCheckpointOverlap = -1;
   private lastRecoveryIndex = 0;
   private wrongWaySeconds = 0;
   private outOfBoundsSeconds = 0;
@@ -394,7 +399,10 @@ export class KartTimeTrial {
     this.apexPresentation.dispose();
     this.apexWarningAudio.dispose();
     this.aiHazardFixture.reset();
-    for (const opponent of this.opponents) opponent.driver.reset();
+    for (const opponent of this.opponents) {
+      opponent.driver.reset();
+      opponent.itemVisuals.dispose();
+    }
     this.hazards.dispose();
     this.slickGround.dispose();
     this.projectiles.dispose();
@@ -457,8 +465,8 @@ export class KartTimeTrial {
       this.world.step();
       return;
     }
-    const position = this.kart.position(this.position);
-    const projection = this.track.project(position);
+    const playerStepStart = this.kart.position(this.playerStepStartPosition);
+    const playerStepStartProjection = this.track.project(playerStepStart);
     this.racerEffects.advanceFrost(dt);
     this.inkSplat.advance(dt);
     const driveModifiers = this.racerEffects.driveModifiers('player');
@@ -489,7 +497,7 @@ export class KartTimeTrial {
     const input =
       this.hyperDriveRocketIfPresent()?.inputFor(
         'player',
-        position,
+        playerStepStart,
         this.kart.forward(this.forward),
         this.kart.speedMetersPerSecond(),
         normalInput,
@@ -497,40 +505,31 @@ export class KartTimeTrial {
     this.playerSteering = playerSpinout === null ? input.steering : 0;
     this.driverHitSeconds = Math.max(0, this.driverHitSeconds - dt);
 
-    this.kart.update(input, projection.surface, dt);
+    this.kart.update(input, playerStepStartProjection.surface, dt);
     this.updateOpponents(dt);
     this.world.step();
     this.resolveKartContacts(dt);
     this.resolveGuardrailContacts(dt);
 
+    const position = this.kart.position(this.position);
     if (!this.kart.isFinite()) {
       this.respawn();
+      this.updateOpponentProgresses();
       return;
     }
-
+    const projection = this.track.project(position);
+    let playerRespawned = false;
     const forwardDot = this.kart.forward(this.forward).dot(projection.tangent);
     this.wrongWaySeconds = forwardDot < -0.35 ? this.wrongWaySeconds + dt : 0;
     this.outOfBoundsSeconds = projection.lateralDistance > 34 ? this.outOfBoundsSeconds + dt : 0;
 
     if (projection.lateralDistance < 10) this.lastRecoveryIndex = projection.index;
-    if (this.outOfBoundsSeconds > 1 || position.y < -3) this.respawn();
-
-    const checkpoint = this.nearestCheckpoint(position);
-    if (checkpoint !== -1 && checkpoint !== this.lastCheckpointOverlap) {
-      const accepted = this.lapTracker.enterCheckpoint(checkpoint, forwardDot, this.elapsed);
-      if (accepted && checkpoint !== 0) {
-        this.lastRecoveryIndex = this.track.checkpointIndices[checkpoint] ?? projection.index;
-      }
-      if (this.lapTracker.snapshot().finished)
-        this.raceDirector.registerFinish(this.playerProgress);
+    if (this.outOfBoundsSeconds > 1 || position.y < -3) {
+      this.respawn();
+      playerRespawned = true;
     }
-    this.lastCheckpointOverlap = checkpoint;
-    const snapshot = this.lapTracker.snapshot();
-    this.playerProgress.lap = snapshot.lap;
-    this.playerProgress.trackProgress =
-      snapshot.lap === 0 && snapshot.nextCheckpoint === 1 && projection.progress > 0.8
-        ? 0
-        : projection.progress;
+    if (!playerRespawned) this.updatePlayerProgress(playerStepStart, position, projection);
+    this.updateOpponentProgresses();
     this.itemSystem.advance(dt);
     this.nitroOverdriveIfPresent()?.advance(dt);
     const rocketBeforeAdvance = this.hyperDriveRocketSnapshot();
@@ -582,21 +581,94 @@ export class KartTimeTrial {
     }
   };
 
-  private nearestCheckpoint(position: THREE.Vector3): number {
-    for (let index = 0; index < this.track.checkpointIndices.length; index += 1) {
-      if (position.distanceToSquared(this.track.lapCheckpointPosition(index)) < 13 * 13)
-        return index;
+  private crossedCheckpoint(
+    previousPosition: THREE.Vector3,
+    currentPosition: THREE.Vector3,
+    checkpoint: number,
+  ): boolean {
+    return crossesForwardCheckpointGate(
+      previousPosition,
+      currentPosition,
+      this.track.lapCheckpointPosition(checkpoint),
+      this.track.lapCheckpointTangent(checkpoint),
+    );
+  }
+
+  private updatePlayerProgress(
+    previousPosition: THREE.Vector3,
+    position: THREE.Vector3,
+    projection: TrackProjection,
+  ): void {
+    const checkpoint = this.lapTracker.snapshot().nextCheckpoint;
+    if (this.crossedCheckpoint(previousPosition, position, checkpoint)) {
+      const accepted = this.lapTracker.enterCheckpoint(checkpoint, 1, this.raceDirector.raceTime());
+      if (accepted && checkpoint !== 0)
+        this.lastRecoveryIndex = this.track.checkpointIndices[checkpoint] ?? projection.index;
     }
-    return -1;
+
+    const snapshot = this.lapTracker.snapshot();
+    const wasFinished = this.playerProgress.finished;
+    this.playerProgress.lap = snapshot.lap;
+    this.playerProgress.trackProgress = projection.progress;
+    if (snapshot.finished && !wasFinished) this.raceDirector.registerFinish(this.playerProgress);
+  }
+
+  private updateOpponentProgresses(): void {
+    for (const opponent of this.opponents) {
+      const position = opponent.controller.position();
+      const projection = this.track.project(position);
+      if (!opponent.controller.isFinite()) {
+        this.recoverOpponent(opponent, projection);
+        continue;
+      }
+      if ((projection.lateralDistance > 20 || position.y < -2) && opponent.recoveryCooldown === 0) {
+        this.recoverOpponent(opponent, projection);
+        continue;
+      }
+
+      const checkpoint = opponent.lapTracker.snapshot().nextCheckpoint;
+      if (this.crossedCheckpoint(opponent.stepStartPosition, position, checkpoint))
+        opponent.lapTracker.enterCheckpoint(checkpoint, 1, this.raceDirector.raceTime());
+
+      const snapshot = opponent.lapTracker.snapshot();
+      const wasFinished = opponent.progress.finished;
+      opponent.progress.lap = snapshot.lap;
+      opponent.progress.trackProgress = projection.progress;
+      if (snapshot.finished && !wasFinished) this.finishOpponent(opponent);
+    }
+  }
+
+  private finishOpponent(opponent: AiRacer): void {
+    this.raceDirector.registerFinish(opponent.progress);
+    this.itemSystem.clear(opponent.id);
+    this.nitroOverdrive.clear(opponent.id);
+    this.hyperDriveRocket.clear(opponent.id);
+    this.racerEffects.clearFrost(opponent.id);
+    this.prismatic.clear(opponent.id);
+    this.inkSplat.clear(opponent.id);
+    this.projectiles.cancelOwnerArcs(opponent.id);
+  }
+
+  private recoverOpponent(opponent: AiRacer, projection: TrackProjection): void {
+    const tangent = projection.tangent;
+    this.projectiles.cancelOwnerArcs(opponent.id);
+    this.racerEffects.clearFrost(opponent.id);
+    this.prismatic.clear(opponent.id);
+    opponent.controller.respawn(
+      projection.point.clone().addScaledVector(tangent, 3),
+      Math.atan2(tangent.x, tangent.z),
+    );
+    opponent.recoveryCooldown = 1.5;
   }
 
   private updateOpponents(dt: number): void {
     const hazardSnapshots = this.hazards.activeSnapshots();
     const hazardAwareness = observeAiHazards(this.track, hazardSnapshots);
     const projectileSnapshots = this.projectiles.snapshots();
-    const targetingRacers = this.itemTargetingProgress();
-    const standings = this.currentStandings();
-    const playerTotal = this.playerProgress.lap + this.playerProgress.trackProgress;
+    const targetingRacers = this.validatedRaceProgress();
+    const standings = rankRacers(targetingRacers);
+    const player = targetingRacers.find(({ id }) => id === 'player');
+    const playerTotal = player === undefined ? 0 : player.lap + player.trackProgress;
     const observeRacer = (id: string, controller: KartController) => {
       const position = controller.position();
       return {
@@ -613,10 +685,13 @@ export class KartTimeTrial {
     for (const opponent of this.opponents) {
       opponent.recoveryCooldown = Math.max(0, opponent.recoveryCooldown - dt);
       opponent.driverHitSeconds = Math.max(0, opponent.driverHitSeconds - dt);
-      const position = opponent.controller.position();
+      const position = opponent.controller.position(opponent.stepStartPosition);
       const projection = this.track.project(position);
-      const snapshot = opponent.lapTracker.snapshot();
-      const opponentTotal = snapshot.lap + projection.progress;
+      const opponentProgress = targetingRacers.find(({ id }) => id === opponent.id);
+      const opponentTotal =
+        opponentProgress === undefined
+          ? opponent.progress.lap + opponent.progress.trackProgress
+          : opponentProgress.lap + opponentProgress.trackProgress;
       const spinout = this.racerEffects.spinoutState(opponent.id);
       if (!opponent.progress.finished && spinout === null) {
         this.updateAiItemUse(
@@ -652,10 +727,7 @@ export class KartTimeTrial {
                 opponent.id,
                 this.inkSplat.aiSnapshot(opponent.id),
               );
-      input = driveInputWithItemModifiers(
-        input,
-        this.racerEffects.driveModifiers(opponent.id),
-      );
+      input = driveInputWithItemModifiers(input, this.racerEffects.driveModifiers(opponent.id));
       if (spinout === null) {
         input = this.hyperDriveRocket.inputFor(
           opponent.id,
@@ -676,41 +748,6 @@ export class KartTimeTrial {
         input.drift = false;
       }
       opponent.controller.update(input, projection.surface, dt);
-
-      const checkpoint = this.nearestCheckpoint(position);
-      if (checkpoint !== -1 && checkpoint !== opponent.lastCheckpointOverlap) {
-        const forwardDot = opponent.controller.forward().dot(projection.tangent);
-        opponent.lapTracker.enterCheckpoint(checkpoint, forwardDot, this.raceDirector.raceTime());
-      }
-      opponent.lastCheckpointOverlap = checkpoint;
-      const nextSnapshot = opponent.lapTracker.snapshot();
-      opponent.progress.lap = nextSnapshot.lap;
-      opponent.progress.trackProgress =
-        nextSnapshot.lap === 0 && nextSnapshot.nextCheckpoint === 1 && projection.progress > 0.8
-          ? 0
-          : projection.progress;
-      if (nextSnapshot.finished) {
-        this.raceDirector.registerFinish(opponent.progress);
-        this.itemSystem.clear(opponent.id);
-        this.nitroOverdrive.clear(opponent.id);
-        this.hyperDriveRocket.clear(opponent.id);
-        this.racerEffects.clearFrost(opponent.id);
-        this.prismatic.clear(opponent.id);
-        this.inkSplat.clear(opponent.id);
-        this.projectiles.cancelOwnerArcs(opponent.id);
-      }
-
-      if ((projection.lateralDistance > 20 || position.y < -2) && opponent.recoveryCooldown === 0) {
-        const tangent = projection.tangent;
-        this.projectiles.cancelOwnerArcs(opponent.id);
-        this.racerEffects.clearFrost(opponent.id);
-        this.prismatic.clear(opponent.id);
-        opponent.controller.respawn(
-          projection.point.clone().addScaledVector(tangent, 3),
-          Math.atan2(tangent.x, tangent.z),
-        );
-        opponent.recoveryCooldown = 1.5;
-      }
     }
   }
 
@@ -766,28 +803,22 @@ export class KartTimeTrial {
       return;
     }
 
-    executeItemUse(
-      this.itemSystem,
-      this.racerEffects,
-      opponent.id,
-      decision.direction,
-      {
-        racers,
-        projectileSystem: this.projectiles,
-        projectileLaunch: {
-          position: opponent.controller.position(),
-          forward: opponent.controller.forward(),
-          velocity: opponent.controller.velocity(),
-        },
-        apexSystem: this.apex,
-        hazardSystem: this.hazards,
-        shockwaveSystem: this.shockwave,
-        prismaticSystem: this.prismatic,
-        inkSplatSystem: this.inkSplat,
-        nitroOverdriveSystem: this.nitroOverdrive,
-        hyperDriveRocketSystem: this.hyperDriveRocket,
+    executeItemUse(this.itemSystem, this.racerEffects, opponent.id, decision.direction, {
+      racers,
+      projectileSystem: this.projectiles,
+      projectileLaunch: {
+        position: opponent.controller.position(),
+        forward: opponent.controller.forward(),
+        velocity: opponent.controller.velocity(),
       },
-    );
+      apexSystem: this.apex,
+      hazardSystem: this.hazards,
+      shockwaveSystem: this.shockwave,
+      prismaticSystem: this.prismatic,
+      inkSplatSystem: this.inkSplat,
+      nitroOverdriveSystem: this.nitroOverdrive,
+      hyperDriveRocketSystem: this.hyperDriveRocket,
+    });
   }
 
   private resolveKartContacts(dt: number): void {
@@ -1194,26 +1225,32 @@ export class KartTimeTrial {
     return true;
   }
 
-  private itemTargetingProgress(): RacerProgress[] {
+  private validatedRaceProgress(): RacerProgress[] {
     const finishProgress = this.track.startFinishDistance / this.trackLength;
     return [
-      targetingProgressSnapshot(
+      validatedRaceProgressSnapshot(
         this.playerProgress,
         this.lapTracker.snapshot().nextCheckpoint,
         finishProgress,
+        this.track.lapCheckpointProgress(this.lapTracker.snapshot().nextCheckpoint),
       ),
       ...this.opponents.map((opponent) =>
-        targetingProgressSnapshot(
+        validatedRaceProgressSnapshot(
           opponent.progress,
           opponent.lapTracker.snapshot().nextCheckpoint,
           finishProgress,
+          this.track.lapCheckpointProgress(opponent.lapTracker.snapshot().nextCheckpoint),
         ),
       ),
     ];
   }
 
+  private itemTargetingProgress(): RacerProgress[] {
+    return this.validatedRaceProgress();
+  }
+
   private currentStandings(): RacerProgress[] {
-    return rankRacers([this.playerProgress, ...this.opponents.map(({ progress }) => progress)]);
+    return rankRacers(this.validatedRaceProgress());
   }
 
   private updateItemBoxes(dt: number): void {
@@ -1247,11 +1284,7 @@ export class KartTimeTrial {
       const leaderTotal = leader.lap + leader.trackProgress;
       const distanceBehindLeaderMeters = Math.max(0, (leaderTotal - racerTotal) * this.trackLength);
       const forcedItem = forcedItemForRacer(this.forcedTestItem, racerId);
-      const forcedAiItem = aiForcedItemForRacer(
-        this.forcedAiItem,
-        this.forcedAiRacer,
-        racerId,
-      );
+      const forcedAiItem = aiForcedItemForRacer(this.forcedAiItem, this.forcedAiRacer, racerId);
       const apexAvailable = this.apex.available(racerId, this.itemTargetingProgress());
       const itemId =
         forcedItem ??
@@ -1435,6 +1468,17 @@ export class KartTimeTrial {
           }),
         );
       }
+      opponent.itemVisuals.update(
+        {
+          nitroSurgeActive: this.racerEffects.remainingSeconds(opponent.id, 'nitro-surge') > 0,
+          nitroOverdrive: this.nitroOverdriveSnapshot(opponent.id),
+          hyperDriveRocket: this.hyperDriveRocketSnapshot(opponent.id),
+          prismaticRemainingSeconds: this.prismatic.remaining(opponent.id),
+          position: opponentPosition,
+        },
+        this.elapsed,
+        this.paused ? 0 : dt,
+      );
     }
     const feedback = this.kart.feedback();
     const color =
@@ -1814,7 +1858,7 @@ export class KartTimeTrial {
       const tuning = createKartTuning(stats);
       const controller = new KartController(this.world, tuning, stats, position, yaw);
       const visual = this.createOpponentVisual(character);
-      this.scene.add(visual.group);
+      this.scene.add(visual.group, visual.itemVisuals.worldGroup);
       this.opponents.push({
         id: `ai-${String(index + 1)}`,
         name: character.displayName,
@@ -1843,7 +1887,8 @@ export class KartTimeTrial {
           finishTime: null,
           finishPlace: null,
         },
-        lastCheckpointOverlap: -1,
+        stepStartPosition: position.clone(),
+        itemVisuals: visual.itemVisuals,
         recoveryCooldown: 0,
       });
     }
@@ -1852,6 +1897,7 @@ export class KartTimeTrial {
   private createOpponentVisual(character: CharacterDefinition): OpponentVisual {
     const group = new THREE.Group();
     const driverVisual = this.createDriverSpriteVisual(character);
+    const itemVisuals = new RacerItemVisuals();
     if (character.kart !== undefined) {
       void new GLTFLoader().loadAsync(character.kart).then(
         (gltf) => {
@@ -1879,6 +1925,7 @@ export class KartTimeTrial {
           group.clear();
           group.add(model);
           if (driverVisual !== null) group.add(driverVisual.sprite);
+          group.add(itemVisuals.localGroup);
         },
         () => {
           console.warn(`Could not load AI kart for ${character.displayName}; using fallback.`);
@@ -1902,7 +1949,8 @@ export class KartTimeTrial {
     canopy.position.set(0, 0.55, -0.15);
     group.add(chassis, canopy);
     if (driverVisual !== null) group.add(driverVisual.sprite);
-    return { group, driverVisual };
+    group.add(itemVisuals.localGroup);
+    return { group, driverVisual, itemVisuals };
   }
 
   private bindEvents(): void {
@@ -1970,9 +2018,9 @@ export class KartTimeTrial {
       .hyperDriveRocketVisual;
   }
 
-  private nitroOverdriveSnapshot(): NitroOverdriveSnapshot {
+  private nitroOverdriveSnapshot(racerId = 'player'): NitroOverdriveSnapshot {
     return (
-      this.nitroOverdriveIfPresent()?.snapshot('player') ?? {
+      this.nitroOverdriveIfPresent()?.snapshot(racerId) ?? {
         active: false,
         windowRemainingSeconds: 0,
         pulseRemainingSeconds: 0,
@@ -1981,9 +2029,9 @@ export class KartTimeTrial {
     );
   }
 
-  private hyperDriveRocketSnapshot(): HyperDriveRocketSnapshot {
+  private hyperDriveRocketSnapshot(racerId = 'player'): HyperDriveRocketSnapshot {
     return (
-      this.hyperDriveRocketIfPresent()?.snapshot('player') ?? {
+      this.hyperDriveRocketIfPresent()?.snapshot(racerId) ?? {
         active: false,
         phase: 'inactive',
         windowRemainingSeconds: 0,

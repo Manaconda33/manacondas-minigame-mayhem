@@ -223,6 +223,14 @@ https://manaconda33.github.io/manacondas-minigame-mayhem/?testAiItem=hyper-drive
 
 Record the deployed commit, CI/Pages run, desktop/mobile result, representative routes, any policy/interaction/lifecycle defect, and Manny's explicit acceptance in `docs/IMPLEMENTATION-STATUS.md`. This checkpoint does not by itself close the final all-item, soak/performance, or Slice 5 gates.
 
+## Full AI tactics corrective race-authority and presentation gate
+
+ADR-084 covers the approved corrective gate found during live full-AI review. Automated evidence must verify that a forward swept crossing counts even when both fixed-step samples lie outside the prior radial trigger; reverse and off-corridor crossings remain rejected; the ordered `LapTracker` remains the only lap/finish owner; unvalidated raw spline projection cannot rank ahead of a racer with greater validated progress; the CP11-to-offset-finish wrapped segment remains ordered correctly; and existing AI/Rocket three-lap regressions use the same gate contract.
+
+AI presentation evidence must verify that the existing procedural Nitro Surge, Nitro Overdrive, Hyper-Drive Rocket, and Prismatic effects can be instantiated per AI racer, follow the racer through the active interval, and clear cleanly. No new AI audio, model, item balance, probability, stat, or gameplay-authority behavior is included.
+
+After an approved corrective deployment, first complete a normal three-lap race and confirm that the lap HUD, displayed position, finish lock, and final standings agree throughout. Then use `?testAiItem=nitro-overdrive&testAiRacer=ai-1` and a representative Rocket/Prismatic AI route to confirm the target AI visibly carries the same racer-owned effect while its existing gameplay behavior remains unchanged. Record the deployed commit, CI/Pages run, device/browser result, observed lap/finish outcome, visual result, and Manny's explicit acceptance before closing this gate.
+
 ## Slice 5 RacerEffects and Nitro Surge checkpoint
 
 Automated evidence for this bounded checkpoint must confirm:

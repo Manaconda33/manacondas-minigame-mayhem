@@ -1,4 +1,5 @@
 import type { RacerProgress } from '../race/RaceDirector';
+import { validatedRaceProgressSnapshot } from '../race/ValidatedRaceProgress';
 
 /**
  * Return every unfinished, progress-valid racer strictly ahead of the owner.
@@ -42,10 +43,7 @@ export function targetingProgressSnapshot(
   nextCheckpoint: number,
   finishProgress: number,
 ): RacerProgress {
-  return {
-    ...progress,
-    lap: progress.lap + (nextCheckpoint === 0 && progress.trackProgress < finishProgress ? 1 : 0),
-  };
+  return validatedRaceProgressSnapshot(progress, nextCheckpoint, finishProgress);
 }
 
 export function validTargetingProgress(racer: RacerProgress): boolean {

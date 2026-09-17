@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { createKartTuning, sliceOneDriver, type DriverStats } from '../src/config/kartTuning';
 import { AiDriver } from '../src/game/ai/AiDriver';
 import { KartController } from '../src/game/physics/KartController';
+import { crossesForwardCheckpointGate } from '../src/game/race/CheckpointGate';
 import { LapTracker } from '../src/game/race/LapTracker';
 import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
 
@@ -34,36 +35,34 @@ describe('Rapier spline AI integration', () => {
       const maximumSpeed = createKartTuning(sliceOneDriver).maxSpeed;
       const driver = new AiDriver(track, profile, maximumSpeed);
       const laps = new LapTracker();
-      let overlap = -1;
       let grassFrames = 0;
       let simulatedFrames = 0;
       let maximumLateralDistance = 0;
       let observedMaximumSpeed = 0;
 
       for (let step = 0; step < 21_600 && !laps.snapshot().finished; step += 1) {
-        const position = kart.position();
-        const projection = track.project(position);
+        const positionBeforeStep = kart.position();
+        const projection = track.project(positionBeforeStep);
         simulatedFrames += 1;
         if (projection.surface === 'grass') grassFrames += 1;
         maximumLateralDistance = Math.max(maximumLateralDistance, projection.lateralDistance);
         observedMaximumSpeed = Math.max(observedMaximumSpeed, kart.speedMetersPerSecond());
         kart.update(
-          driver.input(position, kart.forward(), kart.speedMetersPerSecond()),
+          driver.input(positionBeforeStep, kart.forward(), kart.speedMetersPerSecond()),
           projection.surface,
           1 / 60,
         );
         world.step();
-        let checkpoint = -1;
-        for (let index = 0; index < track.checkpointIndices.length; index += 1) {
-          if (position.distanceToSquared(track.lapCheckpointPosition(index)) < 13 * 13) {
-            checkpoint = index;
-            break;
-          }
-        }
-        if (checkpoint !== -1 && checkpoint !== overlap) {
-          laps.enterCheckpoint(checkpoint, kart.forward().dot(projection.tangent), step / 60);
-        }
-        overlap = checkpoint;
+        const checkpoint = laps.snapshot().nextCheckpoint;
+        if (
+          crossesForwardCheckpointGate(
+            positionBeforeStep,
+            kart.position(),
+            track.lapCheckpointPosition(checkpoint),
+            track.lapCheckpointTangent(checkpoint),
+          )
+        )
+          laps.enterCheckpoint(checkpoint, 1, step / 60);
       }
 
       expect(laps.snapshot().finished).toBe(true);

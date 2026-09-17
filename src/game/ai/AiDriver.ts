@@ -37,6 +37,7 @@ interface SteeringSample {
 }
 
 const candidateLaneOffsets = [-3.3, -1.65, 0, 1.65, 3.3] as const;
+const AI_REFERENCE_CORNER_RADIANS = Math.PI / 6;
 
 export function aiLookaheadMeters(speed: number): number {
   return THREE.MathUtils.lerp(5, 14, THREE.MathUtils.clamp(speed / 30, 0, 1));
@@ -44,6 +45,24 @@ export function aiLookaheadMeters(speed: number): number {
 
 export function rubberBandFactor(progressDelta: number): number {
   return THREE.MathUtils.clamp(1 + Math.max(0, progressDelta) * 0.025, 1, 1.04);
+}
+
+export function aiCornerSeverity(
+  forward: THREE.Vector3,
+  currentTrackTangent: THREE.Vector3,
+  targetTrackTangent: THREE.Vector3,
+): number {
+  const headingRadians = Math.acos(
+    THREE.MathUtils.clamp(forward.dot(targetTrackTangent), -1, 1),
+  );
+  const trackRadians = Math.acos(
+    THREE.MathUtils.clamp(currentTrackTangent.dot(targetTrackTangent), -1, 1),
+  );
+  return THREE.MathUtils.clamp(
+    Math.max(headingRadians, trackRadians) / AI_REFERENCE_CORNER_RADIANS,
+    0,
+    1,
+  );
 }
 
 export function aiTargetSpeed(
@@ -56,11 +75,12 @@ export function aiTargetSpeed(
   const cornerPenalty =
     THREE.MathUtils.lerp(0.48, 0.34, THREE.MathUtils.clamp(pace, 0, 1)) *
     candidateBAiCornerPenaltyScale(handling, characterMaxSpeed);
-  return (
-    characterMaxSpeed *
-    (1 - THREE.MathUtils.clamp(corner, 0, 1) * cornerPenalty) *
-    rubberBandFactor(playerProgressDelta)
+  const cornerSpeedFactor = THREE.MathUtils.clamp(
+    1 - THREE.MathUtils.clamp(corner, 0, 1) * cornerPenalty,
+    0.35,
+    1,
   );
+  return characterMaxSpeed * cornerSpeedFactor * rubberBandFactor(playerProgressDelta);
 }
 
 function latestSteeringAtOrBefore(
@@ -147,7 +167,7 @@ export class AiDriver {
             now - ink.reactionLatencySeconds,
           ) ?? 0);
     if (Number.isFinite(dt) && dt > 0) this.steeringClockSeconds += dt;
-    const corner = 1 - Math.max(0, forward.dot(tangent));
+    const corner = aiCornerSeverity(forward, projection.tangent, tangent);
     let targetSpeed = aiTargetSpeed(
       this.characterMaxSpeed,
       this.profile.pace,

@@ -4,7 +4,7 @@ import type { InkAiImpairmentSnapshot } from '../src/game/items/InkSplatSystem';
 import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
 
 describe('Ink AI reaction latency', () => {
-  it('uses the newest steering decision at or before the governed 80 ms cutoff', () => {
+  it('uses the newest steering decision at or before the governed 160 ms cutoff', () => {
     const track = new CircuitAlpha();
     const position = track.samples[80]?.clone();
     const tangent = track.tangents[80]?.clone();
@@ -16,7 +16,7 @@ describe('Ink AI reaction latency', () => {
     const delayed: number[] = [];
     const immediate: number[] = [];
 
-    for (let index = 0; index <= 10; index += 1) {
+    for (let index = 0; index <= 20; index += 1) {
       const base: InkAiImpairmentSnapshot = {
         remainingSeconds: 2.5,
         noiseAmplitudeMeters: 0.95,
@@ -36,10 +36,10 @@ describe('Ink AI reaction latency', () => {
       );
     }
 
-    // At the 11th 60 Hz decision, now is about 166.7 ms and the governed
-    // cutoff is about 86.7 ms, so the newest eligible sample is frame 6
-    // (83.3 ms), not the oldest retained sample from frame 1.
-    expect(delayed[10]).toBeCloseTo(immediate[5] ?? Number.NaN, 8);
-    expect(Math.abs((delayed[10] ?? 0) - (immediate[0] ?? 0))).toBeGreaterThan(0.001);
+    // At the 21st 60 Hz decision, now is about 333.3 ms and the governed
+    // cutoff is about 173.3 ms, so the newest eligible sample is frame 10
+    // (166.7 ms), not the oldest retained sample from frame 2.
+    expect(delayed[20]).toBeCloseTo(immediate[10] ?? Number.NaN, 8);
+    expect(Math.abs((delayed[20] ?? 0) - (immediate[0] ?? 0))).toBeGreaterThan(0.001);
   });
 });

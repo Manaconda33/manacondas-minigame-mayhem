@@ -40,12 +40,103 @@ export const sliceOneDriver: DriverStats = {
   traction: 5,
 };
 
+/**
+ * Experimental Balance Candidate B keeps the approved Speed ceiling and
+ * Mini-Turbo/Traction curves intact. Acceleration and Handling instead govern
+ * how quickly a kart rebuilds speed and how much speed it can carry while
+ * demanding lateral control. The neutral stat-6 kart preserves its existing
+ * launch value so the experiment pivots around the current baseline.
+ */
+export const BALANCE_CANDIDATE_B = {
+  neutralStat: 6,
+  neutralAcceleration: 7.3,
+  accelerationPerPoint: 0.75,
+  recoveryThresholdRatio: 0.85,
+  recoveryPerPoint: 0.08,
+  recoveryMinimum: 0.6,
+  recoveryMaximum: 1.32,
+  steeringResponseNeutral: 10,
+  steeringResponsePerPoint: 1.25,
+  steeringResponseMinimum: 5,
+  steeringResponseMaximum: 15,
+  cornerLossNeutralPerSecond: 0.16,
+  cornerLossPerHandlingPoint: 0.02,
+  cornerLossMinimumPerSecond: 0.08,
+  cornerLossMaximumPerSecond: 0.26,
+  cornerSpeedPressureStart: 18,
+  cornerSpeedPressureFull: 33,
+  cornerSpeedPressureMaximum: 1.25,
+} as const;
+
+function clamp(value: number, minimum: number, maximum: number): number {
+  return Math.min(maximum, Math.max(minimum, value));
+}
+
+export function candidateBAccelerationRecoveryMultiplier(
+  acceleration: number,
+  speedRatio: number,
+): number {
+  const threshold = BALANCE_CANDIDATE_B.recoveryThresholdRatio;
+  const deficit = clamp((threshold - speedRatio) / threshold, 0, 1);
+  return clamp(
+    1 +
+      BALANCE_CANDIDATE_B.recoveryPerPoint *
+        (acceleration - BALANCE_CANDIDATE_B.neutralStat) *
+        deficit,
+    BALANCE_CANDIDATE_B.recoveryMinimum,
+    BALANCE_CANDIDATE_B.recoveryMaximum,
+  );
+}
+
+export function candidateBSteeringResponseRate(handling: number): number {
+  return clamp(
+    BALANCE_CANDIDATE_B.steeringResponseNeutral +
+      BALANCE_CANDIDATE_B.steeringResponsePerPoint *
+        (handling - BALANCE_CANDIDATE_B.neutralStat),
+    BALANCE_CANDIDATE_B.steeringResponseMinimum,
+    BALANCE_CANDIDATE_B.steeringResponseMaximum,
+  );
+}
+
+/**
+ * Returns the exponential forward-speed loss rate for a steering demand.
+ * Absolute speed, rather than the racer's own speed ratio, creates the intended
+ * Realized Speed interaction: a low-Handling kart pays more to exploit a very
+ * high Speed ceiling without changing that ceiling on a straight.
+ */
+export function candidateBHandlingCornerLossRate(
+  handling: number,
+  speedMetersPerSecond: number,
+  steeringInput: number,
+): number {
+  const handlingLoss = clamp(
+    BALANCE_CANDIDATE_B.cornerLossNeutralPerSecond -
+      BALANCE_CANDIDATE_B.cornerLossPerHandlingPoint *
+        (handling - BALANCE_CANDIDATE_B.neutralStat),
+    BALANCE_CANDIDATE_B.cornerLossMinimumPerSecond,
+    BALANCE_CANDIDATE_B.cornerLossMaximumPerSecond,
+  );
+  const speedPressure = clamp(
+    (Math.abs(speedMetersPerSecond) - BALANCE_CANDIDATE_B.cornerSpeedPressureStart) /
+      (BALANCE_CANDIDATE_B.cornerSpeedPressureFull -
+        BALANCE_CANDIDATE_B.cornerSpeedPressureStart),
+    0,
+    BALANCE_CANDIDATE_B.cornerSpeedPressureMaximum,
+  );
+  const turnLoad = clamp(Math.abs(steeringInput), 0, 1);
+  return handlingLoss * turnLoad * turnLoad * speedPressure * speedPressure;
+}
+
 export function createKartTuning(stats: DriverStats): KartTuning {
   const normalized = (value: number): number => (value - 1) / 9;
 
   return {
+    // Candidate B deliberately preserves the approved 23-33 m/s Speed range.
     maxSpeed: 23 + normalized(stats.speed) * 10,
-    acceleration: 4 + 0.55 * stats.acceleration,
+    acceleration:
+      BALANCE_CANDIDATE_B.neutralAcceleration +
+      BALANCE_CANDIDATE_B.accelerationPerPoint *
+        (stats.acceleration - BALANCE_CANDIDATE_B.neutralStat),
     mass: 105 + normalized(stats.weight) * 75,
     steeringRate: 1.3 + normalized(stats.handling) * 1.1,
     lateralGrip: 5.5 + normalized(stats.traction) * 3.5,

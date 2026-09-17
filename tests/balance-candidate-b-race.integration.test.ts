@@ -15,13 +15,13 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
 
   it('records same-profile three-lap telemetry for all twelve character builds', () => {
     const track = new CircuitAlpha();
-    const results: Array<{
+    const results: {
       name: string;
       seconds: number;
       maximumSpeed: number;
       observedMaximumSpeed: number;
       grassRatio: number;
-    }> = [];
+    }[] = [];
 
     for (const character of characterManifest) {
       const world = new RAPIER.World({ x: 0, y: -18, z: 0 });

@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.20
+Version 1.1 - Final approved baseline; working implementation amendment 2.20; proposed governance amendment 2.21
 
 August 16, 2026
 
@@ -359,6 +359,12 @@ Approved September 17, 2026 after live review of the deployed 2.18 Ink implement
 Approved September 17, 2026. PRD Section 15.15, ADR-081, and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md are normative for this bounded governance checkpoint. Continuous Nitro Overdrive uses one committed inventory charge to start an exactly **6.0 race-second** window and an immediately eligible first pulse. Later ITEM presses may commit pulses no faster than once every **0.75 race seconds**; each accepted pulse supplies an approximately **0.9-second** temporary boost with a **1.15x** normal speed cap and neutral additional acceleration. Repeated pulses refresh one source rather than stacking, and no pulse extends past the six-second window.
 
 The charge is consumed atomically on initial activation and the inventory slot is freed immediately. Pause freezes the window, cadence, pulse, HUD, VFX, and audio. Normal surface penalties, steering, traction, permanent statistics, race authority, and existing maximum-authority boost composition remain unchanged. The item adds no hostile effect, immunity, projectile, hazard, or shared-capacity object. Forward and backward ITEM intent are equivalent. General AI item acquisition/use, Hyper-Drive Rocket, item probability changes, and Slice 6 final polish remain outside this checkpoint. Governance publication cleared through PR #151 and hosted validation/Pages run `35223980439`; Manny separately authorized the bounded gameplay/presentation implementation on 2026-09-17. PR #152 squash-merged at `59897fcd48b8f7b8e156764f75a44360bf0f2281`; hosted PR CI `35230154302` and post-merge validation/Pages `35230540886` passed. Manny reported **“Pass”** on the deployed `?testItem=nitro-overdrive` route on 2026-09-17.
+
+## Proposed implementation amendment 2.21 - Hyper-Drive Rocket governance scope
+
+Proposed September 17, 2026 for review. PRD Section 15.16, ADR-082, and `docs/SLICE-5-HYPER-DRIVE-ROCKET-SCOPE.md` convert the existing Hyper-Drive Rocket requirements into a bounded operational contract: one atomic inventory charge; existing rank 6-8 and at-least-45-meter negative leader-gap eligibility; an exactly 6.0 race-second state; legal Circuit Alpha spline projection and autopilot through normal `KartController` input; a 1.25x speed-cap target with normal acceleration and surfaces; automatic overtakes earned through ordinary movement/checkpoint traversal; a final 0.30-second control return; source-scoped racer-contact and supported ground/area-hazard immunity; pause/lifecycle cleanup; and finite original procedural presentation.
+
+The proposal forbids direct transform, velocity, checkpoint, lap, rank, finish, or racer-stat mutation; teleportation; forced first-place placement; uncontrolled forward physics; silent projectile immunity; selector/probability changes; and a second race-authority system. It keeps general AI item acquisition/use/tactics, broader projectile behavior, accepted item changes, dependencies, issue #106, and Slice 6 final polish outside this checkpoint. This proposal is not gameplay, VFX, audio, or presentation implementation authorization. Governance publication/hosted validation and a separate implementation gate remain required.
 
 ## 1.1 Governance
 

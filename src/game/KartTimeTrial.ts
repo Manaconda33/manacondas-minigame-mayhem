@@ -1872,6 +1872,7 @@ export class KartTimeTrial {
             aggression: 0.2 + (index % 4) * 0.2,
           },
           tuning.maxSpeed,
+          stats.handling,
         ),
         characterMaxSpeed: tuning.maxSpeed,
         mesh: visual.group,

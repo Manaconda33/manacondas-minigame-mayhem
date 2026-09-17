@@ -316,3 +316,7 @@ PRD amendment 2.18 / ADR-079 and `docs/SLICE-5-INK-SPLAT-SCOPE.md` govern the bo
 
 This is governance scope only. Gameplay, VFX/audio/presentation implementation remains held pending a separate explicit Manny authorization after this checkpoint is published. No probability, accepted-item tuning, racer-stat, kart-physics, track/checkpoint, full AI item-use, dependency, Overdrive, Rocket, or Slice 6 change is authorized.
 
+
+## Vision-Obscuring Ink Splat gameplay publication - deployed 2026-09-16
+
+The amendment 2.18 / ADR-079 implementation is deployed through PR #148 at `2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`. Hosted PR CI `35168738421` and post-merge validation/Pages `35168880807` passed after review corrected the AI 0.080-second reaction-latency history sampler and added regression coverage. The Ink functional checklist remains incomplete until Manny performs and accepts the deployed desktop/mobile live matrix. Continuous Nitro Overdrive, Hyper-Drive Rocket, full AI item-use/tactics, final interaction/counter evidence, soak/performance, and overall Slice 5 acceptance remain open.

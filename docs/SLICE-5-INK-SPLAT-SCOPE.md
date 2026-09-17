@@ -2,7 +2,7 @@
 
 ## Approval state
 
-**Status:** APPROVED GOVERNANCE SCOPE - GAMEPLAY/PRESENTATION IMPLEMENTATION HELD
+**Status:** GAMEPLAY/PRESENTATION DEPLOYED - PRODUCT-OWNER LIVE ACCEPTANCE PENDING
 
 **Product-owner approval:** Manny, 2026-09-16
 
@@ -173,8 +173,14 @@ This governance checkpoint does not authorize or change:
 ## Approval gates
 
 1. **Scope/governance approval:** COMPLETE - Manny approved this contract on 2026-09-16.
-2. **Governance publication:** requires docs-only PR, hosted CI, merge, and post-merge validation/Pages.
-3. **Gameplay/presentation authorization:** BLOCKED until Manny explicitly authorizes implementation after gate 2 clears.
-4. **Gameplay publication:** later PR after implementation and full automated validation.
-5. **Product-owner live acceptance:** later deployed manual review.
-6. **Slice 5 closure:** still blocked by remaining item effects, full AI item-use/tactics, all-item interaction/counter evidence, soak/performance, final desktop/mobile full-slice acceptance, and other recorded closure gates.
+2. **Governance publication:** COMPLETE - PR #147 merge `b62c96ae8297150d8f4cafaede4623d5b01a1e0b`; PR CI `35145111221`; post-merge validation/Pages `35145254188`.
+3. **Gameplay/presentation authorization:** COMPLETE - Manny separately authorized bounded gameplay, VFX, audio, and presentation implementation.
+4. **Gameplay publication:** COMPLETE - reviewed head `1ff4e9acdb5e9464f19c059183f08a42712109a2`; PR #148 CI `35168738421`; squash merge `2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`; post-merge validation/Pages `35168880807`.
+5. **Product-owner live acceptance:** OPEN - deployed manual review required; no browser/device or scenario pass is inferred yet.
+6. **Slice 5 closure:** still blocked by Ink live acceptance, remaining item effects, full AI item-use/tactics, all-item interaction/counter evidence, soak/performance, final desktop/mobile full-slice acceptance, and other recorded closure gates.
+
+## Gameplay publication checkpoint - 2026-09-16
+
+Manny approved merge and deployment of the bounded Ink implementation. Review corrected the 0.080-second AI reaction-latency sampler before publication and added a regression test that distinguishes the correct newest-at-cutoff sample from stale retained history. Final reviewed head `1ff4e9acdb5e9464f19c059183f08a42712109a2` passed hosted PR CI `35168738421` with **54 test files / 463 tests** and **81.97% statement / 77.31% branch / 86.56% function / 83.52% line coverage**. PR #148 squash-merged at `2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`; main validation and GitHub Pages run `35168880807` passed. PR #148 comment `5706830348` records publication evidence.
+
+This proves deployment, not live acceptance. The manual matrix above remains the product-owner gate.

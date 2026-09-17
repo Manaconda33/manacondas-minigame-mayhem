@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import {
   AiDriver,
+  aiCornerSeverity,
   aiLookaheadMeters,
   aiTargetSpeed,
   rubberBandFactor,
@@ -45,6 +46,25 @@ describe('spline AI driver', () => {
     expect(aiTargetSpeed(33, 0.28, 0, 0)).toBe(33);
     expect(aiTargetSpeed(27.4, 0.82, 0, 0)).toBe(27.4);
     expect(aiTargetSpeed(30, 0.82, 0.5, 0)).toBeGreaterThan(aiTargetSpeed(30, 0.28, 0.5, 0));
+  });
+
+  it('turns upcoming heading angle into meaningful pre-turn corner severity', () => {
+    const forward = new THREE.Vector3(0, 0, 1);
+    const straight = forward.clone();
+    const sixDegrees = new THREE.Vector3(
+      Math.sin(THREE.MathUtils.degToRad(6)),
+      0,
+      Math.cos(THREE.MathUtils.degToRad(6)),
+    );
+    const fifteenDegrees = new THREE.Vector3(
+      Math.sin(THREE.MathUtils.degToRad(15)),
+      0,
+      Math.cos(THREE.MathUtils.degToRad(15)),
+    );
+
+    expect(aiCornerSeverity(forward, straight, straight)).toBeCloseTo(0);
+    expect(aiCornerSeverity(forward, straight, sixDegrees)).toBeCloseTo(0.2, 2);
+    expect(aiCornerSeverity(forward, straight, fifteenDegrees)).toBeCloseTo(0.5, 2);
   });
 
   it('commits to a clear adjacent lane when a slower racer blocks its line', () => {

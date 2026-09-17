@@ -2,11 +2,11 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO OVERDRIVE LIVE ACCEPTED; HYPER-DRIVE IMPLEMENTATION IN PROGRESS; SLICE 5 CLOSURE OPEN**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - NITRO OVERDRIVE LIVE ACCEPTED; HYPER-DRIVE LIVE ACCEPTED; SLICE 5 CLOSURE OPEN**
 
 PRD baseline: **v1.1, approved implementation amendments 2.18-2.21 / ADR-079-082**.
 
-Latest verified merged `main`: **`ae40eaa630cc997f452c39b8e312a7ada0441bd0`**.
+Latest verified merged `main`: **`4ae7c6aece6070bb95df889be7059eb91195cd1e`**.
 
 Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. The tuned amendment merged through PR #149 at **`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`**; hosted PR CI **`35173826253`** and post-merge validation/Pages **`35188684882`** passed. Manny reported **“Pass”** on 2026-09-17; PR #149 comment **`5709839182`** records live acceptance.
 
@@ -64,19 +64,28 @@ The approved contract is one charge; immediate first pulse on committed activati
 
 The published implementation adds the bounded Overdrive state/transaction path, keyed generic temporary-boost composition, production player desktop/mobile ITEM routing, separate active-window HUD state, original procedural rear VFX, and original procedural activation/pulse audio. Validation passed with **55 test files / 473 tests**, **81.99% statement / 77.32% branch / 86.55% function / 83.55% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. Hosted gameplay PR #152 CI `35230154302` passed; post-merge validation and GitHub Pages deployment `35230540886` also passed. The known Vite large-chunk warning remains nonblocking.
 
-The deployed player-only route is `?testItem=nitro-overdrive`. Manny reported **“Pass”** on 2026-09-17. No browser/device-specific result is inferred beyond that explicit report. Hyper-Drive Rocket, full AI item use/tactics, final cross-item evidence, soak/performance, issue #106, and final Slice 5 closure remain open.
+The deployed player-only route is `?testItem=nitro-overdrive`. Manny reported **“Pass”** on 2026-09-17. No browser/device-specific result is inferred beyond that explicit report. Full AI item use/tactics, final cross-item evidence, soak/performance, issue #106, and final Slice 5 closure remain open.
 
-## Hyper-Drive Rocket governance - APPROVED / PUBLISHED 2026-09-17
+## Hyper-Drive Rocket final state - LIVE ACCEPTED 2026-09-17
 
-Hyper-Drive Rocket is the next bounded Slice 5 item approved for work. `docs/SLICE-5-HYPER-DRIVE-ROCKET-SCOPE.md` records amendment 2.21 / ADR-082: one atomic charge; the existing rank 6-8 and at-least-45-meter selector eligibility; an exactly 6.0 race-second state; legal Circuit Alpha projection/autopilot through normal controller input; a 1.25x speed-cap target; ordinary movement-earned overtakes; a final 0.30-second control return; source-scoped racer-contact and supported ground/area-hazard immunity; pause/lifecycle cleanup; and original procedural presentation.
+Hyper-Drive Rocket gameplay, original procedural model/VFX/audio/presentation, and the bounded player-only acceptance route are **MERGED / DEPLOYED / LIVE ACCEPTED** under amendment 2.21 / ADR-082 and docs/SLICE-5-HYPER-DRIVE-ROCKET-SCOPE.md. Product-owner live acceptance was reported as **“Approved”** on 2026-09-17 after reviewing the deployed `?testItem=hyper-drive-rocket` route.
 
-Governance publication is complete through PR #154, merged at `ae977623bdc7a209634816e1cea8ef4a799b98c8`; post-merge validation and Pages run `35243454845` passed. The publication record was reconciled through PR #155 at `ae40eaa630cc997f452c39b8e312a7ada0441bd0`. The separate gameplay implementation gate was approved on 2026-09-17. The bounded implementation is complete on the local feature branch and passes `npm run validate` (**56 test files / 485 tests**, **82.15% statement / 77.31% branch / 86.72% function / 83.74% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build). Gameplay PR review/merge and live acceptance remain pending; no deployment is claimed. General AI item acquisition/use/tactics remains a separate full-Slice-5 gate. The player-only route is `?testItem=hyper-drive-rocket`.
+Authorization and publication evidence:
+
+- Governance publication PR #154 merged at `ae977623bdc7a209634816e1cea8ef4a799b98c8`; post-merge validation and Pages run `35243454845` passed.
+- Publication record reconciliation PR #155 merged at `ae40eaa630cc997f452c39b8e312a7ada0441bd0`.
+- Separate gameplay implementation authorization was approved on 2026-09-17.
+- Gameplay PR #156 squash-merged at `4ae7c6aece6070bb95df889be7059eb91195cd1e`.
+- Hosted post-merge validation and GitHub Pages run `35251643282` passed; its validation and deploy jobs both completed successfully.
+- Local validation before publication passed with **56 test files / 485 tests**, **82.15% statement / 77.31% branch / 86.72% function / 83.74% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build.
+- Product-owner acceptance evidence is recorded in PR #156 comment `5718483417`.
+- The deployed player-only review route is `?testItem=hyper-drive-rocket`. General AI item acquisition/use/tactics and remaining full-Slice-5 closure gates are unchanged and remain open.
 
 ## Slice 5 accepted/deployed state
 
-Live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, **Kinetic Arc Hammers**, and **Continuous Nitro Overdrive**.
+Live-accepted bounded increments include item boxes/one-slot inventory/roulette/HUD/input foundation, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex core, Timed Blast Orb/HazardSystem, Slick Trap, Slick/Blast AI hazard response, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, **Kinetic Arc Hammers**, **Continuous Nitro Overdrive**, and **Hyper-Drive Rocket**.
 
-Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Continuous Nitro Overdrive is merged, deployed, and live accepted under amendment 2.20 / ADR-081 through PR #152. **Hyper-Drive Rocket governance is approved/published under amendment 2.21 / ADR-082; bounded gameplay and presentation implementation is complete locally, with gameplay PR review/merge and live acceptance pending.**
+Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Continuous Nitro Overdrive is merged, deployed, and live accepted under amendment 2.20 / ADR-081 through PR #152. **Hyper-Drive Rocket gameplay and original presentation are merged, deployed, and live accepted under amendment 2.21 / ADR-082 through PR #156.**
 
 Remaining Slice 5 closure work also includes full AI item acquisition/use, final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, final desktop/mobile full-slice acceptance, and issue #106 disposition as appropriate. Slice 6 remains locked.
 
@@ -89,7 +98,7 @@ Remaining Slice 5 closure work also includes full AI item acquisition/use, final
 
 ## Next recommended action
 
-Publish the validated Hyper-Drive Rocket gameplay PR for review, then stop for merge and live-acceptance gates. Slice 6 remains locked.
+Continue the remaining full-Slice-5 closure work; Slice 6 remains locked.
 
 ## Approval state
 
@@ -105,8 +114,8 @@ Publish the validated Hyper-Drive Rocket gameplay PR for review, then stop for m
 
 **Hyper-Drive Rocket scope/governance:** **APPROVED / PUBLISHED 2026-09-17** under amendment 2.21 / ADR-082 through PR #154 / `ae977623bdc7a209634816e1cea8ef4a799b98c8` / post-merge validation and Pages `35243454845`; publication record reconciled through PR #155 / `ae40eaa630cc997f452c39b8e312a7ada0441bd0`.
 
-**Hyper-Drive Rocket gameplay + original presentation:** **IMPLEMENTED LOCALLY / VALIDATED 2026-09-17** on the feature branch; `npm run validate` passed with **56 test files / 485 tests**. Gameplay PR review/merge and live acceptance remain pending.
+**Hyper-Drive Rocket gameplay + original presentation:** **LIVE ACCEPTED 2026-09-17** through PR #156 / `4ae7c6aece6070bb95df889be7059eb91195cd1e` / post-merge validation and Pages `35251643282` / product-owner comment `5718483417`.
 
-**Slice 5 implementation:** IN PROGRESS; Ink Splat and Continuous Nitro Overdrive are live accepted, and Hyper-Drive Rocket is locally implemented and validated pending gameplay PR review/merge and live acceptance. Remaining Slice 5 closure gates are still open.
+**Slice 5 implementation:** IN PROGRESS; Ink Splat, Continuous Nitro Overdrive, and Hyper-Drive Rocket are live accepted. Remaining Slice 5 closure gates are still open.
 
 **Slice 6:** LOCKED pending remaining Slice 5 validation/closure work and Manny's full-slice acceptance.

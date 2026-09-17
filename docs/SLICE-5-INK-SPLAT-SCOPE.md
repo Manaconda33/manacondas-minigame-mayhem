@@ -2,17 +2,19 @@
 
 ## Approval state
 
-**Status:** APPROVED GOVERNANCE SCOPE - AI TUNING AMENDMENT APPROVED
+**Status:** LIVE ACCEPTED - AMENDMENT 2.19 / ADR-080
 
-**Product-owner approval:** Manny, 2026-09-16
+**Governance approval:** Manny, 2026-09-16
+
+**Tuned product-owner acceptance:** Manny, 2026-09-17
 
 **Governing PRD:** v1.1, approved implementation amendments 2.18-2.19 / ADR-079-080
 
-This document defines the bounded implementation contract for Vision-Obscuring Ink Splat. The original 2.18 publication did not authorize gameplay, VFX, audio, or presentation development; Amendment 2.19 authorizes only the bounded AI impairment tuning described below. Tuned gameplay publication and live acceptance remain separately gated.
+This document defines the bounded implementation contract for Vision-Obscuring Ink Splat. The original 2.18 publication did not authorize gameplay, VFX, audio, or presentation development; Amendment 2.19 authorized only the bounded AI impairment tuning described below. The tuned gameplay publication and product-owner live-acceptance gates are now complete.
 
 ## Amendment 2.19 / ADR-080 - AI impairment tuning
 
-**Status:** APPROVED TUNING AMENDMENT - bounded implementation update in progress
+**Status:** LIVE ACCEPTED - bounded tuning implementation published and deployed
 
 **Product-owner approval:** Manny, 2026-09-17
 
@@ -23,6 +25,14 @@ Live review of the merged 2.18 implementation found that its AI impairment was t
 - Steering precision multiplier: **0.74**
 
 The tuning remains smooth, deterministic, legally road-bounded, and independent of AI speed, throttle, braking, acceleration, rubber-band, physics, and race authority. The active duration remains **2.50 race seconds**.
+
+## Published tuned implementation and live acceptance
+
+The tuned implementation is published through PR #149 at `af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`. Hosted PR CI `35173826253` and post-merge validation/GitHub Pages run `35188684882` passed. The tuned production route is `?testItem=ink-splat`.
+
+Manny reported **“Pass”** after reviewing the deployed tuned checkpoint. PR #149 comment `5709839182` records the product-owner live-acceptance evidence. No browser/device-specific result is inferred beyond that explicit report.
+
+The bounded increment remains limited to 0.95 m lateral noise, 0.160 seconds of reaction latency, and a 0.74 steering precision multiplier. The 2.50-second duration, targeting, inventory, immunity, lifecycle, legal-road, speed/race-authority, and human-presentation boundaries remain unchanged.
 
 ## Baseline preserved
 
@@ -94,7 +104,7 @@ Ink must make AI visibly less precise without deliberately selecting illegal/off
 
 ## Architecture boundary
 
-A later authorized implementation should add a focused `InkSplatSystem` that owns target application, remaining duration, refresh semantics, and read-only impairment/view snapshots.
+The published implementation uses a focused `InkSplatSystem` that owns target application, remaining duration, refresh semantics, and read-only impairment/view snapshots.
 
 Reuse:
 
@@ -109,19 +119,19 @@ Ink creates no projectile, no hazard, no world collision body, and reserves **ze
 
 ## Original presentation contract
 
-If later separately authorized, Slice 5 implementation may use original procedural/CSS/SVG/canvas-style organic splat silhouettes, finite drips/edge breakup, and one short original impact cue sufficient for gameplay readability. No production binary asset is required by this contract.
+The published bounded implementation uses original procedural/CSS/SVG/canvas-style organic splat silhouettes, finite drips/edge breakup, and one short original impact cue sufficient for gameplay readability. No production binary asset is required by this contract.
 
 Do not copy protected franchise Ink silhouettes, animation timing, audio, iconography, or full-screen composition. Final mix/post-processing and broader production polish remain Slice 6.
 
 ## Deterministic acceptance instrumentation
 
-Planned primary route:
+Deployed primary route:
 
 `?testItem=ink-splat`
 
-It should force Ink into the player inventory while preserving unrestricted normal driving and ITEM input.
+It forces Ink into the player inventory while preserving unrestricted normal driving and ITEM input.
 
-Planned bounded diagnostics may include:
+Bounded diagnostics include:
 
 - an incoming-Ink fixture that applies a real Ink effect to the player after a visible/countdown setup without granting general AI inventory;
 - a Prismatic protected case proving application is blocked;
@@ -130,9 +140,9 @@ Planned bounded diagnostics may include:
 
 A miss, no-target state, invalid target, already-finished target, or fixture that never reaches its intended resolution is **INCONCLUSIVE**, not PASS. Diagnostics may not mutate lap/checkpoint/rank authority, enable general AI item tactics, or block normal ITEM input.
 
-## Automated evidence required before gameplay publication
+## Automated evidence delivered for gameplay publication
 
-Future implementation tests must prove at minimum:
+The published implementation tests prove at minimum:
 
 - all valid racers strictly ahead are targeted, including cross-lap ordering and wrapped checkpoint-normalized snapshots;
 - tied, behind, owner, finished, and invalid-progress racers are excluded;
@@ -150,11 +160,11 @@ Future implementation tests must prove at minimum:
 - ordinary item probabilities remain unchanged;
 - production `ItemEffectDispatcher`, `KartTimeTrial`, controller/input, AI-driver, race-progress targeting, immunity, HUD/view layering, pause, recovery, finish, restart, and disposal seams are exercised. Helper-only tests are insufficient.
 
-All standard repository gates remain required: clean install, strict typecheck, zero-warning lint, full automated suite/coverage, production build, hosted PR CI, merge, post-merge validation, GitHub Pages deployment, and then product-owner live acceptance.
+The tuned publication passed the standard repository gates: clean install, strict typecheck, zero-warning lint, full automated suite/coverage, production build, hosted PR CI, merge, post-merge validation, GitHub Pages deployment, and product-owner live acceptance. Hosted post-merge validation recorded 54 test files / 463 tests and 81.97% statements / 77.31% branches / 86.56% functions / 83.52% lines.
 
-## Live acceptance matrix after a future deployment
+## Final live acceptance - 2026-09-17
 
-The eventual manual review must cover at least:
+The deployed manual review covered at least:
 
 1. one-charge held item and successful consumption;
 2. all racers-ahead behavior in ordinary race conditions;
@@ -169,12 +179,14 @@ The eventual manual review must cover at least:
 
 Do not infer browser/device results that Manny does not explicitly report.
 
+
+Manny reported **“Pass”** after the deployed `?testItem=ink-splat` review. This closes the bounded Ink Splat live-acceptance matrix. PR #149 comment `5709839182` records the product-owner evidence.
+
 ## Explicit exclusions
 
-The original 2.18 governance checkpoint does not authorize or change the following. Amendment 2.19 authorizes only the bounded AI tuning update described above:
+The original 2.18 governance checkpoint did not authorize the implementation. The published 2.18/2.19 bounded increment does not authorize or change the following beyond the merged PRs #148 and #149:
 
-- Ink gameplay implementation;
-- Ink VFX, audio, or presentation development;
+- Any additional Ink gameplay, VFX, audio, or presentation work beyond the published bounded increment;
 - item probability weights or dynamic gap factor;
 - any already accepted item tuning or counter behavior;
 - racer statistics or kart physics;
@@ -186,9 +198,11 @@ The original 2.18 governance checkpoint does not authorize or change the followi
 
 ## Approval gates
 
-1. **Scope/governance approval:** COMPLETE - Manny approved this contract on 2026-09-16.
-2. **Governance publication:** requires docs-only PR, hosted CI, merge, and post-merge validation/Pages.
-3. **Gameplay/presentation authorization:** BLOCKED until Manny explicitly authorizes implementation after gate 2 clears.
-4. **Gameplay publication:** later PR after implementation and full automated validation.
-5. **Product-owner live acceptance:** later deployed manual review.
-6. **Slice 5 closure:** still blocked by remaining item effects, full AI item-use/tactics, all-item interaction/counter evidence, soak/performance, final desktop/mobile full-slice acceptance, and other recorded closure gates.
+1. **Scope/governance approval:** **COMPLETE.** Manny approved this contract on 2026-09-16.
+2. **Governance publication:** **COMPLETE.** PR #147 merged at `b62c96ae8297150d8f4cafaede4623d5b01a1e0b`; hosted PR CI `35145111221` and post-merge validation/Pages `35145254188` passed. Publication evidence is PR #147 comment `5703901606`.
+3. **Gameplay/presentation authorization:** **COMPLETE.** Manny explicitly authorized bounded implementation in Work after the governance gate cleared.
+4. **Gameplay publication:** **COMPLETE.** PR #148 merged at `2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`; hosted PR CI `35168738421` and post-merge validation/Pages `35168880807` passed.
+5. **AI tuning amendment authorization:** **COMPLETE.** Manny approved Amendment 2.19 / ADR-080 on 2026-09-17.
+6. **Tuning publication:** **COMPLETE.** PR #149 squash-merged at `af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`; hosted PR CI `35173826253` and post-merge validation/Pages `35188684882` passed.
+7. **Product-owner live acceptance:** **COMPLETE.** Manny reported **“Pass”** on the deployed tuned route on 2026-09-17; PR #149 comment `5709839182` records the evidence.
+8. **Slice 5 closure:** remains blocked by the remaining item effects, full AI item-use/tactics, all-item interaction/counter evidence, soak/performance, final full-slice acceptance, and other recorded closure gates.

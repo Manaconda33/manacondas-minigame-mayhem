@@ -1,0 +1,36 @@
+name: Temporary Ink Splat publication closeout
+
+on:
+  push:
+    branches:
+      - docs/ink-splat-publication-closeout
+    paths:
+      - .github/tmp/ink-splat-publication-closeout.py
+      - .github/workflows/ink-splat-publication-closeout.yml
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs/ink-splat-publication-closeout
+          fetch-depth: 0
+      - name: Apply publication closeout
+        run: python .github/tmp/ink-splat-publication-closeout.py
+      - name: Commit durable docs
+        run: |
+          if git diff --quiet; then
+            echo "No closeout changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md docs/DECISIONS.md docs/IMPLEMENTATION-STATUS.md docs/SLICE-5-INK-SPLAT-SCOPE.md docs/SLICE-5-ITEM-SYSTEM-DESIGN.md docs/TESTING.md
+          git commit -m "Record Vision-Obscuring Ink Splat gameplay publication"
+          git push origin HEAD:docs/ink-splat-publication-closeout

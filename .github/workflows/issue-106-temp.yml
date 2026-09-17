@@ -17,6 +17,7 @@ jobs:
         with:
           ref: fix/issue-106-live-results
           fetch-depth: 0
+          lfs: true
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

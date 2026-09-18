@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { APP_TITLE, markGameFinished, mountAppShell, standingsMarkup } from '../src/app/mountAppShell';
 import { raceMinimapMarkup } from '../src/app/raceMinimap';
+import { GAME_SETTINGS_STORAGE_KEY } from '../src/config/gameSettings';
 
 describe('Slice 0 app shell', () => {
   it('mounts the product title without entering gameplay', () => {
@@ -112,4 +113,47 @@ describe('Slice 0 app shell', () => {
     expect(host.querySelector('[data-race-minimap]')?.getAttribute('role')).toBe('img');
     expect(host.querySelector('[data-minimap-racers]')).not.toBeNull();
   });
+
+  it('persists audio and graphics settings across shell mounts', () => {
+    window.localStorage.clear();
+    const root = document.createElement('div');
+    mountAppShell(root);
+    root.querySelector<HTMLElement>('[data-action="enter"]')?.click();
+    root.querySelector<HTMLElement>('[data-action="settings"]')?.click();
+
+    const master = root.querySelector<HTMLInputElement>('#master-volume');
+    const music = root.querySelector<HTMLInputElement>('#music-volume');
+    const sfx = root.querySelector<HTMLInputElement>('#sfx-volume');
+    const graphics = root.querySelector<HTMLSelectElement>('#graphics-quality');
+    if (master === null || music === null || sfx === null || graphics === null)
+      throw new Error('Settings controls were not rendered.');
+
+    master.value = '0.65';
+    master.dispatchEvent(new Event('input'));
+    music.value = '0.45';
+    music.dispatchEvent(new Event('input'));
+    sfx.value = '0.8';
+    sfx.dispatchEvent(new Event('input'));
+    graphics.value = 'low';
+    graphics.dispatchEvent(new Event('change'));
+
+    const stored = JSON.parse(window.localStorage.getItem(GAME_SETTINGS_STORAGE_KEY) ?? '{}') as {
+      audio?: { master?: number; music?: number; sfx?: number };
+      graphics?: { quality?: string };
+    };
+    expect(stored.audio).toMatchObject({ master: 0.65, music: 0.45, sfx: 0.8 });
+    expect(stored.graphics?.quality).toBe('low');
+
+    const remount = document.createElement('div');
+    mountAppShell(remount);
+    remount.querySelector<HTMLElement>('[data-action="enter"]')?.click();
+    remount.querySelector<HTMLElement>('[data-action="settings"]')?.click();
+
+    expect(remount.querySelector<HTMLInputElement>('#master-volume')?.value).toBe('0.65');
+    expect(remount.querySelector<HTMLInputElement>('#music-volume')?.value).toBe('0.45');
+    expect(remount.querySelector<HTMLInputElement>('#sfx-volume')?.value).toBe('0.8');
+    expect(remount.querySelector<HTMLSelectElement>('#graphics-quality')?.value).toBe('low');
+    window.localStorage.clear();
+  });
+
 });

@@ -116,6 +116,7 @@ export class AiDriver {
     racerId = '',
     ink: InkAiImpairmentSnapshot | null = null,
   ): DriveInput {
+    void _playerProgressDelta;
     const now = this.steeringClockSeconds;
     const projection = this.track.project(position);
     const racersAhead = this.racersAhead(position, projection.tangent, nearbyRacers);

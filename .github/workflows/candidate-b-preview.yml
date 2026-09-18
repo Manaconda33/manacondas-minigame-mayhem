@@ -74,7 +74,7 @@ jobs:
     needs: validate-and-build
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name: candidate-b-preview
       url: ${{ steps.deployment.outputs.page_url }}candidate-b-preview/
     steps:
       - name: Deploy normal root plus Candidate B preview

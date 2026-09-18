@@ -31,6 +31,70 @@ describe('Circuit Alpha environment scene', () => {
     expect(track.samples.map((point) => point.toArray())).toEqual(before);
   });
 
+
+  it('emits deterministic two-meter material coordinates for procedural track strips', () => {
+    const track = new CircuitAlpha();
+    const scene = createTrackScene(track);
+
+    for (const name of [
+      'track-road',
+      'track-shoulder',
+      'asphalt-racing-wear',
+      'split-bend-dirt-line',
+    ]) {
+      const object = scene.getObjectByName(name);
+      expect(object).toBeInstanceOf(THREE.Mesh);
+      if (!(object instanceof THREE.Mesh)) throw new Error(`Missing procedural strip ${name}`);
+      const positions = object.geometry.getAttribute('position');
+      const uv = object.geometry.getAttribute('uv');
+      expect(uv).toBeDefined();
+      expect(uv.count).toBe(positions.count);
+    }
+
+    const road = scene.getObjectByName('track-road') as THREE.Mesh;
+    const roadUv = road.geometry.getAttribute('uv');
+    expect(roadUv.getX(0)).toBeCloseTo(0);
+    expect(roadUv.getX(1)).toBeCloseTo(track.roadHalfWidth);
+    expect(roadUv.getY(0)).toBeCloseTo(0);
+    expect(roadUv.getY(roadUv.count - 2)).toBeCloseTo(track.curve.getLength() / 2, 4);
+
+    const dirt = scene.getObjectByName('split-bend-dirt-line') as THREE.Mesh;
+    const dirtUv = dirt.geometry.getAttribute('uv');
+    const dirtStart = Math.floor(0.235 * track.sampleCount);
+    expect(dirtUv.getY(0)).toBeCloseTo((dirtStart * track.sampleSpacing) / 2, 4);
+  });
+
+  it('uses one shared PBR asphalt texture set for the road and racing-wear layers', () => {
+    const scene = createTrackScene(new CircuitAlpha());
+    const road = scene.getObjectByName('track-road');
+    const wear = scene.getObjectByName('asphalt-racing-wear');
+    expect(road).toBeInstanceOf(THREE.Mesh);
+    expect(wear).toBeInstanceOf(THREE.Mesh);
+    if (!(road instanceof THREE.Mesh) || !(wear instanceof THREE.Mesh)) {
+      throw new Error('Missing asphalt meshes');
+    }
+
+    const roadMaterial = road.material;
+    const wearMaterial = wear.material;
+    expect(roadMaterial).toBeInstanceOf(THREE.MeshStandardMaterial);
+    expect(wearMaterial).toBeInstanceOf(THREE.MeshStandardMaterial);
+    if (
+      !(roadMaterial instanceof THREE.MeshStandardMaterial) ||
+      !(wearMaterial instanceof THREE.MeshStandardMaterial)
+    ) {
+      throw new Error('Asphalt material is not MeshStandardMaterial');
+    }
+
+    expect(roadMaterial.map?.name).toBe('circuit-alpha-asphalt-diffuse');
+    expect(roadMaterial.normalMap?.name).toBe('circuit-alpha-asphalt-normal');
+    expect(roadMaterial.aoMap?.name).toBe('circuit-alpha-asphalt-arm');
+    expect(roadMaterial.roughnessMap).toBe(roadMaterial.aoMap);
+    expect(roadMaterial.metalnessMap).toBe(roadMaterial.aoMap);
+    expect(wearMaterial.map).toBe(roadMaterial.map);
+    expect(wearMaterial.normalMap).toBe(roadMaterial.normalMap);
+    expect(wearMaterial.aoMap).toBe(roadMaterial.aoMap);
+  });
+
   it('stages the visible start-finish gantry ahead of the grid at the race finish crossing', () => {
     const track = new CircuitAlpha();
     const scene = createTrackScene(track);

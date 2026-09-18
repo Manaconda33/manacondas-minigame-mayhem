@@ -275,13 +275,17 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 
 ## Reliability and performance
 
-- [ ] Every projectile/hazard resolves to destruction after impact, completion, or expiry.
-- [ ] Repeated-use soak leaves no immortal item objects, colliders, listeners, timers, VFX, or stale audio emitters.
-- [ ] Race restart/disposal returns active item runtime counts to baseline.
-- [ ] Simultaneous active physics projectiles never exceed the PRD cap of 40.
+- [x] Every projectile/hazard resolves to destruction after impact, completion, or expiry.
+- [x] Repeated-use soak leaves no immortal item objects, colliders, listeners, timers, VFX, or stale audio emitters.
+- [x] Race restart/disposal returns active item runtime counts to baseline.
+- [x] Simultaneous active physics projectiles never exceed the PRD cap of 40.
 - [ ] Item/VFX update cost is instrumented against the approximately 1.0 ms CPU budget.
-- [ ] No NaN/infinite transforms occur under item collision stress.
-- [ ] Item interactions do not break Speed, Acceleration, Weight, drift, surface, AI, lap, recovery, camera, minimap, or driver-state regressions.
+- [x] No NaN/infinite transforms occur under item collision stress.
+- [x] Item interactions do not break Speed, Acceleration, Weight, drift, surface, AI, lap, recovery, camera, minimap, or driver-state regressions.
+
+## Final lifecycle/object-count soak evidence checkpoint
+
+The closure-grade lifecycle/object-count report is recorded in `docs/SLICE-5-LIFECYCLE-SOAK-REPORT-2026-09-17.md`. It consolidates the production 40-object saturation soak, repeated projectile/hazard cleanup loops, render-resource cleanup, effect-timer cleanup, bounded audio lifecycle, finite-transform checks, and full regression suite. This evidence checkpoint changes no gameplay or balance. The item/VFX performance gate and final desktop/mobile whole-slice acceptance remain open.
 
 ## Evidence and publication
 
@@ -289,7 +293,7 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 - [ ] `npm run validate` passes.
 - [x] Slice-specific probability report is committed or referenced from implementation status.
 - [x] Item interaction/counter matrix evidence is recorded.
-- [ ] Object-count/lifecycle soak evidence is recorded.
+- [x] Object-count/lifecycle soak evidence is recorded.
 - [ ] Gameplay capture demonstrates acquisition/use/counters and representative AI usage.
 - [ ] Pull-request CI passes.
 - [ ] `main` CI and GitHub Pages deployment pass.

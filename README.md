@@ -83,6 +83,7 @@ The `src/game/` directories define PRD system boundaries. A directory's presence
 - [Word PRD v1.1](docs/Manacondas_Minigame_Mayhem_PRD_v1.1.docx)
 - [Architecture decisions](docs/DECISIONS.md)
 - [Current implementation status](docs/IMPLEMENTATION-STATUS.md)
+- [Canonical Route Night visual reference](docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png)
 - [Testing and evidence requirements](docs/TESTING.md)
 - [Approved Slice 5 item-system design and exit checklist](docs/SLICE-5-ITEM-SYSTEM-DESIGN.md)
 - [Approved Slice 5 Shockwave scope](docs/SLICE-5-SHOCKWAVE-SCOPE.md)

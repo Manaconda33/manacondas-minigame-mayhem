@@ -255,6 +255,20 @@ Route Night is now the product-wide Slice 6 presentation system for the kart-rac
 
 The approved Route Night concept governs **look, design, formatting, hierarchy, panel language, typography behavior, motif usage, accent logic, and overall screen composition**. Small reversible aesthetic decisions inside that language are implementation-authorized under ADR-085.
 
+### Canonical visual reference
+
+The primary visual north star for Route Night is committed at:
+
+`docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png`
+
+This image is the authoritative visual reference for Route Night's **composition, formatting, density, hierarchy, panel geometry, typography behavior, accent relationships, cinematic framing, character-select presentation, race-HUD organization, and results/podium staging**. When prose and implementation interpretation leave room for ambiguity, use the canonical reference image together with ADR-086 to resolve the intended visual direction.
+
+The committed PNG is a **lossless pixel-identical re-encode** of the Route Night concept Manny reviewed and re-attached for canonization. No pixels, composition, crop, dimensions, or visual content were changed; only PNG compression was normalized for repository storage. Canonical dimensions are **1672 × 941**.
+
+The image remains conceptual in two explicit respects:
+- its character identities are placeholders only; production screens use the approved game roster and kart identities;
+- its nighttime scenery demonstrates the style system, not a requirement that every track use nighttime lighting.
+
 ### Character and track boundaries
 
 - Character Select must use the game's **actual approved production racers, portraits, driver art, names, stats, and kart identities**. Concept-render placeholder characters are reference-only and are not production roster proposals.

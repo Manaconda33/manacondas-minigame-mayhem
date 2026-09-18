@@ -235,13 +235,34 @@ To avoid wasting turns:
 11. Cross-browser/device matrix.
 12. Rights/provenance + complete recording + release-candidate checklist.
 
-## First visual-direction approval gate
+## First visual-direction approval gate - APPROVED 2026-09-18
 
-Before production UI styling or bulk texture import, Manny chooses:
+Manny reviewed rendered examples of Route Night, Pit Poster, Twilight Broadcast, and the proposed hybrid and explicitly selected **Route Night** as the governing visual direction.
 
-- A: Route Night
-- B: Pit Poster
-- C: Twilight Broadcast
-- or a specified hybrid.
+### Locked Route Night visual language
 
-The technical baseline work (settings architecture, performance instrumentation planning, UV/material-coordinate support design, license ledger) may proceed without locking the final aesthetic.
+Route Night is now the product-wide Slice 6 presentation system for the kart-racing vertical slice:
+
+- deep indigo / graphite structural surfaces;
+- cyan route-line, node, checkpoint, arc, and navigation graphics;
+- warm gold placement, rank, focus, and primary-action accents;
+- violet / magenta secondary energy accents;
+- strong portrait crops and character-forward framing;
+- clipped but readable panel geometry;
+- cinematic title/results framing;
+- high-clarity live-race HUD hierarchy;
+- the existing route/token brand mark and related route grammar as a recurring original motif.
+
+The approved Route Night concept governs **look, design, formatting, hierarchy, panel language, typography behavior, motif usage, accent logic, and overall screen composition**. Small reversible aesthetic decisions inside that language are implementation-authorized under ADR-085.
+
+### Character and track boundaries
+
+- Character Select must use the game's **actual approved production racers, portraits, driver art, names, stats, and kart identities**. Concept-render placeholder characters are reference-only and are not production roster proposals.
+- The PRD's rotating 3D kart preview remains required.
+- Route Night does **not** force every race track to occur at night. Circuit Alpha may retain its authored dusk/twilight identity, while future tracks created after the vertical-slice PRD may use their own deliberate time of day, lighting, sky, weather, and environmental palette.
+- Track-specific lighting may shift the scene palette, but the Route Night UI grammar, readability rules, route motif, panel system, and semantic accent hierarchy remain consistent across tracks.
+- Approved avatar likenesses, kart silhouettes, item identities, race authority, gameplay balance, and track topology remain protected.
+
+### Implementation consequence
+
+The art-direction gate is closed. Bulk production UI styling may now proceed in Route Night. External PBR material imports remain subject to the provenance and performance rules in this document. The next bounded engineering step remains settings/persistence architecture + graphics presets + audio mixer skeleton, followed by material-coordinate infrastructure and the first Circuit Alpha PBR pass.

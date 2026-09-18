@@ -59,6 +59,7 @@ jobs:
           mkdir -p _site/candidate-b-preview
           cp -R main-site/dist/. _site/
           cp -R preview-dist/. _site/candidate-b-preview/
+          cp preview-dist/index.html _site/candidate-b-preview.html
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

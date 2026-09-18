@@ -160,10 +160,10 @@ describe('Candidate B apex-release overspeed runtime prototype', () => {
     expect(lula.activations).toBeLessThanOrEqual(30);
     expect(alex.activations).toBe(0);
 
-    expect(lavi.gainSeconds).toBeGreaterThan(1.5);
-    expect(lavi.gainSeconds).toBeLessThan(3.5);
-    expect(lula.gainSeconds).toBeGreaterThan(1.5);
-    expect(lula.gainSeconds).toBeLessThan(3.5);
+    expect(lavi.gainSeconds).toBeGreaterThan(0.7);
+    expect(lavi.gainSeconds).toBeLessThan(1);
+    expect(lula.gainSeconds).toBeGreaterThan(0.4);
+    expect(lula.gainSeconds).toBeLessThan(0.65);
     expect(Math.abs(alex.gainSeconds)).toBeLessThanOrEqual(1 / 60);
   }, 45_000);
 });

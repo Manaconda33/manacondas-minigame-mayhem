@@ -893,3 +893,12 @@ Governance publication is complete after local documentation validation, hosted 
 ## Issue #106 post-finish results synchronization
 
 The bounded Issue #106 regression gate verifies presentation only. Finish as the player before at least two AI racers, keep the results card open, and confirm each later AI finish refreshes the standings from the authoritative race state. Finished racers must replace `RACING` with their locked finish time/order, the final displayed order must match authoritative standings, and the player's locked place/time must not change. Repeat on desktop and mobile. This gate must not alter checkpoint/lap authority, AI behavior, item balance, race timing, or victory/results entry behavior.
+
+
+## Slice 5 final all-item interaction/counter matrix checkpoint
+
+The final interaction/counter evidence artifact is `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md`. Treat it as a consolidation gate over the production systems, not as permission to retune items.
+
+Hosted validation for the checkpoint must run the complete suite, including the focused Shockwave, Prismatic, Apex, Blast, Slick, Blaze, Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, Hyper-Drive Rocket, RacerEffects, validated-progress, AI-item, and AI-race tests referenced by the matrix. A green focused subset is insufficient if the full repository suite fails.
+
+The matrix may be marked complete only when the PR diff is evidence/governance-only and hosted CI passes clean install, LFS verification, strict typecheck, zero-warning lint, complete automated tests, and production build. No new live-acceptance claim is made by this checkpoint. Lifecycle/object-count soak, item/VFX performance capture, gameplay capture, and the final desktop/mobile whole-slice acceptance remain separate gates.

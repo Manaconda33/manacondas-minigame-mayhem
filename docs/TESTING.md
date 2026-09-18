@@ -933,3 +933,13 @@ The meter implements the PRD Section 2.6 Item/VFX CPU budget as follows:
 Included code boundaries are inventory/roulette, item-owned timed effects/immunities, Rocket item-control seam, projectile/hazard/Apex/Shockwave/Ink/Prismatic processing, item-box runtime work, AI item-policy dispatch, racer item modifiers, and item VFX. Renderer submission, Rapier/kart physics, ordinary AI pathfinding/race work, HUD/DOM and audio/update are excluded because they have separate PRD budgets.
 
 Rendered-device evidence must record the stable badge values after at least 300 scored samples. Do not infer a browser or device model that the tester did not report. A Node/JSDOM measurement, CI duration, whole-frame FPS number, or production-build time cannot substitute for this gate.
+
+
+### Recorded rendered-device performance evidence
+
+Product-owner deployed captures reached the full N600 rolling window on both required evidence routes:
+
+- ordinary full-AI route: p95 **1.00 ms**, median **0.40 ms**, max **6.80 ms**, N600, **PASS**;
+- forced Rebounding Arc Blade route: p95 **1.00 ms**, median **0.50 ms**, max **8.70 ms**, N600, **PASS**.
+
+The pass rule is p95 <= 1.00 ms. Both results pass exactly at the ceiling. Browser/device details are not inferred because they were not explicitly reported. Full evidence is recorded in `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`.

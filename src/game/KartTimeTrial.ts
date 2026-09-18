@@ -42,6 +42,11 @@ import {
 import { playDriftTierTone } from '../audio/driftTone';
 import { createKartTuning, type SurfaceType } from '../config/kartTuning';
 import { AiDriver, type AiRacerAwareness } from './ai/AiDriver';
+import {
+  AiExecutionAssist,
+  executionAssistGapSeconds,
+  executionAssistRaceCompletion,
+} from './ai/AiExecutionAssist';
 import { AiItemPolicy, driveInputWithItemModifiers } from './ai/AiItemPolicy';
 import { ChaseCamera } from './camera/ChaseCamera';
 import { SpinoutCameraAnchor } from './camera/SpinoutCameraAnchor';
@@ -155,6 +160,8 @@ interface AiRacer {
   controller: KartController;
   driver: AiDriver;
   characterMaxSpeed: number;
+  basePace: number;
+  executionAssist: AiExecutionAssist;
   cornerExitOverspeed?: CandidateBCornerExitOverspeed;
   mesh: THREE.Group;
   driverVisual: DriverSpriteVisual | null;
@@ -689,6 +696,7 @@ export class KartTimeTrial {
     const standings = rankRacers(targetingRacers);
     const player = targetingRacers.find(({ id }) => id === 'player');
     const playerTotal = player === undefined ? 0 : player.lap + player.trackProgress;
+    const playerRaceCompletion = executionAssistRaceCompletion(playerTotal);
     const observeRacer = (id: string, controller: KartController) => {
       const position = controller.position();
       return {
@@ -718,6 +726,18 @@ export class KartTimeTrial {
         opponentProgress === undefined
           ? opponent.progress.lap + opponent.progress.trackProgress
           : opponentProgress.lap + opponentProgress.trackProgress;
+      opponent.executionAssist.advance(
+        opponent.basePace,
+        executionAssistGapSeconds(
+          playerTotal,
+          opponentTotal,
+          this.trackLength,
+          opponent.characterMaxSpeed,
+        ),
+        playerRaceCompletion,
+        dt,
+        !this.playerProgress.finished && !opponent.progress.finished,
+      );
       const spinout = this.racerEffects.spinoutState(opponent.id);
       if (!opponent.progress.finished && spinout === null) {
         this.updateAiItemUse(
@@ -752,6 +772,7 @@ export class KartTimeTrial {
                 hazardAwareness,
                 opponent.id,
                 this.inkSplat.aiSnapshot(opponent.id),
+                opponent.executionAssist.adjustment(),
               );
       input = driveInputWithItemModifiers(input, this.racerEffects.driveModifiers(opponent.id));
       if (spinout === null) {
@@ -1887,6 +1908,7 @@ export class KartTimeTrial {
         .addScaledVector(right, side * 2.05);
       const stats = character.stats;
       const tuning = createKartTuning(stats);
+      const basePace = 0.28 + index * 0.09;
       const controller = new KartController(this.world, tuning, stats, position, yaw);
       const visual = this.createOpponentVisual(character);
       this.scene.add(visual.group, visual.itemVisuals.worldGroup);
@@ -1899,13 +1921,15 @@ export class KartTimeTrial {
           this.track,
           {
             laneOffset: side * (0.7 + row * 0.35),
-            pace: 0.28 + index * 0.09,
+            pace: basePace,
             aggression: 0.2 + (index % 4) * 0.2,
           },
           tuning.maxSpeed,
           stats.handling,
         ),
         characterMaxSpeed: tuning.maxSpeed,
+        basePace,
+        executionAssist: new AiExecutionAssist(),
         cornerExitOverspeed: new CandidateBCornerExitOverspeed(this.track, stats),
         mesh: visual.group,
         driverVisual: visual.driverVisual,

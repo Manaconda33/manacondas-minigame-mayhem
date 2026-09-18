@@ -2462,12 +2462,12 @@ Material balance changes outside approved item definitions or matrix.
 
 ### Done-Check
 
-Status:  
-Evidence:  
-Defects:  
-Deferred:  
-PRD Changes:  
-Next Slice Ready: YES / NO
+Status: **LIVE ACCEPTED / COMPLETE - 2026-09-18**  
+Evidence: All fifteen item checkpoints; 100,000 simulated selections per rank probability report; final all-item interaction/counter matrix; lifecycle/object-count soak; full AI item-tactics acceptance; Issue #106 race-results correction acceptance; Item/VFX rendered-runtime evidence with ordinary full-AI and forced Arc Blade N600 p95 **1.00 ms** PASS; final desktop D1-D3 + mobile M1-M3 + cleanup/race-authority matrix reported **“All pass”** by Manny; final validation baseline **62 test files / 507 tests**.  
+Defects: **No open Slice 5 defect recorded at closure.**  
+Deferred: Slice 6 presentation/audio/post-processing/optimization work only; experimental Balance Candidate B PR #162 remains outside Slice 5 closure and is not adopted.  
+PRD Changes: Approved amendments 2.18-2.22 / ADR-079-084 are incorporated; **no additional closure deviation**.  
+Next Slice Ready: **YES - Slice 6 requires separate Manny approval before work begins.**
 
 ## 35.7 Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization
 

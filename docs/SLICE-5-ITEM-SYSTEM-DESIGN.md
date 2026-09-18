@@ -259,7 +259,7 @@ Blaze acceptance reconciliation: PR #135 gameplay and the governing Blaze scope 
 
 - [x] Left Shift and E both use the held item.
 - [x] S/Down + item performs backward-capable deployment where supported.
-- [ ] Mobile `ITEM` control works and passes simultaneous-input testing.
+- [x] Mobile `ITEM` control works and passes simultaneous-input testing.
 - [x] Mobile Brake/Reverse + ITEM requests backward deployment where supported.
 - [x] HUD shows roulette, held item, and correct remaining charge count.
 - [x] AI acquires and uses items according to tactical circumstances.
@@ -268,7 +268,7 @@ Blaze acceptance reconciliation: PR #135 gameplay and the governing Blaze scope 
 - [x] Item hits never directly mutate checkpoint sequence, lap count, finish place, or race-progress authority.
 - [x] Hyper-Drive movement earns progress through legal movement/checkpoints rather than direct progress mutation.
 - [x] Finished racers cannot obtain new items.
-- [ ] Pause freezes roulette, projectile, hazard, buff/debuff, arming, fuse, global cooldown, and item-window timers.
+- [x] Pause freezes roulette, projectile, hazard, buff/debuff, arming, fuse, global cooldown, and item-window timers.
 - [x] Existing AI steering, lane, speed-stat authority, recovery, and bounded rubber-band tests remain passing.
 
 AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed head `2ebba5ee39b636251a20abc5bcf5230d8e063da2` passed hosted PR CI run `34173735120`; PR #123 squash-merged at `b6e92fc79dad27764df9fe6248b4a496503fec00`; post-merge CI/Pages run `34174464098` passed; Manny completed the deployed eight-check live matrix and reported the playtest passed. Product-owner evidence: PR #123 comment `5577444120`. This closes only the AI recognition/avoidance requirement for accepted Slick Trap and Timed Blast Orb hazards; full AI item acquisition/use, static-obstacle expansion, remaining items/counters, soak/performance, final Slice 5 acceptance, and Slice 6 remain open.
@@ -285,19 +285,19 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 
 ## Evidence and publication
 
-- [ ] `npm ci` passes from the checkpoint source.
-- [ ] `npm run validate` passes.
+- [x] Clean lockfile install passes on the final published acceptance baseline and closure PR CI.
+- [x] Hosted validation passes the same typecheck + lint + test:ci + build contract as `npm run validate`.
 - [x] Slice-specific probability report is committed or referenced from implementation status.
 - [x] Item interaction/counter matrix evidence is recorded.
 - [x] Object-count/lifecycle soak evidence is recorded.
-- [ ] Gameplay capture demonstrates acquisition/use/counters and representative AI usage.
-- [ ] Pull-request CI passes.
-- [ ] `main` CI and GitHub Pages deployment pass.
-- [ ] Desktop live playtest passes item controls, roulette/HUD, representative offensive/defensive/catch-up interactions, AI use, and cleanup behavior.
-- [ ] Mobile live playtest passes item acquisition/use, HUD, dedicated ITEM control, backward modifier, and simultaneous control combinations.
-- [ ] Product-owner live acceptance is explicitly recorded in `docs/IMPLEMENTATION-STATUS.md`.
-- [ ] Any PRD deviation is recorded before Slice 5 can close.
-- [ ] Slice 6 remains locked until Slice 5 is live accepted.
+- [x] Gameplay capture / cumulative deployed live evidence plus explicit final whole-slice observations demonstrate acquisition/use/counters and representative AI usage.
+- [x] Pull-request CI passes (Slice 5 closure PR #173 hosted run `35338328282`).
+- [x] Final acceptance baseline `main` CI and GitHub Pages deployment pass.
+- [x] Desktop live playtest passes item controls, roulette/HUD, representative offensive/defensive/catch-up interactions, AI use, and cleanup behavior.
+- [x] Mobile live playtest passes item acquisition/use, HUD, dedicated ITEM control, backward modifier, and simultaneous control combinations.
+- [x] Product-owner live acceptance is explicitly recorded in `docs/IMPLEMENTATION-STATUS.md`.
+- [x] PRD deviation review is recorded: none for Slice 5 closure.
+- [x] Slice 6 remained locked through Slice 5 live acceptance; it is now ready only for Manny's separate approval to begin.
 
 ## Item/VFX performance instrumentation checkpoint
 
@@ -337,3 +337,8 @@ This is governance scope only. Gameplay, VFX/audio/presentation implementation r
 PRD amendment 2.20 / ADR-081 and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md govern the next bounded item increment. The approved fill-ins are one committed charge; immediate first pulse; exactly 6.0 race seconds; subsequent pulses no faster than every 0.75 race seconds; approximately 0.9-second non-stacking pulses; a 1.15x normal speed cap; neutral additional acceleration; normal dirt/grass penalties; maximum-authority composition with existing boosts; and pause/lifecycle cleanup. Original procedural exhaust/pulse VFX, readable HUD state, and short original audio cues are authorized by the scope, while final production polish remains Slice 6. General AI item acquisition/use, Hyper-Drive Rocket, probability changes, racer-stat changes, race authority, and Slice 6 expansion remain excluded. Gameplay publication and live acceptance remain separate gates.
 
 Manny separately authorized the bounded gameplay and presentation implementation after governance PR #151 and hosted validation/Pages run `35223980439` passed. Gameplay PR #152 CI run `35229580296` passed. The local checkpoint is validated but not yet published or live accepted; the exact automated evidence is recorded in `docs/IMPLEMENTATION-STATUS.md` and `docs/TESTING.md`.
+
+
+## Final whole-Slice 5 live acceptance
+
+Manny completed the published matrix in `docs/SLICE-5-FINAL-LIVE-ACCEPTANCE-2026-09-17.md` and reported **“All pass”** on 2026-09-18. Desktop D1-D3, mobile M1-M3, and cleanup/race-authority spot checks all pass. This closes the mobile simultaneous ITEM-input row and the representative pause/timer row in combination with the complete automated/item-specific pause suites. No browser/device details are inferred. Slice 5 product behavior is live accepted; Slice 6 is ready but must not begin without separate Manny approval.

@@ -12,6 +12,7 @@ import { PrismaticMusic } from '../audio/PrismaticMusic';
 import { InkSplatAudio } from '../audio/InkSplatAudio';
 import { NitroOverdriveAudio } from '../audio/NitroOverdriveAudio';
 import { HyperDriveRocketAudio } from '../audio/HyperDriveRocketAudio';
+import { audioMixer } from '../audio/AudioMixer';
 import { PrismaticCounterFixture, prismaticTestFromSearch } from './items/PrismaticCounterFixture';
 import { observeAiHazards } from './ai/AiHazardAwareness';
 import { AiHazardFixture, aiHazardTestFromSearch } from './ai/AiHazardFixture';
@@ -41,6 +42,7 @@ import {
 } from './items/SeekerWarnings';
 import { playDriftTierTone } from '../audio/driftTone';
 import { createKartTuning, type SurfaceType } from '../config/kartTuning';
+import { graphicsQualityProfile, type GraphicsQuality } from '../config/graphicsQuality';
 import { AiDriver, type AiRacerAwareness } from './ai/AiDriver';
 import { AiItemPolicy, driveInputWithItemModifiers } from './ai/AiItemPolicy';
 import { ChaseCamera } from './camera/ChaseCamera';
@@ -145,6 +147,7 @@ export interface RaceResult {
 export interface TimeTrialOptions {
   canvas: HTMLCanvasElement;
   character: CharacterDefinition;
+  graphicsQuality: GraphicsQuality;
   onHud: (state: HudState) => void;
   onFinish: (result: RaceResult) => void;
   onStandings?: (standings: RaceResult['standings']) => void;
@@ -320,9 +323,10 @@ export class KartTimeTrial {
   }
 
   private constructor(private readonly options: TimeTrialOptions) {
+    const graphics = graphicsQualityProfile(options.graphicsQuality);
     this.renderer = new THREE.WebGLRenderer({ canvas: options.canvas, antialias: true });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-    this.renderer.shadowMap.enabled = true;
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, graphics.pixelRatioCap));
+    this.renderer.shadowMap.enabled = graphics.shadows;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.scene.background = new THREE.Color(0x8f718f);
     this.scene.fog = new THREE.Fog(0x9b7d97, 180, 650);
@@ -352,8 +356,8 @@ export class KartTimeTrial {
     this.scene.add(new THREE.HemisphereLight(0xcbb7ff, 0x263822, 2.1));
     const sun = new THREE.DirectionalLight(0xffe8c5, 2.4);
     sun.position.set(-120, 180, -80);
-    sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
+    sun.castShadow = graphics.shadows;
+    sun.shadow.mapSize.set(graphics.shadowMapSize, graphics.shadowMapSize);
     sun.shadow.camera.left = -340;
     sun.shadow.camera.right = 340;
     sun.shadow.camera.top = 340;
@@ -568,7 +572,7 @@ export class KartTimeTrial {
     const rocketAfterAdvance = this.hyperDriveRocketSnapshot();
     this.stopItemSimulationTiming(itemCpuStart);
     if (rocketBeforeAdvance.active && !rocketAfterAdvance.active)
-      this.hyperDriveRocketAudioIfPresent()?.play('return', Howler.volume());
+      this.hyperDriveRocketAudioIfPresent()?.play('return', audioMixer.volume('sfx'));
 
     itemCpuStart = this.startItemSimulationTiming();
     this.racerEffects.advance(dt, false, false);
@@ -1362,7 +1366,7 @@ export class KartTimeTrial {
     const nitroOverdrive = this.nitroOverdriveIfPresent();
     if (nitroOverdrive?.isActive('player')) {
       if (nitroOverdrive.pulse('player'))
-        this.nitroOverdriveAudioIfPresent()?.play('pulse', Howler.volume());
+        this.nitroOverdriveAudioIfPresent()?.play('pulse', audioMixer.volume('sfx'));
       return;
     }
     const heldItemId = this.itemSystem.heldItem('player')?.itemId;
@@ -1395,7 +1399,7 @@ export class KartTimeTrial {
         nitroOverdriveSystem: nitroOverdrive,
         hyperDriveRocketSystem: hyperDriveRocket,
         onInkResolution: (resolution) => {
-          if (resolution.accepted) this.inkAudioIfPresent()?.play(Howler.volume());
+          if (resolution.accepted) this.inkAudioIfPresent()?.play(audioMixer.volume('sfx'));
         },
         projectileLaunch: {
           position: this.kart.position(),
@@ -1405,13 +1409,13 @@ export class KartTimeTrial {
       },
     );
     if (heldItemId === 'nitro-overdrive' && result === 'activated')
-      this.nitroOverdriveAudioIfPresent()?.play('activate', Howler.volume());
+      this.nitroOverdriveAudioIfPresent()?.play('activate', audioMixer.volume('sfx'));
     if (heldItemId === 'nitro-overdrive' && result === 'rejected') {
       this.itemUseMessage = 'OVERDRIVE NOT READY · ITEM HELD';
       this.itemUseMessageSeconds = 1.5;
     }
     if (heldItemId === 'hyper-drive-rocket' && result === 'activated')
-      this.hyperDriveRocketAudioIfPresent()?.play('activate', Howler.volume());
+      this.hyperDriveRocketAudioIfPresent()?.play('activate', audioMixer.volume('sfx'));
     if (heldItemId === 'hyper-drive-rocket' && result === 'rejected') {
       this.itemUseMessage = 'ROCKET NOT READY · ITEM HELD';
       this.itemUseMessageSeconds = 1.5;
@@ -1544,7 +1548,7 @@ export class KartTimeTrial {
     }
     if (feedback.driftTier !== this.lastToneTier && feedback.driftTier !== 'none') {
       const context = (Howler as unknown as { ctx?: AudioContext | null }).ctx;
-      playDriftTierTone(feedback.driftTier, context);
+      playDriftTierTone(feedback.driftTier, context, audioMixer.volume('sfx'));
     }
     this.lastToneTier = feedback.driftTier;
     let itemVfxStart = this.startItemVfxTiming();
@@ -1565,12 +1569,12 @@ export class KartTimeTrial {
     this.seekerWarning = threats.find((threat) => threat.targetId === 'player')?.level ?? null;
     this.seekerWarningVisual.update(threats, targets, this.elapsed);
     this.stopItemVfxTiming(itemVfxStart);
-    this.seekerWarningAudio.update(this.seekerWarning, dt, Howler.volume(), this.paused);
+    this.seekerWarningAudio.update(this.seekerWarning, dt, audioMixer.volume('sfx'), this.paused);
     const apexWarning = this.apex.warningFor('player');
     this.apexWarningAudio.update(
       apexWarning === null ? null : apexWarning === 'diving' ? 3 : 2,
       dt,
-      Howler.volume(),
+      audioMixer.volume('sfx'),
       this.paused,
     );
     itemVfxStart = this.startItemVfxTiming();
@@ -1596,21 +1600,21 @@ export class KartTimeTrial {
       this.paused ? 0 : dt,
     );
     this.stopItemVfxTiming(itemVfxStart);
-    if (this.paused || Howler.volume() <= 0) this.projectiles.silenceFrostAudio();
-    if (this.paused || Howler.volume() <= 0) this.projectiles.silenceArcAudio();
-    if (this.paused || Howler.volume() <= 0) this.projectiles.silenceHammerAudio();
-    if (this.paused || Howler.volume() <= 0) this.inkAudioIfPresent()?.stop();
-    if (this.paused || Howler.volume() <= 0) this.nitroOverdriveAudioIfPresent()?.stop();
+    if (this.paused || audioMixer.volume('sfx') <= 0) this.projectiles.silenceFrostAudio();
+    if (this.paused || audioMixer.volume('sfx') <= 0) this.projectiles.silenceArcAudio();
+    if (this.paused || audioMixer.volume('sfx') <= 0) this.projectiles.silenceHammerAudio();
+    if (this.paused || audioMixer.volume('sfx') <= 0) this.inkAudioIfPresent()?.stop();
+    if (this.paused || audioMixer.volume('sfx') <= 0) this.nitroOverdriveAudioIfPresent()?.stop();
     this.hyperDriveRocketAudioIfPresent()?.update(
       hyperDriveRocket.active,
       hyperDriveRocket.autopilotWeight,
-      Howler.volume(),
+      audioMixer.volume('sfx'),
       this.paused,
     );
     this.prismaticMusic.update(
       this.prismatic.remaining('player'),
       dt,
-      Howler.volume(),
+      audioMixer.volume('music'),
       this.paused,
     );
     this.updatePlayerDriverSprite();

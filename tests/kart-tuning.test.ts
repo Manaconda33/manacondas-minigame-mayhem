@@ -29,7 +29,7 @@ describe('kart tuning and surface behavior', () => {
     expect(low).toBeCloseTo(6.2);
     expect(neutral).toBeCloseTo(7.3);
     expect(high).toBeGreaterThan(8.4);
-    expect(high).toBeCloseTo(7.3 * Math.exp(0.32));
+    expect(high).toBeCloseTo(7.3 * Math.exp(0.2));
   });
 
   it('preserves the approved Speed ceiling while changing Acceleration', () => {

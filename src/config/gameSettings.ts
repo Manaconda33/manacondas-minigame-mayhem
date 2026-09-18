@@ -68,7 +68,7 @@ function browserStorage(): SettingsStorage | null {
 
 export function normalizeGameSettings(value: unknown): GameSettings {
   const source = record(value);
-  if (source === null || source.version !== GAME_SETTINGS_VERSION) return defaults();
+  if (source?.version !== GAME_SETTINGS_VERSION) return defaults();
 
   const audio = record(source.audio);
   const graphics = record(source.graphics);

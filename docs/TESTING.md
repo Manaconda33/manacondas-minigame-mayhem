@@ -914,3 +914,22 @@ The closure gate combines two stress paths with the existing focused lifecycle s
 - **Timed-state / VFX soak:** 100 cycles of Nitro Surge effect state, Nitro Overdrive, Hyper-Drive Rocket, Prismatic protection, Ink Splat, Shockwave, inventory and racer-owned item visuals. Expiry plus disposal must leave neutral drive modifiers, no immunity flags, no timed item state, no pending/visible Shockwave, no Ink targets, no held inventory, and empty local/world VFX groups.
 
 The complete repository suite remains mandatory because existing focused tests supply item-specific impact/expiry, Arc/Blast repeated resource cleanup, audio voice/disconnect disposal, Prismatic music cleanup, AI finish cleanup, pause behavior, and camera/driver-state regressions. The soak does not substitute for the separate approximately 1.0 ms item/VFX performance gate or final desktop/mobile whole-slice acceptance.
+
+
+## Slice 5 item/VFX rendered-runtime performance gate
+
+Use the deployed opt-in route `?testItemPerf=1`. The route is instrumentation-only and may be combined with existing fixed player/AI item routes. Normal gameplay URLs do not collect or display item/VFX performance samples.
+
+The meter implements the PRD Section 2.6 Item/VFX CPU budget as follows:
+
+- sample unit: CPU milliseconds of measured item simulation + item VFX per rendered frame;
+- warmup: first 120 racing rendered frames excluded;
+- minimum scored sample: 300 frames;
+- rolling sample window: latest 600 frames;
+- pass: p95 <= 1.00 ms;
+- fail: p95 > 1.00 ms;
+- median and maximum are recorded but do not independently fail the gate.
+
+Included code boundaries are inventory/roulette, item-owned timed effects/immunities, Rocket item-control seam, projectile/hazard/Apex/Shockwave/Ink/Prismatic processing, item-box runtime work, AI item-policy dispatch, racer item modifiers, and item VFX. Renderer submission, Rapier/kart physics, ordinary AI pathfinding/race work, HUD/DOM and audio/update are excluded because they have separate PRD budgets.
+
+Rendered-device evidence must record the stable badge values after at least 300 scored samples. Do not infer a browser or device model that the tester did not report. A Node/JSDOM measurement, CI duration, whole-frame FPS number, or production-build time cannot substitute for this gate.

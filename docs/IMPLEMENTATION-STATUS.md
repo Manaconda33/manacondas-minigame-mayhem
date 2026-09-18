@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - ROUTE NIGHT ART DIRECTION APPROVED / IMPLEMENTATION READY**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - SETTINGS / GRAPHICS / AUDIO FOUNDATION VALIDATED IN PR #176; PUBLICATION APPROVAL PENDING**
 
 PRD baseline: **v1.1, approved implementation amendments 2.18-2.22 / ADR-079-084**. Slice 6 kickoff approved by Manny on 2026-09-18; ADR-085 governs the baseline audit, licensed-material sourcing, and batched creative-collaboration workflow.
 
@@ -107,7 +107,7 @@ Live-accepted bounded increments include item boxes/one-slot inventory/roulette/
 
 Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Continuous Nitro Overdrive is merged, deployed, and live accepted under amendment 2.20 / ADR-081 through PR #152. Hyper-Drive Rocket gameplay and original presentation are merged, deployed, and live accepted under amendment 2.21 / ADR-082 through PR #156. Full AI item tactics and the corrective race-authority / AI-presentation gate are merged, deployed, and live accepted under amendment 2.22 / ADR-083-084 through PRs #158-159.
 
-The final all-item interaction/counter evidence is complete through `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md` and PR #165. The final lifecycle/object-count soak is complete through `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md` and PR #167. Item/VFX rendered-runtime performance evidence is complete through `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`. The final desktop/mobile whole-slice matrix is published through PR #172, and Manny reported **“All pass”** on 2026-09-18 for D1-D3, M1-M3, and cleanup/race-authority checks. **Slice 5 is LIVE ACCEPTED / COMPLETE.** Slice 6 is ready but not started and requires Manny's separate approval.
+The final all-item interaction/counter evidence is complete through `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md` and PR #165. The final lifecycle/object-count soak is complete through `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md` and PR #167. Item/VFX rendered-runtime performance evidence is complete through `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`. The final desktop/mobile whole-slice matrix is published through PR #172, and Manny reported **“All pass”** on 2026-09-18 for D1-D3, M1-M3, and cleanup/race-authority checks. **Slice 5 is LIVE ACCEPTED / COMPLETE.** Slice 6 is active under the approved kickoff and Route Night art direction.
 
 ## Known issues
 
@@ -118,7 +118,7 @@ The final all-item interaction/counter evidence is complete through `docs/SLICE-
 
 ## Next recommended action
 
-Stop at the Slice 6 approval gate. Slice 5 is complete. Do not begin Slice 6 until Manny explicitly approves starting it.
+Review and, if Manny approves publication, publish PR #176 as the first bounded Slice 6 implementation checkpoint. Do not begin the material-coordinate / PBR increment until this foundation checkpoint is merged/deployed and its publication evidence is recorded.
 
 ## Approval state
 
@@ -160,4 +160,8 @@ Preferred material sources are CC0 Poly Haven and ambientCG. Production texture 
 
 **Canonical Route Night visual reference:** **APPROVED / REPOSITORY-BOUND 2026-09-18.** Manny re-attached the approved Route Night concept and approved committing it as the durable visual north star. Canonical artifact: `docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png`. It is a lossless pixel-identical re-encode at 1672 × 941; the concept's placeholder racers and nighttime scenery remain subject to the roster/time-of-day boundaries in ADR-086.
 
-**Next recommended action:** begin the first bounded Slice 6 implementation increment: settings/persistence architecture + graphics presets + audio mixer skeleton. Use the repository-bound Route Night reference as the visual north star for later production UI work. Follow with material-coordinate infrastructure before broad PBR texture rollout.
+**Slice 6 settings / graphics / audio foundation:** **IMPLEMENTED / HOSTED CI PASS / PUBLICATION APPROVAL PENDING.** Draft PR #176 implements versioned local settings persistence, persistent Master/Music/SFX controls, Low/Medium/High graphics presets, and the centralized master/music/SFX/engine mixer skeleton. Medium preserves the pre-Slice-6 1.5 device-pixel-ratio cap, PCF soft shadows, and 2048 shadow map baseline; Low disables shadows and caps DPR at 1.0; High raises the DPR cap to 2.0 while retaining the current shadow tier. Selected graphics quality applies to the next race without a page reload. Existing procedural item/warning/drift cues route through the SFX bus and the existing Prismatic musical layer routes through Music; the Engine bus is reserved for the later production engine system.
+
+Hosted PR CI run `35352171432` passed Git LFS verification, clean `npm ci`, strict typecheck, zero-warning lint, **64 test files / 515 tests**, **81.40% statement / 76.90% branch / 86.24% function / 83.15% line coverage**, branding/runtime-asset verification, and production build. The existing large-chunk warning and three moderate npm audit findings remain unchanged/nonblocking. No gameplay balance, race authority, item behavior, Route Night visual styling, production audio assets, post-processing, or PBR materials changed in this increment. PR #176 remains draft/unmerged and no Pages deployment has occurred from this branch.
+
+**Next recommended action:** Manny reviews the foundation checkpoint and decides whether to authorize publication of PR #176. After merged/deployed publication evidence is recorded, proceed to material-coordinate infrastructure + the first bounded Circuit Alpha PBR material pass.

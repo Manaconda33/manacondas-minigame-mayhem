@@ -902,3 +902,12 @@ The final interaction/counter evidence artifact is `docs/SLICE-5-ITEM-INTERACTIO
 Hosted validation for the checkpoint must run the complete suite, including the focused Shockwave, Prismatic, Apex, Blast, Slick, Blaze, Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, Hyper-Drive Rocket, RacerEffects, validated-progress, AI-item, and AI-race tests referenced by the matrix. A green focused subset is insufficient if the full repository suite fails.
 
 The matrix may be marked complete only when the PR diff is evidence/governance-only and hosted CI passes clean install, LFS verification, strict typecheck, zero-warning lint, complete automated tests, and production build. No new live-acceptance claim is made by this checkpoint. Lifecycle/object-count soak, item/VFX performance capture, gameplay capture, and the final desktop/mobile whole-slice acceptance remain separate gates.
+
+
+## Slice 5 final lifecycle/object-count soak checkpoint
+
+The final soak evidence artifact is `docs/SLICE-5-LIFECYCLE-SOAK-REPORT-2026-09-17.md`. Treat it as a whole-Slice consolidation over the accepted production lifecycle tests.
+
+The required stress battery includes `tests/arc-soak.test.ts` at 40 simultaneous shared-capacity objects / 800 total throws, `tests/arc-presentation.test.ts` at 200 complete presentation lifecycles, the 100-cycle Blast restart/removal test, the 50-cycle Slick cleanup test, and the focused visual/audio/effect lifecycle suites referenced by the report. Hosted publication must run the complete repository suite so soak evidence cannot pass while unrelated item/race regressions fail.
+
+The Arc soak's printed Node/JSDOM timing sample is informational only and must not be used as the final rendered-device approximately 1.0 ms item/VFX performance certification. Performance remains a separate Slice 5 closure gate.

@@ -1,0 +1,98 @@
+name: Candidate B AI Execution Preview
+
+on:
+  push:
+    branches: [experiment/candidate-b-ai-execution]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: candidate-b-ai-execution-preview
+  cancel-in-progress: true
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out AI execution branch
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Verify Git LFS runtime assets
+        run: git lfs fsck
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install execution candidate dependencies
+        run: npm ci
+
+      - name: Validate execution candidate
+        run: npm run validate
+
+      - name: Build AI execution preview
+        run: npx vite build --base=/manacondas-minigame-mayhem/candidate-b-ai-execution/ --outDir execution-dist
+
+      - name: Check out frozen Candidate B branch
+        uses: actions/checkout@v4
+        with:
+          ref: experiment/balance-candidate-b
+          path: candidate-b-site
+          lfs: true
+
+      - name: Build frozen Candidate B
+        working-directory: candidate-b-site
+        run: |
+          npm ci
+          npx vite build --base=/manacondas-minigame-mayhem/candidate-b-preview/ --outDir candidate-b-dist
+
+      - name: Check out current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-site
+          lfs: true
+
+      - name: Build current main
+        working-directory: main-site
+        run: |
+          npm ci
+          npm run build
+
+      - name: Assemble main and balance previews
+        run: |
+          mkdir -p _site/candidate-b-preview _site/candidate-b-ai-execution
+          cp -R main-site/dist/. _site/
+          cp -R candidate-b-site/candidate-b-dist/. _site/candidate-b-preview/
+          cp -R execution-dist/. _site/candidate-b-ai-execution/
+          cp candidate-b-site/candidate-b-dist/index.html _site/candidate-b-preview.html
+          cp execution-dist/index.html _site/candidate-b-ai-execution.html
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: validate-and-build
+    runs-on: ubuntu-latest
+    environment:
+      name: candidate-b-ai-execution
+      url: ${{ steps.deployment.outputs.page_url }}candidate-b-ai-execution.html
+    steps:
+      - name: Deploy main plus Candidate B comparisons
+        id: deployment
+        uses: actions/deploy-pages@v4

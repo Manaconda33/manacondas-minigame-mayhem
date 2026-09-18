@@ -477,9 +477,11 @@ export class KartTimeTrial {
     }
     const playerStepStart = this.kart.position(this.playerStepStartPosition);
     const playerStepStartProjection = this.track.project(playerStepStart);
+    let itemCpuStart = this.itemPerformance.startSimulation();
     this.racerEffects.advanceFrost(dt);
     this.inkSplat.advance(dt);
     const driveModifiers = this.racerEffects.driveModifiers('player');
+    this.itemPerformance.stopSimulation(itemCpuStart);
     const playerSpinout = this.racerEffects.spinoutState('player');
     const normalInput: DriveInput = {
       throttle:
@@ -504,6 +506,7 @@ export class KartTimeTrial {
       effectSpinoutYawRateRadiansPerSecond: playerSpinout?.yawRateRadiansPerSecond,
       effectSpinoutPreserveMomentum: playerSpinout?.preserveMomentum,
     };
+    itemCpuStart = this.itemPerformance.startSimulation();
     const input =
       this.hyperDriveRocketIfPresent()?.inputFor(
         'player',
@@ -512,6 +515,7 @@ export class KartTimeTrial {
         this.kart.speedMetersPerSecond(),
         normalInput,
       ) ?? normalInput;
+    this.itemPerformance.stopSimulation(itemCpuStart);
     this.playerSteering = playerSpinout === null ? input.steering : 0;
     this.driverHitSeconds = Math.max(0, this.driverHitSeconds - dt);
 
@@ -540,13 +544,17 @@ export class KartTimeTrial {
     }
     if (!playerRespawned) this.updatePlayerProgress(playerStepStart, position, projection);
     this.updateOpponentProgresses();
+    itemCpuStart = this.itemPerformance.startSimulation();
     this.itemSystem.advance(dt);
     this.nitroOverdriveIfPresent()?.advance(dt);
     const rocketBeforeAdvance = this.hyperDriveRocketSnapshot();
     this.hyperDriveRocketIfPresent()?.advance(dt);
     const rocketAfterAdvance = this.hyperDriveRocketSnapshot();
+    this.itemPerformance.stopSimulation(itemCpuStart);
     if (rocketBeforeAdvance.active && !rocketAfterAdvance.active)
       this.hyperDriveRocketAudioIfPresent()?.play('return', Howler.volume());
+
+    itemCpuStart = this.itemPerformance.startSimulation();
     this.racerEffects.advance(dt, false, false);
     this.shockwave.advance(dt);
     this.incomingSeekerFixture.update(
@@ -572,6 +580,7 @@ export class KartTimeTrial {
     this.itemUseMessageSeconds = Math.max(0, this.itemUseMessageSeconds - dt);
     if (this.itemUseMessageSeconds === 0) this.itemUseMessage = null;
     this.updateItemBoxes(dt);
+    this.itemPerformance.stopSimulation(itemCpuStart);
     if (this.playerProgress.finished && !this.finishReported) {
       this.finishReported = true;
       const standings = this.currentStandings();
@@ -677,9 +686,11 @@ export class KartTimeTrial {
   }
 
   private updateOpponents(dt: number): void {
+    let itemCpuStart = this.itemPerformance.startSimulation();
     const hazardSnapshots = this.hazards.activeSnapshots();
-    const hazardAwareness = observeAiHazards(this.track, hazardSnapshots);
     const projectileSnapshots = this.projectiles.snapshots();
+    this.itemPerformance.stopSimulation(itemCpuStart);
+    const hazardAwareness = observeAiHazards(this.track, hazardSnapshots);
     const targetingRacers = this.validatedRaceProgress();
     const standings = rankRacers(targetingRacers);
     const player = targetingRacers.find(({ id }) => id === 'player');
@@ -709,6 +720,7 @@ export class KartTimeTrial {
           : opponentProgress.lap + opponentProgress.trackProgress;
       const spinout = this.racerEffects.spinoutState(opponent.id);
       if (!opponent.progress.finished && spinout === null) {
+        itemCpuStart = this.itemPerformance.startSimulation();
         this.updateAiItemUse(
           opponent,
           projection,
@@ -718,6 +730,7 @@ export class KartTimeTrial {
           projectileSnapshots,
           hazardSnapshots,
         );
+        this.itemPerformance.stopSimulation(itemCpuStart);
       }
       let input: DriveInput =
         spinout !== null
@@ -742,6 +755,7 @@ export class KartTimeTrial {
                 opponent.id,
                 this.inkSplat.aiSnapshot(opponent.id),
               );
+      itemCpuStart = this.itemPerformance.startSimulation();
       input = driveInputWithItemModifiers(input, this.racerEffects.driveModifiers(opponent.id));
       if (spinout === null) {
         input = this.hyperDriveRocket.inputFor(
@@ -752,6 +766,7 @@ export class KartTimeTrial {
           input,
         );
       }
+      this.itemPerformance.stopSimulation(itemCpuStart);
       opponent.steering = spinout === null ? input.steering : 0;
       if (
         this.prismaticFixture.controlledRacer() === opponent.id ||
@@ -837,9 +852,11 @@ export class KartTimeTrial {
   }
 
   private resolveKartContacts(dt: number): void {
+    const itemCpuStart = this.itemPerformance.startSimulation();
     const targets = this.projectileTargets();
     const victims = this.prismatic.contacts(targets);
     this.prismaticContactVictims.push(...victims);
+    this.itemPerformance.stopSimulation(itemCpuStart);
     const fixtureRacer = this.prismaticFixture.controlledRacer();
     const fixtureTarget = targets.find((r) => r.id === fixtureRacer);
     const player = targets[0];

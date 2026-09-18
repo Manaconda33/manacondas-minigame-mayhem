@@ -1,6 +1,7 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
 import { beforeAll, describe, expect, it } from 'vitest';
+import { characterManifest } from '../src/characters/manifest';
 import type { DriverStats } from '../src/config/kartTuning';
 import { createKartTuning } from '../src/config/kartTuning';
 import { AiDriver } from '../src/game/ai/AiDriver';
@@ -218,6 +219,87 @@ describe('Balance Candidate B high-stat Acceleration/Handling telemetry', () => 
     expect(recoveryAt(8)).toBeLessThan(recoveryAt(7));
     expect(recoveryAt(9)).toBeLessThan(recoveryAt(8));
     expect(recoveryAt(10)).toBeLessThan(recoveryAt(9));
+  });
+
+
+  it('measures item-like line recovery across the live roster', () => {
+    const track = new CircuitAlpha();
+    const index = 120;
+    const sample = track.samples[index];
+    const tangent = track.tangents[index];
+    if (sample === undefined || tangent === undefined) throw new Error('Missing roster recovery sample');
+    const right = new THREE.Vector3(tangent.z, 0, -tangent.x);
+    const trackYaw = Math.atan2(tangent.x, tangent.z);
+    const results: {
+      name: string;
+      speed: number;
+      acceleration: number;
+      handling: number;
+      recoverySeconds: number;
+      maximumLateralDistance: number;
+    }[] = [];
+
+    for (const character of characterManifest) {
+      const stats = character.stats;
+      const world = new RAPIER.World({ x: 0, y: -18, z: 0 });
+      world.timestep = 1 / 60;
+      world.createCollider(
+        RAPIER.ColliderDesc.cuboid(450, 0.1, 450).setTranslation(0, -0.12, 0),
+      );
+      const kart = new KartController(
+        world,
+        createKartTuning(stats),
+        stats,
+        sample.clone().addScaledVector(right, 3),
+        trackYaw + THREE.MathUtils.degToRad(25),
+      );
+      kart.applyArcadeCollisionImpulse(tangent.clone(), kart.mass() * 18);
+      const driver = new AiDriver(
+        track,
+        { laneOffset: 0, pace: 0.7, aggression: 0.6 },
+        createKartTuning(stats).maxSpeed,
+        stats.handling,
+      );
+
+      let recoveredFrame = 600;
+      let maximumLateralDistance = 0;
+      for (let frame = 0; frame < 600; frame += 1) {
+        const before = kart.position();
+        const projection = track.project(before);
+        maximumLateralDistance = Math.max(maximumLateralDistance, projection.lateralDistance);
+        const headingAlignment = kart.forward().dot(projection.tangent);
+        if (frame > 0 && projection.lateralDistance < 0.75 && headingAlignment > 0.98) {
+          recoveredFrame = frame;
+          break;
+        }
+        kart.update(
+          driver.input(
+            before,
+            kart.forward(),
+            kart.speedMetersPerSecond(),
+            0,
+            [],
+            1 / 60,
+          ),
+          projection.surface,
+          1 / 60,
+        );
+        world.step();
+      }
+
+      results.push({
+        name: character.displayName,
+        speed: stats.speed,
+        acceleration: stats.acceleration,
+        handling: stats.handling,
+        recoverySeconds: recoveredFrame / 60,
+        maximumLateralDistance,
+      });
+    }
+
+    console.log(`Candidate B roster handling recovery telemetry: ${JSON.stringify(results)}`);
+    expect(results).toHaveLength(characterManifest.length);
+    expect(results.every((result) => result.recoverySeconds < 10)).toBe(true);
   });
 
 });

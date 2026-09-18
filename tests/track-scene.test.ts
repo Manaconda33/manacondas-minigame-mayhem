@@ -3,10 +3,19 @@ import * as THREE from 'three';
 import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
 import { createTrackScene } from '../src/game/track/createTrackScene';
 
+type TrackMesh = THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]>;
+
 function requireInstanced(scene: THREE.Object3D, name: string): THREE.InstancedMesh {
   const object = scene.getObjectByName(name);
   expect(object).toBeInstanceOf(THREE.InstancedMesh);
   return object as THREE.InstancedMesh;
+}
+
+function requireMesh(scene: THREE.Object3D, name: string): TrackMesh {
+  const object = scene.getObjectByName(name);
+  expect(object).toBeInstanceOf(THREE.Mesh);
+  if (!(object instanceof THREE.Mesh)) throw new Error(`Missing mesh ${name}`);
+  return object as TrackMesh;
 }
 
 describe('Circuit Alpha environment scene', () => {
@@ -42,23 +51,21 @@ describe('Circuit Alpha environment scene', () => {
       'asphalt-racing-wear',
       'split-bend-dirt-line',
     ]) {
-      const object = scene.getObjectByName(name);
-      expect(object).toBeInstanceOf(THREE.Mesh);
-      if (!(object instanceof THREE.Mesh)) throw new Error(`Missing procedural strip ${name}`);
+      const object = requireMesh(scene, name);
       const positions = object.geometry.getAttribute('position');
       const uv = object.geometry.getAttribute('uv');
       expect(uv).toBeDefined();
       expect(uv.count).toBe(positions.count);
     }
 
-    const road = scene.getObjectByName('track-road') as THREE.Mesh;
+    const road = requireMesh(scene, 'track-road');
     const roadUv = road.geometry.getAttribute('uv');
     expect(roadUv.getX(0)).toBeCloseTo(0);
     expect(roadUv.getX(1)).toBeCloseTo(track.roadHalfWidth);
     expect(roadUv.getY(0)).toBeCloseTo(0);
     expect(roadUv.getY(roadUv.count - 2)).toBeCloseTo(track.curve.getLength() / 2, 4);
 
-    const dirt = scene.getObjectByName('split-bend-dirt-line') as THREE.Mesh;
+    const dirt = requireMesh(scene, 'split-bend-dirt-line');
     const dirtUv = dirt.geometry.getAttribute('uv');
     const dirtStart = Math.floor(0.235 * track.sampleCount);
     expect(dirtUv.getY(0)).toBeCloseTo((dirtStart * track.sampleSpacing) / 2, 4);
@@ -66,13 +73,8 @@ describe('Circuit Alpha environment scene', () => {
 
   it('uses one shared PBR asphalt texture set for the road and racing-wear layers', () => {
     const scene = createTrackScene(new CircuitAlpha());
-    const road = scene.getObjectByName('track-road');
-    const wear = scene.getObjectByName('asphalt-racing-wear');
-    expect(road).toBeInstanceOf(THREE.Mesh);
-    expect(wear).toBeInstanceOf(THREE.Mesh);
-    if (!(road instanceof THREE.Mesh) || !(wear instanceof THREE.Mesh)) {
-      throw new Error('Missing asphalt meshes');
-    }
+    const road = requireMesh(scene, 'track-road');
+    const wear = requireMesh(scene, 'asphalt-racing-wear');
 
     const roadMaterial = road.material;
     const wearMaterial = wear.material;

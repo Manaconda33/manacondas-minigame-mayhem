@@ -999,3 +999,26 @@ Hosted PR CI run `35352171432` on implementation head `19ca29fe6b86e9beea6358deb
 This automated checkpoint does **not** claim deployed settings persistence, device-specific graphics quality, production engine/music audio, Route Night visual acceptance, or public Pages acceptance. Those claims require their later governed implementation/deployment gates.
 
 **Publication result:** Manny approved publication on 2026-09-18. PR #176 squash-merged at `0144bcb6f1ce2bc0acb0e7e6adc229f38fd2e109`. Post-merge run `35353036562` passed validation and GitHub Pages deployment. This publication confirms the checkpoint reached the deployed build; it does not by itself constitute device-specific visual/audio acceptance.
+
+## Slice 6 material-coordinate / first Circuit Alpha PBR checkpoint
+
+The second bounded Slice 6 increment is defined by `docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md` and ADR-088.
+
+Before publication, hosted validation must prove:
+
+- `TrackMaterialCoordinates` emits one UV for every procedural strip vertex without mutating Circuit Alpha samples;
+- the closed loop terminates at the same spatial seam with an integer longitudinal repeat count, preventing a fractional repeating-texture seam;
+- bounded segment-strip coordinates are finite and monotonic in cumulative centerline distance;
+- the 2 m material scale remains explicit in geometry metadata;
+- the PBR asphalt material uses only the governed 1K diffuse, OpenGL normal, and roughness maps with repeat wrapping, sRGB on diffuse only, and one shared texture set for road + racing-wear;
+- `tools/verify-runtime-assets.mjs` rejects missing, pointer-like, or byte-changed asphalt maps through JPEG signature and exact SHA-256 verification;
+- Git LFS materialization and `git lfs fsck` pass for the governed track texture paths;
+- `disposeTrackScene` disposes shared textures/materials/geometries once and race disposal invokes that cleanup;
+- all existing track, race, item, AI, roster, settings, audio, and asset tests remain green;
+- strict typecheck, zero-warning lint, formatting, production build, branding validation, and runtime-asset validation pass.
+
+The budget record for this checkpoint is **2,150,973 bytes (~2.05 MiB compressed)** for the three runtime files and an intentionally conservative **~16 MiB decoded GPU estimate including mipmaps**. These numbers keep the PRD Medium <=256 MB texture-residency target visible; they do not replace later rendered-device Medium performance/residency measurement.
+
+After deployment, product-owner visual review should confirm the asphalt reads richer than the flat-color baseline without obvious UV seams/stretching, Circuit Alpha retains its dusk/twilight identity, established track geometry remains visually intact, approved racer/kart presentation is unchanged, and race restart/hub re-entry does not reveal a missing-material cleanup defect.
+
+This checkpoint is not the final five-restart memory certification, cross-browser matrix, Medium performance gate, or Slice 6 release-candidate acceptance.

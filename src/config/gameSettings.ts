@@ -45,7 +45,8 @@ function clampUnit(value: unknown, fallback: number): number {
 }
 
 function record(value: unknown): Record<string, unknown> | null {
-  return typeof value === 'object' && value !== null ? (value as Record<string, unknown>) : null;
+  if (value === null || typeof value !== 'object') return null;
+  return value as Record<string, unknown>;
 }
 
 function defaults(): GameSettings {

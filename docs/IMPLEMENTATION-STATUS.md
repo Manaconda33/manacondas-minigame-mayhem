@@ -2,13 +2,13 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - FULL AI ITEM TACTICS LIVE ACCEPTED; SLICE 5 CLOSURE OPEN**
+**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - LIVE ACCEPTED / COMPLETE; SLICE 6 READY PENDING MANNY APPROVAL**
 
 PRD baseline: **v1.1, approved implementation amendments 2.18-2.22 / ADR-079-084**.
 
 Latest verified merged gameplay checkpoint on `main`: **`5136a002ec1d39b13f8470fd4b5449ce6df5bcf2`** (Issue #106 fix through PR #163; post-merge validation/Pages run `35282030810` passed).
 
-Latest verified Slice 5 closure-evidence checkpoint on `main`: **`4ef75359e8b1dc3d6b7e2865d613774975a5af99`** (Item/VFX performance instrumentation through PR #170; hosted PR CI `35301884528` and post-merge validation/Pages run `35302908290` passed **62 test files / 507 tests**).
+Latest verified Slice 5 acceptance-protocol checkpoint on `main`: **`fd967afca41366579fe448bcb7c3d9c0631edf1c`** (final desktop/mobile whole-slice matrix through PR #172; hosted PR CI `35305490406` and post-merge validation/Pages run `35337153793` passed **62 test files / 507 tests**).
 
 Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. The tuned amendment merged through PR #149 at **`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`**; hosted PR CI **`35173826253`** and post-merge validation/Pages **`35188684882`** passed. Manny reported **“Pass”** on 2026-09-17; PR #149 comment **`5709839182`** records live acceptance.
 
@@ -107,7 +107,7 @@ Live-accepted bounded increments include item boxes/one-slot inventory/roulette/
 
 Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Continuous Nitro Overdrive is merged, deployed, and live accepted under amendment 2.20 / ADR-081 through PR #152. Hyper-Drive Rocket gameplay and original presentation are merged, deployed, and live accepted under amendment 2.21 / ADR-082 through PR #156. Full AI item tactics and the corrective race-authority / AI-presentation gate are merged, deployed, and live accepted under amendment 2.22 / ADR-083-084 through PRs #158-159.
 
-The final all-item interaction/counter evidence is complete through `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md` and PR #165. The final lifecycle/object-count soak is complete through `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md` and PR #167. Item/VFX rendered-runtime performance evidence is complete through `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`: ordinary full-AI N600 p95 **1.00 ms** PASS and forced Arc Blade N600 p95 **1.00 ms** PASS. Remaining Slice 5 closure work is final desktop/mobile full-slice acceptance only. Slice 6 remains locked.
+The final all-item interaction/counter evidence is complete through `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md` and PR #165. The final lifecycle/object-count soak is complete through `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md` and PR #167. Item/VFX rendered-runtime performance evidence is complete through `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`. The final desktop/mobile whole-slice matrix is published through PR #172, and Manny reported **“All pass”** on 2026-09-18 for D1-D3, M1-M3, and cleanup/race-authority checks. **Slice 5 is LIVE ACCEPTED / COMPLETE.** Slice 6 is ready but not started and requires Manny's separate approval.
 
 ## Known issues
 
@@ -118,7 +118,7 @@ The final all-item interaction/counter evidence is complete through `docs/SLICE-
 
 ## Next recommended action
 
-Proceed only with the remaining final Slice 5 closure work: final desktop/mobile full-slice acceptance. Do not begin Slice 6 without Manny's approval.
+Stop at the Slice 6 approval gate. Slice 5 is complete. Do not begin Slice 6 until Manny explicitly approves starting it.
 
 ## Approval state
 
@@ -146,6 +146,8 @@ Proceed only with the remaining final Slice 5 closure work: final desktop/mobile
 
 **Item/VFX rendered-runtime performance:** **COMPLETE / PASS 2026-09-17.** Instrumentation published through PR #170 / `4ef75359e8b1dc3d6b7e2865d613774975a5af99`; post-merge validation/Pages `35302908290` passed. Product-owner deployed captures recorded ordinary full-AI p95 **1.00 ms**, median **0.40 ms**, max **6.80 ms**, N600 PASS and forced Arc Blade p95 **1.00 ms**, median **0.50 ms**, max **8.70 ms**, N600 PASS. The performance gate passes exactly at the PRD 1.00 ms p95 ceiling. No browser/device details are inferred beyond Manny's explicit evidence.
 
-**Slice 5 implementation:** IN PROGRESS; Ink Splat, Continuous Nitro Overdrive, Hyper-Drive Rocket, full AI item tactics with the ADR-084 corrective, Issue #106, the final all-item interaction/counter evidence, lifecycle/object-count soak, and Item/VFX performance evidence are closed. Final desktop/mobile full-slice acceptance remains open.
+**Final desktop/mobile whole-Slice 5 acceptance:** **PASS / LIVE ACCEPTED 2026-09-18.** Manny completed D1-D3, M1-M3, and cleanup/race-authority spot checks from `docs/SLICE-5-FINAL-LIVE-ACCEPTANCE-2026-09-17.md` and reported **“All pass.”** No browser/device details are inferred. The final acceptance baseline was PR #172 / `fd967afca41366579fe448bcb7c3d9c0631edf1c`; post-merge validation/Pages run `35337153793` passed **62 test files / 507 tests**.
 
-**Slice 6:** LOCKED pending remaining Slice 5 validation/closure work and Manny's full-slice acceptance.
+**Slice 5 implementation:** **LIVE ACCEPTED / COMPLETE.** All fifteen items, probability/distribution evidence, AI item tactics, interaction/counter matrix, lifecycle/object-count soak, rendered-runtime performance evidence, race-authority corrections, and final desktop/mobile whole-slice acceptance are closed with no open Slice 5 defect recorded.
+
+**Slice 6:** **READY / NOT STARTED.** Separate Manny approval is required before implementation begins.

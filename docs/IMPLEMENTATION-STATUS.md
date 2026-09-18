@@ -8,6 +8,8 @@ PRD baseline: **v1.1, approved implementation amendments 2.18-2.22 / ADR-079-084
 
 Latest verified merged gameplay checkpoint on `main`: **`5136a002ec1d39b13f8470fd4b5449ce6df5bcf2`** (Issue #106 fix through PR #163; post-merge validation/Pages run `35282030810` passed).
 
+Latest verified Slice 5 closure-evidence checkpoint on `main`: **`8906d5c4fa226f2889c609cf97095dbbde92e803`** (final all-item interaction/counter matrix through PR #165; hosted PR CI `35297557789` and post-merge validation/Pages run `35298360643` passed).
+
 Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. The tuned amendment merged through PR #149 at **`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`**; hosted PR CI **`35173826253`** and post-merge validation/Pages **`35188684882`** passed. Manny reported **“Pass”** on 2026-09-17; PR #149 comment **`5709839182`** records live acceptance.
 
 ## Kinetic Arc Hammers final state - 2026-09-16
@@ -105,7 +107,7 @@ Live-accepted bounded increments include item boxes/one-slot inventory/roulette/
 
 Vision-Obscuring Ink Splat gameplay/presentation and Amendment 2.19 AI tuning are merged, deployed, and live accepted under amendments 2.18-2.19 / ADR-079-080 through PRs #148-149. Continuous Nitro Overdrive is merged, deployed, and live accepted under amendment 2.20 / ADR-081 through PR #152. Hyper-Drive Rocket gameplay and original presentation are merged, deployed, and live accepted under amendment 2.21 / ADR-082 through PR #156. Full AI item tactics and the corrective race-authority / AI-presentation gate are merged, deployed, and live accepted under amendment 2.22 / ADR-083-084 through PRs #158-159.
 
-Remaining Slice 5 closure work includes final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, and final desktop/mobile full-slice acceptance. Slice 6 remains locked.
+The final all-item interaction/counter evidence is complete through `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md` and PR #165. Remaining Slice 5 closure work includes lifecycle/object-count soak, item/VFX performance evidence, and final desktop/mobile full-slice acceptance. Slice 6 remains locked.
 
 ## Known issues
 
@@ -116,7 +118,7 @@ Remaining Slice 5 closure work includes final all-item interaction/counter evide
 
 ## Next recommended action
 
-Proceed only with the remaining final Slice 5 closure work: final all-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, and final desktop/mobile full-slice acceptance. Do not begin Slice 6 without Manny's approval.
+Proceed only with the remaining final Slice 5 closure work: lifecycle/object-count soak, item/VFX performance evidence, and final desktop/mobile full-slice acceptance. Do not begin Slice 6 without Manny's approval.
 
 ## Approval state
 
@@ -138,6 +140,8 @@ Proceed only with the remaining final Slice 5 closure work: final all-item inter
 
 **Issue #106 results synchronization:** **LIVE ACCEPTED / CLOSED 2026-09-17** through PR #163 / `5136a002ec1d39b13f8470fd4b5449ce6df5bcf2` / post-merge validation and Pages `35282030810` / product-owner Issue #106 comment `5722120491`.
 
-**Slice 5 implementation:** IN PROGRESS; Ink Splat, Continuous Nitro Overdrive, Hyper-Drive Rocket, full AI item tactics with the ADR-084 corrective, and Issue #106 are live accepted. Final cross-item interaction/counter evidence, lifecycle/object-count soak, item/VFX performance evidence, and final desktop/mobile full-slice acceptance remain open.
+**Final all-item interaction/counter matrix:** **COMPLETE / PUBLISHED 2026-09-17** through PR #165 / `8906d5c4fa226f2889c609cf97095dbbde92e803`. Hosted PR CI `35297557789` passed **60 test files / 500 tests** plus LFS verification, typecheck, zero-warning lint, and production build; post-merge validation and GitHub Pages run `35298360643` passed. The matrix is recorded in `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md`. No gameplay or balance changed.
+
+**Slice 5 implementation:** IN PROGRESS; Ink Splat, Continuous Nitro Overdrive, Hyper-Drive Rocket, full AI item tactics with the ADR-084 corrective, Issue #106, and the final all-item interaction/counter evidence are closed. Lifecycle/object-count soak, item/VFX performance evidence, and final desktop/mobile full-slice acceptance remain open.
 
 **Slice 6:** LOCKED pending remaining Slice 5 validation/closure work and Manny's full-slice acceptance.

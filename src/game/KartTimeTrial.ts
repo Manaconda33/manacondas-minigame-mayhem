@@ -57,6 +57,7 @@ import { crossesForwardCheckpointGate } from './race/CheckpointGate';
 import { validatedRaceProgressSnapshot } from './race/ValidatedRaceProgress';
 import { CircuitAlpha, type TrackProjection } from './track/CircuitAlpha';
 import { createTrackScene } from './track/createTrackScene';
+import { disposeTrackScene } from './track/TrackSceneResources';
 import {
   GUARDRAIL_KART_RADIUS_METERS,
   GUARDRAIL_RESTITUTION,
@@ -435,6 +436,7 @@ export class KartTimeTrial {
     this.nitroSurgeVisual.dispose();
     this.nitroOverdriveVisual.dispose();
     this.hyperDriveRocketVisual.dispose();
+    disposeTrackScene(this.trackScene);
     this.renderer.dispose();
   }
 

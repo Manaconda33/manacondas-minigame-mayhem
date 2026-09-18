@@ -952,3 +952,15 @@ The final product-owner integration protocol is frozen in `docs/SLICE-5-FINAL-LI
 The gate intentionally reuses accepted item-specific and automated evidence instead of requiring all fifteen item matrices to be replayed. Live review is limited to normal desktop/mobile races, representative offensive/defensive/catch-up integration, desktop pause behavior, mobile simultaneous ITEM input, mobile backward ITEM modifier, cleanup/race-authority spot checks, and gameplay capture.
 
 A reported miss or ambiguous encounter is INCONCLUSIVE, not PASS. Slice 5 closure requires Manny's explicit whole-slice acceptance and a final documentation checkpoint with clean hosted and post-merge validation/Pages. Slice 6 remains locked until that closure record is published and Manny separately approves beginning Slice 6.
+
+
+### Final whole-slice result - 2026-09-18
+
+Manny completed the frozen Slice 5 final desktop/mobile integration matrix and reported **“All pass.”**
+
+- Desktop D1-D3: PASS.
+- Mobile M1-M3: PASS.
+- Cleanup/race-authority spot checks: PASS.
+- Product-owner whole-slice acceptance: PASS.
+
+The live result is combined with the existing item-specific deployed acceptance record, final interaction matrix, lifecycle/object-count soak, AI-tactics acceptance, Issue #106 acceptance, and rendered-runtime Item/VFX performance evidence. No browser/device details are inferred. No new standalone final-session recording was supplied; the protocol's explicit-observation path is used with the cumulative existing capture/evidence record.

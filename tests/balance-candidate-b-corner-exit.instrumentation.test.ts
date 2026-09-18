@@ -246,7 +246,7 @@ function summarizeThreshold(
         0,
       );
       return [
-        `${Math.round(percent * 100)}pct`,
+        `${String(Math.round(percent * 100))}pct`,
         {
           projectedGainSeconds: gain,
           projectedRaceSeconds: telemetry.seconds - gain,

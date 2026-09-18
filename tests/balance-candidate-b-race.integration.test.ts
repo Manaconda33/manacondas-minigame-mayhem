@@ -26,6 +26,9 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
       averageTrackCurvatureFactor: number;
       maximumTrackCurvatureFactor: number;
       minimumSpeedRatio: number;
+      below98Ratio: number;
+      below97Ratio: number;
+      below95Ratio: number;
       below90Ratio: number;
       below80Ratio: number;
       below70Ratio: number;
@@ -59,6 +62,9 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
       let trackCurvatureFactorTotal = 0;
       let maximumTrackCurvatureFactor = 0;
       let minimumSpeedRatio = 1;
+      let below98Frames = 0;
+      let below97Frames = 0;
+      let below95Frames = 0;
       let below90Frames = 0;
       let below80Frames = 0;
       let below70Frames = 0;
@@ -72,6 +78,9 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
         const speedRatio = tuning.maxSpeed <= 0 ? 0 : speed / tuning.maxSpeed;
         if (step > 180) {
           minimumSpeedRatio = Math.min(minimumSpeedRatio, speedRatio);
+          if (speedRatio < 0.98) below98Frames += 1;
+          if (speedRatio < 0.97) below97Frames += 1;
+          if (speedRatio < 0.95) below95Frames += 1;
           if (speedRatio < 0.9) below90Frames += 1;
           if (speedRatio < 0.8) below80Frames += 1;
           if (speedRatio < 0.7) below70Frames += 1;
@@ -125,6 +134,9 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
         averageTrackCurvatureFactor: trackCurvatureFactorTotal / simulatedFrames,
         maximumTrackCurvatureFactor,
         minimumSpeedRatio,
+        below98Ratio: below98Frames / Math.max(1, simulatedFrames - 180),
+        below97Ratio: below97Frames / Math.max(1, simulatedFrames - 180),
+        below95Ratio: below95Frames / Math.max(1, simulatedFrames - 180),
         below90Ratio: below90Frames / Math.max(1, simulatedFrames - 180),
         below80Ratio: below80Frames / Math.max(1, simulatedFrames - 180),
         below70Ratio: below70Frames / Math.max(1, simulatedFrames - 180),

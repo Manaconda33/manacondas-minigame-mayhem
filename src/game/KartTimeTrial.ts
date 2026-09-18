@@ -62,6 +62,7 @@ import {
   guardrailContact,
 } from './track/GuardrailSystem';
 import { ItemBoxSystem } from './items/ItemBoxSystem';
+import { ItemPerformanceMeter } from './items/ItemPerformanceMeter';
 import { ProjectileSystem, type ProjectileSnapshot } from './items/ProjectileSystem';
 import { executeItemUse } from './items/ItemEffectDispatcher';
 import { selectItem } from './items/ItemSelector';
@@ -76,6 +77,7 @@ import {
   incomingBlastOrbFromSearch,
   incomingSlickFromSearch,
   shockwaveCounterFromSearch,
+  itemPerformanceFromSearch,
 } from './items/ItemTestMode';
 import { NitroSurgeVisual } from './items/NitroSurgeVisual';
 import { RacerItemVisuals } from './items/RacerItemVisuals';
@@ -263,6 +265,9 @@ export class KartTimeTrial {
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly forcedAiItem = aiForcedItemFromSearch(window.location.search);
   private readonly forcedAiRacer = aiForcedRacerFromSearch(window.location.search);
+  private readonly itemPerformance?: ItemPerformanceMeter = new ItemPerformanceMeter(
+    itemPerformanceFromSearch(window.location.search),
+  );
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
   private readonly nitroOverdriveVisual = new NitroOverdriveVisual();
   private readonly hyperDriveRocketVisual = new HyperDriveRocketVisual();
@@ -446,15 +451,35 @@ export class KartTimeTrial {
     if (control === 'item' && pressed) this.requestPlayerItemUse();
   }
 
+  private startItemSimulationTiming(): number {
+    return this.itemPerformance?.startSimulation() ?? -1;
+  }
+
+  private stopItemSimulationTiming(start: number): void {
+    this.itemPerformance?.stopSimulation(start);
+  }
+
+  private startItemVfxTiming(): number {
+    return this.itemPerformance?.startVfx() ?? -1;
+  }
+
+  private stopItemVfxTiming(start: number): void {
+    this.itemPerformance?.stopVfx(start);
+  }
+
   private readonly frame = (now: number): void => {
     const frameSeconds = Math.min((now - this.lastFrame) / 1000, 0.1);
     this.lastFrame = now;
+    this.itemPerformance?.beginFrame(
+      !this.paused && this.raceDirector.phase(this.playerProgress.finished) === 'racing',
+    );
     if (!this.paused) {
       this.fixedStep.advance(frameSeconds, this.simulate);
       this.elapsed = this.raceDirector.raceTime();
     }
 
     this.updateVisuals(frameSeconds);
+    this.itemPerformance?.endFrame();
     this.renderer.render(this.scene, this.camera);
     this.updateHud(frameSeconds);
     this.animationFrame = requestAnimationFrame(this.frame);
@@ -468,9 +493,11 @@ export class KartTimeTrial {
     }
     const playerStepStart = this.kart.position(this.playerStepStartPosition);
     const playerStepStartProjection = this.track.project(playerStepStart);
+    let itemCpuStart = this.startItemSimulationTiming();
     this.racerEffects.advanceFrost(dt);
     this.inkSplat.advance(dt);
     const driveModifiers = this.racerEffects.driveModifiers('player');
+    this.stopItemSimulationTiming(itemCpuStart);
     const playerSpinout = this.racerEffects.spinoutState('player');
     const normalInput: DriveInput = {
       throttle:
@@ -495,6 +522,7 @@ export class KartTimeTrial {
       effectSpinoutYawRateRadiansPerSecond: playerSpinout?.yawRateRadiansPerSecond,
       effectSpinoutPreserveMomentum: playerSpinout?.preserveMomentum,
     };
+    itemCpuStart = this.startItemSimulationTiming();
     const input =
       this.hyperDriveRocketIfPresent()?.inputFor(
         'player',
@@ -503,6 +531,7 @@ export class KartTimeTrial {
         this.kart.speedMetersPerSecond(),
         normalInput,
       ) ?? normalInput;
+    this.stopItemSimulationTiming(itemCpuStart);
     this.playerSteering = playerSpinout === null ? input.steering : 0;
     this.driverHitSeconds = Math.max(0, this.driverHitSeconds - dt);
 
@@ -531,13 +560,17 @@ export class KartTimeTrial {
     }
     if (!playerRespawned) this.updatePlayerProgress(playerStepStart, position, projection);
     this.updateOpponentProgresses();
+    itemCpuStart = this.startItemSimulationTiming();
     this.itemSystem.advance(dt);
     this.nitroOverdriveIfPresent()?.advance(dt);
     const rocketBeforeAdvance = this.hyperDriveRocketSnapshot();
     this.hyperDriveRocketIfPresent()?.advance(dt);
     const rocketAfterAdvance = this.hyperDriveRocketSnapshot();
+    this.stopItemSimulationTiming(itemCpuStart);
     if (rocketBeforeAdvance.active && !rocketAfterAdvance.active)
       this.hyperDriveRocketAudioIfPresent()?.play('return', Howler.volume());
+
+    itemCpuStart = this.startItemSimulationTiming();
     this.racerEffects.advance(dt, false, false);
     this.shockwave.advance(dt);
     this.incomingSeekerFixture.update(
@@ -563,6 +596,7 @@ export class KartTimeTrial {
     this.itemUseMessageSeconds = Math.max(0, this.itemUseMessageSeconds - dt);
     if (this.itemUseMessageSeconds === 0) this.itemUseMessage = null;
     this.updateItemBoxes(dt);
+    this.stopItemSimulationTiming(itemCpuStart);
     if (this.playerProgress.finished && !this.finishReported) {
       this.finishReported = true;
       const standings = this.currentStandings();
@@ -668,9 +702,11 @@ export class KartTimeTrial {
   }
 
   private updateOpponents(dt: number): void {
+    let itemCpuStart = this.startItemSimulationTiming();
     const hazardSnapshots = this.hazards.activeSnapshots();
-    const hazardAwareness = observeAiHazards(this.track, hazardSnapshots);
     const projectileSnapshots = this.projectiles.snapshots();
+    this.stopItemSimulationTiming(itemCpuStart);
+    const hazardAwareness = observeAiHazards(this.track, hazardSnapshots);
     const targetingRacers = this.validatedRaceProgress();
     const standings = rankRacers(targetingRacers);
     const player = targetingRacers.find(({ id }) => id === 'player');
@@ -700,6 +736,7 @@ export class KartTimeTrial {
           : opponentProgress.lap + opponentProgress.trackProgress;
       const spinout = this.racerEffects.spinoutState(opponent.id);
       if (!opponent.progress.finished && spinout === null) {
+        itemCpuStart = this.startItemSimulationTiming();
         this.updateAiItemUse(
           opponent,
           projection,
@@ -709,6 +746,7 @@ export class KartTimeTrial {
           projectileSnapshots,
           hazardSnapshots,
         );
+        this.stopItemSimulationTiming(itemCpuStart);
       }
       let input: DriveInput =
         spinout !== null
@@ -733,6 +771,7 @@ export class KartTimeTrial {
                 opponent.id,
                 this.inkSplat.aiSnapshot(opponent.id),
               );
+      itemCpuStart = this.startItemSimulationTiming();
       input = driveInputWithItemModifiers(input, this.racerEffects.driveModifiers(opponent.id));
       if (spinout === null) {
         input = this.hyperDriveRocket.inputFor(
@@ -743,6 +782,7 @@ export class KartTimeTrial {
           input,
         );
       }
+      this.stopItemSimulationTiming(itemCpuStart);
       opponent.steering = spinout === null ? input.steering : 0;
       if (
         this.prismaticFixture.controlledRacer() === opponent.id ||
@@ -828,9 +868,11 @@ export class KartTimeTrial {
   }
 
   private resolveKartContacts(dt: number): void {
+    const itemCpuStart = this.startItemSimulationTiming();
     const targets = this.projectileTargets();
     const victims = this.prismatic.contacts(targets);
     this.prismaticContactVictims.push(...victims);
+    this.stopItemSimulationTiming(itemCpuStart);
     const fixtureRacer = this.prismaticFixture.controlledRacer();
     const fixtureTarget = targets.find((r) => r.id === fixtureRacer);
     const player = targets[0];
@@ -1474,6 +1516,7 @@ export class KartTimeTrial {
           }),
         );
       }
+      const opponentItemVfxStart = this.startItemVfxTiming();
       opponent.itemVisuals.update(
         {
           nitroSurgeActive: this.racerEffects.remainingSeconds(opponent.id, 'nitro-surge') > 0,
@@ -1485,6 +1528,7 @@ export class KartTimeTrial {
         this.elapsed,
         this.paused ? 0 : dt,
       );
+      this.stopItemVfxTiming(opponentItemVfxStart);
     }
     const feedback = this.kart.feedback();
     const color =
@@ -1503,6 +1547,7 @@ export class KartTimeTrial {
       playDriftTierTone(feedback.driftTier, context);
     }
     this.lastToneTier = feedback.driftTier;
+    let itemVfxStart = this.startItemVfxTiming();
     this.nitroSurgeVisual.update(
       this.racerEffects.remainingSeconds('player', 'nitro-surge') > 0,
       this.elapsed,
@@ -1519,6 +1564,7 @@ export class KartTimeTrial {
     const threats = seekerThreats(this.projectiles.snapshots(), targets);
     this.seekerWarning = threats.find((threat) => threat.targetId === 'player')?.level ?? null;
     this.seekerWarningVisual.update(threats, targets, this.elapsed);
+    this.stopItemVfxTiming(itemVfxStart);
     this.seekerWarningAudio.update(this.seekerWarning, dt, Howler.volume(), this.paused);
     const apexWarning = this.apex.warningFor('player');
     this.apexWarningAudio.update(
@@ -1527,15 +1573,18 @@ export class KartTimeTrial {
       Howler.volume(),
       this.paused,
     );
+    itemVfxStart = this.startItemVfxTiming();
     this.apexPresentation.update(
       this.apex.snapshot(),
       targets,
       this.apex.drainBlasts(),
       this.paused ? 0 : dt,
     );
+    this.stopItemVfxTiming(itemVfxStart);
     this.prismaticFixture.updateMarker(
       targets.find((racer) => racer.id === this.prismaticFixture.controlledRacer())?.position,
     );
+    itemVfxStart = this.startItemVfxTiming();
     this.prismaticVisual.update(this.prismatic.remaining('player'), position, this.paused ? 0 : dt);
     this.frostFixture.updateMarker(targets);
     this.frostVisual.update(
@@ -1546,6 +1595,7 @@ export class KartTimeTrial {
       })),
       this.paused ? 0 : dt,
     );
+    this.stopItemVfxTiming(itemVfxStart);
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceFrostAudio();
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceArcAudio();
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceHammerAudio();
@@ -1624,6 +1674,7 @@ export class KartTimeTrial {
           this.arcFixture.badge(),
           this.arcHammerFixture.badge(),
           this.inkFixture.badge(),
+          this.itemPerformance?.badge() ?? null,
         ]
           .filter(Boolean)
           .join(' · ') || null,

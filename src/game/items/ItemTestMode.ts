@@ -72,3 +72,8 @@ export function shockwaveCounterFromSearch(search: string): ShockwaveCounterTest
     ? (value as ShockwaveCounterTest)
     : null;
 }
+
+/** Live rendered-runtime instrumentation is explicit and never enabled implicitly. */
+export function itemPerformanceFromSearch(search: string): boolean {
+  return new URLSearchParams(search).get('testItemPerf') === '1';
+}

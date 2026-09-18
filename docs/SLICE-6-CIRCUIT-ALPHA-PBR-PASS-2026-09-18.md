@@ -55,8 +55,8 @@ This is preventive Slice 6 memory hygiene, not a gameplay change. The PRD's fina
 
 The checkpoint must pass:
 
-- Git LFS materialization / `git lfs fsck`;
-- exact JPEG signature and SHA-256 verification for all three maps;
+- normal repository Git LFS materialization / `git lfs fsck` for existing governed assets;
+- exact JPEG signature and SHA-256 verification for all three normal-Git 1K runtime maps;
 - deterministic loop and segment UV tests;
 - closed-loop seam coordinate test;
 - track-sample immutability test;

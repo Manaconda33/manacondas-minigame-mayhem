@@ -25,6 +25,10 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
       maximumDriverCornerFactor: number;
       averageTrackCurvatureFactor: number;
       maximumTrackCurvatureFactor: number;
+      minimumSpeedRatio: number;
+      below90Ratio: number;
+      below80Ratio: number;
+      below70Ratio: number;
     }[] = [];
 
     for (const character of characterManifest) {
@@ -54,6 +58,10 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
       let maximumDriverCornerFactor = 0;
       let trackCurvatureFactorTotal = 0;
       let maximumTrackCurvatureFactor = 0;
+      let minimumSpeedRatio = 1;
+      let below90Frames = 0;
+      let below80Frames = 0;
+      let below70Frames = 0;
       let finishSeconds = Number.NaN;
 
       for (let step = 0; step < 24_000 && !laps.snapshot().finished; step += 1) {
@@ -61,6 +69,13 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
         const projection = track.project(positionBeforeStep);
         const forward = kart.forward();
         const speed = kart.speedMetersPerSecond();
+        const speedRatio = tuning.maxSpeed <= 0 ? 0 : speed / tuning.maxSpeed;
+        if (step > 180) {
+          minimumSpeedRatio = Math.min(minimumSpeedRatio, speedRatio);
+          if (speedRatio < 0.9) below90Frames += 1;
+          if (speedRatio < 0.8) below80Frames += 1;
+          if (speedRatio < 0.7) below70Frames += 1;
+        }
         const lookahead = Math.max(1, Math.round(aiLookaheadMeters(speed) / track.sampleSpacing));
         const targetIndex = (projection.index + lookahead) % track.sampleCount;
         const targetTangent = track.tangents[targetIndex]?.clone() ?? projection.tangent.clone();
@@ -109,6 +124,10 @@ describe('Balance Candidate B Circuit Alpha telemetry', () => {
         maximumDriverCornerFactor,
         averageTrackCurvatureFactor: trackCurvatureFactorTotal / simulatedFrames,
         maximumTrackCurvatureFactor,
+        minimumSpeedRatio,
+        below90Ratio: below90Frames / Math.max(1, simulatedFrames - 180),
+        below80Ratio: below80Frames / Math.max(1, simulatedFrames - 180),
+        below70Ratio: below70Frames / Math.max(1, simulatedFrames - 180),
       });
     }
 

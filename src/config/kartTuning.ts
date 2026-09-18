@@ -128,18 +128,21 @@ export function candidateBSteeringResponseRate(handling: number): number {
   );
 }
 
-export function candidateBHandlingRecoverySteeringMultiplier(handling: number): number {
+export function candidateBHandlingRecoverySteeringMultiplier(
+  handling: number,
+  speedStat = 5,
+): number {
   const specialistPoints = Math.max(
     0,
     handling - BALANCE_CANDIDATE_B.highHandlingResponseStart,
   );
   if (specialistPoints <= 0) return 1;
-  return (
-    1 +
+  const lowSpeedScale = clamp(1 - 0.6 * Math.max(0, speedStat - 5), 0, 1);
+  const specialistBonus =
     BALANCE_CANDIDATE_B.highHandlingRecoveryLinear * specialistPoints +
     BALANCE_CANDIDATE_B.highHandlingRecoveryQuadratic *
-      specialistPoints * specialistPoints
-  );
+      specialistPoints * specialistPoints;
+  return 1 + specialistBonus * lowSpeedScale;
 }
 
 export function candidateBHandlingComfortSpeed(handling: number): number {

@@ -477,7 +477,7 @@ export class KartTimeTrial {
     }
     const playerStepStart = this.kart.position(this.playerStepStartPosition);
     const playerStepStartProjection = this.track.project(playerStepStart);
-    this.playerCornerExitOverspeed.advance(
+    this.playerCornerExitOverspeed?.advance(
       playerStepStartProjection,
       this.kart.speedMetersPerSecond() / this.playerCharacterMaxSpeed,
       dt,
@@ -504,7 +504,7 @@ export class KartTimeTrial {
       drift: this.isPressed('Space') || this.touchPressed.has('drift'),
       effectSpeedCapMultiplier: Math.max(
         driveModifiers.speedCapMultiplier,
-        this.playerCornerExitOverspeed.speedCapMultiplier(),
+        this.playerCornerExitOverspeed?.speedCapMultiplier() ?? 1,
       ),
       effectAccelerationMultiplier: driveModifiers.accelerationMultiplier,
       effectSteeringMultiplier: driveModifiers.steeringMultiplier,
@@ -707,7 +707,7 @@ export class KartTimeTrial {
       opponent.driverHitSeconds = Math.max(0, opponent.driverHitSeconds - dt);
       const position = opponent.controller.position(opponent.stepStartPosition);
       const projection = this.track.project(position);
-      opponent.cornerExitOverspeed.advance(
+      opponent.cornerExitOverspeed?.advance(
         projection,
         opponent.controller.speedMetersPerSecond() / opponent.characterMaxSpeed,
         dt,
@@ -765,7 +765,7 @@ export class KartTimeTrial {
       }
       input.effectSpeedCapMultiplier = Math.max(
         input.effectSpeedCapMultiplier ?? 1,
-        opponent.cornerExitOverspeed.speedCapMultiplier(),
+        opponent.cornerExitOverspeed?.speedCapMultiplier() ?? 1,
       );
       opponent.steering = spinout === null ? input.steering : 0;
       if (
@@ -1455,7 +1455,7 @@ export class KartTimeTrial {
     const point = this.track.samples[index]?.clone() ?? this.track.checkpointPosition(0);
     const tangent = this.track.tangents[index]?.clone() ?? this.track.checkpointTangent(0);
     this.kart.respawn(point.addScaledVector(tangent, 4), Math.atan2(tangent.x, tangent.z));
-    this.playerCornerExitOverspeed.reset(index);
+    this.playerCornerExitOverspeed?.reset(index);
     this.racerEffects.clearSpinout('player');
     this.racerEffects.clearFrost('player');
     this.frostVisual.dispose();

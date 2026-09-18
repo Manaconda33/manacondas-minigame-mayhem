@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 360" role="img" aria-labelledby="title desc">
+  <title id="title">Manaconda's Minigame Mayhem</title>
+  <desc id="desc">A cyan, gold, and violet Route Night title lockup.</desc>
+  <defs>
+    <linearGradient id="cyan-sheen" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#e7fcff"/>
+      <stop offset="0.45" stop-color="#78e8fa"/>
+      <stop offset="1" stop-color="#4ab4e5"/>
+    </linearGradient>
+    <linearGradient id="mayhem-sheen" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#f3c85c"/>
+      <stop offset="0.55" stop-color="#ffe5a0"/>
+      <stop offset="1" stop-color="#e875c4"/>
+    </linearGradient>
+    <filter id="soft-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g font-family="Arial Black, Impact, sans-serif" font-style="italic" font-weight="900" letter-spacing="-7">
+    <text x="34" y="137" fill="#06101f" opacity="0.72" stroke="#06101f" stroke-width="12" paint-order="stroke" font-size="125">MANACONDA'S</text>
+    <text x="28" y="128" fill="url(#cyan-sheen)" stroke="#d9fbff" stroke-width="1.5" paint-order="stroke" font-size="125" filter="url(#soft-glow)">MANACONDA'S</text>
+    <text x="65" y="255" fill="#08101d" opacity="0.74" stroke="#08101d" stroke-width="12" paint-order="stroke" font-size="91">MINIGAME MAYHEM</text>
+    <text x="58" y="246" fill="url(#mayhem-sheen)" stroke="#fff0b3" stroke-width="1.2" paint-order="stroke" font-size="91">MINIGAME MAYHEM</text>
+  </g>
+  <path d="M58 278 C 248 305, 415 275, 600 293 S 956 303, 1194 267" fill="none" stroke="#78e8fa" stroke-width="4" opacity="0.82"/>
+  <path d="M84 294 C 292 326, 489 294, 672 309 S 1015 322, 1170 288" fill="none" stroke="#e875c4" stroke-width="3" stroke-dasharray="14 16" opacity="0.86"/>
+  <path d="M1126 260 l38 8 -29 22" fill="none" stroke="#f3c85c" stroke-width="5" stroke-linecap="square"/>
+</svg>

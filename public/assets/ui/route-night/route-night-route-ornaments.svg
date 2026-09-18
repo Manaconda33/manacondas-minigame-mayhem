@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ornament-arc" viewBox="0 0 520 180">
+    <path d="M12 152C78 30 174 23 236 102s140 72 266-62" fill="none" stroke="currentColor" stroke-width="2" opacity=".8"/>
+    <path d="M12 161C85 44 168 44 230 116s152 72 263-47" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="8 13" opacity=".55"/>
+    <circle cx="12" cy="152" r="5" fill="currentColor"/>
+    <circle cx="238" cy="103" r="4" fill="currentColor" opacity=".84"/>
+    <path d="m480 44 14 9-12 11" fill="none" stroke="currentColor" stroke-width="2"/>
+  </symbol>
+  <symbol id="ornament-branch" viewBox="0 0 420 120">
+    <path d="M10 60h132M142 60l75-44M142 60l75 44M217 16h188M217 104h188" fill="none" stroke="currentColor" stroke-width="2" opacity=".72"/>
+    <circle cx="10" cy="60" r="5" fill="currentColor"/>
+    <rect x="132" y="50" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(45 142 60)"/>
+    <circle cx="217" cy="16" r="4" fill="currentColor"/>
+    <circle cx="217" cy="104" r="4" fill="currentColor"/>
+  </symbol>
+  <symbol id="ornament-checkpoint" viewBox="0 0 180 180">
+    <circle cx="90" cy="90" r="64" fill="none" stroke="currentColor" stroke-width="2" opacity=".7"/>
+    <circle cx="90" cy="90" r="43" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="7 10" opacity=".65"/>
+    <path d="m90 25 12 50 48 15-48 15-12 50-12-50-48-15 48-15Z" fill="none" stroke="currentColor" stroke-width="2"/>
+    <circle cx="90" cy="90" r="7" fill="currentColor"/>
+  </symbol>
+  <symbol id="ornament-divider" viewBox="0 0 420 28">
+    <path d="M4 14h168m66 0h178" fill="none" stroke="currentColor" stroke-width="1" opacity=".65"/>
+    <path d="m184 14 16-9 16 9-16 9Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="200" cy="14" r="3" fill="currentColor"/>
+  </symbol>
+</svg>

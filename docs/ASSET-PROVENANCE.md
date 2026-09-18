@@ -39,3 +39,18 @@ The transient generated PNG outputs were converted to the committed WebP derivat
 | `public/assets/ui/route-night/circuit-alpha-route-card.webp` | 1672 x 941 PNG | 1672 x 941 WebP, 151,690 bytes | `574220fbe0d67e4f8d9f519cbea69d60093d87721c81fb072b6c5838540ea372` |
 
 Prompt intent was limited to an atmospheric Route Night title/hub backdrop and a Circuit Alpha route/checkpoint card image: deep indigo/graphite structure, cyan route energy, warm gold checkpoints, restrained violet/magenta energy, cinematic twilight framing, and deliberate negative space for UI placement. The assets contain no text, logos, watermark, character likeness, or vehicle identity.
+
+## Route Night UI - authored vector asset library
+
+The desktop title/menu increment also includes a small authored SVG library for exact, responsive placement of the production UI identity. These files were authored for this repository on 2026-09-18. They contain no external artwork, copied commercial icons, embedded fonts, third-party dependencies, or rasterized text. The title lockup preserves the exact product name as live SVG text; button labels and accessible interface copy remain live DOM text in `src/app/mountAppShell.ts`.
+
+| Runtime asset | Placement / contents | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| `public/assets/ui/route-night/route-night-title-lockup.svg` | Title-screen product-name lockup | 2,064 | `aab87bed6f21ad41a44d5dd842716011af607edca527ac1ce29e9061f1834bf3` |
+| `public/assets/ui/route-night/route-night-mark.svg` | Existing route/token brand mark as a reusable standalone image | 816 | `b02119f2263da87ff04da59a3c749ec7447e7ad52874a2da27ff70b3f7d1354c` |
+| `public/assets/ui/route-night/route-night-ui.svg` | Play, controls, settings, back, arrow, audio, graphics, lock, route, checkpoint, and node symbols | 3,301 | `69e84b384cd503499e41576d669a0109a26b361638602c4efe21db4c0bfcfbfc` |
+| `public/assets/ui/route-night/route-night-button-frames.svg` | Gold-primary, cyan utility/secondary, and disabled clipped button frames | 1,416 | `f3ce9cab7723efb663fa9f12466b1dc4b2a847f3ebe727ca21cbbf45f6730d3e` |
+| `public/assets/ui/route-night/route-night-route-ornaments.svg` | Route arcs, branches, checkpoint rings, and divider motifs | 1,899 | `0b3d2f90d9bdac0a2c3e1380289369834697203a5629c0100eee1f30ffeca67f` |
+| `public/assets/ui/route-night/route-night-status.svg` | Live, audio, locked, and system status markers | 1,358 | `ec4379d58ea2ee864b90e3593a1f85c6e4d5eff80cf9764be3ef0ccaaf87bf62` |
+
+The SVG files are referenced through the revisioned, base-aware helpers in `src/ui/routeNight.ts`. `route-night-ui.svg`, `route-night-button-frames.svg`, `route-night-route-ornaments.svg`, and `route-night-status.svg` are symbol libraries: screens place individual symbols with external SVG `<use>` references, while CSS controls scale, color, focus, motion, and responsive layout.

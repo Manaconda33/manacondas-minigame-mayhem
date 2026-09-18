@@ -178,11 +178,11 @@ The material set was materialized on the feature branch by temporary GitHub Acti
 
 The bounded Route Night title, hub, Controls, and Settings implementation is complete on the feature branch and is recorded in `docs/SLICE-6-ROUTE-NIGHT-UI-CHECKPOINT-2026-09-18.md`. It follows ADR-086 and preserves the published ADR-087 settings/audio foundation and the live-accepted ADR-088 Circuit Alpha material baseline.
 
-The implementation adds the shared Route Night UI foundation, revisioned asset URL helper, two original WebP UI assets, title audio-state/`PRESS START` presentation, a Circuit Alpha-dominant hub with non-activating `COMING SOON` cards, and clipped desktop/mobile Controls and Settings utility panels. No protected gameplay, PBR/material, topology, roster, kart, item, AI, or hosting files were changed.
+The implementation adds the shared Route Night UI foundation, revisioned asset URL/icon helpers, two original WebP atmosphere/card assets, the authored SVG desktop asset library, title audio-state/`PRESS START` presentation, a Circuit Alpha-dominant hub with non-activating `COMING SOON` cards, and clipped desktop/mobile Controls and Settings utility panels. No protected gameplay, PBR/material, topology, roster, kart, item, AI, or hosting files were changed.
 
 Local evidence on this branch: **66 test files / 524 tests passed**, **81.57% statement / 76.87% branch / 86.55% function / 83.29% line coverage**, strict typecheck passed, zero-warning lint passed, branding/runtime-asset validation passed, and production build passed. The local cloud-browser attempt was blocked by `ERR_BLOCKED_BY_CLIENT`; no browser-rendered acceptance is claimed. Publication, hosted deployment, and Manny's desktop/mobile Route Night visual-acceptance gate remain pending.
 
-The generated UI asset provenance and exact hashes are recorded in `docs/ASSET-PROVENANCE.md`. Character Select and later Slice 6 screens remain deferred until this bounded increment is deployed and accepted.
+The generated UI asset provenance and exact hashes are recorded in `docs/ASSET-PROVENANCE.md`. The authored SVG asset library and its focused asset-resolution/integration coverage are also recorded there. Character Select and later Slice 6 screens remain deferred until this bounded increment is deployed and accepted.
 
 ## Racer-balance experiment closure - 2026-09-18
 

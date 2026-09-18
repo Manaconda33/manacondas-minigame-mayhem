@@ -26,7 +26,7 @@ The implementation is limited to the title screen, main hub, Controls, Settings,
 
 ## Original UI asset package
 
-The package contains two authored WebP assets under `public/assets/ui/route-night/`:
+The package contains two authored WebP assets and a small authored SVG library under `public/assets/ui/route-night/`:
 
 | Runtime asset                   | Placement                              | Dimensions | SHA-256                                                            |
 | ------------------------------- | -------------------------------------- | ---------- | ------------------------------------------------------------------ |
@@ -34,6 +34,8 @@ The package contains two authored WebP assets under `public/assets/ui/route-nigh
 | `circuit-alpha-route-card.webp` | Circuit Alpha hub destination card art | 1672 × 941 | `574220fbe0d67e4f8d9f519cbea69d60093d87721c81fb072b6c5838540ea372` |
 
 The assets were generated as original project art with the built-in OpenAI image-generation tool on 2026-09-18. The canonical Route Night image was used only as a style and production-language reference; no canonical pixels, text, logos, characters, vehicles, commercial artwork, or exact layout were copied. The generated PNG outputs were converted to the committed WebP derivatives at ImageMagick quality 82 without crop or repaint. Full provenance is recorded in `docs/ASSET-PROVENANCE.md`.
+
+The SVG library supplies the exact desktop UI identity without turning responsive labels into fixed raster art: `route-night-title-lockup.svg`, `route-night-mark.svg`, `route-night-ui.svg`, `route-night-button-frames.svg`, `route-night-route-ornaments.svg`, and `route-night-status.svg`. It is integrated through `src/ui/routeNight.ts` and used by the Title, Hub, Controls, and Settings views. The library is original repository-authored geometry and contains no copied commercial logos, icons, typography treatments, or exact layouts. File hashes, placements, and usage boundaries are recorded in `docs/ASSET-PROVENANCE.md`.
 
 ## Validation evidence
 

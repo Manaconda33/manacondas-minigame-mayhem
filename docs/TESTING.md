@@ -1027,7 +1027,7 @@ This checkpoint is not the final five-restart memory certification, cross-browse
 
 ## Slice 6 Route Night title / hub / utility UI checkpoint
 
-The bounded title, hub, Controls, and Settings UI increment adds `tests/route-night-ui.test.ts`. The focused contract covers deployed-base asset resolution, title audio-aware entry, `PRESS START` hub routing, Circuit Alpha dominance, non-activating `COMING SOON` cards, preserved desktop/mobile control bindings, and the existing settings IDs/destinations.
+The bounded title, hub, Controls, and Settings UI increment adds `tests/route-night-ui.test.ts`. The focused contract covers deployed-base asset resolution, the authored Route Night SVG asset library, title audio-aware entry, `PRESS START` hub routing, Circuit Alpha dominance, non-activating `COMING SOON` cards, preserved desktop/mobile control bindings, and the existing settings IDs/destinations.
 
 Run the focused contract with:
 

@@ -23,6 +23,20 @@ describe('Route Night UI system', () => {
     expect(routeNightAssetUrl('circuit-alpha-card')).toContain(
       'assets/ui/route-night/circuit-alpha-route-card.webp',
     );
+
+    const resolveAsset = routeNightAssetUrl as (asset: string) => string;
+    expect(resolveAsset('title-lockup')).toContain(
+      'assets/ui/route-night/route-night-title-lockup.svg',
+    );
+    expect(resolveAsset('mark')).toContain('assets/ui/route-night/route-night-mark.svg');
+    expect(resolveAsset('ui-sprite')).toContain('assets/ui/route-night/route-night-ui.svg');
+    expect(resolveAsset('button-frames')).toContain(
+      'assets/ui/route-night/route-night-button-frames.svg',
+    );
+    expect(resolveAsset('route-ornaments')).toContain(
+      'assets/ui/route-night/route-night-route-ornaments.svg',
+    );
+    expect(resolveAsset('status')).toContain('assets/ui/route-night/route-night-status.svg');
   });
 
   it('presents the title screen as a cinematic, audio-aware entry point', () => {
@@ -32,11 +46,16 @@ describe('Route Night UI system', () => {
     expect(
       root.querySelector('.route-night-backdrop[data-route-asset="title-hero"]'),
     ).not.toBeNull();
+    expect(root.querySelector('img[data-route-asset="title-lockup"]')).not.toBeNull();
+    expect(root.querySelector('svg[data-route-asset="mark"] image')).not.toBeNull();
     expect(root.querySelector('[data-audio-state]')).not.toBeNull();
     expect(root.textContent).toContain("Manaconda's Minigame Mayhem");
     expect(root.textContent).toMatch(/PRESS START|CLICK TO PLAY/);
     expect(root.querySelector('[data-action="enter"]')?.textContent).toMatch(
       /PRESS START|CLICK TO PLAY/,
+    );
+    expect(root.querySelector('[data-route-icon="play"] use')?.getAttribute('href')).toContain(
+      '#icon-play',
     );
   });
 
@@ -50,6 +69,9 @@ describe('Route Night UI system', () => {
       root.querySelector('img[data-route-asset="circuit-alpha-card"]')?.getAttribute('src'),
     ).toContain('assets/ui/route-night/circuit-alpha-route-card.webp');
     expect(root.querySelector('[data-action="play"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="play"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="controls"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="settings"]')).not.toBeNull();
 
     const comingSoonCards = root.querySelectorAll('[data-availability="coming-soon"]');
     expect(comingSoonCards).toHaveLength(2);
@@ -77,6 +99,8 @@ describe('Route Night UI system', () => {
     expect(root.querySelector('[data-control="steer"]')?.textContent).toContain('A');
     expect(root.querySelector('[data-control="use-item"]')?.textContent).toContain('Left Shift');
     expect(root.textContent).toContain('Mobile');
+    expect(root.querySelector('[data-route-icon="back"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="controls"]')).not.toBeNull();
   });
 
   it('keeps settings controls in the Route Night utility destination', () => {
@@ -101,5 +125,8 @@ describe('Route Night UI system', () => {
       master.dispatchEvent(new Event('input'));
     }
     expect(root.querySelector('[data-setting-value="master"]')?.textContent).toBe('65%');
+    expect(root.querySelector('[data-route-icon="back"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="audio"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="graphics"]')).not.toBeNull();
   });
 });

@@ -85,6 +85,7 @@ The `src/game/` directories define PRD system boundaries. A directory's presence
 - [Current implementation status](docs/IMPLEMENTATION-STATUS.md)
 - [Canonical Route Night visual reference](docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png)
 - [Production asset provenance ledger](docs/ASSET-PROVENANCE.md)
+- [Route Night UI asset library](docs/ROUTE-NIGHT-UI-ASSET-LIBRARY.md)
 - [Slice 6 Circuit Alpha PBR checkpoint](docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md)
 - [Slice 6 Route Night UI checkpoint](docs/SLICE-6-ROUTE-NIGHT-UI-CHECKPOINT-2026-09-18.md)
 - [Testing and evidence requirements](docs/TESTING.md)

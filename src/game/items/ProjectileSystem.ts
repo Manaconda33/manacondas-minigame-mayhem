@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { Howler } from 'howler';
 import { ArcBladeAudio } from '../../audio/ArcBladeAudio';
 import { ArcHammerAudio } from '../../audio/ArcHammerAudio';
+import { audioMixer } from '../../audio/AudioMixer';
 import {
   ArcBladeFlight,
   ARC_BLADE_CONFIG,
@@ -431,17 +432,17 @@ export class ProjectileSystem {
     }
     if (hammerVisual) {
       hammerVisual.update(spawnPosition, projectile.velocity, 0);
-      this.hammerAudio.play('launch', Howler.volume());
+      this.hammerAudio.play('launch', audioMixer.volume('sfx'));
     }
     if (arc) {
       this.emitArc(projectile, 'launch');
-      this.arcAudio.play('launch', Howler.volume());
+      this.arcAudio.play('launch', audioMixer.volume('sfx'));
     }
     if (request.itemId === 'frost-orbs')
-      this.frostAudio.play('launch', howlerContext(), Howler.volume());
+      this.frostAudio.play('launch', howlerContext(), audioMixer.volume('sfx'));
     if (request.itemId === 'blaze-orbs') {
       this.spawnBlazeBurst(spawnPosition);
-      playBlazeTone('launch', howlerContext(), Howler.volume());
+      playBlazeTone('launch', howlerContext(), audioMixer.volume('sfx'));
     }
     return projectile.id;
   }
@@ -633,7 +634,7 @@ export class ProjectileSystem {
       () => {
         this.emitArc(projectile, 'return');
         projectile.arcVisual?.update(arc.position, arc.phase, 0);
-        this.arcAudio.play('return', Howler.volume());
+        this.arcAudio.play('return', audioMixer.volume('sfx'));
       },
       () => {
         projectile.group.position.copy(arc.position);
@@ -654,7 +655,7 @@ export class ProjectileSystem {
     if (reason) {
       if (reason === 'catch') {
         this.arcFlash(arc.position, true);
-        this.arcAudio.play('catch', Howler.volume());
+        this.arcAudio.play('catch', audioMixer.volume('sfx'));
       }
       this.remove(projectile.id, false, reason);
     }
@@ -778,7 +779,7 @@ export class ProjectileSystem {
       );
       this.group.add(this.hammerCues.group);
       this.hammerCues.emitBounce(projectile.group.position);
-      this.hammerAudio.play('bounce', Howler.volume());
+      this.hammerAudio.play('bounce', audioMixer.volume('sfx'));
       projectile.hammerVisual?.update(projectile.group.position, projectile.velocity, 0);
     }
     if (substeps > 0 && !this.active.has(projectile.id)) return;
@@ -1016,17 +1017,17 @@ export class ProjectileSystem {
       if (impactPresentation) {
         this.group.add(this.hammerCues.group);
         this.hammerCues.emitImpact(projectile.group.position);
-        this.hammerAudio.play('hit', Howler.volume());
+        this.hammerAudio.play('hit', audioMixer.volume('sfx'));
       }
       projectile.hammerVisual.dispose();
     }
     if (impactPresentation && projectile.itemId === 'frost-orbs') {
       this.spawnBlazeBurst(projectile.group.position, true);
-      this.frostAudio.play('impact', howlerContext(), Howler.volume());
+      this.frostAudio.play('impact', howlerContext(), audioMixer.volume('sfx'));
     }
     if (impactPresentation && projectile.itemId === 'blaze-orbs') {
       this.spawnBlazeBurst(projectile.group.position);
-      playBlazeTone('impact', howlerContext(), Howler.volume());
+      playBlazeTone('impact', howlerContext(), audioMixer.volume('sfx'));
     }
     this.active.delete(projectileId);
     this.capacity.release(projectileId);

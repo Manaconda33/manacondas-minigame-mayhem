@@ -677,7 +677,7 @@ export class KartTimeTrial {
       projection.point.clone().addScaledVector(tangent, 3),
       Math.atan2(tangent.x, tangent.z),
     );
-    opponent.cornerExitOverspeed.reset(projection.index);
+    opponent.cornerExitOverspeed?.reset(projection.index);
     opponent.recoveryCooldown = 1.5;
   }
 

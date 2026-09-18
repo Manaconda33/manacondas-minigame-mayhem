@@ -154,6 +154,31 @@ describe('Balance Candidate B runtime telemetry', () => {
     expect(handling).toHaveLength(10);
   });
 
+  it('records Frost-scale Acceleration recovery across the live roster', () => {
+    const results: {
+      name: string;
+      speed: number;
+      acceleration: number;
+      recoverySeconds: number;
+    }[] = [];
+
+    for (const character of characterManifest) {
+      const stats = character.stats;
+      const rig = makeKart(stats);
+      step(rig, THROTTLE, 1200);
+      rig.kart.retainPlanarVelocity(0.55);
+      results.push({
+        name: character.displayName,
+        speed: stats.speed,
+        acceleration: stats.acceleration,
+        recoverySeconds: framesToSpeedRatio(rig, stats, 0.9) / 60,
+      });
+    }
+
+    console.log(`Candidate B roster acceleration recovery telemetry: ${JSON.stringify(results)}`);
+    expect(results).toHaveLength(characterManifest.length);
+  });
+
   it('records Weight-plus-Acceleration collision recovery across the live roster', () => {
     const results: {
       name: string;

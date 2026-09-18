@@ -964,3 +964,18 @@ Manny completed the frozen Slice 5 final desktop/mobile integration matrix and r
 - Product-owner whole-slice acceptance: PASS.
 
 The live result is combined with the existing item-specific deployed acceptance record, final interaction matrix, lifecycle/object-count soak, AI-tactics acceptance, Issue #106 acceptance, and rendered-runtime Item/VFX performance evidence. No browser/device details are inferred. No new standalone final-session recording was supplied; the protocol's explicit-observation path is used with the cumulative existing capture/evidence record.
+
+
+## Slice 6 baseline audit and visual-direction gate
+
+The kickoff audit is recorded in `docs/SLICE-6-BASELINE-AUDIT-AND-ART-DIRECTION-2026-09-18.md`.
+
+Before visual implementation:
+- verify current menu/HUD/settings/pause/results behavior against PRD Sections 10, 23, 24, 25, 35.7 and 37;
+- inventory current track/kart material-coordinate support before external texture assignment;
+- verify every proposed external production asset license and record provenance;
+- treat commercial-game screenshots/UI only as design reference, never production assets;
+- keep Medium-preset GPU texture residency <=256 MB and first-playable download targets in scope;
+- confirm no Slice 5 gameplay/balance/race-authority files change in this planning checkpoint.
+
+The first product-owner visual gate is selection of Route Night, Pit Poster, Twilight Broadcast, or an approved hybrid. Technical settings architecture, performance-instrumentation planning, material-coordinate design and provenance scaffolding may proceed without locking the final visual language.

@@ -1,7 +1,7 @@
 # Slice 6 - Circuit Alpha Material Coordinates and First PBR Pass
 
 **Date:** 2026-09-18  
-**Status:** IMPLEMENTED ON FEATURE BRANCH / PUBLICATION PENDING  
+**Status:** PUBLISHED / DEPLOYED; LIVE VISUAL REVIEW PENDING  
 **Scope:** Second bounded Slice 6 engineering increment
 
 ## Objective
@@ -67,6 +67,17 @@ The checkpoint must pass:
 - complete Vitest suite with coverage;
 - branding/runtime-asset verification;
 - production build.
+
+## Publication evidence
+
+- Feature head: `35bce580f6bff5c475baa869e4888d0644bafd36`.
+- Hosted PR CI: `35356556627` — PASS.
+- Automated suite: **65 test files / 519 tests**.
+- Coverage: **81.52% statements / 76.86% branches / 86.42% functions / 83.26% lines**.
+- Exact three-track-texture JPEG/hash verification: PASS.
+- PR #178 squash merge: `c721fc083e2d18ad534387227968bb0a75982ae7`.
+- Post-merge validation / GitHub Pages: `35365068619` — PASS for validation and deployment.
+- Product-owner deployed visual review: **PENDING**.
 
 ## Deployed visual review after publication
 

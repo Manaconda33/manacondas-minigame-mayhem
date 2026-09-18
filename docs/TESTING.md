@@ -979,3 +979,21 @@ Before visual implementation:
 - confirm no Slice 5 gameplay/balance/race-authority files change in this planning checkpoint.
 
 The first product-owner visual gate is selection of Route Night, Pit Poster, Twilight Broadcast, or an approved hybrid. Technical settings architecture, performance-instrumentation planning, material-coordinate design and provenance scaffolding may proceed without locking the final visual language.
+
+
+## Slice 6 settings / graphics / audio foundation checkpoint
+
+PR #176 is the first bounded Slice 6 engineering increment. Before publication it must retain all existing repository checks and additionally prove:
+
+- versioned settings default safely when storage is absent, corrupt, unavailable, or an unsupported version;
+- Master, Music, and SFX values persist across app-shell remounts;
+- Low, Medium, and High graphics presets remain distinct and Medium preserves the previous renderer baseline;
+- saved graphics quality reaches the next race renderer without requiring a page reload;
+- the centralized mixer clamps invalid values, applies Master globally, and composes effective Master × bus volumes;
+- existing procedural item/warning/drift cues consume the SFX bus while the existing Prismatic musical layer consumes Music;
+- the reserved Engine bus does not claim a production engine system before that later Slice 6 increment exists; and
+- no accepted Slice 5 gameplay, balance, race authority, item probability, roster, or track-topology behavior regresses.
+
+Hosted PR CI run `35352171432` on implementation head `19ca29fe6b86e9beea6358deb08ce7346ad47be1` passed Git LFS verification, clean `npm ci`, strict typecheck, zero-warning lint, **64 test files / 515 tests**, **81.40% statement / 76.90% branch / 86.24% function / 83.15% line coverage**, branding/runtime-asset verification, and production build. The existing Vite large-chunk warning and three moderate npm audit findings remain known/nonblocking.
+
+This automated checkpoint does **not** claim deployed settings persistence, device-specific graphics quality, production engine/music audio, Route Night visual acceptance, or public Pages acceptance. Those claims require their later governed implementation/deployment gates.

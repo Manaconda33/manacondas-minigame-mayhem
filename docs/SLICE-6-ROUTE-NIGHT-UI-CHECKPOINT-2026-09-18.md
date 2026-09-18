@@ -17,23 +17,27 @@ The implementation is limited to the title screen, main hub, Controls, Settings,
 
 ## Implemented surface
 
-- Title keeps the product name, existing route/token mark identity, browser audio-unlock action, and hub navigation while adding cinematic Route Night framing, a clear `PRESS START` action, audio state, route readout, and an original atmospheric hero asset.
+- Title keeps the product name, existing route/token mark identity, browser audio-unlock action, and hub navigation while adding cinematic Route Night framing, a brush-led product lockup with an exact-text SVG fallback, a clear `PRESS START` action, audio state, route readout, and original atmospheric layers.
 - Hub makes Circuit Alpha the dominant playable destination, keeps Gallery Gauntlet and Inkstorm Arena visibly `COMING SOON`, and leaves unavailable cards without action routing.
 - Controls preserves every existing desktop/mobile binding in a clipped Route Night utility-panel presentation.
 - Settings preserves the existing `mmm.settings.v1` persistence, Master/Music/SFX sliders, Low/Medium/High graphics selection, and next-race graphics application behavior. Slider readouts are presentation-only.
 - `src/ui/routeNight.ts` centralizes deployed-base asset URLs and revisioned UI asset names.
-- `src/style.css` adds the shared graphite/indigo, cyan, gold, violet/magenta, route/node, clipped-panel, focus-visible, and reduced-motion primitives. Gameplay/HUD styling remains outside this bounded UI layer.
+- `src/style.css` adds the shared graphite/indigo, cyan, gold, violet/magenta, route/node, clipped-panel, focus-visible, and reduced-motion primitives. Generated panel texture is a low-opacity backdrop layer only; gameplay/HUD styling remains outside this bounded UI layer.
 
 ## Original UI asset package
 
-The package contains two authored WebP assets and a small authored SVG library under `public/assets/ui/route-night/`:
+The package contains four original WebP assets and a small authored SVG library under `public/assets/ui/route-night/`:
 
 | Runtime asset                   | Placement                              | Dimensions | SHA-256                                                            |
 | ------------------------------- | -------------------------------------- | ---------- | ------------------------------------------------------------------ |
 | `route-night-title-hero.webp`   | title and hub atmospheric backdrop     | 1672 × 941 | `799f58545572270f67be3d6c96a8df3863ae3af31d6bc73a861607d3a74fa15c` |
 | `circuit-alpha-route-card.webp` | Circuit Alpha hub destination card art | 1672 × 941 | `574220fbe0d67e4f8d9f519cbea69d60093d87721c81fb072b6c5838540ea372` |
+| `route-night-title-lockup-brush.webp` | painterly title treatment with transparent alpha | 1774 × 887 | `7f459860e9a4b330c251afa6085be5aac5a2bbf6729412056c30c098e4743d34` |
+| `route-night-panel-texture.webp` | restrained route/checkpoint panel surface | 1672 × 941 | `9e43470a8bce016faeee69437f1a811a8d67e62fa04c4c85445c263eeff8ddf3` |
 
 The assets were generated as original project art with the built-in OpenAI image-generation tool on 2026-09-18. The canonical Route Night image was used only as a style and production-language reference; no canonical pixels, text, logos, characters, vehicles, commercial artwork, or exact layout were copied. The generated PNG outputs were converted to the committed WebP derivatives at ImageMagick quality 82 without crop or repaint. Full provenance is recorded in `docs/ASSET-PROVENANCE.md`.
+
+The identity-layer title output required deterministic alpha cleanup because the image-generation preview returned a checkerboard instead of usable transparency. The accepted cleanup removes only bright low-chroma neutral pixels, preserves the colored lettering and dark brush silhouette, and was inspected flattened over dark and light backgrounds before WebP conversion. The SVG lockup remains the exact-text fallback and the accessible product name remains live DOM text. The panel texture is opaque and intentionally placed behind responsive live UI at restrained opacity.
 
 The SVG library supplies the exact desktop UI identity without turning responsive labels into fixed raster art: `route-night-title-lockup.svg`, `route-night-mark.svg`, `route-night-ui.svg`, `route-night-button-frames.svg`, `route-night-route-ornaments.svg`, and `route-night-status.svg`. It is integrated through `src/ui/routeNight.ts` and used by the Title, Hub, Controls, and Settings views. The library is original repository-authored geometry and contains no copied commercial logos, icons, typography treatments, or exact layouts. File hashes, placements, and usage boundaries are recorded in `docs/ASSET-PROVENANCE.md`.
 

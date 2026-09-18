@@ -1,10 +1,10 @@
 # Route Night UI asset library
 
-This is the authored desktop UI asset package for the bounded Route Night Title, Hub, Controls, and Settings increment. It is intentionally hybrid: atmospheric scenes remain raster art, while names, controls, buttons, symbols, and route grammar remain crisp SVG/DOM assets that can be placed at responsive sizes.
+This is the desktop UI asset package for the bounded Route Night Title, Hub, Controls, and Settings increment. It is intentionally hybrid: expressive title and atmosphere layers use original raster art, while names, controls, buttons, symbols, and route grammar remain crisp SVG/DOM assets that can be placed at responsive sizes.
 
 ## Rendered visual QA sheet
 
-The production SVGs are rendered below at desktop review scale so the visual language can be inspected without opening source code. The PNG is a review artifact; the SVG files in `public/assets/ui/route-night/` remain the production assets.
+The production SVGs and selected raster layers are rendered below at desktop review scale so the visual language can be inspected without opening source code. The PNG is a review artifact; the source assets in `public/assets/ui/route-night/` remain the production assets.
 
 ![Rendered Route Night UI asset library](reference/route-night/ROUTE-NIGHT-UI-ASSET-LIBRARY-PREVIEW.png)
 
@@ -14,6 +14,8 @@ The production SVGs are rendered below at desktop review scale so the visual lan
 | --- | --- |
 | `public/assets/ui/route-night/route-night-title-hero.webp` | Full-bleed cinematic title/hub atmosphere with title-safe negative space |
 | `public/assets/ui/route-night/circuit-alpha-route-card.webp` | Playable Circuit Alpha route card art |
+| `public/assets/ui/route-night/route-night-title-lockup-brush.webp` | Original painterly product-name treatment for the title screen; SVG remains the exact-text fallback |
+| `public/assets/ui/route-night/route-night-panel-texture.webp` | Original opaque Route Night route/checkpoint surface used as a restrained layer behind title, hub, controls, and settings |
 | `public/assets/ui/route-night/route-night-title-lockup.svg` | Exact product-name title lockup |
 | `public/assets/ui/route-night/route-night-mark.svg` | Compact route/token brand mark |
 | `public/assets/ui/route-night/route-night-ui.svg` | Reusable icon symbol library |
@@ -37,6 +39,8 @@ Use the helpers in `src/ui/routeNight.ts` rather than hard-coding public paths. 
 
 ```ts
 routeNightAssetUrl('title-lockup');
+routeNightAssetUrl('title-lockup-brush');
+routeNightAssetUrl('panel-texture');
 routeNightIconMarkup('play');
 routeNightButtonFrameMarkup('primary');
 routeNightOrnamentMarkup('checkpoint');

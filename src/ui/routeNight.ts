@@ -1,9 +1,11 @@
-const ROUTE_NIGHT_ASSET_VERSION = '20260918-2';
+const ROUTE_NIGHT_ASSET_VERSION = '20260918-3';
 
 const ROUTE_NIGHT_ASSETS = {
   'title-hero': 'route-night-title-hero.webp',
   'circuit-alpha-card': 'circuit-alpha-route-card.webp',
   'title-lockup': 'route-night-title-lockup.svg',
+  'title-lockup-brush': 'route-night-title-lockup-brush.webp',
+  'panel-texture': 'route-night-panel-texture.webp',
   mark: 'route-night-mark.svg',
   'ui-sprite': 'route-night-ui.svg',
   'button-frames': 'route-night-button-frames.svg',

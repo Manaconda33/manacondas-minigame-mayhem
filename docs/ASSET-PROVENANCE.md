@@ -40,6 +40,19 @@ The transient generated PNG outputs were converted to the committed WebP derivat
 
 Prompt intent was limited to an atmospheric Route Night title/hub backdrop and a Circuit Alpha route/checkpoint card image: deep indigo/graphite structure, cyan route energy, warm gold checkpoints, restrained violet/magenta energy, cinematic twilight framing, and deliberate negative space for UI placement. The assets contain no text, logos, watermark, character likeness, or vehicle identity.
 
+## Route Night UI - generated identity layers
+
+These two bounded identity layers were generated for the hybrid Route Night title/menu pass on 2026-09-18 with the built-in OpenAI image-generation tool. The canonical Route Night reference at `docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png` was supplied only as a visual-language reference. The outputs are original project art and contain no copied canonical pixels, commercial artwork, logos, characters, vehicles, or external license dependency.
+
+| Runtime file | Generated/source resolution | Production derivative | SHA-256 |
+| --- | --- | --- | --- |
+| `public/assets/ui/route-night/route-night-title-lockup-brush.webp` | 1774 x 887 PNG output `exec-ed6b9d13-5cf9-4428-8af4-1ec4f0a94ee2.png` | 1774 x 887 alpha WebP, 173,408 bytes | `7f459860e9a4b330c251afa6085be5aac5a2bbf6729412056c30c098e4743d34` |
+| `public/assets/ui/route-night/route-night-panel-texture.webp` | 1672 x 941 PNG output `exec-076d9eb9-b5f1-4598-810e-8620291d09c1.png` | 1672 x 941 opaque WebP, 87,054 bytes | `9e43470a8bce016faeee69437f1a811a8d67e62fa04c4c85445c263eeff8ddf3` |
+
+The title layer was requested as an exact product-name treatment with hand-painted brush energy, cyan upper lettering, warm-gold and magenta lower lettering, route strokes, and a gold directional arrow. The generator returned a checkerboard preview instead of usable alpha; production preparation therefore used a deterministic ImageMagick alpha mask that removes only bright, low-chroma neutral checkerboard pixels while preserving the colored lettering and dark brush silhouette. The accepted output was inspected flattened over indigo and light backgrounds before WebP conversion. The SVG title lockup remains the exact-text fallback, and the accessible product name remains live DOM text.
+
+The panel texture was requested as an opaque, text-safe Route Night surface: deep indigo/graphite structure, cyan route lines and checkpoint nodes, restrained violet/magenta energy, warm-gold focus markers, clipped geometry, and print grain. It is placed at low opacity behind live responsive panels and does not own layout, text, input, or interaction state.
+
 ## Route Night UI - authored vector asset library
 
 The desktop title/menu increment also includes a small authored SVG library for exact, responsive placement of the production UI identity. These files were authored for this repository on 2026-09-18. They contain no external artwork, copied commercial icons, embedded fonts, third-party dependencies, or rasterized text. The title lockup preserves the exact product name as live SVG text; button labels and accessible interface copy remain live DOM text in `src/app/mountAppShell.ts`.

@@ -28,6 +28,12 @@ describe('Route Night UI system', () => {
     expect(resolveAsset('title-lockup')).toContain(
       'assets/ui/route-night/route-night-title-lockup.svg',
     );
+    expect(resolveAsset('title-lockup-brush')).toContain(
+      'assets/ui/route-night/route-night-title-lockup-brush.webp',
+    );
+    expect(resolveAsset('panel-texture')).toContain(
+      'assets/ui/route-night/route-night-panel-texture.webp',
+    );
     expect(resolveAsset('mark')).toContain('assets/ui/route-night/route-night-mark.svg');
     expect(resolveAsset('ui-sprite')).toContain('assets/ui/route-night/route-night-ui.svg');
     expect(resolveAsset('button-frames')).toContain(
@@ -46,7 +52,12 @@ describe('Route Night UI system', () => {
     expect(
       root.querySelector('.route-night-backdrop[data-route-asset="title-hero"]'),
     ).not.toBeNull();
-    expect(root.querySelector('img[data-route-asset="title-lockup"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-asset="title-lockup-brush"]')).not.toBeNull();
+    expect(
+      root.querySelector('source[data-route-asset="title-lockup-brush"]')?.getAttribute('srcset'),
+    ).toContain('route-night-title-lockup-brush.webp');
+    expect(root.querySelector('img[data-route-asset="title-lockup-fallback"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-asset="panel-texture"]')).not.toBeNull();
     expect(root.querySelector('svg[data-route-asset="mark"] image')).not.toBeNull();
     expect(root.querySelector('[data-audio-state]')).not.toBeNull();
     expect(root.textContent).toContain("Manaconda's Minigame Mayhem");
@@ -64,6 +75,7 @@ describe('Route Night UI system', () => {
     clickAction(root, 'enter');
 
     expect(root.querySelector('main[data-screen="hub"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-asset="panel-texture"]')).not.toBeNull();
     expect(root.querySelector('[data-route-card="circuit-alpha"]')).not.toBeNull();
     expect(
       root.querySelector('img[data-route-asset="circuit-alpha-card"]')?.getAttribute('src'),
@@ -94,6 +106,7 @@ describe('Route Night UI system', () => {
     clickAction(root, 'controls');
 
     expect(root.querySelector('main[data-screen="controls"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-asset="panel-texture"]')).not.toBeNull();
     expect(root.querySelector('[data-control="accelerate"]')?.textContent).toContain('W');
     expect(root.querySelector('[data-control="brake-reverse"]')?.textContent).toContain('S');
     expect(root.querySelector('[data-control="steer"]')?.textContent).toContain('A');
@@ -109,6 +122,7 @@ describe('Route Night UI system', () => {
     clickAction(root, 'settings');
 
     expect(root.querySelector('main[data-screen="settings"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-asset="panel-texture"]')).not.toBeNull();
     expect(root.querySelector('#master-volume')).not.toBeNull();
     expect(root.querySelector('#music-volume')).not.toBeNull();
     expect(root.querySelector('#sfx-volume')).not.toBeNull();

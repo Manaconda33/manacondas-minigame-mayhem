@@ -56,6 +56,10 @@ function button(label: string, action: string, className = '', icon: RouteNightI
   return `<button class="menu-button route-asset-button ${className}" data-action="${action}">${routeNightButtonFrameMarkup(frame)}${routeNightIconMarkup(icon, 'route-button-icon')}<span class="route-button-label">${label}</span>${routeNightIconMarkup('arrow', 'route-button-arrow')}</button>`;
 }
 
+function routeNightPanelTextureMarkup(): string {
+  return `<div class="route-night-panel-texture" data-route-asset="panel-texture" aria-hidden="true"><img src="${routeNightAssetUrl('panel-texture')}" alt="" loading="lazy" decoding="async" /></div>`;
+}
+
 export function mountAppShell(root: HTMLElement): void {
   let game: KartTimeTrialInstance | null = null;
   let selectedCharacter = characterById('aa-02');
@@ -73,6 +77,7 @@ export function mountAppShell(root: HTMLElement): void {
         <div class="route-night-backdrop title-backdrop" data-route-asset="title-hero" aria-hidden="true">
           <img src="${routeNightAssetUrl('title-hero')}" alt="" decoding="async" fetchpriority="high" />
         </div>
+        ${routeNightPanelTextureMarkup()}
         <div class="route-night-grid" aria-hidden="true"></div>
         <div class="route-night-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <section class="title-content" aria-labelledby="app-title">
@@ -81,7 +86,10 @@ export function mountAppShell(root: HTMLElement): void {
               <image href="${routeNightAssetUrl('mark')}" width="72" height="72" preserveAspectRatio="xMidYMid meet" />
             </svg>
           </div>
-          <img class="title-lockup" data-route-asset="title-lockup" src="${routeNightAssetUrl('title-lockup')}" alt="${APP_TITLE}" decoding="async" />
+          <picture class="title-lockup-visual" data-route-asset="title-lockup-brush" aria-hidden="true">
+            <source data-route-asset="title-lockup-brush" srcset="${routeNightAssetUrl('title-lockup-brush')}" type="image/webp" />
+            <img class="title-lockup" data-route-asset="title-lockup-fallback" src="${routeNightAssetUrl('title-lockup')}" alt="" decoding="async" />
+          </picture>
           <h1 id="app-title" class="sr-only">${APP_TITLE}</h1>
           <p class="title-subtitle">Routes, tokens, and tight corners. Circuit Alpha is ready to run.</p>
           <div class="title-meta" aria-label="Route Night status">
@@ -110,6 +118,7 @@ export function mountAppShell(root: HTMLElement): void {
         <div class="route-night-backdrop hub-backdrop" aria-hidden="true">
           <img src="${routeNightAssetUrl('title-hero')}" alt="" decoding="async" />
         </div>
+        ${routeNightPanelTextureMarkup()}
         <div class="route-night-grid" aria-hidden="true"></div>
         <header class="hub-header">
           <div>
@@ -165,6 +174,7 @@ export function mountAppShell(root: HTMLElement): void {
   const renderControls = (): void => {
     root.innerHTML = `
       <main class="screen utility-screen route-night-screen controls-screen" data-screen="controls">
+        ${routeNightPanelTextureMarkup()}
         <div class="route-night-grid" aria-hidden="true"></div>
         <header class="utility-header">
           <div><p class="route-label">ROUTE NIGHT / UTILITY</p><h1>Controls</h1><p class="utility-intro">Your route map for desktop and mobile input. Bindings remain unchanged.</p></div>
@@ -200,6 +210,7 @@ export function mountAppShell(root: HTMLElement): void {
   const renderSettings = (): void => {
     root.innerHTML = `
       <main class="screen utility-screen route-night-screen settings-screen" data-screen="settings">
+        ${routeNightPanelTextureMarkup()}
         <div class="route-night-grid" aria-hidden="true"></div>
         <header class="utility-header">
           <div><p class="route-label">ROUTE NIGHT / UTILITY</p><h1>Settings</h1><p class="utility-intro">Tune the signal before you leave the hub. Changes save on this device.</p></div>

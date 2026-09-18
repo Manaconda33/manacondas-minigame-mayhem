@@ -176,24 +176,10 @@ The material set was materialized on the feature branch by temporary GitHub Acti
 
 ## Slice 6 Route Night title / hub / utility UI checkpoint - feature branch
 
-The bounded Route Night title, hub, Controls, and Settings implementation is complete on the feature branch and is recorded in `docs/SLICE-6-ROUTE-NIGHT-UI-CHECKPOINT-2026-09-18.md`. It follows ADR-086 and preserves the published ADR-087 settings/audio foundation and the live-accepted ADR-088 Circuit Alpha material baseline.
+The bounded Route Night title, hub, Controls, and Settings implementation is complete on the feature branch and is recorded in `docs/SLICE-6-ROUTE-NIGHT-UI-CHECKPOINT-2026-09-18.md`. It follows ADR-086 and preserves the published ADR-087 settings/audio foundation and the live-accepted ADR-088 Circuit Alpha material baseline. The feature branch now also carries the authored SVG desktop UI asset library, two original atmosphere/card WebP assets, two bounded generated identity-layer WebP assets, and focused asset-resolution/integration coverage; publication and deployed visual acceptance remain pending.
 
-The implementation adds the shared Route Night UI foundation, revisioned asset URL/icon helpers, two original WebP atmosphere/card assets, the authored SVG desktop asset library, title audio-state/`PRESS START` presentation, a Circuit Alpha-dominant hub with non-activating `COMING SOON` cards, and clipped desktop/mobile Controls and Settings utility panels. No protected gameplay, PBR/material, topology, roster, kart, item, AI, or hosting files were changed.
+The implementation adds the shared Route Night UI foundation, revisioned asset URL/icon helpers, four original WebP layers, the authored SVG desktop asset library, a brush-led title treatment with an exact-text fallback, a restrained route/checkpoint panel texture, title audio-state/`PRESS START` presentation, a Circuit Alpha-dominant hub with non-activating `COMING SOON` cards, and clipped desktop/mobile Controls and Settings utility panels. No protected gameplay, PBR/material, topology, roster, kart, item, AI, or hosting files were changed.
 
-Local evidence on this branch: **66 test files / 524 tests passed**, **81.57% statement / 76.87% branch / 86.55% function / 83.29% line coverage**, strict typecheck passed, zero-warning lint passed, branding/runtime-asset validation passed, and production build passed. The local cloud-browser attempt was blocked by `ERR_BLOCKED_BY_CLIENT`; no browser-rendered acceptance is claimed. Publication, hosted deployment, and Manny's desktop/mobile Route Night visual-acceptance gate remain pending.
+Local evidence on this branch: **66 test files / 524 tests passed**, **81.59% statement / 76.88% branch / 86.62% function / 83.31% line coverage**, strict typecheck passed, zero-warning lint passed, branding/runtime-asset validation passed, production build passed, `git diff --check` passed, and `git lfs fsck` passed. The cloud-browser attempt was blocked by `ERR_BLOCKED_BY_CLIENT` for the local Vite URL; no deployed browser-rendered acceptance is claimed. Publication, hosted deployment, and Manny's desktop/mobile Route Night visual-acceptance gate remain pending.
 
-The generated UI asset provenance and exact hashes are recorded in `docs/ASSET-PROVENANCE.md`. The authored SVG asset library and its focused asset-resolution/integration coverage are also recorded there. Character Select and later Slice 6 screens remain deferred until this bounded increment is deployed and accepted.
-
-## Racer-balance experiment closure - 2026-09-18
-
-Manny ended the current racer-rebalance project after hands-on comparison and selected the original pre-Candidate-A/B feel as the production direction.
-
-- PR #162, Candidate B acceleration/handling: **CLOSED / UNMERGED**.
-- PR #179, Candidate B Soft Pack: **CLOSED / UNMERGED**.
-- PR #180, Candidate B AI Execution Assist: **CLOSED / UNMERGED**.
-- The experimental branches are retained only for historical evidence and must not be treated as production candidates.
-- No Candidate B-family gameplay change reached `main`; therefore no production gameplay rollback is required.
-- PR #88 remains the durable restoration record for the accepted pre-balance gameplay model.
-- Further racer-balance or hidden catch-up work is deferred unless Manny explicitly reopens it.
-
-This closure does not alter Slice 6 scope, Route Night implementation, racer statistics, item behavior, AI item tactics, race authority, or track topology.
+The generated UI asset provenance and exact hashes are recorded in `docs/ASSET-PROVENANCE.md`. Character Select and later Slice 6 screens remain deferred until this bounded increment is deployed and accepted.

@@ -943,3 +943,12 @@ Product-owner deployed captures reached the full N600 rolling window on both req
 - forced Rebounding Arc Blade route: p95 **1.00 ms**, median **0.50 ms**, max **8.70 ms**, N600, **PASS**.
 
 The pass rule is p95 <= 1.00 ms. Both results pass exactly at the ceiling. Browser/device details are not inferred because they were not explicitly reported. Full evidence is recorded in `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`.
+
+
+## Slice 5 final desktop/mobile whole-slice acceptance
+
+The final product-owner integration protocol is frozen in `docs/SLICE-5-FINAL-LIVE-ACCEPTANCE-2026-09-17.md`.
+
+The gate intentionally reuses accepted item-specific and automated evidence instead of requiring all fifteen item matrices to be replayed. Live review is limited to normal desktop/mobile races, representative offensive/defensive/catch-up integration, desktop pause behavior, mobile simultaneous ITEM input, mobile backward ITEM modifier, cleanup/race-authority spot checks, and gameplay capture.
+
+A reported miss or ambiguous encounter is INCONCLUSIVE, not PASS. Slice 5 closure requires Manny's explicit whole-slice acceptance and a final documentation checkpoint with clean hosted and post-merge validation/Pages. Slice 6 remains locked until that closure record is published and Manny separately approves beginning Slice 6.

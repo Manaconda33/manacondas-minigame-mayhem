@@ -279,7 +279,7 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 - [x] Repeated-use soak leaves no immortal item objects, colliders, listeners, timers, VFX, or stale audio emitters.
 - [x] Race restart/disposal returns active item runtime counts to baseline.
 - [x] Simultaneous active physics projectiles never exceed the PRD cap of 40.
-- [ ] Item/VFX update cost is instrumented against the approximately 1.0 ms CPU budget.
+- [x] Item/VFX update cost is instrumented and rendered-runtime evidence passes the approximately 1.0 ms CPU budget.
 - [x] No NaN/infinite transforms occur under item collision stress.
 - [x] Item interactions do not break Speed, Acceleration, Weight, drift, surface, AI, lap, recovery, camera, minimap, or driver-state regressions.
 
@@ -303,7 +303,7 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 
 The live rendered-runtime measurement method is defined in `docs/SLICE-5-ITEM-VFX-PERFORMANCE-METHODOLOGY-2026-09-17.md`. The opt-in `?testItemPerf=1` route measures per-rendered-frame item simulation plus item VFX CPU against the PRD's 1.00 ms subsystem budget, with a 120-racing-frame warmup, a minimum of 300 scored samples, a rolling 600-sample window, and p95 as the pass/fail statistic. Median and maximum are reported for diagnosis. Renderer, Rapier physics, ordinary racer AI/pathfinding, HUD/DOM, and audio/update are excluded because the PRD budgets those systems separately.
 
-This row remains open until the instrumentation is published and rendered-device evidence is recorded. Node/JSDOM timings do not close the gate.
+Instrumentation published through PR #170 / `4ef75359e8b1dc3d6b7e2865d613774975a5af99`. Rendered-device evidence is recorded in `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`: ordinary full-AI p95 **1.00 ms**, median **0.40 ms**, max **6.80 ms**, N600 PASS; forced Arc Blade p95 **1.00 ms**, median **0.50 ms**, max **8.70 ms**, N600 PASS. The performance gate is closed at the exact PRD threshold. Node/JSDOM timings were not used.
 
 ## Final lifecycle/object-count soak checkpoint
 

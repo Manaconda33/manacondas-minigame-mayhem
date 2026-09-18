@@ -1012,7 +1012,7 @@ Before publication, hosted validation must prove:
 - the 2 m material scale remains explicit in geometry metadata;
 - the PBR asphalt material uses only the governed 1K diffuse, OpenGL normal, and roughness maps with repeat wrapping, sRGB on diffuse only, and one shared texture set for road + racing-wear;
 - `tools/verify-runtime-assets.mjs` rejects missing, pointer-like, or byte-changed asphalt maps through JPEG signature and exact SHA-256 verification;
-- Git LFS materialization and `git lfs fsck` pass for the governed track texture paths;
+- normal repository Git LFS materialization and `git lfs fsck` continue to pass for existing governed assets, while the normal-Git track JPG derivatives pass their exact hash/signature gate;
 - `disposeTrackScene` disposes shared textures/materials/geometries once and race disposal invokes that cleanup;
 - all existing track, race, item, AI, roster, settings, audio, and asset tests remain green;
 - strict typecheck, zero-warning lint, formatting, production build, branding validation, and runtime-asset validation pass.

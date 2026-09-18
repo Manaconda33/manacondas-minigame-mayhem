@@ -183,3 +183,17 @@ The implementation adds the shared Route Night UI foundation, revisioned asset U
 Local evidence on this branch: **66 test files / 524 tests passed**, **81.57% statement / 76.87% branch / 86.55% function / 83.29% line coverage**, strict typecheck passed, zero-warning lint passed, branding/runtime-asset validation passed, and production build passed. The local cloud-browser attempt was blocked by `ERR_BLOCKED_BY_CLIENT`; no browser-rendered acceptance is claimed. Publication, hosted deployment, and Manny's desktop/mobile Route Night visual-acceptance gate remain pending.
 
 The generated UI asset provenance and exact hashes are recorded in `docs/ASSET-PROVENANCE.md`. Character Select and later Slice 6 screens remain deferred until this bounded increment is deployed and accepted.
+
+## Racer-balance experiment closure - 2026-09-18
+
+Manny ended the current racer-rebalance project after hands-on comparison and selected the original pre-Candidate-A/B feel as the production direction.
+
+- PR #162, Candidate B acceleration/handling: **CLOSED / UNMERGED**.
+- PR #179, Candidate B Soft Pack: **CLOSED / UNMERGED**.
+- PR #180, Candidate B AI Execution Assist: **CLOSED / UNMERGED**.
+- The experimental branches are retained only for historical evidence and must not be treated as production candidates.
+- No Candidate B-family gameplay change reached `main`; therefore no production gameplay rollback is required.
+- PR #88 remains the durable restoration record for the accepted pre-balance gameplay model.
+- Further racer-balance or hidden catch-up work is deferred unless Manny explicitly reopens it.
+
+This closure does not alter Slice 6 scope, Route Night implementation, racer statistics, item behavior, AI item tactics, race authority, or track topology.

@@ -1500,6 +1500,7 @@ export class KartTimeTrial {
           }),
         );
       }
+      const opponentItemVfxStart = this.itemPerformance.startVfx();
       opponent.itemVisuals.update(
         {
           nitroSurgeActive: this.racerEffects.remainingSeconds(opponent.id, 'nitro-surge') > 0,
@@ -1511,6 +1512,7 @@ export class KartTimeTrial {
         this.elapsed,
         this.paused ? 0 : dt,
       );
+      this.itemPerformance.stopVfx(opponentItemVfxStart);
     }
     const feedback = this.kart.feedback();
     const color =
@@ -1529,6 +1531,7 @@ export class KartTimeTrial {
       playDriftTierTone(feedback.driftTier, context);
     }
     this.lastToneTier = feedback.driftTier;
+    let itemVfxStart = this.itemPerformance.startVfx();
     this.nitroSurgeVisual.update(
       this.racerEffects.remainingSeconds('player', 'nitro-surge') > 0,
       this.elapsed,
@@ -1545,6 +1548,7 @@ export class KartTimeTrial {
     const threats = seekerThreats(this.projectiles.snapshots(), targets);
     this.seekerWarning = threats.find((threat) => threat.targetId === 'player')?.level ?? null;
     this.seekerWarningVisual.update(threats, targets, this.elapsed);
+    this.itemPerformance.stopVfx(itemVfxStart);
     this.seekerWarningAudio.update(this.seekerWarning, dt, Howler.volume(), this.paused);
     const apexWarning = this.apex.warningFor('player');
     this.apexWarningAudio.update(
@@ -1553,15 +1557,18 @@ export class KartTimeTrial {
       Howler.volume(),
       this.paused,
     );
+    itemVfxStart = this.itemPerformance.startVfx();
     this.apexPresentation.update(
       this.apex.snapshot(),
       targets,
       this.apex.drainBlasts(),
       this.paused ? 0 : dt,
     );
+    this.itemPerformance.stopVfx(itemVfxStart);
     this.prismaticFixture.updateMarker(
       targets.find((racer) => racer.id === this.prismaticFixture.controlledRacer())?.position,
     );
+    itemVfxStart = this.itemPerformance.startVfx();
     this.prismaticVisual.update(this.prismatic.remaining('player'), position, this.paused ? 0 : dt);
     this.frostFixture.updateMarker(targets);
     this.frostVisual.update(
@@ -1572,6 +1579,7 @@ export class KartTimeTrial {
       })),
       this.paused ? 0 : dt,
     );
+    this.itemPerformance.stopVfx(itemVfxStart);
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceFrostAudio();
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceArcAudio();
     if (this.paused || Howler.volume() <= 0) this.projectiles.silenceHammerAudio();

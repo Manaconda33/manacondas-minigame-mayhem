@@ -8,11 +8,6 @@ import {
 } from '../src/game/items/ItemPerformanceMeter';
 import { itemPerformanceFromSearch } from '../src/game/items/ItemTestMode';
 
-function clock(values: readonly number[]): () => number {
-  let index = 0;
-  return () => values[index++] ?? values.at(-1) ?? 0;
-}
-
 describe('Slice 5 item/VFX performance instrumentation', () => {
   it('is explicit opt-in only', () => {
     expect(itemPerformanceFromSearch('')).toBe(false);
@@ -23,22 +18,20 @@ describe('Slice 5 item/VFX performance instrumentation', () => {
   });
 
   it('accumulates simulation and VFX work into one rendered-frame sample', () => {
-    const meter = new ItemPerformanceMeter(true, clock([1, 1.2, 2, 2.3]));
-    meter.beginFrame(true);
-    const simulation = meter.startSimulation();
-    meter.stopSimulation(simulation);
-    const vfx = meter.startVfx();
-    meter.stopVfx(vfx);
+    let now = 0;
+    const meter = new ItemPerformanceMeter(true, () => now);
 
     for (let frame = 0; frame < ITEM_PERF_WARMUP_FRAMES; frame += 1) {
+      meter.beginFrame(true);
       meter.endFrame();
-      if (frame < ITEM_PERF_WARMUP_FRAMES - 1) meter.beginFrame(true);
     }
 
     meter.beginFrame(true);
     const sampleSimulation = meter.startSimulation();
+    now += 0.2;
     meter.stopSimulation(sampleSimulation);
     const sampleVfx = meter.startVfx();
+    now += 0.3;
     meter.stopVfx(sampleVfx);
     meter.endFrame();
 

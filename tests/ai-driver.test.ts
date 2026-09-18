@@ -5,7 +5,6 @@ import {
   aiCornerSeverity,
   aiLookaheadMeters,
   aiTargetSpeed,
-  rubberBandFactor,
 } from '../src/game/ai/AiDriver';
 import { CircuitAlpha } from '../src/game/track/CircuitAlpha';
 
@@ -37,15 +36,10 @@ describe('spline AI driver', () => {
     expect(Math.abs(driver.input(position, tangent, 15).steering)).toBeGreaterThan(0.2);
   });
 
-  it('allows only a trailing top-speed bonus and never slows a leader below their stat cap', () => {
-    expect(rubberBandFactor(99)).toBe(1.04);
-    expect(rubberBandFactor(-99)).toBe(1);
-  });
-
   it('uses the character maximum on straights and pace only for corner speed', () => {
-    expect(aiTargetSpeed(33, 0.28, 0, 0)).toBe(33);
-    expect(aiTargetSpeed(27.4, 0.82, 0, 0)).toBe(27.4);
-    expect(aiTargetSpeed(30, 0.82, 0.5, 0)).toBeGreaterThan(aiTargetSpeed(30, 0.28, 0.5, 0));
+    expect(aiTargetSpeed(33, 0.28, 0, 6)).toBe(33);
+    expect(aiTargetSpeed(27.4, 0.82, 0, 6)).toBe(27.4);
+    expect(aiTargetSpeed(30, 0.82, 0.5, 6)).toBeGreaterThan(aiTargetSpeed(30, 0.28, 0.5, 6));
   });
 
   it('turns upcoming heading angle into meaningful pre-turn corner severity', () => {

@@ -1,8 +1,10 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
 import {
+  BALANCE_CANDIDATE_B,
   candidateBAccelerationRecoveryMultiplier,
   candidateBHandlingCornerLossRate,
+  candidateBHandlingRecoverySteeringMultiplier,
   candidateBSteeringResponseRate,
   driftBoostProfile,
   driftThresholds,
@@ -54,6 +56,7 @@ export class KartController {
   private wasGrounded = true;
   private rampCooldown = 0;
   private stuntArmed = false;
+  private handlingRecoveryRemaining = 0;
 
   public constructor(
     private readonly world: RAPIER.World,
@@ -105,14 +108,23 @@ export class KartController {
     const lateralSpeed = planar.dot(right);
     const speedRatio = Math.min(Math.abs(forwardSpeed) / this.tuning.maxSpeed, 1);
     const steeringScale = THREE.MathUtils.lerp(1, 0.48, speedRatio);
+    const effectSteeringMultiplier = Number.isFinite(input.effectSteeringMultiplier)
+      ? THREE.MathUtils.clamp(input.effectSteeringMultiplier ?? 1, 0, 1)
+      : 1;
+    if (effectSteeringMultiplier < 0.999) {
+      this.handlingRecoveryRemaining = BALANCE_CANDIDATE_B.handlingRecoveryWindowSeconds;
+    }
+    const handlingRecoveryAuthority =
+      this.handlingRecoveryRemaining > 0 && effectSteeringMultiplier >= 0.999
+        ? candidateBHandlingRecoverySteeringMultiplier(this.stats.handling)
+        : 1;
     const steeringTarget =
       input.steering *
       this.tuning.steeringRate *
       steeringScale *
       (this.drifting ? 1.45 : 1) *
-      (Number.isFinite(input.effectSteeringMultiplier)
-        ? THREE.MathUtils.clamp(input.effectSteeringMultiplier ?? 1, 0, 1)
-        : 1);
+      effectSteeringMultiplier *
+      handlingRecoveryAuthority;
     this.currentSteer = THREE.MathUtils.damp(
       this.currentSteer,
       steeringTarget,
@@ -251,6 +263,7 @@ export class KartController {
     this.body.setLinvel({ x: nextVelocity.x, y: velocity.y, z: nextVelocity.z }, true);
     this.setYaw(this.yaw);
 
+    this.handlingRecoveryRemaining = Math.max(0, this.handlingRecoveryRemaining - dt);
     this.rampCooldown = Math.max(0, this.rampCooldown - dt);
     if (surface === 'ramp' && grounded && this.rampCooldown === 0 && Math.abs(forwardSpeed) > 8) {
       this.body.applyImpulse({ x: 0, y: this.tuning.mass * 4.8, z: 0 }, true);
@@ -309,6 +322,7 @@ export class KartController {
       this.boostMultiplier = 1;
       this.activeBoostTier = 'none';
     }
+    this.handlingRecoveryRemaining = BALANCE_CANDIDATE_B.handlingRecoveryWindowSeconds;
     this.rampCooldown = Math.max(0, this.rampCooldown - dt);
     return true;
   }
@@ -323,6 +337,7 @@ export class KartController {
     this.driftCharge = 0;
     this.airborneSeconds = 0;
     this.stuntArmed = false;
+    this.handlingRecoveryRemaining = 0;
     this.body.setTranslation({ x: position.x, y: 1.2, z: position.z }, true);
     this.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
     this.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
@@ -353,6 +368,7 @@ export class KartController {
   }
 
   public applyArcadeCollisionImpulse(direction: THREE.Vector3, strength: number): void {
+    this.handlingRecoveryRemaining = BALANCE_CANDIDATE_B.handlingRecoveryWindowSeconds;
     this.body.applyImpulse(
       {
         x: direction.x * strength,
@@ -366,6 +382,9 @@ export class KartController {
   /** Adds an exact planar velocity delta without moving or rotating the kart. */
   public addPlanarVelocityDelta(delta: THREE.Vector3): boolean {
     if (![delta.x, delta.z].every(Number.isFinite)) return false;
+    if (Math.hypot(delta.x, delta.z) > 0.25) {
+      this.handlingRecoveryRemaining = BALANCE_CANDIDATE_B.handlingRecoveryWindowSeconds;
+    }
     const velocity = this.body.linvel();
     this.body.setLinvel({ x: velocity.x + delta.x, y: velocity.y, z: velocity.z + delta.z }, true);
     return true;
@@ -380,6 +399,7 @@ export class KartController {
     const normal = inwardNormal.clone().setY(0);
     if (normal.lengthSq() < 0.0001) return;
     normal.normalize();
+    this.handlingRecoveryRemaining = BALANCE_CANDIDATE_B.handlingRecoveryWindowSeconds;
 
     if (Number.isFinite(penetration) && penetration > 0) {
       const position = this.body.translation();

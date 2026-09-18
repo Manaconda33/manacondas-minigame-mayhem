@@ -50,7 +50,7 @@ function collectMaterialTextures(material: THREE.Material, textures: Set<THREE.T
   const textured = material as TexturedMaterial;
   for (const key of MATERIAL_TEXTURE_KEYS) {
     const texture = textured[key];
-    if (texture instanceof THREE.Texture) textures.add(texture as THREE.Texture);
+    if (texture instanceof THREE.Texture) textures.add(texture);
   }
 
   if (material instanceof THREE.ShaderMaterial) {

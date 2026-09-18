@@ -155,7 +155,7 @@ interface AiRacer {
   controller: KartController;
   driver: AiDriver;
   characterMaxSpeed: number;
-  cornerExitOverspeed: CandidateBCornerExitOverspeed;
+  cornerExitOverspeed?: CandidateBCornerExitOverspeed;
   mesh: THREE.Group;
   driverVisual: DriverSpriteVisual | null;
   driverHitSeconds: number;
@@ -199,7 +199,7 @@ export class KartTimeTrial {
   private readonly driftLights: THREE.Mesh[] = [];
   private readonly kart: KartController;
   private readonly playerCharacterMaxSpeed: number;
-  private readonly playerCornerExitOverspeed: CandidateBCornerExitOverspeed;
+  private readonly playerCornerExitOverspeed?: CandidateBCornerExitOverspeed;
   private readonly opponents: AiRacer[] = [];
   private readonly aiItemPolicy = new AiItemPolicy();
   private readonly chaseCamera: ChaseCamera;

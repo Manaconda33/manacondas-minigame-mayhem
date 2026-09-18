@@ -67,7 +67,7 @@ function runRace(track: CircuitAlpha, stats: DriverStats, disturbance: Disturban
       } else if (disturbance === 'frost') {
         kart.retainPlanarVelocity(0.55);
         frostHandlingRemaining = 1.2;
-      } else if (disturbance === 'collision') {
+      } else {
         const opponentStats: DriverStats = {
           speed: 6,
           acceleration: 6,

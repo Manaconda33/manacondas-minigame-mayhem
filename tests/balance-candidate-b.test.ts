@@ -101,6 +101,58 @@ describe('Balance Candidate B runtime telemetry', () => {
     expect(high.kart.speedMetersPerSecond() - low.kart.speedMetersPerSecond()).toBeGreaterThan(1);
   });
 
+
+  it('records specialist-end recovery and steering-load telemetry', () => {
+    const recovery: { speed: number; acceleration: number; seconds: number }[] = [];
+    const handling: { speed: number; handling: number; retainedSpeed: number }[] = [];
+
+    for (const speed of [5, 6]) {
+      for (let acceleration = 6; acceleration <= 10; acceleration += 1) {
+        const stats: DriverStats = {
+          speed,
+          acceleration,
+          weight: 6,
+          handling: 6,
+          miniTurbo: 6,
+          traction: 6,
+        };
+        const rig = makeKart(stats);
+        step(rig, THROTTLE, 1200);
+        rig.kart.retainPlanarVelocity(0.55);
+        recovery.push({
+          speed,
+          acceleration,
+          seconds: framesToSpeedRatio(rig, stats, 0.9) / 60,
+        });
+      }
+
+      for (let handlingStat = 6; handlingStat <= 10; handlingStat += 1) {
+        const stats: DriverStats = {
+          speed,
+          acceleration: 6,
+          weight: 6,
+          handling: handlingStat,
+          miniTurbo: 6,
+          traction: 6,
+        };
+        const rig = makeKart(stats);
+        step(rig, THROTTLE, 1200);
+        step(rig, { ...THROTTLE, steering: 0.8 }, 90);
+        handling.push({
+          speed,
+          handling: handlingStat,
+          retainedSpeed: rig.kart.speedMetersPerSecond(),
+        });
+      }
+    }
+
+    console.log(
+      `Candidate B specialist recovery telemetry: ${JSON.stringify({ recovery, handling })}`,
+    );
+    expect(recovery).toHaveLength(10);
+    expect(handling).toHaveLength(10);
+  });
+
   it('does not add a Handling speed penalty on a clean straight', () => {
     const lowStats: DriverStats = {
       speed: 8,

@@ -160,8 +160,8 @@ interface AiRacer {
   controller: KartController;
   driver: AiDriver;
   characterMaxSpeed: number;
-  basePace: number;
-  executionAssist: AiExecutionAssist;
+  basePace?: number;
+  executionAssist?: AiExecutionAssist;
   cornerExitOverspeed?: CandidateBCornerExitOverspeed;
   mesh: THREE.Group;
   driverVisual: DriverSpriteVisual | null;
@@ -726,8 +726,9 @@ export class KartTimeTrial {
         opponentProgress === undefined
           ? opponent.progress.lap + opponent.progress.trackProgress
           : opponentProgress.lap + opponentProgress.trackProgress;
-      opponent.executionAssist.advance(
-        opponent.basePace,
+      const opponentBasePace = opponent.basePace ?? 0.7;
+      opponent.executionAssist?.advance(
+        opponentBasePace,
         executionAssistGapSeconds(
           playerTotal,
           opponentTotal,
@@ -772,7 +773,7 @@ export class KartTimeTrial {
                 hazardAwareness,
                 opponent.id,
                 this.inkSplat.aiSnapshot(opponent.id),
-                opponent.executionAssist.adjustment(),
+                opponent.executionAssist?.adjustment() ?? 0,
               );
       input = driveInputWithItemModifiers(input, this.racerEffects.driveModifiers(opponent.id));
       if (spinout === null) {

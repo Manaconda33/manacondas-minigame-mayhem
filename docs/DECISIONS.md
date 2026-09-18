@@ -816,3 +816,14 @@ ADR-020's historical Cleo-to-AA-06 production mapping is superseded only with re
 - **Behavior preservation:** Keep product naming/route-token mark identity, browser audio unlock, hub navigation, all existing control bindings, versioned Master/Music/SFX persistence, Low/Medium/High graphics quality, and next-race graphics application unchanged. Unavailable hub cards remain non-activating and cannot route to empty screens.
 - **Validation boundary:** Add UI-contract tests for asset resolution, title audio-aware entry, hub availability, binding readability, and settings destinations. Complete strict typecheck, zero-warning lint, automated tests, branding/runtime-asset validation, production build, and deployed desktop/mobile visual review before claiming acceptance.
 - **Preserved boundaries:** No Character Select, rotating kart preview, race HUD, mini-map, pause/results, race audio, engine audio, final-lap music, post-processing, PBR/material, Circuit Alpha topology, racer statistics, item behavior/probability, AI tactics, hosting, avatar likeness, kart identity/geometry, or Candidate B experiment changes are authorized by this ADR. Stop at Manny's deployed Route Night visual-acceptance gate.
+
+## ADR-090: Retire Candidate B and preserve the pre-balance gameplay model
+
+- **Date:** 2026-09-18.
+- **Status:** **APPROVED / EXPERIMENTS RETIRED WITHOUT MERGE.**
+- **Context:** Manny completed hands-on review across the recent racer-rebalance work, including Candidate B, the Soft Pack top-speed compression experiment, and the AI Execution Assist experiment. He concluded that he prefers the feel of the original balance that existed before the Candidate A/B rebalance effort.
+- **Decision:** Retire the current rebalance project and preserve the established pre-balance gameplay model as the authoritative production balance. Do not adopt Candidate B, Soft Pack, AI Execution Assist, or their related racer/AI tuning into production. PRs #162, #179, and #180 are closed without merge and their branches are retained only as historical evidence.
+- **Existing restoration authority:** PR #88 previously restored the accepted pre-balance gameplay after an earlier balance exercise. The recent Candidate B family remained isolated from `main`, so no gameplay rollback is required now.
+- **Preserved production state:** This decision changes no racer statistics, items, AI item tactics, race authority, track topology, accepted physics systems, Route Night work, or Slice 6 scope. It is a governance closure of unmerged experiments, not a gameplay patch.
+- **Future gate:** Further racer-balance or catch-up-system work requires Manny to explicitly reopen balance development. Until then, new work must not revive Candidate A/B-derived tuning, Soft Pack, AI Execution Assist, or equivalent hidden catch-up changes.
+- **Closure evidence:** PR #162 closure comment `5734852965`; PR #179 closure comment `5734856742`; PR #180 closure comment `5734857892`.

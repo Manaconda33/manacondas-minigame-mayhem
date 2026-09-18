@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - BASELINE AUDIT / ART-DIRECTION GATE ACTIVE**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - ROUTE NIGHT ART DIRECTION APPROVED / IMPLEMENTATION READY**
 
 PRD baseline: **v1.1, approved implementation amendments 2.18-2.22 / ADR-079-084**. Slice 6 kickoff approved by Manny on 2026-09-18; ADR-085 governs the baseline audit, licensed-material sourcing, and batched creative-collaboration workflow.
 
@@ -156,4 +156,6 @@ Current findings: the track is predominantly color-only PBR with no UVs on proce
 
 Preferred material sources are CC0 Poly Haven and ambientCG. Production texture imports must be resolution-limited and provenance-tracked rather than copied at source resolution. Commercial game UIs may inform hierarchy/motion only; final branded assets and interface language remain original.
 
-**Next approval gate:** Manny chooses Route Night, Pit Poster, Twilight Broadcast, or a specified hybrid before bulk UI styling / bulk external material import. Technical groundwork that does not lock the aesthetic may proceed after this checkpoint is published.
+**Art-direction gate:** **CLOSED / APPROVED 2026-09-18.** Manny selected **Route Night** after reviewing rendered examples of Route Night, Pit Poster, Twilight Broadcast, and the proposed hybrid. Route Night governs the Slice 6 UI/presentation language. Production Character Select must use the real approved roster rather than concept-render placeholders. Future tracks may use their own authored time of day and environmental lighting while retaining the Route Night UI grammar and semantic accent system.
+
+**Next recommended action:** publish this Slice 6 planning/art-direction checkpoint, then begin the first bounded implementation increment: settings/persistence architecture + graphics presets + audio mixer skeleton. Follow with material-coordinate infrastructure before broad PBR texture rollout.

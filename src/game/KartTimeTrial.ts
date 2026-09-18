@@ -265,7 +265,7 @@ export class KartTimeTrial {
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly forcedAiItem = aiForcedItemFromSearch(window.location.search);
   private readonly forcedAiRacer = aiForcedRacerFromSearch(window.location.search);
-  private readonly itemPerformance = new ItemPerformanceMeter(
+  private readonly itemPerformance?: ItemPerformanceMeter = new ItemPerformanceMeter(
     itemPerformanceFromSearch(window.location.search),
   );
   private readonly nitroSurgeVisual = new NitroSurgeVisual();

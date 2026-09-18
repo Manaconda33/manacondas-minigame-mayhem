@@ -62,6 +62,9 @@ export const BALANCE_CANDIDATE_B = {
   steeringResponsePerPoint: 1.5,
   highHandlingResponseStart: 7,
   highHandlingResponseQuadratic: 1.5,
+  handlingRecoveryWindowSeconds: 1.5,
+  highHandlingRecoveryLinear: 0.12,
+  highHandlingRecoveryQuadratic: 0.03,
   steeringResponseMinimum: 4.5,
   steeringResponseMaximum: 30,
   handlingComfortSpeedBase: 22.5,
@@ -122,6 +125,20 @@ export function candidateBSteeringResponseRate(handling: number): number {
         specialistPoints * specialistPoints,
     BALANCE_CANDIDATE_B.steeringResponseMinimum,
     BALANCE_CANDIDATE_B.steeringResponseMaximum,
+  );
+}
+
+export function candidateBHandlingRecoverySteeringMultiplier(handling: number): number {
+  const specialistPoints = Math.max(
+    0,
+    handling - BALANCE_CANDIDATE_B.highHandlingResponseStart,
+  );
+  if (specialistPoints <= 0) return 1;
+  return (
+    1 +
+    BALANCE_CANDIDATE_B.highHandlingRecoveryLinear * specialistPoints +
+    BALANCE_CANDIDATE_B.highHandlingRecoveryQuadratic *
+      specialistPoints * specialistPoints
   );
 }
 

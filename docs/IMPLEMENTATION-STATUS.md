@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT UI INCREMENT NEXT**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT UI IN FEATURE-BRANCH REVIEW**
 
 PRD baseline: **v1.1 with approved implementation amendments through 2.22**. Slice 6 kickoff and Route Night are governed by ADR-085-086; the published settings/graphics/audio foundation is ADR-087; the bounded material-coordinate / first Circuit Alpha PBR increment is governed by ADR-088.
 
@@ -10,7 +10,7 @@ Latest verified merged gameplay checkpoint on `main`: **`5136a002ec1d39b13f8470f
 
 Latest verified Slice 5 acceptance-protocol checkpoint on `main`: **`fd967afca41366579fe448bcb7c3d9c0631edf1c`** (final desktop/mobile whole-slice matrix through PR #172; hosted PR CI `35305490406` and post-merge validation/Pages run `35337153793` passed **62 test files / 507 tests**).
 
-Latest verified repository head on `main`: **`c721fc083e2d18ad534387227968bb0a75982ae7`** (Slice 6 Circuit Alpha material-coordinate / first PBR pass through PR #178; post-merge validation/Pages run `35365068619` passed).
+Latest verified repository head on `main`: **`a09c2b35c778b774db8f0b8e2709aa03baad1204`** (Record Slice 6 Circuit Alpha PBR live acceptance through PR #183; post-merge validation/Pages run `35368737098` passed).
 
 Latest verified Slice 6 implementation checkpoint on `main`: **`c721fc083e2d18ad534387227968bb0a75982ae7`** (Circuit Alpha material-coordinate / first PBR pass through PR #178; hosted PR CI `35356556627` passed **65 test files / 519 tests** at **81.52% statement / 76.86% branch / 86.42% function / 83.26% line coverage**; post-merge validation/Pages run `35365068619` passed).
 
@@ -168,8 +168,18 @@ Preferred material sources are CC0 Poly Haven and ambientCG. Production texture 
 
 Manny approved publication on 2026-09-18. Final PR-head CI run `35352383087` passed Git LFS verification, clean `npm ci`, strict typecheck, zero-warning lint, **64 test files / 515 tests**, **81.40% statement / 76.90% branch / 86.24% function / 83.15% line coverage**, branding/runtime-asset verification, and production build. PR #176 squash-merged at **`0144bcb6f1ce2bc0acb0e7e6adc229f38fd2e109`**. Post-merge CI / GitHub Pages run **`35353036562`** passed validation, Pages artifact upload, and deployment. Publication evidence is recorded in PR #176 comment `5731036246`. No gameplay balance, race authority, item behavior, Route Night visual styling, production audio assets, post-processing, or PBR materials changed in this increment.
 
-**Next recommended action:** begin the bounded Route Night title/hub/controls/settings UI implementation, using ADR-086 and the canonical Route Night reference as the governing visual contract.
+**Next recommended action:** publish the bounded Route Night title/hub/controls/settings UI feature branch through the normal approval-governed PR flow, then stop at Manny's deployed Route Night visual-acceptance gate before beginning Character Select or later Slice 6 work.
 
 **Slice 6 material-coordinate / first Circuit Alpha PBR pass:** **LIVE ACCEPTED 2026-09-18.** PR #178 adds meter-scaled procedural strip UVs, one CC0 Poly Haven `asphalt_track` 1K diffuse/OpenGL-normal/roughness set, the first asphalt PBR assignment, exact runtime hash verification, and explicit track-scene GPU-resource disposal. The maps total **2,150,973 bytes (~2.05 MiB compressed)** with a conservative **~16 MiB decoded GPU estimate including mipmaps**, kept visible against the PRD Medium <=256 MB texture target. Provenance is recorded in `docs/ASSET-PROVENANCE.md`; focused implementation/evidence is recorded in `docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md`.
 
 The material set was materialized on the feature branch by temporary GitHub Actions run `35355493952`; the temporary workflow was removed after the three 1024 x 1024 files and `SOURCE-SHA256SUMS.txt` were committed. Production verification now checks the exact three source hashes/JPEG signatures in addition to normal LFS verification. No gameplay, track topology, race authority, racer statistics, item behavior, approved likeness, kart geometry/identity, dependency, or Route Night UI-language change is included. Hosted PR CI run `35356556627` passed Git LFS verification, clean install, strict typecheck, zero-warning lint, **65 test files / 519 tests**, **81.52% statement / 76.86% branch / 86.42% function / 83.26% line coverage**, exact verification of the three runtime track textures, branding/runtime-asset verification, and production build. PR #178 squash-merged at **`c721fc083e2d18ad534387227968bb0a75982ae7`**. Post-merge validation and GitHub Pages run **`35365068619`** passed both validation and deployment. Manny reviewed the deployed checkpoint on 2026-09-18 and reported **“Looks good.”** Product-owner evidence is recorded in PR #182 comment `5732962712`. No defect was reported; the bounded material visual gate is closed.
+
+## Slice 6 Route Night title / hub / utility UI checkpoint - feature branch
+
+The bounded Route Night title, hub, Controls, and Settings implementation is complete on the feature branch and is recorded in `docs/SLICE-6-ROUTE-NIGHT-UI-CHECKPOINT-2026-09-18.md`. It follows ADR-086 and preserves the published ADR-087 settings/audio foundation and the live-accepted ADR-088 Circuit Alpha material baseline.
+
+The implementation adds the shared Route Night UI foundation, revisioned asset URL helper, two original WebP UI assets, title audio-state/`PRESS START` presentation, a Circuit Alpha-dominant hub with non-activating `COMING SOON` cards, and clipped desktop/mobile Controls and Settings utility panels. No protected gameplay, PBR/material, topology, roster, kart, item, AI, or hosting files were changed.
+
+Local evidence on this branch: **66 test files / 524 tests passed**, **81.57% statement / 76.87% branch / 86.55% function / 83.29% line coverage**, strict typecheck passed, zero-warning lint passed, branding/runtime-asset validation passed, and production build passed. The local cloud-browser attempt was blocked by `ERR_BLOCKED_BY_CLIENT`; no browser-rendered acceptance is claimed. Publication, hosted deployment, and Manny's desktop/mobile Route Night visual-acceptance gate remain pending.
+
+The generated UI asset provenance and exact hashes are recorded in `docs/ASSET-PROVENANCE.md`. Character Select and later Slice 6 screens remain deferred until this bounded increment is deployed and accepted.

@@ -9,6 +9,7 @@ import { characterById, characterManifest, type CharacterDefinition } from '../c
 import { itemHudMarkup, updateItemHud } from './itemHud';
 import { raceMinimapMarkup, updateRaceMinimap } from './raceMinimap';
 import { touchControlsMarkup } from './touchControls';
+import { routeNightAssetUrl } from '../ui/routeNight';
 
 export const APP_TITLE = "Manaconda's Minigame Mayhem";
 
@@ -48,73 +49,156 @@ export function mountAppShell(root: HTMLElement): void {
 
   const renderTitle = (): void => {
     root.innerHTML = `
-      <main class="screen title-screen">
-        <div class="title-mark" aria-hidden="true">
-          <svg viewBox="0 0 72 72" role="presentation">
-            <rect class="mark-frame" x="5" y="5" width="62" height="62" rx="17" />
-            <path class="mark-route" d="M17 51 C 25 19, 43 59, 56 21" />
-            <circle class="mark-token mark-token-start" cx="17" cy="51" r="5" />
-            <rect class="mark-token mark-token-mid" x="31" y="31" width="10" height="10" rx="3" />
-            <path class="mark-token mark-token-finish" d="M56 14 L59 20 L66 21 L61 26 L62 33 L56 30 L50 33 L51 26 L46 21 L53 20 Z" />
-          </svg>
+      <main class="screen title-screen route-night-screen" data-screen="title">
+        <div class="route-night-backdrop title-backdrop" data-route-asset="title-hero" aria-hidden="true">
+          <img src="${routeNightAssetUrl('title-hero')}" alt="" decoding="async" fetchpriority="high" />
         </div>
-        <h1>${APP_TITLE}</h1>
-        <p class="lead">A modular arcade playground. The eight-racer Circuit Alpha competition is ready.</p>
-        ${button('Enter the Hub', 'enter', 'primary')}
-        <p class="microcopy">Press or click to unlock browser audio.</p>
+        <div class="route-night-grid" aria-hidden="true"></div>
+        <div class="route-night-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <section class="title-content" aria-labelledby="app-title">
+          <div class="title-mark" aria-hidden="true">
+            <svg viewBox="0 0 72 72" role="presentation">
+              <rect class="mark-frame" x="5" y="5" width="62" height="62" rx="17" />
+              <path class="mark-route" d="M17 51 C 25 19, 43 59, 56 21" />
+              <circle class="mark-token mark-token-start" cx="17" cy="51" r="5" />
+              <rect class="mark-token mark-token-mid" x="31" y="31" width="10" height="10" rx="3" />
+              <path class="mark-token mark-token-finish" d="M56 14 L59 20 L66 21 L61 26 L62 33 L56 30 L50 33 L51 26 L46 21 L53 20 Z" />
+            </svg>
+          </div>
+          <h1 id="app-title">${APP_TITLE}</h1>
+          <p class="title-subtitle">Routes, tokens, and tight corners. Circuit Alpha is ready to run.</p>
+          <div class="title-meta" aria-label="Route Night status">
+            <span>ROUTE NIGHT · CIRCUIT 01</span>
+            <span data-audio-state role="status">AUDIO · CLICK TO ENABLE</span>
+          </div>
+          <div class="title-action">
+            ${button('PRESS START', 'enter', 'primary')}
+            <span class="sr-only">Enter the Hub</span>
+          </div>
+          <p class="microcopy"><span class="keycap">ENTER</span> / CLICK TO PLAY · AUDIO UNLOCKS ON FIRST INPUT</p>
+        </section>
+        <aside class="title-route-readout" aria-label="Route Night introduction">
+          <span class="route-readout-line"></span>
+          <span class="route-readout-label">WAYPOINT 00</span>
+          <strong>THE HUB</strong>
+          <small>FOLLOW THE CYAN LINE</small>
+        </aside>
       </main>`;
   };
 
   const renderMenu = (): void => {
     root.innerHTML = `
-      <main class="screen menu-screen">
-        <header><p class="eyebrow">Minigame collection</p><h1>Choose an experience</h1></header>
-        <section class="game-grid">
-          <article class="game-card playable">
-            <span class="card-tag">Slice 3 playable</span>
-            <h2>Circuit Alpha Grand Prix</h2>
-            <p>Three laps. Eight racers. Live ranking. Keyboard and mobile touch control.</p>
-            ${button('Start Grand Prix', 'play', 'primary')}
+      <main class="screen menu-screen route-night-screen hub-screen" data-screen="hub">
+        <div class="route-night-backdrop hub-backdrop" aria-hidden="true">
+          <img src="${routeNightAssetUrl('title-hero')}" alt="" decoding="async" />
+        </div>
+        <div class="route-night-grid" aria-hidden="true"></div>
+        <header class="hub-header">
+          <div>
+            <p class="route-label">ROUTE NIGHT / HUB</p>
+            <h1>Choose your route</h1>
+            <p class="hub-intro">A compact map of the Mayhem collection. One checkpoint is live; the next routes are being charted.</p>
+          </div>
+          <div class="hub-route-status" aria-label="Route progress">
+            <span class="status-marker is-live"></span>
+            <span><small>LIVE ROUTE</small><strong>01 / 03</strong></span>
+          </div>
+        </header>
+        <section class="game-grid route-grid" aria-label="Available and upcoming minigames">
+          <article class="game-card route-card playable" data-route-card="circuit-alpha">
+            <div class="route-card-art">
+              <img data-route-asset="circuit-alpha-card" src="${routeNightAssetUrl('circuit-alpha-card')}" alt="" loading="lazy" decoding="async" />
+              <span class="route-card-art-wash" aria-hidden="true"></span>
+              <span class="route-card-art-marker" aria-hidden="true">01</span>
+            </div>
+            <div class="route-card-body">
+              <div class="card-heading"><span class="card-tag">AVAILABLE NOW</span><span class="card-route-code">CA / 01</span></div>
+              <h2>Circuit Alpha</h2>
+              <p>Three laps. Eight racers. Live ranking. Keyboard and mobile touch control.</p>
+              ${button('START GRAND PRIX', 'play', 'primary')}
+            </div>
           </article>
-          <article class="game-card unavailable" aria-disabled="true">
-            <span class="card-tag">Future game</span><h2>Gallery Gauntlet</h2><p>Unavailable in this build.</p>
+          <article class="game-card route-card unavailable" data-route-card="gallery-gauntlet" data-availability="coming-soon" aria-disabled="true">
+            <div class="route-card-signal" aria-hidden="true"><span>02</span><i></i><strong>LOCKED</strong></div>
+            <div class="route-card-body">
+              <div class="card-heading"><span class="card-tag">COMING SOON</span><span class="card-route-code">GG / 02</span></div>
+              <h2>Gallery Gauntlet</h2>
+              <p>The next route is still behind the checkpoint gate.</p>
+            </div>
           </article>
-          <article class="game-card unavailable" aria-disabled="true">
-            <span class="card-tag">Future game</span><h2>Inkstorm Arena</h2><p>Unavailable in this build.</p>
+          <article class="game-card route-card unavailable" data-route-card="inkstorm-arena" data-availability="coming-soon" aria-disabled="true">
+            <div class="route-card-signal" aria-hidden="true"><span>03</span><i></i><strong>LOCKED</strong></div>
+            <div class="route-card-body">
+              <div class="card-heading"><span class="card-tag">COMING SOON</span><span class="card-route-code">IA / 03</span></div>
+              <h2>Inkstorm Arena</h2>
+              <p>The arena route is being tuned for a later Mayhem drop.</p>
+            </div>
           </article>
         </section>
-        <nav class="utility-nav">${button('Controls', 'controls')}${button('Settings', 'settings')}</nav>
+        <nav class="utility-nav route-utility-nav" aria-label="Route utilities">
+          <span class="utility-label">UTILITY</span>${button('CONTROLS', 'controls')}${button('SETTINGS', 'settings')}
+        </nav>
+        <footer class="hub-footer"><span class="route-line-dot"></span> SELECT A LIVE CHECKPOINT <span class="route-line-dot"></span> UNAVAILABLE ROUTES STAY LOCKED</footer>
       </main>`;
   };
 
   const renderControls = (): void => {
     root.innerHTML = `
-      <main class="screen compact-screen"><p class="eyebrow">Reference</p><h1>Controls</h1>
-        <dl class="control-list">
-          <div><dt>Accelerate</dt><dd>W / ↑</dd></div><div><dt>Brake &amp; reverse</dt><dd>S / ↓</dd></div>
-          <div><dt>Steer</dt><dd>A D / ← →</dd></div><div><dt>Hop / drift</dt><dd>Space + steer</dd></div>
-          <div><dt>Use item</dt><dd>Left Shift / E</dd></div><div><dt>Backward item</dt><dd>S / ↓ + item</dd></div>
-          <div><dt>Rear camera</dt><dd>C</dd></div><div><dt>Recover kart</dt><dd>R</dd></div>
-          <div><dt>Pause</dt><dd>Esc / P</dd></div>
-          <div><dt>Mobile</dt><dd>ITEM uses held item · Brake + ITEM requests backward</dd></div>
-        </dl>${button('Back', 'menu', 'primary')}</main>`;
+      <main class="screen utility-screen route-night-screen controls-screen" data-screen="controls">
+        <div class="route-night-grid" aria-hidden="true"></div>
+        <header class="utility-header">
+          <div><p class="route-label">ROUTE NIGHT / UTILITY</p><h1>Controls</h1><p class="utility-intro">Your route map for desktop and mobile input. Bindings remain unchanged.</p></div>
+          <span class="utility-code">INPUT MAP / 01</span>
+        </header>
+        <div class="utility-panels">
+          <section class="utility-panel control-panel" aria-labelledby="desktop-controls-title">
+            <div class="panel-heading"><span class="panel-node"><i>01</i></span><div><p>DRIVER INPUT</p><h2 id="desktop-controls-title">Desktop</h2></div></div>
+            <dl class="control-list">
+              <div data-control="accelerate"><dt>Accelerate</dt><dd><span class="control-key">W / ↑</span></dd></div>
+              <div data-control="brake-reverse"><dt>Brake &amp; reverse</dt><dd><span class="control-key">S / ↓</span></dd></div>
+              <div data-control="steer"><dt>Steer</dt><dd><span class="control-key">A D / ← →</span></dd></div>
+              <div data-control="hop-drift"><dt>Hop / drift</dt><dd><span class="control-key">Space + steer</span></dd></div>
+              <div data-control="use-item"><dt>Use item</dt><dd><span class="control-key">Left Shift / E</span></dd></div>
+              <div data-control="backward-item"><dt>Backward item</dt><dd><span class="control-key">S / ↓ + item</span></dd></div>
+              <div data-control="rear-camera"><dt>Rear camera</dt><dd><span class="control-key">C</span></dd></div>
+              <div data-control="recover-kart"><dt>Recover kart</dt><dd><span class="control-key">R</span></dd></div>
+              <div data-control="pause"><dt>Pause</dt><dd><span class="control-key">Esc / P</span></dd></div>
+            </dl>
+          </section>
+          <aside class="utility-panel mobile-control-panel" aria-labelledby="mobile-controls-title">
+            <div class="panel-heading"><span class="panel-node is-gold"><i>02</i></span><div><p>TOUCH ROUTE</p><h2 id="mobile-controls-title">Mobile</h2></div></div>
+            <div class="mobile-control-graphic" aria-hidden="true"><span>STEER</span><i></i><span>ITEM</span><i></i><span>DRIFT</span></div>
+            <p>ITEM uses held item · Brake + ITEM requests backward</p>
+            <p class="panel-note">Hold the route line. Release any touch control to coast.</p>
+          </aside>
+        </div>
+        ${button('RETURN TO HUB', 'menu', 'primary')}
+      </main>`;
   };
 
   const renderSettings = (): void => {
     root.innerHTML = `
-      <main class="screen compact-screen"><p class="eyebrow">Local settings</p><h1>Settings</h1>
-        <label class="setting"><span>Master volume</span><input id="master-volume" type="range" min="0" max="1" step="0.05" value="${String(appSettings.audio.master)}" /></label>
-        <label class="setting"><span>Music</span><input id="music-volume" type="range" min="0" max="1" step="0.05" value="${String(appSettings.audio.music)}" /></label>
-        <label class="setting"><span>Sound effects</span><input id="sfx-volume" type="range" min="0" max="1" step="0.05" value="${String(appSettings.audio.sfx)}" /></label>
-        <label class="setting"><span>Graphics quality</span>
-          <select id="graphics-quality">
-            <option value="low"${appSettings.graphics.quality === 'low' ? ' selected' : ''}>Low</option>
-            <option value="medium"${appSettings.graphics.quality === 'medium' ? ' selected' : ''}>Medium</option>
-            <option value="high"${appSettings.graphics.quality === 'high' ? ' selected' : ''}>High</option>
-          </select>
-        </label>
-        <p class="lead small">Settings are saved on this device. Graphics quality applies to the next race without a page reload.</p>
-        ${button('Back', 'menu', 'primary')}</main>`;
+      <main class="screen utility-screen route-night-screen settings-screen" data-screen="settings">
+        <div class="route-night-grid" aria-hidden="true"></div>
+        <header class="utility-header">
+          <div><p class="route-label">ROUTE NIGHT / UTILITY</p><h1>Settings</h1><p class="utility-intro">Tune the signal before you leave the hub. Changes save on this device.</p></div>
+          <span class="utility-code">SYSTEM / 02</span>
+        </header>
+        <section class="settings-layout" aria-label="Audio and graphics settings">
+          <div class="utility-panel settings-panel">
+            <div class="panel-heading"><span class="panel-node"><i>01</i></span><div><p>AUDIO BUS</p><h2>Mix</h2></div></div>
+            <label class="setting" data-setting="master" for="master-volume"><span><strong>Master volume</strong><small>Global output level</small></span><output data-setting-value="master">${String(Math.round(appSettings.audio.master * 100))}%</output><input id="master-volume" type="range" min="0" max="1" step="0.05" value="${String(appSettings.audio.master)}" /></label>
+            <label class="setting" data-setting="music" for="music-volume"><span><strong>Music</strong><small>Route Night score</small></span><output data-setting-value="music">${String(Math.round(appSettings.audio.music * 100))}%</output><input id="music-volume" type="range" min="0" max="1" step="0.05" value="${String(appSettings.audio.music)}" /></label>
+            <label class="setting" data-setting="sfx" for="sfx-volume"><span><strong>Sound effects</strong><small>Items and interface</small></span><output data-setting-value="sfx">${String(Math.round(appSettings.audio.sfx * 100))}%</output><input id="sfx-volume" type="range" min="0" max="1" step="0.05" value="${String(appSettings.audio.sfx)}" /></label>
+          </div>
+          <div class="utility-panel settings-panel graphics-panel">
+            <div class="panel-heading"><span class="panel-node is-gold"><i>02</i></span><div><p>RENDER PATH</p><h2>Graphics quality</h2></div></div>
+            <label class="setting setting-select" data-setting="graphics" for="graphics-quality"><span><strong>Graphics quality</strong><small>Applies to the next race</small></span><select id="graphics-quality"><option value="low"${appSettings.graphics.quality === 'low' ? ' selected' : ''}>Low</option><option value="medium"${appSettings.graphics.quality === 'medium' ? ' selected' : ''}>Medium</option><option value="high"${appSettings.graphics.quality === 'high' ? ' selected' : ''}>High</option></select></label>
+            <p class="settings-note">No page reload required. The next Circuit Alpha race uses the selected render profile.</p>
+          </div>
+        </section>
+        ${button('RETURN TO HUB', 'menu', 'primary')}
+      </main>`;
 
     const bindVolume = (selector: string, bus: 'master' | 'music' | 'sfx'): void => {
       const input = root.querySelector<HTMLInputElement>(selector);
@@ -128,6 +212,8 @@ export function mountAppShell(root: HTMLElement): void {
           },
         });
         audioMixer.configure(appSettings.audio);
+        const output = root.querySelector<HTMLOutputElement>(`[data-setting-value="${bus}"]`);
+        if (output !== null) output.textContent = `${String(Math.round(value * 100))}%`;
       });
     };
 

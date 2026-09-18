@@ -116,7 +116,7 @@ export class KartController {
     }
     const handlingRecoveryAuthority =
       this.handlingRecoveryRemaining > 0 && effectSteeringMultiplier >= 0.999
-        ? candidateBHandlingRecoverySteeringMultiplier(this.stats.handling)
+        ? candidateBHandlingRecoverySteeringMultiplier(this.stats.handling, this.stats.speed)
         : 1;
     const steeringTarget =
       input.steering *

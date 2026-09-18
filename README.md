@@ -6,7 +6,7 @@ The canonical repository `Manaconda33/manacondas-minigame-mayhem` is intentional
 
 ## Current state
 
-**Current state:** Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization — **Route Night art direction approved; implementation ready**. Slice 5 is **LIVE ACCEPTED / COMPLETE**.
+**Current state:** Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization — **Route Night locked; settings foundation published; material-coordinate + first Circuit Alpha PBR pass in review**. Slice 5 is **LIVE ACCEPTED / COMPLETE**.
 
 Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation, visible item boxes, roulette, held-item HUD, desktop/mobile ITEM input, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, Timed Blast Orb, Slick Trap, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, Kinetic Arc Hammers, Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, Hyper-Drive Rocket, the bounded Slick/Blast AI hazard response, and full AI item tactics are merged, deployed, and live accepted at their recorded checkpoints.
 
@@ -14,7 +14,7 @@ Full AI item tactics merged through PR #158 at `cb67183b902e7732b3cab8d95af3e865
 
 Issue #106 results synchronization is merged, deployed, live accepted on desktop and mobile, and closed through PR #163 at `5136a002ec1d39b13f8470fd4b5449ce6df5bcf2`; post-merge CI/Pages run `35282030810` passed. The final all-item interaction/counter matrix is complete and published through PR #165 at `8906d5c4fa226f2889c609cf97095dbbde92e803`; post-merge CI/Pages run `35298360643` passed. The final lifecycle/object-count soak is complete and published through PR #167 at `125227cde73512588b3941f4d63cdc9086f15912`; post-merge CI/Pages run `35300715115` passed **61 test files / 502 tests**. Item/VFX rendered-runtime performance evidence passes on two deployed N600 captures at p95 **1.00 ms** against the **1.00 ms** PRD ceiling. The final desktop/mobile whole-slice matrix was published through PR #172 at `fd967afca41366579fe448bcb7c3d9c0631edf1c`; post-merge CI/Pages `35337153793` passed **62 test files / 507 tests**. Manny then completed D1-D3, M1-M3, and cleanup/race-authority checks and reported **“All pass.”** Slice 5 is complete. Manny approved beginning Slice 6 and has now locked **Route Night** as the production visual language. Production Character Select will use the real approved roster; future tracks may use their own authored time-of-day and environmental lighting while retaining the Route Night UI grammar.
 
-Slice 5 closure evidence is recorded in `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md`, `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md`, `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`, and `docs/SLICE-5-FINAL-LIVE-ACCEPTANCE-2026-09-17.md`. Slice 6 kickoff is governed by `docs/SLICE-6-BASELINE-AUDIT-AND-ART-DIRECTION-2026-09-18.md`, `docs/IMPLEMENTATION-STATUS.md`, `docs/DECISIONS.md`, and `docs/TESTING.md`.
+Slice 5 closure evidence is recorded in `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md`, `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md`, `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`, and `docs/SLICE-5-FINAL-LIVE-ACCEPTANCE-2026-09-17.md`. Slice 6 kickoff is governed by `docs/SLICE-6-BASELINE-AUDIT-AND-ART-DIRECTION-2026-09-18.md`. The current PBR checkpoint is recorded in `docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md`, with external production material rights/provenance in `docs/ASSET-PROVENANCE.md`.
 
 ## Live test build
 
@@ -84,6 +84,8 @@ The `src/game/` directories define PRD system boundaries. A directory's presence
 - [Architecture decisions](docs/DECISIONS.md)
 - [Current implementation status](docs/IMPLEMENTATION-STATUS.md)
 - [Canonical Route Night visual reference](docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png)
+- [Production asset provenance ledger](docs/ASSET-PROVENANCE.md)
+- [Slice 6 Circuit Alpha PBR checkpoint](docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md)
 - [Testing and evidence requirements](docs/TESTING.md)
 - [Approved Slice 5 item-system design and exit checklist](docs/SLICE-5-ITEM-SYSTEM-DESIGN.md)
 - [Approved Slice 5 Shockwave scope](docs/SLICE-5-SHOCKWAVE-SCOPE.md)

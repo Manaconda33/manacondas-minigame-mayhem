@@ -1,5 +1,8 @@
 import { Howler } from 'howler';
 import { resumeAudioContext } from '../audio/driftTone';
+import { audioMixer } from '../audio/AudioMixer';
+import { loadGameSettings, saveGameSettings } from '../config/gameSettings';
+import { isGraphicsQuality } from '../config/graphicsQuality';
 import type { HudState, RaceResult, KartTimeTrial as KartTimeTrialInstance } from '../game/KartTimeTrial';
 import { isMobileSession } from './mobileSession';
 import { characterById, characterManifest, type CharacterDefinition } from '../characters/manifest';
@@ -35,6 +38,8 @@ function button(label: string, action: string, className = ''): string {
 export function mountAppShell(root: HTMLElement): void {
   let game: KartTimeTrialInstance | null = null;
   let selectedCharacter = characterById('aa-02');
+  let appSettings = loadGameSettings();
+  audioMixer.configure(appSettings.audio);
 
   const unlockAudio = async (): Promise<void> => {
     const context = (Howler as unknown as { ctx?: AudioContext | null }).ctx;
@@ -98,15 +103,49 @@ export function mountAppShell(root: HTMLElement): void {
   const renderSettings = (): void => {
     root.innerHTML = `
       <main class="screen compact-screen"><p class="eyebrow">Local settings</p><h1>Settings</h1>
-        <label class="setting"><span>Master volume</span><input id="volume" type="range" min="0" max="1" step="0.05" value="${String(Howler.volume())}" /></label>
-        <p class="lead small">Visual quality adapts to the browser in this foundational slice.</p>
+        <label class="setting"><span>Master volume</span><input id="master-volume" type="range" min="0" max="1" step="0.05" value="${String(appSettings.audio.master)}" /></label>
+        <label class="setting"><span>Music</span><input id="music-volume" type="range" min="0" max="1" step="0.05" value="${String(appSettings.audio.music)}" /></label>
+        <label class="setting"><span>Sound effects</span><input id="sfx-volume" type="range" min="0" max="1" step="0.05" value="${String(appSettings.audio.sfx)}" /></label>
+        <label class="setting"><span>Graphics quality</span>
+          <select id="graphics-quality">
+            <option value="low"${appSettings.graphics.quality === 'low' ? ' selected' : ''}>Low</option>
+            <option value="medium"${appSettings.graphics.quality === 'medium' ? ' selected' : ''}>Medium</option>
+            <option value="high"${appSettings.graphics.quality === 'high' ? ' selected' : ''}>High</option>
+          </select>
+        </label>
+        <p class="lead small">Settings are saved on this device. Graphics quality applies to the next race without a page reload.</p>
         ${button('Back', 'menu', 'primary')}</main>`;
-    const volume = root.querySelector<HTMLInputElement>('#volume');
-    if (volume !== null) {
-      volume.addEventListener('input', (event) => {
-        Howler.volume(Number((event.target as HTMLInputElement).value));
+
+    const bindVolume = (selector: string, bus: 'master' | 'music' | 'sfx'): void => {
+      const input = root.querySelector<HTMLInputElement>(selector);
+      input?.addEventListener('input', (event) => {
+        const value = Number((event.target as HTMLInputElement).value);
+        appSettings = saveGameSettings({
+          ...appSettings,
+          audio: {
+            ...appSettings.audio,
+            [bus]: value,
+          },
+        });
+        audioMixer.configure(appSettings.audio);
       });
-    }
+    };
+
+    bindVolume('#master-volume', 'master');
+    bindVolume('#music-volume', 'music');
+    bindVolume('#sfx-volume', 'sfx');
+
+    const graphics = root.querySelector<HTMLSelectElement>('#graphics-quality');
+    graphics?.addEventListener('change', (event) => {
+      const quality = (event.target as HTMLSelectElement).value;
+      if (!isGraphicsQuality(quality)) return;
+      appSettings = saveGameSettings({
+        ...appSettings,
+        graphics: {
+          quality,
+        },
+      });
+    });
   };
 
   const statRows = (character: CharacterDefinition): string =>
@@ -305,6 +344,7 @@ export function mountAppShell(root: HTMLElement): void {
     game = await KartTimeTrial.create({
       canvas,
       character: selectedCharacter,
+      graphicsQuality: appSettings.graphics.quality,
       onHud: updateHud,
       onStandings: renderStandings,
       onFinish: (result) => {

@@ -1,6 +1,11 @@
 import * as THREE from 'three';
 import { CircuitAlpha } from './CircuitAlpha';
 import { createGuardrailVisual } from './GuardrailSystem';
+import {
+  createLoopStripGeometry,
+  createSegmentStripGeometry,
+} from './TrackMaterialCoordinates';
+import { createCircuitAlphaAsphaltMaterials } from './TrackMaterials';
 
 interface TrackPose {
   point: THREE.Vector3;
@@ -35,29 +40,7 @@ function createStrip(
   material: THREE.Material,
   y: number,
 ): THREE.Mesh {
-  const positions: number[] = [];
-  const indices: number[] = [];
-
-  for (let index = 0; index <= track.sampleCount; index += 1) {
-    const wrapped = index % track.sampleCount;
-    const point = track.samples[wrapped]?.clone() ?? new THREE.Vector3();
-    const tangent = track.tangents[wrapped] ?? new THREE.Vector3(0, 0, 1);
-    const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
-    const leftPoint = point.clone().addScaledVector(right, -halfWidth);
-    const rightPoint = point.clone().addScaledVector(right, halfWidth);
-    positions.push(leftPoint.x, y, leftPoint.z, rightPoint.x, y, rightPoint.z);
-
-    if (index < track.sampleCount) {
-      const base = index * 2;
-      indices.push(base, base + 2, base + 1, base + 1, base + 2, base + 3);
-    }
-  }
-
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setIndex(indices);
-  geometry.computeVertexNormals();
-  return new THREE.Mesh(geometry, material);
+  return new THREE.Mesh(createLoopStripGeometry(track, halfWidth, y), material);
 }
 
 function createSegmentStrip(
@@ -69,32 +52,17 @@ function createSegmentStrip(
   material: THREE.Material,
   y: number,
 ): THREE.Mesh {
-  const positions: number[] = [];
-  const indices: number[] = [];
-  const start = Math.floor(startProgress * track.sampleCount);
-  const end = Math.ceil(endProgress * track.sampleCount);
-
-  for (let index = start; index <= end; index += 1) {
-    const wrapped = index % track.sampleCount;
-    const point = track.samples[wrapped]?.clone() ?? new THREE.Vector3();
-    const tangent = track.tangents[wrapped] ?? new THREE.Vector3(0, 0, 1);
-    const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
-    const center = point.addScaledVector(right, centerOffset);
-    const leftPoint = center.clone().addScaledVector(right, -halfWidth);
-    const rightPoint = center.clone().addScaledVector(right, halfWidth);
-    positions.push(leftPoint.x, y, leftPoint.z, rightPoint.x, y, rightPoint.z);
-    const local = index - start;
-    if (index < end) {
-      const base = local * 2;
-      indices.push(base, base + 2, base + 1, base + 1, base + 2, base + 3);
-    }
-  }
-
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setIndex(indices);
-  geometry.computeVertexNormals();
-  return new THREE.Mesh(geometry, material);
+  return new THREE.Mesh(
+    createSegmentStripGeometry(
+      track,
+      startProgress,
+      endProgress,
+      centerOffset,
+      halfWidth,
+      y,
+    ),
+    material,
+  );
 }
 
 function poseAt(track: CircuitAlpha, progress: number, lateralOffset = 0, y = 0): TrackPose {
@@ -805,16 +773,9 @@ export function createTrackScene(track: CircuitAlpha): THREE.Group {
   shoulder.receiveShadow = true;
   group.add(shoulder);
 
-  const road = createStrip(
-    track,
-    track.roadHalfWidth,
-    new THREE.MeshStandardMaterial({
-      color: COLORS.asphalt,
-      roughness: 0.82,
-      metalness: 0.02,
-    }),
-    0,
-  );
+  const asphaltMaterials = createCircuitAlphaAsphaltMaterials();
+
+  const road = createStrip(track, track.roadHalfWidth, asphaltMaterials.road, 0);
   road.name = 'track-road';
   road.receiveShadow = true;
   group.add(road);
@@ -822,11 +783,7 @@ export function createTrackScene(track: CircuitAlpha): THREE.Group {
   const racingWear = createStrip(
     track,
     track.roadHalfWidth - 1.15,
-    new THREE.MeshStandardMaterial({
-      color: COLORS.asphaltWear,
-      roughness: 0.7,
-      metalness: 0.015,
-    }),
+    asphaltMaterials.racingWear,
     0.009,
   );
   racingWear.name = 'asphalt-racing-wear';

@@ -51,8 +51,11 @@ export const BALANCE_CANDIDATE_B = {
   neutralStat: 6,
   neutralAcceleration: 7.3,
   accelerationExponentPerPoint: 0.1,
+  lowSpeedSpecialistThreshold: 6,
+  lowSpeedAccelerationExponentPerPoint: 0.1,
   recoveryThresholdRatio: 0.9,
   recoveryExponentPerPoint: 0.2,
+  lowSpeedRecoveryExponentPerPoint: 0.12,
   recoveryMinimum: 0.55,
   recoveryMaximum: 1.6,
   steeringResponseNeutral: 10,
@@ -68,7 +71,8 @@ export const BALANCE_CANDIDATE_B = {
   aiCornerBasePressure: 0.3,
   aiCornerPenaltyPerExcessSpeed: 0.23,
   aiCornerPenaltyPerHandlingPoint: 0.025,
-  aiCornerPenaltyMinimum: 0.15,
+  lowSpeedHandlingDiscountPerPoint: 0.055,
+  aiCornerPenaltyMinimum: 0.08,
   aiCornerPenaltyMaximum: 2.4,
 } as const;
 
@@ -79,13 +83,23 @@ function clamp(value: number, minimum: number, maximum: number): number {
 export function candidateBAccelerationRecoveryMultiplier(
   acceleration: number,
   speedRatio: number,
+  speedStat = BALANCE_CANDIDATE_B.lowSpeedSpecialistThreshold,
 ): number {
   const threshold = BALANCE_CANDIDATE_B.recoveryThresholdRatio;
   const deficit = clamp((threshold - speedRatio) / threshold, 0, 1);
+  const lowSpeedFactor = clamp(
+    BALANCE_CANDIDATE_B.lowSpeedSpecialistThreshold - speedStat,
+    0,
+    1,
+  );
+  const specialistPoints = Math.max(0, acceleration - 7);
   return clamp(
     Math.exp(
-      BALANCE_CANDIDATE_B.recoveryExponentPerPoint *
-        (acceleration - BALANCE_CANDIDATE_B.neutralStat) *
+      (BALANCE_CANDIDATE_B.recoveryExponentPerPoint *
+        (acceleration - BALANCE_CANDIDATE_B.neutralStat) +
+        BALANCE_CANDIDATE_B.lowSpeedRecoveryExponentPerPoint *
+          specialistPoints *
+          lowSpeedFactor) *
         deficit,
     ),
     BALANCE_CANDIDATE_B.recoveryMinimum,
@@ -156,11 +170,20 @@ export function candidateBAiCornerPenaltyScale(
     0,
     characterMaxSpeed - BALANCE_CANDIDATE_B.aiCornerReferenceSpeed,
   );
+  const lowSpeedFactor = clamp(
+    (28.555555555555557 - characterMaxSpeed) / 1.1111111111111143,
+    0,
+    1,
+  );
+  const specialistHandling = Math.max(0, handling - 7);
   return clamp(
     BALANCE_CANDIDATE_B.aiCornerBasePressure +
       BALANCE_CANDIDATE_B.aiCornerPenaltyPerExcessSpeed * excessSpeed -
       BALANCE_CANDIDATE_B.aiCornerPenaltyPerHandlingPoint *
-        (handling - BALANCE_CANDIDATE_B.neutralStat),
+        (handling - BALANCE_CANDIDATE_B.neutralStat) -
+      BALANCE_CANDIDATE_B.lowSpeedHandlingDiscountPerPoint *
+        specialistHandling *
+        lowSpeedFactor,
     BALANCE_CANDIDATE_B.aiCornerPenaltyMinimum,
     BALANCE_CANDIDATE_B.aiCornerPenaltyMaximum,
   );
@@ -169,11 +192,20 @@ export function candidateBAiCornerPenaltyScale(
 export function createKartTuning(stats: DriverStats): KartTuning {
   const normalized = (value: number): number => (value - 1) / 9;
   const prdLaunchAcceleration = 4 + 0.55 * stats.acceleration;
+  const lowSpeedFactor = clamp(
+    BALANCE_CANDIDATE_B.lowSpeedSpecialistThreshold - stats.speed,
+    0,
+    1,
+  );
+  const specialistAcceleration = Math.max(0, stats.acceleration - 7);
   const specializedAcceleration =
     BALANCE_CANDIDATE_B.neutralAcceleration *
     Math.exp(
       BALANCE_CANDIDATE_B.accelerationExponentPerPoint *
-        (stats.acceleration - BALANCE_CANDIDATE_B.neutralStat),
+        (stats.acceleration - BALANCE_CANDIDATE_B.neutralStat) +
+        BALANCE_CANDIDATE_B.lowSpeedAccelerationExponentPerPoint *
+          specialistAcceleration *
+          lowSpeedFactor,
     );
 
   return {

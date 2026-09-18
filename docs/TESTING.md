@@ -1024,3 +1024,17 @@ After deployment, product-owner visual review should confirm the asphalt reads r
 **Publication result:** Hosted PR CI `35356556627` passed Git LFS verification, clean install, strict typecheck, zero-warning lint, **65 test files / 519 tests**, **81.52% statement / 76.86% branch / 86.42% function / 83.26% line coverage**, exact track-texture hash/signature verification, branding/runtime-asset verification, and production build. PR #178 squash-merged at `c721fc083e2d18ad534387227968bb0a75982ae7`; post-merge run `35365068619` passed validation and GitHub Pages deployment. Automated publication is complete; the bounded deployed visual review remains pending.
 
 This checkpoint is not the final five-restart memory certification, cross-browser matrix, Medium performance gate, or Slice 6 release-candidate acceptance.
+
+## Slice 6 Route Night title / hub / utility UI checkpoint
+
+The bounded title, hub, Controls, and Settings UI increment adds `tests/route-night-ui.test.ts`. The focused contract covers deployed-base asset resolution, the authored Route Night SVG/raster asset library, art-directed action-plaque metadata, title route-board density, `PRESS START` hub routing, Circuit Alpha dominance, live/locked hub checkpoint nodes, non-activating `COMING SOON` cards, preserved desktop/mobile control bindings, utility route markers, and the existing settings IDs/destinations.
+
+Run the focused contract with:
+
+```bash
+npm test -- --run tests/route-night-ui.test.ts tests/app-shell.test.ts
+```
+
+Before publication, run the repository validation sequence: `npm run typecheck`, `npm run lint`, `npm run test:ci`, and `npm run build`. The build must also pass branding and runtime-asset validation. The two original Route Night WebP assets are checked into `public/assets/ui/route-night/`; their provenance and hashes are recorded in `docs/ASSET-PROVENANCE.md`.
+
+After hosted deployment, the product-owner visual gate must inspect title, hub, Controls, and Settings at representative desktop and mobile sizes against ADR-086 and the canonical Route Night reference. Verify browser audio unlock, playable/unavailable card routing, keyboard/mobile binding readability, persistent Master/Music/SFX settings, next-race Low/Medium/High selection, focus-visible treatment, and reduced-motion behavior. This automated checkpoint does not constitute deployed visual acceptance and does not authorize Character Select or later Slice 6 screens.

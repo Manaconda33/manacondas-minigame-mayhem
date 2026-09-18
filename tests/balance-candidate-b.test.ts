@@ -1,8 +1,9 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import { Vector3 } from 'three';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { characterById } from '../src/characters/manifest';
+import { characterById, characterManifest } from '../src/characters/manifest';
 import { createKartTuning, type DriverStats } from '../src/config/kartTuning';
+import { collisionSpeedRetention } from '../src/game/physics/KartCollision';
 import { KartController, type DriveInput } from '../src/game/physics/KartController';
 
 const THROTTLE: DriveInput = { throttle: 1, steering: 0, brake: false, drift: false };
@@ -151,6 +152,38 @@ describe('Balance Candidate B runtime telemetry', () => {
     );
     expect(recovery).toHaveLength(10);
     expect(handling).toHaveLength(10);
+  });
+
+  it('records Weight-plus-Acceleration collision recovery across the live roster', () => {
+    const results: {
+      name: string;
+      weight: number;
+      acceleration: number;
+      closingSpeed: number;
+      retention: number;
+      recoverySeconds: number;
+    }[] = [];
+
+    for (const character of characterManifest) {
+      for (const closingSpeed of [4, 8, 16]) {
+        const stats = character.stats;
+        const rig = makeKart(stats);
+        step(rig, THROTTLE, 1200);
+        const retention = collisionSpeedRetention(stats.weight, 6, closingSpeed);
+        rig.kart.applyCollisionSpeedRetention(retention);
+        results.push({
+          name: character.displayName,
+          weight: stats.weight,
+          acceleration: stats.acceleration,
+          closingSpeed,
+          retention,
+          recoverySeconds: framesToSpeedRatio(rig, stats, 0.9) / 60,
+        });
+      }
+    }
+
+    console.log(`Candidate B collision recovery telemetry: ${JSON.stringify(results)}`);
+    expect(results).toHaveLength(characterManifest.length * 3);
   });
 
   it('does not add a Handling speed penalty on a clean straight', () => {

@@ -291,7 +291,7 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 - [x] Item interaction/counter matrix evidence is recorded.
 - [x] Object-count/lifecycle soak evidence is recorded.
 - [x] Gameplay capture / cumulative deployed live evidence plus explicit final whole-slice observations demonstrate acquisition/use/counters and representative AI usage.
-- [ ] Pull-request CI passes.
+- [x] Pull-request CI passes (Slice 5 closure PR #173 hosted run `35338328282`).
 - [x] Final acceptance baseline `main` CI and GitHub Pages deployment pass.
 - [x] Desktop live playtest passes item controls, roulette/HUD, representative offensive/defensive/catch-up interactions, AI use, and cleanup behavior.
 - [x] Mobile live playtest passes item acquisition/use, HUD, dedicated ITEM control, backward modifier, and simultaneous control combinations.

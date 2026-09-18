@@ -62,6 +62,7 @@ import {
   guardrailContact,
 } from './track/GuardrailSystem';
 import { ItemBoxSystem } from './items/ItemBoxSystem';
+import { ItemPerformanceMeter } from './items/ItemPerformanceMeter';
 import { ProjectileSystem, type ProjectileSnapshot } from './items/ProjectileSystem';
 import { executeItemUse } from './items/ItemEffectDispatcher';
 import { selectItem } from './items/ItemSelector';
@@ -76,6 +77,7 @@ import {
   incomingBlastOrbFromSearch,
   incomingSlickFromSearch,
   shockwaveCounterFromSearch,
+  itemPerformanceFromSearch,
 } from './items/ItemTestMode';
 import { NitroSurgeVisual } from './items/NitroSurgeVisual';
 import { RacerItemVisuals } from './items/RacerItemVisuals';
@@ -263,6 +265,9 @@ export class KartTimeTrial {
   private readonly forcedTestItem = forcedItemFromSearch(window.location.search);
   private readonly forcedAiItem = aiForcedItemFromSearch(window.location.search);
   private readonly forcedAiRacer = aiForcedRacerFromSearch(window.location.search);
+  private readonly itemPerformance = new ItemPerformanceMeter(
+    itemPerformanceFromSearch(window.location.search),
+  );
   private readonly nitroSurgeVisual = new NitroSurgeVisual();
   private readonly nitroOverdriveVisual = new NitroOverdriveVisual();
   private readonly hyperDriveRocketVisual = new HyperDriveRocketVisual();
@@ -449,12 +454,16 @@ export class KartTimeTrial {
   private readonly frame = (now: number): void => {
     const frameSeconds = Math.min((now - this.lastFrame) / 1000, 0.1);
     this.lastFrame = now;
+    this.itemPerformance.beginFrame(
+      !this.paused && this.raceDirector.phase(this.playerProgress.finished) === 'racing',
+    );
     if (!this.paused) {
       this.fixedStep.advance(frameSeconds, this.simulate);
       this.elapsed = this.raceDirector.raceTime();
     }
 
     this.updateVisuals(frameSeconds);
+    this.itemPerformance.endFrame();
     this.renderer.render(this.scene, this.camera);
     this.updateHud(frameSeconds);
     this.animationFrame = requestAnimationFrame(this.frame);
@@ -1624,6 +1633,7 @@ export class KartTimeTrial {
           this.arcFixture.badge(),
           this.arcHammerFixture.badge(),
           this.inkFixture.badge(),
+          this.itemPerformance.badge(),
         ]
           .filter(Boolean)
           .join(' · ') || null,

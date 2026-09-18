@@ -19,10 +19,10 @@ This ledger records external production assets used by Manaconda's Minigame Mayh
 - **Excluded source maps:** displacement, AO/rough/metal packed map, DX normal, previews, and higher-resolution distributions are not shipped in this checkpoint.
 - **Runtime revision:** `slice6-asphalt-20260918-1`
 
-| Runtime file | Purpose | SHA-256 / LFS object ID |
+| Runtime file | Purpose | SHA-256 |
 | --- | --- | --- |
 | `asphalt_track_diff_1k.jpg` | sRGB diffuse/albedo | `05c4e79cd99160075969d37bfc6ef72be262153a410bb45510b2c23f7303894c` |
 | `asphalt_track_nor_gl_1k.jpg` | OpenGL tangent-space normal | `18caf02427a7cd9cd577ceae5aa9daa7bb3ffba60598e2df8aaf75d1925a8a94` |
 | `asphalt_track_rough_1k.jpg` | roughness | `0646d0cfbe6bf9ea4a8a9e43aec826e7ec32a10b8aff61bf5a4ec02b1bc3c363` |
 
-The repository also stores `SOURCE-SHA256SUMS.txt` beside the maps. `tools/verify-runtime-assets.mjs` verifies the JPEG signatures and the exact hashes during production validation so an LFS pointer or unexpected byte change fails the build.
+The repository also stores `SOURCE-SHA256SUMS.txt` beside the maps. These 1K JPG runtime derivatives are not covered by the current `.gitattributes` LFS patterns, so they remain normal Git files. `tools/verify-runtime-assets.mjs` verifies their JPEG signatures and exact hashes during production validation so an unexpected byte change fails the build. Existing LFS-governed assets remain independently protected by `git lfs fsck`.

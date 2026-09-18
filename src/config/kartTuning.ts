@@ -83,7 +83,7 @@ function clamp(value: number, minimum: number, maximum: number): number {
 export function candidateBAccelerationRecoveryMultiplier(
   acceleration: number,
   speedRatio: number,
-  speedStat = BALANCE_CANDIDATE_B.lowSpeedSpecialistThreshold,
+  speedStat: number = BALANCE_CANDIDATE_B.lowSpeedSpecialistThreshold,
 ): number {
   const threshold = BALANCE_CANDIDATE_B.recoveryThresholdRatio;
   const deficit = clamp((threshold - speedRatio) / threshold, 0, 1);

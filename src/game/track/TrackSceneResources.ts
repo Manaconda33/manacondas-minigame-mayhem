@@ -1,5 +1,40 @@
 import * as THREE from 'three';
 
+type MaterialTextureKey =
+  | 'alphaMap'
+  | 'aoMap'
+  | 'bumpMap'
+  | 'displacementMap'
+  | 'emissiveMap'
+  | 'envMap'
+  | 'lightMap'
+  | 'map'
+  | 'metalnessMap'
+  | 'normalMap'
+  | 'roughnessMap';
+
+const MATERIAL_TEXTURE_KEYS: readonly MaterialTextureKey[] = [
+  'alphaMap',
+  'aoMap',
+  'bumpMap',
+  'displacementMap',
+  'emissiveMap',
+  'envMap',
+  'lightMap',
+  'map',
+  'metalnessMap',
+  'normalMap',
+  'roughnessMap',
+];
+
+type TexturedMaterial = THREE.Material &
+  Partial<Record<MaterialTextureKey, THREE.Texture | null>>;
+
+type DisposableMesh = THREE.Mesh<
+  THREE.BufferGeometry,
+  THREE.Material | THREE.Material[]
+>;
+
 function addMaterial(
   material: THREE.Material | THREE.Material[],
   materials: Set<THREE.Material>,
@@ -12,15 +47,22 @@ function addMaterial(
 }
 
 function collectMaterialTextures(material: THREE.Material, textures: Set<THREE.Texture>): void {
-  for (const value of Object.values(material)) {
-    if (value instanceof THREE.Texture) textures.add(value);
+  const textured = material as TexturedMaterial;
+  for (const key of MATERIAL_TEXTURE_KEYS) {
+    const texture = textured[key];
+    if (texture instanceof THREE.Texture) textures.add(texture as THREE.Texture);
   }
 
   if (material instanceof THREE.ShaderMaterial) {
     for (const uniform of Object.values(material.uniforms)) {
-      if (uniform.value instanceof THREE.Texture) textures.add(uniform.value);
+      const value: unknown = uniform.value;
+      if (value instanceof THREE.Texture) textures.add(value as THREE.Texture);
     }
   }
+}
+
+function isDisposableMesh(object: THREE.Object3D): object is DisposableMesh {
+  return object instanceof THREE.Mesh;
 }
 
 export function disposeTrackScene(root: THREE.Object3D): void {
@@ -29,7 +71,7 @@ export function disposeTrackScene(root: THREE.Object3D): void {
   const textures = new Set<THREE.Texture>();
 
   root.traverse((object) => {
-    if (!(object instanceof THREE.Mesh)) return;
+    if (!isDisposableMesh(object)) return;
     geometries.add(object.geometry);
     addMaterial(object.material, materials);
   });

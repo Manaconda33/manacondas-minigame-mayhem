@@ -117,6 +117,62 @@ describe('Rapier kart controller', () => {
     );
   });
 
+  it('applies Soft Pack only to ordinary AI top speed and never stacks it with a real boost', () => {
+    const normalMaximum = createKartTuning(sliceOneDriver).maxSpeed;
+
+    const trailing = makeKart();
+    step(
+      trailing.world,
+      trailing.kart,
+      {
+        throttle: 1,
+        steering: 0,
+        brake: false,
+        drift: false,
+        competitiveSpeedCapMultiplier: 1.03,
+      },
+      900,
+    );
+    expect(trailing.kart.speedMetersPerSecond()).toBeCloseTo(normalMaximum * 1.03, 1);
+
+    const leading = makeKart();
+    step(
+      leading.world,
+      leading.kart,
+      {
+        throttle: 1,
+        steering: 0,
+        brake: false,
+        drift: false,
+        competitiveSpeedCapMultiplier: 0.985,
+      },
+      900,
+    );
+    expect(leading.kart.speedMetersPerSecond()).toBeCloseTo(normalMaximum * 0.985, 1);
+
+    const boost = ITEM_DEFINITIONS['nitro-surge'].boost;
+    if (boost === undefined) throw new Error('Nitro Surge boost configuration is missing.');
+    const boosted = makeKart();
+    step(
+      boosted.world,
+      boosted.kart,
+      {
+        throttle: 1,
+        steering: 0,
+        brake: false,
+        drift: false,
+        competitiveSpeedCapMultiplier: 1.03,
+        effectSpeedCapMultiplier: boost.speedCapMultiplier,
+        effectAccelerationMultiplier: boost.accelerationMultiplier,
+      },
+      900,
+    );
+    expect(boosted.kart.speedMetersPerSecond()).toBeCloseTo(
+      normalMaximum * boost.speedCapMultiplier,
+      1,
+    );
+  });
+
   it('honors the Nitro Surge external cap, acceleration, and off-road speed override', () => {
     const boost = ITEM_DEFINITIONS['nitro-surge'].boost;
     if (boost === undefined) throw new Error('Nitro Surge boost configuration is missing.');

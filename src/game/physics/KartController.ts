@@ -22,6 +22,7 @@ export interface DriveInput {
   brake: boolean;
   drift: boolean;
   speedLimitMultiplier?: number;
+  competitiveSpeedCapMultiplier?: number;
   effectSpeedCapMultiplier?: number;
   effectAccelerationMultiplier?: number;
   effectSteeringMultiplier?: number;
@@ -170,6 +171,11 @@ export class KartController {
       input.ignoreOffRoadSpeedPenalty === true && (surface === 'dirt' || surface === 'grass');
     const effectiveSurfaceSpeedFactor = ignoresOffRoadSpeedPenalty ? 1 : surfaceSpeedFactor;
     const speedLimitMultiplier = THREE.MathUtils.clamp(input.speedLimitMultiplier ?? 1, 1, 1.04);
+    const competitiveSpeedCapMultiplier = THREE.MathUtils.clamp(
+      input.competitiveSpeedCapMultiplier ?? 1,
+      0.985,
+      1.03,
+    );
     const effectSpeedCapMultiplier = Math.max(1, input.effectSpeedCapMultiplier ?? 1);
     const effectAccelerationMultiplier = Math.max(1, input.effectAccelerationMultiplier ?? 1);
     const maxForward = this.tuning.maxSpeed * effectiveSurfaceSpeedFactor * speedLimitMultiplier;
@@ -184,7 +190,10 @@ export class KartController {
       this.boostMultiplier = 1;
       this.activeBoostTier = 'none';
     }
-    const boostedMax = maxForward * Math.max(this.boostMultiplier, effectSpeedCapMultiplier);
+    const activeBoostMultiplier = Math.max(this.boostMultiplier, effectSpeedCapMultiplier);
+    const competitiveMultiplier =
+      activeBoostMultiplier > 1 + 1e-9 ? 1 : competitiveSpeedCapMultiplier;
+    const boostedMax = maxForward * activeBoostMultiplier * competitiveMultiplier;
     const launchSpeedRatio = THREE.MathUtils.clamp(
       Math.abs(forwardSpeed) / this.tuning.maxSpeed,
       0,

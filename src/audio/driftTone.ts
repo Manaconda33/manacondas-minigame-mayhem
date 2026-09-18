@@ -18,8 +18,9 @@ export async function resumeAudioContext(
 export function playDriftTierTone(
   tier: Exclude<DriftTier, 'none'>,
   context: AudioContext | null | undefined,
+  volume = 1,
 ): boolean {
-  if (context?.state !== 'running') return false;
+  if (context?.state !== 'running' || !Number.isFinite(volume) || volume <= 0) return false;
 
   try {
     const oscillator = context.createOscillator();
@@ -29,7 +30,7 @@ export function playDriftTierTone(
     oscillator.frequency.setValueAtTime(frequency, context.currentTime);
     oscillator.type = 'sine';
     gain.gain.setValueAtTime(0.0001, context.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.09, context.currentTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(Math.min(1, volume) * 0.09, context.currentTime + 0.01);
     gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.16);
     oscillator.connect(gain).connect(context.destination);
     oscillator.start();

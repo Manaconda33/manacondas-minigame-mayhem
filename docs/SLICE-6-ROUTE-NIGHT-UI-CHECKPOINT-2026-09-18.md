@@ -54,6 +54,7 @@ Local validation on the feature branch:
 - branding validation: passed;
 - runtime-asset validation: passed;
 - production build: passed, with the repository's known nonblocking Vite large-chunk warning unchanged.
+- hosted PR CI run `35396801098` on head `e29b1c124350d2bf60dd374534050fd80f0c274c`: **passed** LFS verification, clean lockfile install, strict TypeScript, zero-warning ESLint, automated tests, and production build.
 
 The canonical reference and generated assets were inspected directly. A local cloud-browser navigation was attempted for title/hub/utility visual inspection, but this Work browser returned `ERR_BLOCKED_BY_CLIENT` for the local Vite URL. Therefore this branch does not claim browser-rendered acceptance. The normal hosted PR/deployment checkpoint must provide the actual desktop/mobile visual review before this increment is accepted.
 

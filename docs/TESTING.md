@@ -1015,7 +1015,7 @@ Before publication, hosted validation must prove:
 - normal repository Git LFS materialization and `git lfs fsck` continue to pass for existing governed assets, while the normal-Git track JPG derivatives pass their exact hash/signature gate;
 - `disposeTrackScene` disposes shared textures/materials/geometries once and race disposal invokes that cleanup;
 - all existing track, race, item, AI, roster, settings, audio, and asset tests remain green;
-- strict typecheck, zero-warning lint, formatting, production build, branding validation, and runtime-asset validation pass.
+- strict typecheck, zero-warning lint, production build, branding validation, and runtime-asset validation pass.
 
 The budget record for this checkpoint is **2,150,973 bytes (~2.05 MiB compressed)** for the three runtime files and an intentionally conservative **~16 MiB decoded GPU estimate including mipmaps**. These numbers keep the PRD Medium <=256 MB texture-residency target visible; they do not replace later rendered-device Medium performance/residency measurement.
 

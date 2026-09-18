@@ -3,7 +3,10 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { characterManifest } from '../src/characters/manifest';
 import { createKartTuning, type DriverStats } from '../src/config/kartTuning';
 import { AiDriver } from '../src/game/ai/AiDriver';
-import { CandidateBCornerExitOverspeed } from '../src/game/physics/CandidateBCornerExitOverspeed';
+import {
+  BALANCE_CANDIDATE_B_CORNER_EXIT,
+  CandidateBCornerExitOverspeed,
+} from '../src/game/physics/CandidateBCornerExitOverspeed';
 import { KartController, type DriveInput } from '../src/game/physics/KartController';
 import { crossesForwardCheckpointGate } from '../src/game/race/CheckpointGate';
 import { LapTracker } from '../src/game/race/LapTracker';
@@ -106,6 +109,19 @@ function runThreeLap(
 describe('Candidate B apex-release overspeed runtime prototype', () => {
   beforeAll(async () => {
     await RAPIER.init();
+  });
+
+  it('locks the approved apex-release configuration exactly', () => {
+    expect(BALANCE_CANDIDATE_B_CORNER_EXIT).toMatchObject({
+      curvatureHalfWindowSamples: 4,
+      minimumPeakDegrees: 6,
+      minimumProminenceDegrees: 1,
+      releaseRatio: 0.8,
+      minimumReleaseSpacingSeconds: 1.5,
+      durationSeconds: 1.5,
+      speedCapBonus: 0.12,
+      maximumTriggerSpeedRatio: 1.01,
+    });
   });
 
   it('measures the real three-lap physics delta for Lavi, Lula and Alex', () => {

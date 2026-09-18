@@ -262,11 +262,11 @@ Blaze acceptance reconciliation: PR #135 gameplay and the governing Blaze scope 
 - [ ] Mobile `ITEM` control works and passes simultaneous-input testing.
 - [x] Mobile Brake/Reverse + ITEM requests backward deployment where supported.
 - [x] HUD shows roulette, held item, and correct remaining charge count.
-- [ ] AI acquires and uses items according to tactical circumstances.
+- [x] AI acquires and uses items according to tactical circumstances.
 - [x] AI recognizes Slicks and Blast Orbs as hazards.
 - [x] Seeker/Apex targeting derives from validated race progress rather than visual proximity alone.
-- [ ] Item hits never directly mutate checkpoint sequence, lap count, finish place, or race-progress authority.
-- [ ] Hyper-Drive movement earns progress through legal movement/checkpoints rather than direct progress mutation.
+- [x] Item hits never directly mutate checkpoint sequence, lap count, finish place, or race-progress authority.
+- [x] Hyper-Drive movement earns progress through legal movement/checkpoints rather than direct progress mutation.
 - [x] Finished racers cannot obtain new items.
 - [ ] Pause freezes roulette, projectile, hazard, buff/debuff, arming, fuse, global cooldown, and item-window timers.
 - [x] Existing AI steering, lane, speed-stat authority, recovery, and bounded rubber-band tests remain passing.
@@ -288,7 +288,7 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 - [ ] `npm ci` passes from the checkpoint source.
 - [ ] `npm run validate` passes.
 - [x] Slice-specific probability report is committed or referenced from implementation status.
-- [ ] Item interaction/counter matrix evidence is recorded.
+- [x] Item interaction/counter matrix evidence is recorded.
 - [ ] Object-count/lifecycle soak evidence is recorded.
 - [ ] Gameplay capture demonstrates acquisition/use/counters and representative AI usage.
 - [ ] Pull-request CI passes.
@@ -298,6 +298,10 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 - [ ] Product-owner live acceptance is explicitly recorded in `docs/IMPLEMENTATION-STATUS.md`.
 - [ ] Any PRD deviation is recorded before Slice 5 can close.
 - [ ] Slice 6 remains locked until Slice 5 is live accepted.
+
+## Final all-item interaction/counter evidence checkpoint
+
+The closure-grade matrix is recorded in `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md`. It reconciles all fifteen accepted item IDs against the production counter, immunity, composition, and race-authority tests. This evidence checkpoint changes no gameplay or balance. Lifecycle/object-count soak, item/VFX performance evidence, gameplay capture, and final desktop/mobile whole-slice acceptance remain open.
 
 ## Implementation gate
 

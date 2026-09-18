@@ -31,7 +31,7 @@ jobs:
 
           file "$root"/*.jpg
           for texture in "$root"/*.jpg; do
-            file "$texture" | grep -q "1024 x 1024"
+            file "$texture" | grep -Eq "1024 ?x ?1024"
           done
           (
             cd "$root"

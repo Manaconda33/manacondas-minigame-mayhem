@@ -1021,4 +1021,6 @@ The budget record for this checkpoint is **2,150,973 bytes (~2.05 MiB compressed
 
 After deployment, product-owner visual review should confirm the asphalt reads richer than the flat-color baseline without obvious UV seams/stretching, Circuit Alpha retains its dusk/twilight identity, established track geometry remains visually intact, approved racer/kart presentation is unchanged, and race restart/hub re-entry does not reveal a missing-material cleanup defect.
 
+**Publication result:** Hosted PR CI `35356556627` passed Git LFS verification, clean install, strict typecheck, zero-warning lint, **65 test files / 519 tests**, **81.52% statement / 76.86% branch / 86.42% function / 83.26% line coverage**, exact track-texture hash/signature verification, branding/runtime-asset verification, and production build. PR #178 squash-merged at `c721fc083e2d18ad534387227968bb0a75982ae7`; post-merge run `35365068619` passed validation and GitHub Pages deployment. Automated publication is complete; the bounded deployed visual review remains pending.
+
 This checkpoint is not the final five-restart memory certification, cross-browser matrix, Medium performance gate, or Slice 6 release-candidate acceptance.

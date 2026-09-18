@@ -902,3 +902,15 @@ The final interaction/counter evidence artifact is `docs/SLICE-5-ITEM-INTERACTIO
 Hosted validation for the checkpoint must run the complete suite, including the focused Shockwave, Prismatic, Apex, Blast, Slick, Blaze, Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, Hyper-Drive Rocket, RacerEffects, validated-progress, AI-item, and AI-race tests referenced by the matrix. A green focused subset is insufficient if the full repository suite fails.
 
 The matrix may be marked complete only when the PR diff is evidence/governance-only and hosted CI passes clean install, LFS verification, strict typecheck, zero-warning lint, complete automated tests, and production build. No new live-acceptance claim is made by this checkpoint. Lifecycle/object-count soak, item/VFX performance capture, gameplay capture, and the final desktop/mobile whole-slice acceptance remain separate gates.
+
+
+## Slice 5 final lifecycle/object-count soak checkpoint
+
+The final object-count soak is defined by `tests/item-lifecycle-soak.test.ts` and documented in `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md`.
+
+The closure gate combines two stress paths with the existing focused lifecycle suites:
+
+- **Mixed shared-capacity soak:** 20 race cycles, each reaching exactly 40 simultaneous shared item-physics slots with 30 projectiles across Kinetic, Seeker, Blaze, Frost, Arc Blade and Arc Hammers; four Blast Orbs; five Slicks; and one Apex reservation. Object 41 must be rejected, snapshots must remain finite, ordinary lifetime/completion processing must return active counts to zero, and disposal must return shared capacity and runtime groups to baseline.
+- **Timed-state / VFX soak:** 100 cycles of Nitro Surge effect state, Nitro Overdrive, Hyper-Drive Rocket, Prismatic protection, Ink Splat, Shockwave, inventory and racer-owned item visuals. Expiry plus disposal must leave neutral drive modifiers, no immunity flags, no timed item state, no pending/visible Shockwave, no Ink targets, no held inventory, and empty local/world VFX groups.
+
+The complete repository suite remains mandatory because existing focused tests supply item-specific impact/expiry, Arc/Blast repeated resource cleanup, audio voice/disconnect disposal, Prismatic music cleanup, AI finish cleanup, pause behavior, and camera/driver-state regressions. The soak does not substitute for the separate approximately 1.0 ms item/VFX performance gate or final desktop/mobile whole-slice acceptance.

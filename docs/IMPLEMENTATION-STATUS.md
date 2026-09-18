@@ -2,13 +2,15 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - SETTINGS / GRAPHICS / AUDIO FOUNDATION PUBLISHED**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - MATERIAL COORDINATES / FIRST CIRCUIT ALPHA PBR PASS IN REVIEW**
 
-PRD baseline: **v1.1, approved implementation amendments 2.18-2.22 / ADR-079-084**. Slice 6 kickoff approved by Manny on 2026-09-18; ADR-085 governs the baseline audit, licensed-material sourcing, and batched creative-collaboration workflow.
+PRD baseline: **v1.1 with approved implementation amendments through 2.22**. Slice 6 kickoff and Route Night are governed by ADR-085-086; the published settings/graphics/audio foundation is ADR-087; the bounded material-coordinate / first Circuit Alpha PBR increment is governed by ADR-088.
 
 Latest verified merged gameplay checkpoint on `main`: **`5136a002ec1d39b13f8470fd4b5449ce6df5bcf2`** (Issue #106 fix through PR #163; post-merge validation/Pages run `35282030810` passed).
 
 Latest verified Slice 5 acceptance-protocol checkpoint on `main`: **`fd967afca41366579fe448bcb7c3d9c0631edf1c`** (final desktop/mobile whole-slice matrix through PR #172; hosted PR CI `35305490406` and post-merge validation/Pages run `35337153793` passed **62 test files / 507 tests**).
+
+Latest verified repository head on `main`: **`9cf9baf2566df401b40d880275e01e8261755c5e`** (Slice 6 foundation publication closeout through PR #177; post-merge validation/Pages run `35353465561` passed).
 
 Latest verified Slice 6 implementation checkpoint on `main`: **`0144bcb6f1ce2bc0acb0e7e6adc229f38fd2e109`** (settings / graphics / audio foundation through PR #176; final PR-head CI `35352383087` and post-merge validation/Pages run `35353036562` passed **64 test files / 515 tests**).
 
@@ -120,7 +122,7 @@ The final all-item interaction/counter evidence is complete through `docs/SLICE-
 
 ## Next recommended action
 
-Review and, if Manny approves publication, publish PR #176 as the first bounded Slice 6 implementation checkpoint. Do not begin the material-coordinate / PBR increment until this foundation checkpoint is merged/deployed and its publication evidence is recorded.
+Publish the second bounded Slice 6 checkpoint from `slice6/circuit-alpha-pbr`: material-coordinate infrastructure + first Circuit Alpha asphalt PBR pass. Require hosted CI, then merge/deploy only if the gate passes. After deployment, run the bounded visual review in `docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md`. If accepted, continue to the Route Night title/hub/controls/settings UI system.
 
 ## Approval state
 
@@ -152,9 +154,9 @@ Review and, if Manny approves publication, publish PR #176 as the first bounded 
 
 **Slice 5 implementation:** **LIVE ACCEPTED / COMPLETE.** All fifteen items, probability/distribution evidence, AI item tactics, interaction/counter matrix, lifecycle/object-count soak, rendered-runtime performance evidence, race-authority corrections, and final desktop/mobile whole-slice acceptance are closed with no open Slice 5 defect recorded.
 
-**Slice 6:** **ACTIVE - BASELINE AUDIT / ART-DIRECTION GATE.** Manny approved beginning Slice 6 on 2026-09-18, including the batched technical baseline audit, free-to-use texture/material sourcing, existing racing/menu UI reference study, and original visual-direction proposal. The governing audit is `docs/SLICE-6-BASELINE-AUDIT-AND-ART-DIRECTION-2026-09-18.md`.
+**Slice 6:** **ACTIVE - SECOND BOUNDED INCREMENT IN REVIEW.** Manny approved beginning Slice 6 on 2026-09-18 and later authorized continuing from the published settings foundation into the material-coordinate / first Circuit Alpha PBR increment with normal PR/CI/deployment publication. The governing audit is `docs/SLICE-6-BASELINE-AUDIT-AND-ART-DIRECTION-2026-09-18.md`; ADR-088 and `docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md` govern the current checkpoint.
 
-Current findings: the track is predominantly color-only PBR with no UVs on procedural road/segment strips; most approved kart builders do not expose general-purpose UV mapping; the renderer has no post-processing stack; settings expose only master volume and are not yet persisted; there is no production audio mixer/engine/final-lap music system; the runtime pause has no final pause menu; Results lacks the full Race Again / Change Driver / Hub flow; and Character Select lacks the PRD's rotating 3D kart preview.
+Current findings: the feature branch now gives procedural loop/segment strips deterministic 2 m world-meter UVs and applies one provenance-tracked 1K Poly Haven Asphalt Track PBR set to the road/racing-wear surfaces only. Approved kart builders remain untouched. Settings persistence, graphics presets, and the mixer foundation are already published; the renderer still has no post-processing stack, there is no production engine/final-lap music system, the runtime pause lacks its final menu, Results lacks the full Race Again / Change Driver / Hub flow, and Character Select still lacks the PRD's rotating 3D kart preview.
 
 Preferred material sources are CC0 Poly Haven and ambientCG. Production texture imports must be resolution-limited and provenance-tracked rather than copied at source resolution. Commercial game UIs may inform hierarchy/motion only; final branded assets and interface language remain original.
 
@@ -167,3 +169,7 @@ Preferred material sources are CC0 Poly Haven and ambientCG. Production texture 
 Manny approved publication on 2026-09-18. Final PR-head CI run `35352383087` passed Git LFS verification, clean `npm ci`, strict typecheck, zero-warning lint, **64 test files / 515 tests**, **81.40% statement / 76.90% branch / 86.24% function / 83.15% line coverage**, branding/runtime-asset verification, and production build. PR #176 squash-merged at **`0144bcb6f1ce2bc0acb0e7e6adc229f38fd2e109`**. Post-merge CI / GitHub Pages run **`35353036562`** passed validation, Pages artifact upload, and deployment. Publication evidence is recorded in PR #176 comment `5731036246`. No gameplay balance, race authority, item behavior, Route Night visual styling, production audio assets, post-processing, or PBR materials changed in this increment.
 
 **Next recommended action:** proceed to the second bounded Slice 6 increment: material-coordinate infrastructure + the first Circuit Alpha PBR material pass, following the provenance/performance rules already recorded in the Slice 6 baseline audit.
+
+**Slice 6 material-coordinate / first Circuit Alpha PBR pass:** **IMPLEMENTED ON FEATURE BRANCH / PUBLICATION PENDING.** Branch `slice6/circuit-alpha-pbr` adds meter-scaled procedural strip UVs, one CC0 Poly Haven `asphalt_track` 1K diffuse/OpenGL-normal/roughness set, the first asphalt PBR assignment, exact runtime hash verification, and explicit track-scene GPU-resource disposal. The maps total **2,150,973 bytes (~2.05 MiB compressed)** with a conservative **~16 MiB decoded GPU estimate including mipmaps**, kept visible against the PRD Medium <=256 MB texture target. Provenance is recorded in `docs/ASSET-PROVENANCE.md`; focused implementation/evidence is recorded in `docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md`.
+
+The material set was materialized on the feature branch by temporary GitHub Actions run `35355493952`; the temporary workflow was removed after the three 1024 x 1024 files and `SOURCE-SHA256SUMS.txt` were committed. Production verification now checks the exact three source hashes/JPEG signatures in addition to normal LFS verification. No gameplay, track topology, race authority, racer statistics, item behavior, approved likeness, kart geometry/identity, dependency, or Route Night UI-language change is included. Hosted PR validation, merge/Pages publication, and deployed visual review remain pending at this branch checkpoint.

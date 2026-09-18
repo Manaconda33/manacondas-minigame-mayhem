@@ -55,6 +55,34 @@ for (const [path, expectedHash] of archivedCleoHashes) {
 
 console.log(`Verified ${String(archivedCleoHashes.size)} archived Cleo asset hashes.`);
 
+const runtimeTrackTextureHashes = new Map([
+  [
+    'public/assets/track/materials/asphalt-track/asphalt_track_diff_1k.jpg',
+    '05c4e79cd99160075969d37bfc6ef72be262153a410bb45510b2c23f7303894c',
+  ],
+  [
+    'public/assets/track/materials/asphalt-track/asphalt_track_nor_gl_1k.jpg',
+    '18caf02427a7cd9cd577ceae5aa9daa7bb3ffba60598e2df8aaf75d1925a8a94',
+  ],
+  [
+    'public/assets/track/materials/asphalt-track/asphalt_track_rough_1k.jpg',
+    '0646d0cfbe6bf9ea4a8a9e43aec826e7ec32a10b8aff61bf5a4ec02b1bc3c363',
+  ],
+]);
+
+for (const [path, expectedHash] of runtimeTrackTextureHashes) {
+  const bytes = await readFile(path);
+  if (bytes.length < 4 || bytes[0] !== 0xff || bytes[1] !== 0xd8 || bytes.at(-2) !== 0xff || bytes.at(-1) !== 0xd9) {
+    throw new Error(`${path} is not a materialized JPEG. Check Git LFS checkout.`);
+  }
+  const actualHash = createHash('sha256').update(bytes).digest('hex');
+  if (actualHash !== expectedHash) {
+    throw new Error(`${path} no longer matches the approved Poly Haven 1K derivative bytes.`);
+  }
+}
+
+console.log(`Verified ${String(runtimeTrackTextureHashes.size)} materialized runtime track textures.`);
+
 const runtimeGlbs = [
   'public/assets/characters/aa-01/kart.glb',
   'public/assets/characters/aa-01/kart-lod1.glb',

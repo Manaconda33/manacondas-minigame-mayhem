@@ -2,9 +2,9 @@
 
 ## Current slice
 
-**Slice 5 - Item Boxes, Weapons & Position-Based Distribution - LIVE ACCEPTED / COMPLETE; SLICE 6 READY PENDING MANNY APPROVAL**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - BASELINE AUDIT / ART-DIRECTION GATE ACTIVE**
 
-PRD baseline: **v1.1, approved implementation amendments 2.18-2.22 / ADR-079-084**.
+PRD baseline: **v1.1, approved implementation amendments 2.18-2.22 / ADR-079-084**. Slice 6 kickoff approved by Manny on 2026-09-18; ADR-085 governs the baseline audit, licensed-material sourcing, and batched creative-collaboration workflow.
 
 Latest verified merged gameplay checkpoint on `main`: **`5136a002ec1d39b13f8470fd4b5449ce6df5bcf2`** (Issue #106 fix through PR #163; post-merge validation/Pages run `35282030810` passed).
 
@@ -150,4 +150,10 @@ Stop at the Slice 6 approval gate. Slice 5 is complete. Do not begin Slice 6 unt
 
 **Slice 5 implementation:** **LIVE ACCEPTED / COMPLETE.** All fifteen items, probability/distribution evidence, AI item tactics, interaction/counter matrix, lifecycle/object-count soak, rendered-runtime performance evidence, race-authority corrections, and final desktop/mobile whole-slice acceptance are closed with no open Slice 5 defect recorded.
 
-**Slice 6:** **READY / NOT STARTED.** Separate Manny approval is required before implementation begins.
+**Slice 6:** **ACTIVE - BASELINE AUDIT / ART-DIRECTION GATE.** Manny approved beginning Slice 6 on 2026-09-18, including the batched technical baseline audit, free-to-use texture/material sourcing, existing racing/menu UI reference study, and original visual-direction proposal. The governing audit is `docs/SLICE-6-BASELINE-AUDIT-AND-ART-DIRECTION-2026-09-18.md`.
+
+Current findings: the track is predominantly color-only PBR with no UVs on procedural road/segment strips; most approved kart builders do not expose general-purpose UV mapping; the renderer has no post-processing stack; settings expose only master volume and are not yet persisted; there is no production audio mixer/engine/final-lap music system; the runtime pause has no final pause menu; Results lacks the full Race Again / Change Driver / Hub flow; and Character Select lacks the PRD's rotating 3D kart preview.
+
+Preferred material sources are CC0 Poly Haven and ambientCG. Production texture imports must be resolution-limited and provenance-tracked rather than copied at source resolution. Commercial game UIs may inform hierarchy/motion only; final branded assets and interface language remain original.
+
+**Next approval gate:** Manny chooses Route Night, Pit Poster, Twilight Broadcast, or a specified hybrid before bulk UI styling / bulk external material import. Technical groundwork that does not lock the aesthetic may proceed after this checkpoint is published.

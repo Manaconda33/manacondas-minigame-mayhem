@@ -269,8 +269,7 @@ function detectApexReleases(
 
     const release = telemetry.samples[releaseIndex];
     if (
-      release === undefined ||
-      release.surface !== 'asphalt' ||
+      release?.surface !== 'asphalt' ||
       release.speedRatio > 1.01 ||
       !Number.isFinite(release.speedRatio)
     ) {

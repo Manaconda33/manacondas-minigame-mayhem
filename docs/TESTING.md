@@ -997,3 +997,5 @@ PR #176 is the first bounded Slice 6 engineering increment. Before publication i
 Hosted PR CI run `35352171432` on implementation head `19ca29fe6b86e9beea6358deb08ce7346ad47be1` passed Git LFS verification, clean `npm ci`, strict typecheck, zero-warning lint, **64 test files / 515 tests**, **81.40% statement / 76.90% branch / 86.24% function / 83.15% line coverage**, branding/runtime-asset verification, and production build. The existing Vite large-chunk warning and three moderate npm audit findings remain known/nonblocking.
 
 This automated checkpoint does **not** claim deployed settings persistence, device-specific graphics quality, production engine/music audio, Route Night visual acceptance, or public Pages acceptance. Those claims require their later governed implementation/deployment gates.
+
+**Publication result:** Manny approved publication on 2026-09-18. PR #176 squash-merged at `0144bcb6f1ce2bc0acb0e7e6adc229f38fd2e109`. Post-merge run `35353036562` passed validation and GitHub Pages deployment. This publication confirms the checkpoint reached the deployed build; it does not by itself constitute device-specific visual/audio acceptance.

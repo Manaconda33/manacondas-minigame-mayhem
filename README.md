@@ -6,7 +6,7 @@ The canonical repository `Manaconda33/manacondas-minigame-mayhem` is intentional
 
 ## Current state
 
-**Current state:** Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization — **Route Night locked; settings foundation published; material-coordinate + first Circuit Alpha PBR pass deployed with live visual review pending**. Slice 5 is **LIVE ACCEPTED / COMPLETE**.
+**Current state:** Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization — **Route Night locked; settings foundation published; material-coordinate + first Circuit Alpha PBR pass live accepted; Route Night UI implementation is next**. Slice 5 is **LIVE ACCEPTED / COMPLETE**.
 
 Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation, visible item boxes, roulette, held-item HUD, desktop/mobile ITEM input, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, Timed Blast Orb, Slick Trap, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, Kinetic Arc Hammers, Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, Hyper-Drive Rocket, the bounded Slick/Blast AI hazard response, and full AI item tactics are merged, deployed, and live accepted at their recorded checkpoints.
 

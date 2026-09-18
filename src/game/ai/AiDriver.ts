@@ -43,10 +43,6 @@ export function aiLookaheadMeters(speed: number): number {
   return THREE.MathUtils.lerp(5, 14, THREE.MathUtils.clamp(speed / 30, 0, 1));
 }
 
-export function rubberBandFactor(progressDelta: number): number {
-  return THREE.MathUtils.clamp(1 + Math.max(0, progressDelta) * 0.025, 1, 1.04);
-}
-
 export function aiCornerSeverity(
   forward: THREE.Vector3,
   currentTrackTangent: THREE.Vector3,
@@ -69,7 +65,6 @@ export function aiTargetSpeed(
   characterMaxSpeed: number,
   pace: number,
   corner: number,
-  playerProgressDelta: number,
   handling = 6,
 ): number {
   const cornerPenalty =
@@ -80,7 +75,7 @@ export function aiTargetSpeed(
     0.35,
     1,
   );
-  return characterMaxSpeed * cornerSpeedFactor * rubberBandFactor(playerProgressDelta);
+  return characterMaxSpeed * cornerSpeedFactor;
 }
 
 function latestSteeringAtOrBefore(
@@ -114,7 +109,7 @@ export class AiDriver {
     position: THREE.Vector3,
     forward: THREE.Vector3,
     speed: number,
-    playerProgressDelta = 0,
+    _playerProgressDelta = 0,
     nearbyRacers: readonly AiRacerAwareness[] = [],
     dt = 1 / 60,
     hazards: readonly AiHazardAwareness[] = [],
@@ -122,6 +117,7 @@ export class AiDriver {
     ink: InkAiImpairmentSnapshot | null = null,
     competitivePaceAdjustment = 0,
   ): DriveInput {
+    void _playerProgressDelta;
     const now = this.steeringClockSeconds;
     const projection = this.track.project(position);
     const racersAhead = this.racersAhead(position, projection.tangent, nearbyRacers);
@@ -178,7 +174,6 @@ export class AiDriver {
       this.characterMaxSpeed,
       effectivePace,
       corner,
-      playerProgressDelta,
       this.handling,
     );
     const blocker = racersAhead.find(
@@ -191,7 +186,6 @@ export class AiDriver {
       steering,
       brake: speed > targetSpeed + 2,
       drift: Math.abs(steering) > 0.62 && speed > 11 && this.profile.aggression > 0.35,
-      speedLimitMultiplier: rubberBandFactor(playerProgressDelta),
     };
   }
 

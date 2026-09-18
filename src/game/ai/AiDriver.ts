@@ -120,6 +120,7 @@ export class AiDriver {
     hazards: readonly AiHazardAwareness[] = [],
     racerId = '',
     ink: InkAiImpairmentSnapshot | null = null,
+    competitivePaceAdjustment = 0,
   ): DriveInput {
     const now = this.steeringClockSeconds;
     const projection = this.track.project(position);
@@ -168,9 +169,14 @@ export class AiDriver {
           ) ?? 0);
     if (Number.isFinite(dt) && dt > 0) this.steeringClockSeconds += dt;
     const corner = aiCornerSeverity(forward, projection.tangent, tangent);
+    const effectivePace = THREE.MathUtils.clamp(
+      this.profile.pace + competitivePaceAdjustment,
+      0,
+      1,
+    );
     let targetSpeed = aiTargetSpeed(
       this.characterMaxSpeed,
-      this.profile.pace,
+      effectivePace,
       corner,
       playerProgressDelta,
       this.handling,

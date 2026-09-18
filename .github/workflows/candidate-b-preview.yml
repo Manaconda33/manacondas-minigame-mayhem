@@ -1,0 +1,82 @@
+name: Candidate B Preview
+
+on:
+  push:
+    branches: [experiment/balance-candidate-b]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: candidate-b-preview
+  cancel-in-progress: true
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out Candidate B branch
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Verify Candidate B Git LFS assets
+        run: git lfs fsck
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Candidate B dependencies
+        run: npm ci
+
+      - name: Validate Candidate B
+        run: npm run validate
+
+      - name: Build Candidate B preview path
+        run: npx vite build --base=/manacondas-minigame-mayhem/candidate-b-preview/ --outDir preview-dist
+
+      - name: Check out current main for normal live root
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-site
+          lfs: true
+
+      - name: Build current main
+        working-directory: main-site
+        run: |
+          npm ci
+          npm run build
+
+      - name: Assemble normal root plus Candidate B preview
+        run: |
+          mkdir -p _site/candidate-b-preview
+          cp -R main-site/dist/. _site/
+          cp -R preview-dist/. _site/candidate-b-preview/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: validate-and-build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}candidate-b-preview/
+    steps:
+      - name: Deploy normal root plus Candidate B preview
+        id: deployment
+        uses: actions/deploy-pages@v4

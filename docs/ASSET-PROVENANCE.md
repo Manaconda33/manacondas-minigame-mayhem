@@ -40,18 +40,21 @@ The transient generated PNG outputs were converted to the committed WebP derivat
 
 Prompt intent was limited to an atmospheric Route Night title/hub backdrop and a Circuit Alpha route/checkpoint card image: deep indigo/graphite structure, cyan route energy, warm gold checkpoints, restrained violet/magenta energy, cinematic twilight framing, and deliberate negative space for UI placement. The assets contain no text, logos, watermark, character likeness, or vehicle identity.
 
-## Route Night UI - generated identity layers
+## Route Night UI - generated identity and density layers
 
-These two bounded identity layers were generated for the hybrid Route Night title/menu pass on 2026-09-18 with the built-in OpenAI image-generation tool. The canonical Route Night reference at `docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png` was supplied only as a visual-language reference. The outputs are original project art and contain no copied canonical pixels, commercial artwork, logos, characters, vehicles, or external license dependency.
+These three bounded identity/density layers were generated for the hybrid Route Night title/menu pass on 2026-09-18 with the built-in OpenAI image-generation tool. The canonical Route Night reference at `docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png` was supplied only as a visual-language reference. The outputs are original project art and contain no copied canonical pixels, commercial artwork, logos, characters, vehicles, or external license dependency.
 
 | Runtime file | Generated/source resolution | Production derivative | SHA-256 |
 | --- | --- | --- | --- |
 | `public/assets/ui/route-night/route-night-title-lockup-brush.webp` | 1774 x 887 PNG output `exec-ed6b9d13-5cf9-4428-8af4-1ec4f0a94ee2.png` | 1774 x 887 alpha WebP, 173,408 bytes | `7f459860e9a4b330c251afa6085be5aac5a2bbf6729412056c30c098e4743d34` |
 | `public/assets/ui/route-night/route-night-panel-texture.webp` | 1672 x 941 PNG output `exec-076d9eb9-b5f1-4598-810e-8620291d09c1.png` | 1672 x 941 opaque WebP, 87,054 bytes | `9e43470a8bce016faeee69437f1a811a8d67e62fa04c4c85445c263eeff8ddf3` |
+| `public/assets/ui/route-night/route-night-editorial-strip.webp` | 2048 x 768 PNG output `exec-f4bd0016-7aca-467c-91e2-7ab832d6f662.png` | 2048 x 768 opaque WebP, 141,604 bytes | `3685ce9283a384f3726c602d2e05da9fe5f00ba223b6168764145394e8c1cf77` |
 
 The title layer was requested as an exact product-name treatment with hand-painted brush energy, cyan upper lettering, warm-gold and magenta lower lettering, route strokes, and a gold directional arrow. The generator returned a checkerboard preview instead of usable alpha; production preparation therefore used a deterministic ImageMagick alpha mask that removes only bright, low-chroma neutral checkerboard pixels while preserving the colored lettering and dark brush silhouette. The accepted output was inspected flattened over indigo and light backgrounds before WebP conversion. The SVG title lockup remains the exact-text fallback, and the accessible product name remains live DOM text.
 
 The panel texture was requested as an opaque, text-safe Route Night surface: deep indigo/graphite structure, cyan route lines and checkpoint nodes, restrained violet/magenta energy, warm-gold focus markers, clipped geometry, and print grain. It is placed at low opacity behind live responsive panels and does not own layout, text, input, or interaction state.
+
+The editorial strip was requested as an opaque, text-free density layer: painterly elevated route geometry, city silhouettes, cyan navigation lines, gold checkpoint rings, violet/magenta brush energy, and broad dark negative space for live UI. It is placed at restrained opacity behind the title, hub, Controls, and Settings composition. It contains no interface copy, logos, characters, vehicles, or interaction state.
 
 ## Route Night UI - authored vector asset library
 
@@ -61,8 +64,8 @@ The desktop title/menu increment also includes a small authored SVG library for 
 | --- | --- | ---: | --- |
 | `public/assets/ui/route-night/route-night-title-lockup.svg` | Title-screen product-name lockup | 2,064 | `aab87bed6f21ad41a44d5dd842716011af607edca527ac1ce29e9061f1834bf3` |
 | `public/assets/ui/route-night/route-night-mark.svg` | Existing route/token brand mark as a reusable standalone image | 816 | `b02119f2263da87ff04da59a3c749ec7447e7ad52874a2da27ff70b3f7d1354c` |
-| `public/assets/ui/route-night/route-night-ui.svg` | Play, controls, settings, back, arrow, audio, graphics, lock, route, checkpoint, and node symbols | 3,301 | `69e84b384cd503499e41576d669a0109a26b361638602c4efe21db4c0bfcfbfc` |
-| `public/assets/ui/route-night/route-night-button-frames.svg` | Gold-primary, cyan utility/secondary, and disabled clipped button frames | 1,416 | `f3ce9cab7723efb663fa9f12466b1dc4b2a847f3ebe727ca21cbbf45f6730d3e` |
+| `public/assets/ui/route-night/route-night-ui.svg` | Play, race, minigames, controls, settings, back, arrow, audio, signal, input, graphics, lock, route, checkpoint, and node symbols | 4,665 | `382fbfa797e26249746278e6132cd1a0a91110069add867dcd33ed4148626dc8` |
+| `public/assets/ui/route-night/route-night-button-frames.svg` | Filled gold-primary, cyan utility, violet secondary, and disabled clipped button frames | 1,744 | `2a8cba854c4c7532a22b65e971f309baae2d853ee0df0af4031350b5f7671e76` |
 | `public/assets/ui/route-night/route-night-route-ornaments.svg` | Route arcs, branches, checkpoint rings, and divider motifs | 1,899 | `0b3d2f90d9bdac0a2c3e1380289369834697203a5629c0100eee1f30ffeca67f` |
 | `public/assets/ui/route-night/route-night-status.svg` | Live, audio, locked, and system status markers | 1,358 | `ec4379d58ea2ee864b90e3593a1f85c6e4d5eff80cf9764be3ef0ccaaf87bf62` |
 

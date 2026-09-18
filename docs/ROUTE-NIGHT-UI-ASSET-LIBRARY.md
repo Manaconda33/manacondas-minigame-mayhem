@@ -1,6 +1,6 @@
 # Route Night UI asset library
 
-This is the desktop UI asset package for the bounded Route Night Title, Hub, Controls, and Settings increment. It is intentionally hybrid: expressive title and atmosphere layers use original raster art, while names, controls, buttons, symbols, and route grammar remain crisp SVG/DOM assets that can be placed at responsive sizes.
+This is the desktop UI asset package for the bounded Route Night Title, Hub, Controls, and Settings increment. It is intentionally hybrid: expressive title, atmosphere, and editorial-density layers use original raster art, while names, controls, buttons, symbols, and route grammar remain crisp SVG/DOM assets that can be placed at responsive sizes.
 
 ## Rendered visual QA sheet
 
@@ -16,6 +16,7 @@ The production SVGs and selected raster layers are rendered below at desktop rev
 | `public/assets/ui/route-night/circuit-alpha-route-card.webp` | Playable Circuit Alpha route card art |
 | `public/assets/ui/route-night/route-night-title-lockup-brush.webp` | Original painterly product-name treatment for the title screen; SVG remains the exact-text fallback |
 | `public/assets/ui/route-night/route-night-panel-texture.webp` | Original opaque Route Night route/checkpoint surface used as a restrained layer behind title, hub, controls, and settings |
+| `public/assets/ui/route-night/route-night-editorial-strip.webp` | Original text-free brush/city/route density layer used behind the shared screen composition and utility panels |
 | `public/assets/ui/route-night/route-night-title-lockup.svg` | Exact product-name title lockup |
 | `public/assets/ui/route-night/route-night-mark.svg` | Compact route/token brand mark |
 | `public/assets/ui/route-night/route-night-ui.svg` | Reusable icon symbol library |
@@ -25,7 +26,7 @@ The production SVGs and selected raster layers are rendered below at desktop rev
 
 ## Symbol inventory
 
-`route-night-ui.svg` contains `icon-play`, `icon-controls`, `icon-settings`, `icon-back`, `icon-arrow`, `icon-audio`, `icon-graphics`, `icon-lock`, `icon-route`, `icon-checkpoint`, and `icon-node`.
+`route-night-ui.svg` contains `icon-play`, `icon-race`, `icon-minigames`, `icon-controls`, `icon-settings`, `icon-back`, `icon-arrow`, `icon-audio`, `icon-signal`, `icon-input`, `icon-graphics`, `icon-lock`, `icon-route`, `icon-checkpoint`, and `icon-node`.
 
 `route-night-button-frames.svg` contains `frame-primary`, `frame-utility`, `frame-secondary`, and `frame-disabled`.
 
@@ -41,8 +42,10 @@ Use the helpers in `src/ui/routeNight.ts` rather than hard-coding public paths. 
 routeNightAssetUrl('title-lockup');
 routeNightAssetUrl('title-lockup-brush');
 routeNightAssetUrl('panel-texture');
+routeNightAssetUrl('editorial-strip');
 routeNightIconMarkup('play');
 routeNightButtonFrameMarkup('primary');
+routeNightNodeMarkup('01', 'live');
 routeNightOrnamentMarkup('checkpoint');
 routeNightStatusMarkup('live');
 ```

@@ -34,6 +34,9 @@ describe('Route Night UI system', () => {
     expect(resolveAsset('panel-texture')).toContain(
       'assets/ui/route-night/route-night-panel-texture.webp',
     );
+    expect(resolveAsset('editorial-strip')).toContain(
+      'assets/ui/route-night/route-night-editorial-strip.webp',
+    );
     expect(resolveAsset('mark')).toContain('assets/ui/route-night/route-night-mark.svg');
     expect(resolveAsset('ui-sprite')).toContain('assets/ui/route-night/route-night-ui.svg');
     expect(resolveAsset('button-frames')).toContain(
@@ -70,12 +73,27 @@ describe('Route Night UI system', () => {
     );
   });
 
+  it('uses art-directed action plaques and a denser Route Night title board', () => {
+    const root = mountRoot();
+
+    const start = root.querySelector<HTMLButtonElement>('[data-action="enter"]');
+    expect(start?.getAttribute('data-route-button')).toBe('primary');
+    expect(start?.querySelector('[data-route-frame="primary"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="race"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="signal"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-board="title"]')).not.toBeNull();
+    expect(root.querySelectorAll('[data-route-board="title"] [data-route-node]')).toHaveLength(2);
+  });
+
   it('makes Circuit Alpha the playable hub destination and gates future cards', () => {
     const root = mountRoot();
     clickAction(root, 'enter');
 
     expect(root.querySelector('main[data-screen="hub"]')).not.toBeNull();
     expect(root.querySelector('[data-route-asset="panel-texture"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-asset="editorial-strip"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-board="hub"]')).not.toBeNull();
+    expect(root.querySelectorAll('[data-route-board="hub"] [data-route-node]')).toHaveLength(3);
     expect(root.querySelector('[data-route-card="circuit-alpha"]')).not.toBeNull();
     expect(
       root.querySelector('img[data-route-asset="circuit-alpha-card"]')?.getAttribute('src'),
@@ -84,6 +102,7 @@ describe('Route Night UI system', () => {
     expect(root.querySelector('[data-route-icon="play"]')).not.toBeNull();
     expect(root.querySelector('[data-route-icon="controls"]')).not.toBeNull();
     expect(root.querySelector('[data-route-icon="settings"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="minigames"]')).not.toBeNull();
 
     const comingSoonCards = root.querySelectorAll('[data-availability="coming-soon"]');
     expect(comingSoonCards).toHaveLength(2);
@@ -107,6 +126,8 @@ describe('Route Night UI system', () => {
 
     expect(root.querySelector('main[data-screen="controls"]')).not.toBeNull();
     expect(root.querySelector('[data-route-asset="panel-texture"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-asset="editorial-strip"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-utility="input"]')).not.toBeNull();
     expect(root.querySelector('[data-control="accelerate"]')?.textContent).toContain('W');
     expect(root.querySelector('[data-control="brake-reverse"]')?.textContent).toContain('S');
     expect(root.querySelector('[data-control="steer"]')?.textContent).toContain('A');
@@ -114,6 +135,7 @@ describe('Route Night UI system', () => {
     expect(root.textContent).toContain('Mobile');
     expect(root.querySelector('[data-route-icon="back"]')).not.toBeNull();
     expect(root.querySelector('[data-route-icon="controls"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-icon="input"]')).not.toBeNull();
   });
 
   it('keeps settings controls in the Route Night utility destination', () => {
@@ -123,6 +145,8 @@ describe('Route Night UI system', () => {
 
     expect(root.querySelector('main[data-screen="settings"]')).not.toBeNull();
     expect(root.querySelector('[data-route-asset="panel-texture"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-asset="editorial-strip"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-utility="system"]')).not.toBeNull();
     expect(root.querySelector('#master-volume')).not.toBeNull();
     expect(root.querySelector('#music-volume')).not.toBeNull();
     expect(root.querySelector('#sfx-volume')).not.toBeNull();

@@ -3,7 +3,11 @@ import { resumeAudioContext } from '../audio/driftTone';
 import { audioMixer } from '../audio/AudioMixer';
 import { loadGameSettings, saveGameSettings } from '../config/gameSettings';
 import { isGraphicsQuality } from '../config/graphicsQuality';
-import type { HudState, RaceResult, KartTimeTrial as KartTimeTrialInstance } from '../game/KartTimeTrial';
+import type {
+  HudState,
+  RaceResult,
+  KartTimeTrial as KartTimeTrialInstance,
+} from '../game/KartTimeTrial';
 import { isMobileSession } from './mobileSession';
 import { characterById, characterManifest, type CharacterDefinition } from '../characters/manifest';
 import { itemHudMarkup, updateItemHud } from './itemHud';
@@ -13,6 +17,7 @@ import {
   routeNightAssetUrl,
   routeNightButtonFrameMarkup,
   routeNightIconMarkup,
+  routeNightNodeMarkup,
   routeNightOrnamentMarkup,
   routeNightStatusMarkup,
   type RouteNightButtonFrame,
@@ -40,9 +45,14 @@ export function standingsMarkup(standings: RaceResult['standings']): string {
     .join('');
 }
 
-function button(label: string, action: string, className = '', icon: RouteNightIcon | null = null): string {
+function button(
+  label: string,
+  action: string,
+  className = '',
+  icon: RouteNightIcon | null = null,
+): string {
   if (icon === null) {
-    return `<button class="menu-button ${className}" data-action="${action}">${label}</button>`;
+    return `<button class="menu-button ${className}" data-action="${action}" data-route-button="${className.includes('primary') ? 'primary' : 'utility'}">${label}</button>`;
   }
 
   const frame: RouteNightButtonFrame = className.includes('primary')
@@ -53,11 +63,15 @@ function button(label: string, action: string, className = '', icon: RouteNightI
         ? 'disabled'
         : 'utility';
 
-  return `<button class="menu-button route-asset-button ${className}" data-action="${action}">${routeNightButtonFrameMarkup(frame)}${routeNightIconMarkup(icon, 'route-button-icon')}<span class="route-button-label">${label}</span>${routeNightIconMarkup('arrow', 'route-button-arrow')}</button>`;
+  return `<button class="menu-button route-asset-button ${className}" data-action="${action}" data-route-button="${frame}">${routeNightButtonFrameMarkup(frame)}${routeNightIconMarkup(icon, 'route-button-icon')}<span class="route-button-label">${label}</span>${routeNightIconMarkup('arrow', 'route-button-arrow')}</button>`;
 }
 
 function routeNightPanelTextureMarkup(): string {
   return `<div class="route-night-panel-texture" data-route-asset="panel-texture" aria-hidden="true"><img src="${routeNightAssetUrl('panel-texture')}" alt="" loading="lazy" decoding="async" /></div>`;
+}
+
+function routeNightEditorialStripMarkup(): string {
+  return `<div class="route-night-editorial-strip" data-route-asset="editorial-strip" aria-hidden="true"><img src="${routeNightAssetUrl('editorial-strip')}" alt="" loading="lazy" decoding="async" /></div>`;
 }
 
 export function mountAppShell(root: HTMLElement): void {
@@ -78,8 +92,14 @@ export function mountAppShell(root: HTMLElement): void {
           <img src="${routeNightAssetUrl('title-hero')}" alt="" decoding="async" fetchpriority="high" />
         </div>
         ${routeNightPanelTextureMarkup()}
+        ${routeNightEditorialStripMarkup()}
         <div class="route-night-grid" aria-hidden="true"></div>
         <div class="route-night-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <header class="route-night-masthead title-masthead" aria-label="Route Night identity">
+          <span class="masthead-route">A — ROUTE NIGHT</span>
+          <span class="masthead-title">MANACONDA'S MINIGAME MAYHEM</span>
+          <span class="masthead-meta">SAME NIGHT · MORE TO PLAY</span>
+        </header>
         <section class="title-content" aria-labelledby="app-title">
           <div class="title-mark" aria-hidden="true">
             <svg data-route-asset="mark" viewBox="0 0 72 72" role="presentation">
@@ -109,6 +129,12 @@ export function mountAppShell(root: HTMLElement): void {
           <strong>THE HUB</strong>
           <small>FOLLOW THE CYAN LINE</small>
         </aside>
+        <aside class="title-route-board" data-route-board="title" aria-label="Route board">
+          <div class="route-board-heading"><span>ROUTE BOARD</span><strong>01 / LIVE</strong></div>
+          <div class="route-board-track">${routeNightNodeMarkup('01', 'live')}${routeNightNodeMarkup('02', 'next')}</div>
+          <div class="route-board-row is-live">${routeNightIconMarkup('race', 'route-board-icon')}<span><small>LIVE ROUTE</small><strong>CIRCUIT ALPHA</strong></span><b>01</b></div>
+          <div class="route-board-row">${routeNightIconMarkup('signal', 'route-board-icon')}<span><small>NEXT DETOUR</small><strong>MINIGAMES / 02</strong></span><b>SOON</b></div>
+        </aside>
       </main>`;
   };
 
@@ -119,6 +145,7 @@ export function mountAppShell(root: HTMLElement): void {
           <img src="${routeNightAssetUrl('title-hero')}" alt="" decoding="async" />
         </div>
         ${routeNightPanelTextureMarkup()}
+        ${routeNightEditorialStripMarkup()}
         <div class="route-night-grid" aria-hidden="true"></div>
         <header class="hub-header">
           <div>
@@ -132,6 +159,11 @@ export function mountAppShell(root: HTMLElement): void {
             <span><small>LIVE ROUTE</small><strong>01 / 03</strong></span>
           </div>
         </header>
+        <div class="hub-route-board" data-route-board="hub" aria-label="Hub route progress">
+          <div class="hub-route-board-label"><span>ROUTE BOARD</span><strong>DETOUR INDEX / 03</strong></div>
+          <div class="hub-route-track">${routeNightNodeMarkup('01', 'live')}<span class="hub-route-segment is-live"></span>${routeNightNodeMarkup('02', 'locked')}<span class="hub-route-segment"></span>${routeNightNodeMarkup('03', 'locked')}</div>
+          <div class="hub-route-caption"><span>${routeNightIconMarkup('minigames', 'hub-route-icon')} MINIGAME ROUTES</span><span>ONE CHECKPOINT LIVE · TWO ROUTES CHARTING</span></div>
+        </div>
         <section class="game-grid route-grid" aria-label="Available and upcoming minigames">
           <article class="game-card route-card playable" data-route-card="circuit-alpha">
             <div class="route-card-art">
@@ -175,12 +207,14 @@ export function mountAppShell(root: HTMLElement): void {
     root.innerHTML = `
       <main class="screen utility-screen route-night-screen controls-screen" data-screen="controls">
         ${routeNightPanelTextureMarkup()}
+        ${routeNightEditorialStripMarkup()}
         <div class="route-night-grid" aria-hidden="true"></div>
         <header class="utility-header">
           <div><p class="route-label">ROUTE NIGHT / UTILITY</p><h1>Controls</h1><p class="utility-intro">Your route map for desktop and mobile input. Bindings remain unchanged.</p></div>
           ${routeNightOrnamentMarkup('branch', 'utility-route-branch')}
-          <span class="utility-code">INPUT MAP / 01</span>
+          <span class="utility-code" data-route-utility="input">${routeNightIconMarkup('input', 'utility-code-icon')} INPUT MAP / 01</span>
         </header>
+        <div class="utility-route-stamp" aria-hidden="true"><span>UTILITY ROUTE</span><strong>01 / INPUT</strong><i></i></div>
         <div class="utility-panels">
           <section class="utility-panel control-panel" aria-labelledby="desktop-controls-title">
             <div class="panel-heading"><span class="panel-node"><i>01</i></span>${routeNightIconMarkup('controls', 'panel-heading-icon')}<div><p>DRIVER INPUT</p><h2 id="desktop-controls-title">Desktop</h2></div></div>
@@ -211,12 +245,14 @@ export function mountAppShell(root: HTMLElement): void {
     root.innerHTML = `
       <main class="screen utility-screen route-night-screen settings-screen" data-screen="settings">
         ${routeNightPanelTextureMarkup()}
+        ${routeNightEditorialStripMarkup()}
         <div class="route-night-grid" aria-hidden="true"></div>
         <header class="utility-header">
           <div><p class="route-label">ROUTE NIGHT / UTILITY</p><h1>Settings</h1><p class="utility-intro">Tune the signal before you leave the hub. Changes save on this device.</p></div>
           ${routeNightOrnamentMarkup('branch', 'utility-route-branch')}
-          <span class="utility-code">SYSTEM / 02</span>
+          <span class="utility-code" data-route-utility="system">${routeNightIconMarkup('signal', 'utility-code-icon')} SYSTEM / 02</span>
         </header>
+        <div class="utility-route-stamp" aria-hidden="true"><span>UTILITY ROUTE</span><strong>02 / SYSTEM</strong><i></i></div>
         <section class="settings-layout" aria-label="Audio and graphics settings">
           <div class="utility-panel settings-panel">
             <div class="panel-heading"><span class="panel-node"><i>01</i></span>${routeNightIconMarkup('audio', 'panel-heading-icon')}<div><p>AUDIO BUS</p><h2>Mix</h2></div></div>

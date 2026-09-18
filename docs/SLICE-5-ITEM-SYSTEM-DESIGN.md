@@ -299,6 +299,12 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 - [ ] Any PRD deviation is recorded before Slice 5 can close.
 - [ ] Slice 6 remains locked until Slice 5 is live accepted.
 
+## Item/VFX performance instrumentation checkpoint
+
+The live rendered-runtime measurement method is defined in `docs/SLICE-5-ITEM-VFX-PERFORMANCE-METHODOLOGY-2026-09-17.md`. The opt-in `?testItemPerf=1` route measures per-rendered-frame item simulation plus item VFX CPU against the PRD's 1.00 ms subsystem budget, with a 120-racing-frame warmup, a minimum of 300 scored samples, a rolling 600-sample window, and p95 as the pass/fail statistic. Median and maximum are reported for diagnosis. Renderer, Rapier physics, ordinary racer AI/pathfinding, HUD/DOM, and audio/update are excluded because the PRD budgets those systems separately.
+
+This row remains open until the instrumentation is published and rendered-device evidence is recorded. Node/JSDOM timings do not close the gate.
+
 ## Final lifecycle/object-count soak checkpoint
 
 The closure-grade soak is recorded in `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md` and `tests/item-lifecycle-soak.test.ts`. The mixed production stress path exercises the exact shared 40-object ceiling across six projectile families, Blast, Slick, and Apex, then returns capacity and presentation groups to baseline. A second 100-cycle path verifies timed Nitro/Overdrive/Rocket/Prismatic/Ink/Shockwave/inventory and racer-owned VFX cleanup. Existing focused audio/VFX/resource tests remain part of the required full suite. The separate item/VFX performance budget and final desktop/mobile full-slice acceptance remain open.

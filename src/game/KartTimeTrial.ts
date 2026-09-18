@@ -47,6 +47,7 @@ import { ChaseCamera } from './camera/ChaseCamera';
 import { SpinoutCameraAnchor } from './camera/SpinoutCameraAnchor';
 import { FixedStepRunner } from './physics/FixedStepRunner';
 import { KartController, type DriveInput } from './physics/KartController';
+import { CandidateBCornerExitOverspeed } from './physics/CandidateBCornerExitOverspeed';
 import type { DriftTier } from './physics/KartController';
 import { collisionImpulseShares, collisionSpeedRetention } from './physics/KartCollision';
 import { LapTracker } from './race/LapTracker';
@@ -154,6 +155,7 @@ interface AiRacer {
   controller: KartController;
   driver: AiDriver;
   characterMaxSpeed: number;
+  cornerExitOverspeed: CandidateBCornerExitOverspeed;
   mesh: THREE.Group;
   driverVisual: DriverSpriteVisual | null;
   driverHitSeconds: number;
@@ -196,6 +198,8 @@ export class KartTimeTrial {
   private readonly kartMesh = new THREE.Group();
   private readonly driftLights: THREE.Mesh[] = [];
   private readonly kart: KartController;
+  private readonly playerCharacterMaxSpeed: number;
+  private readonly playerCornerExitOverspeed: CandidateBCornerExitOverspeed;
   private readonly opponents: AiRacer[] = [];
   private readonly aiItemPolicy = new AiItemPolicy();
   private readonly chaseCamera: ChaseCamera;
@@ -365,12 +369,18 @@ export class KartTimeTrial {
       .addScaledVector(this.track.checkpointTangent(0), 8);
     const spawnTangent = this.track.checkpointTangent(0);
     const yaw = Math.atan2(spawnTangent.x, spawnTangent.z);
+    const playerTuning = createKartTuning(options.character.stats);
+    this.playerCharacterMaxSpeed = playerTuning.maxSpeed;
     this.kart = new KartController(
       this.world,
-      createKartTuning(options.character.stats),
+      playerTuning,
       options.character.stats,
       spawn,
       yaw,
+    );
+    this.playerCornerExitOverspeed = new CandidateBCornerExitOverspeed(
+      this.track,
+      options.character.stats,
     );
     this.createOpponents(spawn, spawnTangent, yaw);
     this.lapTracker.reset(0);
@@ -467,6 +477,12 @@ export class KartTimeTrial {
     }
     const playerStepStart = this.kart.position(this.playerStepStartPosition);
     const playerStepStartProjection = this.track.project(playerStepStart);
+    this.playerCornerExitOverspeed.advance(
+      playerStepStartProjection,
+      this.kart.speedMetersPerSecond() / this.playerCharacterMaxSpeed,
+      dt,
+      this.playerProgress.finished,
+    );
     this.racerEffects.advanceFrost(dt);
     this.inkSplat.advance(dt);
     const driveModifiers = this.racerEffects.driveModifiers('player');
@@ -486,7 +502,10 @@ export class KartTimeTrial {
             : 0,
       brake: false,
       drift: this.isPressed('Space') || this.touchPressed.has('drift'),
-      effectSpeedCapMultiplier: driveModifiers.speedCapMultiplier,
+      effectSpeedCapMultiplier: Math.max(
+        driveModifiers.speedCapMultiplier,
+        this.playerCornerExitOverspeed.speedCapMultiplier(),
+      ),
       effectAccelerationMultiplier: driveModifiers.accelerationMultiplier,
       effectSteeringMultiplier: driveModifiers.steeringMultiplier,
       ignoreOffRoadSpeedPenalty: driveModifiers.ignoreOffRoadSpeedPenalty,
@@ -658,6 +677,7 @@ export class KartTimeTrial {
       projection.point.clone().addScaledVector(tangent, 3),
       Math.atan2(tangent.x, tangent.z),
     );
+    opponent.cornerExitOverspeed.reset(projection.index);
     opponent.recoveryCooldown = 1.5;
   }
 
@@ -687,6 +707,12 @@ export class KartTimeTrial {
       opponent.driverHitSeconds = Math.max(0, opponent.driverHitSeconds - dt);
       const position = opponent.controller.position(opponent.stepStartPosition);
       const projection = this.track.project(position);
+      opponent.cornerExitOverspeed.advance(
+        projection,
+        opponent.controller.speedMetersPerSecond() / opponent.characterMaxSpeed,
+        dt,
+        opponent.progress.finished,
+      );
       const opponentProgress = targetingRacers.find(({ id }) => id === opponent.id);
       const opponentTotal =
         opponentProgress === undefined
@@ -737,6 +763,10 @@ export class KartTimeTrial {
           input,
         );
       }
+      input.effectSpeedCapMultiplier = Math.max(
+        input.effectSpeedCapMultiplier ?? 1,
+        opponent.cornerExitOverspeed.speedCapMultiplier(),
+      );
       opponent.steering = spinout === null ? input.steering : 0;
       if (
         this.prismaticFixture.controlledRacer() === opponent.id ||
@@ -1425,6 +1455,7 @@ export class KartTimeTrial {
     const point = this.track.samples[index]?.clone() ?? this.track.checkpointPosition(0);
     const tangent = this.track.tangents[index]?.clone() ?? this.track.checkpointTangent(0);
     this.kart.respawn(point.addScaledVector(tangent, 4), Math.atan2(tangent.x, tangent.z));
+    this.playerCornerExitOverspeed.reset(index);
     this.racerEffects.clearSpinout('player');
     this.racerEffects.clearFrost('player');
     this.frostVisual.dispose();
@@ -1875,6 +1906,7 @@ export class KartTimeTrial {
           stats.handling,
         ),
         characterMaxSpeed: tuning.maxSpeed,
+        cornerExitOverspeed: new CandidateBCornerExitOverspeed(this.track, stats),
         mesh: visual.group,
         driverVisual: visual.driverVisual,
         driverHitSeconds: 0,

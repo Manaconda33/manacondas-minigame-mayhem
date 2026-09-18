@@ -186,6 +186,7 @@ export class KartController {
     const recoveryMultiplier = candidateBAccelerationRecoveryMultiplier(
       this.stats.acceleration,
       launchSpeedRatio,
+      this.stats.speed,
     );
     const acceleration =
       this.tuning.acceleration *

@@ -2,6 +2,12 @@
 
 This is the authored desktop UI asset package for the bounded Route Night Title, Hub, Controls, and Settings increment. It is intentionally hybrid: atmospheric scenes remain raster art, while names, controls, buttons, symbols, and route grammar remain crisp SVG/DOM assets that can be placed at responsive sizes.
 
+## Rendered visual QA sheet
+
+The production SVGs are rendered below at desktop review scale so the visual language can be inspected without opening source code. The PNG is a review artifact; the SVG files in `public/assets/ui/route-night/` remain the production assets.
+
+![Rendered Route Night UI asset library](reference/route-night/ROUTE-NIGHT-UI-ASSET-LIBRARY-PREVIEW.png)
+
 ## Asset map
 
 | Asset | Use |

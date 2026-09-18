@@ -275,13 +275,13 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 
 ## Reliability and performance
 
-- [ ] Every projectile/hazard resolves to destruction after impact, completion, or expiry.
-- [ ] Repeated-use soak leaves no immortal item objects, colliders, listeners, timers, VFX, or stale audio emitters.
-- [ ] Race restart/disposal returns active item runtime counts to baseline.
-- [ ] Simultaneous active physics projectiles never exceed the PRD cap of 40.
+- [x] Every projectile/hazard resolves to destruction after impact, completion, or expiry.
+- [x] Repeated-use soak leaves no immortal item objects, colliders, listeners, timers, VFX, or stale audio emitters.
+- [x] Race restart/disposal returns active item runtime counts to baseline.
+- [x] Simultaneous active physics projectiles never exceed the PRD cap of 40.
 - [ ] Item/VFX update cost is instrumented against the approximately 1.0 ms CPU budget.
-- [ ] No NaN/infinite transforms occur under item collision stress.
-- [ ] Item interactions do not break Speed, Acceleration, Weight, drift, surface, AI, lap, recovery, camera, minimap, or driver-state regressions.
+- [x] No NaN/infinite transforms occur under item collision stress.
+- [x] Item interactions do not break Speed, Acceleration, Weight, drift, surface, AI, lap, recovery, camera, minimap, or driver-state regressions.
 
 ## Evidence and publication
 
@@ -289,7 +289,7 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 - [ ] `npm run validate` passes.
 - [x] Slice-specific probability report is committed or referenced from implementation status.
 - [x] Item interaction/counter matrix evidence is recorded.
-- [ ] Object-count/lifecycle soak evidence is recorded.
+- [x] Object-count/lifecycle soak evidence is recorded.
 - [ ] Gameplay capture demonstrates acquisition/use/counters and representative AI usage.
 - [ ] Pull-request CI passes.
 - [ ] `main` CI and GitHub Pages deployment pass.
@@ -298,6 +298,10 @@ AI hazard-response acceptance evidence, 2026-09-07: gameplay PR #123 reviewed he
 - [ ] Product-owner live acceptance is explicitly recorded in `docs/IMPLEMENTATION-STATUS.md`.
 - [ ] Any PRD deviation is recorded before Slice 5 can close.
 - [ ] Slice 6 remains locked until Slice 5 is live accepted.
+
+## Final lifecycle/object-count soak checkpoint
+
+The closure-grade soak is recorded in `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md` and `tests/item-lifecycle-soak.test.ts`. The mixed production stress path exercises the exact shared 40-object ceiling across six projectile families, Blast, Slick, and Apex, then returns capacity and presentation groups to baseline. A second 100-cycle path verifies timed Nitro/Overdrive/Rocket/Prismatic/Ink/Shockwave/inventory and racer-owned VFX cleanup. Existing focused audio/VFX/resource tests remain part of the required full suite. The separate item/VFX performance budget and final desktop/mobile full-slice acceptance remain open.
 
 ## Final all-item interaction/counter evidence checkpoint
 

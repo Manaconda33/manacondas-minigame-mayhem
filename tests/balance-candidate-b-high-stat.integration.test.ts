@@ -202,6 +202,22 @@ describe('Balance Candidate B high-stat Acceleration/Handling telemetry', () => 
       `Candidate B handling recovery telemetry: ${JSON.stringify(results)}`,
     );
     expect(results.every((result) => result.recoverySeconds < 10)).toBe(true);
+
+    const speedFive = results.filter((result) => result.speed === 5);
+    const recoveryAt = (handling: number): number => {
+      const result = speedFive.find((sampleResult) => sampleResult.handling === handling);
+      if (result === undefined) throw new Error(`Missing Speed-5 H${String(handling)} sample`);
+      return result.recoverySeconds;
+    };
+
+    expect(recoveryAt(6)).toBeGreaterThanOrEqual(1.25);
+    expect(recoveryAt(7)).toBeGreaterThanOrEqual(1.15);
+    expect(recoveryAt(8)).toBeLessThanOrEqual(1.12);
+    expect(recoveryAt(9)).toBeLessThanOrEqual(0.92);
+    expect(recoveryAt(10)).toBeLessThanOrEqual(0.82);
+    expect(recoveryAt(8)).toBeLessThan(recoveryAt(7));
+    expect(recoveryAt(9)).toBeLessThan(recoveryAt(8));
+    expect(recoveryAt(10)).toBeLessThan(recoveryAt(9));
   });
 
 });

@@ -133,7 +133,7 @@ describe('Slice 5 whole-item lifecycle soak', () => {
       const racers = [progress('apex-owner', 0.4), progress('leader', 0.55)];
       expect(apex.launch('apex-owner', base, racers)).toBe(true);
       expect(capacity.count()).toBe(MAX_ITEM_PHYSICS_OBJECTS);
-      expect(projectiles.activeCount() + hazards.activeCount()).toBe(MAX_ITEM_PHYSICS_OBJECTS);
+      // ProjectileSystem.activeCount() is the shared capacity count, including hazards/reservations.\n      expect(projectiles.activeCount()).toBe(MAX_ITEM_PHYSICS_OBJECTS);\n      expect(hazards.activeCount()).toBe(9);
       expect(finiteProjectileState(projectiles)).toBe(true);
       expect(finiteHazardState(hazards)).toBe(true);
 

@@ -225,3 +225,9 @@ The next bounded increment is documented at `docs/SLICE-6-RACE-HUD-RESULTS-PODIU
 ## Slice 6 next bounded increment - Race HUD / mini-map / Results-Podium plan
 
 Planning is recorded in `docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.md` and `docs/superpowers/plans/2026-09-19-race-hud-results-podium.md`. The approved direction uses ImageGen for a text-free 15-item visual pack, a restrained race atmosphere overlay, a Results/Podium backdrop, twelve top-three victory poses, and twelve 4th-8th reaction poses. Live DOM/CSS/SVG remains authoritative for HUD values, map topology, standings, controls, accessibility, and responsive geometry. Runtime implementation and publication remain later review gates.
+
+## Slice 6A Race HUD / Circuit Alpha minimap asset-authoring checkpoint — branch-only
+
+Following the PR #187 Character Select acceptance, the canonical Route Night target was reviewed before authoring the next presentation surface. The approved atmosphere overlay and fifteen item PNGs are reused; the missing exact panel/gauge/item/minimap frame geometry is authored as the text-free SVG library `public/assets/ui/route-night/route-night-race-hud.svg`. Live HUD values, item state, warnings, portraits, and Circuit Alpha topology remain DOM/CSS/SVG-owned.
+
+The branch is `feature/slice6-race-hud-minimap-results-podium`. It adds the semantic race-shell composition, approved item-art mapping with fallback, and the authored minimap frame while preserving existing race authority and dynamic IDs. Results/Podium screens, victory/reaction poses, and finish-transition behavior remain explicitly deferred. This is a branch-only implementation checkpoint until focused/full validation and a later publication/deployment visual gate are complete.

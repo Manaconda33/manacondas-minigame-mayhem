@@ -230,3 +230,24 @@ violet/magenta accents, warm-gold sparks, and broad HUD-safe negative space.
 The accepted runtime file is decorative only and must remain below live
 DOM/SVG UI with pointer events disabled. This closes the Slice 6A visual-asset
 package; Results/Podium visual assets are reserved for Slice 6B.
+
+## Route Night Race HUD - authored vector presentation layer
+
+This text-free SVG symbol library was authored in-repository on 2026-09-19
+after reviewing the approved Route Night target. It uses no generated raster
+pixels, embedded fonts, external artwork, or third-party dependency. It is a
+presentation layer only: live race copy, HUD values, item state, warnings,
+racer portraits, Circuit Alpha topology, and interaction state remain owned by
+the runtime DOM/SVG seams.
+
+| Runtime file | Contents | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| `public/assets/ui/route-night/route-night-race-hud.svg` | `frame-panel`, `frame-panel-wide`, `frame-item`, `frame-warning`, `frame-minimap`, `gauge-drift`, `gauge-speed`, and `badge-placement` symbols | 6,091 | `ad4bd96ea2d953c4f8948d84b381b696f6145343ad44728a16ee72a298148fb1` |
+
+The checkpoint reuses the approved `race-hud-atmosphere.webp`, the fifteen
+Route Night item PNGs already recorded above, existing character portrait and
+race-driver sources, and the established Route Night icon/frame/ornament
+libraries. No additional generated image asset is introduced here. The
+runtime helpers in `src/ui/routeNight.ts` add the Vite base path and revision
+query string; external SVG `<use>` references select symbols without moving
+live state into the asset.

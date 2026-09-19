@@ -1049,6 +1049,18 @@ PR #187 merged at `7e8a9ea8901bef6ea4dd785780c4cc8295225ead`; post-merge CI/Page
 
 This automated and deployed checkpoint is complete. The next increment is separate and is defined by the Race HUD / Results-Podium design brief and plan; it does not retroactively expand this Character Select test scope.
 
+## Slice 6A Race HUD / Circuit Alpha minimap asset checkpoint — branch-only
+
+The bounded Race HUD/minimap asset checkpoint adds `tests/race-hud-ui.test.ts`. The focused contract covers the revisioned race-HUD SVG and approved atmosphere/item asset paths, semantic live race-shell regions, held-item PNG mapping with text fallback, and the authored minimap frame layered beneath the existing live Circuit Alpha track path and racer markers.
+
+Run the focused contract with:
+
+```bash
+npx vitest run tests/race-hud-ui.test.ts --coverage=false
+```
+
+Before publication, run `npm run validate`, inspect the generated production asset paths, validate the authored SVG, and run `git diff --check`. This checkpoint must not claim Results/Podium behavior or deployed visual acceptance; those remain separate approval gates.
+
 ## Slice 6 next bounded Race HUD / mini-map / Results-Podium planning gate
 
 The next bounded increment is documented in `docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.md` and `docs/superpowers/plans/2026-09-19-race-hud-results-podium.md`. Its future validation must add focused contracts for the 15 item-art mappings, enriched eight-racer standings, shared Circuit Alpha mini-map topology, top-three victory/reaction rank mapping, five lower-finish reaction states, Results controls, responsive placement, fallback/reduced-motion behavior, and the complete Title → Hub → Character Select → Race → Results flow. It must still run the complete repository validation sequence and the deployed desktop/mobile acceptance gate.

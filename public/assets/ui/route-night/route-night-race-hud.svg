@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hud-panel-fill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#121d38" stop-opacity=".96"/>
+      <stop offset=".58" stop-color="#0b1227" stop-opacity=".92"/>
+      <stop offset="1" stop-color="#070b1a" stop-opacity=".97"/>
+    </linearGradient>
+    <linearGradient id="hud-gold-fill" x1="0" x2="1">
+      <stop offset="0" stop-color="#ffe5a0"/>
+      <stop offset="1" stop-color="#f3c85c"/>
+    </linearGradient>
+    <linearGradient id="hud-cyan-fill" x1="0" x2="1">
+      <stop offset="0" stop-color="#b5f5ff"/>
+      <stop offset="1" stop-color="#78e8fa"/>
+    </linearGradient>
+    <filter id="hud-glow-cyan" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="hud-glow-gold" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <symbol id="frame-panel" viewBox="0 0 520 180">
+    <path d="M18 4h478l20 20v116l-20 36H4V20Z" fill="url(#hud-panel-fill)" stroke="#78e8fa" stroke-width="2" opacity=".96"/>
+    <path d="M18 4h124M378 4h118l20 20v32M4 142v34h102M418 176h58" fill="none" stroke="#b5f5ff" stroke-width="2" opacity=".78"/>
+    <path d="M16 156h164M342 24h138" fill="none" stroke="#a77bff" stroke-width="2" opacity=".7"/>
+    <path d="m475 18 22 22-22 22" fill="none" stroke="url(#hud-gold-fill)" stroke-width="3" filter="url(#hud-glow-gold)"/>
+    <circle cx="22" cy="22" r="4" fill="#f3c85c"/>
+  </symbol>
+
+  <symbol id="frame-panel-wide" viewBox="0 0 760 180">
+    <path d="M18 4h718l20 20v116l-20 36H4V20Z" fill="url(#hud-panel-fill)" stroke="#78e8fa" stroke-width="2" opacity=".96"/>
+    <path d="M18 4h208M530 4h206l20 20v32M4 142v34h158M594 176h142" fill="none" stroke="#b5f5ff" stroke-width="2" opacity=".78"/>
+    <path d="M16 156h260M494 24h240" fill="none" stroke="#a77bff" stroke-width="2" opacity=".7"/>
+    <path d="m715 18 22 22-22 22" fill="none" stroke="url(#hud-gold-fill)" stroke-width="3" filter="url(#hud-glow-gold)"/>
+    <circle cx="22" cy="22" r="4" fill="#f3c85c"/>
+  </symbol>
+
+  <symbol id="frame-item" viewBox="0 0 220 220">
+    <path d="M34 6h152l28 28v152l-28 28H34L6 186V34Z" fill="url(#hud-panel-fill)" stroke="#78e8fa" stroke-width="2" opacity=".98"/>
+    <path d="M34 6h62M124 214h62l28-28v-62" fill="none" stroke="#b5f5ff" stroke-width="2" opacity=".8"/>
+    <path d="M12 70V34l28-28M208 150v36l-28 28" fill="none" stroke="#a77bff" stroke-width="2" opacity=".85"/>
+    <path d="m110 21 10 24 25 10-25 10-10 25-10-25-25-10 25-10Z" fill="none" stroke="#f3c85c" stroke-width="1.5" opacity=".82"/>
+    <circle cx="110" cy="110" r="74" fill="none" stroke="#78e8fa" stroke-width="1" stroke-dasharray="4 10" opacity=".55"/>
+  </symbol>
+
+  <symbol id="frame-warning" viewBox="0 0 560 84">
+    <path d="M18 3h524l15 15v48l-15 15H3V18Z" fill="#1b1423" fill-opacity=".94" stroke="#ffce81" stroke-width="2"/>
+    <path d="M18 3h160M382 3h160l15 15v24" fill="none" stroke="#ff7d96" stroke-width="2" opacity=".78"/>
+    <path d="m28 42 16-28 16 28Z" fill="#ff7d96" fill-opacity=".22" stroke="#ff7d96" stroke-width="2"/>
+    <path d="M44 23v11M44 39v2" stroke="#ffe5a0" stroke-width="3" stroke-linecap="round"/>
+    <path d="m510 20 12 12-12 12" fill="none" stroke="#ffce81" stroke-width="2"/>
+  </symbol>
+
+  <symbol id="frame-minimap" viewBox="0 0 480 480">
+    <path d="M30 6h420l24 24v420l-24 24H30L6 450V30Z" fill="url(#hud-panel-fill)" stroke="#78e8fa" stroke-width="3" opacity=".98"/>
+    <path d="M30 6h124M326 6h124l24 24v124M6 326v124l24 24h124M326 474h124l24-24V326" fill="none" stroke="#b5f5ff" stroke-width="3" opacity=".8"/>
+    <path d="M44 54h96M340 54h96M44 426h96M340 426h96" fill="none" stroke="#a77bff" stroke-width="2" opacity=".78"/>
+    <path d="M52 290C82 132 166 90 244 168s106 144 184 22" fill="none" stroke="#78e8fa" stroke-width="2" stroke-dasharray="8 14" opacity=".4"/>
+    <circle cx="48" cy="48" r="8" fill="#f3c85c" filter="url(#hud-glow-gold)"/>
+    <circle cx="432" cy="432" r="8" fill="#e875c4"/>
+    <path d="m424 34 14 14-14 14M34 424l14 14 14-14" fill="none" stroke="#f3c85c" stroke-width="2"/>
+  </symbol>
+
+  <symbol id="gauge-drift" viewBox="0 0 560 110">
+    <path d="M18 96h524L518 14H42Z" fill="#070b1a" fill-opacity=".78" stroke="#78e8fa" stroke-width="2"/>
+    <path d="M62 79h436" stroke="#293552" stroke-width="16" stroke-linecap="round"/>
+    <path d="M62 79h436" stroke="url(#hud-cyan-fill)" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 12" opacity=".9"/>
+    <path d="M76 64h86M192 64h86M308 64h86M424 64h54" stroke="#f3c85c" stroke-width="4" opacity=".75"/>
+    <path d="M18 96h122M420 96h122" stroke="#a77bff" stroke-width="2" opacity=".85"/>
+  </symbol>
+
+  <symbol id="gauge-speed" viewBox="0 0 360 220">
+    <path d="M24 190A156 156 0 0 1 336 190" fill="none" stroke="#18243c" stroke-width="26"/>
+    <path d="M24 190A156 156 0 0 1 336 190" fill="none" stroke="#78e8fa" stroke-width="4" stroke-dasharray="3 15" opacity=".95"/>
+    <path d="M34 190A146 146 0 0 1 326 190" fill="none" stroke="#a77bff" stroke-width="3" stroke-dasharray="34 120" opacity=".8"/>
+    <path d="M45 190A135 135 0 0 1 315 190" fill="none" stroke="#f3c85c" stroke-width="5" stroke-dasharray="2 104" opacity=".86"/>
+    <path d="M24 190h312" stroke="#b5f5ff" stroke-width="1" opacity=".45"/>
+  </symbol>
+
+  <symbol id="badge-placement" viewBox="0 0 160 160">
+    <path d="m80 6 66 34v80l-66 34-66-34V40Z" fill="url(#hud-panel-fill)" stroke="#78e8fa" stroke-width="2"/>
+    <path d="m80 20 51 27v66l-51 27-51-27V47Z" fill="none" stroke="#a77bff" stroke-width="1.5" stroke-dasharray="7 8" opacity=".78"/>
+    <path d="M80 20v120M29 47l102 66M131 47 29 113" stroke="#f3c85c" stroke-width="1" opacity=".28"/>
+    <circle cx="80" cy="80" r="8" fill="#f3c85c" filter="url(#hud-glow-gold)"/>
+  </symbol>
+</svg>

@@ -12,8 +12,9 @@ import { isMobileSession } from './mobileSession';
 import { characterById, characterManifest } from '../characters/manifest';
 import { CharacterKartPreview } from '../ui/characterKartPreview';
 import { characterSelectMarkup } from '../ui/characterSelect';
-import { itemHudMarkup, updateItemHud } from './itemHud';
-import { raceMinimapMarkup, updateRaceMinimap } from './raceMinimap';
+import { updateItemHud } from './itemHud';
+import { raceHudMarkup } from './raceHud';
+import { updateRaceMinimap } from './raceMinimap';
 import { touchControlsMarkup } from './touchControls';
 import {
   routeNightAssetUrl,
@@ -340,41 +341,10 @@ export function mountAppShell(root: HTMLElement): void {
     characterPreview?.dispose();
     characterPreview = null;
     const touchControls = touchControlsMarkup(isMobileSession());
-    root.innerHTML = `
-      <section class="game-shell" aria-label="Circuit Alpha Grand Prix">
-        <canvas id="game-canvas" tabindex="0"></canvas>
-        <div id="ink-overlay" class="ink-overlay" aria-hidden="true" hidden>
-          <span class="ink-splat ink-splat-northwest"></span>
-          <span class="ink-splat ink-splat-northeast"></span>
-          <span class="ink-splat ink-splat-southwest"></span>
-          <span class="ink-splat ink-splat-center"></span>
-          <span class="ink-splat ink-splat-southeast"></span>
-        </div>
-        <div class="hud top-left"><span>Lap</span><strong id="lap">1 / 3</strong></div>
-        <div class="hud top-center"><span>Time</span><strong id="time">0:00.00</strong></div>
-        <div class="hud top-right"><span>Speed</span><strong id="speed">0 km/h</strong></div>
-        <div class="hud position-hud"><span>Position</span><strong id="position">1 / 8</strong></div>
-        ${itemHudMarkup()}
-        ${raceMinimapMarkup()}
-        <div class="hud bottom-left"><span>Surface</span><strong id="surface">ASPHALT</strong></div>
-        <div class="hud bottom-right performance"><span>Performance</span><strong id="performance">60 FPS · 16.7 ms</strong></div>
-        <div id="drift-panel" class="drift-panel" data-tier="none">
-          <span id="drift-label">Hold Space + steer to drift</span>
-          <div class="drift-meter"><i id="drift-fill"></i></div>
-          <div id="overdrive-status" class="overdrive-status" role="status" hidden></div>
-          <div id="rocket-status" class="rocket-status" role="status" hidden></div>
-        </div>
-        <div id="wrong-way" class="warning" hidden>WRONG WAY</div>
-        <div id="countdown" class="countdown">3</div>
-        <div id="seeker-warning" class="seeker-warning" role="status" hidden></div>
-        <div id="apex-warning" class="apex-warning" role="status" hidden></div>
-        <div id="item-use-message" class="item-use-message" role="status" hidden></div>
-        <div id="item-test-mode" class="item-test-mode" hidden></div>
-        <div id="loading" class="loading-card"><span class="spinner"></span><h2>Initializing Circuit Alpha</h2><p>Loading Rapier physics and the procedural track…</p></div>
-        <div id="finish" class="finish-card" hidden><p class="eyebrow">Grand Prix complete</p><h2 id="finish-place">1st place</h2><p id="finish-time">0:00.00</p><ol id="standings" class="standings"></ol>${button('Return to Hub', 'finish-menu', 'primary')}</div>
-        <div class="game-help">WASD / arrows drive · Space + steer drift · Shift/E item · C rear view · R recover · Esc pause</div>
-        ${touchControls}
-      </section>`;
+    root.innerHTML = raceHudMarkup(
+      touchControls,
+      button('Return to Hub', 'finish-menu', 'primary'),
+    );
 
     const canvas = root.querySelector<HTMLCanvasElement>('#game-canvas');
     if (canvas === null) throw new Error('Game canvas was not created.');

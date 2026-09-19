@@ -1,4 +1,6 @@
-const ROUTE_NIGHT_ASSET_VERSION = '20260919-1';
+import type { ItemId } from '../game/items/itemDefinitions';
+
+const ROUTE_NIGHT_ASSET_VERSION = '20260919-2';
 
 const ROUTE_NIGHT_ASSETS = {
   'title-hero': 'route-night-title-hero.webp',
@@ -10,6 +12,8 @@ const ROUTE_NIGHT_ASSETS = {
   'character-select-bay': 'route-night-character-select-bay.webp',
   'character-select-energy': 'route-night-character-select-energy.webp',
   'character-select-hero-aura': 'route-night-character-select-hero-aura.webp',
+  'race-hud-atmosphere': 'race-hud-atmosphere.webp',
+  'race-hud': 'route-night-race-hud.svg',
   mark: 'route-night-mark.svg',
   'ui-sprite': 'route-night-ui.svg',
   'button-frames': 'route-night-button-frames.svg',
@@ -44,8 +48,41 @@ export type RouteNightStatus = 'live' | 'audio' | 'locked' | 'system';
 
 export type RouteNightNodeState = 'live' | 'next' | 'locked';
 
+export type RouteNightRaceHudSymbol =
+  | 'frame-panel'
+  | 'frame-panel-wide'
+  | 'frame-item'
+  | 'frame-warning'
+  | 'frame-minimap'
+  | 'gauge-drift'
+  | 'gauge-speed'
+  | 'badge-placement';
+
+const ROUTE_NIGHT_RACE_HUD_VIEWBOX: Readonly<Record<RouteNightRaceHudSymbol, string>> = {
+  'frame-panel': '0 0 520 180',
+  'frame-panel-wide': '0 0 760 180',
+  'frame-item': '0 0 220 220',
+  'frame-warning': '0 0 560 84',
+  'frame-minimap': '0 0 480 480',
+  'gauge-drift': '0 0 560 110',
+  'gauge-speed': '0 0 360 220',
+  'badge-placement': '0 0 160 160',
+};
+
 export function routeNightAssetUrl(asset: RouteNightAsset): string {
   return `${import.meta.env.BASE_URL}assets/ui/route-night/${ROUTE_NIGHT_ASSETS[asset]}?v=${ROUTE_NIGHT_ASSET_VERSION}`;
+}
+
+export function routeNightItemAssetUrl(itemId: ItemId): string {
+  return `${import.meta.env.BASE_URL}assets/items/route-night/${itemId}.png?v=${ROUTE_NIGHT_ASSET_VERSION}`;
+}
+
+export function routeNightRaceHudSymbolUrl(symbol: RouteNightRaceHudSymbol): string {
+  return `${routeNightAssetUrl('race-hud')}#${symbol}`;
+}
+
+export function routeNightRaceHudMarkup(symbol: RouteNightRaceHudSymbol, className = ''): string {
+  return `<svg class="race-hud-vector${className === '' ? '' : ` ${className}`}" data-race-symbol="${symbol}" aria-hidden="true" focusable="false" viewBox="${ROUTE_NIGHT_RACE_HUD_VIEWBOX[symbol]}" preserveAspectRatio="none"><use href="${routeNightRaceHudSymbolUrl(symbol)}"></use></svg>`;
 }
 
 export function routeNightIconMarkup(icon: RouteNightIcon, className = ''): string {

@@ -101,16 +101,22 @@ describe('Route Night Character Select', () => {
   it('publishes a visible fallback state when WebGL is unavailable', () => {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = `
-      <canvas data-kart-preview-canvas></canvas>
-      <span data-kart-preview-state-label></span>`;
+      <div class="character-kart-preview" data-kart-preview>
+        <canvas data-kart-preview-canvas></canvas>
+        <div data-kart-preview-fallback></div>
+        <span data-kart-preview-state-label></span>
+      </div>`;
     const canvas = wrapper.querySelector<HTMLCanvasElement>('[data-kart-preview-canvas]');
+    const previewHost = wrapper.querySelector<HTMLElement>('[data-kart-preview]');
     const label = wrapper.querySelector<HTMLElement>('[data-kart-preview-state-label]');
 
     expect(canvas).not.toBeNull();
+    expect(previewHost).not.toBeNull();
     if (canvas === null) throw new Error('Kart preview canvas did not render');
     const preview = new CharacterKartPreview(canvas, characterById('aa-02'));
 
     expect(canvas.dataset.kartPreviewState).toBe('unavailable');
+    expect(previewHost?.dataset.kartPreviewState).toBe('unavailable');
     expect(label?.textContent).toContain('CSS FALLBACK');
 
     preview.dispose();

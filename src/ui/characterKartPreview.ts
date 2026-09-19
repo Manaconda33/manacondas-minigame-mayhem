@@ -270,9 +270,9 @@ export class CharacterKartPreview {
 
   private setPreviewState(state: string, label: string): void {
     this.canvas.dataset.kartPreviewState = state;
-    const stateLabel = this.canvas.parentElement?.querySelector<HTMLElement>(
-      '[data-kart-preview-state-label]',
-    );
+    const previewHost = this.canvas.parentElement;
+    if (previewHost !== null) previewHost.dataset.kartPreviewState = state;
+    const stateLabel = previewHost?.querySelector<HTMLElement>('[data-kart-preview-state-label]');
     if (stateLabel !== null && stateLabel !== undefined) stateLabel.textContent = label;
   }
 }

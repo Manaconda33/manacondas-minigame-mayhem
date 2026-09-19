@@ -26,6 +26,30 @@ one-boot recovery step, and Lula uses a grounded guardian's oath.
 | `public/assets/characters/aa-02/results/victory.png` | `public/assets/characters/aa-02/selection/full-body.png` | `exec-f4fb36db-8ae9-4c32-8738-1dce63a42fa2` | `56070831c72a831d44818e462afc86b67a44b658b11166d7c330c4f7d56248e6` | `704148c27f72300d3f6ff9937b155e71bbeca63a38bb2c0ec9768efa5b5a1af3` |
 | `public/assets/characters/aa-03/results/victory.png` | `public/assets/characters/aa-03/selection/full-body.png` | `exec-9134d452-9a81-4d9c-bfdb-027cc9ff05a2` | `289a4ae9e3b5d7fa5a07a9e5b761d6b5bfb5434c2b5a4ca15080724761b6f691` | `5a548d229cea14cd824c13014f51cfbef3e9329a77f26573a0aadcd0c28140d2` |
 
+## Route Night Results/Podium - approved victory pose batch 02
+
+These three fixed-size Results/Podium victory derivatives were generated on
+2026-09-19 with the built-in OpenAI image-generation tool. Each generation
+used the matching approved Character Select full-body asset as the actual
+identity reference. The generated render was an original character-specific
+pose on a flat chroma-green plate; deterministic chroma cleanup produced the
+transparent runtime derivative. The accepted runtime files were then encoded
+as alpha-preserving palette PNGs after visual comparison, retaining the
+original 1024 × 1536 dimensions and clean silhouettes. No external license
+dependency, copied pixels, text, logo, kart, UI, or scenery is embedded in the
+runtime files.
+
+Manny approved Keeg, Kraken, and Dragon Queen's distinct victory poses on
+2026-09-19. Keeg uses a theatrical hat-tip with a violet magic flourish,
+Kraken uses a controlled pocket-and-chin calculation pose, and Dragon Queen
+uses a fully draconic sovereign wing display with a raised foreclaw salute.
+
+| Runtime file | Identity source | Generator output ID | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- | --- |
+| `public/assets/characters/aa-04/results/victory.png` | `public/assets/characters/aa-04/selection/full-body.png` | `exec-4b9390bf-3938-49a9-9b25-9304df3d65f5` | `2ec945eaa0eb4acc525274ec4a615279b9c0beef7755ed8a4c91ac2a38cb91ab` | `4e4ffce804a8ff94d15eca9a04211c309ea3ec24c995c40761f39811754ddf06` |
+| `public/assets/characters/aa-05/results/victory.png` | `public/assets/characters/aa-05/selection/full-body.png` | `exec-6aa52ad7-c8fe-4eea-b380-897efbcc7c38` | `ba713e559fc1996c7f6729e3ec288a8c26b105898f23406d637fc8130a08e67e` | `d71c483a32290bbb68f5eb8f13d4bf8cf487b8f0af1cbbcf43e1b5eb2fb9578b` |
+| `public/assets/characters/aa-06/results/victory.png` | `public/assets/characters/aa-06/selection/full-body.png` | `exec-962a1898-4969-41e1-b039-713afb700f28` | `60ae8a3b28c429837b739a27378b9f620860d9aaf118d816f1ca962dd265cccf` | `c2fda346f374a34b5aa190c8c4549422863688db3da49b4e5948394a411f710d` |
+
 ## Route Night Race HUD - ImageGen item batch 01
 
 These three fixed-size item identity derivatives were generated on 2026-09-19

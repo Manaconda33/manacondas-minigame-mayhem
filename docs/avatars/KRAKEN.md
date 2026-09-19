@@ -73,3 +73,12 @@ Preserve the accepted `kraken-runtime-20260901-2` package. The one-character rol
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
 - Approval: Manny approved Kraken's selection-only full-body asset in the 2026-09-19 Character Select batch review.
 - Boundary: Character Select only; the approved human Cthulhu identity remains the source of truth. The portrait, race driver package, The Abyssal Drifter identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium victory art
+
+- Runtime asset: `public/assets/characters/aa-05/results/victory.png`.
+- Format: 1024 × 1536 transparent PNG runtime derivative under the Results/Podium asset brief.
+- Approval: Manny approved Kraken's character-specific victory pose in the 2026-09-19 Results/Podium Batch 02 review.
+- Pose direction: controlled three-quarter lean with one hand in a trouser pocket, the other touching his chin, and a calculating half-smile.
+- Identity source: the approved Character Select full-body asset was supplied as the actual image-generation reference.
+- Boundary: Results/Podium victory presentation only; the approved driver package, kart identity/geometry, statistics, and PBR/material implementation remain unchanged.

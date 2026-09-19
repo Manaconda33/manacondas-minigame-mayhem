@@ -84,3 +84,12 @@ Preserve the accepted front-action files, controlled revision, front placement, 
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
 - Approval: Manny approved Keeg's selection-only full-body asset in the 2026-09-19 Character Select batch review.
 - Boundary: Character Select only; the approved portrait, race driver package, The Mycelial Majesty identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium victory art
+
+- Runtime asset: `public/assets/characters/aa-04/results/victory.png`.
+- Format: 1024 × 1536 transparent PNG runtime derivative under the Results/Podium asset brief.
+- Approval: Manny approved Keeg's character-specific victory pose in the 2026-09-19 Results/Podium Batch 02 review.
+- Pose direction: theatrical silver-trimmed hat-tip with an asymmetrical robe sweep, violet magic flourish, and sly smile.
+- Identity source: the approved Character Select full-body asset was supplied as the actual image-generation reference.
+- Boundary: Results/Podium victory presentation only; the approved driver package, kart identity/geometry, statistics, and PBR/material implementation remain unchanged.

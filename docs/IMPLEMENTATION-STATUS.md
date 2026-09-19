@@ -232,7 +232,7 @@ Following the PR #187 Character Select acceptance, the canonical Route Night tar
 
 The branch is `feature/slice6-race-hud-minimap-results-podium`. It adds the semantic race-shell composition, approved item-art mapping with fallback, and the authored minimap frame while preserving existing race authority and dynamic IDs. Results/Podium screens, victory/reaction poses, and finish-transition behavior remain explicitly deferred. This is a branch-only implementation checkpoint until focused/full validation and a later publication/deployment visual gate are complete.
 
-## Slice 6B Results/Podium asset-authoring checkpoint — approved batch 01
+## Slice 6B Results/Podium asset-authoring checkpoint — approved batches 01-02
 
 Manny approved and published the first three character-specific Results/Podium
 victory poses on 2026-09-19: Alex / AA-01, Lavi / AA-02, and Lula / AA-03.
@@ -243,7 +243,12 @@ reference and has a distinct silhouette, gesture, and emotional read. The
 asset brief and provenance ledger record source IDs, deterministic alpha
 preparation, runtime hashes, and the approval boundary.
 
+Manny then approved and published Batch 02: Keeg / AA-04, Kraken / AA-05, and
+Dragon Queen / AA-06. Keeg's theatrical hat-tip, Kraken's controlled
+pocket-and-chin stance, and Dragon Queen's fully draconic sovereign display
+extend the unique pose language without reusing a generic celebration pose.
+
 This checkpoint contains no Results/Podium runtime wiring, standings changes,
 reaction assets, backdrop, gameplay, race-authority, AI, item, audio, or
-deployment changes. Nine remaining victory poses, twelve reaction poses, and
+deployment changes. Six remaining victory poses, twelve reaction poses, and
 the Results/Podium backdrop remain separately gated by visual approval.

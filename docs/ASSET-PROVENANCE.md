@@ -21,6 +21,25 @@ not embedded in the generated art.
 | public/assets/items/route-night/seeker-drone.png | exec-4fb686b2-d6ee-442b-9040-bf1a4b834c92 | ff49826405b7f46b9c1fdea2aae00a3b0592e5c4515306190e85d1bb07651f7e | 0c475a2135a9ee742ff76b3db0c9f0fc28f4da4b38dfca4dc036eb37ba3b27b4 |
 | public/assets/items/route-night/apex-missile.png | exec-690b6b9e-eff8-40fe-ae56-186dc80bf14d | 0895187289fe79f784a9d215755f1c22ab11862a702630bf623a16089f3d020c | 522f4be0877661278be7a0290036fc4bdbaeb1316c1a24bc33a9ceae0390f08c |
 
+## Route Night Race HUD - ImageGen item batch 02
+
+These three fixed-size item identity derivatives were generated on 2026-09-19
+with the built-in OpenAI image-generation tool. The canonical Route Night
+reference was used only as a visual-language reference. The outputs are
+original project art with no external license dependency, copied pixels, text,
+logos, marks, characters, vehicles, or UI layout.
+
+Source renders were 1254 x 1254 sRGBA PNGs. ImageMagick converted each source
+to a 512 x 512 sRGBA PNG32 runtime derivative using deterministic Lanczos
+resizing with alpha preserved. Live item copy, charges, behavior, and VFX are
+not embedded in the generated art.
+
+| Runtime file | Generator output ID | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- |
+| public/assets/items/route-night/blast-orb.png | exec-0ee6e2a4-6a3c-40ee-aa9c-dadc76d7997f | 67d491f2479a5556c12fa70b2ad05aa1c0c23d1c700eef937d6375c5612fbf3e | 32b61d9584298d26fd1651b34f1d9881cfabb752df8eccf4a7e2254f5919329d |
+| public/assets/items/route-night/blaze-orbs.png | exec-ab84b131-8046-4d40-bd57-59473ca17f75 | 44d3f9f08431cd8a4facb1bf6572e88f8b33f793d57a5c06bde188ac93be1c29 | a521f690425ebd7ec3b8b125bebd29eb09ec1684dca191918004c6becc95fd2a |
+| public/assets/items/route-night/frost-orbs.png | exec-d2b4b977-f5a9-438c-8ab2-969d7570c0c3 | 2dd6d9272d127ec14874d7571aa260a1a05dc5d48dd8fb2e6b191f8675e0cffd | 36a16fd6aa8edde4714c4e8eabc9c571e748974e97dab14155bc492660a452ae |
+
 ## Poly Haven - Asphalt Track
 
 - **Asset:** Asphalt Track

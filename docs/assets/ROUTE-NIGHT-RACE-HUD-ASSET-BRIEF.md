@@ -35,3 +35,18 @@ marks, characters, vehicles, or UI layout were copied.
 - Source and runtime SHA-256 values above were computed after generation and
   preparation.
 - No rejection was carried into this approved batch.
+
+## Batch 02 status
+
+**APPROVED / PREPARED** — 2026-09-19. This checkpoint adds the next three
+approved ImageGen item identities for Slice 6A.
+
+| Item | Generator output ID | Source dimensions / format | Source SHA-256 | Runtime path | Runtime SHA-256 |
+| --- | --- | --- | --- | --- | --- |
+| Blast Orb | exec-0ee6e2a4-6a3c-40ee-aa9c-dadc76d7997f | 1254 x 1254 sRGBA PNG | 67d491f2479a5556c12fa70b2ad05aa1c0c23d1c700eef937d6375c5612fbf3e | public/assets/items/route-night/blast-orb.png | 32b61d9584298d26fd1651b34f1d9881cfabb752df8eccf4a7e2254f5919329d |
+| Blaze Orbs | exec-ab84b131-8046-4d40-bd57-59473ca17f75 | 1254 x 1254 sRGBA PNG | 44d3f9f08431cd8a4facb1bf6572e88f8b33f793d57a5c06bde188ac93be1c29 | public/assets/items/route-night/blaze-orbs.png | a521f690425ebd7ec3b8b125bebd29eb09ec1684dca191918004c6becc95fd2a |
+| Frost Orbs | exec-d2b4b977-f5a9-438c-8ab2-969d7570c0c3 | 1254 x 1254 sRGBA PNG | 2dd6d9272d127ec14874d7571aa260a1a05dc5d48dd8fb2e6b191f8675e0cffd | public/assets/items/route-night/frost-orbs.png | 36a16fd6aa8edde4714c4e8eabc9c571e748974e97dab14155bc492660a452ae |
+
+The same deterministic preparation and validation contract as Batch 01
+applies: Lanczos resize to 512 x 512, sRGB PNG32 output, preserved alpha,
+text-free original art, and live runtime data remaining outside the image.

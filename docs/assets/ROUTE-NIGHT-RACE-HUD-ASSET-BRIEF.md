@@ -50,3 +50,23 @@ approved ImageGen item identities for Slice 6A.
 The same deterministic preparation and validation contract as Batch 01
 applies: Lanczos resize to 512 x 512, sRGB PNG32 output, preserved alpha,
 text-free original art, and live runtime data remaining outside the image.
+
+## Batch 03 status
+
+**APPROVED / PREPARED** — 2026-09-19. This checkpoint adds the third
+approved ImageGen item batch for Slice 6A.
+
+The batch preserves the approved item-specific silhouettes while carrying the
+Route Night language: graphite cores or surfaces, cyan route energy, restrained
+violet/magenta charge, and warm-gold accents. Each source is text-free,
+transparent, and isolated from characters, vehicles, scenery, and UI.
+
+| Item | Generator output ID | Source dimensions / format | Source SHA-256 | Runtime path | Runtime SHA-256 |
+| --- | --- | --- | --- | --- | --- |
+| Rebounding Arc Blade | exec-133a4e31-f036-4fd9-a260-2749d312d099 | 1312 x 1199 sRGBA PNG | f4b66913251eea02a08613f454f93d43e613002e187620109d7cb899b99f7586 | public/assets/items/route-night/arc-blade.png | 1f9357e2a73a3a87f360500f403e33abb396f8734b74796bf267efa5b3136df8 |
+| Kinetic Arc Hammers | exec-e891a990-c912-41b7-a7db-40e1eff1ff58 | 1536 x 1024 sRGBA PNG | 32acdb818b50f37cdc89859c4fec979448bf22a881cdcc6b07fbb628d9ba7456 | public/assets/items/route-night/arc-hammers.png | 0a478bbc153e9dce94745b87e19d75c471ed78481fe57e3fb02f948a557eed36 |
+| Slick Trap | exec-2fcdc70c-1cef-48e2-8029-3cd7ad7b24ba | 1536 x 1024 sRGBA PNG | 62d4be0612fe68d3b450066a82d2c2eede36d2fc07d551b95fd87b330304fbb8 | public/assets/items/route-night/slick-trap.png | 5ebc61cef87f28028867e83dfcbf8abc5c0724fa2447207620b3045077ba7c26 |
+
+The same deterministic preparation and validation contract as the earlier
+batches applies: Lanczos resize to 512 x 512, sRGB PNG32 output, preserved
+alpha, and live runtime data remaining outside the image.

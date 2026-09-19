@@ -40,6 +40,25 @@ not embedded in the generated art.
 | public/assets/items/route-night/blaze-orbs.png | exec-ab84b131-8046-4d40-bd57-59473ca17f75 | 44d3f9f08431cd8a4facb1bf6572e88f8b33f793d57a5c06bde188ac93be1c29 | a521f690425ebd7ec3b8b125bebd29eb09ec1684dca191918004c6becc95fd2a |
 | public/assets/items/route-night/frost-orbs.png | exec-d2b4b977-f5a9-438c-8ab2-969d7570c0c3 | 2dd6d9272d127ec14874d7571aa260a1a05dc5d48dd8fb2e6b191f8675e0cffd | 36a16fd6aa8edde4714c4e8eabc9c571e748974e97dab14155bc492660a452ae |
 
+## Route Night Race HUD - ImageGen item batch 03
+
+These three fixed-size item identity derivatives were generated on 2026-09-19
+with the built-in OpenAI image-generation tool. The canonical Route Night
+reference was used only as a visual-language reference. The outputs are
+original project art with no external license dependency, copied pixels, text,
+logos, marks, characters, vehicles, or UI layout.
+
+Source renders were generated as sRGBA PNGs. ImageMagick converted each source
+to a 512 x 512 sRGBA PNG32 runtime derivative using deterministic Lanczos
+resizing with alpha preserved. Live item copy, charges, behavior, and VFX are
+not embedded in the generated art.
+
+| Runtime file | Generator output ID | Source dimensions / format | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- | --- |
+| public/assets/items/route-night/arc-blade.png | exec-133a4e31-f036-4fd9-a260-2749d312d099 | 1312 x 1199 sRGBA PNG | f4b66913251eea02a08613f454f93d43e613002e187620109d7cb899b99f7586 | 1f9357e2a73a3a87f360500f403e33abb396f8734b74796bf267efa5b3136df8 |
+| public/assets/items/route-night/arc-hammers.png | exec-e891a990-c912-41b7-a7db-40e1eff1ff58 | 1536 x 1024 sRGBA PNG | 32acdb818b50f37cdc89859c4fec979448bf22a881cdcc6b07fbb628d9ba7456 | 0a478bbc153e9dce94745b87e19d75c471ed78481fe57e3fb02f948a557eed36 |
+| public/assets/items/route-night/slick-trap.png | exec-2fcdc70c-1cef-48e2-8029-3cd7ad7b24ba | 1536 x 1024 sRGBA PNG | 62d4be0612fe68d3b450066a82d2c2eede36d2fc07d551b95fd87b330304fbb8 | 5ebc61cef87f28028867e83dfcbf8abc5c0724fa2447207620b3045077ba7c26 |
+
 ## Poly Haven - Asphalt Track
 
 - **Asset:** Asphalt Track

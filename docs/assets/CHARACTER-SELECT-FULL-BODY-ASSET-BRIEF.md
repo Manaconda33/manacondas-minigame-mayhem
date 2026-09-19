@@ -2,7 +2,7 @@
 
 ## Status
 
-**APPROVED ASSET PACKAGE / FEATURE-BRANCH INTEGRATION; DEPLOYED VISUAL ACCEPTANCE PENDING** — 2026-09-19.
+**APPROVED ASSET PACKAGE / MERGED / DEPLOYED / LIVE ACCEPTED** — 2026-09-19.
 
 This package adds one selection-only full-body image for each active racer. Manny approved Lavi individually, then approved the remaining assets in four review batches: Manaconda/Accu/Kraken, Krios/Keeg/McFleurdel, Toph/Lula/Jennifer, and Dragon Queen/Alex. The package is intended to elevate the Route Night Character Select identity lane while preserving the existing race-facing art contract.
 
@@ -42,6 +42,13 @@ Toph's first candidate contained a recognizable athletic-brand-like shoe mark an
 
 Each batch was reviewed directly in the conversation against the approved roster identity and the Route Night reference before being staged. This package does not copy canonical Route Night pixels, commercial artwork, logos, exact typography, or layout.
 
+## Live acceptance evidence
+
+- PR #187 merged at `7e8a9ea8901bef6ea4dd785780c4cc8295225ead`.
+- Post-merge CI/Pages run `35422609359` passed.
+- Manny completed deployed desktop/mobile visual acceptance against the approved Route Night design and all twelve approved roster assets: PASS.
+- The review confirmed the selected full-body identity remains readable, the corrected driver/kart lanes remain separated, the route-board/panel hierarchy reads correctly, and fallback/reduced-motion/navigation behavior remains usable.
+- The acceptance gate is closed. Any race HUD, mini-map, or Results/Podium art is outside this package and is governed by ADR-093.
 ## Validation and boundary
 
 - `src/characters/manifest.ts` exposes `selectionArt` separately from `driver` and requires it for every active production character.
@@ -49,4 +56,4 @@ Each batch was reviewed directly in the conversation against the approved roster
 - Focused tests verify all twelve mappings and the selected-profile source separation.
 - `tools/verify-runtime-assets.mjs` verifies all twelve PNG signatures, dimensions, RGBA channels, and transparent corners.
 - No kart, race HUD, stats, item, AI, topology, PBR/material, or hosting behavior is changed by this package.
-- Publication requires the normal PR/hosted-CI/Pages workflow. Final status remains pending until Manny reviews the deployed Character Select screen at representative desktop and mobile sizes and confirms face readability, full-body presentation, and separation from the kart preview.
+- Publication and acceptance are complete through PR #187: merge commit `7e8a9ea8901bef6ea4dd785780c4cc8295225ead`, post-merge CI/Pages run `35422609359` passed, and Manny's deployed desktop/mobile review against the approved Route Night design and twelve roster assets passed.

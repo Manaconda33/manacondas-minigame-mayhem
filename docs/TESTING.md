@@ -1039,16 +1039,16 @@ Before publication, run the repository validation sequence: `npm run typecheck`,
 
 After hosted deployment, the product-owner visual gate must inspect title, hub, Controls, and Settings at representative desktop and mobile sizes against ADR-086 and the canonical Route Night reference. Verify browser audio unlock, playable/unavailable card routing, keyboard/mobile binding readability, persistent Master/Music/SFX settings, next-race Low/Medium/High selection, focus-visible treatment, and reduced-motion behavior. This automated checkpoint does not constitute deployed visual acceptance and does not authorize Character Select or later Slice 6 screens.
 
-## Slice 6 Route Night Character Select — feature branch
+## Slice 6 Route Night Character Select — live accepted
 
-The bounded Character Select checkpoint adds the responsive Route Night driver roster, selected production driver art, fixed six-stat presentation, and an isolated rotating kart preview. It must preserve the approved twelve-entry roster manifest, canonical class mapping in `docs/ROSTER-MAPPING.md`, kart GLB paths and visual yaw metadata, existing hub/race navigation, portrait fallbacks, and the protected Circuit Alpha material baseline.
+The bounded Character Select checkpoint added the responsive Route Night driver roster, selected production full-body driver art, fixed six-stat presentation, and an isolated rotating kart preview. It preserved the approved twelve-entry roster manifest, canonical class mapping in `docs/ROSTER-MAPPING.md`, kart GLB paths and visual yaw metadata, existing hub/race navigation, portrait fallbacks, and the protected Circuit Alpha material baseline.
 
-Run the focused contract with:
+The focused contract was `npm test -- --run tests/character-select-ui.test.ts tests/route-night-ui.test.ts tests/app-shell.test.ts`. Pre-publication validation passed the complete test suite, strict typecheck, zero-warning lint, production build, branding/runtime-asset validation, and `git lfs fsck`.
 
-```bash
-npm test -- --run tests/character-select-ui.test.ts tests/route-night-ui.test.ts tests/app-shell.test.ts
-```
+PR #187 merged at `7e8a9ea8901bef6ea4dd785780c4cc8295225ead`; post-merge CI/Pages run `35422609359` passed. Manny completed deployed desktop/mobile visual acceptance against ADR-086, ADR-090-092, the canonical Route Night reference, the approved Route Night design, and all twelve approved roster assets: PASS. The gate verified portraits, selected full-body identity, canonical class labels, six readable stats, actual GLB loading and restrained rotation, manifest-governed yaw, WebGL/asset fallback visibility, reduced-motion rendering, keyboard focus retention, start-race handoff, and back-to-hub navigation.
 
-Before publication, run the repository validation sequence: `npm run typecheck`, `npm run lint`, `npm run test:ci`, and `npm run build`. The build must also pass branding and runtime-asset validation, and `git lfs fsck` must remain clean.
+This automated and deployed checkpoint is complete. The next increment is separate and is defined by the Race HUD / Results-Podium design brief and plan; it does not retroactively expand this Character Select test scope.
 
-After hosted deployment, the product-owner visual gate must inspect Character Select at representative desktop and mobile sizes against ADR-086, ADR-090, the canonical Route Night reference, and the approved roster assets. Verify all twelve portraits, selected front driver art, canonical class labels, six readable stats, actual GLB loading and restrained rotation, manifest-governed yaw, WebGL/asset fallback visibility, reduced-motion rendering, keyboard focus retention, start-race handoff, and back-to-hub navigation. This automated checkpoint does not constitute deployed visual acceptance and does not authorize the race HUD, pause/results, final audio, post-processing, or later Slice 6 screens.
+## Slice 6 next bounded Race HUD / mini-map / Results-Podium planning gate
+
+The next bounded increment is documented in `docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.md` and `docs/superpowers/plans/2026-09-19-race-hud-results-podium.md`. Its future validation must add focused contracts for the 15 item-art mappings, enriched eight-racer standings, shared Circuit Alpha mini-map topology, top-three victory/reaction rank mapping, five lower-finish reaction states, Results controls, responsive placement, fallback/reduced-motion behavior, and the complete Title → Hub → Character Select → Race → Results flow. It must still run the complete repository validation sequence and the deployed desktop/mobile acceptance gate.

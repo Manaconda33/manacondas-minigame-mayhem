@@ -89,8 +89,35 @@ and UI while preserving distinct gameplay readability at small HUD sizes.
 
 The same deterministic preparation and validation contract as the earlier
 batches applies: Lanczos resize to 512 x 512, sRGB PNG32 output, preserved
-alpha, and live runtime data remaining outside the image. One race-HUD
-atmosphere overlay remains for the final Slice 6A asset batch.
+alpha, and live runtime data remaining outside the image. The final race-HUD
+atmosphere asset is documented in the approved Batch 06 section below.
+
+## Batch 06 status — final Slice 6A atmosphere
+
+**APPROVED / PREPARED** — 2026-09-19. This checkpoint completes the
+ImageGen-led visual-asset package for Slice 6A with the approved race-HUD
+atmosphere overlay. The source render is preserved as the exact approved
+ImageGen output record; the repository carries the deterministic runtime
+derivative at the contract path.
+
+The overlay is a wide, text-free, alpha-capable atmosphere layer for the live
+Route Night race HUD: deep indigo and graphite haze, cyan route-light ribbons,
+restrained violet/magenta energy, warm-gold sparks, and broad quiet zones for
+the live standings, lap, minimap, item, speed, warning, and touch-control UI.
+It contains no map geometry, track layout, character, kart, copy, logo, mark,
+or interaction state. It is decorative only and remains below the live DOM/SVG
+HUD with `pointer-events: none`.
+
+| Asset | Generator output ID | Source dimensions / format | Source SHA-256 | Runtime path | Runtime derivative | Runtime SHA-256 |
+| --- | --- | --- | --- | --- | --- | --- |
+| Race-HUD atmosphere overlay | exec-2d3c1e51-3a32-4504-a3d4-d2033f27bc28 | 1536 x 1024 sRGBA PNG | 4dd89adb3095747503089c8b44af1e8494bfe2b63627ba077c727dee2fd87c00 | public/assets/ui/route-night/race-hud-atmosphere.webp | 1536 x 1024 alpha WebP, 385,734 bytes | 1f927a93aa8af5030b12f432bc08db9cf6485c17607adcdbf46fd8eadb37bb74 |
+
+The source and runtime dimensions are identical. ImageMagick converted the
+approved PNG to an alpha-capable WebP at quality 82 without crop, repaint, or
+resizing; the runtime derivative remains non-opaque with genuine alpha. This
+completes the 15-item plus one race-atmosphere Slice 6A asset package. The
+Results/Podium backdrop and character victory/reaction poses remain deferred to
+Slice 6B.
 
 ## Batch 04 status
 

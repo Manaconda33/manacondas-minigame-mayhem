@@ -204,3 +204,29 @@ The generated outputs were initially rendered against a flat chroma background. 
 | Jennifer | `exec-4a119c1b-3981-49bb-bc3c-88a5c67fdc3b.png` — `2636cf3f05c26ac01c961af7ce6c898f350c69bb71e06e1d6c61081dc8faba01` | `public/assets/characters/aa-12/selection/full-body.png` — `c20b761581e450f9b7b792c2cc905306fc577cc33d6aa1ff1e8c0b805a48782d` |
 
 The manifest revision is `character-select-full-body-20260919-4`. All twelve assets are bound only through `selectionArt`; portrait-card, race-driver, kart, and PBR/material provenance remains in its existing records.
+
+## Route Night Race HUD - final atmosphere overlay
+
+This approved Slice 6A atmosphere overlay was generated on 2026-09-19 with
+the built-in OpenAI image-generation tool. The canonical Route Night reference
+at `docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png` was used
+only as a visual-language reference. The output is original project art with
+no copied canonical pixels, commercial artwork, text, logos, characters,
+vehicles, map geometry, or external license dependency.
+
+The approved source render is recorded by its exact generator output ID and
+SHA-256. The repository stores its deterministic runtime-safe alpha WebP
+derivative separately; no crop, repaint, or resize was applied, and live race
+HUD copy, values, standings, minimap topology, warnings, and interaction state
+remain outside the image.
+
+| Runtime file | Generated/source resolution | Source SHA-256 | Production derivative | SHA-256 |
+| --- | --- | --- | --- | --- |
+| `public/assets/ui/route-night/race-hud-atmosphere.webp` | 1536 x 1024 PNG output `exec-2d3c1e51-3a32-4504-a3d4-d2033f27bc28.png` | `4dd89adb3095747503089c8b44af1e8494bfe2b63627ba077c727dee2fd87c00` | 1536 x 1024 alpha WebP, 385,734 bytes | `1f927a93aa8af5030b12f432bc08db9cf6485c17607adcdbf46fd8eadb37bb74` |
+
+Prompt intent was limited to a transparent, edge-weighted Route Night race
+atmosphere layer with indigo/graphite haze, cyan route energy, restrained
+violet/magenta accents, warm-gold sparks, and broad HUD-safe negative space.
+The accepted runtime file is decorative only and must remain below live
+DOM/SVG UI with pointer events disabled. This closes the Slice 6A visual-asset
+package; Results/Podium visual assets are reserved for Slice 6B.

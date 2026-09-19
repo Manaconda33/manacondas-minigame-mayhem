@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { APP_TITLE, markGameFinished, mountAppShell, standingsMarkup } from '../src/app/mountAppShell';
+import {
+  APP_TITLE,
+  markGameFinished,
+  mountAppShell,
+  standingsMarkup,
+} from '../src/app/mountAppShell';
 import { raceMinimapMarkup } from '../src/app/raceMinimap';
 import { GAME_SETTINGS_STORAGE_KEY } from '../src/config/gameSettings';
 
@@ -18,7 +23,7 @@ describe('Slice 0 app shell', () => {
     expect(root.querySelector('canvas')).toBeNull();
   });
 
-  it('routes Grand Prix through a twelve-slot character selection scaffold', () => {
+  it('routes Grand Prix through the twelve-driver Route Night character selection', () => {
     const root = document.createElement('div');
     mountAppShell(root);
     root.querySelector<HTMLElement>('[data-action="enter"]')?.click();
@@ -28,16 +33,17 @@ describe('Slice 0 app shell', () => {
     expect(root.querySelector('[data-character="aa-02"]')?.getAttribute('aria-pressed')).toBe(
       'true',
     );
-    expect(root.textContent).toContain('Race as Lavi');
+    expect(root.textContent).toContain('Lavi');
+    expect(root.textContent).toContain('START RACE');
 
     root.querySelector<HTMLElement>('[data-character="aa-01"]')?.click();
-    expect(root.textContent).toContain('Race as Alex');
+    expect(root.textContent).toContain('Alex');
     expect(root.textContent).toContain('The Neon Vector');
     expect(root.textContent).toContain('Feather Sprinter');
     expect(root.textContent).not.toContain('Racer 01');
 
     root.querySelector<HTMLElement>('[data-character="aa-06"]')?.click();
-    expect(root.textContent).toContain('Race as Dragon Queen');
+    expect(root.textContent).toContain('Dragon Queen');
     expect(root.textContent).toContain('The Sovereign Wyrm');
     expect(root.textContent).toContain('Grip Specialist');
     expect(root.textContent).not.toContain('Roster placeholder');
@@ -46,21 +52,21 @@ describe('Slice 0 app shell', () => {
     expect(root.textContent).not.toContain('The Gilded Stitch');
 
     root.querySelector<HTMLElement>('[data-character="aa-09"]')?.click();
-    expect(root.textContent).toContain('Race as Manaconda');
+    expect(root.textContent).toContain('Manaconda');
     expect(root.textContent).toContain('The Wayfinder');
 
     root.querySelector<HTMLElement>('[data-character="aa-11"]')?.click();
-    expect(root.textContent).toContain('Race as Accu');
+    expect(root.textContent).toContain('Accu');
     expect(root.textContent).toContain('Pink Precision');
     expect(root.textContent).toContain('Perfect aim. Maximum armor.');
 
     root.querySelector<HTMLElement>('[data-character="aa-04"]')?.click();
-    expect(root.textContent).toContain('Race as Keeg');
+    expect(root.textContent).toContain('Keeg');
     expect(root.textContent).toContain('The Mycelial Majesty');
     expect(root.textContent).not.toContain('Fallback prototype');
 
     root.querySelector<HTMLElement>('[data-character="aa-12"]')?.click();
-    expect(root.textContent).toContain('Race as Jennifer');
+    expect(root.textContent).toContain('Jennifer');
     expect(root.textContent).toContain('The Hearthwarden');
     expect(root.textContent).toContain('All-Surface Heavy');
     expect(root.textContent).not.toContain('Roster placeholder');
@@ -155,5 +161,4 @@ describe('Slice 0 app shell', () => {
     expect(remount.querySelector<HTMLSelectElement>('#graphics-quality')?.value).toBe('low');
     window.localStorage.clear();
   });
-
 });

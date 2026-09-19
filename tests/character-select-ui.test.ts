@@ -49,6 +49,19 @@ describe('Route Night Character Select', () => {
     );
   });
 
+  it('keeps driver art and the kart preview in separate visual lanes', () => {
+    const root = openCharacterSelect();
+    const driverLane = root.querySelector('[data-character-visual-lane="driver"]');
+    const kartLane = root.querySelector('[data-character-visual-lane="kart"]');
+
+    expect(driverLane).not.toBeNull();
+    expect(kartLane).not.toBeNull();
+    expect(driverLane?.querySelector('[data-selected-driver-art]')).not.toBeNull();
+    expect(kartLane?.querySelector('[data-kart-preview]')).not.toBeNull();
+    expect(driverLane?.querySelector('[data-kart-preview]')).toBeNull();
+    expect(kartLane?.querySelector('[data-selected-driver-art]')).toBeNull();
+  });
+
   it('updates the selected profile and preview contract when a roster card is chosen', () => {
     const root = openCharacterSelect();
     const alex = characterById('aa-01');
@@ -88,16 +101,22 @@ describe('Route Night Character Select', () => {
   it('publishes a visible fallback state when WebGL is unavailable', () => {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = `
-      <canvas data-kart-preview-canvas></canvas>
-      <span data-kart-preview-state-label></span>`;
+      <div class="character-kart-preview" data-kart-preview>
+        <canvas data-kart-preview-canvas></canvas>
+        <div data-kart-preview-fallback></div>
+        <span data-kart-preview-state-label></span>
+      </div>`;
     const canvas = wrapper.querySelector<HTMLCanvasElement>('[data-kart-preview-canvas]');
+    const previewHost = wrapper.querySelector<HTMLElement>('[data-kart-preview]');
     const label = wrapper.querySelector<HTMLElement>('[data-kart-preview-state-label]');
 
     expect(canvas).not.toBeNull();
+    expect(previewHost).not.toBeNull();
     if (canvas === null) throw new Error('Kart preview canvas did not render');
     const preview = new CharacterKartPreview(canvas, characterById('aa-02'));
 
     expect(canvas.dataset.kartPreviewState).toBe('unavailable');
+    expect(previewHost?.dataset.kartPreviewState).toBe('unavailable');
     expect(label?.textContent).toContain('CSS FALLBACK');
 
     preview.dispose();

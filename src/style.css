@@ -3416,6 +3416,8 @@ h2 {
 }
 
 .character-hero-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
   position: relative;
   min-height: 24rem;
   overflow: hidden;
@@ -3447,12 +3449,20 @@ h2 {
   opacity: 0.75;
 }
 
+.character-hero-identity-lane {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  padding: 2.3rem 0 0 clamp(1rem, 3vw, 2rem);
+  position: relative;
+  z-index: 3;
+}
+
 .character-hero-copy {
-  position: absolute;
-  top: 2.3rem;
-  left: clamp(1rem, 3vw, 2rem);
+  position: relative;
   z-index: 5;
-  width: min(46%, 19rem);
+  width: min(100%, 19rem);
 }
 
 .character-hero-kicker {
@@ -3489,16 +3499,24 @@ h2 {
 }
 
 .character-hero-driver {
-  position: absolute;
-  right: 4%;
-  bottom: 1.1rem;
-  z-index: 3;
-  width: min(47%, 21rem);
-  height: 86%;
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(92%, 21rem);
+  height: 100%;
   object-fit: contain;
   object-position: center bottom;
   filter: drop-shadow(0 0 1.2rem rgb(120 232 250 / 16%));
   pointer-events: none;
+}
+
+.character-driver-art-lane {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .character-hero-driver.portrait-fallback {
@@ -3509,14 +3527,24 @@ h2 {
   font-weight: 900;
 }
 
+.character-kart-lane {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-width: 0;
+  min-height: 0;
+  padding: 2.75rem 0 0;
+  overflow: hidden;
+  z-index: 2;
+}
+
 .character-kart-preview {
-  position: absolute;
-  right: -2%;
-  bottom: 0;
-  z-index: 4;
-  width: min(69%, 31rem);
-  height: 68%;
-  min-height: 12.5rem;
+  position: relative;
+  z-index: 1;
+  align-self: stretch;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
   pointer-events: none;
 }
 
@@ -3805,7 +3833,7 @@ h2 {
   }
 
   .character-hero-copy {
-    width: min(45%, 16rem);
+    width: 100%;
   }
 
   .character-hero-copy h2 {
@@ -3848,6 +3876,32 @@ h2 {
 
   .character-select-footer {
     flex-wrap: wrap;
+  }
+
+  .character-hero-stage {
+    display: flex;
+    flex-direction: column;
+    min-height: 30rem;
+  }
+
+  .character-hero-identity-lane {
+    flex: 0 0 62%;
+    grid-template-rows: auto minmax(0, 1fr);
+    padding: 1.35rem 0.85rem 0;
+  }
+
+  .character-driver-art-lane {
+    min-height: 0;
+  }
+
+  .character-kart-lane {
+    flex: 1 1 38%;
+    min-height: 13.5rem;
+    padding: 0.35rem 0 0;
+  }
+
+  .character-kart-preview {
+    min-height: 0;
   }
 
   .character-select-divider {
@@ -3901,13 +3955,18 @@ h2 {
   }
 
   .character-hero-stage {
-    min-height: 22rem;
+    min-height: 30rem;
+  }
+
+  .character-hero-identity-lane {
+    flex-basis: 62%;
+    padding: 1.35rem 0.85rem 0;
   }
 
   .character-hero-copy {
-    top: 1.35rem;
-    left: 0.85rem;
-    width: 52%;
+    top: auto;
+    left: auto;
+    width: 100%;
   }
 
   .character-hero-copy h2 {
@@ -3915,15 +3974,19 @@ h2 {
   }
 
   .character-hero-driver {
-    right: -3%;
-    width: 55%;
-    height: 74%;
+    width: min(78%, 18rem);
+    height: 100%;
+  }
+
+  .character-kart-lane {
+    flex-basis: 38%;
+    min-height: 13.5rem;
+    padding-top: 0.35rem;
   }
 
   .character-kart-preview {
-    right: -11%;
-    width: 76%;
-    height: 58%;
+    width: 100%;
+    height: 100%;
   }
 
   .character-profile-detail {

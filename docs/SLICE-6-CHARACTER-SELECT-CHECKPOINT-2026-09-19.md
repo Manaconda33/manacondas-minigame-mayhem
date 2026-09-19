@@ -2,7 +2,7 @@
 
 Date: 2026-09-19
 
-Status: **IMPLEMENTED ON FEATURE BRANCH / PUBLICATION AND DEPLOYED VISUAL ACCEPTANCE PENDING**
+Status: **BASELINE MERGED / DEPLOYED; BOUNDED DRIVER/KART COMPOSITION CORRECTION IN FEATURE-BRANCH REVIEW**
 
 ## Authority and bounded objective
 
@@ -23,6 +23,12 @@ The increment is limited to Character Select, the shared preview seam required b
 - Preserves the title → hub → Character Select → race handoff, selected-driver state, audio unlock, confirm action, and back-to-hub navigation.
 - Adds `CharacterKartPreview`, an isolated Three.js UI preview that loads the selected manifest GLB through `GLTFLoader`, applies the governed `kartVisualYaw`, rotates slowly when motion is allowed, renders a static preview for reduced motion, and uses a procedural 3D fallback for missing GLBs plus a visible CSS fallback panel when WebGL is unavailable. It does not modify `KartTimeTrial` or gameplay kart loading.
 - Keeps copy, layout, interaction, identity, and accessibility semantics in DOM/CSS/SVG. Generated image layers support atmosphere only and do not replace responsive controls or live text.
+
+## Deployed review correction
+
+The deployed review identified one bounded presentation defect: the selected 2D driver art and the kart preview occupied the same overlapping absolute stage, allowing the kart to obscure the driver's face at desktop and mobile sizes. The correction preserves the approved driver assets, kart GLBs, manifest yaw, fallback behavior, and Route Night identity while assigning the driver art and kart preview separate responsive visual lanes. Desktop uses adjacent identity and kart lanes; mobile stacks the identity lane before the kart lane so the face remains readable.
+
+This is a DOM/CSS composition correction only. No new image asset, roster identity, kart geometry, gameplay authority, settings behavior, audio behavior, or PBR/material implementation is changed.
 
 ## Original generated Character Select atmosphere package
 
@@ -51,6 +57,8 @@ Local validation on this feature branch:
 - `git diff --check`: passed;
 - `git lfs fsck`: passed;
 - targeted Prettier checks for all changed source, test, and provenance files: passed.
+
+Correction validation adds one focused visual-lane regression contract; the complete suite now passes **67 test files / 533 tests** with strict typecheck, zero-warning lint, branding/runtime-asset verification, production build, and `git diff --check` passing. The repository-wide Prettier check still reports pre-existing formatting drift in unrelated historical files. The local cloud browser could not reach the workspace preview URL (`ERR_BLOCKED_BY_CLIENT`), so no local browser-rendered acceptance is claimed.
 
 The canonical reference and all three accepted generated layers were inspected directly. The available cloud browser could not reach the local preview URL and returned `ERR_BLOCKED_BY_CLIENT`; no local browser-rendered acceptance is claimed. A hosted PR/deployment checkpoint must provide the desktop/mobile visual review before this increment can be considered live accepted.
 

@@ -19,6 +19,21 @@ const STAT_DEFINITIONS: readonly [keyof CharacterStats, string][] = [
   ['traction', 'Traction'],
 ];
 
+const CHARACTER_CLASS_BY_ID: Readonly<Record<string, string>> = {
+  'aa-01': 'Featherweight',
+  'aa-02': 'Featherweight',
+  'aa-03': 'Featherweight',
+  'aa-04': 'Medium',
+  'aa-05': 'Medium',
+  'aa-06': 'Medium',
+  'aa-07': 'Cruiser',
+  'aa-08': 'Cruiser',
+  'aa-09': 'Cruiser',
+  'aa-10': 'Heavyweight',
+  'aa-11': 'Heavyweight',
+  'aa-12': 'Heavyweight',
+};
+
 function actionButton(
   label: string,
   action: string,
@@ -49,9 +64,11 @@ export function characterSelectStatRows(character: CharacterDefinition): string 
 }
 
 export function characterWeightClass(character: CharacterDefinition): string {
+  const governedClass = CHARACTER_CLASS_BY_ID[character.id];
+  if (governedClass !== undefined) return governedClass;
   if (character.stats.weight <= 3) return 'Featherweight';
   if (character.stats.weight >= 8) return 'Heavyweight';
-  return 'Middleweight';
+  return 'Medium';
 }
 
 export function characterSelectMarkup(
@@ -113,6 +130,7 @@ export function characterSelectMarkup(
             ${driverArtMarkup(selectedCharacter)}
             <div class="character-kart-preview" data-kart-preview data-kart-url="${selectedCharacter.kart ?? ''}" data-kart-visual-yaw="${String(selectedCharacter.kartVisualYaw ?? 0)}" data-fallback-label="${kartName}">
               <canvas data-kart-preview-canvas aria-label="Slowly rotating ${kartName} 3D kart preview"></canvas>
+              <div class="character-kart-preview-fallback" data-kart-preview-fallback aria-hidden="true"><span>WEBGL FALLBACK</span><i></i><strong>${kartName}</strong></div>
               <span class="character-kart-preview-label">3D KART PREVIEW</span>
               <span class="character-kart-preview-state" data-kart-preview-state-label>GLB / FALLBACK READY</span>
             </div>

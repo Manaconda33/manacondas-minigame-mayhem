@@ -21,7 +21,7 @@ The increment is limited to Character Select, the shared preview seam required b
 - Renders all twelve approved manifest entries as live roster controls with real portrait assets and the existing portrait fallback behavior.
 - Renders the selected production driver front art, approved class label, approved kart name, and the six fixed manifest statistics in a stable presentation order.
 - Preserves the title → hub → Character Select → race handoff, selected-driver state, audio unlock, confirm action, and back-to-hub navigation.
-- Adds `CharacterKartPreview`, an isolated Three.js UI preview that loads the selected manifest GLB through `GLTFLoader`, applies the governed `kartVisualYaw`, rotates slowly when motion is allowed, renders a static preview for reduced motion, and falls back to a procedural CSS-readable kart when WebGL or the GLB is unavailable. It does not modify `KartTimeTrial` or gameplay kart loading.
+- Adds `CharacterKartPreview`, an isolated Three.js UI preview that loads the selected manifest GLB through `GLTFLoader`, applies the governed `kartVisualYaw`, rotates slowly when motion is allowed, renders a static preview for reduced motion, and uses a procedural 3D fallback for missing GLBs plus a visible CSS fallback panel when WebGL is unavailable. It does not modify `KartTimeTrial` or gameplay kart loading.
 - Keeps copy, layout, interaction, identity, and accessibility semantics in DOM/CSS/SVG. Generated image layers support atmosphere only and do not replace responsive controls or live text.
 
 ## Original generated Character Select atmosphere package
@@ -40,9 +40,9 @@ The images were generated as original project atmosphere with the built-in OpenA
 
 Local validation on this feature branch:
 
-- focused Character Select, Route Night, and app-shell tests: **18 passed**;
-- full CI test suite: **67 test files / 530 tests passed**;
-- coverage: **80.57% statements / 75.98% branches / 86.03% functions / 82.21% lines**;
+- focused Character Select, Route Night, and app-shell tests: **20 passed**;
+- full CI test suite: **67 test files / 532 tests passed**;
+- coverage: **81.20% statements / 75.93% branches / 86.39% functions / 82.91% lines**;
 - strict TypeScript: passed;
 - zero-warning ESLint: passed;
 - branding validation: passed;

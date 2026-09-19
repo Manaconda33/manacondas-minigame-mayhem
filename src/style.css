@@ -824,12 +824,6 @@ h2 {
   .character-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .character-detail {
-    order: -1;
-  }
-  .detail-portrait {
-    width: 7rem;
-  }
   .performance {
     display: none;
   }
@@ -3567,10 +3561,84 @@ h2 {
   opacity: 0.82;
 }
 
-.character-kart-preview[data-kart-preview-state='unavailable']
-  .character-kart-preview-state::after {
-  content: ' / CSS PROTOTYPE';
-  color: var(--route-muted);
+.character-kart-preview-fallback {
+  position: absolute;
+  inset: 17% 13% 13%;
+  z-index: 3;
+  display: none;
+  place-items: center;
+  align-content: center;
+  gap: 0.6rem;
+  padding: 1rem;
+  border: 1px solid rgb(120 232 250 / 42%);
+  background:
+    linear-gradient(145deg, rgb(7 17 31 / 92%), rgb(14 18 46 / 86%)),
+    repeating-linear-gradient(135deg, transparent 0 0.8rem, rgb(120 232 250 / 5%) 0.8rem 0.9rem);
+  clip-path: polygon(
+    0 0.9rem,
+    0.9rem 0,
+    100% 0,
+    100% calc(100% - 0.9rem),
+    calc(100% - 0.9rem) 100%,
+    0 100%
+  );
+  box-shadow:
+    inset 0 0 2rem rgb(48 217 236 / 8%),
+    0 0 1.4rem rgb(48 217 236 / 10%);
+  color: var(--route-cyan-soft);
+  text-align: center;
+}
+
+.character-kart-preview[data-kart-preview-state='unavailable'] .character-kart-preview-fallback {
+  display: grid;
+}
+
+.character-kart-preview-fallback span {
+  color: var(--route-gold-soft);
+  font-size: 0.5rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.character-kart-preview-fallback i {
+  position: relative;
+  display: block;
+  width: min(10rem, 62%);
+  height: 3.4rem;
+  border: 1px solid var(--route-cyan);
+  background: linear-gradient(160deg, rgb(120 232 250 / 22%), rgb(169 79 233 / 20%));
+  box-shadow: 0 0 1.2rem rgb(48 217 236 / 22%);
+  transform: skew(-16deg);
+}
+
+.character-kart-preview-fallback i::before,
+.character-kart-preview-fallback i::after {
+  position: absolute;
+  bottom: -0.48rem;
+  width: 1rem;
+  height: 0.55rem;
+  border: 1px solid var(--route-gold);
+  background: var(--route-graphite);
+  content: '';
+}
+
+.character-kart-preview-fallback i::before {
+  left: 0.55rem;
+}
+
+.character-kart-preview-fallback i::after {
+  right: 0.55rem;
+}
+
+.character-kart-preview-fallback strong {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--route-text);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .character-hero-node {

@@ -534,6 +534,7 @@ export function mountAppShell(root: HTMLElement): void {
     if (target === null) return;
     selectedCharacter = characterById(target.dataset.character ?? '');
     renderCharacterSelect();
+    root.querySelector<HTMLElement>(`[data-character="${selectedCharacter.id}"]`)?.focus();
   });
 
   renderTitle();

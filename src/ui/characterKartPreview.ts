@@ -100,6 +100,7 @@ export class CharacterKartPreview {
   private readonly modelHolder = new THREE.Group();
   private readonly loader = new GLTFLoader();
   private readonly renderer: THREE.WebGLRenderer | null;
+  private readonly floor: THREE.Mesh;
   private readonly reducedMotion: boolean;
   private animationFrame = 0;
   private loadGeneration = 0;
@@ -129,7 +130,7 @@ export class CharacterKartPreview {
     violet.position.set(3.4, 1.4, -2.5);
     this.scene.add(violet);
 
-    const floor = new THREE.Mesh(
+    this.floor = new THREE.Mesh(
       new THREE.CircleGeometry(3.35, 64),
       new THREE.MeshStandardMaterial({
         color: 0x071326,
@@ -141,24 +142,24 @@ export class CharacterKartPreview {
         opacity: 0.9,
       }),
     );
-    floor.rotation.x = -Math.PI / 2;
-    floor.position.y = -0.06;
-    floor.receiveShadow = true;
-    this.scene.add(floor);
+    this.floor.rotation.x = -Math.PI / 2;
+    this.floor.position.y = -0.06;
+    this.floor.receiveShadow = true;
+    this.scene.add(this.floor);
 
     this.renderer = this.createRenderer(canvas);
-    if (this.renderer === null) {
-      canvas.dataset.kartPreviewState = 'unavailable';
-      return;
-    }
-    canvas.dataset.kartPreviewState = 'loading';
+    this.setPreviewState(
+      this.renderer === null ? 'unavailable' : 'loading',
+      this.renderer === null ? 'WEBGL UNAVAILABLE / CSS FALLBACK' : 'LOADING GLB / FALLBACK READY',
+    );
+    void this.setCharacter(character);
+    if (this.renderer === null) return;
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.resize();
     window.addEventListener('resize', this.resize);
     this.startRenderLoop();
-    void this.setCharacter(character);
   }
 
   public async setCharacter(character: CharacterDefinition): Promise<void> {
@@ -166,7 +167,10 @@ export class CharacterKartPreview {
     clearGroup(this.modelHolder);
     this.modelHolder.rotation.y = 0;
     this.modelHolder.add(createFallbackKart(character));
-    this.canvas.dataset.kartPreviewState = this.renderer === null ? 'unavailable' : 'fallback';
+    this.setPreviewState(
+      this.renderer === null ? 'unavailable' : 'fallback',
+      this.renderer === null ? 'WEBGL UNAVAILABLE / CSS FALLBACK' : 'FALLBACK CHASSIS READY',
+    );
 
     if (this.renderer === null || character.kart === undefined) return;
 
@@ -191,10 +195,12 @@ export class CharacterKartPreview {
         }
       });
       this.modelHolder.add(model);
-      this.canvas.dataset.kartPreviewState = 'loaded';
+      this.setPreviewState('loaded', 'GLB / YAW LOCKED');
+      this.renderScene();
     } catch (error) {
       if (!this.disposed && generation === this.loadGeneration) {
-        this.canvas.dataset.kartPreviewState = 'fallback';
+        this.setPreviewState('fallback', 'FALLBACK CHASSIS / GLB UNAVAILABLE');
+        this.renderScene();
         console.warn(
           `Could not load ${character.displayName}'s preview kart; using fallback.`,
           error,
@@ -210,6 +216,8 @@ export class CharacterKartPreview {
     cancelAnimationFrame(this.animationFrame);
     window.removeEventListener('resize', this.resize);
     clearGroup(this.modelHolder);
+    this.scene.remove(this.floor);
+    disposeObject(this.floor);
     this.renderer?.dispose();
   }
 
@@ -239,7 +247,7 @@ export class CharacterKartPreview {
   private startRenderLoop(): void {
     if (this.renderer === null) return;
     if (this.reducedMotion) {
-      this.renderer.render(this.scene, this.camera);
+      this.renderScene();
       return;
     }
     this.lastFrame = performance.now();
@@ -251,7 +259,20 @@ export class CharacterKartPreview {
     const delta = Math.min((time - this.lastFrame) / 1000, 0.05);
     this.lastFrame = time;
     this.modelHolder.rotation.y += delta * 0.24;
-    this.renderer.render(this.scene, this.camera);
+    this.renderScene();
     this.animationFrame = requestAnimationFrame(this.renderFrame);
   };
+
+  private renderScene(): void {
+    if (this.disposed || this.renderer === null) return;
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  private setPreviewState(state: string, label: string): void {
+    this.canvas.dataset.kartPreviewState = state;
+    const stateLabel = this.canvas.parentElement?.querySelector<HTMLElement>(
+      '[data-kart-preview-state-label]',
+    );
+    if (stateLabel !== null && stateLabel !== undefined) stateLabel.textContent = label;
+  }
 }

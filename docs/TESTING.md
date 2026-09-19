@@ -1038,3 +1038,17 @@ npm test -- --run tests/route-night-ui.test.ts tests/app-shell.test.ts
 Before publication, run the repository validation sequence: `npm run typecheck`, `npm run lint`, `npm run test:ci`, and `npm run build`. The build must also pass branding and runtime-asset validation. The two original Route Night WebP assets are checked into `public/assets/ui/route-night/`; their provenance and hashes are recorded in `docs/ASSET-PROVENANCE.md`.
 
 After hosted deployment, the product-owner visual gate must inspect title, hub, Controls, and Settings at representative desktop and mobile sizes against ADR-086 and the canonical Route Night reference. Verify browser audio unlock, playable/unavailable card routing, keyboard/mobile binding readability, persistent Master/Music/SFX settings, next-race Low/Medium/High selection, focus-visible treatment, and reduced-motion behavior. This automated checkpoint does not constitute deployed visual acceptance and does not authorize Character Select or later Slice 6 screens.
+
+## Slice 6 Route Night Character Select — feature branch
+
+The bounded Character Select checkpoint adds the responsive Route Night driver roster, selected production driver art, fixed six-stat presentation, and an isolated rotating kart preview. It must preserve the approved twelve-entry roster manifest, canonical class mapping in `docs/ROSTER-MAPPING.md`, kart GLB paths and visual yaw metadata, existing hub/race navigation, portrait fallbacks, and the protected Circuit Alpha material baseline.
+
+Run the focused contract with:
+
+```bash
+npm test -- --run tests/character-select-ui.test.ts tests/route-night-ui.test.ts tests/app-shell.test.ts
+```
+
+Before publication, run the repository validation sequence: `npm run typecheck`, `npm run lint`, `npm run test:ci`, and `npm run build`. The build must also pass branding and runtime-asset validation, and `git lfs fsck` must remain clean.
+
+After hosted deployment, the product-owner visual gate must inspect Character Select at representative desktop and mobile sizes against ADR-086, ADR-090, the canonical Route Night reference, and the approved roster assets. Verify all twelve portraits, selected front driver art, canonical class labels, six readable stats, actual GLB loading and restrained rotation, manifest-governed yaw, WebGL/asset fallback visibility, reduced-motion rendering, keyboard focus retention, start-race handoff, and back-to-hub navigation. This automated checkpoint does not constitute deployed visual acceptance and does not authorize the race HUD, pause/results, final audio, post-processing, or later Slice 6 screens.

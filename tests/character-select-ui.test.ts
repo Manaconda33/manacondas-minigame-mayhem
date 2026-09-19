@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { characterById } from '../src/characters/manifest';
 import { mountAppShell } from '../src/app/mountAppShell';
-import { characterPreviewAssetState } from '../src/ui/characterKartPreview';
+import { CharacterKartPreview, characterPreviewAssetState } from '../src/ui/characterKartPreview';
+import { characterWeightClass } from '../src/ui/characterSelect';
 
 function openCharacterSelect(): HTMLElement {
   const root = document.createElement('div');
@@ -52,7 +53,8 @@ describe('Route Night Character Select', () => {
     const root = openCharacterSelect();
     const alex = characterById('aa-01');
 
-    root.querySelector<HTMLElement>('[data-character="aa-01"]')?.click();
+    const alexCard = root.querySelector<HTMLElement>('[data-character="aa-01"]');
+    alexCard?.click();
 
     expect(root.querySelector('[data-character="aa-01"]')?.getAttribute('aria-pressed')).toBe(
       'true',
@@ -67,6 +69,13 @@ describe('Route Night Character Select', () => {
     );
   });
 
+  it('uses the governed roster class mapping instead of deriving classes from raw weight', () => {
+    expect(characterWeightClass(characterById('aa-01'))).toBe('Featherweight');
+    expect(characterWeightClass(characterById('aa-04'))).toBe('Medium');
+    expect(characterWeightClass(characterById('aa-09'))).toBe('Cruiser');
+    expect(characterWeightClass(characterById('aa-10'))).toBe('Heavyweight');
+  });
+
   it('exposes the governed preview asset contract and shared visual yaw', () => {
     const state = characterPreviewAssetState(characterById('aa-09'));
 
@@ -74,6 +83,24 @@ describe('Route Night Character Select', () => {
     expect(state.driverUrl).toContain('/assets/characters/aa-09/driver/front.png');
     expect(state.kartVisualYaw).toBe(Math.PI);
     expect(state.fallbackLabel).toBe('The Wayfinder');
+  });
+
+  it('publishes a visible fallback state when WebGL is unavailable', () => {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = `
+      <canvas data-kart-preview-canvas></canvas>
+      <span data-kart-preview-state-label></span>`;
+    const canvas = wrapper.querySelector<HTMLCanvasElement>('[data-kart-preview-canvas]');
+    const label = wrapper.querySelector<HTMLElement>('[data-kart-preview-state-label]');
+
+    expect(canvas).not.toBeNull();
+    if (canvas === null) throw new Error('Kart preview canvas did not render');
+    const preview = new CharacterKartPreview(canvas, characterById('aa-02'));
+
+    expect(canvas.dataset.kartPreviewState).toBe('unavailable');
+    expect(label?.textContent).toContain('CSS FALLBACK');
+
+    preview.dispose();
   });
 
   it('retains portrait fallback behavior inside the redesigned roster', () => {

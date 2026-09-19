@@ -70,3 +70,23 @@ transparent, and isolated from characters, vehicles, scenery, and UI.
 The same deterministic preparation and validation contract as the earlier
 batches applies: Lanczos resize to 512 x 512, sRGB PNG32 output, preserved
 alpha, and live runtime data remaining outside the image.
+
+## Batch 04 status
+
+**APPROVED / PREPARED** — 2026-09-19. This checkpoint adds the fourth
+approved ImageGen item batch for Slice 6A.
+
+The batch covers the radial Shockwave pulse, organic Ink Splat, and forward
+Nitro Surge charge. Each source is text-free, transparent, and isolated from
+characters, vehicles, scenery, and UI while preserving distinct gameplay
+readability at small HUD sizes.
+
+| Item | Generator output ID | Source dimensions / format | Source SHA-256 | Runtime path | Runtime SHA-256 |
+| --- | --- | --- | --- | --- | --- |
+| Acoustic Shockwave Pulse | exec-0b6b2963-593c-4d0b-86fd-69e72e0e412f | 1230 x 1278 sRGBA PNG | 011277c790d7d09233a12e10c1b5b16cde2cf058ffda02068552445d952b2597 | public/assets/items/route-night/shockwave.png | ffef8e12d2938da4a07949136676262d766fa777c94e075d86fa144eaa69e392 |
+| Vision-Obscuring Ink Splat | exec-bedf5945-4e82-4dcb-90ad-cfefac1a298d | 1536 x 1024 sRGBA PNG | e2996e60abd1311cb84716978d67ead4af91bd3f1fb47f4946aac20b65a94106 | public/assets/items/route-night/ink-splat.png | 1ae2b74e0966616cdb0ec82b9b565cab2f3bf9639a19cf07122879ecbae04ff9 |
+| Nitro Surge | exec-acef5553-bd76-4f78-97ff-4452176f0477 | 1536 x 1024 sRGBA PNG | 4601fc91d188def4aefd6fc9ef34a9875f35705d309ed531796f97141d41da61 | public/assets/items/route-night/nitro-surge.png | 4b5970b6f7184e02190d55ee46418c05e1749ee05c097298220877d42a06ad03 |
+
+The same deterministic preparation and validation contract as the earlier
+batches applies: Lanczos resize to 512 x 512, sRGB PNG32 output, preserved
+alpha, and live runtime data remaining outside the image.

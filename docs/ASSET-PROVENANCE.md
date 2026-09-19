@@ -2,6 +2,25 @@
 
 This ledger records external production assets used by Manaconda's Minigame Mayhem. It is the durable rights/provenance record required by Slice 6. Every externally sourced production asset must record its source, license, stable asset identifier, downloaded/source resolution, production derivative path, and transformation notes before release.
 
+## Route Night Race HUD - ImageGen item batch 01
+
+These three fixed-size item identity derivatives were generated on 2026-09-19
+with the built-in OpenAI image-generation tool. The canonical Route Night
+reference was used only as a visual-language reference. The outputs are
+original project art with no external license dependency, copied pixels, text,
+logos, marks, characters, vehicles, or UI layout.
+
+Source renders were 1254 x 1254 sRGBA PNGs. ImageMagick converted each source
+to a 512 x 512 sRGBA PNG32 runtime derivative using deterministic Lanczos
+resizing with alpha preserved. Live item copy, charges, behavior, and VFX are
+not embedded in the generated art.
+
+| Runtime file | Generator output ID | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- |
+| public/assets/items/route-night/kinetic-disc.png | exec-4171bfdd-9a39-44fc-bf57-e8fb6b58e3b8 | edc7be16ee0c9ab6348cf5a148bb1ef3498c5746b4b86313c7f626aebff2a725 | ad079a229d1908c06f232fb6f71e77e096ba92836e61f9c94a74395fa9909028 |
+| public/assets/items/route-night/seeker-drone.png | exec-4fb686b2-d6ee-442b-9040-bf1a4b834c92 | ff49826405b7f46b9c1fdea2aae00a3b0592e5c4515306190e85d1bb07651f7e | 0c475a2135a9ee742ff76b3db0c9f0fc28f4da4b38dfca4dc036eb37ba3b27b4 |
+| public/assets/items/route-night/apex-missile.png | exec-690b6b9e-eff8-40fe-ae56-186dc80bf14d | 0895187289fe79f784a9d215755f1c22ab11862a702630bf623a16089f3d020c | 522f4be0877661278be7a0290036fc4bdbaeb1316c1a24bc33a9ceae0390f08c |
+
 ## Poly Haven - Asphalt Track
 
 - **Asset:** Asphalt Track

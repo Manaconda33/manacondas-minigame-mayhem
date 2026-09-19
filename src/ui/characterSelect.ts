@@ -126,13 +126,17 @@ export function characterSelectMarkup(
         <section class="character-profile-panel" aria-live="polite" aria-label="Selected driver profile">
           <div class="character-profile-heading"><p class="route-label">LIVE PROFILE / SELECTED CHECKPOINT</p><span>AA / ${selectedCharacter.id.replace('aa-', '')}</span></div>
           <div class="character-hero-stage">
-            <div class="character-hero-copy"><span class="character-hero-kicker">${selectedCharacter.descriptor}</span><h2 data-selected-driver-name>${selectedCharacter.displayName}</h2><p class="character-hero-caption">${selectedCharacter.assetState === 'production' ? 'Approved driver identity' : 'Roster placeholder'}</p></div>
-            ${driverArtMarkup(selectedCharacter)}
-            <div class="character-kart-preview" data-kart-preview data-kart-url="${selectedCharacter.kart ?? ''}" data-kart-visual-yaw="${String(selectedCharacter.kartVisualYaw ?? 0)}" data-fallback-label="${kartName}">
-              <canvas data-kart-preview-canvas aria-label="Slowly rotating ${kartName} 3D kart preview"></canvas>
-              <div class="character-kart-preview-fallback" data-kart-preview-fallback aria-hidden="true"><span>WEBGL FALLBACK</span><i></i><strong>${kartName}</strong></div>
-              <span class="character-kart-preview-label">3D KART PREVIEW</span>
-              <span class="character-kart-preview-state" data-kart-preview-state-label>GLB / FALLBACK READY</span>
+            <div class="character-hero-identity-lane">
+              <div class="character-hero-copy"><span class="character-hero-kicker">${selectedCharacter.descriptor}</span><h2 data-selected-driver-name>${selectedCharacter.displayName}</h2><p class="character-hero-caption">${selectedCharacter.assetState === 'production' ? 'Approved driver identity' : 'Roster placeholder'}</p></div>
+              <div class="character-driver-art-lane" data-character-visual-lane="driver">${driverArtMarkup(selectedCharacter)}</div>
+            </div>
+            <div class="character-kart-lane" data-character-visual-lane="kart">
+              <div class="character-kart-preview" data-kart-preview data-kart-url="${selectedCharacter.kart ?? ''}" data-kart-visual-yaw="${String(selectedCharacter.kartVisualYaw ?? 0)}" data-fallback-label="${kartName}">
+                <canvas data-kart-preview-canvas aria-label="Slowly rotating ${kartName} 3D kart preview"></canvas>
+                <div class="character-kart-preview-fallback" data-kart-preview-fallback aria-hidden="true"><span>WEBGL FALLBACK</span><i></i><strong>${kartName}</strong></div>
+                <span class="character-kart-preview-label">3D KART PREVIEW</span>
+                <span class="character-kart-preview-state" data-kart-preview-state-label>GLB / FALLBACK READY</span>
+              </div>
             </div>
             <span class="character-hero-node">02</span>
           </div>

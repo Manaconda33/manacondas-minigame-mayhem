@@ -49,6 +49,19 @@ describe('Route Night Character Select', () => {
     );
   });
 
+  it('keeps driver art and the kart preview in separate visual lanes', () => {
+    const root = openCharacterSelect();
+    const driverLane = root.querySelector('[data-character-visual-lane="driver"]');
+    const kartLane = root.querySelector('[data-character-visual-lane="kart"]');
+
+    expect(driverLane).not.toBeNull();
+    expect(kartLane).not.toBeNull();
+    expect(driverLane?.querySelector('[data-selected-driver-art]')).not.toBeNull();
+    expect(kartLane?.querySelector('[data-kart-preview]')).not.toBeNull();
+    expect(driverLane?.querySelector('[data-kart-preview]')).toBeNull();
+    expect(kartLane?.querySelector('[data-selected-driver-art]')).toBeNull();
+  });
+
   it('updates the selected profile and preview contract when a roster card is chosen', () => {
     const root = openCharacterSelect();
     const alex = characterById('aa-01');

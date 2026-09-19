@@ -28,3 +28,7 @@ public/assets/characters/**/driver/*.png -filter -diff -merge -text
 # Character Select full-body illustrations are fixed-size runtime avatar derivatives.
 # Generated/source masters remain outside this delivery path and remain governed by LFS.
 public/assets/characters/**/selection/full-body.png -filter -diff -merge -text
+
+# Results/Podium character illustrations are fixed-size runtime derivatives.
+# Generated/source masters remain outside this delivery path and remain governed by LFS.
+public/assets/characters/**/results/*.png -filter -diff -merge -text

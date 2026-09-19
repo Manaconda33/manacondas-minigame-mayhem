@@ -231,3 +231,19 @@ Planning is recorded in `docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.
 Following the PR #187 Character Select acceptance, the canonical Route Night target was reviewed before authoring the next presentation surface. The approved atmosphere overlay and fifteen item PNGs are reused; the missing exact panel/gauge/item/minimap frame geometry is authored as the text-free SVG library `public/assets/ui/route-night/route-night-race-hud.svg`. Live HUD values, item state, warnings, portraits, and Circuit Alpha topology remain DOM/CSS/SVG-owned.
 
 The branch is `feature/slice6-race-hud-minimap-results-podium`. It adds the semantic race-shell composition, approved item-art mapping with fallback, and the authored minimap frame while preserving existing race authority and dynamic IDs. Results/Podium screens, victory/reaction poses, and finish-transition behavior remain explicitly deferred. This is a branch-only implementation checkpoint until focused/full validation and a later publication/deployment visual gate are complete.
+
+## Slice 6B Results/Podium asset-authoring checkpoint — approved batch 01
+
+Manny approved and published the first three character-specific Results/Podium
+victory poses on 2026-09-19: Alex / AA-01, Lavi / AA-02, and Lula / AA-03.
+The files are fixed-size 1024 × 1536 transparent sRGBA runtime derivatives at
+`public/assets/characters/aa-##/results/victory.png`. Each pose uses the
+matching approved Character Select full-body art as its actual generation
+reference and has a distinct silhouette, gesture, and emotional read. The
+asset brief and provenance ledger record source IDs, deterministic alpha
+preparation, runtime hashes, and the approval boundary.
+
+This checkpoint contains no Results/Podium runtime wiring, standings changes,
+reaction assets, backdrop, gameplay, race-authority, AI, item, audio, or
+deployment changes. Nine remaining victory poses, twelve reaction poses, and
+the Results/Podium backdrop remain separately gated by visual approval.

@@ -149,3 +149,11 @@ Manny accepted Lavi's corrected deployed placement on 2026-09-03. Neutral front,
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
 - Approval: Manny approved Lavi's selection-only full-body asset in the 2026-09-19 Character Select review.
 - Boundary: Character Select only; the approved portrait, race driver package, Potato identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium victory art — approved batch 01
+
+- Runtime asset: `public/assets/characters/aa-02/results/victory.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, fixed-size normal-Git runtime derivative.
+- Pose identity: buoyant one-boot recovery step, glasses touch, and joyful confidence.
+- Approval: Manny approved Lavi's character-specific Results/Podium victory pose on 2026-09-19.
+- Boundary: Results/Podium presentation only; the accepted Character Select, race driver, kart, statistics, and gameplay contracts remain unchanged.

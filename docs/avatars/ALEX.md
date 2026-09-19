@@ -66,3 +66,11 @@ The ten-state offline attachment sheet is `alex-cockpit-review.png` outside the 
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
 - Approval: Manny approved Alex's selection-only full-body asset in the 2026-09-19 Character Select batch review.
 - Boundary: Character Select only; the approved portrait, ten-state race driver package, The Neon Vector identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium victory art — approved batch 01
+
+- Runtime asset: `public/assets/characters/aa-01/results/victory.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, fixed-size normal-Git runtime derivative.
+- Pose identity: low asymmetrical finish slide, headset check, and knowing half-smile.
+- Approval: Manny approved Alex's character-specific Results/Podium victory pose on 2026-09-19.
+- Boundary: Results/Podium presentation only; the accepted Character Select, race driver, kart, statistics, and gameplay contracts remain unchanged.

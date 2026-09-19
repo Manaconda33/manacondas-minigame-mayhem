@@ -71,6 +71,27 @@ The same deterministic preparation and validation contract as the earlier
 batches applies: Lanczos resize to 512 x 512, sRGB PNG32 output, preserved
 alpha, and live runtime data remaining outside the image.
 
+## Batch 05 status
+
+**APPROVED / PREPARED** — 2026-09-19. This checkpoint adds the fifth
+approved ImageGen item batch for Slice 6A.
+
+The batch completes the remaining item identities: sustained Nitro Overdrive,
+guided Hyper-Drive Rocket, and chromatic Prismatic Invincibility. Each source
+is text-free, transparent, and isolated from characters, vehicles, scenery,
+and UI while preserving distinct gameplay readability at small HUD sizes.
+
+| Item | Generator output ID | Source dimensions / format | Source SHA-256 | Runtime path | Runtime SHA-256 |
+| --- | --- | --- | --- | --- | --- |
+| Continuous Nitro Overdrive | exec-cd2e6c40-1fa4-4cef-95f9-1dc430a52a2c | 1378 x 1141 sRGBA PNG | 710008bbc72f734ac2277bc167431f58f3284174f17014597cd6eb1c51ff3a68 | public/assets/items/route-night/nitro-overdrive.png | 525dd72650d2a1ec341c6efe43e2166f8abaed8d0d6fada886205f89082c63d7 |
+| Hyper-Drive Rocket | exec-9c3c401d-730c-4728-97f6-adc794cca9ca | 1374 x 1145 sRGBA PNG | dc01a05438040286dfee3f3c34b0f0c7ae1c9324e7f3ba18214076c4e73d95b6 | public/assets/items/route-night/hyper-drive-rocket.png | 31d36682e867e4ec272161d5b13d1b0a24f81e45e76e18a45f07e54ec8830cbf |
+| Prismatic Invincibility | exec-7b4d8c14-8010-4b85-9cd4-8dc255a4149c | 1254 x 1254 sRGBA PNG | 3eb3abb14e7088ff1cf5bb74f0821cef9c94cc9a6eda8ee59d6fa0e801d15b04 | public/assets/items/route-night/prismatic-invincibility.png | 71e0a97bcf326005729d62accbbe63c90236540adcbc56155f32a5dece09c0f2 |
+
+The same deterministic preparation and validation contract as the earlier
+batches applies: Lanczos resize to 512 x 512, sRGB PNG32 output, preserved
+alpha, and live runtime data remaining outside the image. One race-HUD
+atmosphere overlay remains for the final Slice 6A asset batch.
+
 ## Batch 04 status
 
 **APPROVED / PREPARED** — 2026-09-19. This checkpoint adds the fourth

@@ -31,3 +31,10 @@ The driver rasters are character-only and do not include a steering wheel. The p
 - `tools/assets/render_alex_cockpit_review.py`: offline attachment evidence
 
 All three GLBs use four materials, the required node hierarchy, exactly one `SteeringWheel`, and `extras.forward: "-Z"`. The asset verifier covers all eleven PNGs and three GLBs. PR #92 merged at `617312394decfcb95af4f8fee6431ee9d339201b`, Pages run `33989653688` deployed the package, and Manny approved the deployed desktop/mobile presentation against checkpoint `daf1e3127478981e40cca9533300f8617f61004d`. The asset package is **LIVE ACCEPTED / CLOSED**.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-01/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Alex's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Selection-only art; the portrait, race driver frames, The Neon Vector kart package, statistics, and PBR/material implementation remain unchanged.

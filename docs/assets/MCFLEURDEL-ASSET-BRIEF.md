@@ -56,3 +56,10 @@ All three files are deterministic binary glTF, use meters, declare `extras.forwa
 `mcfleurdel-runtime-20260901-2` deployed through PR #65 and main run `33563732551`. The live bundle references the controlled revision, and all four deployed front-action PNG responses match the approved SHA-256 values above.
 
 Manny accepted the live front-action package on 2026-09-01 against deployed checkpoint `f8a2ed8be0d72fde62c9403dae4b15e94222f7da`. Both steering directions, hit, victory, chase-state restoration, cockpit placement, transparency, and modeled-wheel ownership pass. No sprite-owned duplicate wheel appears, and the reviewed black-curl interiors and arm gaps remain transparent.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-07/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved McFleurdel's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Selection-only art; the portrait, race driver frames, The Fleur de Nuit kart package, statistics, and PBR/material implementation remain unchanged.

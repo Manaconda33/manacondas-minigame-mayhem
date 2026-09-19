@@ -90,3 +90,10 @@ The model preserves the constructed pear-wood and willow field-roadster silhouet
 ## Local runtime integration
 
 Jennifer is locally active in `characterManifest` as AA-12 under `jennifer-runtime-20260903-2`. The manifest uses chase-facing driver position `[0, 0.92, -0.12]`, camera-facing position `[0, 0.84, -0.12]`, camera-facing modeled-wheel position `[0, 1.86, -0.42]`, and `NEGATIVE_Z_KART_VISUAL_YAW`. Her wheel-free raster package leaves The Hearthwarden's single modeled steering wheel visible. Offline cockpit review confirms the intended seated occlusion, dog-side continuity, and hand-to-wheel relationship; deployed desktop and mobile checks remain required before production closure.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-12/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Jennifer's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: The selection image intentionally presents Jennifer alone; her Newfoundland remains a racer-package companion outside this image. The approved portrait, race driver package, The Hearthwarden identity/geometry, statistics, and PBR/material implementation remain unchanged.

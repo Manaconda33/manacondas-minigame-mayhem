@@ -87,3 +87,10 @@ This package reached approval in two candidates. The short review cycle came fro
 All required outputs are present under controlled revision `jennifer-runtime-20260903-2`. Publication and live acceptance remain gated.
 
 The local integration gate passes strict typecheck, zero-warning lint, 16 Vitest files / 84 tests, 30 materialized GLBs, 83 decoded runtime PNGs, and the production build.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-12/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Jennifer's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: The selection image intentionally presents Jennifer alone; her Newfoundland remains a racer-package companion outside this image. The portrait, race driver frames, The Hearthwarden kart package, statistics, and PBR/material implementation remain unchanged.

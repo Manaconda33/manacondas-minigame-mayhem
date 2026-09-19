@@ -59,3 +59,10 @@ All three GLBs have 13 required nodes and `extras.forward: "-Z"`. The controlled
 ## Live acceptance
 
 Manny confirmed the deployed AA-08 package passes all tests on 2026-08-28. The final front-camera placement uses `[0, 0.45, -0.12]`, aligning Toph's hands with the modeled steering wheel while leaving rear, steer-left, steer-right, hit, victory, and AI rear placement unchanged. Final correction merge: `3353109944c3975e0bbbbac4dffbcc24f07bc58b`.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-08/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Toph's clean selection-only full-body asset in the 2026-09-19 Character Select batch review after the marked candidate was rejected.
+- Boundary: Selection-only art; the portrait, race driver frames, The Grave Shift kart package, statistics, and PBR/material implementation remain unchanged.

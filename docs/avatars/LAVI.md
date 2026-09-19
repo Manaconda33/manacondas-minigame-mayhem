@@ -142,3 +142,10 @@ These details are observations, not approved locks:
 ## Live front-action acceptance
 
 Manny accepted Lavi's corrected deployed placement on 2026-09-03. Neutral front, both steering directions, hit, victory, chase restoration, transparency, cockpit placement, and Potato's single modeled steering wheel pass at `[0, 0.9, -0.12]`. No further Lavi work is required for this rollout.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-02/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Lavi's selection-only full-body asset in the 2026-09-19 Character Select review.
+- Boundary: Character Select only; the approved portrait, race driver package, Potato identity/geometry, statistics, and PBR/material implementation remain unchanged.

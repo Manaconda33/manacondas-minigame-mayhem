@@ -78,3 +78,10 @@ The production model must declare `extras.forward: "-Z"` and use the shared `NEG
 ## Integration gate
 
 Complete. The original production package and the four-state front-action pilot are live accepted under `kraken-runtime-20260901-2`. The next active driver's separately approved package may begin.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-05/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Kraken's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Selection-only art; the approved human Cthulhu identity, portrait, race driver frames, The Abyssal Drifter kart package, statistics, and PBR/material implementation remain unchanged.

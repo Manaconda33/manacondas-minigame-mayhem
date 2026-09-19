@@ -72,7 +72,13 @@ const runtimeTrackTextureHashes = new Map([
 
 for (const [path, expectedHash] of runtimeTrackTextureHashes) {
   const bytes = await readFile(path);
-  if (bytes.length < 4 || bytes[0] !== 0xff || bytes[1] !== 0xd8 || bytes.at(-2) !== 0xff || bytes.at(-1) !== 0xd9) {
+  if (
+    bytes.length < 4 ||
+    bytes[0] !== 0xff ||
+    bytes[1] !== 0xd8 ||
+    bytes.at(-2) !== 0xff ||
+    bytes.at(-1) !== 0xd9
+  ) {
     throw new Error(`${path} is not a materialized JPEG. Check Git LFS checkout.`);
   }
   const actualHash = createHash('sha256').update(bytes).digest('hex');
@@ -81,7 +87,9 @@ for (const [path, expectedHash] of runtimeTrackTextureHashes) {
   }
 }
 
-console.log(`Verified ${String(runtimeTrackTextureHashes.size)} materialized runtime track textures.`);
+console.log(
+  `Verified ${String(runtimeTrackTextureHashes.size)} materialized runtime track textures.`,
+);
 
 const runtimeGlbs = [
   'public/assets/characters/aa-01/kart.glb',
@@ -415,6 +423,18 @@ const runtimePngs = [
   ['public/assets/characters/aa-12/driver/front-steer-right.png', 512, 512],
   ['public/assets/characters/aa-12/driver/front-hit.png', 512, 512],
   ['public/assets/characters/aa-12/driver/front-victory.png', 512, 512],
+  ['public/assets/characters/aa-01/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-02/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-03/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-04/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-05/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-06/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-07/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-08/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-09/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-10/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-11/selection/full-body.png', 1024, 1536],
+  ['public/assets/characters/aa-12/selection/full-body.png', 1024, 1536],
 ];
 
 const newTransparentFronts = new Set([
@@ -490,6 +510,18 @@ const newTransparentFronts = new Set([
   'public/assets/characters/aa-12/driver/front-steer-right.png',
   'public/assets/characters/aa-12/driver/front-hit.png',
   'public/assets/characters/aa-12/driver/front-victory.png',
+  'public/assets/characters/aa-01/selection/full-body.png',
+  'public/assets/characters/aa-02/selection/full-body.png',
+  'public/assets/characters/aa-03/selection/full-body.png',
+  'public/assets/characters/aa-04/selection/full-body.png',
+  'public/assets/characters/aa-05/selection/full-body.png',
+  'public/assets/characters/aa-06/selection/full-body.png',
+  'public/assets/characters/aa-07/selection/full-body.png',
+  'public/assets/characters/aa-08/selection/full-body.png',
+  'public/assets/characters/aa-09/selection/full-body.png',
+  'public/assets/characters/aa-10/selection/full-body.png',
+  'public/assets/characters/aa-11/selection/full-body.png',
+  'public/assets/characters/aa-12/selection/full-body.png',
 ]);
 
 const kriosHornApertureFronts = new Set([
@@ -634,7 +666,7 @@ for (const [path, expectedWidth, expectedHeight] of runtimePngs) {
     }
   }
 
-  if (path.includes('/aa-03/')) {
+  if (path.includes('/aa-03/') && !path.includes('/selection/')) {
     const decoded = decodeRgbaRows(pixels, width, height);
     const filename = path.split('/').at(-1);
     const protectedRect = lulaProtectedRects[filename];

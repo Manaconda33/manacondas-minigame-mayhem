@@ -50,10 +50,12 @@ function portraitMarkup(character: CharacterDefinition, alt = ''): string {
 }
 
 function driverArtMarkup(character: CharacterDefinition): string {
-  const front = character.driver?.front;
-  return front === undefined
+  const heroArt = character.selectionArt ?? character.driver?.front;
+  const selectionArtAttribute =
+    character.selectionArt === undefined ? '' : ' data-selected-selection-art';
+  return heroArt === undefined
     ? `<span class="character-hero-driver portrait-fallback" data-character-portrait-fallback>${character.initials}</span>`
-    : `<img class="character-hero-driver" data-selected-driver-art data-character-portrait data-initials="${character.initials}" src="${front}" alt="${character.displayName}" decoding="async" />`;
+    : `<img class="character-hero-driver" data-selected-driver-art${selectionArtAttribute} data-character-portrait data-initials="${character.initials}" src="${heroArt}" alt="${character.displayName}" decoding="async" />`;
 }
 
 export function characterSelectStatRows(character: CharacterDefinition): string {

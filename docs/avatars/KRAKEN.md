@@ -66,3 +66,10 @@ Manny supplied the definitive character-and-kart reference and directed its use 
 ## Next action
 
 Preserve the accepted `kraken-runtime-20260901-2` package. The one-character rollout may proceed to the next active driver.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-05/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Kraken's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Character Select only; the approved human Cthulhu identity remains the source of truth. The portrait, race driver package, The Abyssal Drifter identity/geometry, statistics, and PBR/material implementation remain unchanged.

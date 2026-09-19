@@ -89,3 +89,10 @@ Each candidate needs Manny's approval. Manny approved the portrait, all five dri
 - Live mobile acceptance is complete. Separate desktop evidence remains unrecorded.
 - Front-action PR #62 merged at `7b58fdff7ca3c0d67a4ca70c1df0f6ddf287889f`; main run `33507775105` passed validation and Pages deployment. All four deployed response hashes match the approved files.
 - Manny accepted the live front-action package on 2026-09-01 against deployed checkpoint `2ca852b47f16b8221275ee2b5542650d609b9a0d`. Camera-facing steering in both directions, hit, victory, chase-state restoration, cockpit placement, transparency, and the single sprite-owned wheel all pass.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-09/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Manaconda's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Selection-only art; the portrait, race driver frames, The Wayfinder kart package, statistics, and PBR/material implementation remain unchanged.

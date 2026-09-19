@@ -76,3 +76,10 @@ Manny approved Keeg's four camera-facing action frames on 2026-09-01. The two st
 `keeg-runtime-20260901-3` deployed through PR #65 and main run `33563732551`. The live bundle references the controlled revision, and all four deployed front-action PNG responses match the approved SHA-256 values above.
 
 Manny accepted the live front-action package on 2026-09-01 against deployed checkpoint `f8a2ed8be0d72fde62c9403dae4b15e94222f7da`. Both steering directions, hit, victory, chase-state restoration, cockpit placement, transparency, and modeled-wheel ownership pass. No sprite-owned duplicate wheel appears.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-04/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Keeg's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Selection-only art; the portrait, race driver frames, The Mycelial Majesty kart package, statistics, and PBR/material implementation remain unchanged.

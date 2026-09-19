@@ -57,3 +57,10 @@ Manny created the supplied Accu reference art and approved transforming it into 
 ## Front-action rollout
 
 Manny approved Accu's front-steer-left, front-steer-right, front-hit, and front-victory review set on 2026-09-03. It preserves the broad pink hat and bow, two-tone hair, heart-pattern top, seated orientation, `[0, 0.9, 0.22]` front placement contract, and Pink Precision's modeled-wheel ownership. The art contains no duplicate wheel. The four files are deployed under `accu-runtime-20260903-3` at checkpoint `735da4015bca6f9610f6a358672804f4c73b35f9`; the live bundle revision and all four response hashes are verified. Desktop/mobile camera-action acceptance remains pending.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-11/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Accu's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Character Select only; the approved portrait, race driver frames, Pink Precision kart identity/geometry, statistics, and PBR/material implementation remain unchanged.

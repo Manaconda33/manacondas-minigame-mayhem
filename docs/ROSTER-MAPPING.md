@@ -111,6 +111,27 @@ Kraken is the roster's dedicated drift specialist. Mini-Turbo 9 rewards delibera
 
 Krios is the roster's straight-line heavyweight bully. Speed 10 and Weight 9 give The Hornbreaker dominant momentum and collision presence. Acceleration 4 and Handling 3 make recovery and tight corrections deliberately costly, while Mini-Turbo 4 prevents overlap with drift-focused racers. Traction 6 keeps the kart usable without turning Krios into the all-surface heavy. Manny approved the mapping on 2026-08-22.
 
+## Character Select full-body art checkpoint
+
+The AA profile assignments, kart assignments, and race-facing driver packages are unchanged. Manny approved a separate full-body Character Select layer for every active profile on 2026-09-19. The manifest paths below are selection-only and do not replace the roster-card portraits or race driver frames.
+
+| Profile | Character | Selection-only runtime asset |
+| --- | --- | --- |
+| AA-01 | Alex | `public/assets/characters/aa-01/selection/full-body.png` |
+| AA-02 | Lavi | `public/assets/characters/aa-02/selection/full-body.png` |
+| AA-03 | Lula | `public/assets/characters/aa-03/selection/full-body.png` |
+| AA-04 | Keeg | `public/assets/characters/aa-04/selection/full-body.png` |
+| AA-05 | Kraken | `public/assets/characters/aa-05/selection/full-body.png` |
+| AA-06 | Dragon Queen | `public/assets/characters/aa-06/selection/full-body.png` |
+| AA-07 | McFleurdel | `public/assets/characters/aa-07/selection/full-body.png` |
+| AA-08 | Toph | `public/assets/characters/aa-08/selection/full-body.png` |
+| AA-09 | Manaconda | `public/assets/characters/aa-09/selection/full-body.png` |
+| AA-10 | Krios | `public/assets/characters/aa-10/selection/full-body.png` |
+| AA-11 | Accu | `public/assets/characters/aa-11/selection/full-body.png` |
+| AA-12 | Jennifer | `public/assets/characters/aa-12/selection/full-body.png` |
+
+The approved package is governed by ADR-091 and the durable source/runtime ledger in `docs/assets/CHARACTER-SELECT-FULL-BODY-ASSET-BRIEF.md`. It changes no balance profile, kart identity or geometry, driver frame, race authority, or material implementation.
+
 ## Historical archived mappings
 
 ### AA-06: Cleo / The Gilded Stitch

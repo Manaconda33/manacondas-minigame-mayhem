@@ -59,3 +59,10 @@ Manny approved Candidate 3 on 2026-09-05. The three LODs use 10,396, 6,444, and 
 Alex is active in `characterManifest` as AA-01 under `alex-runtime-20260905-1`. The production mount uses chase-facing `[0, 0.92, -0.12]` and camera-facing `[0, 0.84, -0.12]`, with the modeled wheel retained. PR #92 passed CI and merged at `617312394decfcb95af4f8fee6431ee9d339201b`; Pages deployment passed in run `33989653688`. Manny approved the deployed desktop/mobile matrix against checkpoint `daf1e3127478981e40cca9533300f8617f61004d` on 2026-09-05.
 
 The ten-state offline attachment sheet is `alex-cockpit-review.png` outside the repository (SHA-256 `a875c7456b6fa2cea13d0d953d6033000bda7235dc28666da77441e7367c07fa`). Full dependency-backed validation, LFS publication/fetch-back, PR CI, Pages deployment, artifact-byte verification, and product-owner live acceptance passed. Alex / The Neon Vector is **LIVE ACCEPTED / CLOSED**.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-01/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Alex's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Character Select only; the approved portrait, ten-state race driver package, The Neon Vector identity/geometry, statistics, and PBR/material implementation remain unchanged.

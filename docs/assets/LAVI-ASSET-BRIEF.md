@@ -159,3 +159,10 @@ Generated concepts remain candidates until Manny approves them. Approval of one 
 - **Placement correction:** Manny's 2026-09-02 live review found `[0, 0.45, -0.12]` too low behind Potato. PR #70 deployed `[0, 0.9, -0.12]` for all five camera-facing states; main run `33664361276` passed. The live bundle contains the corrected mapping. No asset bytes, kart geometry, chase placement, or steering-control ownership changed.
 - **Visual alignment:** load-time `model.rotation.y = Math.PI` corrects Potato’s visual root to the game’s negative-Z forward direction. It is not a physics, camera, checkpoint, or mount-coordinate change.
 - **Live acceptance:** Manny confirmed Potato loading, steering-state artwork, and correct steering-wheel-forward orientation in the mobile GitHub Pages build on 2026-08-16. On 2026-09-03, Manny accepted neutral front, both front steering directions, front hit, front victory, chase restoration, transparency, cockpit placement, and single-wheel presentation at `[0, 0.9, -0.12]`.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-02/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Lavi's selection-only full-body asset in the 2026-09-19 Character Select review.
+- Boundary: Selection-only art; the portrait, race driver frames, Potato kart package, statistics, and PBR/material implementation remain unchanged.

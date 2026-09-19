@@ -103,3 +103,10 @@ The revised front-camera review keeps neutral, steer-left, hit, and victory at `
 - Runtime-asset gate coverage for every PNG and GLB
 
 All required files are active under `dragon-queen-runtime-20260904-1`. Cleo's former AA-06 package is preserved unchanged at `public/assets/archive/characters/cleo-aa-06/`. The placement correction changes no asset bytes, so the controlled asset revision remains valid. Publication and deployed rear-view acceptance remain gated.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-06/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Dragon Queen's selection-only full-body asset in the 2026-09-19 final Character Select batch review.
+- Boundary: The image preserves literal dragon anatomy, wings, and tail. Selection-only art does not change the portrait, race driver frames, The Sovereign Wyrm kart package, statistics, or PBR/material implementation.

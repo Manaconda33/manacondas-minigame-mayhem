@@ -77,3 +77,10 @@ Character layers must contain no kart or steering-wheel geometry. Runtime portra
 ## Next action
 
 Preserve the accepted front-action files, controlled revision, front placement, and modeled-wheel ownership during later roster work.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-04/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Keeg's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Character Select only; the approved portrait, race driver package, The Mycelial Majesty identity/geometry, statistics, and PBR/material implementation remain unchanged.

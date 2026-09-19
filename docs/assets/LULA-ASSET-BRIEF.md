@@ -37,3 +37,10 @@ All three GLBs provide 13 required nodes and `extras.forward: "-Z"`. The control
 ## Front-action deployment gate
 
 Manny approved the front-steer-left, front-steer-right, front-hit, and front-victory review set on 2026-09-03. The package uses the neutral front as its visual and footprint authority and preserves the corrected complexion, green hair, leaf forehead mark, transparent internal gaps, wheel-free driver layer, and `[0, 0.45, -0.12]` placement. The four files are deployed under `lula-runtime-20260903-3` through PR #73 and main run `33708310011`. Their SHA-256 values are `4d4efdacb0d38c924b356d2a32ace046ac744a2ec6da0329a8c60a49e545a0ff`, `6a400c0d2745b2e3fbe13e100fb3b99d09d404ea98e95c6dc995788aee0376ea`, `3e99891c712310ff8018b9db9258e8f9a77be949b7403bd28d7a6b8fd679f444`, and `5c6b662f0449a811319b89396a8053c6e58dc9b0f4916162e37ad5a06434f453` in that order, and all four deployed responses match. Desktop/mobile camera-action acceptance remains pending.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-03/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Lula's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Selection-only art; the portrait, race driver frames, The Verdant Hart kart package, statistics, and PBR/material implementation remain unchanged.

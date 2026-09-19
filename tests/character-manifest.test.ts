@@ -3,6 +3,7 @@ import {
   ACCU_ASSET_REVISION,
   ALEX_ASSET_REVISION,
   archivedCleo,
+  CHARACTER_SELECTION_ART_REVISION,
   characterById,
   characterManifest,
   DRAGON_QUEEN_ASSET_REVISION,
@@ -26,6 +27,16 @@ describe('character manifest', () => {
     expect(validateCharacterManifest()).toEqual([]);
     expect(characterManifest).toHaveLength(12);
     expect(new Set(characterManifest.map(({ id }) => id)).size).toBe(12);
+  });
+
+  it('maps every active racer to selection-only full-body art', () => {
+    for (const character of characterManifest) {
+      expect(character.selectionArt).toContain(
+        `/assets/characters/${character.id}/selection/full-body.png?v=${CHARACTER_SELECTION_ART_REVISION}`,
+      );
+      expect(character.selectionArt).not.toContain('/driver/');
+      expect(character.selectionArt).not.toBe(character.driver?.front);
+    }
   });
 
   it('maps Alex to The Neon Vector and the approved AA-01 profile', () => {

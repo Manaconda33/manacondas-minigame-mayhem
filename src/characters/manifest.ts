@@ -32,6 +32,8 @@ export interface CharacterDefinition {
   accent: string;
   assetState: CharacterAssetState;
   portrait?: string;
+  /** Optional selection-only hero art; race driver frames remain in `driver`. */
+  selectionArt?: string;
   kartName?: string;
   kart?: string;
   kartVisualYaw?: number;
@@ -63,6 +65,7 @@ export const LULA_ASSET_REVISION = 'lula-runtime-20260903-3';
 export const JENNIFER_ASSET_REVISION = 'jennifer-runtime-20260903-2';
 export const DRAGON_QUEEN_ASSET_REVISION = 'dragon-queen-runtime-20260904-1';
 export const ALEX_ASSET_REVISION = 'alex-runtime-20260905-1';
+export const CHARACTER_SELECTION_ART_REVISION = 'character-select-full-body-20260919-4';
 
 const assetUrl = (path: string, revision: string): string =>
   `${import.meta.env.BASE_URL}${path}?v=${revision}`;
@@ -75,6 +78,10 @@ const lavi: CharacterDefinition = {
   accent: '#ef7f46',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-02/portrait.png', LAVI_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-02/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'Potato',
   kart: assetUrl('assets/characters/aa-02/kart.glb', LAVI_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -108,6 +115,10 @@ const manaconda: CharacterDefinition = {
   accent: '#5546c8',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-09/portrait.png', MANACONDA_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-09/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Wayfinder',
   kart: assetUrl('assets/characters/aa-09/kart.glb', MANACONDA_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -147,6 +158,10 @@ const accu: CharacterDefinition = {
   accent: '#ec4d91',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-11/portrait.png', ACCU_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-11/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'Pink Precision',
   kart: assetUrl('assets/characters/aa-11/kart.glb', ACCU_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -183,6 +198,10 @@ const kraken: CharacterDefinition = {
   accent: '#20d9e7',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-05/portrait.png', KRAKEN_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-05/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Abyssal Drifter',
   kart: assetUrl('assets/characters/aa-05/kart.glb', KRAKEN_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -254,6 +273,10 @@ const dragonQueen: CharacterDefinition = {
   accent: '#d6a437',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-06/portrait.png', DRAGON_QUEEN_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-06/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Sovereign Wyrm',
   kart: assetUrl('assets/characters/aa-06/kart.glb', DRAGON_QUEEN_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -300,6 +323,10 @@ const krios: CharacterDefinition = {
   accent: '#d63b24',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-10/portrait.png', KRIOS_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-10/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Hornbreaker',
   kart: assetUrl('assets/characters/aa-10/kart.glb', KRIOS_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -335,6 +362,10 @@ const keeg: CharacterDefinition = {
   accent: '#8f4de8',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-04/portrait.png', KEEG_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-04/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Mycelial Majesty',
   kart: assetUrl('assets/characters/aa-04/kart.glb', KEEG_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -368,6 +399,10 @@ const mcfleurdel: CharacterDefinition = {
   accent: '#a56be2',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-07/portrait.png', MCFLEURDEL_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-07/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Fleur de Nuit',
   kart: assetUrl('assets/characters/aa-07/kart.glb', MCFLEURDEL_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -406,6 +441,10 @@ const toph: CharacterDefinition = {
   accent: '#8d45d8',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-08/portrait.png', TOPH_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-08/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Grave Shift',
   kart: assetUrl('assets/characters/aa-08/kart.glb', TOPH_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -439,6 +478,10 @@ const lula: CharacterDefinition = {
   accent: '#4f9f3a',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-03/portrait.png', LULA_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-03/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Verdant Hart',
   kart: assetUrl('assets/characters/aa-03/kart.glb', LULA_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -472,6 +515,10 @@ const jennifer: CharacterDefinition = {
   accent: '#2f8f6b',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-12/portrait.png', JENNIFER_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-12/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Hearthwarden',
   kart: assetUrl('assets/characters/aa-12/kart.glb', JENNIFER_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -510,6 +557,10 @@ const alex: CharacterDefinition = {
   accent: '#16d9e8',
   assetState: 'production',
   portrait: assetUrl('assets/characters/aa-01/portrait.png', ALEX_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/aa-01/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
   kartName: 'The Neon Vector',
   kart: assetUrl('assets/characters/aa-01/kart.glb', ALEX_ASSET_REVISION),
   kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
@@ -531,10 +582,7 @@ const alex: CharacterDefinition = {
       ALEX_ASSET_REVISION,
     ),
     frontHit: assetUrl('assets/characters/aa-01/driver/front-hit.png', ALEX_ASSET_REVISION),
-    frontVictory: assetUrl(
-      'assets/characters/aa-01/driver/front-victory.png',
-      ALEX_ASSET_REVISION,
-    ),
+    frontVictory: assetUrl('assets/characters/aa-01/driver/front-victory.png', ALEX_ASSET_REVISION),
   },
   stats: { speed: 6, acceleration: 9, weight: 2, handling: 8, miniTurbo: 7, traction: 4 },
 };
@@ -587,6 +635,11 @@ export function validateCharacterManifest(
     }
     if (character.assetState === 'production' && character.driver === undefined) {
       errors.push(`${character.id} production character must declare all driver sprite states.`);
+    }
+    if (character.assetState === 'production' && character.selectionArt === undefined) {
+      errors.push(
+        `${character.id} production character must declare selection-only full-body art.`,
+      );
     }
   }
   return errors;

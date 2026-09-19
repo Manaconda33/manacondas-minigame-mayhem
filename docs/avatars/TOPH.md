@@ -40,3 +40,10 @@ The profile gives Toph substantial road presence and rewards drift chains with s
 PR #39 merged the production package. PRs #40 and #41 added and finalized Toph's front-camera-only sprite placement so his hands align with The Grave Shift steering wheel without moving any other driver state. Manny confirmed the corrected live deployment passes all tests on 2026-08-28. Toph's production checkpoint is complete.
 
 Manny accepted the deployed 2026-09-02 front-action expansion. Both steering directions, hit, victory, chase restoration, transparency, cockpit placement, and single-wheel presentation pass. The accepted placement remains `[0, 0.45, -0.12]`.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-08/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Toph's clean selection-only full-body asset in the 2026-09-19 Character Select batch review after the marked candidate was rejected.
+- Boundary: Character Select only; the approved portrait, race driver package, The Grave Shift identity/geometry, statistics, and PBR/material implementation remain unchanged.

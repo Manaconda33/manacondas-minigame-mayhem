@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { characterById } from '../src/characters/manifest';
+import { characterById, characterManifest } from '../src/characters/manifest';
 import { mountAppShell } from '../src/app/mountAppShell';
 import { CharacterKartPreview, characterPreviewAssetState } from '../src/ui/characterKartPreview';
 import { characterWeightClass } from '../src/ui/characterSelect';
@@ -38,7 +38,8 @@ describe('Route Night Character Select', () => {
     expect(root.querySelector('[data-selected-driver-class]')?.textContent).toContain(
       'Featherweight',
     );
-    expect(selectedArt?.getAttribute('src')).toBe(lavi.driver?.front);
+    expect(selectedArt?.getAttribute('src')).toBe(lavi.selectionArt);
+    expect(selectedArt?.getAttribute('src')).not.toBe(lavi.driver?.front);
     expect(preview?.dataset.kartUrl).toBe(lavi.kart);
     expect(preview?.dataset.kartVisualYaw).toBe(String(lavi.kartVisualYaw));
     expect(root.querySelectorAll('[data-stat]')).toHaveLength(6);
@@ -47,6 +48,29 @@ describe('Route Night Character Select', () => {
     expect(root.querySelector('[data-action="confirm-character"]')?.textContent).toContain(
       'START RACE',
     );
+  });
+
+  it('provides a distinct full-body selection asset for every active racer', () => {
+    expect(characterManifest).toHaveLength(12);
+
+    for (const character of characterManifest) {
+      expect(character.selectionArt).toContain(
+        `/assets/characters/${character.id}/selection/full-body.png`,
+      );
+      expect(character.selectionArt).not.toBe(character.driver?.front);
+    }
+
+    expect(characterManifest.filter((entry) => entry.selectionArt !== undefined)).toHaveLength(12);
+  });
+
+  it('uses the selection asset in the profile instead of the race driver frame', () => {
+    const root = openCharacterSelect();
+    const lavi = characterById('aa-02');
+    const selectionArt = root.querySelector<HTMLImageElement>('[data-selected-selection-art]');
+
+    expect(selectionArt).not.toBeNull();
+    expect(selectionArt?.getAttribute('src')).toBe(lavi.selectionArt);
+    expect(selectionArt?.getAttribute('src')).not.toBe(lavi.driver?.front);
   });
 
   it('keeps driver art and the kart preview in separate visual lanes', () => {
@@ -74,7 +98,7 @@ describe('Route Night Character Select', () => {
     );
     expect(root.querySelector('[data-selected-driver-name]')?.textContent).toBe('Alex');
     expect(root.querySelector<HTMLImageElement>('[data-selected-driver-art]')?.src).toContain(
-      alex.driver?.front ?? '',
+      alex.selectionArt ?? alex.driver?.front ?? '',
     );
     expect(root.querySelector<HTMLElement>('[data-kart-preview]')?.dataset.kartUrl).toBe(alex.kart);
     expect(root.querySelector('[data-selected-driver-kart]')?.textContent).toContain(

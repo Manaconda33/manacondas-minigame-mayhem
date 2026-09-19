@@ -30,7 +30,7 @@ The feature branch may contain LFS pointers before the bridge runs. It must not 
 
 ## Limits
 
-This bridge does not apply to arbitrary high-resolution art, audio, or models without deterministic committed source. Those files require an authenticated external Git/LFS handoff. The normal-Git exceptions for fixed-size runtime avatar PNGs remain governed by `.gitattributes` and ADR-012.
+This bridge does not apply to arbitrary high-resolution art, audio, or models without deterministic committed source. Those files require an authenticated external Git/LFS handoff. The normal-Git exceptions for fixed-size runtime avatar delivery PNGs remain governed by `.gitattributes`, ADR-012, and the approved Character Select extension in ADR-092.
 
 ## First verified use
 

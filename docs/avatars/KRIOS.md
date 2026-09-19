@@ -89,3 +89,10 @@ The repository continuity review on 2026-08-26 found that `tools/verify-runtime-
 ## Next action
 
 Playtest the deployed front-facing steering, hit, and victory states, including transparent horn apertures, modeled-wheel ownership, and restoration of matching chase states.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-10/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Krios's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Character Select only; the approved portrait, race driver package, The Hornbreaker identity/geometry, statistics, and PBR/material implementation remain unchanged.

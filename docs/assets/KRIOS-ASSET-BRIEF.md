@@ -105,3 +105,10 @@ This requirement was added during the 2026-08-26 continuity cleanup after a usag
 Front-action PR #62 merged at `7b58fdff7ca3c0d67a4ca70c1df0f6ddf287889f`; main run `33507775105` passed validation and Pages deployment. All four deployed response hashes match the approved files, including the corrected transparent horn apertures.
 
 Manny accepted the live front-action package on 2026-09-01 against deployed checkpoint `2ca852b47f16b8221275ee2b5542650d609b9a0d`. Camera-facing steering in both directions, hit, victory, chase-state restoration, cockpit placement, and modeled-wheel ownership pass. No duplicate wheel appears, and no pale matte remains between Krios's horns.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-10/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, governed by Git LFS.
+- Approval: Manny approved Krios's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Selection-only art; the portrait, race driver frames, The Hornbreaker kart package, statistics, and PBR/material implementation remain unchanged.

@@ -42,3 +42,10 @@ The initial live package exposed opaque white background islands and hair-edge r
 ## Front-action rollout
 
 Manny approved Lula's front-steer-left, front-steer-right, front-hit, and front-victory review set on 2026-09-03. The package preserves her approved complexion, green hair, leaf forehead mark, seated footprint, wheel-free driver art, and front placement `[0, 0.45, -0.12]`. The four files are deployed under `lula-runtime-20260903-3` at checkpoint `735da4015bca6f9610f6a358672804f4c73b35f9`; the live bundle revision and all four response hashes are verified. Desktop/mobile camera-action acceptance remains pending.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-03/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Lula's selection-only full-body asset in the 2026-09-19 Character Select batch review.
+- Boundary: Character Select only; the approved portrait, race driver package, The Verdant Hart identity/geometry, statistics, and PBR/material implementation remain unchanged.

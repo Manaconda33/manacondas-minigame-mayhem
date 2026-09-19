@@ -104,3 +104,10 @@ Cleo's ten-file package is preserved byte-for-byte at `public/assets/archive/cha
 ## Next gate
 
 Publish the approved correction through the governed branch and pull-request workflow. After deployment, retest rear-view neutral, steering, hit, and victory states before closing Dragon Queen's live acceptance.
+
+## Character Select full-body selection art
+
+- Runtime asset: `public/assets/characters/aa-06/selection/full-body.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
+- Approval: Manny approved Dragon Queen's selection-only full-body asset in the 2026-09-19 final Character Select batch review.
+- Boundary: Character Select only; this image preserves her literal dragon anatomy, wings, and tail. The approved portrait, race driver package, The Sovereign Wyrm identity/geometry, statistics, and PBR/material implementation remain unchanged.

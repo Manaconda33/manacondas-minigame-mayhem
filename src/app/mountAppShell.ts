@@ -9,7 +9,9 @@ import type {
   KartTimeTrial as KartTimeTrialInstance,
 } from '../game/KartTimeTrial';
 import { isMobileSession } from './mobileSession';
-import { characterById, characterManifest, type CharacterDefinition } from '../characters/manifest';
+import { characterById, characterManifest } from '../characters/manifest';
+import { CharacterKartPreview } from '../ui/characterKartPreview';
+import { characterSelectMarkup } from '../ui/characterSelect';
 import { itemHudMarkup, updateItemHud } from './itemHud';
 import { raceMinimapMarkup, updateRaceMinimap } from './raceMinimap';
 import { touchControlsMarkup } from './touchControls';
@@ -76,6 +78,7 @@ function routeNightEditorialStripMarkup(): string {
 
 export function mountAppShell(root: HTMLElement): void {
   let game: KartTimeTrialInstance | null = null;
+  let characterPreview: CharacterKartPreview | null = null;
   let selectedCharacter = characterById('aa-02');
   let appSettings = loadGameSettings();
   audioMixer.configure(appSettings.audio);
@@ -139,6 +142,8 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderMenu = (): void => {
+    characterPreview?.dispose();
+    characterPreview = null;
     root.innerHTML = `
       <main class="screen menu-screen route-night-screen hub-screen" data-screen="hub">
         <div class="route-night-backdrop hub-backdrop" aria-hidden="true">
@@ -204,6 +209,8 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderControls = (): void => {
+    characterPreview?.dispose();
+    characterPreview = null;
     root.innerHTML = `
       <main class="screen utility-screen route-night-screen controls-screen" data-screen="controls">
         ${routeNightPanelTextureMarkup()}
@@ -242,6 +249,8 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderSettings = (): void => {
+    characterPreview?.dispose();
+    characterPreview = null;
     root.innerHTML = `
       <main class="screen utility-screen route-night-screen settings-screen" data-screen="settings">
         ${routeNightPanelTextureMarkup()}
@@ -303,19 +312,6 @@ export function mountAppShell(root: HTMLElement): void {
     });
   };
 
-  const statRows = (character: CharacterDefinition): string =>
-    Object.entries(character.stats)
-      .map(
-        ([name, value]) =>
-          `<div><span>${name === 'miniTurbo' ? 'Mini-Turbo' : name}</span><i><b style="width:${String(value * 10)}%"></b></i><strong>${String(value)}</strong></div>`,
-      )
-      .join('');
-
-  const portrait = (character: CharacterDefinition, alt = ''): string =>
-    character.portrait === undefined
-      ? `<span class="portrait-fallback">${character.initials}</span>`
-      : `<img data-character-portrait data-initials="${character.initials}" src="${character.portrait}" alt="${alt}" />`;
-
   const bindPortraitFallbacks = (): void => {
     for (const image of root.querySelectorAll<HTMLImageElement>('[data-character-portrait]')) {
       image.addEventListener(
@@ -332,37 +328,17 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderCharacterSelect = (): void => {
-    const kartName = selectedCharacter.kartName ?? 'Fallback prototype';
-    root.innerHTML = `
-      <main class="screen character-select-screen">
-        <header><p class="eyebrow">Circuit Alpha Grand Prix</p><h1>Choose your driver</h1></header>
-        <div class="character-select-layout">
-          <section class="character-grid" aria-label="Twelve character roster slots">
-            ${characterManifest
-              .map(
-                (character) => `
-              <button class="character-card${character.id === selectedCharacter.id ? ' selected' : ''}" data-character="${character.id}" style="--character-accent:${character.accent}" aria-pressed="${String(character.id === selectedCharacter.id)}">
-                ${portrait(character)}
-                <span class="character-card-copy"><strong>${character.displayName}</strong><small>${character.assetState === 'production' ? character.descriptor : 'Portrait pending'}</small></span>
-              </button>`,
-              )
-              .join('')}
-          </section>
-          <aside class="character-detail" style="--character-accent:${selectedCharacter.accent}">
-            <div class="detail-portrait">${portrait(selectedCharacter, selectedCharacter.displayName)}</div>
-            <p class="eyebrow">${selectedCharacter.assetState === 'production' ? 'Production driver' : 'Roster placeholder'}</p>
-            <h2>${selectedCharacter.displayName}</h2><p>${selectedCharacter.descriptor}</p>
-            <div class="stat-list">${statRows(selectedCharacter)}</div>
-            <p class="kart-label">Kart <strong>${kartName}</strong></p>
-            ${button(`Race as ${selectedCharacter.displayName}`, 'confirm-character', 'primary')}
-          </aside>
-        </div>
-        ${button('Back to Hub', 'menu')}
-      </main>`;
+    characterPreview?.dispose();
+    characterPreview = null;
+    root.innerHTML = characterSelectMarkup(characterManifest, selectedCharacter);
     bindPortraitFallbacks();
+    const canvas = root.querySelector<HTMLCanvasElement>('[data-kart-preview-canvas]');
+    if (canvas !== null) characterPreview = new CharacterKartPreview(canvas, selectedCharacter);
   };
 
   const renderGame = async (): Promise<void> => {
+    characterPreview?.dispose();
+    characterPreview = null;
     const touchControls = touchControlsMarkup(isMobileSession());
     root.innerHTML = `
       <section class="game-shell" aria-label="Circuit Alpha Grand Prix">
@@ -558,6 +534,7 @@ export function mountAppShell(root: HTMLElement): void {
     if (target === null) return;
     selectedCharacter = characterById(target.dataset.character ?? '');
     renderCharacterSelect();
+    root.querySelector<HTMLElement>(`[data-character="${selectedCharacter.id}"]`)?.focus();
   });
 
   renderTitle();

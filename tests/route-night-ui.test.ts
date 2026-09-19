@@ -37,6 +37,15 @@ describe('Route Night UI system', () => {
     expect(resolveAsset('editorial-strip')).toContain(
       'assets/ui/route-night/route-night-editorial-strip.webp',
     );
+    expect(resolveAsset('character-select-bay')).toContain(
+      'assets/ui/route-night/route-night-character-select-bay.webp',
+    );
+    expect(resolveAsset('character-select-energy')).toContain(
+      'assets/ui/route-night/route-night-character-select-energy.webp',
+    );
+    expect(resolveAsset('character-select-hero-aura')).toContain(
+      'assets/ui/route-night/route-night-character-select-hero-aura.webp',
+    );
     expect(resolveAsset('mark')).toContain('assets/ui/route-night/route-night-mark.svg');
     expect(resolveAsset('ui-sprite')).toContain('assets/ui/route-night/route-night-ui.svg');
     expect(resolveAsset('button-frames')).toContain(

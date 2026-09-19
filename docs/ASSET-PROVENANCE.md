@@ -9,8 +9,11 @@ These three fixed-size Results/Podium victory derivatives were generated on
 the matching approved Character Select full-body asset as the actual identity
 reference. The generated render was an original character-specific pose on a
 flat chroma-green plate; deterministic edge-connected chroma removal produced
-the transparent runtime derivative. No external license dependency, copied
-pixels, text, logo, kart, UI, or scenery is embedded in the runtime files.
+the transparent runtime derivative. The accepted runtime files were then
+encoded as alpha-preserving 256-color sRGBA PNGs after visual comparison, with
+the original 1024 × 1536 dimensions and clean silhouettes retained. No
+external license dependency, copied pixels, text, logo, kart, UI, or scenery is
+embedded in the runtime files.
 
 Manny approved Alex, Lavi, and Lula's revised, character-specific victory
 poses on 2026-09-19. The pose language intentionally avoids a shared raised-fist
@@ -19,9 +22,9 @@ one-boot recovery step, and Lula uses a grounded guardian's oath.
 
 | Runtime file | Identity source | Generator output ID | Source SHA-256 | Runtime SHA-256 |
 | --- | --- | --- | --- | --- |
-| `public/assets/characters/aa-01/results/victory.png` | `public/assets/characters/aa-01/selection/full-body.png` | `exec-79e9a98c-0c52-4ed0-8a24-9b53528fb796` | `1d26bfcb4d46efa352177f9866d3cc0e5c84cbfcb315055869eb71d9af6fdd26` | `e6fa15d47ae3ca625f2dbab24bdc5313efbf7f274f95fd61d4a34bcf159c97b1` |
-| `public/assets/characters/aa-02/results/victory.png` | `public/assets/characters/aa-02/selection/full-body.png` | `exec-f4fb36db-8ae9-4c32-8738-1dce63a42fa2` | `56070831c72a831d44818e462afc86b67a44b658b11166d7c330c4f7d56248e6` | `152bc8af14a98d5770c011ae414b8edcdc935566366304c934aa98460cbd9cda` |
-| `public/assets/characters/aa-03/results/victory.png` | `public/assets/characters/aa-03/selection/full-body.png` | `exec-9134d452-9a81-4d9c-bfdb-027cc9ff05a2` | `289a4ae9e3b5d7fa5a07a9e5b761d6b5bfb5434c2b5a4ca15080724761b6f691` | `a924af33de1e89fdc290a907b41bdd8be0636e96b80fcf55e7e8355ca98a6b4d` |
+| `public/assets/characters/aa-01/results/victory.png` | `public/assets/characters/aa-01/selection/full-body.png` | `exec-79e9a98c-0c52-4ed0-8a24-9b53528fb796` | `1d26bfcb4d46efa352177f9866d3cc0e5c84cbfcb315055869eb71d9af6fdd26` | `9b8751e027a5e62883ec5b1aab280a7dae1bef6d9dfd6e015b034914a1686aaa` |
+| `public/assets/characters/aa-02/results/victory.png` | `public/assets/characters/aa-02/selection/full-body.png` | `exec-f4fb36db-8ae9-4c32-8738-1dce63a42fa2` | `56070831c72a831d44818e462afc86b67a44b658b11166d7c330c4f7d56248e6` | `704148c27f72300d3f6ff9937b155e71bbeca63a38bb2c0ec9768efa5b5a1af3` |
+| `public/assets/characters/aa-03/results/victory.png` | `public/assets/characters/aa-03/selection/full-body.png` | `exec-9134d452-9a81-4d9c-bfdb-027cc9ff05a2` | `289a4ae9e3b5d7fa5a07a9e5b761d6b5bfb5434c2b5a4ca15080724761b6f691` | `5a548d229cea14cd824c13014f51cfbef3e9329a77f26573a0aadcd0c28140d2` |
 
 ## Route Night Race HUD - ImageGen item batch 01
 

@@ -30,14 +30,16 @@ Manny approved this batch on 2026-09-19 after direct visual review. The
 generated outputs use the approved Character Select full-body assets as actual
 image-generation references. ImageGen returned flat chroma-green plates;
 deterministic edge-connected chroma removal produced the transparent runtime
-derivatives. The final files were validated as decodable 1024 × 1536 RGBA PNGs
-with no residual key-green pixels.
+derivatives. The final files were encoded as alpha-preserving 256-color sRGBA
+PNGs after visual comparison, retaining the 1024 × 1536 dimensions and clean
+silhouettes while keeping the runtime delivery compact. They were validated as
+decodable RGBA PNGs with no residual key-green pixels.
 
 | Racer | Pose direction | Identity source | Runtime asset | Generator output | Source SHA-256 | Runtime SHA-256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| Alex / AA-01 | Low asymmetrical finish slide; headset check; knowing half-smile | `public/assets/characters/aa-01/selection/full-body.png` | `public/assets/characters/aa-01/results/victory.png` | `exec-79e9a98c-0c52-4ed0-8a24-9b53528fb796.png` | `1d26bfcb4d46efa352177f9866d3cc0e5c84cbfcb315055869eb71d9af6fdd26` | `e6fa15d47ae3ca625f2dbab24bdc5313efbf7f274f95fd61d4a34bcf159c97b1` |
-| Lavi / AA-02 | Buoyant one-boot recovery step; glasses touch; joyful confidence | `public/assets/characters/aa-02/selection/full-body.png` | `public/assets/characters/aa-02/results/victory.png` | `exec-f4fb36db-8ae9-4c32-8738-1dce63a42fa2.png` | `56070831c72a831d44818e462afc86b67a44b658b11166d7c330c4f7d56248e6` | `152bc8af14a98d5770c011ae414b8edcdc935566366304c934aa98460cbd9cda` |
-| Lula / AA-03 | Grounded guardian's oath; hand over heart; protective open palm | `public/assets/characters/aa-03/selection/full-body.png` | `public/assets/characters/aa-03/results/victory.png` | `exec-9134d452-9a81-4d9c-bfdb-027cc9ff05a2.png` | `289a4ae9e3b5d7fa5a07a9e5b761d6b5bfb5434c2b5a4ca15080724761b6f691` | `a924af33de1e89fdc290a907b41bdd8be0636e96b80fcf55e7e8355ca98a6b4d` |
+| Alex / AA-01 | Low asymmetrical finish slide; headset check; knowing half-smile | `public/assets/characters/aa-01/selection/full-body.png` | `public/assets/characters/aa-01/results/victory.png` | `exec-79e9a98c-0c52-4ed0-8a24-9b53528fb796.png` | `1d26bfcb4d46efa352177f9866d3cc0e5c84cbfcb315055869eb71d9af6fdd26` | `9b8751e027a5e62883ec5b1aab280a7dae1bef6d9dfd6e015b034914a1686aaa` |
+| Lavi / AA-02 | Buoyant one-boot recovery step; glasses touch; joyful confidence | `public/assets/characters/aa-02/selection/full-body.png` | `public/assets/characters/aa-02/results/victory.png` | `exec-f4fb36db-8ae9-4c32-8738-1dce63a42fa2.png` | `56070831c72a831d44818e462afc86b67a44b658b11166d7c330c4f7d56248e6` | `704148c27f72300d3f6ff9937b155e71bbeca63a38bb2c0ec9768efa5b5a1af3` |
+| Lula / AA-03 | Grounded guardian's oath; hand over heart; protective open palm | `public/assets/characters/aa-03/selection/full-body.png` | `public/assets/characters/aa-03/results/victory.png` | `exec-9134d452-9a81-4d9c-bfdb-027cc9ff05a2.png` | `289a4ae9e3b5d7fa5a07a9e5b761d6b5bfb5434c2b5a4ca15080724761b6f691` | `5a548d229cea14cd824c13014f51cfbef3e9329a77f26573a0aadcd0c28140d2` |
 
 ## Approval and boundary
 

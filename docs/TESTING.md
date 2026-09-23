@@ -1070,4 +1070,6 @@ npx vitest run tests/race-results.test.ts tests/results-podium.test.ts tests/res
 
 The complete `npm run validate` sequence passed with **71 test files / 561 tests**, **81.91% statement / 76.23% branch / 87.06% function / 83.62% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. `git diff --check`, targeted Prettier checks, and `git lfs fsck` also passed. The Vite large-chunk warning remains present for the existing `KartTimeTrial` bundle.
 
+The reviewed code checkpoint is published on the feature branch at `51a18ec6e8430153bcc941611039044d8a760a16`.
+
 This checkpoint uses only the six already approved victory poses; other podium identities use approved selection art and the governed portrait/monogram fallback. It does not add ImageGen assets, reaction poses, a backdrop, item art, or additional race gameplay. It is automated branch evidence only: no hosted CI, deployment, or live visual acceptance is claimed. The remaining full Race HUD/mini-map/Results asset and desktop/mobile acceptance gates stay open.

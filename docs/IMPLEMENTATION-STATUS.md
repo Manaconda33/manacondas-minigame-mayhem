@@ -258,6 +258,8 @@ the Results/Podium backdrop remain separately gated by visual approval.
 
 Manny approved this bounded runtime increment while the remaining Results art was pending. It is implemented on `feature/slice6-race-hud-minimap-results-podium`. The earlier asset-authoring checkpoint above remains limited to art; this section records the later runtime change.
 
+**Feature-branch code commit:** `51a18ec6e8430153bcc941611039044d8a760a16`.
+
 The race now emits `RaceStanding` snapshots with stable racer and character IDs, display name, portrait URL, and locked place/time while retaining the existing `name`, `place`, and `time` fields. Player identity comes from the selected manifest entry; each AI identity is stored when its roster character is created. Results rendering consumes the authoritative standing order, displays the player character name with a YOU tag, and refreshes the open view when late AI racers finish without changing the player's locked result.
 
 The DOM Results/Podium view renders ranks one through three and the finished lower ranks from `place`, provides all eight standings in a keyboard-scrollable region, and offers Race Again, Change Driver, and Return to Hub. The six approved victory poses are mapped by stable character ID for eligible podium places. Missing pose art falls back to approved full-body selection art, portrait, then monogram. Lower finishers use the approved selection art until reaction poses are separately approved. Race Again disposes and recreates the race using the same selected character; the other routes dispose the race before navigation.

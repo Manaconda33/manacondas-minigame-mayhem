@@ -44,6 +44,7 @@ import { playDriftTierTone } from '../audio/driftTone';
 import { createKartTuning, type SurfaceType } from '../config/kartTuning';
 import { graphicsQualityProfile, type GraphicsQuality } from '../config/graphicsQuality';
 import { AiDriver, type AiRacerAwareness } from './ai/AiDriver';
+import { buildRaceStandings, type RaceRacerIdentity, type RaceStanding } from './raceResults';
 import { AiItemPolicy, driveInputWithItemModifiers } from './ai/AiItemPolicy';
 import { ChaseCamera } from './camera/ChaseCamera';
 import { SpinoutCameraAnchor } from './camera/SpinoutCameraAnchor';
@@ -142,7 +143,7 @@ export interface HudState {
 export interface RaceResult {
   time: number;
   place: number;
-  standings: { name: string; place: number | null; time: number | null }[];
+  standings: RaceStanding[];
 }
 
 export interface TimeTrialOptions {
@@ -156,6 +157,7 @@ export interface TimeTrialOptions {
 
 interface AiRacer {
   id: string;
+  characterId: string;
   name: string;
   portrait: string;
   controller: KartController;
@@ -615,15 +617,23 @@ export class KartTimeTrial {
     }
   };
 
-  private resultStandings(): RaceResult['standings'] {
-    return this.currentStandings().map((racer) => ({
-      name:
-        racer.id === 'player'
-          ? 'YOU'
-          : (this.opponents.find(({ id }) => id === racer.id)?.name ?? racer.id),
-      place: racer.finishPlace,
-      time: racer.finishTime,
-    }));
+  private resultStandings(): RaceStanding[] {
+    const identities: RaceRacerIdentity[] = [
+      {
+        racerId: 'player',
+        characterId: this.options.character.id,
+        displayName: this.options.character.displayName,
+        portrait: this.options.character.portrait ?? '',
+      },
+      ...this.opponents.map((opponent) => ({
+        racerId: opponent.id,
+        characterId: opponent.characterId,
+        displayName: opponent.name,
+        portrait: opponent.portrait,
+      })),
+    ];
+
+    return buildRaceStandings(this.currentStandings(), identities);
   }
 
   private crossedCheckpoint(
@@ -1922,8 +1932,10 @@ export class KartTimeTrial {
       const controller = new KartController(this.world, tuning, stats, position, yaw);
       const visual = this.createOpponentVisual(character);
       this.scene.add(visual.group, visual.itemVisuals.worldGroup);
+      const racerId = `ai-${String(index + 1)}`;
       this.opponents.push({
-        id: `ai-${String(index + 1)}`,
+        id: racerId,
+        characterId: character.id,
         name: character.displayName,
         portrait: character.portrait ?? '',
         controller,
@@ -1943,7 +1955,7 @@ export class KartTimeTrial {
         steering: 0,
         lapTracker: new LapTracker(),
         progress: {
-          id: `ai-${String(index + 1)}`,
+          id: racerId,
           lap: 0,
           trackProgress: 0,
           finished: false,

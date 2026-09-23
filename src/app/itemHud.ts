@@ -2,7 +2,7 @@ import type { ItemHudSnapshot } from '../game/items/ItemSystem';
 import { routeNightItemAssetUrl, routeNightRaceHudMarkup } from '../ui/routeNight';
 
 export function itemHudMarkup(): string {
-  return `<section id="item-hud" class="hud item-hud route-hud-panel" data-race-region="item" data-phase="empty" aria-live="polite" aria-label="Held item">
+  return `<section id="item-hud" class="hud item-hud route-hud-panel" data-race-region="item" data-phase="empty" aria-label="Held item">
     ${routeNightRaceHudMarkup('frame-item', 'item-hud-frame')}
     <div class="item-hud-content">
       <span class="hud-kicker">Item</span>

@@ -6,12 +6,12 @@ This file is the operational source of truth for local and CI validation. Update
 
 `docs/SLICE-5-ARC-BLADE-SCOPE.md` and amendment 2.15 / ADR-076 govern the accepted implementation. Governance PR #138 merged at `7ce6511bc040d2b176ed528b687ed589fafd045d`; gameplay PR #139 merged at `8822341b61900799e0166cfe94bf69cb3986bf0e`. Hosted PR CI `35118244169` and post-merge validation/Pages `35118484183` passed with **48 files / 431 tests**, **82.50% statement coverage**, strict typecheck, zero-warning lint, asset verification and production build. Manny reported that all deployed Arc Blade live tests passed on September 16, 2026; PR #139 comment `5700594653` is the product-owner evidence. No browser/device versions beyond that explicit report are inferred.
 
-| Coverage | Evidence |
-| --- | --- |
+| Coverage                         | Evidence                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Inventory, movement and contacts | `tests/arc-blade.test.ts`: three charges and exact cadence, rollback without cues, forward/reverse equivalence, measured curved path and moving-owner return, arming/catch/expiry boundaries, per-leg hit isolation and turnaround separation, chronological wall/contact/catch ordering, immunity/counters, shared mixed-object capacity and owner cancellation. Real Circuit Alpha curves and elevated sections are included. |
-| Actual runtime and input | `tests/arc-runtime.test.ts`: moving keyboard/mobile ITEM paths, ordinary race-state guards, actual Rapier/controller spin and camera/hit state, independent Frost/Nitro/Prismatic state, before-contact Shockwave clearing, recovery and all three moving diagnostics. Counter PASS requires a real measured encounter; a miss remains INCONCLUSIVE. |
-| Presentation and cleanup | `tests/arc-presentation.test.ts`: finite trail/return accent, mobile/desktop chase/rear frustums after the camera intro, bounded flashes and audio voices, gesture unlock/volume/pause/unavailable audio/disposal, and 200 complete throws returning resource counts to baseline. |
-| Stress | `tests/arc-soak.test.ts`: 800 throws with 40 simultaneous objects and eight racer snapshots, finite transforms and bounded capacity/resources. The isolated CPU observation was local Node/JSDOM evidence, not final rendered-device performance certification. |
+| Actual runtime and input         | `tests/arc-runtime.test.ts`: moving keyboard/mobile ITEM paths, ordinary race-state guards, actual Rapier/controller spin and camera/hit state, independent Frost/Nitro/Prismatic state, before-contact Shockwave clearing, recovery and all three moving diagnostics. Counter PASS requires a real measured encounter; a miss remains INCONCLUSIVE.                                                                            |
+| Presentation and cleanup         | `tests/arc-presentation.test.ts`: finite trail/return accent, mobile/desktop chase/rear frustums after the camera intro, bounded flashes and audio voices, gesture unlock/volume/pause/unavailable audio/disposal, and 200 complete throws returning resource counts to baseline.                                                                                                                                               |
+| Stress                           | `tests/arc-soak.test.ts`: 800 throws with 40 simultaneous objects and eight racer snapshots, finite transforms and bounded capacity/resources. The isolated CPU observation was local Node/JSDOM evidence, not final rendered-device performance certification.                                                                                                                                                                 |
 
 ### Arc Blade deployed regression routes
 
@@ -831,6 +831,7 @@ Focused deployed desktop/mobile live gate after an approved gameplay merge:
 8. Normal unforced gameplay shows no Shockwave test badge/fixture, and accepted Nitro/Kinetic/Seeker/Apex/Blast/Slick plus Slick/Blast AI avoidance remain unchanged.
 
 Record exact gameplay commit, PR CI, post-merge CI/Pages run, desktop/mobile results, defects, and Manny's explicit live acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint closes only the Shockwave functional/counter increment; the other eight item effects, full AI item policy, final interaction matrix, soak/performance closure, issue #106, overall Slice 5 acceptance, and Slice 6 remain open.
+
 ## Vision-Obscuring Ink Splat - LIVE ACCEPTED
 
 Amendments 2.18-2.19 / ADR-079-080 and `docs/SLICE-5-INK-SPLAT-SCOPE.md` define the accepted Ink evidence contract. Gameplay and presentation merged through PR #148 at `2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`; the approved AI tuning amendment merged through PR #149 at `af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`. Hosted PR CI `35173826253` and post-merge validation/Pages `35188684882` passed with **54 test files / 463 tests**, **81.97% statement / 77.31% branch / 86.56% function / 83.52% line coverage**, strict typecheck, zero-warning lint, Git LFS/runtime-asset verification, branding checks, and production build.
@@ -842,7 +843,6 @@ Automated coverage proves progress-authoritative all-racers-ahead targeting acro
 The deployed primary route is `?testItem=ink-splat`. A deterministic incoming-Ink fixture exercises the human overlay without enabling general AI item tactics. Prismatic protected/expired fixtures verify actual resolved application/blocking. A miss, no-target setup, invalid/finished target, or fixture that never reaches the intended encounter is **INCONCLUSIVE**, not PASS.
 
 Manny's deployed review passed the required live matrix: one-charge consumption, racers-ahead impairment, human readability and fade, HUD/touch usability, refresh-without-stacking, visibly reduced but legal AI precision, pause/recovery/finish/restart/hub lifecycle, Prismatic protected/expired behavior, and normal unforced item behavior.
-
 
 ## Continuous Nitro Overdrive - LIVE ACCEPTED 2026-09-17
 
@@ -894,7 +894,6 @@ Governance publication is complete after local documentation validation, hosted 
 
 The bounded Issue #106 regression gate verifies presentation only. Finish as the player before at least two AI racers, keep the results card open, and confirm each later AI finish refreshes the standings from the authoritative race state. Finished racers must replace `RACING` with their locked finish time/order, the final displayed order must match authoritative standings, and the player's locked place/time must not change. Repeat on desktop and mobile. This gate must not alter checkpoint/lap authority, AI behavior, item balance, race timing, or victory/results entry behavior.
 
-
 ## Slice 5 final all-item interaction/counter matrix checkpoint
 
 The final interaction/counter evidence artifact is `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md`. Treat it as a consolidation gate over the production systems, not as permission to retune items.
@@ -902,7 +901,6 @@ The final interaction/counter evidence artifact is `docs/SLICE-5-ITEM-INTERACTIO
 Hosted validation for the checkpoint must run the complete suite, including the focused Shockwave, Prismatic, Apex, Blast, Slick, Blaze, Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, Hyper-Drive Rocket, RacerEffects, validated-progress, AI-item, and AI-race tests referenced by the matrix. A green focused subset is insufficient if the full repository suite fails.
 
 The matrix may be marked complete only when the PR diff is evidence/governance-only and hosted CI passes clean install, LFS verification, strict typecheck, zero-warning lint, complete automated tests, and production build. No new live-acceptance claim is made by this checkpoint. Lifecycle/object-count soak, item/VFX performance capture, gameplay capture, and the final desktop/mobile whole-slice acceptance remain separate gates.
-
 
 ## Slice 5 final lifecycle/object-count soak checkpoint
 
@@ -914,7 +912,6 @@ The closure gate combines two stress paths with the existing focused lifecycle s
 - **Timed-state / VFX soak:** 100 cycles of Nitro Surge effect state, Nitro Overdrive, Hyper-Drive Rocket, Prismatic protection, Ink Splat, Shockwave, inventory and racer-owned item visuals. Expiry plus disposal must leave neutral drive modifiers, no immunity flags, no timed item state, no pending/visible Shockwave, no Ink targets, no held inventory, and empty local/world VFX groups.
 
 The complete repository suite remains mandatory because existing focused tests supply item-specific impact/expiry, Arc/Blast repeated resource cleanup, audio voice/disconnect disposal, Prismatic music cleanup, AI finish cleanup, pause behavior, and camera/driver-state regressions. The soak does not substitute for the separate approximately 1.0 ms item/VFX performance gate or final desktop/mobile whole-slice acceptance.
-
 
 ## Slice 5 item/VFX rendered-runtime performance gate
 
@@ -934,7 +931,6 @@ Included code boundaries are inventory/roulette, item-owned timed effects/immuni
 
 Rendered-device evidence must record the stable badge values after at least 300 scored samples. Do not infer a browser or device model that the tester did not report. A Node/JSDOM measurement, CI duration, whole-frame FPS number, or production-build time cannot substitute for this gate.
 
-
 ### Recorded rendered-device performance evidence
 
 Product-owner deployed captures reached the full N600 rolling window on both required evidence routes:
@@ -944,7 +940,6 @@ Product-owner deployed captures reached the full N600 rolling window on both req
 
 The pass rule is p95 <= 1.00 ms. Both results pass exactly at the ceiling. Browser/device details are not inferred because they were not explicitly reported. Full evidence is recorded in `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`.
 
-
 ## Slice 5 final desktop/mobile whole-slice acceptance
 
 The final product-owner integration protocol is frozen in `docs/SLICE-5-FINAL-LIVE-ACCEPTANCE-2026-09-17.md`.
@@ -952,7 +947,6 @@ The final product-owner integration protocol is frozen in `docs/SLICE-5-FINAL-LI
 The gate intentionally reuses accepted item-specific and automated evidence instead of requiring all fifteen item matrices to be replayed. Live review is limited to normal desktop/mobile races, representative offensive/defensive/catch-up integration, desktop pause behavior, mobile simultaneous ITEM input, mobile backward ITEM modifier, cleanup/race-authority spot checks, and gameplay capture.
 
 A reported miss or ambiguous encounter is INCONCLUSIVE, not PASS. Slice 5 closure requires Manny's explicit whole-slice acceptance and a final documentation checkpoint with clean hosted and post-merge validation/Pages. Slice 6 remains locked until that closure record is published and Manny separately approves beginning Slice 6.
-
 
 ### Final whole-slice result - 2026-09-18
 
@@ -965,12 +959,12 @@ Manny completed the frozen Slice 5 final desktop/mobile integration matrix and r
 
 The live result is combined with the existing item-specific deployed acceptance record, final interaction matrix, lifecycle/object-count soak, AI-tactics acceptance, Issue #106 acceptance, and rendered-runtime Item/VFX performance evidence. No browser/device details are inferred. No new standalone final-session recording was supplied; the protocol's explicit-observation path is used with the cumulative existing capture/evidence record.
 
-
 ## Slice 6 baseline audit and visual-direction gate
 
 The kickoff audit is recorded in `docs/SLICE-6-BASELINE-AUDIT-AND-ART-DIRECTION-2026-09-18.md`.
 
 Before visual implementation:
+
 - verify current menu/HUD/settings/pause/results behavior against PRD Sections 10, 23, 24, 25, 35.7 and 37;
 - inventory current track/kart material-coordinate support before external texture assignment;
 - verify every proposed external production asset license and record provenance;
@@ -979,7 +973,6 @@ Before visual implementation:
 - confirm no Slice 5 gameplay/balance/race-authority files change in this planning checkpoint.
 
 The first product-owner visual gate is selection of Route Night, Pit Poster, Twilight Broadcast, or an approved hybrid. Technical settings architecture, performance-instrumentation planning, material-coordinate design and provenance scaffolding may proceed without locking the final visual language.
-
 
 ## Slice 6 settings / graphics / audio foundation checkpoint
 
@@ -1064,3 +1057,17 @@ Before publication, run `npm run validate`, inspect the generated production ass
 ## Slice 6 next bounded Race HUD / mini-map / Results-Podium planning gate
 
 The next bounded increment is documented in `docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.md` and `docs/superpowers/plans/2026-09-19-race-hud-results-podium.md`. Its future validation must add focused contracts for the 15 item-art mappings, enriched eight-racer standings, shared Circuit Alpha mini-map topology, top-three victory/reaction rank mapping, five lower-finish reaction states, Results controls, responsive placement, fallback/reduced-motion behavior, and the complete Title → Hub → Character Select → Race → Results flow. It must still run the complete repository validation sequence and the deployed desktop/mobile acceptance gate.
+
+## Slice 6 Results/Podium runtime subset — feature branch
+
+This bounded, branch-only runtime checkpoint adds `tests/race-results.test.ts`, `tests/results-podium.test.ts`, and `tests/results-routing.test.ts`. It verifies eight stable racer/character identities with legacy result fields, authoritative place ordering, unchanged locked player place/time after late finishes, player placement in each of the eight finish positions, all-eight row access, approved victory-art mapping, full-body/portrait/monogram error fallback, late-standing refresh without replacing action controls, and disposal/navigation for Race Again, Change Driver, and Return to Hub. The Results status is the only live region; the standings use a labelled keyboard-scrollable region. The markup remains static under reduced motion.
+
+Run the focused contract with:
+
+```bash
+npx vitest run tests/race-results.test.ts tests/results-podium.test.ts tests/results-routing.test.ts tests/app-shell.test.ts --coverage=false
+```
+
+The complete `npm run validate` sequence passed with **71 test files / 561 tests**, **81.91% statement / 76.23% branch / 87.06% function / 83.62% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. `git diff --check`, targeted Prettier checks, and `git lfs fsck` also passed. The Vite large-chunk warning remains present for the existing `KartTimeTrial` bundle.
+
+This checkpoint uses only the six already approved victory poses; other podium identities use approved selection art and the governed portrait/monogram fallback. It does not add ImageGen assets, reaction poses, a backdrop, item art, or additional race gameplay. It is automated branch evidence only: no hosted CI, deployment, or live visual acceptance is claimed. The remaining full Race HUD/mini-map/Results asset and desktop/mobile acceptance gates stay open.

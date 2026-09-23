@@ -53,11 +53,11 @@
 
 ## Task 4: Enrich the standings identity contract without changing race authority
 
-- [ ] In `src/game/KartTimeTrial.ts`, introduce a named `RaceStanding` shape containing stable racer ID, stable character ID, display name, portrait URL, locked place, and locked finish time; keep `RaceResult` as the existing player result envelope.
-- [ ] Store the AI character ID alongside each opponent when `createOpponents` selects the seven-character roster. Populate the player standing from the selected manifest character.
-- [ ] Update `resultStandings()` and the `onStandings` callback to return the enriched identity fields while preserving authoritative order, locked player place/time, late-finisher updates, and all existing cleanup semantics.
-- [ ] Add `tests/race-results.test.ts` covering eight unique racers, player identity, stable character IDs, authoritative sort order, late AI finishes, and unchanged locked player result.
-- [ ] Keep the contract compatible with existing tests and callers by retaining `name`, `place`, and `time` fields with the same meanings.
+- [x] In `src/game/KartTimeTrial.ts`, introduce a named `RaceStanding` shape containing stable racer ID, stable character ID, display name, portrait URL, locked place, and locked finish time; keep `RaceResult` as the existing player result envelope.
+- [x] Store the AI character ID alongside each opponent when `createOpponents` selects the seven-character roster. Populate the player standing from the selected manifest character.
+- [x] Update `resultStandings()` and the `onStandings` callback to return the enriched identity fields while preserving authoritative order, locked player place/time, late-finisher updates, and all existing cleanup semantics.
+- [x] Add `tests/race-results.test.ts` covering eight unique racers, player identity, stable character IDs, authoritative sort order, late AI finishes, and unchanged locked player result.
+- [x] Keep the contract compatible with existing tests and callers by retaining `name`, `place`, and `time` fields with the same meanings.
 
 ## Task 5: Build the Route Night race HUD presentation seam
 
@@ -120,6 +120,12 @@
 - [ ] After Manny's explicit deployed acceptance, update `docs/IMPLEMENTATION-STATUS.md`, `docs/TESTING.md`, `docs/DECISIONS.md`, the design/asset briefs, and `README.md` with the final merge SHA, hosted run, asset hashes, acceptance result, and any bounded defect.
 - [ ] Keep pause, final audio, post-processing, and unrelated Slice 6 work explicitly deferred unless a separate approval changes the scope.
 
+## Separately approved runtime subset — 2026-09-23
+
+Manny approved the Results/Podium runtime work that can proceed while the remaining image assets are pending. Task 4 above is complete. The feature branch also adds rank-ordered podium and lower-finisher DOM, all-eight standings, updates for late AI finishes, identity-keyed use of the six approved victory poses, the approved full-body → portrait → monogram fallback, the three race actions, responsive styling, and reduced-motion-safe static presentation.
+
+This subset does not complete the ImageGen pack, reaction poses, backdrop, full Race HUD/mini-map styling, the entire Task 7/8/9 acceptance scope, or deployed desktop/mobile visual review. No merge or deployment is included. Remaining checkboxes continue to describe the full increment.
+
 ## Handoff
 
-After this plan is reviewed, execute it task-by-task on a fresh implementation branch from the accepted main head. The current branch is documentation-only and is not a deployment or runtime acceptance claim.
+The original handoff anticipated a documentation-only plan branch. Manny later approved the bounded runtime subset above on the existing feature branch. Continue the remaining plan work only under its separate asset and acceptance gates; the current branch checkpoint makes no deployment or visual-acceptance claim.

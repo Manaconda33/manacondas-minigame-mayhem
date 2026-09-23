@@ -61,7 +61,6 @@ Hosted post-merge validation passed clean install, Git LFS/runtime-asset verific
 
 The tuned Ink increment is closed at live acceptance. Slice 5 remains active for its remaining bounded work; Slice 6 remains locked.
 
-
 ## Continuous Nitro Overdrive final state - LIVE ACCEPTED 2026-09-17
 
 Continuous Nitro Overdrive governance, gameplay, VFX, audio, and presentation are complete and LIVE ACCEPTED under amendment 2.20 / ADR-081 and docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md. Governance PR #151 merged at `6c1fe1b78274b25c23fe6fc0a2090e26c086febb`; hosted PR CI and post-merge validation/Pages run `35223980439` passed. Manny separately authorized the bounded implementation and later reported **“Pass”** on the deployed player-only route.
@@ -201,6 +200,7 @@ Publication and acceptance evidence:
 - The gate verified roster readability, selected full-body identity, driver/kart lane separation, actual kart preview/fallback behavior, route-board/panel hierarchy, focus/reduced-motion behavior, and navigation handoff.
 
 Character Select is closed as an accepted bounded checkpoint. The next work is a separate planned increment; no race HUD, mini-map, Results/Podium runtime code, final audio, post-processing, or unrelated Slice 6 behavior is retroactively included in this checkpoint.
+
 ## Slice 6 Route Night Character Select driver/kart composition correction - feature branch
 
 The deployed review defect is corrected without changing driver art, portraits, kart GLBs, kart identities, the rotating preview seam, or any gameplay behavior. The previous stage positioned both visual systems as overlapping absolute layers, with the kart preview painted above the driver art. The correction gives the selected 2D driver a dedicated identity lane and the kart preview a dedicated kart lane on desktop; mobile stacks those lanes so the driver art is complete and readable before the kart preview begins.
@@ -222,6 +222,7 @@ Pre-publication validation: **67 test files / 536 tests passed**, with **81.20% 
 Publication and live acceptance: PR #187 merged at `7e8a9ea8901bef6ea4dd785780c4cc8295225ead`; post-merge CI/Pages run `35422609359` passed. Manny completed deployed desktop/mobile visual acceptance against the approved Route Night design and twelve roster assets: PASS. The Character Select visual-acceptance gate is closed with no defect reported.
 
 The next bounded increment is documented at `docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.md` and `docs/superpowers/plans/2026-09-19-race-hud-results-podium.md`. It is planning-only on this branch.
+
 ## Slice 6 next bounded increment - Race HUD / mini-map / Results-Podium plan
 
 Planning is recorded in `docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.md` and `docs/superpowers/plans/2026-09-19-race-hud-results-podium.md`. The approved direction uses ImageGen for a text-free 15-item visual pack, a restrained race atmosphere overlay, a Results/Podium backdrop, twelve top-three victory poses, and twelve 4th-8th reaction poses. Live DOM/CSS/SVG remains authoritative for HUD values, map topology, standings, controls, accessibility, and responsive geometry. Runtime implementation and publication remain later review gates.
@@ -252,3 +253,17 @@ This checkpoint contains no Results/Podium runtime wiring, standings changes,
 reaction assets, backdrop, gameplay, race-authority, AI, item, audio, or
 deployment changes. Six remaining victory poses, twelve reaction poses, and
 the Results/Podium backdrop remain separately gated by visual approval.
+
+## Slice 6 Results/Podium runtime subset — feature-branch checkpoint, 2026-09-23
+
+Manny approved this bounded runtime increment while the remaining Results art was pending. It is implemented on `feature/slice6-race-hud-minimap-results-podium`. The earlier asset-authoring checkpoint above remains limited to art; this section records the later runtime change.
+
+The race now emits `RaceStanding` snapshots with stable racer and character IDs, display name, portrait URL, and locked place/time while retaining the existing `name`, `place`, and `time` fields. Player identity comes from the selected manifest entry; each AI identity is stored when its roster character is created. Results rendering consumes the authoritative standing order, displays the player character name with a YOU tag, and refreshes the open view when late AI racers finish without changing the player's locked result.
+
+The DOM Results/Podium view renders ranks one through three and the finished lower ranks from `place`, provides all eight standings in a keyboard-scrollable region, and offers Race Again, Change Driver, and Return to Hub. The six approved victory poses are mapped by stable character ID for eligible podium places. Missing pose art falls back to approved full-body selection art, portrait, then monogram. Lower finishers use the approved selection art until reaction poses are separately approved. Race Again disposes and recreates the race using the same selected character; the other routes dispose the race before navigation.
+
+The responsive board stays docked to the right on desktop and along the lower portion on mobile, leaving the race view visible. Changing finish count has its own polite live status; the standings list is not a live region. The presentation is static and includes reduced-motion overrides.
+
+**Local verification:** `npm run validate` passed **71 test files / 561 tests**, with **81.91% statement / 76.23% branch / 87.06% function / 83.62% line coverage**. Strict typecheck, zero-warning lint, branding and runtime-asset validation, and production build passed; `git diff --check`, targeted Prettier checks, and `git lfs fsck` passed. Runtime validation decoded 117 character PNGs and verified the existing 36 GLBs and track textures. Vite reported its existing large-chunk warning for the `KartTimeTrial` bundle.
+
+This is a branch-only automated checkpoint. No hosted PR run, deployment, or live desktop/mobile visual acceptance is claimed. The remaining six victory poses, twelve reaction poses, and Results backdrop remain gated; the full Race HUD/mini-map and release-candidate acceptance scope also remain open.

@@ -34,6 +34,23 @@ describe('Route Night race HUD asset contracts', () => {
     expect(host.querySelector('[data-race-symbol="frame-panel"]')).not.toBeNull();
   });
 
+  it('keeps per-frame HUD values out of live announcement regions', () => {
+    const host = document.createElement('div');
+    host.innerHTML = raceHudMarkup('');
+
+    for (const selector of [
+      '#lap',
+      '#time',
+      '#speed',
+      '#position',
+      '#surface',
+      '#performance',
+      '#item-hud',
+    ]) {
+      expect(host.querySelector(selector)?.closest('[aria-live]')).toBeNull();
+    }
+  });
+
   it('maps a held item to its approved visual while keeping text fallback data live', () => {
     const host = document.createElement('div');
     host.innerHTML = itemHudMarkup();

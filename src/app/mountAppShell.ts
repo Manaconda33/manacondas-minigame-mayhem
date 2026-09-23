@@ -12,6 +12,12 @@ import { isMobileSession } from './mobileSession';
 import { characterById, characterManifest } from '../characters/manifest';
 import { CharacterKartPreview } from '../ui/characterKartPreview';
 import { characterSelectMarkup } from '../ui/characterSelect';
+import {
+  bindResultsArtFallbacks,
+  renderResultsPodium,
+  updateResultsPodium,
+} from '../ui/resultsPodium';
+import type { RaceStanding } from '../game/raceResults';
 import { updateItemHud } from './itemHud';
 import { raceHudMarkup } from './raceHud';
 import { updateRaceMinimap } from './raceMinimap';
@@ -39,7 +45,9 @@ function formatTime(seconds: number): string {
   return `${String(minutes)}:${remainder.toFixed(2).padStart(5, '0')}`;
 }
 
-export function standingsMarkup(standings: RaceResult['standings']): string {
+export function standingsMarkup(
+  standings: readonly Pick<RaceStanding, 'name' | 'place' | 'time'>[],
+): string {
   return standings
     .map(
       (racer, index) =>
@@ -83,6 +91,11 @@ export function mountAppShell(root: HTMLElement): void {
   let selectedCharacter = characterById('aa-02');
   let appSettings = loadGameSettings();
   audioMixer.configure(appSettings.audio);
+
+  const disposeGame = (): void => {
+    game?.dispose();
+    game = null;
+  };
 
   const unlockAudio = async (): Promise<void> => {
     const context = (Howler as unknown as { ctx?: AudioContext | null }).ctx;
@@ -341,10 +354,7 @@ export function mountAppShell(root: HTMLElement): void {
     characterPreview?.dispose();
     characterPreview = null;
     const touchControls = touchControlsMarkup(isMobileSession());
-    root.innerHTML = raceHudMarkup(
-      touchControls,
-      button('Return to Hub', 'finish-menu', 'primary'),
-    );
+    root.innerHTML = raceHudMarkup(touchControls);
 
     const canvas = root.querySelector<HTMLCanvasElement>('#game-canvas');
     if (canvas === null) throw new Error('Game canvas was not created.');
@@ -440,7 +450,9 @@ export function mountAppShell(root: HTMLElement): void {
                   : `${state.driftTier.toUpperCase()} CHARGE`;
     };
     const renderStandings = (standings: RaceResult['standings']): void => {
-      getElement('#standings').innerHTML = standingsMarkup(standings);
+      const finish = root.querySelector<HTMLElement>('#finish');
+      if (finish === null || finish.hidden) return;
+      updateResultsPodium(finish, standings);
     };
     game = await KartTimeTrial.create({
       canvas,
@@ -451,12 +463,11 @@ export function mountAppShell(root: HTMLElement): void {
       onFinish: (result) => {
         const gameShell = getElement('.game-shell');
         markGameFinished(gameShell);
-        getElement('#finish').hidden = false;
-        const suffix =
-          result.place === 1 ? 'st' : result.place === 2 ? 'nd' : result.place === 3 ? 'rd' : 'th';
-        getElement('#finish-place').textContent = `${String(result.place)}${suffix} place`;
-        getElement('#finish-time').textContent = formatTime(result.time);
-        renderStandings(result.standings);
+        const finish = getElement('#finish');
+        finish.innerHTML = renderResultsPodium(result.standings);
+        finish.hidden = false;
+        bindResultsArtFallbacks(finish);
+        root.querySelector<HTMLElement>('#results-title')?.focus();
       },
     });
     const loading = root.querySelector('#loading');
@@ -492,10 +503,19 @@ export function mountAppShell(root: HTMLElement): void {
     if (action === 'settings') renderSettings();
     if (action === 'play') renderCharacterSelect();
     if (action === 'confirm-character') void renderGame();
-    if (action === 'finish-menu') {
-      game?.dispose();
-      game = null;
+    if (action === 'race-again') {
+      disposeGame();
+      void renderGame();
+    }
+    if (action === 'change-driver') {
+      disposeGame();
+      renderCharacterSelect();
+      root.querySelector<HTMLElement>(`[data-character="${selectedCharacter.id}"]`)?.focus();
+    }
+    if (action === 'return-to-hub') {
+      disposeGame();
       renderMenu();
+      root.querySelector<HTMLElement>('[data-action="play"]')?.focus();
     }
   });
 

@@ -47,3 +47,10 @@ Manny accepted the deployed 2026-09-02 front-action expansion. Both steering dir
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
 - Approval: Manny approved Toph's clean selection-only full-body asset in the 2026-09-19 Character Select batch review after the marked candidate was rejected.
 - Boundary: Character Select only; the approved portrait, race driver package, The Grave Shift identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium victory art
+
+- Runtime asset: `public/assets/characters/aa-08/results/victory.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, normal-Git fixed-size runtime derivative under ADR-093.
+- Approval: Manny approved the low athletic skid-stop on 2026-09-23 using the approved Character Select full-body asset as the identity reference.
+- Provenance and runtime SHA-256: recorded in `docs/ASSET-PROVENANCE.md` and `docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`.

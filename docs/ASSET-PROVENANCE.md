@@ -50,6 +50,23 @@ uses a fully draconic sovereign wing display with a raised foreclaw salute.
 | `public/assets/characters/aa-05/results/victory.png` | `public/assets/characters/aa-05/selection/full-body.png` | `exec-6aa52ad7-c8fe-4eea-b380-897efbcc7c38` | `ba713e559fc1996c7f6729e3ec288a8c26b105898f23406d637fc8130a08e67e` | `d71c483a32290bbb68f5eb8f13d4bf8cf487b8f0af1cbbcf43e1b5eb2fb9578b` |
 | `public/assets/characters/aa-06/results/victory.png` | `public/assets/characters/aa-06/selection/full-body.png` | `exec-962a1898-4969-41e1-b039-713afb700f28` | `60ae8a3b28c429837b739a27378b9f620860d9aaf118d816f1ca962dd265cccf` | `c2fda346f374a34b5aa190c8c4549422863688db3da49b4e5948394a411f710d` |
 
+## Route Night Results/Podium - approved victory pose batch 03
+
+These three fixed-size Results/Podium victory derivatives were generated on
+2026-09-23 with the built-in OpenAI image-generation tool. Each render used
+the matching approved Character Select full-body asset as its character
+identity reference. The 1024 × 1536 RGB renders were prepared as transparent
+1024 × 1536 RGBA PNG runtime derivatives without resizing. Manny approved
+McFleurdel's elegant finishing pivot, Toph's low athletic skid-stop, and
+Manaconda's quiet compass salute with Paprika. No external license dependency,
+copied pixels, text, logo, kart, UI, or scenery is embedded in these files.
+
+| Runtime file | Identity source | Generator output ID | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- | --- |
+| `public/assets/characters/aa-07/results/victory.png` | `public/assets/characters/aa-07/selection/full-body.png` | `exec-b4bdd17a-288d-4315-8935-fc9b8d4b4329` | `98656cea9090be9bd993c0549eaee076651a0fe5e5fc52bd142846214389e6d0` | `21cbd6c61c2510baa22e351fce1564887331b511c0230345e79d7a3f42f91c02` |
+| `public/assets/characters/aa-08/results/victory.png` | `public/assets/characters/aa-08/selection/full-body.png` | `exec-07faa274-8ac5-4389-84a0-6f7735f56c07` | `893f997ae3263915ef27ab507726e043dccb03a16cf16fc4939964eddc52e42a` | `1ab53ed1c8d21314d14a99f9c80f65f4d3242cd929f30d1bf072c00ad86419cf` |
+| `public/assets/characters/aa-09/results/victory.png` | `public/assets/characters/aa-09/selection/full-body.png` | `exec-f5f2aa6a-09de-41c6-a9e2-abf29b71c4e4` | `2e4f760bbc380067dc180fc25b34754b57da3d42de2d1c38f740deeb8d0549b9` | `19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b` |
+
 ## Route Night Race HUD - ImageGen item batch 01
 
 These three fixed-size item identity derivatives were generated on 2026-09-19

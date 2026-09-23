@@ -269,3 +269,27 @@ The responsive board stays docked to the right on desktop and along the lower po
 **Local verification:** `npm run validate` passed **71 test files / 561 tests**, with **81.91% statement / 76.23% branch / 87.06% function / 83.62% line coverage**. Strict typecheck, zero-warning lint, branding and runtime-asset validation, and production build passed; `git diff --check`, targeted Prettier checks, and `git lfs fsck` passed. Runtime validation decoded 117 character PNGs and verified the existing 36 GLBs and track textures. Vite reported its existing large-chunk warning for the `KartTimeTrial` bundle.
 
 This is a branch-only automated checkpoint. No hosted PR run, deployment, or live desktop/mobile visual acceptance is claimed. The remaining six victory poses, twelve reaction poses, and Results backdrop remain gated; the full Race HUD/mini-map and release-candidate acceptance scope also remain open.
+
+## Slice 6 Results/Podium victory art extension — feature-branch checkpoint, 2026-09-23
+
+Manny approved the third victory-pose batch: McFleurdel / AA-07, Toph / AA-08,
+and Manaconda / AA-09. Their 1024 × 1536 transparent RGBA runtime derivatives
+are recorded with generator IDs and source/runtime hashes in the Results asset
+brief and provenance ledger. The podium allowlist now maps all nine approved
+characters by stable ID; places four through eight retain their existing
+selection-art fallback. The production asset verifier checks the three exact
+hashes, dimensions, RGBA encoding, and transparent corners. No balance mapping,
+race authority, kart, driver art, reaction asset, or backdrop changed.
+
+**Local verification:** `npm run validate` passed **72 test files / 565 tests**
+with **81.92% statement / 76.25% branch / 87.06% function / 83.62% line
+coverage**. Typecheck, zero-warning lint, branding/runtime-asset validation,
+and the production build passed. Runtime validation decoded 120 character
+PNGs, checked 36 materialized GLBs and three track textures, and verified the
+three Results/Podium asset hashes. Vite reported its existing large-chunk
+warning for the `KartTimeTrial` bundle.
+
+This is a branch-only automated checkpoint. No hosted PR run, deployment, or
+live desktop/mobile visual acceptance is claimed. Three victory poses, twelve
+reaction poses, the Results backdrop, and the remaining Slice 6 acceptance
+scope remain gated.

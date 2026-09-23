@@ -132,6 +132,21 @@ The AA profile assignments, kart assignments, and race-facing driver packages ar
 
 The approved package is governed by ADR-091 and the durable source/runtime ledger in `docs/assets/CHARACTER-SELECT-FULL-BODY-ASSET-BRIEF.md`. It changes no balance profile, kart identity or geometry, driver frame, race authority, or material implementation.
 
+## Results/Podium victory art checkpoint
+
+Manny approved the first Results/Podium victory art for McFleurdel, Toph, and
+Manaconda on 2026-09-23. The character assignments, balance profiles, and
+Character Select references above remain unchanged. The three transparent
+runtime derivatives and their provenance are recorded in
+`docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md` and
+`docs/ASSET-PROVENANCE.md`.
+
+| Profile | Character | Approved Results/Podium asset |
+| --- | --- | --- |
+| AA-07 | McFleurdel | `public/assets/characters/aa-07/results/victory.png` |
+| AA-08 | Toph | `public/assets/characters/aa-08/results/victory.png` |
+| AA-09 | Manaconda | `public/assets/characters/aa-09/results/victory.png` |
+
 ## Historical archived mappings
 
 ### AA-06: Cleo / The Gilded Stitch

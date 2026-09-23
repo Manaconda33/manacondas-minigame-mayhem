@@ -91,6 +91,31 @@ console.log(
   `Verified ${String(runtimeTrackTextureHashes.size)} materialized runtime track textures.`,
 );
 
+const runtimeResultsHashes = new Map([
+  [
+    'public/assets/characters/aa-07/results/victory.png',
+    '21cbd6c61c2510baa22e351fce1564887331b511c0230345e79d7a3f42f91c02',
+  ],
+  [
+    'public/assets/characters/aa-08/results/victory.png',
+    '1ab53ed1c8d21314d14a99f9c80f65f4d3242cd929f30d1bf072c00ad86419cf',
+  ],
+  [
+    'public/assets/characters/aa-09/results/victory.png',
+    '19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b',
+  ],
+]);
+
+for (const [path, expectedHash] of runtimeResultsHashes) {
+  const bytes = await readFile(path);
+  const actualHash = createHash('sha256').update(bytes).digest('hex');
+  if (actualHash !== expectedHash) {
+    throw new Error(`${path} no longer matches its approved Results/Podium bytes.`);
+  }
+}
+
+console.log(`Verified ${String(runtimeResultsHashes.size)} approved Results/Podium assets.`);
+
 const runtimeGlbs = [
   'public/assets/characters/aa-01/kart.glb',
   'public/assets/characters/aa-01/kart-lod1.glb',
@@ -423,6 +448,9 @@ const runtimePngs = [
   ['public/assets/characters/aa-12/driver/front-steer-right.png', 512, 512],
   ['public/assets/characters/aa-12/driver/front-hit.png', 512, 512],
   ['public/assets/characters/aa-12/driver/front-victory.png', 512, 512],
+  ['public/assets/characters/aa-07/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-08/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-09/results/victory.png', 1024, 1536],
   ['public/assets/characters/aa-01/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-02/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-03/selection/full-body.png', 1024, 1536],
@@ -510,6 +538,9 @@ const newTransparentFronts = new Set([
   'public/assets/characters/aa-12/driver/front-steer-right.png',
   'public/assets/characters/aa-12/driver/front-hit.png',
   'public/assets/characters/aa-12/driver/front-victory.png',
+  'public/assets/characters/aa-07/results/victory.png',
+  'public/assets/characters/aa-08/results/victory.png',
+  'public/assets/characters/aa-09/results/victory.png',
   'public/assets/characters/aa-01/selection/full-body.png',
   'public/assets/characters/aa-02/selection/full-body.png',
   'public/assets/characters/aa-03/selection/full-body.png',

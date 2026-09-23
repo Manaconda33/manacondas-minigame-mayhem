@@ -5,6 +5,9 @@ const APPROVED_VICTORY_HASH_BY_CHARACTER: Readonly<Record<string, string>> = {
   'aa-04': '4e4ffce804a8ff94d15eca9a04211c309ea3ec24c995c40761f39811754ddf06',
   'aa-05': 'd71c483a32290bbb68f5eb8f13d4bf8cf487b8f0af1cbbcf43e1b5eb2fb9578b',
   'aa-06': 'c2fda346f374a34b5aa190c8c4549422863688db3da49b4e5948394a411f710d',
+  'aa-07': '21cbd6c61c2510baa22e351fce1564887331b511c0230345e79d7a3f42f91c02',
+  'aa-08': '1ab53ed1c8d21314d14a99f9c80f65f4d3242cd929f30d1bf072c00ad86419cf',
+  'aa-09': '19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b',
 };
 
 export function raceResultsVictoryUrl(characterId: string, place: number | null): string | null {

@@ -64,3 +64,13 @@ Manny approved Accu's front-steer-left, front-steer-right, front-hit, and front-
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
 - Approval: Manny approved Accu's selection-only full-body asset in the 2026-09-19 Character Select batch review.
 - Boundary: Character Select only; the approved portrait, race driver frames, Pink Precision kart identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium victory art
+
+- Runtime asset: `public/assets/characters/aa-11/results/victory.png`.
+- Approved source: `AA-11’s Joyful Victory Spin.png` (Library file `libfile_c0b8b4a2ba6c8191804a0b0f67651600`).
+- Source SHA-256: `5c8cf1a9d0ce1e28bfabef8a2f05cc05961ecc065ecd1b26ace2ebabba292257`.
+- Runtime SHA-256: `59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b`.
+- Format: 1024 × 1536 RGBA PNG, fixed-size normal-Git runtime derivative.
+- Transformation: deterministic two-pass checkerboard-to-`#00FF00` matte and exact-green alpha key; visible RGB is preserved and fully transparent RGB is zeroed. The matte clears enclosed checkerboard components in hair and costume gaps; full parameters are in `docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`.
+- Boundary: existing approved pose; Results/Podium place 1–3 only. No driver art, kart, identity, or balance mapping changed.

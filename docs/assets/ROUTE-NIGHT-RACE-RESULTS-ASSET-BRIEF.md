@@ -3,9 +3,9 @@
 ## Scope
 
 This brief governs the character-specific Results/Podium illustration package
-for Slice 6. The first three approved batches add nine top-three victory poses.
-The remaining three victory poses, twelve lower-finish reaction poses, and the
-Results/Podium backdrop remain separately gated by visual approval.
+for Slice 6. The first four approved batches add twelve top-three victory
+poses. Twelve lower-finish reaction poses and the Results/Podium backdrop
+remain separately gated by visual approval.
 
 The approved pose direction is character-driven rather than rank-generic:
 each racer receives a distinct silhouette, body angle, gesture, and emotional
@@ -70,11 +70,49 @@ original dimensions and has genuine RGBA transparency.
 | Toph / AA-08 | Low athletic skid-stop; calm, confident finish | `public/assets/characters/aa-08/selection/full-body.png` | `public/assets/characters/aa-08/results/victory.png` | `exec-07faa274-8ac5-4389-84a0-6f7735f56c07.png` | `893f997ae3263915ef27ab507726e043dccb03a16cf16fc4939964eddc52e42a` | `1ab53ed1c8d21314d14a99f9c80f65f4d3242cd929f30d1bf072c00ad86419cf` |
 | Manaconda / AA-09 | Quiet compass salute with Paprika at his shoulder | `public/assets/characters/aa-09/selection/full-body.png` | `public/assets/characters/aa-09/results/victory.png` | `exec-f5f2aa6a-09de-41c6-a9e2-abf29b71c4e4.png` | `2e4f760bbc380067dc180fc25b34754b57da3d42de2d1c38f740deeb8d0549b9` | `19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b` |
 
+## Approved Batch 04 — victory poses
+
+Manny approved the Krios / AA-10, Accu / AA-11, and Jennifer / AA-12 source
+renders for Results/Podium use. The approved poses were integrated without
+redesign or regeneration. Each opaque runtime pixel retains the approved
+source RGB; fully transparent pixels are zeroed. The original 1024 × 1536
+dimensions are retained.
+
+| Racer | Pose direction | Approved source file | Source Library ID | Generator output ID | Runtime asset | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Krios / AA-10 | Arms-flexing triumphant roar | `Krios's Triumphant Victory Roar.png` | `libfile_3200c4dcd9fc8191a5f888298a5a912e` | Not surfaced in the recovered record | `public/assets/characters/aa-10/results/victory.png` | `1b5793085436c015862606c27f930438683a3c29243fdc1220e780a0614999a4` | `ceb43f0c7b12a7ad16556dfec460ffc29cfc4372561ce1fa9580a8399aa76c98` |
+| Accu / AA-11 | Joyful airborne victory spin | `AA-11’s Joyful Victory Spin.png` | `libfile_c0b8b4a2ba6c8191804a0b0f67651600` | Not surfaced in the recovered record | `public/assets/characters/aa-11/results/victory.png` | `5c8cf1a9d0ce1e28bfabef8a2f05cc05961ecc065ecd1b26ace2ebabba292257` | `59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b` |
+| Jennifer / AA-12 | Welcoming staff-and-open-hand flourish | `Jennifer’s Welcoming Victory Flourish.png` | `libfile_26b55289c24081918503c5aa79f0d3eb` | Not surfaced in the recovered record | `public/assets/characters/aa-12/results/victory.png` | `d2cd74f5cc1235c9a73016faf420066f551cc7b8ddf94150f8261c9368533f37` | `218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107` |
+
+The approved source files are RGB PNGs with a baked checkerboard. For a
+reproducible matte, the grayscale background modes are 214/253 for Krios,
+138/200 for Accu, and 130/192 for Jennifer. The core candidate uses maximum
+channel spread ≤ 30 and distance ≤ 30 from either mode. An 8-connected flood
+from all image borders selects the exterior; two further 8-connected passes
+expand into pixels with channel spread ≤ 42 and mode distance ≤ 44. Accu and
+Jennifer also clear enclosed core-candidate components of at least 20 pixels
+to remove checkerboard visible through hair and costume gaps; Krios does not
+use that enclosed-component pass to protect neutral metal details. The matte
+pass replaces selected pixels with exact `#00FF00`; the second pass keys only
+that exact green to alpha. None of the three sources contains an exact
+`#00FF00` pixel. Visual checks covered full resolution and 256 × 384 previews
+over magenta and yellow backgrounds. `tools/assets/prepare_results_victory_cutouts.py`
+records these source hashes and matte parameters, writes the green-pass guides,
+and checks the regenerated runtime hashes. Run it with the recovered sources:
+
+```bash
+python tools/assets/prepare_results_victory_cutouts.py \
+  --source-dir /path/to/approved-victory-sources \
+  --output-dir public \
+  --matte-dir /path/to/green-pass-guides
+```
+
 ## Approval and boundary
 
-- Approved batches: Alex, Lavi, Lula, Keeg, Kraken, Dragon Queen, McFleurdel, Toph, and Manaconda victory poses.
+- Approved batches: Alex, Lavi, Lula, Keeg, Kraken, Dragon Queen, McFleurdel, Toph, Manaconda, Krios, Accu, and Jennifer victory poses.
 - No reaction asset is approved by this batch.
-- No Results/Podium runtime wiring is included by this asset checkpoint.
+- Victory art remains podium-only for places 1–3; places 4–8 keep the existing selection-art, portrait, and monogram fallback chain.
+- This asset extension adds no reaction poses, Results backdrop, or race/gameplay behavior.
 - Do not reuse a batch's pose grammar for another racer; every subsequent
   prompt must reference the remaining character's approved visual authority and
   its unique pose brief.
@@ -88,6 +126,14 @@ are base-aware and use each derivative's recorded SHA-256 as its cache revision.
 Places four through eight use approved Character Select full-body art until
 their reaction package is approved; missing victory/full-body art falls back to
 portrait and then monogram. No source or runtime image bytes changed for this
-integration. Nine victory poses are now in runtime use; three victory poses,
-twelve reactions, and the backdrop remain outside runtime use and under their
-existing visual-approval gates.
+integration. Nine victory poses were in runtime use at this checkpoint; the
+following checkpoint completed the allowlist.
+
+## Complete victory-art runtime mapping — 2026-09-24
+
+The approved Krios / AA-10, Accu / AA-11, and Jennifer / AA-12 derivatives
+complete the twelve-character top-three victory allowlist. All twelve
+approved victory poses are now available to the existing place 1–3 Results
+mapping. Places 4–8 retain the existing approved selection-art, portrait, and
+monogram fallback. The twelve lower-finish reaction poses and backdrop remain
+outside this checkpoint.

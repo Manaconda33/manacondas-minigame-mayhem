@@ -293,3 +293,37 @@ This is a branch-only automated checkpoint. No hosted PR run, deployment, or
 live desktop/mobile visual acceptance is claimed. Three victory poses, twelve
 reaction poses, the Results backdrop, and the remaining Slice 6 acceptance
 scope remain gated.
+
+## Slice 6 Results/Podium victory art extension — feature-branch checkpoint, 2026-09-24
+
+This bounded extension adds the already approved Krios / AA-10, Accu / AA-11,
+and Jennifer / AA-12 victory cutouts to the existing podium mapping. Their
+1024 × 1536 RGB source renders and Library file IDs are recorded in
+`docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md` and
+`docs/ASSET-PROVENANCE.md`. Generator output IDs were not present in the
+recovered source record and are left unstated. The deterministic preparation
+script verifies source and runtime hashes, writes the green-pass guides, and
+keys only the generated `#00FF00` matte while preserving every visible source
+RGB value and zeroing fully transparent RGB.
+
+The stable-ID podium allowlist now covers all twelve approved victory poses
+for places 1–3 only. Places 4–8 retain the existing selection-art, portrait,
+and monogram fallback chain. This extension adds no reaction art, Results
+backdrop, standings change, gameplay behavior, driver art, kart asset, or
+balance mapping.
+
+**Local validation:** `npm run validate` passed strict typecheck, zero-warning
+lint, **72 test files / 568 tests** (**81.92% statements / 76.25% branches /
+87.06% functions / 83.62% lines**), branding/runtime-asset verification, and
+the production build. Runtime verification decoded 123 character PNGs,
+verified 36 materialized GLBs and three track textures, and checked six
+Results/Podium asset hashes. The three new PNGs pass the 1024 × 1536 RGBA,
+transparent-corner, transparent-RGB-zeroing, and no-key-green checks.
+`git diff --check`, targeted formatting of changed source/test/tool/avatar
+records, and `git lfs fsck` passed. The existing Vite large-chunk warning for
+`KartTimeTrial` remains.
+
+This is branch-only automated evidence; the checkpoint is not merged or
+deployed, and no deployed live visual acceptance is claimed. The twelve
+lower-finish reaction poses, Results backdrop, and remaining Slice 6 acceptance
+scope stay open.

@@ -104,6 +104,18 @@ const runtimeResultsHashes = new Map([
     'public/assets/characters/aa-09/results/victory.png',
     '19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b',
   ],
+  [
+    'public/assets/characters/aa-10/results/victory.png',
+    'ceb43f0c7b12a7ad16556dfec460ffc29cfc4372561ce1fa9580a8399aa76c98',
+  ],
+  [
+    'public/assets/characters/aa-11/results/victory.png',
+    '59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b',
+  ],
+  [
+    'public/assets/characters/aa-12/results/victory.png',
+    '218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107',
+  ],
 ]);
 
 for (const [path, expectedHash] of runtimeResultsHashes) {
@@ -451,6 +463,9 @@ const runtimePngs = [
   ['public/assets/characters/aa-07/results/victory.png', 1024, 1536],
   ['public/assets/characters/aa-08/results/victory.png', 1024, 1536],
   ['public/assets/characters/aa-09/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-10/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-11/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-12/results/victory.png', 1024, 1536],
   ['public/assets/characters/aa-01/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-02/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-03/selection/full-body.png', 1024, 1536],
@@ -541,6 +556,9 @@ const newTransparentFronts = new Set([
   'public/assets/characters/aa-07/results/victory.png',
   'public/assets/characters/aa-08/results/victory.png',
   'public/assets/characters/aa-09/results/victory.png',
+  'public/assets/characters/aa-10/results/victory.png',
+  'public/assets/characters/aa-11/results/victory.png',
+  'public/assets/characters/aa-12/results/victory.png',
   'public/assets/characters/aa-01/selection/full-body.png',
   'public/assets/characters/aa-02/selection/full-body.png',
   'public/assets/characters/aa-03/selection/full-body.png',
@@ -628,13 +646,34 @@ for (const [path, expectedWidth, expectedHeight] of runtimePngs) {
     }
   }
 
-  if (path.includes('/aa-12/')) {
+  if (path.includes('/aa-12/selection/')) {
     const decoded = decodeRgbaRows(pixels, width, height);
     const largestCheckerRemnant = largestVeryPaleNeutralComponent(decoded, width, height);
     if (largestCheckerRemnant >= 8) {
       throw new Error(
         `${path} retains a ${String(largestCheckerRemnant)}-pixel pale checker component.`,
       );
+    }
+  }
+
+  if (
+    path === 'public/assets/characters/aa-10/results/victory.png' ||
+    path === 'public/assets/characters/aa-11/results/victory.png' ||
+    path === 'public/assets/characters/aa-12/results/victory.png'
+  ) {
+    const decoded = decodeRgbaRows(pixels, width, height);
+    for (let pixel = 0; pixel < width * height; pixel += 1) {
+      const offset = pixel * 4;
+      const red = decoded[offset];
+      const green = decoded[offset + 1];
+      const blue = decoded[offset + 2];
+      const alpha = decoded[offset + 3];
+      if (alpha === 0 && (red !== 0 || green !== 0 || blue !== 0)) {
+        throw new Error(`${path} has nonzero RGB values in a fully transparent pixel.`);
+      }
+      if (alpha > 0 && red === 0 && green === 255 && blue === 0) {
+        throw new Error(`${path} retains an opaque chroma-green matte pixel.`);
+      }
     }
   }
 

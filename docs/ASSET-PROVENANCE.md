@@ -67,6 +67,37 @@ copied pixels, text, logo, kart, UI, or scenery is embedded in these files.
 | `public/assets/characters/aa-08/results/victory.png` | `public/assets/characters/aa-08/selection/full-body.png` | `exec-07faa274-8ac5-4389-84a0-6f7735f56c07` | `893f997ae3263915ef27ab507726e043dccb03a16cf16fc4939964eddc52e42a` | `1ab53ed1c8d21314d14a99f9c80f65f4d3242cd929f30d1bf072c00ad86419cf` |
 | `public/assets/characters/aa-09/results/victory.png` | `public/assets/characters/aa-09/selection/full-body.png` | `exec-f5f2aa6a-09de-41c6-a9e2-abf29b71c4e4` | `2e4f760bbc380067dc180fc25b34754b57da3d42de2d1c38f740deeb8d0549b9` | `19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b` |
 
+## Route Night Results/Podium - approved victory pose batch 04
+
+These three approved 1024 × 1536 RGB source renders were integrated as
+1024 × 1536 RGBA runtime derivatives on 2026-09-24. The approved poses and
+visible source RGB are unchanged; only the baked checkerboard is removed.
+Recovered Library source-file IDs are recorded below. The exact ImageGen
+output IDs were not surfaced in the recovered source record and are not
+inferred here.
+
+The recorded matte uses neutral grayscale modes 214/253 (Krios), 138/200
+(Accu), and 130/192 (Jennifer). Core candidates have channel spread ≤ 30 and
+are within 30 luma levels of either mode. An 8-connected border flood selects
+the exterior; two 8-connected expansions include neutral blend pixels with
+channel spread ≤ 42 and mode distance ≤ 44. For Accu and Jennifer, enclosed
+core-candidate components of at least 20 pixels are also keyed to remove
+checkerboard inside hair and costume gaps; Krios omits that pass to protect
+neutral armor details. The selected area is replaced with exact `#00FF00` in
+the matte pass, then exact green pixels are keyed to transparency. All opaque
+pixels preserve source RGB exactly and fully transparent RGB is zero. The
+three sources contain no exact `#00FF00` pixels. Outputs are fixed-size
+normal-Git runtime derivatives under the existing `.gitattributes` exception.
+`tools/assets/prepare_results_victory_cutouts.py` verifies the recovered source
+hashes and regenerated runtime hashes and writes each green-pass guide for
+inspection.
+
+| Runtime file | Approved source render (Library ID) | ImageGen output ID | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- | --- |
+| `public/assets/characters/aa-10/results/victory.png` | `Krios's Triumphant Victory Roar.png` (`libfile_3200c4dcd9fc8191a5f888298a5a912e`) | Not surfaced in the recovered record | `1b5793085436c015862606c27f930438683a3c29243fdc1220e780a0614999a4` | `ceb43f0c7b12a7ad16556dfec460ffc29cfc4372561ce1fa9580a8399aa76c98` |
+| `public/assets/characters/aa-11/results/victory.png` | `AA-11’s Joyful Victory Spin.png` (`libfile_c0b8b4a2ba6c8191804a0b0f67651600`) | Not surfaced in the recovered record | `5c8cf1a9d0ce1e28bfabef8a2f05cc05961ecc065ecd1b26ace2ebabba292257` | `59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b` |
+| `public/assets/characters/aa-12/results/victory.png` | `Jennifer’s Welcoming Victory Flourish.png` (`libfile_26b55289c24081918503c5aa79f0d3eb`) | Not surfaced in the recovered record | `d2cd74f5cc1235c9a73016faf420066f551cc7b8ddf94150f8261c9368533f37` | `218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107` |
+
 ## Route Night Race HUD - ImageGen item batch 01
 
 These three fixed-size item identity derivatives were generated on 2026-09-19

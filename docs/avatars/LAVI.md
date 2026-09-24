@@ -157,3 +157,11 @@ Manny accepted Lavi's corrected deployed placement on 2026-09-03. Neutral front,
 - Pose identity: buoyant one-boot recovery step, glasses touch, and joyful confidence.
 - Approval: Manny approved Lavi's character-specific Results/Podium victory pose on 2026-09-19.
 - Boundary: Results/Podium presentation only; the accepted Character Select, race driver, kart, statistics, and gameplay contracts remain unchanged.
+
+## Results/Podium reaction art — approved batch 01
+
+- Runtime asset: `public/assets/characters/aa-02/results/reaction.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, fixed-size normal-Git runtime derivative.
+- Pose identity: sheepish, good-natured one-boot recovery with one hand at her glasses.
+- Approval: Manny approved Lavi's lower-finish reaction pose on 2026-09-24.
+- Boundary: Results/Podium art only; this asset batch does not change the Results runtime mapping or Lavi's accepted character/gameplay contracts.

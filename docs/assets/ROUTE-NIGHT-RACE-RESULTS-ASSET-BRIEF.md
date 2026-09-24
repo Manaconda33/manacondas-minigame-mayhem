@@ -3,9 +3,10 @@
 ## Scope
 
 This brief governs the character-specific Results/Podium illustration package
-for Slice 6. The first four approved batches add twelve top-three victory
-poses. Twelve lower-finish reaction poses and the Results/Podium backdrop
-remain separately gated by visual approval.
+for Slice 6. Four approved victory batches add twelve top-three poses.
+Lower-finish reaction poses are approved and published in character batches;
+Batch 01 covers AA-01–03. The remaining nine reactions and Results/Podium
+backdrop remain separately gated by visual approval.
 
 The approved pose direction is character-driven rather than rank-generic:
 each racer receives a distinct silhouette, body angle, gesture, and emotional
@@ -16,7 +17,7 @@ remain race-facing fallbacks; these larger results assets are separate.
 
 | Item            | Contract                                                                                         |
 | --------------- | ------------------------------------------------------------------------------------------------ |
-| Runtime paths   | `public/assets/characters/aa-##/results/victory.png`                                             |
+| Runtime paths   | `public/assets/characters/aa-##/results/{victory,reaction}.png`                                  |
 | Dimensions      | 1024 × 1536                                                                                      |
 | Format          | PNG, sRGBA, genuine transparency                                                                 |
 | Delivery class  | Fixed-size normal-Git runtime derivative                                                         |
@@ -110,9 +111,10 @@ python tools/assets/prepare_results_victory_cutouts.py \
 ## Approval and boundary
 
 - Approved batches: Alex, Lavi, Lula, Keeg, Kraken, Dragon Queen, McFleurdel, Toph, Manaconda, Krios, Accu, and Jennifer victory poses.
-- No reaction asset is approved by this batch.
+- Approved reaction batch 01: Alex, Lavi, and Lula.
 - Victory art remains podium-only for places 1–3; places 4–8 keep the existing selection-art, portrait, and monogram fallback chain.
-- This asset extension adds no reaction poses, Results backdrop, or race/gameplay behavior.
+- Reaction files are approved assets only; runtime selection remains a separate integration checkpoint.
+- The remaining nine reaction poses, Results backdrop, and race/gameplay behavior are outside this batch.
 - Do not reuse a batch's pose grammar for another racer; every subsequent
   prompt must reference the remaining character's approved visual authority and
   its unique pose brief.
@@ -135,5 +137,33 @@ The approved Krios / AA-10, Accu / AA-11, and Jennifer / AA-12 derivatives
 complete the twelve-character top-three victory allowlist. All twelve
 approved victory poses are now available to the existing place 1–3 Results
 mapping. Places 4–8 retain the existing approved selection-art, portrait, and
-monogram fallback. The twelve lower-finish reaction poses and backdrop remain
-outside this checkpoint.
+monogram fallback. The lower-finish reaction assets are recorded separately
+below and are not yet selected by the Results runtime.
+
+## Approved Reaction Batch 01 — lower-finish poses
+
+Manny approved this batch after reviewing the chroma-green renders and the
+transparent cutouts over magenta and yellow. Each ImageGen render used the
+matching approved Character Select `selection/full-body.png` as its actual
+identity reference. The fixed-size runtime derivatives retain the 1024 × 1536
+dimensions and use genuine sRGBA transparency.
+
+| Racer | Pose direction | Identity source | Runtime asset | Generator output | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- | --- | --- | --- |
+| Alex / AA-01 | Restrained rueful shrug while adjusting her headset; composed "so close" reaction | `public/assets/characters/aa-01/selection/full-body.png` | `public/assets/characters/aa-01/results/reaction.png` | `exec-ba928d01-6c41-4be0-9093-6a30bddba050` | `5f4d22a4330d5be040a4d7cee82f318ec926fb905c6c117ccbf3e913e7553ae2` | `b6df95f50c0aa83908f2909e231b763031b2099e62b6fb67cff6a5798f97d650` |
+| Lavi / AA-02 | Sheepish, good-natured one-boot recovery; hand at her glasses | `public/assets/characters/aa-02/selection/full-body.png` | `public/assets/characters/aa-02/results/reaction.png` | `exec-68f0d3f5-3a01-4347-b26d-085fea2a7798` | `0e775fbf7027149a422a950cef27a399e1e18bdc6aa308be2df1466007d62ff7` | `062a932545ab14a2e5db365d60f45fe95b8285ba96850b38ae994c97e408a430` |
+| Lula / AA-03 | Dignified disappointment; hand over heart and steady reset stance | `public/assets/characters/aa-03/selection/full-body.png` | `public/assets/characters/aa-03/results/reaction.png` | `exec-0b9782da-fe47-46f1-9483-df4d6ffc3b4e` | `f5aa679b38ffe59c2612d8d25385a14bb807519d84ac6437b59dbacb7072fc47` | `0ae22c91b376259390541dc7193648b6631015eee20b5f18153b31ba97482b91` |
+
+The matte uses an 8-connected border flood over pixels with green ≥ 55 and
+green-channel excess ≥ 10, plus a one-pixel neighboring blend pass for green ≥
+45 and excess ≥ 5. Alpha is estimated from green excess over the `#00FF00`
+plate, rounded to 8-bit, and values below 40 are cleared; foreground RGB is
+unmixed against the key color and fully transparent RGB is zeroed. Lavi's
+enclosed arm/shoulder green component is cleared separately from the rest of
+her green costume using the recorded anchor in
+`tools/assets/prepare_results_reaction_cutouts.py`. No resizing or palette
+conversion is applied. The script checks both source and output SHA-256 values.
+
+The assets are now available for future Results integration, but this commit
+does not change the current fallback for places 4–8. The other nine reactions
+and Results backdrop remain unapproved.

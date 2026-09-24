@@ -74,3 +74,11 @@ The ten-state offline attachment sheet is `alex-cockpit-review.png` outside the 
 - Pose identity: low asymmetrical finish slide, headset check, and knowing half-smile.
 - Approval: Manny approved Alex's character-specific Results/Podium victory pose on 2026-09-19.
 - Boundary: Results/Podium presentation only; the accepted Character Select, race driver, kart, statistics, and gameplay contracts remain unchanged.
+
+## Results/Podium reaction art — approved batch 01
+
+- Runtime asset: `public/assets/characters/aa-01/results/reaction.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, fixed-size normal-Git runtime derivative.
+- Pose identity: restrained rueful shrug while adjusting her headset; composed "so close" reaction.
+- Approval: Manny approved Alex's lower-finish reaction pose on 2026-09-24.
+- Boundary: Results/Podium art only; this asset batch does not change the Results runtime mapping or Alex's accepted character/gameplay contracts.

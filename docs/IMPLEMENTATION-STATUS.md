@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; NEXT RACE HUD / MINIMAP / RESULTS-PODIUM PLAN**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; RACE HUD / MINIMAP / RESULTS-PODIUM FEATURE CHECKPOINT; LOWER-FINISH REACTION ASSET AUTHORING ACTIVE**
 
 PRD baseline: **v1.1 with approved implementation amendments through 2.22**. Slice 6 kickoff and Route Night are governed by ADR-085-086; the published settings/graphics/audio foundation is ADR-087; the bounded material-coordinate / first Circuit Alpha PBR increment is governed by ADR-088; the Character Select baseline and full-body package are governed by ADR-090-092; the next Race HUD / mini-map / Results-Podium asset direction is governed by ADR-093.
 
@@ -327,3 +327,29 @@ This is branch-only automated evidence; the checkpoint is not merged or
 deployed, and no deployed live visual acceptance is claimed. The twelve
 lower-finish reaction poses, Results backdrop, and remaining Slice 6 acceptance
 scope stay open.
+
+## Slice 6 Results/Podium reaction art — approved batch 01, 2026-09-24
+
+Manny approved the first three lower-finish reactions: Alex / AA-01, Lavi /
+AA-02, and Lula / AA-03. The approved 1024 × 1536 transparent sRGBA runtime
+derivatives use their matching approved Character Select full-body images as
+actual generation references. The preparation script
+`tools/assets/prepare_results_reaction_cutouts.py` records the green-screen
+matte and Lavi's specifically cleared enclosed arm/shoulder gap, and verifies
+the source/runtime hashes byte-for-byte.
+
+The fixed-size runtime assets are included at
+`public/assets/characters/aa-01/results/reaction.png`,
+`public/assets/characters/aa-02/results/reaction.png`, and
+`public/assets/characters/aa-03/results/reaction.png`. Asset details and
+hashes are recorded in the Results asset brief, provenance ledger, and each
+character record. The runtime verifier now checks their exact hashes, 1024 ×
+1536 dimensions, RGBA encoding, transparent corners, zeroed transparent RGB,
+and absence of opaque key-green pixels.
+
+This is an asset-only checkpoint. Places 4–8 continue using selection art;
+reaction runtime mapping is not part of this commit. Nine reaction poses, the
+Results backdrop, remaining Results integration, and Slice 6 deployed desktop
+and mobile acceptance remain open. Next recommended action: generate reactions
+for AA-04–06 through the same prompt, render approval, cutout approval, and
+publication gates.

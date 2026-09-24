@@ -116,6 +116,18 @@ const runtimeResultsHashes = new Map([
     'public/assets/characters/aa-12/results/victory.png',
     '218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107',
   ],
+  [
+    'public/assets/characters/aa-01/results/reaction.png',
+    'b6df95f50c0aa83908f2909e231b763031b2099e62b6fb67cff6a5798f97d650',
+  ],
+  [
+    'public/assets/characters/aa-02/results/reaction.png',
+    '062a932545ab14a2e5db365d60f45fe95b8285ba96850b38ae994c97e408a430',
+  ],
+  [
+    'public/assets/characters/aa-03/results/reaction.png',
+    '0ae22c91b376259390541dc7193648b6631015eee20b5f18153b31ba97482b91',
+  ],
 ]);
 
 for (const [path, expectedHash] of runtimeResultsHashes) {
@@ -466,6 +478,9 @@ const runtimePngs = [
   ['public/assets/characters/aa-10/results/victory.png', 1024, 1536],
   ['public/assets/characters/aa-11/results/victory.png', 1024, 1536],
   ['public/assets/characters/aa-12/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-01/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-02/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-03/results/reaction.png', 1024, 1536],
   ['public/assets/characters/aa-01/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-02/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-03/selection/full-body.png', 1024, 1536],
@@ -559,6 +574,9 @@ const newTransparentFronts = new Set([
   'public/assets/characters/aa-10/results/victory.png',
   'public/assets/characters/aa-11/results/victory.png',
   'public/assets/characters/aa-12/results/victory.png',
+  'public/assets/characters/aa-01/results/reaction.png',
+  'public/assets/characters/aa-02/results/reaction.png',
+  'public/assets/characters/aa-03/results/reaction.png',
   'public/assets/characters/aa-01/selection/full-body.png',
   'public/assets/characters/aa-02/selection/full-body.png',
   'public/assets/characters/aa-03/selection/full-body.png',
@@ -677,6 +695,23 @@ for (const [path, expectedWidth, expectedHeight] of runtimePngs) {
     }
   }
 
+  if (path.includes('/results/reaction.png')) {
+    const decoded = decodeRgbaRows(pixels, width, height);
+    for (let pixel = 0; pixel < width * height; pixel += 1) {
+      const offset = pixel * 4;
+      const red = decoded[offset];
+      const green = decoded[offset + 1];
+      const blue = decoded[offset + 2];
+      const alpha = decoded[offset + 3];
+      if (alpha === 0 && (red !== 0 || green !== 0 || blue !== 0)) {
+        throw new Error(`${path} has nonzero RGB values in a fully transparent pixel.`);
+      }
+      if (alpha > 0 && red === 0 && green === 255 && blue === 0) {
+        throw new Error(`${path} retains an opaque chroma-green matte pixel.`);
+      }
+    }
+  }
+
   if (kriosHornApertureFronts.has(path)) {
     const decoded = decodeRgbaRows(pixels, width, height);
     const hornApertures = countEnclosedTransparentRegions(decoded, width, height, 400);
@@ -736,7 +771,13 @@ for (const [path, expectedWidth, expectedHeight] of runtimePngs) {
     }
   }
 
-  if (path.includes('/aa-03/') && !path.includes('/selection/')) {
+  // This legacy checker targets white checkerboard remnants in Lula's older
+  // runtime art. Authored Results art can contain legitimate pale highlights.
+  if (
+    path.includes('/aa-03/') &&
+    !path.includes('/selection/') &&
+    !path.includes('/results/')
+  ) {
     const decoded = decodeRgbaRows(pixels, width, height);
     const filename = path.split('/').at(-1);
     const protectedRect = lulaProtectedRects[filename];

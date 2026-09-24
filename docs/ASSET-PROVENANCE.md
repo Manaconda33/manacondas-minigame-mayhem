@@ -347,3 +347,25 @@ libraries. No additional generated image asset is introduced here. The
 runtime helpers in `src/ui/routeNight.ts` add the Vite base path and revision
 query string; external SVG `<use>` references select symbols without moving
 live state into the asset.
+
+## Route Night Results/Podium - approved lower-finish reaction batch 01
+
+The approved Alex / AA-01, Lavi / AA-02, and Lula / AA-03 green-screen renders
+were generated with the matching approved Character Select full-body asset as
+the actual identity reference. Manny reviewed both the chroma-green renders
+and transparent cutouts over magenta and yellow before publication. Each
+1024 × 1536 RGBA runtime derivative uses the fixed-size normal-Git exception
+for Results PNGs; there is no Results runtime mapping change in this batch.
+
+| Runtime file | Identity source | Generator output ID | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- | --- |
+| `public/assets/characters/aa-01/results/reaction.png` | `public/assets/characters/aa-01/selection/full-body.png` | `exec-ba928d01-6c41-4be0-9093-6a30bddba050` | `5f4d22a4330d5be040a4d7cee82f318ec926fb905c6c117ccbf3e913e7553ae2` | `b6df95f50c0aa83908f2909e231b763031b2099e62b6fb67cff6a5798f97d650` |
+| `public/assets/characters/aa-02/results/reaction.png` | `public/assets/characters/aa-02/selection/full-body.png` | `exec-68f0d3f5-3a01-4347-b26d-085fea2a7798` | `0e775fbf7027149a422a950cef27a399e1e18bdc6aa308be2df1466007d62ff7` | `062a932545ab14a2e5db365d60f45fe95b8285ba96850b38ae994c97e408a430` |
+| `public/assets/characters/aa-03/results/reaction.png` | `public/assets/characters/aa-03/selection/full-body.png` | `exec-0b9782da-fe47-46f1-9483-df4d6ffc3b4e` | `f5aa679b38ffe59c2612d8d25385a14bb807519d84ac6437b59dbacb7072fc47` | `0ae22c91b376259390541dc7193648b6631015eee20b5f18153b31ba97482b91` |
+
+The deterministic green-screen matte, one-pixel edge blend, alpha threshold,
+Lavi enclosed-gap cleanup, foreground unmix, transparent-RGB clearing, and
+source/runtime hash gates are implemented in
+`tools/assets/prepare_results_reaction_cutouts.py`. It reproduces these three
+runtime derivatives byte-for-byte. The source render files remain in the
+generation output store and are identified above by exact output ID and hash.

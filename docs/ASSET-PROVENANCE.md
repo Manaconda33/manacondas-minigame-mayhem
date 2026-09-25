@@ -394,3 +394,22 @@ McFleurdel produced baked RGB checkerboard and was discarded.
 | `public/assets/characters/aa-07/results/reaction.png` | `public/assets/characters/aa-07/selection/full-body.png` (`1450dc8c4d2df6d4e46b45768a55d97810d6504d039bc1b141eebb3137a3ece9`) | `exec-49fb046b-1f59-4aad-9cdf-9013f7c71a54.png` | `e2068d183576b90d5dfa084724eecbfd2d110cde5e338def96523e9282dc7e3b` | `6ea0df99354f4cb59310ae6ab7d41159940e3b5de23200b94127d6f8da717ca5` |
 | `public/assets/characters/aa-08/results/reaction.png` | `public/assets/characters/aa-08/selection/full-body.png` (`f424600c72af0fc3c7387088790466b63a6d978abf7832476334f65a422c9714`) | `exec-4552f737-3bee-4db7-860e-28fc9c36bf0f.png` | `2cbb8cecd98223e86630eb3274210633e96dec4c0c76afbf472629af9a6aadd2` | `c99be19b82f41a1b2ace6be6f6d153e238056f4750392fa9affa2dffcf7c1b83` |
 | `public/assets/characters/aa-09/results/reaction.png` | `public/assets/characters/aa-09/selection/full-body.png` (`533bf8cfa16f89dbd2dfd51abc8102edf855048ec8b59ca7877ad0fff990c077`) | `exec-b06a6a7b-29b7-4944-9c33-364570a256a0.png` | `70c568d6616cf59370ec7b1a077bc944103fff2177a713364d9e9f23bfeaafed` | `899fc626403f9811528acb01aa4f6bc259cdef334e19b3921f4ed488e3c3813f` |
+
+## Route Night Results/Podium — approved lower-finish reaction batch 04
+
+Manny approved the Krios / AA-10, Accu / AA-11, and Jennifer / AA-12
+chroma-green renders and transparent cutouts on 2026-09-25. Their approved
+Character Select full-body images were the actual identity references. These
+are fixed 1024 × 1536 RGBA normal-Git runtime derivatives; source and runtime
+hashes are recorded below.
+
+| Runtime file                                          | Identity source                                          | Generator output                                | Source SHA-256                                                     | Runtime SHA-256                                                    |
+| ----------------------------------------------------- | -------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| `public/assets/characters/aa-10/results/reaction.png` | `public/assets/characters/aa-10/selection/full-body.png` | `exec-cdaa85ed-33a8-4a63-88ca-6f83c31cbc80.png` | `b258d6126d0a556f0fdb84aca3753ac580f7b9c7c4a794a29058ddadfe1d6117` | `c91d9947d42873d3da73f7f31edfca7f9201fcbb2be14f244f1d8fea2ecfbae8` |
+| `public/assets/characters/aa-11/results/reaction.png` | `public/assets/characters/aa-11/selection/full-body.png` | `exec-0d1a12f3-04e2-4b8f-a934-10a46779f943.png` | `ad75bb9be2c7655d56a8ed6d55dc97d6bdd91e5b81977e835273a1b796962fcb` | `65dc0695310a406f46b7f3574bdea7b28bceab6fcf0ce98c2db5dcf44eba40f5` |
+| `public/assets/characters/aa-12/results/reaction.png` | `public/assets/characters/aa-12/selection/full-body.png` | `exec-df1d3b4c-f7ab-463e-b70f-460427db4933.png` | `b0cab5f4b0d0994b87cd1ad622f53f685eb74c5bf5faf9c84c378774b503b6b4` | `048275029ea11e85cba10fd1ce918a6d3ec479396324fb1174e5ae7e772462b8` |
+
+The runtime verifier enforces each accepted derivative's SHA-256, dimensions,
+RGBA format, transparent corners, zeroed RGB where alpha is zero, and absence
+of opaque key-green pixels. These source-generated assets are art-only; they
+do not alter Results behavior.

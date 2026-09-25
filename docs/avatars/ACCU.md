@@ -74,3 +74,11 @@ Manny approved Accu's front-steer-left, front-steer-right, front-hit, and front-
 - Format: 1024 × 1536 RGBA PNG, fixed-size normal-Git runtime derivative.
 - Transformation: deterministic two-pass checkerboard-to-`#00FF00` matte and exact-green alpha key; visible RGB is preserved and fully transparent RGB is zeroed. The matte clears enclosed checkerboard components in hair and costume gaps; full parameters are in `docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`.
 - Boundary: existing approved pose; Results/Podium place 1–3 only. No driver art, kart, identity, or balance mapping changed.
+
+## Results/Podium lower-finish reaction art
+
+- Runtime asset: `public/assets/characters/aa-11/results/reaction.png`.
+- Source render: `exec-0d1a12f3-04e2-4b8f-a934-10a46779f943.png` (SHA-256 `ad75bb9be2c7655d56a8ed6d55dc97d6bdd91e5b81977e835273a1b796962fcb`).
+- Runtime SHA-256: `65dc0695310a406f46b7f3574bdea7b28bceab6fcf0ce98c2db5dcf44eba40f5`.
+- Approval: Manny approved the green-screen render and transparent cutout on 2026-09-25.
+- Boundary: lower-finish Results art only; Results behavior and other character assets are unchanged.

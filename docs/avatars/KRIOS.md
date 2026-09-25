@@ -106,3 +106,11 @@ Playtest the deployed front-facing steering, hit, and victory states, including 
 - Format: 1024 × 1536 RGBA PNG, fixed-size normal-Git runtime derivative.
 - Transformation: deterministic two-pass checkerboard-to-`#00FF00` matte and exact-green alpha key; visible RGB is preserved and fully transparent RGB is zeroed. Krios's matte omits enclosed-component removal to protect neutral metal details; full parameters are in `docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`.
 - Boundary: existing approved pose; Results/Podium place 1–3 only. No driver art, kart, identity, or balance mapping changed.
+
+## Results/Podium lower-finish reaction art
+
+- Runtime asset: `public/assets/characters/aa-10/results/reaction.png`.
+- Source render: `exec-cdaa85ed-33a8-4a63-88ca-6f83c31cbc80.png` (SHA-256 `b258d6126d0a556f0fdb84aca3753ac580f7b9c7c4a794a29058ddadfe1d6117`).
+- Runtime SHA-256: `c91d9947d42873d3da73f7f31edfca7f9201fcbb2be14f244f1d8fea2ecfbae8`.
+- Approval: Manny approved the green-screen render and transparent cutout on 2026-09-25.
+- Boundary: lower-finish Results art only; Results behavior and other character assets are unchanged.

@@ -389,3 +389,23 @@ acceptance, or Results behavior change. AA-10–12 reactions, the Results
 backdrop, reaction runtime mapping, and remaining Slice 6 acceptance are open.
 Next recommended action: prepare AA-10–12 through the same render approval,
 cutout approval, and publication gates.
+
+## Slice 6 Results/Podium reaction art — approved batch 04, 2026-09-25
+
+Manny approved the chroma-green renders and transparent cutouts for Krios /
+AA-10, Accu / AA-11, and Jennifer / AA-12. Each render used its approved
+Character Select full-body asset as the actual image-generation reference.
+The three 1024 × 1536 RGBA reaction assets are recorded in the asset brief,
+provenance ledger, and character records. The runtime verifier checks exact
+asset hashes, dimensions, transparency, zeroed RGB under transparent pixels,
+and absence of opaque key-green pixels. Results runtime selection is unchanged;
+places 4–8 retain the current selection-art fallback.
+
+Local `npm run validate` passed typecheck, zero-warning lint, 72 test files /
+568 tests (81.92% statements, 76.25% branches, 87.06% functions, 83.62% lines),
+branding and runtime asset verification, and production build. Runtime checks
+verified 18 Results/Podium assets, 36 GLBs, and 135 character PNGs. Vite
+reported its existing large-chunk warning for `KartTimeTrial`.
+
+This is an asset-only branch checkpoint. The Results backdrop, reaction
+runtime mapping, and deployed desktop/mobile acceptance remain open.

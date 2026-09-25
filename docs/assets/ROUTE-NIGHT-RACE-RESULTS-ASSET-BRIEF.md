@@ -5,8 +5,8 @@
 This brief governs the character-specific Results/Podium illustration package
 for Slice 6. Four approved victory batches add twelve top-three poses.
 Lower-finish reaction poses are approved and published in character batches;
-Batches 01–03 cover AA-01–09. The remaining three reactions and Results/Podium
-backdrop remain separately gated by visual approval.
+Batches 01–04 cover AA-01–12. The Results/Podium backdrop remains separately
+gated by visual approval.
 
 The approved pose direction is character-driven rather than rank-generic:
 each racer receives a distinct silhouette, body angle, gesture, and emotional
@@ -196,5 +196,25 @@ navy and magenta backgrounds before approval.
 
 The source/runtime hashes and reproducible green-screen matte are pinned in
 `tools/assets/prepare_results_reaction_cutouts.py`. The batch adds assets
-only; places 4–8 still use the selection-art fallback. AA-10–12 reactions
-and the Results backdrop remain open.
+only; places 4–8 still use the selection-art fallback.
+
+## Route Night Results/Podium — approved lower-finish reaction batch 04
+
+Manny approved the chroma-green renders and transparent cutouts for Krios /
+AA-10, Accu / AA-11, and Jennifer / AA-12 on 2026-09-25. Each render used its
+matching approved Character Select full-body image as the actual identity
+reference. The 1024 × 1536 RGBA cutouts preserve the reviewed lower-finish
+poses and were checked against navy and bright yellow backgrounds. This batch
+adds art only; it does not change Results selection behavior.
+
+| Racer            | Lower-finish gesture                                                      | Identity source (SHA-256)                                                                            | Runtime asset                                         | Generator output                                | Source SHA-256                                                     | Runtime SHA-256                                                    |
+| ---------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| Krios / AA-10    | Broad lowered stance, steady exhale, one gauntleted hand across his chest | `aa-10/selection/full-body.png` (`5eca274a95bfefc134798e30d99dc20d3e9df1eaeb0c7c76bc09c7db881c89ba`) | `public/assets/characters/aa-10/results/reaction.png` | `exec-cdaa85ed-33a8-4a63-88ca-6f83c31cbc80.png` | `b258d6126d0a556f0fdb84aca3753ac580f7b9c7c4a794a29058ddadfe1d6117` | `c91d9947d42873d3da73f7f31edfca7f9201fcbb2be14f244f1d8fea2ecfbae8` |
+| Accu / AA-11     | Asymmetrical weight shift, hand at hip, wry half-smile                    | `aa-11/selection/full-body.png` (`51fc2a28abee94bc3715dcfb5bb95ae964007e5e014c0a557eea67dab7a2798e`) | `public/assets/characters/aa-11/results/reaction.png` | `exec-0d1a12f3-04e2-4b8f-a934-10a46779f943.png` | `ad75bb9be2c7655d56a8ed6d55dc97d6bdd91e5b81977e835273a1b796962fcb` | `65dc0695310a406f46b7f3574bdea7b28bceab6fcf0ce98c2db5dcf44eba40f5` |
+| Jennifer / AA-12 | Three-quarter stance, staff angled beside her, thoughtful expression      | `aa-12/selection/full-body.png` (`c20b761581e450f9b7b792c2cc905306fc577cc33d6aa1ff1e8c0b805a48782d`) | `public/assets/characters/aa-12/results/reaction.png` | `exec-df1d3b4c-f7ab-463e-b70f-460427db4933.png` | `b0cab5f4b0d0994b87cd1ad622f53f685eb74c5bf5faf9c84c378774b503b6b4` | `048275029ea11e85cba10fd1ce918a6d3ec479396324fb1174e5ae7e772462b8` |
+
+The accepted runtime bytes are pinned in `tools/verify-runtime-assets.mjs`.
+The existing preparation script covers batches 01–03; these accepted batch-04
+cutouts are preserved as approved runtime files. Places 4–8 continue using
+the selection-art fallback until Results reaction mapping is separately
+integrated.

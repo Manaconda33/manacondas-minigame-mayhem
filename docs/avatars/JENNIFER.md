@@ -107,3 +107,11 @@ Jennifer is locally active in `characterManifest` as AA-12 under `jennifer-runti
 - Format: 1024 × 1536 RGBA PNG, fixed-size normal-Git runtime derivative.
 - Transformation: deterministic two-pass checkerboard-to-`#00FF00` matte and exact-green alpha key; visible RGB is preserved and fully transparent RGB is zeroed. The matte clears enclosed checkerboard components around the staff and costume; full parameters are in `docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`.
 - Boundary: existing approved pose; Results/Podium place 1–3 only. Jennifer remains alone in this Results pose; the Newfoundland companion is not part of this approved source render.
+
+## Results/Podium lower-finish reaction art
+
+- Runtime asset: `public/assets/characters/aa-12/results/reaction.png`.
+- Source render: `exec-df1d3b4c-f7ab-463e-b70f-460427db4933.png` (SHA-256 `b0cab5f4b0d0994b87cd1ad622f53f685eb74c5bf5faf9c84c378774b503b6b4`).
+- Runtime SHA-256: `048275029ea11e85cba10fd1ce918a6d3ec479396324fb1174e5ae7e772462b8`.
+- Approval: Manny approved the green-screen render and transparent cutout on 2026-09-25.
+- Boundary: lower-finish Results art only; Jennifer appears without her Newfoundland companion, and Results behavior is unchanged.

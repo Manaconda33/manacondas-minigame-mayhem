@@ -152,6 +152,18 @@ const runtimeResultsHashes = new Map([
     'public/assets/characters/aa-09/results/reaction.png',
     '899fc626403f9811528acb01aa4f6bc259cdef334e19b3921f4ed488e3c3813f',
   ],
+  [
+    'public/assets/characters/aa-10/results/reaction.png',
+    'c91d9947d42873d3da73f7f31edfca7f9201fcbb2be14f244f1d8fea2ecfbae8',
+  ],
+  [
+    'public/assets/characters/aa-11/results/reaction.png',
+    '65dc0695310a406f46b7f3574bdea7b28bceab6fcf0ce98c2db5dcf44eba40f5',
+  ],
+  [
+    'public/assets/characters/aa-12/results/reaction.png',
+    '048275029ea11e85cba10fd1ce918a6d3ec479396324fb1174e5ae7e772462b8',
+  ],
 ]);
 
 for (const [path, expectedHash] of runtimeResultsHashes) {
@@ -511,6 +523,9 @@ const runtimePngs = [
   ['public/assets/characters/aa-07/results/reaction.png', 1024, 1536],
   ['public/assets/characters/aa-08/results/reaction.png', 1024, 1536],
   ['public/assets/characters/aa-09/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-10/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-11/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-12/results/reaction.png', 1024, 1536],
   ['public/assets/characters/aa-01/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-02/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-03/selection/full-body.png', 1024, 1536],
@@ -613,6 +628,9 @@ const newTransparentFronts = new Set([
   'public/assets/characters/aa-07/results/reaction.png',
   'public/assets/characters/aa-08/results/reaction.png',
   'public/assets/characters/aa-09/results/reaction.png',
+  'public/assets/characters/aa-10/results/reaction.png',
+  'public/assets/characters/aa-11/results/reaction.png',
+  'public/assets/characters/aa-12/results/reaction.png',
   'public/assets/characters/aa-01/selection/full-body.png',
   'public/assets/characters/aa-02/selection/full-body.png',
   'public/assets/characters/aa-03/selection/full-body.png',

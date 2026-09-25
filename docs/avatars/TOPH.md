@@ -54,3 +54,10 @@ Manny accepted the deployed 2026-09-02 front-action expansion. Both steering dir
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git fixed-size runtime derivative under ADR-093.
 - Approval: Manny approved the low athletic skid-stop on 2026-09-23 using the approved Character Select full-body asset as the identity reference.
 - Provenance and runtime SHA-256: recorded in `docs/ASSET-PROVENANCE.md` and `docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`.
+
+## Results/Podium lower-finish reaction art
+
+- Runtime asset: `public/assets/characters/aa-08/results/reaction.png`.
+- Approval: Manny approved the chroma-green render and true-alpha cutout on 2026-09-25. Pose: Wry recovery shrug and hand to beanie.
+- Reference: this character's approved Character Select full-body art was supplied directly to generation. Exact source and runtime hashes are recorded in the Results asset brief and provenance ledger.
+- Boundary: asset only; places 4–8 continue to use the existing selection-art fallback until separately integrated.

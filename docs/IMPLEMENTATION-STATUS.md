@@ -354,7 +354,6 @@ and mobile acceptance remain open. Next recommended action: generate reactions
 for AA-04–06 through the same prompt, render approval, cutout approval, and
 publication gates.
 
-
 ## Slice 6 Results/Podium reaction art — approved batch 02, 2026-09-24
 
 Manny approved the chroma-green renders and transparent cutouts for Keeg / AA-04, Kraken / AA-05, and Dragon Queen / AA-06. The matching approved Character Select full-body art was used as each generation's actual image reference. Their cutout SHA-256 values are recorded in the Results asset brief and provenance ledger; the runtime verifier checks exact bytes and PNG transparency requirements.
@@ -362,3 +361,31 @@ Manny approved the chroma-green renders and transparent cutouts for Keeg / AA-04
 The files are included at `public/assets/characters/aa-04/results/reaction.png`, `public/assets/characters/aa-05/results/reaction.png`, and `public/assets/characters/aa-06/results/reaction.png`. Their avatar records and the lower-finish Results asset brief now record the approved poses and references. Results runtime mapping remains unchanged; places 4–8 continue to use the existing selection-art, portrait, and monogram fallback chain.
 
 This asset-only checkpoint does not change gameplay, race authority, balance, kart art, victory poses, or deployment behavior. Six reaction poses, the Results backdrop, remaining Results integration, and Slice 6 deployed desktop/mobile acceptance remain open. Next recommended action: prepare AA-07–09 through the established green-screen render, cutout review, and publication gates.
+
+## Slice 6 Results/Podium reaction art — approved batch 03, 2026-09-25
+
+Manny approved the three green-background renders and then the true-alpha
+cutouts for McFleurdel / AA-07, Toph / AA-08, and Manaconda / AA-09. The
+approved full-body selection assets were actual generation inputs. The three
+1024 × 1536 runtime PNGs and their exact hashes are recorded in the Results
+asset brief, provenance ledger, and character records. The approved cutouts
+are limited to the asset package; places 4–8 still use selection art.
+
+The preparation script now pins source and derivative hashes for AA-01–09,
+correcting the batch-02 publication gap where AA-04–06 runtime binaries and
+hashes were present but its committed rebuild script covered only AA-01–03.
+Fresh AA-07–09 rebuilds matched the reviewed files byte for byte. The runtime
+verifier now checks all nine reaction hashes and includes AA-04–09 in the
+PNG format, dimensions, transparency, and key-green checks.
+
+Local `npm run validate` passed strict typecheck, zero-warning lint, 72 test
+files / 568 tests, branding, 15 approved Results assets, 36 GLBs, 132 runtime
+character PNGs, and production build. Coverage: 81.92% statements, 76.25%
+branches, 87.06% functions, 83.62% lines. Vite retains its existing
+non-blocking large-chunk warning for `KartTimeTrial`.
+
+This is a feature-branch asset checkpoint, with no merge, deployed visual
+acceptance, or Results behavior change. AA-10–12 reactions, the Results
+backdrop, reaction runtime mapping, and remaining Slice 6 acceptance are open.
+Next recommended action: prepare AA-10–12 through the same render approval,
+cutout approval, and publication gates.

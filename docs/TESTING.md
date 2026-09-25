@@ -1073,3 +1073,14 @@ The complete `npm run validate` sequence passed with **71 test files / 561 tests
 The reviewed code checkpoint is published on the feature branch at `51a18ec6e8430153bcc941611039044d8a760a16`.
 
 This checkpoint uses only the six already approved victory poses; other podium identities use approved selection art and the governed portrait/monogram fallback. It does not add ImageGen assets, reaction poses, a backdrop, item art, or additional race gameplay. It is automated branch evidence only: no hosted CI, deployment, or live visual acceptance is claimed. The remaining full Race HUD/mini-map/Results asset and desktop/mobile acceptance gates stay open.
+
+## Results lower-finish reaction art asset gate
+
+For each approved reaction batch, use its exact approved green render as the
+input to `tools/assets/prepare_results_reaction_cutouts.py` and verify the
+recorded source and runtime SHA-256 values. Run `node
+tools/verify-runtime-assets.mjs` to check all approved Results PNG hashes,
+1024 × 1536 RGBA format, transparent corners, zero RGB where alpha is zero,
+and absence of opaque key-green pixels. Inspect each cutout over a dark and
+bright background at runtime scale before publication. This asset gate does
+not imply Results runtime mapping or deployed visual acceptance.

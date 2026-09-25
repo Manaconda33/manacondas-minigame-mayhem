@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild the approved AA-01–03 Results reaction cutouts from green-screen renders."""
+"""Rebuild approved Results reaction cutouts from green-screen renders."""
 
 from __future__ import annotations
 
@@ -29,6 +29,48 @@ ASSETS = {
         "source": "exec-0b9782da-fe47-46f1-9483-df4d6ffc3b4e.png",
         "source_sha256": "f5aa679b38ffe59c2612d8d25385a14bb807519d84ac6437b59dbacb7072fc47",
         "runtime_sha256": "0ae22c91b376259390541dc7193648b6631015eee20b5f18153b31ba97482b91",
+    },
+    "aa-04": {
+        "source": "exec-86c49b26-1d57-4795-8b46-ff6501b0490f.png",
+        "source_sha256": "10543f10f29717554c6dbccc14c8e0f43bd25bc00dc50c46583296072929884c",
+        "runtime_sha256": "cfb9800f7675c85c055acdbd6a9fbdc3e22748bbc9166e404f3e429c5fe6ee9b",
+        "clear_enclosed_green": True,
+        "optimize_png": False,
+    },
+    "aa-05": {
+        "source": "exec-f31ee1f8-72fc-4e01-a518-1ec4f8e6eab9.png",
+        "source_sha256": "e598cd915cc397af9f1e1200437b67673d58484978ebd04ce8c2fc5690ae83e9",
+        "runtime_sha256": "57030b478a9b0cdf6607f5c3041385989768abda61d72d1316b8696b5c390445",
+        "clear_enclosed_green": True,
+        "optimize_png": False,
+    },
+    "aa-06": {
+        "source": "exec-1d60d86f-502a-4a23-a742-12b513066e00.png",
+        "source_sha256": "df53fcf458a4f3b989dc7d5573b1aaa9fa6c00e787745b1aedddcbd5c3b146c1",
+        "runtime_sha256": "0997d1684a9fc29c05995bb7e361a507d5e967f8965ab77312590fb6488e8e6b",
+        "clear_enclosed_green": True,
+        "optimize_png": False,
+    },
+    "aa-07": {
+        "source": "exec-49fb046b-1f59-4aad-9cdf-9013f7c71a54.png",
+        "source_sha256": "e2068d183576b90d5dfa084724eecbfd2d110cde5e338def96523e9282dc7e3b",
+        "runtime_sha256": "6ea0df99354f4cb59310ae6ab7d41159940e3b5de23200b94127d6f8da717ca5",
+        "clear_enclosed_green": True,
+        "optimize_png": False,
+    },
+    "aa-08": {
+        "source": "exec-4552f737-3bee-4db7-860e-28fc9c36bf0f.png",
+        "source_sha256": "2cbb8cecd98223e86630eb3274210633e96dec4c0c76afbf472629af9a6aadd2",
+        "runtime_sha256": "c99be19b82f41a1b2ace6be6f6d153e238056f4750392fa9affa2dffcf7c1b83",
+        "clear_enclosed_green": True,
+        "optimize_png": False,
+    },
+    "aa-09": {
+        "source": "exec-b06a6a7b-29b7-4944-9c33-364570a256a0.png",
+        "source_sha256": "70c568d6616cf59370ec7b1a077bc944103fff2177a713364d9e9f23bfeaafed",
+        "runtime_sha256": "899fc626403f9811528acb01aa4f6bc259cdef334e19b3921f4ed488e3c3813f",
+        "clear_enclosed_green": True,
+        "optimize_png": False,
     },
 }
 
@@ -130,6 +172,21 @@ def prepare(source_dir: Path, output_dir: Path) -> None:
                 raise ValueError(f"{character_id} enclosed component is not chroma-green.")
             alpha_bytes[enclosed] = 0
 
+        if spec.get("clear_enclosed_green"):
+            enclosed_candidates = candidate & ~exterior
+            visited = exterior.copy()
+            for y, x in zip(*np.nonzero(enclosed_candidates)):
+                if visited[y, x]:
+                    continue
+                enclosed = connected_component(enclosed_candidates, (int(x), int(y)))
+                enclosed &= ~visited
+                visited |= enclosed
+                if int(enclosed.sum()) >= 80 and float(green_excess[enclosed].mean()) >= 50:
+                    alpha_bytes[enclosed] = np.rint(
+                        np.clip(1 - green_excess[enclosed] / 255, 0, 1) * 255
+                    ).astype(np.uint8)
+                    alpha_bytes[enclosed & (alpha_bytes < 40)] = 0
+
         alpha_float = (alpha_bytes.astype(np.float32) / 255)[..., None]
         foreground = (rgb - (1 - alpha_float) * np.array([0, 255, 0], dtype=np.float32)) / np.maximum(
             alpha_float, 1e-6
@@ -139,7 +196,9 @@ def prepare(source_dir: Path, output_dir: Path) -> None:
 
         target = output_dir / "assets" / "characters" / character_id / "results" / "reaction.png"
         target.parent.mkdir(parents=True, exist_ok=True)
-        Image.fromarray(rgba, "RGBA").save(target, format="PNG", optimize=True)
+        Image.fromarray(rgba, "RGBA").save(
+            target, format="PNG", optimize=spec.get("optimize_png", True)
+        )
         runtime_hash = sha256(target)
         if runtime_hash != spec["runtime_sha256"]:
             raise ValueError(f"{target} differs from its approved runtime SHA-256: {runtime_hash}")

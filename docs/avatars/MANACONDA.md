@@ -77,3 +77,10 @@ Preserve the accepted front-action files, controlled revision, placement, and si
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git fixed-size runtime derivative under ADR-093.
 - Approval: Manny approved the quiet compass salute with Paprika on 2026-09-23 using the approved Character Select full-body asset as the identity reference.
 - Provenance and runtime SHA-256: recorded in `docs/ASSET-PROVENANCE.md` and `docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`.
+
+## Results/Podium lower-finish reaction art
+
+- Runtime asset: `public/assets/characters/aa-09/results/reaction.png`.
+- Approval: Manny approved the chroma-green render and true-alpha cutout on 2026-09-25. Pose: Thoughtful map and compass reset with Paprika.
+- Reference: this character's approved Character Select full-body art was supplied directly to generation. Exact source and runtime hashes are recorded in the Results asset brief and provenance ledger.
+- Boundary: asset only; places 4–8 continue to use the existing selection-art fallback until separately integrated.

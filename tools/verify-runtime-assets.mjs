@@ -140,6 +140,18 @@ const runtimeResultsHashes = new Map([
     'public/assets/characters/aa-06/results/reaction.png',
     '0997d1684a9fc29c05995bb7e361a507d5e967f8965ab77312590fb6488e8e6b',
   ],
+  [
+    'public/assets/characters/aa-07/results/reaction.png',
+    '6ea0df99354f4cb59310ae6ab7d41159940e3b5de23200b94127d6f8da717ca5',
+  ],
+  [
+    'public/assets/characters/aa-08/results/reaction.png',
+    'c99be19b82f41a1b2ace6be6f6d153e238056f4750392fa9affa2dffcf7c1b83',
+  ],
+  [
+    'public/assets/characters/aa-09/results/reaction.png',
+    '899fc626403f9811528acb01aa4f6bc259cdef334e19b3921f4ed488e3c3813f',
+  ],
 ]);
 
 for (const [path, expectedHash] of runtimeResultsHashes) {
@@ -493,6 +505,12 @@ const runtimePngs = [
   ['public/assets/characters/aa-01/results/reaction.png', 1024, 1536],
   ['public/assets/characters/aa-02/results/reaction.png', 1024, 1536],
   ['public/assets/characters/aa-03/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-04/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-05/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-06/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-07/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-08/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-09/results/reaction.png', 1024, 1536],
   ['public/assets/characters/aa-01/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-02/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-03/selection/full-body.png', 1024, 1536],
@@ -589,6 +607,12 @@ const newTransparentFronts = new Set([
   'public/assets/characters/aa-01/results/reaction.png',
   'public/assets/characters/aa-02/results/reaction.png',
   'public/assets/characters/aa-03/results/reaction.png',
+  'public/assets/characters/aa-04/results/reaction.png',
+  'public/assets/characters/aa-05/results/reaction.png',
+  'public/assets/characters/aa-06/results/reaction.png',
+  'public/assets/characters/aa-07/results/reaction.png',
+  'public/assets/characters/aa-08/results/reaction.png',
+  'public/assets/characters/aa-09/results/reaction.png',
   'public/assets/characters/aa-01/selection/full-body.png',
   'public/assets/characters/aa-02/selection/full-body.png',
   'public/assets/characters/aa-03/selection/full-body.png',
@@ -785,11 +809,7 @@ for (const [path, expectedWidth, expectedHeight] of runtimePngs) {
 
   // This legacy checker targets white checkerboard remnants in Lula's older
   // runtime art. Authored Results art can contain legitimate pale highlights.
-  if (
-    path.includes('/aa-03/') &&
-    !path.includes('/selection/') &&
-    !path.includes('/results/')
-  ) {
+  if (path.includes('/aa-03/') && !path.includes('/selection/') && !path.includes('/results/')) {
     const decoded = decodeRgbaRows(pixels, width, height);
     const filename = path.split('/').at(-1);
     const protectedRect = lulaProtectedRects[filename];

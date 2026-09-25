@@ -30,20 +30,20 @@ Do not reserve or mark a profile `Assigned` before Manny approves the mapping. I
 
 Stat order is Speed / Acceleration / Weight / Handling / Mini-Turbo / Traction.
 
-| Profile | Archetype           | Class         | Stats                  | Status    | Character    | Kart                 | Approval          |
-| ------- | ------------------- | ------------- | ---------------------- | --------- | ------------ | -------------------- | ----------------- |
-| AA-01   | Feather Sprinter    | Featherweight | 6 / 9 / 2 / 8 / 7 / 4  | Assigned  | Alex         | The Neon Vector      | Manny, 2026-09-05 |
-| AA-02   | Feather Technician  | Featherweight | 5 / 8 / 2 / 9 / 8 / 4  | Assigned  | Lavi         | Potato               | Manny, 2026-08-16 |
-| AA-03   | Feather Dirt Ace    | Featherweight | 5 / 8 / 3 / 7 / 6 / 7  | Assigned  | Lula         | The Verdant Hart     | Manny, 2026-08-29 |
-| AA-04   | Balanced Racer      | Medium        | 7 / 7 / 5 / 7 / 5 / 5  | Assigned  | Keeg         | The Mycelial Majesty | Manny, 2026-08-26 |
-| AA-05   | Drift Specialist    | Medium        | 6 / 7 / 5 / 6 / 9 / 3  | Assigned  | Kraken       | The Abyssal Drifter  | Manny, 2026-08-21 |
-| AA-06   | Grip Specialist     | Medium        | 6 / 6 / 5 / 7 / 5 / 7  | Assigned  | Dragon Queen | The Sovereign Wyrm   | Manny, 2026-09-03 |
-| AA-07   | High-Speed Cruiser  | Cruiser       | 8 / 6 / 7 / 5 / 4 / 6  | Assigned  | McFleurdel   | The Fleur de Nuit    | Manny, 2026-08-27 |
-| AA-08   | Turbo Bruiser       | Cruiser       | 7 / 5 / 7 / 4 / 8 / 5  | Assigned  | Toph         | The Grave Shift      | Manny, 2026-08-28 |
-| AA-09   | Technical Cruiser   | Cruiser       | 7 / 6 / 6 / 6 / 6 / 5  | Assigned  | Manaconda    | The Wayfinder        | Manny, 2026-08-16 |
-| AA-10   | Straight-Line Heavy | Heavyweight   | 10 / 4 / 9 / 3 / 4 / 6 | Assigned  | Krios        | The Hornbreaker      | Manny, 2026-08-22 |
-| AA-11   | Collision Tank      | Heavyweight   | 8 / 4 / 10 / 3 / 5 / 6 | Assigned  | Accu         | Pink Precision       | Manny, 2026-08-20 |
-| AA-12   | All-Surface Heavy   | Heavyweight   | 8 / 5 / 8 / 4 / 4 / 7  | Assigned  | Jennifer     | The Hearthwarden     | Manny, 2026-09-03 |
+| Profile | Archetype           | Class         | Stats                  | Status   | Character    | Kart                 | Approval          |
+| ------- | ------------------- | ------------- | ---------------------- | -------- | ------------ | -------------------- | ----------------- |
+| AA-01   | Feather Sprinter    | Featherweight | 6 / 9 / 2 / 8 / 7 / 4  | Assigned | Alex         | The Neon Vector      | Manny, 2026-09-05 |
+| AA-02   | Feather Technician  | Featherweight | 5 / 8 / 2 / 9 / 8 / 4  | Assigned | Lavi         | Potato               | Manny, 2026-08-16 |
+| AA-03   | Feather Dirt Ace    | Featherweight | 5 / 8 / 3 / 7 / 6 / 7  | Assigned | Lula         | The Verdant Hart     | Manny, 2026-08-29 |
+| AA-04   | Balanced Racer      | Medium        | 7 / 7 / 5 / 7 / 5 / 5  | Assigned | Keeg         | The Mycelial Majesty | Manny, 2026-08-26 |
+| AA-05   | Drift Specialist    | Medium        | 6 / 7 / 5 / 6 / 9 / 3  | Assigned | Kraken       | The Abyssal Drifter  | Manny, 2026-08-21 |
+| AA-06   | Grip Specialist     | Medium        | 6 / 6 / 5 / 7 / 5 / 7  | Assigned | Dragon Queen | The Sovereign Wyrm   | Manny, 2026-09-03 |
+| AA-07   | High-Speed Cruiser  | Cruiser       | 8 / 6 / 7 / 5 / 4 / 6  | Assigned | McFleurdel   | The Fleur de Nuit    | Manny, 2026-08-27 |
+| AA-08   | Turbo Bruiser       | Cruiser       | 7 / 5 / 7 / 4 / 8 / 5  | Assigned | Toph         | The Grave Shift      | Manny, 2026-08-28 |
+| AA-09   | Technical Cruiser   | Cruiser       | 7 / 6 / 6 / 6 / 6 / 5  | Assigned | Manaconda    | The Wayfinder        | Manny, 2026-08-16 |
+| AA-10   | Straight-Line Heavy | Heavyweight   | 10 / 4 / 9 / 3 / 4 / 6 | Assigned | Krios        | The Hornbreaker      | Manny, 2026-08-22 |
+| AA-11   | Collision Tank      | Heavyweight   | 8 / 4 / 10 / 3 / 5 / 6 | Assigned | Accu         | Pink Precision       | Manny, 2026-08-20 |
+| AA-12   | All-Surface Heavy   | Heavyweight   | 8 / 5 / 8 / 4 / 4 / 7  | Assigned | Jennifer     | The Hearthwarden     | Manny, 2026-09-03 |
 
 ## Front-action rollout checkpoint
 
@@ -115,20 +115,20 @@ Krios is the roster's straight-line heavyweight bully. Speed 10 and Weight 9 giv
 
 The AA profile assignments, kart assignments, and race-facing driver packages are unchanged. Manny approved a separate full-body Character Select layer for every active profile on 2026-09-19. The manifest paths below are selection-only and do not replace the roster-card portraits or race driver frames.
 
-| Profile | Character | Selection-only runtime asset |
-| --- | --- | --- |
-| AA-01 | Alex | `public/assets/characters/aa-01/selection/full-body.png` |
-| AA-02 | Lavi | `public/assets/characters/aa-02/selection/full-body.png` |
-| AA-03 | Lula | `public/assets/characters/aa-03/selection/full-body.png` |
-| AA-04 | Keeg | `public/assets/characters/aa-04/selection/full-body.png` |
-| AA-05 | Kraken | `public/assets/characters/aa-05/selection/full-body.png` |
-| AA-06 | Dragon Queen | `public/assets/characters/aa-06/selection/full-body.png` |
-| AA-07 | McFleurdel | `public/assets/characters/aa-07/selection/full-body.png` |
-| AA-08 | Toph | `public/assets/characters/aa-08/selection/full-body.png` |
-| AA-09 | Manaconda | `public/assets/characters/aa-09/selection/full-body.png` |
-| AA-10 | Krios | `public/assets/characters/aa-10/selection/full-body.png` |
-| AA-11 | Accu | `public/assets/characters/aa-11/selection/full-body.png` |
-| AA-12 | Jennifer | `public/assets/characters/aa-12/selection/full-body.png` |
+| Profile | Character    | Selection-only runtime asset                             |
+| ------- | ------------ | -------------------------------------------------------- |
+| AA-01   | Alex         | `public/assets/characters/aa-01/selection/full-body.png` |
+| AA-02   | Lavi         | `public/assets/characters/aa-02/selection/full-body.png` |
+| AA-03   | Lula         | `public/assets/characters/aa-03/selection/full-body.png` |
+| AA-04   | Keeg         | `public/assets/characters/aa-04/selection/full-body.png` |
+| AA-05   | Kraken       | `public/assets/characters/aa-05/selection/full-body.png` |
+| AA-06   | Dragon Queen | `public/assets/characters/aa-06/selection/full-body.png` |
+| AA-07   | McFleurdel   | `public/assets/characters/aa-07/selection/full-body.png` |
+| AA-08   | Toph         | `public/assets/characters/aa-08/selection/full-body.png` |
+| AA-09   | Manaconda    | `public/assets/characters/aa-09/selection/full-body.png` |
+| AA-10   | Krios        | `public/assets/characters/aa-10/selection/full-body.png` |
+| AA-11   | Accu         | `public/assets/characters/aa-11/selection/full-body.png` |
+| AA-12   | Jennifer     | `public/assets/characters/aa-12/selection/full-body.png` |
 
 The approved package is governed by ADR-091 and the durable source/runtime ledger in `docs/assets/CHARACTER-SELECT-FULL-BODY-ASSET-BRIEF.md`. It changes no balance profile, kart identity or geometry, driver frame, race authority, or material implementation.
 
@@ -141,11 +141,23 @@ runtime derivatives and their provenance are recorded in
 `docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md` and
 `docs/ASSET-PROVENANCE.md`.
 
-| Profile | Character | Approved Results/Podium asset |
-| --- | --- | --- |
-| AA-07 | McFleurdel | `public/assets/characters/aa-07/results/victory.png` |
-| AA-08 | Toph | `public/assets/characters/aa-08/results/victory.png` |
-| AA-09 | Manaconda | `public/assets/characters/aa-09/results/victory.png` |
+| Profile | Character  | Approved Results/Podium asset                        |
+| ------- | ---------- | ---------------------------------------------------- |
+| AA-07   | McFleurdel | `public/assets/characters/aa-07/results/victory.png` |
+| AA-08   | Toph       | `public/assets/characters/aa-08/results/victory.png` |
+| AA-09   | Manaconda  | `public/assets/characters/aa-09/results/victory.png` |
+
+## Results/Podium lower-finish reaction art checkpoint
+
+Manny approved the matching full-body-source green renders and transparent
+cutouts on 2026-09-25. These are asset approvals, with no roster remap or
+change to places 4–8 runtime selection.
+
+| Profile | Character  | Approved reaction asset                               |
+| ------- | ---------- | ----------------------------------------------------- |
+| AA-07   | McFleurdel | `public/assets/characters/aa-07/results/reaction.png` |
+| AA-08   | Toph       | `public/assets/characters/aa-08/results/reaction.png` |
+| AA-09   | Manaconda  | `public/assets/characters/aa-09/results/reaction.png` |
 
 ## Historical archived mappings
 

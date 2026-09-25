@@ -5,7 +5,7 @@
 This brief governs the character-specific Results/Podium illustration package
 for Slice 6. Four approved victory batches add twelve top-three poses.
 Lower-finish reaction poses are approved and published in character batches;
-Batches 01–02 cover AA-01–06. The remaining six reactions and Results/Podium
+Batches 01–03 cover AA-01–09. The remaining three reactions and Results/Podium
 backdrop remain separately gated by visual approval.
 
 The approved pose direction is character-driven rather than rank-generic:
@@ -65,11 +65,11 @@ generated 1024 × 1536 renders used each character's approved Character Select
 full-body asset as its identity reference. Each runtime derivative retains the
 original dimensions and has genuine RGBA transparency.
 
-| Racer | Pose direction | Identity source | Runtime asset | Generator output | Source SHA-256 | Runtime SHA-256 |
-| --- | --- | --- | --- | --- | --- | --- |
+| Racer              | Pose direction                                      | Identity source                                          | Runtime asset                                        | Generator output                                | Source SHA-256                                                     | Runtime SHA-256                                                    |
+| ------------------ | --------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | McFleurdel / AA-07 | Elegant finishing pivot; controlled gothic flourish | `public/assets/characters/aa-07/selection/full-body.png` | `public/assets/characters/aa-07/results/victory.png` | `exec-b4bdd17a-288d-4315-8935-fc9b8d4b4329.png` | `98656cea9090be9bd993c0549eaee076651a0fe5e5fc52bd142846214389e6d0` | `21cbd6c61c2510baa22e351fce1564887331b511c0230345e79d7a3f42f91c02` |
-| Toph / AA-08 | Low athletic skid-stop; calm, confident finish | `public/assets/characters/aa-08/selection/full-body.png` | `public/assets/characters/aa-08/results/victory.png` | `exec-07faa274-8ac5-4389-84a0-6f7735f56c07.png` | `893f997ae3263915ef27ab507726e043dccb03a16cf16fc4939964eddc52e42a` | `1ab53ed1c8d21314d14a99f9c80f65f4d3242cd929f30d1bf072c00ad86419cf` |
-| Manaconda / AA-09 | Quiet compass salute with Paprika at his shoulder | `public/assets/characters/aa-09/selection/full-body.png` | `public/assets/characters/aa-09/results/victory.png` | `exec-f5f2aa6a-09de-41c6-a9e2-abf29b71c4e4.png` | `2e4f760bbc380067dc180fc25b34754b57da3d42de2d1c38f740deeb8d0549b9` | `19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b` |
+| Toph / AA-08       | Low athletic skid-stop; calm, confident finish      | `public/assets/characters/aa-08/selection/full-body.png` | `public/assets/characters/aa-08/results/victory.png` | `exec-07faa274-8ac5-4389-84a0-6f7735f56c07.png` | `893f997ae3263915ef27ab507726e043dccb03a16cf16fc4939964eddc52e42a` | `1ab53ed1c8d21314d14a99f9c80f65f4d3242cd929f30d1bf072c00ad86419cf` |
+| Manaconda / AA-09  | Quiet compass salute with Paprika at his shoulder   | `public/assets/characters/aa-09/selection/full-body.png` | `public/assets/characters/aa-09/results/victory.png` | `exec-f5f2aa6a-09de-41c6-a9e2-abf29b71c4e4.png` | `2e4f760bbc380067dc180fc25b34754b57da3d42de2d1c38f740deeb8d0549b9` | `19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b` |
 
 ## Approved Batch 04 — victory poses
 
@@ -79,10 +79,10 @@ redesign or regeneration. Each opaque runtime pixel retains the approved
 source RGB; fully transparent pixels are zeroed. The original 1024 × 1536
 dimensions are retained.
 
-| Racer | Pose direction | Approved source file | Source Library ID | Generator output ID | Runtime asset | Source SHA-256 | Runtime SHA-256 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Krios / AA-10 | Arms-flexing triumphant roar | `Krios's Triumphant Victory Roar.png` | `libfile_3200c4dcd9fc8191a5f888298a5a912e` | Not surfaced in the recovered record | `public/assets/characters/aa-10/results/victory.png` | `1b5793085436c015862606c27f930438683a3c29243fdc1220e780a0614999a4` | `ceb43f0c7b12a7ad16556dfec460ffc29cfc4372561ce1fa9580a8399aa76c98` |
-| Accu / AA-11 | Joyful airborne victory spin | `AA-11’s Joyful Victory Spin.png` | `libfile_c0b8b4a2ba6c8191804a0b0f67651600` | Not surfaced in the recovered record | `public/assets/characters/aa-11/results/victory.png` | `5c8cf1a9d0ce1e28bfabef8a2f05cc05961ecc065ecd1b26ace2ebabba292257` | `59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b` |
+| Racer            | Pose direction                         | Approved source file                        | Source Library ID                          | Generator output ID                  | Runtime asset                                        | Source SHA-256                                                     | Runtime SHA-256                                                    |
+| ---------------- | -------------------------------------- | ------------------------------------------- | ------------------------------------------ | ------------------------------------ | ---------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| Krios / AA-10    | Arms-flexing triumphant roar           | `Krios's Triumphant Victory Roar.png`       | `libfile_3200c4dcd9fc8191a5f888298a5a912e` | Not surfaced in the recovered record | `public/assets/characters/aa-10/results/victory.png` | `1b5793085436c015862606c27f930438683a3c29243fdc1220e780a0614999a4` | `ceb43f0c7b12a7ad16556dfec460ffc29cfc4372561ce1fa9580a8399aa76c98` |
+| Accu / AA-11     | Joyful airborne victory spin           | `AA-11’s Joyful Victory Spin.png`           | `libfile_c0b8b4a2ba6c8191804a0b0f67651600` | Not surfaced in the recovered record | `public/assets/characters/aa-11/results/victory.png` | `5c8cf1a9d0ce1e28bfabef8a2f05cc05961ecc065ecd1b26ace2ebabba292257` | `59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b` |
 | Jennifer / AA-12 | Welcoming staff-and-open-hand flourish | `Jennifer’s Welcoming Victory Flourish.png` | `libfile_26b55289c24081918503c5aa79f0d3eb` | Not surfaced in the recovered record | `public/assets/characters/aa-12/results/victory.png` | `d2cd74f5cc1235c9a73016faf420066f551cc7b8ddf94150f8261c9368533f37` | `218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107` |
 
 The approved source files are RGB PNGs with a baked checkerboard. For a
@@ -148,11 +148,11 @@ matching approved Character Select `selection/full-body.png` as its actual
 identity reference. The fixed-size runtime derivatives retain the 1024 × 1536
 dimensions and use genuine sRGBA transparency.
 
-| Racer | Pose direction | Identity source | Runtime asset | Generator output | Source SHA-256 | Runtime SHA-256 |
-| --- | --- | --- | --- | --- | --- | --- |
+| Racer        | Pose direction                                                                    | Identity source                                          | Runtime asset                                         | Generator output                            | Source SHA-256                                                     | Runtime SHA-256                                                    |
+| ------------ | --------------------------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | Alex / AA-01 | Restrained rueful shrug while adjusting her headset; composed "so close" reaction | `public/assets/characters/aa-01/selection/full-body.png` | `public/assets/characters/aa-01/results/reaction.png` | `exec-ba928d01-6c41-4be0-9093-6a30bddba050` | `5f4d22a4330d5be040a4d7cee82f318ec926fb905c6c117ccbf3e913e7553ae2` | `b6df95f50c0aa83908f2909e231b763031b2099e62b6fb67cff6a5798f97d650` |
-| Lavi / AA-02 | Sheepish, good-natured one-boot recovery; hand at her glasses | `public/assets/characters/aa-02/selection/full-body.png` | `public/assets/characters/aa-02/results/reaction.png` | `exec-68f0d3f5-3a01-4347-b26d-085fea2a7798` | `0e775fbf7027149a422a950cef27a399e1e18bdc6aa308be2df1466007d62ff7` | `062a932545ab14a2e5db365d60f45fe95b8285ba96850b38ae994c97e408a430` |
-| Lula / AA-03 | Dignified disappointment; hand over heart and steady reset stance | `public/assets/characters/aa-03/selection/full-body.png` | `public/assets/characters/aa-03/results/reaction.png` | `exec-0b9782da-fe47-46f1-9483-df4d6ffc3b4e` | `f5aa679b38ffe59c2612d8d25385a14bb807519d84ac6437b59dbacb7072fc47` | `0ae22c91b376259390541dc7193648b6631015eee20b5f18153b31ba97482b91` |
+| Lavi / AA-02 | Sheepish, good-natured one-boot recovery; hand at her glasses                     | `public/assets/characters/aa-02/selection/full-body.png` | `public/assets/characters/aa-02/results/reaction.png` | `exec-68f0d3f5-3a01-4347-b26d-085fea2a7798` | `0e775fbf7027149a422a950cef27a399e1e18bdc6aa308be2df1466007d62ff7` | `062a932545ab14a2e5db365d60f45fe95b8285ba96850b38ae994c97e408a430` |
+| Lula / AA-03 | Dignified disappointment; hand over heart and steady reset stance                 | `public/assets/characters/aa-03/selection/full-body.png` | `public/assets/characters/aa-03/results/reaction.png` | `exec-0b9782da-fe47-46f1-9483-df4d6ffc3b4e` | `f5aa679b38ffe59c2612d8d25385a14bb807519d84ac6437b59dbacb7072fc47` | `0ae22c91b376259390541dc7193648b6631015eee20b5f18153b31ba97482b91` |
 
 The matte uses an 8-connected border flood over pixels with green ≥ 55 and
 green-channel excess ≥ 10, plus a one-pixel neighboring blend pass for green ≥
@@ -168,15 +168,33 @@ The assets are now available for future Results integration, but this commit
 does not change the current fallback for places 4–8. The other nine reactions
 and Results backdrop remain unapproved.
 
-
 ## Approved Reaction Batch 02 — lower-finish poses
 
 Manny approved the chroma-green renders and the transparent cutouts for Keeg, Kraken, and Dragon Queen on 2026-09-24. The matching approved Character Select full-body image was used as the actual identity reference for each render. Each runtime cutout is a 1024 × 1536 RGBA PNG with genuine transparency and zeroed RGB in fully transparent pixels. Batch 02 adds no Results runtime mapping change; places 4–8 continue using their existing fallback.
 
-| Racer | Approved lower-finish pose | Identity source | Runtime asset | Generator output | Source SHA-256 | Runtime SHA-256 |
-| --- | --- | --- | --- | --- | --- | --- |
-| Keeg / AA-04 | Theatrical half-bow; robe sweep and mock-apology hat touch; sheepish, charismatic recovery | `public/assets/characters/aa-04/selection/full-body.png` | `public/assets/characters/aa-04/results/reaction.png` | `exec-86c49b26-1d57-4795-8b46-ff6501b0490f` | `10543f10f29717554c6dbccc14c8e0f43bd25bc00dc50c46583296072929884c` | `cfb9800f7675c85c055acdbd6a9fbdc3e22748bbc9166e404f3e429c5fe6ee9b` |
-| Kraken / AA-05 | Compact three-quarter stance; brushing dust from one sleeve and measured sideways glance | `public/assets/characters/aa-05/selection/full-body.png` | `public/assets/characters/aa-05/results/reaction.png` | `exec-f31ee1f8-72fc-4e01-a518-1ec4f8e6eab9` | `e598cd915cc397af9f1e1200437b67673d58484978ebd04ce8c2fc5690ae83e9` | `57030b478a9b0cdf6607f5c3041385989768abda61d72d1316b8696b5c390445` |
+| Racer                | Approved lower-finish pose                                                                   | Identity source                                          | Runtime asset                                         | Generator output                            | Source SHA-256                                                     | Runtime SHA-256                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| Keeg / AA-04         | Theatrical half-bow; robe sweep and mock-apology hat touch; sheepish, charismatic recovery   | `public/assets/characters/aa-04/selection/full-body.png` | `public/assets/characters/aa-04/results/reaction.png` | `exec-86c49b26-1d57-4795-8b46-ff6501b0490f` | `10543f10f29717554c6dbccc14c8e0f43bd25bc00dc50c46583296072929884c` | `cfb9800f7675c85c055acdbd6a9fbdc3e22748bbc9166e404f3e429c5fe6ee9b` |
+| Kraken / AA-05       | Compact three-quarter stance; brushing dust from one sleeve and measured sideways glance     | `public/assets/characters/aa-05/selection/full-body.png` | `public/assets/characters/aa-05/results/reaction.png` | `exec-f31ee1f8-72fc-4e01-a518-1ec4f8e6eab9` | `e598cd915cc397af9f1e1200437b67673d58484978ebd04ce8c2fc5690ae83e9` | `57030b478a9b0cdf6607f5c3041385989768abda61d72d1316b8696b5c390445` |
 | Dragon Queen / AA-06 | Partly folded wings; foreclaw over chest ornament; dipped head and fully visible curled tail | `public/assets/characters/aa-06/selection/full-body.png` | `public/assets/characters/aa-06/results/reaction.png` | `exec-1d60d86f-502a-4a23-a742-12b513066e00` | `df53fcf458a4f3b989dc7d5573b1aaa9fa6c00e787745b1aedddcbd5c3b146c1` | `0997d1684a9fc29c05995bb7e361a507d5e967f8965ab77312590fb6488e8e6b` |
 
 The approved runtime PNG hashes, dimensions, RGBA format, transparent corners, transparent-RGB zeroing, and opaque key-green check are enforced by `tools/verify-runtime-assets.mjs`.
+
+## Approved Reaction Batch 03 — lower-finish poses
+
+Manny approved the chroma-green renders and transparent cutouts for
+McFleurdel / AA-07, Toph / AA-08, and Manaconda / AA-09 on 2026-09-25.
+Each generation used its matching approved Character Select full-body image
+as an actual reference. The 1024 × 1536 sRGBA cutouts were reviewed against
+navy and magenta backgrounds before approval.
+
+| Racer              | Lower-finish gesture                                | Runtime asset                                         | Generator output                                | Source SHA-256                                                     | Runtime SHA-256                                                    |
+| ------------------ | --------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| McFleurdel / AA-07 | Composed cuff adjustment and rueful sideways glance | `public/assets/characters/aa-07/results/reaction.png` | `exec-49fb046b-1f59-4aad-9cdf-9013f7c71a54.png` | `e2068d183576b90d5dfa084724eecbfd2d110cde5e338def96523e9282dc7e3b` | `6ea0df99354f4cb59310ae6ab7d41159940e3b5de23200b94127d6f8da717ca5` |
+| Toph / AA-08       | Wry recovery shrug and hand to beanie               | `public/assets/characters/aa-08/results/reaction.png` | `exec-4552f737-3bee-4db7-860e-28fc9c36bf0f.png` | `2cbb8cecd98223e86630eb3274210633e96dec4c0c76afbf472629af9a6aadd2` | `c99be19b82f41a1b2ace6be6f6d153e238056f4750392fa9affa2dffcf7c1b83` |
+| Manaconda / AA-09  | Thoughtful map and compass reset with Paprika       | `public/assets/characters/aa-09/results/reaction.png` | `exec-b06a6a7b-29b7-4944-9c33-364570a256a0.png` | `70c568d6616cf59370ec7b1a077bc944103fff2177a713364d9e9f23bfeaafed` | `899fc626403f9811528acb01aa4f6bc259cdef334e19b3921f4ed488e3c3813f` |
+
+The source/runtime hashes and reproducible green-screen matte are pinned in
+`tools/assets/prepare_results_reaction_cutouts.py`. The batch adds assets
+only; places 4–8 still use the selection-art fallback. AA-10–12 reactions
+and the Results backdrop remain open.

@@ -1175,3 +1175,32 @@ branch-matched preview URL supplied by an approved preview/deployment path or
 with browser access explicitly supporting this workspace's local origin; do
 not bypass the browser's URL policy. Keep the five-restart and deployed visual
 gates open.
+
+## Browser evidence 3 — GitHub branch preview deployment attempt — 2026-09-25
+
+Manny requested a GitHub gameplay link that would leave the usual game at
+`https://manaconda33.github.io/manacondas-minigame-mayhem/` intact. A temporary
+feature-branch workflow at commit `81f59f2831891c609c5bc4c0526a2de3034849aa`
+tried to build `main` commit `7e8a9ea8901bef6ea4dd785780c4cc8295225ead` at
+the usual root and the feature revision at the intended
+`/manacondas-minigame-mayhem/previews/race-hud-results/` path. Locally,
+`npm run build -- --base /manacondas-minigame-mayhem/previews/race-hud-results/`
+passed branding and runtime-asset checks and built the preview-relative asset
+URLs; `npx prettier --check .github/workflows/temporary-race-results-preview.yml`
+passed. Hosted run
+[`36194146120`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36194146120)
+passed both LFS checks, both clean-install builds, site assembly, and artifact
+upload. The combined Pages artifact was 141 MB with digest
+`sha256:cf9bf34768b390d252c57183b75c247f1dd1ea5156ddee2e70ba87b6c68283ba`.
+
+The deployment job failed before running with GitHub's annotation:
+`Branch "feature/slice6-race-hud-minimap-results-podium" is not allowed to deploy to github-pages due to environment protection rules.`
+No preview was published. The temporary workflow was removed in the evidence
+cleanup. Before and after the rejected deployment, the usual Pages URL loaded
+the Title with the same script `assets/index-Dt74Qa1M.js` and stylesheet
+`assets/index-612kuw8p.css`. These matching paths establish that this attempt
+did not replace the currently served bundle; they do not prove any feature
+behavior. No race cycle, real-game disposal, stale marker or orphaned DOM count,
+Results-only asset request/residency check, or browser memory/resource measure
+was possible. The five-restart gate is **INCONCLUSIVE / NOT PASSED**, and Task 11
+deployed desktop/mobile acceptance remains pending.

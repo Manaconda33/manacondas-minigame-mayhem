@@ -412,9 +412,11 @@ runtime mapping, and deployed desktop/mobile acceptance remain open.
 
 ## Slice 6 Results/Podium lower-finish reaction runtime mapping
 
-The code/test checkpoint is `c1e15b45221288e78687ac3f1707fe666c4fa8da` on
-`feature/slice6-race-hud-minimap-results-podium`; this status entry is its
-documentation reconciliation.
+The GitHub-published code/test checkpoint is
+`23bc7c9f607f1a12e3a5980042a808562f4b85fd` on
+`feature/slice6-race-hud-minimap-results-podium`. Its tree matches the locally
+validated implementation tree; subsequent commits reconcile status and exact
+documentation bytes without changing runtime code.
 
 The existing Results view now selects the approved `results/reaction.png` for
 places 4–8 by the standing's stable `characterId`. Places 1–3 continue to use

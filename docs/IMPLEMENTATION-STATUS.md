@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; RACE HUD / MINIMAP / RESULTS-PODIUM FEATURE CHECKPOINT; LOWER-FINISH REACTION ASSET AUTHORING ACTIVE**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; RACE HUD / MINIMAP / RESULTS-PODIUM FEATURE CHECKPOINT; REACTION ASSETS COMPLETE; RESULTS REACTION MAPPING IN PROGRESS**
 
 PRD baseline: **v1.1 with approved implementation amendments through 2.22**. Slice 6 kickoff and Route Night are governed by ADR-085-086; the published settings/graphics/audio foundation is ADR-087; the bounded material-coordinate / first Circuit Alpha PBR increment is governed by ADR-088; the Character Select baseline and full-body package are governed by ADR-090-092; the next Race HUD / mini-map / Results-Podium asset direction is governed by ADR-093.
 
@@ -409,3 +409,30 @@ reported its existing large-chunk warning for `KartTimeTrial`.
 
 This is an asset-only branch checkpoint. The Results backdrop, reaction
 runtime mapping, and deployed desktop/mobile acceptance remain open.
+
+## Slice 6 Results/Podium lower-finish reaction runtime mapping
+
+The code/test checkpoint is `c1e15b45221288e78687ac3f1707fe666c4fa8da` on
+`feature/slice6-race-hud-minimap-results-podium`; this status entry is its
+documentation reconciliation.
+
+The existing Results view now selects the approved `results/reaction.png` for
+places 4–8 by the standing's stable `characterId`. Places 1–3 continue to use
+the approved victory mapping. Each revision query uses the verified runtime
+SHA-256 from the Results asset brief. If a reaction image fails, the existing
+selection-art, portrait, and monogram fallback chain remains active. Rank and
+time continue to come from the authoritative `RaceStanding`; this increment
+does not change race authority, finish behavior, or navigation.
+
+Focused regression coverage verifies reaction/victory rank boundaries,
+character-ID lookup independent of display labels, exact cache revision use,
+all twelve profile mappings, and fallback after a missing reaction asset.
+`npm run validate` passed: 72 test files / 583 tests, 81.93% statement / 76.25%
+branch / 87.07% function / 83.64% line coverage, strict typecheck, zero-warning
+lint, branding/runtime-asset verification, and production build. Runtime checks
+verified 18 Results/Podium assets, 36 materialized GLBs, and 135 character
+PNGs. `git diff --check`, targeted Prettier, and `git lfs fsck` also passed;
+the existing `KartTimeTrial` large-chunk warning remains. The approved Results
+backdrop, full Results visual tuning, hosted deployment, and desktop/mobile
+live acceptance remain open. This is a feature-branch implementation
+checkpoint, not Slice 6 completion.

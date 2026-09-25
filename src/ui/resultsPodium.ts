@@ -1,6 +1,6 @@
 import { characterManifest } from '../characters/manifest';
 import type { RaceStanding } from '../game/raceResults';
-import { raceResultsVictoryUrl } from './raceAssets';
+import { raceResultsReactionUrl, raceResultsVictoryUrl } from './raceAssets';
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (character) => {
@@ -82,11 +82,15 @@ function resultArtMarkup(standing: RaceStanding, isPodium: boolean): string {
   const selectionArt = character?.selectionArt;
   const portrait = standing.portrait || character?.portrait;
   const victoryArt = isPodium ? raceResultsVictoryUrl(standing.characterId, standing.place) : null;
-  const source = victoryArt ?? selectionArt ?? portrait;
-  const fallbackSelection = victoryArt === null ? '' : (selectionArt ?? '');
+  const reactionArt = isPodium
+    ? null
+    : raceResultsReactionUrl(standing.characterId, standing.place);
+  const resultArt = victoryArt ?? reactionArt;
+  const source = resultArt ?? selectionArt ?? portrait;
+  const fallbackSelection = resultArt === null ? '' : (selectionArt ?? '');
   const fallbackPortrait = portrait !== source ? (portrait ?? '') : '';
   const image = source
-    ? `<img data-results-art data-result-state="${victoryArt === null ? 'selection-fallback' : 'victory'}" data-fallback-selection="${escapeHtml(fallbackSelection)}" data-fallback-portrait="${escapeHtml(fallbackPortrait)}" src="${escapeHtml(source)}" alt="${escapeHtml(`${name} character artwork`)}" decoding="async" loading="lazy" />`
+    ? `<img data-results-art data-result-state="${resultArt === null ? 'selection-fallback' : isPodium ? 'victory' : 'reaction'}" data-fallback-selection="${escapeHtml(fallbackSelection)}" data-fallback-portrait="${escapeHtml(fallbackPortrait)}" src="${escapeHtml(source)}" alt="${escapeHtml(`${name} character artwork`)}" decoding="async" loading="lazy" />`
     : '';
   return `<div class="results-art-frame">${image}<span class="results-art-monogram" data-art-monogram${source ? ' hidden' : ''} aria-hidden="true">${escapeHtml(initials)}</span></div>`;
 }

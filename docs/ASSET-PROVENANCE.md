@@ -411,5 +411,13 @@ hashes are recorded below.
 
 The runtime verifier enforces each accepted derivative's SHA-256, dimensions,
 RGBA format, transparent corners, zeroed RGB where alpha is zero, and absence
-of opaque key-green pixels. These source-generated assets are art-only; they
-do not alter Results behavior.
+of opaque key-green pixels. These source-generated assets are art-only.
+
+## Lower-finish reaction runtime mapping — 2026-09-25
+
+The twelve approved runtime hashes above are now used as cache revisions for
+the Results reaction lookup in `src/ui/raceAssets.ts`. The UI selects them only
+for authoritative places 4–8 using stable character IDs. A failed image
+continues through the approved selection-art, portrait, and monogram fallback;
+the mapping does not change standings, finish time, race authority, or the
+still-pending Results backdrop approval gate.

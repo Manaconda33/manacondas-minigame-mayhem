@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 33041)
+Total output lines: 1104
+
 # Testing and Validation
 
 This file is the operational source of truth for local and CI validation. Update it when commands, environments, or evidence requirements change.
@@ -512,96 +515,7 @@ For live acceptance, complete at least one desktop and one mobile race. Confirm 
 - Every active production driver supplies rear, front, steer-left, steer-right, hit, and victory as 512 x 512 transparent PNGs with transparent corners and no baked checkerboard or neutral-white background islands.
 - The player and every production AI racer use the same state priority: victory, hit, front during rear view, steering, then neutral rear.
 - Positive steering selects steer-left and negative steering selects steer-right for both player and AI racers; the dead zone returns to rear.
-- A kart contact activates hit for every involved production driver, including AI-to-AI contacts, for the same governed reaction window.
-- Each AI finisher activates victory independently of the player's finish state.
-- Holding desktop or mobile rear view activates front for all visible production racers because the camera faces the fronts of their karts; releasing rear view restores each racer's simulation-driven state.
-- While rear view is active, positive and negative steering select front-steer-left and front-steer-right, collision selects front-hit, and a finished racer selects front-victory. Direction names follow kart input direction rather than the viewer's mirrored screen side.
-- During the character-by-character rollout, a missing front-facing action texture falls back to the approved neutral front frame. It must not select a rear-oriented action texture, fall back to rear, or blank the driver.
-- All four front-facing action frames use the character's approved front placement and steering-control ownership. They must not move chase-oriented frames or introduce a duplicate wheel.
-- Kraken's live pilot must select front-steer-left and front-steer-right for the matching kart input while rear view is held, select front-hit during contact, and retain the approved front-victory presentation after finishing.
-- Releasing rear view during Kraken's steering or hit state must restore the matching chase-oriented action rather than leaving a front-facing frame active. All transitions must preserve his approved seated footprint, clean alpha edge, cockpit depth, and single modeled steering wheel.
-- Accu's body remains behind Pink Precision's modeled steering control in neutral, turning, hit, and victory views. Her sprite contains no opaque white/checkerboard pixels inside steering-wheel openings.
-
-Kraken live acceptance passed on 2026-09-01. Manny confirmed the requested steering, hit, victory, chase-state restoration, transparency, cockpit placement, and steering-wheel checks against deployed checkpoint `6b0b9239fa34edc521b4fa4e18a19a8397deaea3`.
-
-Manaconda and Krios live acceptance passed on 2026-09-01 against deployed checkpoint `2ca852b47f16b8221275ee2b5542650d609b9a0d`. Manny confirmed both steering directions, hit, victory, chase-state restoration, transparency, cockpit placement, and steering-control ownership. Manaconda shows exactly one sprite-owned wheel. Krios uses The Hornbreaker's modeled wheel without a duplicate, and no pale matte remains between his horns.
-
-Keeg and McFleurdel live acceptance passed on 2026-09-01 against deployed checkpoint `f8a2ed8be0d72fde62c9403dae4b15e94222f7da`. Manny confirmed both steering directions, hit, victory, chase-state restoration, transparency, cockpit placement, and steering-control ownership. Both drivers use their karts' modeled wheels without sprite duplicates. McFleurdel's reviewed black-curl interiors and arm gaps remain transparent.
-
-Lavi and Toph live acceptance passed. Their eight deployed source hashes, controlled revisions, PNG decoding, transparent corners, and modeled-wheel ownership passed. Manny accepted Toph at `[0, 0.45, -0.12]` on 2026-09-02, then accepted Lavi's corrected `[0, 0.9, -0.12]` camera-facing placement on 2026-09-03. Both drivers pass steering-left, steering-right, hit, victory, chase restoration, transparency, cockpit placement, and single-wheel presentation.
-
-Lula and Accu are the final front-action batch. Manny approved all eight candidates and the deployed desktop/mobile result on 2026-09-03. The live files preserve commanded-direction separation, forward-seated body orientation, identity locks, transparent corners and internal gaps, and modeled-wheel ownership without adding kart pixels. Lula retains `[0, 0.45, -0.12]`; Accu retains `[0, 0.9, 0.22]` and Pink Precision's front-only modeled-wheel position `[0, 1.46, -0.46]`.
-
-PR #73 head run `33708240532` and main run `33708310011` passed. The merged checkpoint is `735da4015bca6f9610f6a358672804f4c73b35f9`. The live `assets/index-D84iBLTd.js` bundle exposes both controlled revisions and all eight action paths; all eight deployed PNG responses match the approved SHA-256 values. The runtime gate decodes 72 production PNGs. Review exports, discarded candidates, and Python caches remain outside the repository.
-
-The 2026-09-03 local checkpoint passed `npm run validate`: strict typecheck, zero-warning lint, 16 Vitest files / 83 tests, 83.14% statement coverage, 27 materialized GLBs, 72 decoded PNGs, and a production Vite build. The source and built hashes match for all eight new frames, and the bundle contains both new revisions and all eight paths.
-
-Live acceptance passed on 2026-09-03 against checkpoint `95fcf26fb699065cd9082951b3e8a3e18790e8a2`. Manny confirmed Lula and Accu's steering-left, steering-right, hit, victory, chase restoration, transparency, cockpit placement, and single-wheel presentation. This closes the front-facing action-state rollout for all nine active production drivers.
-
-## Manaconda / Wayfinder manual matrix
-
-- AA-09 renders Manaconda's approved portrait and identifies the kart as The Wayfinder rather than a placeholder or fallback prototype.
-- `Race as Manaconda` loads the wheel-free Wayfinder and the approved rear driver frame; no second modeled steering wheel appears.
-- Manaconda sits within the recessed cockpit without floating or clipping, and the wheel contained in each driver frame reads in front of him.
-- Visual left/right steering selects the matching approved frame; collision selects hit briefly; finishing selects victory.
-- Rear view preserves steering, hit, and victory through Manaconda's matching front-facing action frames. Each contains exactly one visible wheel, and The Wayfinder adds no modeled duplicate.
-- Chase and rear cameras confirm Wayfinder's grille/navigation core points forward and the rear satchel/twin exhausts remain behind Manaconda. No 180-degree visual correction is applied.
-- The selected AA-09 profile remains 7 / 6 / 6 / 6 / 6 / 5 throughout the race.
-- Desktop and mobile both load the controlled `manaconda-runtime-20260831-2` URLs rather than cached pre-integration assets.
-
-## Accu / Pink Precision manual matrix
-
-- AA-11 renders Accu's approved portrait and identifies the kart as Pink Precision rather than a placeholder or fallback prototype.
-- `Race as Accu` loads Pink Precision and the approved rear driver frame. The compact armored hull, continuous treads, cannon, and heart-bullseye emblem remain visible.
-- Accu sits inside the cockpit without floating or clipping. The 3D steering wheel stays in front of her and does not conflict with the driver art.
-- In chase view, Accu's rear hair remains continuous into the cockpit; no straight raster edge is visible across the hair or torso above the cockpit rim.
-- In rear-camera view, the front frame reads as one seated driver with visible upper-body context rather than a detached face behind the cannon. The cannon may occlude the centerline, but it must not erase the body or separate the head from the cockpit.
-- In rear-camera view, Pink Precision's dark steering-wheel ring is visibly readable between and beneath Accu's hands. It must not disappear behind the front sprite, merge with the cockpit collar, or render during chase-oriented states whose approved art already contains a wheel.
-- Visual left/right steering selects the matching approved frame; collision selects hit briefly; finishing selects victory.
-- Chase and rear cameras confirm the cannon and nose point forward while the antennae and exhausts remain behind Accu. No visual-root rotation is applied.
-- The selected AA-11 profile remains 8 / 4 / 10 / 3 / 5 / 6 throughout the race.
-- **Live acceptance:** Manny approved deployed PR #56 on 2026-08-31 after verifying the corrected chase-camera hair edge and rear-camera steering-wheel presentation. The previously accepted grass relaunch and chase-state modeled-wheel suppression remain passing.
-- Desktop and mobile both load the controlled `accu-runtime-20260831-2` URLs rather than cached pre-integration assets.
-
-## Slice 0 evidence boundary
-
-Slice 0 validates only installation, typechecking, linting, unit testing, production build, the minimal app shell, repository organization, and CI. It does not validate rendering, physics, controls, AI, racing, items, audio playback, or performance requirements assigned to later slices.
-
-## Slice 5 item-system validation matrix
-
-This matrix is required in addition to the repository-wide validation commands and the complete approved checklist in `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`.
-
-### Distribution and inventory
-
-- Every configured rank column must sum to exactly 100 before dynamic adjustment.
-- Use a deterministic seedable selector and run at least 100,000 simulated selections for each rank. Record observed percentages and expected percentages. Common-item absolute deviation should remain within approximately 0.5 percentage points unless a documented goodness-of-fit test is used instead.
-- Verify the documented 1.00-1.35 gap multiplier and renormalization after dynamic catch-up adjustment.
-- Verify prerequisites are filtered before selection: Apex global availability and cooldown; Hyper-Drive position 6-8 plus at least 45 m behind the leader; any unavailable runtime prerequisite.
-- Verify one-slot inventory, multi-charge counts, collection-time outcome lock, approximately 0.85-second roulette, occupied-inventory pass-through, and approximately 4.5-second shared-box respawn.
-- Verify all four rows contain eight boxes in the legal racing corridor near 9%, 34%, 62%, and 89% lap progress.
-
-### Item functional and counter matrix
-
-- Kinetic Disc: forward/backward launch, governed travel, no more than three wall ricochets, standard spinout, hit destruction, nine-second lifetime cleanup.
-- Seeker Drone: nearest valid racer ahead by race progress, 0.5-second arming, bounded turn, no teleport, warning cue/state, twelve-second maximum cleanup.
-- Apex Missile: one active globally, minimum 18-second global interval, current leader at terminal lock, warning/sky/dive phases, 5.5 m AoE, heavy spin, Prismatic immunity, and precisely timed Shockwave terminal counter.
-- Blast Orb: directional deploy, three-second fuse, qualifying early direct-impact detonation, 4 m AoE, heavy spin, Shockwave cleanup.
-- Blaze Orbs: five charges, at least 0.55 seconds between shots, short 0.55-second spin, expiry cleanup.
-- Frost Orbs: three charges, approximately 55% momentum retention and approximately 20% handling penalty per valid hit, with repeat-hit stacks and a shared 1.2-second timer reset by each subsequent hit.
-- Arc Blade: three charges, curved outbound/return path, at most one rival hit outbound and one on return per throw, no repeated overlap damage.
-- Arc Hammers: five charges, at least 0.35-second cadence, ballistic movement, one terrain bounce, short post-bounce expiry.
-- Slick: rear drop, approximately 12-second lifetime, approximately 1.1 m trigger, approved 360-degree spin/60% speed-retention effect, two active per owner, Shockwave cleanup.
-- Shockwave: approximately 5 m radial push and destruction/clearing of all supported ordinary projectiles, Slicks, Blast Orbs, and terminal Apex.
-- Ink: approximately 2.5-second partial human screen obstruction; AI path noise, approximately 80 ms reaction latency, and reduced precision without navigation failure.
-- Nitro Surge: approximately 2.4-second active window, 1.18x cap target, 1.50x acceleration authority, off-road penalty ignore, clean restoration.
-- Nitro Overdrive: six-second window, pulse no faster than every 0.75 seconds, approximately 0.9-second pulse, 1.15x initial cap target, clean window expiry.
-- Hyper-Drive Rocket: position/gap prerequisite, legal Circuit Alpha spline autopilot, immunity, approximately 1.25x initial cap target, automatic overtakes, maximum approximately six seconds, approximately 0.3-second control return, no teleport/progress mutation/direct first-place deposit.
-- Prismatic Invincibility: approximately six seconds, +12% speed, hazard/projectile immunity, hostile-contact spin, expiry warning/restoration.
-
-### Input, AI, race authority, and pause
-
-- Left Shift and E both activate held items.
-- S/Down plus item requests backward deployment where supported.
+- A kart contact activates hit for every involved production driver, including AI-to-AI contacts, for the same gover…3041 tokens truncated…deployment where supported.
 - Coarse-pointer gameplay exposes a dedicated ITEM button; Brake/Reverse plus ITEM requests backward deployment where supported. Verify simultaneous accelerate/steer/drift combinations remain functional.
 - AI must acquire and use items tactically. Validate Seeker range, rear-attacker Slick use, defensive Shockwave hold/use, Nitro straight/recovery preference, and prompt Rocket activation.
 - AI obstacle awareness must include Slicks and Blast Orbs.
@@ -1073,6 +987,24 @@ The complete `npm run validate` sequence passed with **71 test files / 561 tests
 The reviewed code checkpoint is published on the feature branch at `51a18ec6e8430153bcc941611039044d8a760a16`.
 
 This checkpoint uses only the six already approved victory poses; other podium identities use approved selection art and the governed portrait/monogram fallback. It does not add ImageGen assets, reaction poses, a backdrop, item art, or additional race gameplay. It is automated branch evidence only: no hosted CI, deployment, or live visual acceptance is claimed. The remaining full Race HUD/mini-map/Results asset and desktop/mobile acceptance gates stay open.
+
+### Lower-finish reaction runtime mapping — feature branch
+
+Focused Results tests cover approved reaction selection for places 4–8,
+victory-only podium selection, stable character-ID resolution, exact cache
+revision use, and selection-art fallback when a reaction file fails. Run:
+
+```bash
+npx vitest run tests/results-podium.test.ts --coverage=false
+```
+
+The runtime asset verifier continues to check each reaction's exact hash,
+dimensions, RGBA transparency, and key-green exclusion. This automated mapping
+check does not replace hosted CI or desktop/mobile visual acceptance. The
+latest local full validation passed **72 test files / 583 tests**; coverage is
+81.93% statements, 76.25% branches, 87.07% functions, and 83.64% lines. The
+production build retains the existing non-blocking KartTimeTrial large-chunk
+warning.
 
 ## Results lower-finish reaction art asset gate
 

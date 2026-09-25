@@ -6,6 +6,7 @@ import {
   updateResultsPodium,
 } from '../src/ui/resultsPodium';
 import type { RaceStanding } from '../src/game/raceResults';
+import { raceResultsReactionUrl } from '../src/ui/raceAssets';
 
 const racers: Omit<RaceStanding, 'place' | 'time'>[] = [
   {
@@ -76,6 +77,20 @@ function standingsWithPlayerPlace(playerPlace: number): RaceStanding[] {
 }
 
 describe('Results/Podium presentation', () => {
+  it.each(Array.from({ length: 12 }, (_, index) => `aa-${String(index + 1).padStart(2, '0')}`))(
+    'maps approved reaction art for %s only to lower-finish places',
+    (characterId) => {
+      expect(raceResultsReactionUrl(characterId, 4)).toContain(
+        `/assets/characters/${characterId}/results/reaction.png?v=`,
+      );
+      expect(raceResultsReactionUrl(characterId, 8)).toContain(
+        `/assets/characters/${characterId}/results/reaction.png?v=`,
+      );
+      expect(raceResultsReactionUrl(characterId, 3)).toBeNull();
+      expect(raceResultsReactionUrl(characterId, 9)).toBeNull();
+    },
+  );
+
   it('carries millisecond rounding across a minute boundary', () => {
     expect(formatResultTime(59.9997)).toBe('01:00.000');
   });
@@ -118,7 +133,33 @@ describe('Results/Podium presentation', () => {
     },
   );
 
-  it('shows approved victory art only when mapped and uses full-body art for the lower-finish rail', () => {
+  it('uses approved lower-finish reactions by stable character ID only in places four through eight', () => {
+    const host = document.createElement('div');
+    const standings = standingsWithPlayerPlace(2).map((standing) => {
+      if (standing.racerId === 'ai-1') return { ...standing, place: 4 };
+      if (standing.racerId === 'ai-3') return { ...standing, place: 5 };
+      return standing;
+    });
+    host.innerHTML = renderResultsPodium(standings);
+    const alexReaction = host.querySelector<HTMLImageElement>(
+      '[data-results-finishers] [data-racer-id="ai-1"] [data-results-art]',
+    );
+    const lulaReaction = host.querySelector<HTMLImageElement>(
+      '[data-results-finishers] [data-racer-id="ai-3"] [data-results-art]',
+    );
+
+    expect(alexReaction?.getAttribute('src')).toContain('aa-01/results/reaction.png');
+    expect(alexReaction?.dataset.resultState).toBe('reaction');
+    expect(lulaReaction?.getAttribute('src')).toContain('aa-03/results/reaction.png');
+    expect(lulaReaction?.dataset.resultState).toBe('reaction');
+    expect(
+      host
+        .querySelector('[data-results-podium] [data-racer-id="ai-2"] [data-results-art]')
+        ?.getAttribute('src'),
+    ).toContain('aa-02/results/victory.png');
+  });
+
+  it('shows approved victory art on the podium and reaction art in the lower-finish rail', () => {
     const host = document.createElement('div');
     host.innerHTML = renderResultsPodium(standingsWithPlayerPlace(2));
     const approvedVictory = host.querySelector<HTMLImageElement>(
@@ -129,8 +170,27 @@ describe('Results/Podium presentation', () => {
     );
 
     expect(approvedVictory?.getAttribute('src')).toContain('aa-01/results/victory.png');
-    expect(selectionFallback?.getAttribute('src')).toContain('aa-03/selection/full-body.png');
-    expect(selectionFallback?.dataset.resultState).toBe('selection-fallback');
+    expect(selectionFallback?.getAttribute('src')).toContain('aa-03/results/reaction.png');
+    expect(selectionFallback?.dataset.resultState).toBe('reaction');
+  });
+
+  it('resolves reaction artwork from stable character identity and keeps it out of podium places', () => {
+    const standings = standingsWithPlayerPlace(2).map((standing) =>
+      standing.racerId === 'ai-1'
+        ? { ...standing, place: 4, displayName: 'Renamed display label' }
+        : standing,
+    );
+    const host = document.createElement('div');
+    host.innerHTML = renderResultsPodium(standings);
+
+    const reaction = host.querySelector<HTMLImageElement>(
+      '[data-results-finishers] [data-racer-id="ai-1"] [data-results-art]',
+    );
+    expect(reaction?.getAttribute('src')).toContain('aa-01/results/reaction.png');
+    expect(reaction?.getAttribute('src')).toContain(
+      'v=b6df95f50c0aa83908f2909e231b763031b2099e62b6fb67cff6a5798f97d650',
+    );
+    expect(host.querySelector('[data-results-podium] [data-racer-id="ai-1"]')).toBeNull();
   });
 
   it('advances failed art through selection image, portrait, and monogram without removing the row', () => {
@@ -154,6 +214,22 @@ describe('Results/Podium presentation', () => {
     expect(card.querySelector('[data-art-monogram]')?.textContent).toBe('AX');
     expect(card.querySelector('[data-art-monogram]')?.hasAttribute('hidden')).toBe(false);
     expect(host.querySelectorAll('[data-results-standings] li')).toHaveLength(8);
+  });
+
+  it('falls back from a missing reaction image to that character’s selection art', () => {
+    const host = document.createElement('div');
+    host.innerHTML = renderResultsPodium(standingsWithPlayerPlace(2));
+    const image = host.querySelector<HTMLImageElement>(
+      '[data-results-finishers] [data-racer-id="ai-3"] [data-results-art]',
+    );
+    if (image === null) throw new Error('Lula reaction art was not rendered.');
+    bindResultsArtFallbacks(host);
+
+    const selectionArt = image.dataset.fallbackSelection;
+    image.dispatchEvent(new Event('error'));
+
+    expect(image.getAttribute('src')).toBe(selectionArt);
+    expect(image.hidden).toBe(false);
   });
 
   it('refreshes late finishers without replacing the action buttons and exposes a separate live status', () => {

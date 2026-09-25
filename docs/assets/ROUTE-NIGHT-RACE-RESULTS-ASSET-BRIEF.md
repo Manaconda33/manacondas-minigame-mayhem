@@ -215,6 +215,15 @@ adds art only; it does not change Results selection behavior.
 
 The accepted runtime bytes are pinned in `tools/verify-runtime-assets.mjs`.
 The existing preparation script covers batches 01–03; these accepted batch-04
-cutouts are preserved as approved runtime files. Places 4–8 continue using
-the selection-art fallback until Results reaction mapping is separately
-integrated.
+cutouts are preserved as approved runtime files.
+
+## Lower-finish reaction runtime mapping — 2026-09-25
+
+All twelve approved reaction derivatives are now selected for authoritative
+places 4–8 by stable character ID. Their exact SHA-256 values are used as
+revision queries in `src/ui/raceAssets.ts`; places 1–3 remain restricted to
+the victory set. Failed reaction loads retain the existing selection-art →
+portrait → monogram fallback. The rank and result time continue to come from
+the live `RaceStanding` contract. Focused coverage is in
+`tests/results-podium.test.ts`. This mapping checkpoint does not integrate the
+separately approval-gated Results backdrop or constitute visual acceptance.

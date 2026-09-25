@@ -46,6 +46,9 @@ describe('Route Night UI system', () => {
     expect(resolveAsset('character-select-hero-aura')).toContain(
       'assets/ui/route-night/route-night-character-select-hero-aura.webp',
     );
+    expect(resolveAsset('results-podium-backdrop')).toContain(
+      'assets/ui/route-night/results-podium-backdrop.webp?v=',
+    );
     expect(resolveAsset('mark')).toContain('assets/ui/route-night/route-night-mark.svg');
     expect(resolveAsset('ui-sprite')).toContain('assets/ui/route-night/route-night-ui.svg');
     expect(resolveAsset('button-frames')).toContain(

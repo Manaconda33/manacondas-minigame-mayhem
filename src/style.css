@@ -4569,6 +4569,22 @@ h2 {
   pointer-events: none;
 }
 
+.results-backdrop {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.results-backdrop img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .results-board {
   position: absolute;
   top: max(1rem, env(safe-area-inset-top));

@@ -95,6 +95,22 @@ describe('Results/Podium presentation', () => {
     expect(formatResultTime(59.9997)).toBe('01:00.000');
   });
 
+  it('places the approved backdrop behind live standings and actions', () => {
+    const host = document.createElement('div');
+    host.innerHTML = renderResultsPodium(standingsWithPlayerPlace(2));
+
+    const backdrop = host.querySelector<HTMLElement>(
+      '[data-route-asset="results-podium-backdrop"]',
+    );
+    expect(backdrop?.getAttribute('aria-hidden')).toBe('true');
+    expect(backdrop?.querySelector('img')?.getAttribute('alt')).toBe('');
+    expect(backdrop?.querySelector('img')?.getAttribute('src')).toContain(
+      'assets/ui/route-night/results-podium-backdrop.webp?v=',
+    );
+    expect(host.querySelectorAll('[data-results-standings] li')).toHaveLength(8);
+    expect(host.querySelector('[data-action="race-again"]')).not.toBeNull();
+  });
+
   it('orders podium and lower finishers by authoritative place, not callback array order', () => {
     const standings = standingsWithPlayerPlace(2);
     const shuffled = [4, 2, 7, 0, 1, 3, 5, 6]

@@ -1,6 +1,6 @@
 import type { ItemId } from '../game/items/itemDefinitions';
 
-const ROUTE_NIGHT_ASSET_VERSION = '20260919-2';
+const ROUTE_NIGHT_ASSET_VERSION = '20260925-1';
 
 const ROUTE_NIGHT_ASSETS = {
   'title-hero': 'route-night-title-hero.webp',
@@ -13,6 +13,7 @@ const ROUTE_NIGHT_ASSETS = {
   'character-select-energy': 'route-night-character-select-energy.webp',
   'character-select-hero-aura': 'route-night-character-select-hero-aura.webp',
   'race-hud-atmosphere': 'race-hud-atmosphere.webp',
+  'results-podium-backdrop': 'results-podium-backdrop.webp',
   'race-hud': 'route-night-race-hud.svg',
   mark: 'route-night-mark.svg',
   'ui-sprite': 'route-night-ui.svg',

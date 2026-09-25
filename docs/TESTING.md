@@ -1102,3 +1102,7 @@ tools/verify-runtime-assets.mjs` to check all approved Results PNG hashes,
 and absence of opaque key-green pixels. Inspect each cutout over a dark and
 bright background at runtime scale before publication. This asset gate does
 not imply Results runtime mapping or deployed visual acceptance.
+
+The Results/Podium tests verify the decorative backdrop URL and accessibility
+semantics while confirming the standings and race actions remain live. Runtime
+asset verification checks the backdrop's WebP signature and approved SHA-256.

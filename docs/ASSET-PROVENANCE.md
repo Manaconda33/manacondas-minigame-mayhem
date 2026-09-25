@@ -421,3 +421,22 @@ for authoritative places 4–8 using stable character IDs. A failed image
 continues through the approved selection-art, portrait, and monogram fallback;
 the mapping does not change standings, finish time, race authority, or the
 still-pending Results backdrop approval gate.
+
+## Route Night Results/Podium - approved environment backdrop
+
+Manny approved the generated Route Night environment backdrop on 2026-09-25.
+It is an opaque, text-free 1672 × 941 RGB environment with the podium stage and
+route-night atmosphere; all results data and controls remain live interface
+content. The approved PNG is retained as its ImageGen source output, and the
+runtime file is `public/assets/ui/route-night/results-podium-backdrop.webp`.
+
+Following the established Route Night UI asset workflow, only the validated
+fixed-size runtime derivative is committed. It was encoded with Pillow WebP
+quality 90, method 6, `exact=True`, without resizing or color conversion.
+Generator output ID:
+`exec-5ba3c3ea-f5cd-47a4-ada5-7a4163879935`. Source SHA-256:
+`dddad06f8fd5b590d6033250dd30278258f628f50825a2935c96455f538efc7c`.
+Runtime SHA-256:
+`24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`.
+The runtime hash and RIFF/WebP signature are checked by
+`tools/verify-runtime-assets.mjs`.

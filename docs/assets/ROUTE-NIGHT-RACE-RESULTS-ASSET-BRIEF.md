@@ -227,3 +227,21 @@ portrait → monogram fallback. The rank and result time continue to come from
 the live `RaceStanding` contract. Focused coverage is in
 `tests/results-podium.test.ts`. This mapping checkpoint does not integrate the
 separately approval-gated Results backdrop or constitute visual acceptance.
+
+## Approved Route Night Results/Podium backdrop — 2026-09-25
+
+Manny approved the text-free Route Night Results/Podium environment on
+2026-09-25. It is a decorative opaque background only; podium racers,
+standings, result times, and actions remain live UI. The approved 1672 × 941
+RGB PNG is retained as its ImageGen source output and identified by output ID
+and SHA-256 below. Following the established Route Night UI asset workflow,
+the fixed-size runtime WebP is the committed delivery derivative. It uses
+lossy WebP encoding at quality 90, method 6, with no resize or color-mode
+conversion, and is pinned by `tools/verify-runtime-assets.mjs`.
+
+| Runtime asset                                               | Generator output ID                         | Source SHA-256                                                     | Runtime SHA-256                                                    |
+| ----------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| `public/assets/ui/route-night/results-podium-backdrop.webp` | `exec-5ba3c3ea-f5cd-47a4-ada5-7a4163879935` | `dddad06f8fd5b590d6033250dd30278258f628f50825a2935c96455f538efc7c` | `24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465` |
+
+The runtime WebP has an explicit normal-Git exception because it is a
+fixed-size, validated Route Night UI delivery derivative.

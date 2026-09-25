@@ -438,3 +438,26 @@ the existing `KartTimeTrial` large-chunk warning remains. The approved Results
 backdrop, full Results visual tuning, hosted deployment, and desktop/mobile
 live acceptance remain open. This is a feature-branch implementation
 checkpoint, not Slice 6 completion.
+
+## Slice 6 approved Results/Podium backdrop integration — 2026-09-25
+
+Manny approved the Route Night Results/Podium backdrop render. The 1672 × 941
+opaque WebP is now rendered as a decorative layer behind the Results board.
+The podium, authoritative standings and times, status, and race actions remain
+live DOM content. Focused tests cover the backdrop URL, hidden decorative
+semantics, and continued live standings/actions; runtime verification pins the
+approved WebP signature and SHA-256.
+
+Focused verification passed: 2 test files / 36 tests, plus
+`node tools/verify-runtime-assets.mjs` (18 Results/Podium character assets,
+the new backdrop, 36 GLBs, and 135 character PNGs). Full `npm run validate`
+passed: 72 test files / 584 tests (81.93% statements, 76.25% branches, 87.07%
+functions, 83.64% lines), strict typecheck, zero-warning lint, branding and
+runtime asset verification, and production build. The existing Vite large
+chunk warning remains for `KartTimeTrial`. Desktop/mobile visual acceptance
+remains pending.
+
+The approved PNG source is retained as its ImageGen output and documented by
+generator ID and SHA-256, following the existing Route Night UI asset
+workflow. The fixed-size WebP is the runtime delivery asset. This is a
+feature-branch checkpoint only; it does not authorize merge or deployment.

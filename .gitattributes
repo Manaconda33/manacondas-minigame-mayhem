@@ -32,3 +32,6 @@ public/assets/characters/**/selection/full-body.png -filter -diff -merge -text
 # Results/Podium character illustrations are fixed-size runtime derivatives.
 # Generated/source masters remain outside this delivery path and remain governed by LFS.
 public/assets/characters/**/results/*.png -filter -diff -merge -text
+
+# The approved fixed-size Results environment is an opaque runtime derivative.
+public/assets/ui/route-night/results-podium-backdrop.webp -filter -diff -merge -text

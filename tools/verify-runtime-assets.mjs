@@ -176,6 +176,20 @@ for (const [path, expectedHash] of runtimeResultsHashes) {
 
 console.log(`Verified ${String(runtimeResultsHashes.size)} approved Results/Podium assets.`);
 
+const resultsBackdropPath = 'public/assets/ui/route-night/results-podium-backdrop.webp';
+const resultsBackdropBytes = await readFile(resultsBackdropPath);
+if (
+  resultsBackdropBytes.subarray(0, 4).toString('ascii') !== 'RIFF' ||
+  resultsBackdropBytes.subarray(8, 12).toString('ascii') !== 'WEBP'
+) {
+  throw new Error(`${resultsBackdropPath} is not a materialized WebP image.`);
+}
+const resultsBackdropHash = createHash('sha256').update(resultsBackdropBytes).digest('hex');
+if (resultsBackdropHash !== '24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465') {
+  throw new Error(`${resultsBackdropPath} no longer matches Manny's approved render derivative.`);
+}
+console.log('Verified the approved Route Night Results/Podium backdrop WebP.');
+
 const runtimeGlbs = [
   'public/assets/characters/aa-01/kart.glb',
   'public/assets/characters/aa-01/kart-lod1.glb',

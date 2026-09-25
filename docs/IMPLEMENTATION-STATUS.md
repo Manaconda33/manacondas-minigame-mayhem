@@ -481,3 +481,9 @@ Result: **10 test files / 79 tests passed**. Full `npm run validate` passed stri
 The five-restart cleanup/memory item remains **INCONCLUSIVE / NOT PASSED**. `tests/results-routing.test.ts` uses a mocked race factory and proves one disposal/routing cycle each for Race Again, Change Driver, and Return to Hub; it does not measure repeated real-game resource counts, stale markers, duplicated/orphaned DOM across five restarts, browser memory, or Results-only asset residency. No whole-app browser memory/soak harness exists in the repository. Do not mark this gate passed based on the routing suite.
 
 GitHub inspection found no open PR for this branch and no PR-triggered workflow run associated with `1c942fc2c5913859bc46d7a22188e132a15f6822`. Hosted PR CI, Pages deployment, and deployed desktop/mobile review remain pending. Results visual acceptance remains pending until the deployed Title → Hub → Character Select → Race → Results flow is reviewed at desktop and mobile sizes; local tests/build are not deployed acceptance.
+
+## Browser evidence 1 — deployed build provenance and baseline — 2026-09-25
+
+Connected Chrome opened the README's GitHub Pages URL. The Title screen rendered at 1363 × 936 CSS pixels, DPR 1; the read-only DOM sample found `data-screen="title"`, 85 elements, zero Results screens, and zero mini-map nodes. These Title-state counts are baseline observations only. The browser page evaluation did not expose `window.performance`, so no heap measurement was collected.
+
+The checked-in CI workflow deploys Pages only on pushes to `main`. `main` was `7e8a9ea8901bef6ea4dd785780c4cc8295225ead`; the feature branch was `cf9e357bb8faa88696865e28ab56323e15df1eee`. This live page is not the feature build and contributes no five-restart cleanup, memory, or deployed-acceptance evidence. Continue local browser validation only with an explicit local label; keep deployed acceptance pending.

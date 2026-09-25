@@ -1139,3 +1139,21 @@ GitHub inspection found no open PR for
 for `1c942fc2c5913859bc46d7a22188e132a15f6822`. Hosted PR CI/Pages and deployed
 visual review remain pending. Do not infer deployed desktop/mobile acceptance
 from these local tests or the production build.
+
+## Browser evidence 1 — deployed build provenance and baseline — 2026-09-25
+
+Connected Chrome opened the GitHub Pages URL listed in `README.md` at
+`https://manaconda33.github.io/manacondas-minigame-mayhem/`. The visible and
+accessible screen was the Route Night Title at **1363 × 936 CSS pixels, DPR 1**.
+The read-only DOM sample reported `data-screen="title"`, 85 elements, zero
+Results screens, and zero mini-map nodes. Those zero counts are expected on the
+Title screen and provide no lifecycle or memory evidence. The page evaluation
+surface did not expose `window.performance`; no heap reading was collected.
+
+The checked-in workflow only deploys Pages on pushes to `main`. At this check,
+`main` was `7e8a9ea8901bef6ea4dd785780c4cc8295225ead` and the feature branch was
+`cf9e357bb8faa88696865e28ab56323e15df1eee`. This Pages view therefore does not
+exercise the current feature branch. Do not count it toward Task 10's
+five-restart check or Task 11's deployed acceptance. Next browser evidence must
+be collected against a branch-matched local preview and labelled local, unless
+a later approved deployment supplies a matching deployed build.

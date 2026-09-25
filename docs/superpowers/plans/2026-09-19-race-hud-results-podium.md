@@ -131,3 +131,5 @@ This subset does not complete the ImageGen pack, reaction poses, backdrop, full 
 ## Handoff
 
 The original handoff anticipated a documentation-only plan branch. Manny later approved the bounded runtime subset above on the existing feature branch. Continue the remaining plan work only under its separate asset and acceptance gates; the current branch checkpoint makes no deployment or visual-acceptance claim.
+
+**Browser evidence 1, 2026-09-25:** the current GitHub Pages URL renders the Route Night Title, but the workflow deploys only `main` (`7e8a9ea8901bef6ea4dd785780c4cc8295225ead`) while the feature branch is `cf9e357bb8faa88696865e28ab56323e15df1eee`. Its Title-state DOM counts and inaccessible `window.performance` provide no five-restart evidence. Use a branch-matched local preview for local lifecycle observations; keep deployed acceptance pending.

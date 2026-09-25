@@ -1157,3 +1157,21 @@ exercise the current feature branch. Do not count it toward Task 10's
 five-restart check or Task 11's deployed acceptance. Next browser evidence must
 be collected against a branch-matched local preview and labelled local, unless
 a later approved deployment supplies a matching deployed build.
+
+## Browser evidence 2 — feature-branch preview access — 2026-09-25
+
+The feature branch's Vite server started successfully at
+`http://127.0.0.1:5173/manacondas-minigame-mayhem/` after binding explicitly to
+loopback; binding to `0.0.0.0` failed while Vite queried unavailable network
+interfaces. The connected cloud browser rejected both the loopback URL and
+`http://localhost:5173/manacondas-minigame-mayhem/` with
+`net::ERR_BLOCKED_BY_CLIENT`. A follow-up browser inspection was denied by the
+browser URL policy for the local origin. The Vite process was stopped afterward.
+
+No feature-branch page opened, and no race cycle, DOM cleanup, heap sample, or
+Results asset-residency observation was collected. This is an environment
+access blocker, not evidence of a leak or a pass. Resume only with a reviewable
+branch-matched preview URL supplied by an approved preview/deployment path or
+with browser access explicitly supporting this workspace's local origin; do
+not bypass the browser's URL policy. Keep the five-restart and deployed visual
+gates open.

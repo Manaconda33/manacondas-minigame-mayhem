@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; RACE HUD / MINIMAP / RESULTS-PODIUM FEATURE CHECKPOINT; REACTION ASSETS COMPLETE; RESULTS REACTION MAPPING IN PROGRESS**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; RACE HUD / MINIMAP / RESULTS-PODIUM FEATURE BRANCH; 12 LOWER-FINISH REACTIONS MAPPED; APPROVED RESULTS BACKDROP INTEGRATED; LOCAL TASK 10 CHECKS PASS EXCEPT FIVE-RESTART MEMORY EVIDENCE; DEPLOYED ACCEPTANCE PENDING**
 
 PRD baseline: **v1.1 with approved implementation amendments through 2.22**. Slice 6 kickoff and Route Night are governed by ADR-085-086; the published settings/graphics/audio foundation is ADR-087; the bounded material-coordinate / first Circuit Alpha PBR increment is governed by ADR-088; the Character Select baseline and full-body package are governed by ADR-090-092; the next Race HUD / mini-map / Results-Podium asset direction is governed by ADR-093.
 
@@ -13,6 +13,10 @@ Latest verified Slice 5 acceptance-protocol checkpoint on `main`: **`fd967afca41
 Latest verified repository head on `main`: **`7e8a9ea8901bef6ea4dd785780c4cc8295225ead`** (PR #187 full-body Character Select package; merged and deployed on 2026-09-19; post-merge CI/Pages run `35422609359` passed).
 
 Latest verified Slice 6 implementation checkpoint on `main`: **`7e8a9ea8901bef6ea4dd785780c4cc8295225ead`** (Route Night Character Select baseline, composition correction, and approved full-body package through PRs #185-#187; deployed visual acceptance passed on desktop and mobile; the accepted Circuit Alpha PBR baseline remains governed by ADR-088).
+
+Latest verified feature-branch checkpoint: **`1c942fc2c5913859bc46d7a22188e132a15f6822`** on `feature/slice6-race-hud-minimap-results-podium`, matching `origin` with a clean worktree at session start. It integrates the approved Results/Podium backdrop behind live Results content. All twelve approved lower-finish reaction assets are published and mapped by stable character ID to places 4–8; victory mapping remains for places 1–3. The backdrop ImageGen output ID and source/runtime hashes are recorded in `docs/ASSET-PROVENANCE.md`; its runtime SHA-256 is `24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`.
+
+**Current release evidence (2026-09-25):** focused verification passed **10 files / 79 tests**; `npm run validate` passed **72 files / 584 tests**, with **81.93% statements / 76.25% branches / 87.07% functions / 83.64% lines**, strict typecheck, zero-warning lint, branding/runtime-asset checks, and production build. Runtime verification checked 18 Results/Podium assets including the approved backdrop, 36 materialized runtime GLBs, and 135 character PNGs. `git diff --check`, `git lfs fsck`, and targeted Prettier checks passed. The existing Vite large-chunk warning for `KartTimeTrial` remains. `tests/results-routing.test.ts` confirms disposal/routing in one mocked cycle per action, but no five-restart browser memory/asset-leak pass is claimed: no whole-app memory soak harness was found. GitHub reports no open PR and no PR-triggered workflow run for this head. Hosted CI/Pages and deployed desktop/mobile visual acceptance remain pending; this branch is not merged or deployed.
 
 Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. The tuned amendment merged through PR #149 at **`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`**; hosted PR CI **`35173826253`** and post-merge validation/Pages **`35188684882`** passed. Manny reported **“Pass”** on 2026-09-17; PR #149 comment **`5709839182`** records live acceptance.
 
@@ -121,7 +125,7 @@ The final all-item interaction/counter evidence is complete through `docs/SLICE-
 
 ## Next recommended action
 
-Begin the next bounded Slice 6 increment: implement the Route Night title/hub/controls/settings UI system using the locked ADR-086 visual language and canonical Route Night reference. Preserve approved roster/kart identity, gameplay/race authority, track topology, and the accepted Circuit Alpha material checkpoint.
+Complete the five-restart cleanup/memory evidence with an appropriate existing runtime harness; do not infer memory or Results-only asset-leak results from the mocked route tests. Keep hosted PR CI, deployed desktop/mobile visual review, and product-owner acceptance pending. Do not merge or deploy before those required review gates.
 
 ## Approval state
 
@@ -461,3 +465,19 @@ The approved PNG source is retained as its ImageGen output and documented by
 generator ID and SHA-256, following the existing Route Night UI asset
 workflow. The fixed-size WebP is the runtime delivery asset. This is a
 feature-branch checkpoint only; it does not authorize merge or deployment.
+
+## Slice 6 Task 10 local release-evidence checkpoint — 2026-09-25
+
+Verified repository state before checks: branch `feature/slice6-race-hud-minimap-results-podium`, `HEAD` and `origin/feature/slice6-race-hud-minimap-results-podium` both at `1c942fc2c5913859bc46d7a22188e132a15f6822`; worktree clean.
+
+Focused suites passed with:
+
+```bash
+npx vitest run tests/race-hud-ui.test.ts tests/minimap.test.ts tests/results-podium.test.ts tests/results-routing.test.ts tests/app-shell.test.ts tests/route-night-ui.test.ts tests/item-hud-input.test.ts tests/race-results-assets.test.ts tests/race-results.test.ts tests/character-select-ui.test.ts --coverage=false
+```
+
+Result: **10 test files / 79 tests passed**. Full `npm run validate` passed strict typecheck, zero-warning lint, **72 test files / 584 tests**, branding and runtime-asset verification, and production build. Coverage: **81.93% statements / 76.25% branches / 87.07% functions / 83.64% lines**. Runtime verification checked 18 Results/Podium assets (including the backdrop), 36 materialized runtime GLBs, and 135 character PNGs. The approved backdrop runtime SHA-256 is `24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`; source and all approved reaction hashes remain in `docs/ASSET-PROVENANCE.md` and the Results asset brief. `git diff --check`, `git lfs fsck`, and targeted Prettier checks passed. Vite retains its existing non-blocking large-chunk warning for `KartTimeTrial`.
+
+The five-restart cleanup/memory item remains **INCONCLUSIVE / NOT PASSED**. `tests/results-routing.test.ts` uses a mocked race factory and proves one disposal/routing cycle each for Race Again, Change Driver, and Return to Hub; it does not measure repeated real-game resource counts, stale markers, duplicated/orphaned DOM across five restarts, browser memory, or Results-only asset residency. No whole-app browser memory/soak harness exists in the repository. Do not mark this gate passed based on the routing suite.
+
+GitHub inspection found no open PR for this branch and no PR-triggered workflow run associated with `1c942fc2c5913859bc46d7a22188e132a15f6822`. Hosted PR CI, Pages deployment, and deployed desktop/mobile review remain pending. Results visual acceptance remains pending until the deployed Title → Hub → Character Select → Race → Results flow is reviewed at desktop and mobile sizes; local tests/build are not deployed acceptance.

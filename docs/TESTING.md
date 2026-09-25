@@ -1106,3 +1106,36 @@ not imply Results runtime mapping or deployed visual acceptance.
 The Results/Podium tests verify the decorative backdrop URL and accessibility
 semantics while confirming the standings and race actions remain live. Runtime
 asset verification checks the backdrop's WebP signature and approved SHA-256.
+
+## Slice 6 Task 10 local release-evidence checkpoint — 2026-09-25
+
+The focused local regression command passed **10 test files / 79 tests**:
+
+```bash
+npx vitest run tests/race-hud-ui.test.ts tests/minimap.test.ts tests/results-podium.test.ts tests/results-routing.test.ts tests/app-shell.test.ts tests/route-night-ui.test.ts tests/item-hud-input.test.ts tests/race-results-assets.test.ts tests/race-results.test.ts tests/character-select-ui.test.ts --coverage=false
+```
+
+`npm run validate` passed strict typecheck, zero-warning lint, **72 test files /
+584 tests**, branding/runtime-asset verification, and production build. Coverage
+was **81.93% statements / 76.25% branches / 87.07% functions / 83.64% lines**.
+The asset verifier checked 18 Results/Podium assets including the approved
+backdrop, 36 materialized runtime GLBs, and 135 character PNGs. Exact asset
+source/runtime hashes are recorded in `docs/ASSET-PROVENANCE.md` and
+`docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`; backdrop runtime SHA-256:
+`24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`.
+`git diff --check`, `git lfs fsck`, and targeted Prettier checks passed. The
+existing Vite large-chunk warning for `KartTimeTrial` remains non-blocking.
+
+The five-restart cleanup/memory check is **INCONCLUSIVE / NOT PASSED**.
+`tests/results-routing.test.ts` verifies one mocked disposal/routing cycle for
+each of Race Again, Change Driver, and Return to Hub, but does not exercise five
+repeated cycles with real `KartTimeTrial` instances, compare browser memory,
+inspect marker/DOM accumulation across five restarts, or measure Results-only
+asset residency. No whole-app browser memory/soak harness was found in the
+repository. These limitations do not support a pass claim.
+
+GitHub inspection found no open PR for
+`feature/slice6-race-hud-minimap-results-podium` and no PR-triggered workflow run
+for `1c942fc2c5913859bc46d7a22188e132a15f6822`. Hosted PR CI/Pages and deployed
+visual review remain pending. Do not infer deployed desktop/mobile acceptance
+from these local tests or the production build.

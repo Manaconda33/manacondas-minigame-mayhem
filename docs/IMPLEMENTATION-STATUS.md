@@ -251,7 +251,7 @@ extend the unique pose language without reusing a generic celebration pose.
 
 This checkpoint contains no Results/Podium runtime wiring, standings changes,
 reaction assets, backdrop, gameplay, race-authority, AI, item, audio, or
-deployment changes. Six remaining victory poses, twelve reaction poses, and
+deployment changes. Six remaining victory poses, six remaining reaction poses, and
 the Results/Podium backdrop remain separately gated by visual approval.
 
 ## Slice 6 Results/Podium runtime subset — feature-branch checkpoint, 2026-09-23
@@ -268,7 +268,7 @@ The responsive board stays docked to the right on desktop and along the lower po
 
 **Local verification:** `npm run validate` passed **71 test files / 561 tests**, with **81.91% statement / 76.23% branch / 87.06% function / 83.62% line coverage**. Strict typecheck, zero-warning lint, branding and runtime-asset validation, and production build passed; `git diff --check`, targeted Prettier checks, and `git lfs fsck` passed. Runtime validation decoded 117 character PNGs and verified the existing 36 GLBs and track textures. Vite reported its existing large-chunk warning for the `KartTimeTrial` bundle.
 
-This is a branch-only automated checkpoint. No hosted PR run, deployment, or live desktop/mobile visual acceptance is claimed. The remaining six victory poses, twelve reaction poses, and Results backdrop remain gated; the full Race HUD/mini-map and release-candidate acceptance scope also remain open.
+This is a branch-only automated checkpoint. No hosted PR run, deployment, or live desktop/mobile visual acceptance is claimed. The remaining six victory poses, six remaining reaction poses, and Results backdrop remain gated; the full Race HUD/mini-map and release-candidate acceptance scope also remain open.
 
 ## Slice 6 Results/Podium victory art extension — feature-branch checkpoint, 2026-09-23
 
@@ -348,8 +348,17 @@ character record. The runtime verifier now checks their exact hashes, 1024 ×
 and absence of opaque key-green pixels.
 
 This is an asset-only checkpoint. Places 4–8 continue using selection art;
-reaction runtime mapping is not part of this commit. Nine reaction poses, the
+reaction runtime mapping is not part of this commit. Six reaction poses, the
 Results backdrop, remaining Results integration, and Slice 6 deployed desktop
 and mobile acceptance remain open. Next recommended action: generate reactions
 for AA-04–06 through the same prompt, render approval, cutout approval, and
 publication gates.
+
+
+## Slice 6 Results/Podium reaction art — approved batch 02, 2026-09-24
+
+Manny approved the chroma-green renders and transparent cutouts for Keeg / AA-04, Kraken / AA-05, and Dragon Queen / AA-06. The matching approved Character Select full-body art was used as each generation's actual image reference. Their cutout SHA-256 values are recorded in the Results asset brief and provenance ledger; the runtime verifier checks exact bytes and PNG transparency requirements.
+
+The files are included at `public/assets/characters/aa-04/results/reaction.png`, `public/assets/characters/aa-05/results/reaction.png`, and `public/assets/characters/aa-06/results/reaction.png`. Their avatar records and the lower-finish Results asset brief now record the approved poses and references. Results runtime mapping remains unchanged; places 4–8 continue to use the existing selection-art, portrait, and monogram fallback chain.
+
+This asset-only checkpoint does not change gameplay, race authority, balance, kart art, victory poses, or deployment behavior. Six reaction poses, the Results backdrop, remaining Results integration, and Slice 6 deployed desktop/mobile acceptance remain open. Next recommended action: prepare AA-07–09 through the established green-screen render, cutout review, and publication gates.

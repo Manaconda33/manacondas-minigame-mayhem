@@ -120,3 +120,12 @@ Publish the approved correction through the governed branch and pull-request wor
 - Pose direction: fully draconic regal wing display with elevated head, raised open foreclaw salute, crown, ceremonial regalia, and visible long tail.
 - Identity source: the approved Character Select full-body asset was supplied as the actual image-generation reference.
 - Boundary: Results/Podium victory presentation only; the approved driver package, kart identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium lower-finish reaction art
+
+- Runtime asset: `public/assets/characters/aa-06/results/reaction.png`.
+- Manny approved the chroma-green render and transparent cutout on 2026-09-24.
+- Pose: partly folded wings, foreclaw on the chest ornament, slightly dipped head, and a fully visible curled tail; composed disappointment with renewed resolve. Dragon Queen remains fully draconic.
+- Identity source: the approved `public/assets/characters/aa-06/selection/full-body.png` asset was used as the actual generation reference.
+- Runtime derivative: 1024 × 1536 RGBA PNG with genuine transparency; SHA-256 `0997d1684a9fc29c05995bb7e361a507d5e967f8965ab77312590fb6488e8e6b`.
+- This Results-only pose does not change driver art or the Results runtime mapping.

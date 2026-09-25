@@ -369,3 +369,14 @@ source/runtime hash gates are implemented in
 `tools/assets/prepare_results_reaction_cutouts.py`. It reproduces these three
 runtime derivatives byte-for-byte. The source render files remain in the
 generation output store and are identified above by exact output ID and hash.
+
+
+## Route Night Results/Podium — approved lower-finish reaction batch 02
+
+The approved Keeg / AA-04, Kraken / AA-05, and Dragon Queen / AA-06 green-screen renders used the matching approved Character Select full-body assets as their actual identity references. Manny approved the green-screen renders and the resulting transparent cutouts on 2026-09-24. The delivered runtime files are fixed-size 1024 × 1536 RGBA PNGs; they retain transparent corners, zero RGB in fully transparent pixels, and contain no opaque #00FF00 matte pixels. The Results runtime mapping remains unchanged.
+
+| Runtime file | Identity source | Generator output ID | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- | --- |
+| `public/assets/characters/aa-04/results/reaction.png` | `public/assets/characters/aa-04/selection/full-body.png` — `4edbf3029403434ff5a5b0c916cc407001bbdfc57e25a1fdc9afcffd35a4bcc7` | `exec-86c49b26-1d57-4795-8b46-ff6501b0490f` | `10543f10f29717554c6dbccc14c8e0f43bd25bc00dc50c46583296072929884c` | `cfb9800f7675c85c055acdbd6a9fbdc3e22748bbc9166e404f3e429c5fe6ee9b` |
+| `public/assets/characters/aa-05/results/reaction.png` | `public/assets/characters/aa-05/selection/full-body.png` — `f74fce0220acc173cd14f34cf9275218f2295bd02ef2e9533747423e01860f5b` | `exec-f31ee1f8-72fc-4e01-a518-1ec4f8e6eab9` | `e598cd915cc397af9f1e1200437b67673d58484978ebd04ce8c2fc5690ae83e9` | `57030b478a9b0cdf6607f5c3041385989768abda61d72d1316b8696b5c390445` |
+| `public/assets/characters/aa-06/results/reaction.png` | `public/assets/characters/aa-06/selection/full-body.png` — `9cbbc3f429d1a2243a6d7082e1cac44c8b6cc87d38c91f583f20891544b10732` | `exec-1d60d86f-502a-4a23-a742-12b513066e00` | `df53fcf458a4f3b989dc7d5573b1aaa9fa6c00e787745b1aedddcbd5c3b146c1` | `0997d1684a9fc29c05995bb7e361a507d5e967f8965ab77312590fb6488e8e6b` |

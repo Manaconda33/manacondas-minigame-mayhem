@@ -5,7 +5,7 @@
 This brief governs the character-specific Results/Podium illustration package
 for Slice 6. Four approved victory batches add twelve top-three poses.
 Lower-finish reaction poses are approved and published in character batches;
-Batch 01 covers AA-01–03. The remaining nine reactions and Results/Podium
+Batches 01–02 cover AA-01–06. The remaining six reactions and Results/Podium
 backdrop remain separately gated by visual approval.
 
 The approved pose direction is character-driven rather than rank-generic:
@@ -167,3 +167,16 @@ conversion is applied. The script checks both source and output SHA-256 values.
 The assets are now available for future Results integration, but this commit
 does not change the current fallback for places 4–8. The other nine reactions
 and Results backdrop remain unapproved.
+
+
+## Approved Reaction Batch 02 — lower-finish poses
+
+Manny approved the chroma-green renders and the transparent cutouts for Keeg, Kraken, and Dragon Queen on 2026-09-24. The matching approved Character Select full-body image was used as the actual identity reference for each render. Each runtime cutout is a 1024 × 1536 RGBA PNG with genuine transparency and zeroed RGB in fully transparent pixels. Batch 02 adds no Results runtime mapping change; places 4–8 continue using their existing fallback.
+
+| Racer | Approved lower-finish pose | Identity source | Runtime asset | Generator output | Source SHA-256 | Runtime SHA-256 |
+| --- | --- | --- | --- | --- | --- | --- |
+| Keeg / AA-04 | Theatrical half-bow; robe sweep and mock-apology hat touch; sheepish, charismatic recovery | `public/assets/characters/aa-04/selection/full-body.png` | `public/assets/characters/aa-04/results/reaction.png` | `exec-86c49b26-1d57-4795-8b46-ff6501b0490f` | `10543f10f29717554c6dbccc14c8e0f43bd25bc00dc50c46583296072929884c` | `cfb9800f7675c85c055acdbd6a9fbdc3e22748bbc9166e404f3e429c5fe6ee9b` |
+| Kraken / AA-05 | Compact three-quarter stance; brushing dust from one sleeve and measured sideways glance | `public/assets/characters/aa-05/selection/full-body.png` | `public/assets/characters/aa-05/results/reaction.png` | `exec-f31ee1f8-72fc-4e01-a518-1ec4f8e6eab9` | `e598cd915cc397af9f1e1200437b67673d58484978ebd04ce8c2fc5690ae83e9` | `57030b478a9b0cdf6607f5c3041385989768abda61d72d1316b8696b5c390445` |
+| Dragon Queen / AA-06 | Partly folded wings; foreclaw over chest ornament; dipped head and fully visible curled tail | `public/assets/characters/aa-06/selection/full-body.png` | `public/assets/characters/aa-06/results/reaction.png` | `exec-1d60d86f-502a-4a23-a742-12b513066e00` | `df53fcf458a4f3b989dc7d5573b1aaa9fa6c00e787745b1aedddcbd5c3b146c1` | `0997d1684a9fc29c05995bb7e361a507d5e967f8965ab77312590fb6488e8e6b` |
+
+The approved runtime PNG hashes, dimensions, RGBA format, transparent corners, transparent-RGB zeroing, and opaque key-green check are enforced by `tools/verify-runtime-assets.mjs`.

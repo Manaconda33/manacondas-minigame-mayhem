@@ -82,3 +82,12 @@ Preserve the accepted `kraken-runtime-20260901-2` package. The one-character rol
 - Pose direction: controlled three-quarter lean with one hand in a trouser pocket, the other touching his chin, and a calculating half-smile.
 - Identity source: the approved Character Select full-body asset was supplied as the actual image-generation reference.
 - Boundary: Results/Podium victory presentation only; the approved driver package, kart identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium lower-finish reaction art
+
+- Runtime asset: `public/assets/characters/aa-05/results/reaction.png`.
+- Manny approved the chroma-green render and transparent cutout on 2026-09-24.
+- Pose: compact three-quarter stance, brushing dust from one sleeve and giving a measured sideways glance; grounded, controlled frustration. The silhouette avoids Kraken's victory pose.
+- Identity source: the approved `public/assets/characters/aa-05/selection/full-body.png` asset was used as the actual generation reference.
+- Runtime derivative: 1024 × 1536 RGBA PNG with genuine transparency; SHA-256 `57030b478a9b0cdf6607f5c3041385989768abda61d72d1316b8696b5c390445`.
+- This Results-only pose does not change driver art or the Results runtime mapping.

@@ -93,3 +93,12 @@ Preserve the accepted front-action files, controlled revision, front placement, 
 - Pose direction: theatrical silver-trimmed hat-tip with an asymmetrical robe sweep, violet magic flourish, and sly smile.
 - Identity source: the approved Character Select full-body asset was supplied as the actual image-generation reference.
 - Boundary: Results/Podium victory presentation only; the approved driver package, kart identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium lower-finish reaction art
+
+- Runtime asset: `public/assets/characters/aa-04/results/reaction.png`.
+- Manny approved the chroma-green render and transparent cutout on 2026-09-24.
+- Pose: theatrical half-bow, outward robe sweep, and mock-apology hat touch; sheepish, charismatic recovery. The silhouette differs from Keeg's victory pose.
+- Identity source: the approved `public/assets/characters/aa-04/selection/full-body.png` asset was used as the actual generation reference.
+- Runtime derivative: 1024 × 1536 RGBA PNG with genuine transparency; SHA-256 `cfb9800f7675c85c055acdbd6a9fbdc3e22748bbc9166e404f3e429c5fe6ee9b`.
+- This Results-only pose does not change driver art or the Results runtime mapping.

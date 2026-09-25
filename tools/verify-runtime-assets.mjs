@@ -128,6 +128,18 @@ const runtimeResultsHashes = new Map([
     'public/assets/characters/aa-03/results/reaction.png',
     '0ae22c91b376259390541dc7193648b6631015eee20b5f18153b31ba97482b91',
   ],
+  [
+    'public/assets/characters/aa-04/results/reaction.png',
+    'cfb9800f7675c85c055acdbd6a9fbdc3e22748bbc9166e404f3e429c5fe6ee9b',
+  ],
+  [
+    'public/assets/characters/aa-05/results/reaction.png',
+    '57030b478a9b0cdf6607f5c3041385989768abda61d72d1316b8696b5c390445',
+  ],
+  [
+    'public/assets/characters/aa-06/results/reaction.png',
+    '0997d1684a9fc29c05995bb7e361a507d5e967f8965ab77312590fb6488e8e6b',
+  ],
 ]);
 
 for (const [path, expectedHash] of runtimeResultsHashes) {

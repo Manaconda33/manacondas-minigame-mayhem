@@ -88,7 +88,7 @@
 - [ ] **Step 4: Run** the camera suite; expect pass. Inspect actual gameplay on narrow portrait and desktop preview: horizon, road sightline, racer position, hazards and rear view. Tune numeric values from screenshots rather than treating geometry tests as pixel acceptance.
 - [x] **Step 5: Commit** as `feat: frame mobile race toward the road`.
 
-**Evidence so far:** `tests/chase-camera.test.ts` passed (`7/7` tests); typecheck, targeted lint, diff check and LFS check passed. Pixel inspection remains open under the same browser limitation recorded at Task 2. Retest the camera after the next authorized preview refresh; keep Task 11 acceptance pending.
+**Evidence so far:** `tests/chase-camera.test.ts` passed (`7/7` tests); full `npm run validate` passed (`74/74` files, `602/602` tests, typecheck, lint, runtime assets and build). Preview run 621 passed and refreshed isolated preview code commit `312184c`. Desktop preview review was at 1363×936. The game DOM renders its HUD, but Chrome has WebGL disabled and remains on the initialization screen, so camera framing and live gameplay could not be visually assessed. The browser exposes no 360–430 CSS-pixel/device emulation, and `pointer: coarse`/`hover: none` both report false. Keep Task 2 Step 4 and Task 3 Step 4 open pending real mobile/safe-area and functional gameplay evidence; keep Task 11 acceptance pending.
 
 ### Task 4: Integrated validation and preview review
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { itemHudMarkup, updateItemHud, updateTouchItemButton } from '../src/app/itemHud';
-import { touchControlsMarkup } from '../src/app/touchControls';
+import { touchControlsMarkup, updateTouchRecoveryButton } from '../src/app/touchControls';
 import type { ItemHudSnapshot } from '../src/game/items/ItemSystem';
 
 function host(): HTMLElement {
@@ -86,19 +86,34 @@ describe('Slice 5 mobile ITEM control', () => {
     expect(touchControlsMarkup(false)).toBe('');
   });
 
-  it('adds a dedicated ITEM control alongside the existing touch controls', () => {
+  it('keeps exactly four ordered action controls and moves recovery to a hidden contextual target', () => {
     const container = document.createElement('div');
     container.innerHTML = touchControlsMarkup(true);
 
     expect(container.querySelector('#mobile-steering-wheel')?.getAttribute('aria-label')).toContain(
       'accelerates',
     );
-    expect(container.querySelector('[data-touch="brake"]')).not.toBeNull();
-    expect(container.querySelector('[data-touch="accelerate"]')).not.toBeNull();
-    expect(container.querySelector('[data-touch="drift"]')).not.toBeNull();
-    expect(container.querySelector('[data-touch="rear"]')).not.toBeNull();
-    expect(container.querySelector('[data-touch="recover"]')).not.toBeNull();
+    const actions = Array.from(
+      container.querySelectorAll<HTMLButtonElement>('.action-controls [data-touch]'),
+    );
+    expect(actions.map((button) => button.dataset.touch)).toEqual([
+      'rear',
+      'brake',
+      'item',
+      'drift',
+    ]);
+    expect(container.querySelector('[data-touch="accelerate"]')).toBeNull();
+    const recovery = container.querySelector<HTMLButtonElement>('#touch-recover');
+    expect(recovery?.dataset.touch).toBe('recover');
+    expect(recovery?.hidden).toBe(true);
+    expect(recovery?.closest('.action-controls')).toBeNull();
     expect(container.querySelector('[data-touch-item-label]')?.textContent).toBe('ITEM');
+
+    if (recovery === null) throw new Error('touch recovery button missing');
+    updateTouchRecoveryButton(recovery, true);
+    expect(recovery.hidden).toBe(false);
+    updateTouchRecoveryButton(recovery, false);
+    expect(recovery.hidden).toBe(true);
   });
 
   it('starts with an empty item visualization and an accurate accessible name', () => {

@@ -126,6 +126,7 @@ export interface HudState {
   boostActive: boolean;
   activeBoostLabel: string | null;
   airborne: boolean;
+  recoveryPrompt: boolean;
   position: number;
   countdown: string;
   minimap: MinimapState;
@@ -1670,6 +1671,7 @@ export class KartTimeTrial {
       boostActive: feedback.boostActive,
       activeBoostLabel: driveModifiers.activeBoostLabel,
       airborne: feedback.airborne,
+      recoveryPrompt: this.outOfBoundsSeconds > 0,
       position: this.currentStandings().findIndex(({ id }) => id === 'player') + 1,
       countdown: this.raceDirector.countdownLabel(),
       item: this.itemSystem.hudSnapshot('player'),

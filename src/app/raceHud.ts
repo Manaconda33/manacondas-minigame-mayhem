@@ -44,7 +44,7 @@ export function raceHudMarkup(touchControls: string): string {
       <div id="drift-panel" class="drift-panel" data-tier="none" data-race-region="drift">
         ${routeNightRaceHudMarkup('gauge-drift', 'race-hud-drift-art')}
         <div class="drift-panel-content">
-          <span id="drift-label">Hold Space + steer to drift</span>
+          <span id="drift-label">${touchSession ? 'BOOST' : 'Hold Space + steer to drift'}</span>
           <div class="drift-meter"><i id="drift-fill"></i></div>
           <div id="overdrive-status" class="overdrive-status" role="status" hidden></div>
           <div id="rocket-status" class="rocket-status" role="status" hidden></div>

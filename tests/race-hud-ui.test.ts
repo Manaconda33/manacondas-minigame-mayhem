@@ -10,6 +10,16 @@ import {
 import type { ItemHudSnapshot } from '../src/game/items/ItemSystem';
 
 describe('Route Night race HUD asset contracts', () => {
+  it('uses a mobile-appropriate boost label instead of a keyboard-only drift instruction', () => {
+    const mobile = document.createElement('div');
+    mobile.innerHTML = raceHudMarkup('<div id="touch-controls"></div>');
+    const desktop = document.createElement('div');
+    desktop.innerHTML = raceHudMarkup('');
+
+    expect(mobile.querySelector('#drift-label')?.textContent).toBe('BOOST');
+    expect(desktop.querySelector('#drift-label')?.textContent).toBe('Hold Space + steer to drift');
+  });
+
   it('resolves the authored race HUD vector and atmosphere through the deployed base path', () => {
     expect(routeNightAssetUrl('race-hud')).toContain(
       'assets/ui/route-night/route-night-race-hud.svg',

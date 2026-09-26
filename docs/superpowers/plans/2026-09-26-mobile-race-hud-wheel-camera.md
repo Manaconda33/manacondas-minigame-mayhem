@@ -71,6 +71,8 @@
 
 **Evidence so far:** focused suites passed (`15/15` tests), and full `npm run validate` passed (`74/74` test files; `599/599` tests, typecheck, lint, runtime asset checks and build). GitHub Actions run 620 passed and refreshed the isolated preview at commit `194f9b5`; the ordinary main URL still loads its unchanged main-branch assets. The browser viewport is 1363×936 with `pointer: coarse` and `hover: none` both false, and the available browser interface has no viewport emulation control. Local browser navigation remains rejected with `net::ERR_BLOCKED_BY_CLIENT`. The branch preview race DOM renders, but its WebGL context is disabled in this browser, so the game stays at initialization and live control behavior cannot be visually inspected. The required 360–430 portrait view remains unobserved; keep Step 4 open for a real mobile/safe-area view.
 
+**Manny review correction, feature branch candidate — 2026-09-26:** Manny approved the wheel input behavior and requested a HUD correction: four normal actions in Rear → Brake/Reverse → Use Item → Drift order; a larger wheel; bottom-center speed; and a lower-right drift/boost display, with the keyboard-only drift instruction removed. The implementation now follows this order and positions the Recover control separately, revealing it only during the existing out-of-bounds countdown. Focused tests pass **16/16** and full validation passes **74 files / 603 tests**. This candidate is not visually reviewed at a real mobile viewport and is not yet accepted by Manny. Step 4 remains open.
+
 ### Task 3: Mobile forward chase framing
 
 **Files:**

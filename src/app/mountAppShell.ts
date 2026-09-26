@@ -21,7 +21,7 @@ import type { RaceStanding } from '../game/raceResults';
 import { updateItemHud, updateTouchItemButton } from './itemHud';
 import { raceHudMarkup } from './raceHud';
 import { updateRaceMinimap } from './raceMinimap';
-import { touchControlsMarkup } from './touchControls';
+import { touchControlsMarkup, updateTouchRecoveryButton } from './touchControls';
 import { bindTouchWheel } from './touchWheel';
 import {
   routeNightAssetUrl,
@@ -383,6 +383,8 @@ export function mountAppShell(root: HTMLElement): void {
       getElement('#countdown').textContent = state.countdown;
       getElement('#countdown').hidden = state.countdown === '';
       getElement('#wrong-way').hidden = !state.wrongWay;
+      const touchRecover = root.querySelector<HTMLButtonElement>('#touch-recover');
+      if (touchRecover !== null) updateTouchRecoveryButton(touchRecover, state.recoveryPrompt);
       const inkOverlay = getElement('#ink-overlay');
       inkOverlay.hidden = !state.ink.active;
       inkOverlay.style.setProperty('--ink-fade', String(state.ink.fade));
@@ -452,9 +454,11 @@ export function mountAppShell(root: HTMLElement): void {
               ? `${state.activeBoostLabel.toUpperCase()} ACTIVE`
               : state.boostActive
                 ? `${state.driftTier.toUpperCase()} BOOST`
-                : state.driftTier === 'none'
+                : state.driftTier === 'none' && !mobileSession
                   ? 'Hold Space + steer to drift'
-                  : `${state.driftTier.toUpperCase()} CHARGE`;
+                  : state.driftTier === 'none'
+                    ? 'BOOST'
+                    : `${state.driftTier.toUpperCase()} CHARGE`;
     };
     const renderStandings = (standings: RaceResult['standings']): void => {
       const finish = root.querySelector<HTMLElement>('#finish');

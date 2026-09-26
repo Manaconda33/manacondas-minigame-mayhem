@@ -3418,7 +3418,7 @@ h2 {
 
 .character-hero-stage {
   display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   position: relative;
   min-height: 24rem;
   overflow: hidden;
@@ -3503,7 +3503,7 @@ h2 {
   position: relative;
   z-index: 1;
   display: block;
-  width: min(92%, 21rem);
+  width: min(98%, 24rem);
   height: 100%;
   min-height: 0;
   object-fit: contain;
@@ -3831,8 +3831,8 @@ h2 {
   }
 
   .character-hero-stage {
-    height: 37svh;
-    min-height: 20rem;
+    height: 47svh;
+    min-height: 22rem;
   }
 }
 

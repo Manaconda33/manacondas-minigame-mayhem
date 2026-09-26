@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; RACE HUD / MINIMAP / RESULTS-PODIUM MERGED AND DEPLOYED; TASK 10 FIVE-RESTART GATE PASSED BY MANNY'S MOBILE/DESKTOP MANUAL REVIEW; MINIMAP PORTRAIT REGRESSION REPORTED WITH LOCAL FIX VALIDATED; TASK 11 DEPLOYED ACCEPTANCE PENDING**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; RACE HUD / MINIMAP / RESULTS-PODIUM MERGED AND DEPLOYED; TASK 10 FIVE-RESTART GATE PASSED BY MANNY'S MOBILE/DESKTOP MANUAL REVIEW; MINIMAP PORTRAIT CORRECTION MERGED AND DEPLOYED, LIVE VISUAL CHECK PENDING; TASK 11 DEPLOYED ACCEPTANCE PENDING**
 
 PRD baseline: **v1.1 with approved implementation amendments through 2.22**. Slice 6 kickoff and Route Night are governed by ADR-085-086; the published settings/graphics/audio foundation is ADR-087; the bounded material-coordinate / first Circuit Alpha PBR increment is governed by ADR-088; the Character Select baseline and full-body package are governed by ADR-090-092; the next Race HUD / mini-map / Results-Podium asset direction is governed by ADR-093.
 
@@ -10,13 +10,13 @@ Latest verified merged gameplay checkpoint on `main`: **`5136a002ec1d39b13f8470f
 
 Latest verified Slice 5 acceptance-protocol checkpoint on `main`: **`fd967afca41366579fe448bcb7c3d9c0631edf1c`** (final desktop/mobile whole-slice matrix through PR #172; hosted PR CI `35305490406` and post-merge validation/Pages run `35337153793` passed **62 test files / 507 tests**).
 
-Latest verified repository/deployment head on `main`: **`0312eec88874ec7775d241f2beedd19d9bd97369`** (PR #190 deployment record; CI/Pages run `36278919096` passed).
+Latest verified repository/deployment head on `main`: **`9cca45b6360979464687a39c0ee5515497985602`** (PR #191 minimap portrait correction; CI/Pages run `36280588544` passed).
 
 Latest verified Slice 6 gameplay checkpoint on `main`: **`e04ef8252b454c734e8e96411a6ca6a346b71fd6`** (PR #188 Race HUD, minimap, and Results/Podium; deployed with workflow repair PR #189 at `f7d88ccb135f10e252ae2eb2f9259e8d64250142`; Task 11 deployed visual acceptance remains pending).
 
 The former feature branch `feature/slice6-race-hud-minimap-results-podium` was squash-merged through PR #188 at `e04ef8252b454c734e8e96411a6ca6a346b71fd6`. The release integrates the approved Results/Podium backdrop behind live Results content. All twelve approved lower-finish reaction assets are published and mapped by stable character ID to places 4–8; victory mapping remains for places 1–3. The backdrop ImageGen output ID and source/runtime hashes are recorded in `docs/ASSET-PROVENANCE.md`; its runtime SHA-256 is `24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`.
 
-**Current release evidence:** PR #188 is merged, PRs #189–#190 recorded and repaired production deployment, and CI/Pages run `36278919096` passed. Task 10's five-restart gate passed by Manny's explicit mobile and desktop manual review, as recorded below. Task 11's deployed full-flow desktop/mobile acceptance remains pending. The existing Vite large-chunk warning for `KartTimeTrial` remains.
+**Current release evidence:** PR #188 is merged; PRs #189–#190 repaired and recorded the initial production deployment; PR #191 restored the minimap portrait visibility and deployed at `9cca45b6360979464687a39c0ee5515497985602` with CI/Pages run `36280588544` passed. The production page serves `assets/index-Cdzwv8Db.css`, whose minimap frame rule has `fill: none`. Manny's live visual confirmation of the racer faces remains pending. Task 10's five-restart gate passed by Manny's explicit mobile and desktop manual review, as recorded below. Task 11's deployed full-flow desktop/mobile acceptance remains pending. The existing Vite large-chunk warning for `KartTimeTrial` remains.
 
 Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. The tuned amendment merged through PR #149 at **`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`**; hosted PR CI **`35173826253`** and post-merge validation/Pages **`35188684882`** passed. Manny reported **“Pass”** on 2026-09-17; PR #149 comment **`5709839182`** records live acceptance.
 
@@ -540,8 +540,8 @@ Post-merge [CI/Pages run 36278444495](https://github.com/Manaconda33/manacondas-
 
 Task 10 is **PASSED BY PRODUCT-OWNER MANUAL REVIEW** as recorded above. Task 11's deployed desktop/mobile acceptance remains pending Manny's review of the production flow, including Results/Podium and the complete Title → Hub → Character Select → Race → Results route. The successful deployment does not itself close Task 11 or claim Slice 6 final acceptance.
 
-## Minimap portrait visibility correction — local validation — 2026-09-26
+## Minimap portrait visibility correction — merged and deployed — 2026-09-26
 
 Manny reported from the deployed mobile race HUD that racer faces appeared as black circles. The Route Night `[data-minimap-frame]` CSS rule had introduced an opaque indigo fill on the circle rendered over each SVG portrait. The local correction restores `fill: none` while retaining its outline and adds a regression test for the final CSS cascade.
 
-On clean `main` at `0312eec88874ec7775d241f2beedd19d9bd97369`, the regression test failed against the opaque fill, then passed after the correction. `npm run validate` passed locally with **74 files / 604 tests**, strict typecheck, zero-warning lint, runtime asset/branding checks, and production build. `git diff --check`, `git lfs fsck`, and targeted Prettier checks passed. The existing `KartTimeTrial` large-chunk warning remains. This correction is not merged or deployed. Next: publish through the review path, deploy it, and have Manny verify racer faces in the live minimap before starting Task 11. Task 10 remains passed; Task 11 remains pending.
+The regression test failed against the opaque fill, then passed after the correction. PR #191 squash-merged at `9cca45b6360979464687a39c0ee5515497985602`. CI/Pages run [`36280588544`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36280588544) passed **74 test files / 604 tests**, typecheck, lint, LFS/runtime-asset checks, production and isolated-preview builds, and GitHub Pages deployment. The production page serves CSS `assets/index-Cdzwv8Db.css`; the deployed `[data-minimap-frame]` rule is `fill: none` with the existing stroke retained. Local `npm run validate`, `git diff --check`, `git lfs fsck`, and targeted Prettier checks passed; the existing `KartTimeTrial` large-chunk warning remains. Manny's manual visual confirmation of faces on the deployed mobile minimap is still pending. Task 10 remains passed. Task 11 must wait for that confirmation and still requires the separate deployed desktop/mobile full-flow review.

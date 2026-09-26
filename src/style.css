@@ -2934,6 +2934,7 @@ h2 {
 
 /* Character Select — the Route Night driver checkpoint. */
 .character-select-screen {
+  height: 100svh;
   min-height: 100svh;
   justify-content: flex-start;
   overflow-x: hidden;
@@ -3821,6 +3822,17 @@ h2 {
   min-width: 10rem;
   min-height: 2.35rem;
   margin-left: 0.35rem;
+}
+
+@media (min-width: 861px) and (max-height: 1000px) {
+  .character-select-screen {
+    padding-top: 3rem;
+  }
+
+  .character-hero-stage {
+    height: 37svh;
+    min-height: 20rem;
+  }
 }
 
 @media (max-width: 1120px) {

@@ -1236,3 +1236,29 @@ five restart cycles, real-instance disposal, marker or DOM cleanup,
 Results-only asset residency, or browser memory behavior. Task 10 remains
 **INCONCLUSIVE / NOT PASSED**. The preview is a test surface; Task 11 deployed
 desktop/mobile visual acceptance and Manny's explicit acceptance remain pending.
+
+## Browser evidence 5 — Character Select desktop clipping defect — 2026-09-26
+
+Manny reported that Character Select at 100% desktop zoom cut off the driver
+statistics and START RACE control; his 1915 × 902 PNG showed the profile ending
+below the viewport. At 75% zoom, his 1910 × 906 PNG showed both the statistics
+and START RACE. This is a reported visual/accessibility defect, not Task 11
+acceptance. The preview remains pinned to feature commit
+`5ed7199a92061f1b9034ab7b69a6e6a18660fe92` at
+`https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/`.
+
+Connected Chrome followed Title → Hub → Character Select on that preview at
+1363 × 936 CSS pixels. Read-only DOM measurements showed the START RACE button
+bottom at **1032.59 px**, Character Select screen bottom at **1128.13 px**,
+`scrollHeight = clientHeight = 1128 px`, and body `overflow-y: hidden`.
+Thus the button was below the 936 px viewport with no effective scroll range
+in the Character Select element. The corrective local CSS gives the screen a
+100svh height and, on desktop viewports at most 1000 px high, reduces the hero
+stage height and top padding. The goal is a visible action at ordinary desktop
+height with scrolling as a fallback. This change is **not yet published or
+browser-verified**. Focused `npx vitest run tests/character-select-ui.test.ts tests/route-night-ui.test.ts tests/results-routing.test.ts --coverage=false`
+passed 3 files / 20 tests, and `npm run validate` passed 72 files / 584 tests,
+typecheck, lint, runtime-asset checks, and build. These DOM-based suites cannot
+prove viewport layout; deployed 100% desktop verification remains required.
+No race cycle or cleanup/memory measurement was made; Task 10 remains
+**INCONCLUSIVE / NOT PASSED** and Task 11 acceptance remains pending.

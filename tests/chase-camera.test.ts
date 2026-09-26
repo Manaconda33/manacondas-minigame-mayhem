@@ -44,6 +44,63 @@ describe('race camera presentation', () => {
   });
 });
 
+describe('mobile forward race camera', () => {
+  it('keeps the same intro origin and settles lower with a more road-facing look', () => {
+    const desktop = new THREE.PerspectiveCamera();
+    const mobile = new THREE.PerspectiveCamera();
+    const desktopRig = new ChaseCamera(desktop);
+    const mobileRig = new ChaseCamera(mobile, true);
+    const position = new THREE.Vector3();
+    const forward = new THREE.Vector3(0, 0, 1);
+
+    desktopRig.update(position, forward, false, 1 / 60);
+    mobileRig.update(position, forward, false, 1 / 60);
+    expect(mobile.position.distanceTo(desktop.position)).toBeCloseTo(0);
+
+    advance(desktopRig, 3.1);
+    advance(mobileRig, 3.1);
+    const desktopDirection = desktop.getWorldDirection(new THREE.Vector3());
+    const mobileDirection = mobile.getWorldDirection(new THREE.Vector3());
+    expect(mobile.position.y).toBeLessThan(desktop.position.y);
+    expect(mobileDirection.y).toBeLessThan(desktopDirection.y);
+  });
+
+  it('preserves the accepted rear view and switches cleanly back to mobile forward', () => {
+    const camera = new THREE.PerspectiveCamera();
+    const rig = new ChaseCamera(camera, true);
+    const position = new THREE.Vector3();
+    const forward = new THREE.Vector3(0, 0, 1);
+    advance(rig, 3.1);
+
+    rig.update(position, forward, true, 1);
+    expect(camera.position.y).toBeGreaterThan(2.8);
+    expect(camera.position.y).toBeLessThan(3.4);
+    expect(camera.position.z).toBeGreaterThan(5.0);
+    expect(camera.position.z).toBeLessThan(5.5);
+
+    rig.update(position, forward, false, 1);
+    expect(camera.position.z).toBeLessThan(-4.9);
+  });
+
+  it('keeps spinout travel-heading anchoring in both camera directions', async () => {
+    const { SpinoutCameraAnchor } = await import('../src/game/camera/SpinoutCameraAnchor');
+    const heading = new THREE.Vector3(1, 0, 0);
+    const spinning = new THREE.Vector3(0, 0, 1);
+    const anchor = new SpinoutCameraAnchor();
+    anchor.capture(heading);
+    const camera = new THREE.PerspectiveCamera();
+    const rig = new ChaseCamera(camera, true);
+    const position = new THREE.Vector3();
+    advance(rig, 3.1);
+
+    rig.update(position, anchor.resolve(spinning, true), false, 1);
+    expect(camera.position.dot(heading)).toBeLessThan(-4.9);
+    rig.update(position, anchor.resolve(spinning, true), true, 1);
+    expect(camera.position.dot(heading)).toBeGreaterThan(4.9);
+    expect(anchor.resolve(spinning, false)).toBe(spinning);
+  });
+});
+
 describe('spinout camera anchoring', () => {
   it('holds the pre-impact travel heading while the kart spins and releases afterward', async () => {
     const { SpinoutCameraAnchor } = await import('../src/game/camera/SpinoutCameraAnchor');

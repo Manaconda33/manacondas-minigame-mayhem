@@ -1,13 +1,15 @@
 import { minimapPointAtProgress, minimapSvgPath, type MinimapState } from '../game/ui/Minimap';
+import { routeNightRaceHudSymbolUrl } from '../ui/routeNight';
 
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 const renderedTracks = new WeakMap<HTMLElement, MinimapState['track']>();
 let markerSequence = 0;
 
 export function raceMinimapMarkup(): string {
-  return `<div class="race-minimap" data-race-minimap role="img" aria-label="Race minimap showing the player and seven opponents">
-    <span>Map</span>
+  return `<div class="race-minimap route-hud-panel" data-race-region="minimap" data-race-minimap role="img" aria-label="Circuit Alpha race minimap showing the player and seven opponents">
+    <span class="hud-kicker">Route trace</span>
     <svg viewBox="0 0 100 100" aria-hidden="true">
+      <g data-minimap-frame-art aria-hidden="true"><use href="${routeNightRaceHudSymbolUrl('frame-minimap')}" x="0" y="0" width="100" height="100"></use></g>
       <path class="minimap-track-outline" data-minimap-track></path>
       <path class="minimap-track-line" data-minimap-track></path>
       <g data-minimap-racers></g>

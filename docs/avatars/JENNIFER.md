@@ -97,3 +97,21 @@ Jennifer is locally active in `characterManifest` as AA-12 under `jennifer-runti
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
 - Approval: Manny approved Jennifer's selection-only full-body asset in the 2026-09-19 Character Select batch review.
 - Boundary: The selection image intentionally presents Jennifer alone; her Newfoundland remains a racer-package companion outside this image. The approved portrait, race driver package, The Hearthwarden identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium victory art
+
+- Runtime asset: `public/assets/characters/aa-12/results/victory.png`.
+- Approved source: `Jennifer’s Welcoming Victory Flourish.png` (Library file `libfile_26b55289c24081918503c5aa79f0d3eb`).
+- Source SHA-256: `d2cd74f5cc1235c9a73016faf420066f551cc7b8ddf94150f8261c9368533f37`.
+- Runtime SHA-256: `218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107`.
+- Format: 1024 × 1536 RGBA PNG, fixed-size normal-Git runtime derivative.
+- Transformation: deterministic two-pass checkerboard-to-`#00FF00` matte and exact-green alpha key; visible RGB is preserved and fully transparent RGB is zeroed. The matte clears enclosed checkerboard components around the staff and costume; full parameters are in `docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`.
+- Boundary: existing approved pose; Results/Podium place 1–3 only. Jennifer remains alone in this Results pose; the Newfoundland companion is not part of this approved source render.
+
+## Results/Podium lower-finish reaction art
+
+- Runtime asset: `public/assets/characters/aa-12/results/reaction.png`.
+- Source render: `exec-df1d3b4c-f7ab-463e-b70f-460427db4933.png` (SHA-256 `b0cab5f4b0d0994b87cd1ad622f53f685eb74c5bf5faf9c84c378774b503b6b4`).
+- Runtime SHA-256: `048275029ea11e85cba10fd1ce918a6d3ec479396324fb1174e5ae7e772462b8`.
+- Approval: Manny approved the green-screen render and transparent cutout on 2026-09-25.
+- Boundary: lower-finish Results art only; Jennifer appears without her Newfoundland companion, and Results behavior is unchanged.

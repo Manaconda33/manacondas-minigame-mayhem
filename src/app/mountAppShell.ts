@@ -12,9 +12,17 @@ import { isMobileSession } from './mobileSession';
 import { characterById, characterManifest } from '../characters/manifest';
 import { CharacterKartPreview } from '../ui/characterKartPreview';
 import { characterSelectMarkup } from '../ui/characterSelect';
-import { itemHudMarkup, updateItemHud } from './itemHud';
-import { raceMinimapMarkup, updateRaceMinimap } from './raceMinimap';
-import { touchControlsMarkup } from './touchControls';
+import {
+  bindResultsArtFallbacks,
+  renderResultsPodium,
+  updateResultsPodium,
+} from '../ui/resultsPodium';
+import type { RaceStanding } from '../game/raceResults';
+import { updateItemHud, updateTouchItemButton } from './itemHud';
+import { raceHudMarkup } from './raceHud';
+import { updateRaceMinimap } from './raceMinimap';
+import { touchControlsMarkup, updateTouchRecoveryButton } from './touchControls';
+import { bindTouchWheel } from './touchWheel';
 import {
   routeNightAssetUrl,
   routeNightButtonFrameMarkup,
@@ -38,7 +46,9 @@ function formatTime(seconds: number): string {
   return `${String(minutes)}:${remainder.toFixed(2).padStart(5, '0')}`;
 }
 
-export function standingsMarkup(standings: RaceResult['standings']): string {
+export function standingsMarkup(
+  standings: readonly Pick<RaceStanding, 'name' | 'place' | 'time'>[],
+): string {
   return standings
     .map(
       (racer, index) =>
@@ -79,9 +89,17 @@ function routeNightEditorialStripMarkup(): string {
 export function mountAppShell(root: HTMLElement): void {
   let game: KartTimeTrialInstance | null = null;
   let characterPreview: CharacterKartPreview | null = null;
+  let touchWheelDispose: (() => void) | null = null;
   let selectedCharacter = characterById('aa-02');
   let appSettings = loadGameSettings();
   audioMixer.configure(appSettings.audio);
+
+  const disposeGame = (): void => {
+    touchWheelDispose?.();
+    touchWheelDispose = null;
+    game?.dispose();
+    game = null;
+  };
 
   const unlockAudio = async (): Promise<void> => {
     const context = (Howler as unknown as { ctx?: AudioContext | null }).ctx;
@@ -339,42 +357,9 @@ export function mountAppShell(root: HTMLElement): void {
   const renderGame = async (): Promise<void> => {
     characterPreview?.dispose();
     characterPreview = null;
-    const touchControls = touchControlsMarkup(isMobileSession());
-    root.innerHTML = `
-      <section class="game-shell" aria-label="Circuit Alpha Grand Prix">
-        <canvas id="game-canvas" tabindex="0"></canvas>
-        <div id="ink-overlay" class="ink-overlay" aria-hidden="true" hidden>
-          <span class="ink-splat ink-splat-northwest"></span>
-          <span class="ink-splat ink-splat-northeast"></span>
-          <span class="ink-splat ink-splat-southwest"></span>
-          <span class="ink-splat ink-splat-center"></span>
-          <span class="ink-splat ink-splat-southeast"></span>
-        </div>
-        <div class="hud top-left"><span>Lap</span><strong id="lap">1 / 3</strong></div>
-        <div class="hud top-center"><span>Time</span><strong id="time">0:00.00</strong></div>
-        <div class="hud top-right"><span>Speed</span><strong id="speed">0 km/h</strong></div>
-        <div class="hud position-hud"><span>Position</span><strong id="position">1 / 8</strong></div>
-        ${itemHudMarkup()}
-        ${raceMinimapMarkup()}
-        <div class="hud bottom-left"><span>Surface</span><strong id="surface">ASPHALT</strong></div>
-        <div class="hud bottom-right performance"><span>Performance</span><strong id="performance">60 FPS · 16.7 ms</strong></div>
-        <div id="drift-panel" class="drift-panel" data-tier="none">
-          <span id="drift-label">Hold Space + steer to drift</span>
-          <div class="drift-meter"><i id="drift-fill"></i></div>
-          <div id="overdrive-status" class="overdrive-status" role="status" hidden></div>
-          <div id="rocket-status" class="rocket-status" role="status" hidden></div>
-        </div>
-        <div id="wrong-way" class="warning" hidden>WRONG WAY</div>
-        <div id="countdown" class="countdown">3</div>
-        <div id="seeker-warning" class="seeker-warning" role="status" hidden></div>
-        <div id="apex-warning" class="apex-warning" role="status" hidden></div>
-        <div id="item-use-message" class="item-use-message" role="status" hidden></div>
-        <div id="item-test-mode" class="item-test-mode" hidden></div>
-        <div id="loading" class="loading-card"><span class="spinner"></span><h2>Initializing Circuit Alpha</h2><p>Loading Rapier physics and the procedural track…</p></div>
-        <div id="finish" class="finish-card" hidden><p class="eyebrow">Grand Prix complete</p><h2 id="finish-place">1st place</h2><p id="finish-time">0:00.00</p><ol id="standings" class="standings"></ol>${button('Return to Hub', 'finish-menu', 'primary')}</div>
-        <div class="game-help">WASD / arrows drive · Space + steer drift · Shift/E item · C rear view · R recover · Esc pause</div>
-        ${touchControls}
-      </section>`;
+    const mobileSession = isMobileSession();
+    const touchControls = touchControlsMarkup(mobileSession);
+    root.innerHTML = raceHudMarkup(touchControls);
 
     const canvas = root.querySelector<HTMLCanvasElement>('#game-canvas');
     if (canvas === null) throw new Error('Game canvas was not created.');
@@ -386,6 +371,7 @@ export function mountAppShell(root: HTMLElement): void {
     };
     const minimap = getElement('[data-race-minimap]');
     const itemHud = getElement('#item-hud');
+    const touchItemButton = root.querySelector<HTMLButtonElement>('[data-touch="item"]');
     const updateHud = (state: HudState): void => {
       getElement('#lap').textContent = `${String(state.lap)} / 3`;
       getElement('#time').textContent = formatTime(state.elapsed);
@@ -397,6 +383,8 @@ export function mountAppShell(root: HTMLElement): void {
       getElement('#countdown').textContent = state.countdown;
       getElement('#countdown').hidden = state.countdown === '';
       getElement('#wrong-way').hidden = !state.wrongWay;
+      const touchRecover = root.querySelector<HTMLButtonElement>('#touch-recover');
+      if (touchRecover !== null) updateTouchRecoveryButton(touchRecover, state.recoveryPrompt);
       const inkOverlay = getElement('#ink-overlay');
       inkOverlay.hidden = !state.ink.active;
       inkOverlay.style.setProperty('--ink-fade', String(state.ink.fade));
@@ -404,6 +392,7 @@ export function mountAppShell(root: HTMLElement): void {
       inkOverlay.dataset.active = String(state.ink.active);
       updateRaceMinimap(minimap, state.minimap);
       updateItemHud(itemHud, state.item);
+      if (touchItemButton !== null) updateTouchItemButton(touchItemButton, state.item);
       const testMode = getElement('#item-test-mode');
       testMode.hidden = state.testModeItemLabel === null;
       testMode.textContent =
@@ -465,28 +454,32 @@ export function mountAppShell(root: HTMLElement): void {
               ? `${state.activeBoostLabel.toUpperCase()} ACTIVE`
               : state.boostActive
                 ? `${state.driftTier.toUpperCase()} BOOST`
-                : state.driftTier === 'none'
+                : state.driftTier === 'none' && !mobileSession
                   ? 'Hold Space + steer to drift'
-                  : `${state.driftTier.toUpperCase()} CHARGE`;
+                  : state.driftTier === 'none'
+                    ? 'BOOST'
+                    : `${state.driftTier.toUpperCase()} CHARGE`;
     };
     const renderStandings = (standings: RaceResult['standings']): void => {
-      getElement('#standings').innerHTML = standingsMarkup(standings);
+      const finish = root.querySelector<HTMLElement>('#finish');
+      if (finish === null || finish.hidden) return;
+      updateResultsPodium(finish, standings);
     };
     game = await KartTimeTrial.create({
       canvas,
       character: selectedCharacter,
       graphicsQuality: appSettings.graphics.quality,
+      mobileSession,
       onHud: updateHud,
       onStandings: renderStandings,
       onFinish: (result) => {
         const gameShell = getElement('.game-shell');
         markGameFinished(gameShell);
-        getElement('#finish').hidden = false;
-        const suffix =
-          result.place === 1 ? 'st' : result.place === 2 ? 'nd' : result.place === 3 ? 'rd' : 'th';
-        getElement('#finish-place').textContent = `${String(result.place)}${suffix} place`;
-        getElement('#finish-time').textContent = formatTime(result.time);
-        renderStandings(result.standings);
+        const finish = getElement('#finish');
+        finish.innerHTML = renderResultsPodium(result.standings);
+        finish.hidden = false;
+        bindResultsArtFallbacks(finish);
+        root.querySelector<HTMLElement>('#results-title')?.focus();
       },
     });
     const loading = root.querySelector('#loading');
@@ -494,6 +487,10 @@ export function mountAppShell(root: HTMLElement): void {
     canvas.focus();
     const controls = root.querySelector('#touch-controls');
     if (controls !== null) {
+      const steeringWheel = controls.querySelector<HTMLElement>('#mobile-steering-wheel');
+      if (steeringWheel !== null) {
+        touchWheelDispose = bindTouchWheel(steeringWheel, (state) => game?.setTouchWheel(state));
+      }
       const release = (event: Event): void => {
         const control = (event.currentTarget as HTMLElement).dataset.touch;
         if (control !== undefined) game?.setTouchControl(control, false);
@@ -522,10 +519,19 @@ export function mountAppShell(root: HTMLElement): void {
     if (action === 'settings') renderSettings();
     if (action === 'play') renderCharacterSelect();
     if (action === 'confirm-character') void renderGame();
-    if (action === 'finish-menu') {
-      game?.dispose();
-      game = null;
+    if (action === 'race-again') {
+      disposeGame();
+      void renderGame();
+    }
+    if (action === 'change-driver') {
+      disposeGame();
+      renderCharacterSelect();
+      root.querySelector<HTMLElement>(`[data-character="${selectedCharacter.id}"]`)?.focus();
+    }
+    if (action === 'return-to-hub') {
+      disposeGame();
       renderMenu();
+      root.querySelector<HTMLElement>('[data-action="play"]')?.focus();
     }
   });
 

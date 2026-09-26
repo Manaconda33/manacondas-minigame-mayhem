@@ -6,7 +6,7 @@ The canonical repository `Manaconda33/manacondas-minigame-mayhem` is intentional
 
 ## Current state
 
-**Current state:** Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization — **Route Night locked; settings foundation published; material-coordinate + first Circuit Alpha PBR pass live accepted; Route Night title/hub/controls/settings and the bounded Character Select increment are merged and deployed; the driver/kart visual-lane correction is in feature-branch review pending deployed visual recheck**. Slice 5 is **LIVE ACCEPTED / COMPLETE**.
+**Current state:** Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization — **Route Night locked; settings foundation published; material-coordinate + first Circuit Alpha PBR pass live accepted; Route Night title/hub/controls/settings and Character Select, including the approved full-body package, are merged, deployed, and live accepted through PR #187 at `7e8a9ea8901bef6ea4dd785780c4cc8295225ead`; post-merge CI/Pages run `35422609359` passed; the next bounded increment is the Race HUD + Circuit Alpha mini-map + cinematic Results/Podium plan**. Slice 5 is **LIVE ACCEPTED / COMPLETE**.
 
 Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation, visible item boxes, roulette, held-item HUD, desktop/mobile ITEM input, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, Timed Blast Orb, Slick Trap, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, Kinetic Arc Hammers, Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, Hyper-Drive Rocket, the bounded Slick/Blast AI hazard response, and full AI item tactics are merged, deployed, and live accepted at their recorded checkpoints.
 
@@ -89,6 +89,8 @@ The `src/game/` directories define PRD system boundaries. A directory's presence
 - [Slice 6 Circuit Alpha PBR checkpoint](docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md)
 - [Slice 6 Route Night UI checkpoint](docs/SLICE-6-ROUTE-NIGHT-UI-CHECKPOINT-2026-09-18.md)
 - [Slice 6 Character Select checkpoint](docs/SLICE-6-CHARACTER-SELECT-CHECKPOINT-2026-09-19.md)
+- [Slice 6 Race HUD / Results-Podium design brief](docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.md)
+- [Slice 6 Race HUD / Results-Podium implementation plan](docs/superpowers/plans/2026-09-19-race-hud-results-podium.md)
 - [Testing and evidence requirements](docs/TESTING.md)
 - [Approved Slice 5 item-system design and exit checklist](docs/SLICE-5-ITEM-SYSTEM-DESIGN.md)
 - [Approved Slice 5 Shockwave scope](docs/SLICE-5-SHOCKWAVE-SCOPE.md)

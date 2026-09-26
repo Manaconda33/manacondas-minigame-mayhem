@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { itemHudMarkup, updateItemHud } from '../src/app/itemHud';
-import { touchControlsMarkup } from '../src/app/touchControls';
+import { itemHudMarkup, updateItemHud, updateTouchItemButton } from '../src/app/itemHud';
+import { touchControlsMarkup, updateTouchRecoveryButton } from '../src/app/touchControls';
 import type { ItemHudSnapshot } from '../src/game/items/ItemSystem';
 
 function host(): HTMLElement {
@@ -21,6 +21,14 @@ const empty: ItemHudSnapshot = {
   rouletteProgress: 0,
   useFeedback: null,
 };
+
+function touchItemButton(): HTMLButtonElement {
+  const container = document.createElement('div');
+  container.innerHTML = touchControlsMarkup(true);
+  const button = container.querySelector<HTMLButtonElement>('[data-touch="item"]');
+  if (button === null) throw new Error('touch item button missing');
+  return button;
+}
 
 describe('Slice 5 item HUD', () => {
   it('renders an empty one-slot item surface', () => {
@@ -78,15 +86,103 @@ describe('Slice 5 mobile ITEM control', () => {
     expect(touchControlsMarkup(false)).toBe('');
   });
 
-  it('adds a dedicated ITEM control alongside the existing touch controls', () => {
+  it('keeps exactly four ordered action controls and moves recovery to a hidden contextual target', () => {
     const container = document.createElement('div');
     container.innerHTML = touchControlsMarkup(true);
 
-    expect(container.querySelector('[data-touch="left"]')).not.toBeNull();
-    expect(container.querySelector('[data-touch="brake"]')).not.toBeNull();
-    expect(container.querySelector('[data-touch="drift"]')).not.toBeNull();
-    expect(container.querySelector('[data-touch="rear"]')).not.toBeNull();
-    expect(container.querySelector('[data-touch="recover"]')).not.toBeNull();
-    expect(container.querySelector('[data-touch="item"]')?.textContent).toBe('ITEM');
+    expect(container.querySelector('#mobile-steering-wheel')?.getAttribute('aria-label')).toContain(
+      'accelerates',
+    );
+    const actions = Array.from(
+      container.querySelectorAll<HTMLButtonElement>('.action-controls [data-touch]'),
+    );
+    expect(actions.map((button) => button.dataset.touch)).toEqual([
+      'rear',
+      'brake',
+      'item',
+      'drift',
+    ]);
+    expect(container.querySelector('[data-touch="accelerate"]')).toBeNull();
+    const recovery = container.querySelector<HTMLButtonElement>('#touch-recover');
+    expect(recovery?.dataset.touch).toBe('recover');
+    expect(recovery?.hidden).toBe(true);
+    expect(recovery?.closest('.action-controls')).toBeNull();
+    expect(container.querySelector('[data-touch-item-label]')?.textContent).toBe('ITEM');
+
+    if (recovery === null) throw new Error('touch recovery button missing');
+    updateTouchRecoveryButton(recovery, true);
+    expect(recovery.hidden).toBe(false);
+    updateTouchRecoveryButton(recovery, false);
+    expect(recovery.hidden).toBe(true);
+  });
+
+  it('starts with an empty item visualization and an accurate accessible name', () => {
+    const button = touchItemButton();
+    updateTouchItemButton(button, empty);
+
+    expect(button.dataset.phase).toBe('empty');
+    expect(button.querySelector<HTMLImageElement>('[data-touch-item-art]')?.hidden).toBe(true);
+    expect(button.querySelector('[data-touch-item-placeholder]')?.textContent).toBe('—');
+    expect(button.getAttribute('aria-label')).toContain('No item held');
+    expect(button.getAttribute('aria-label')).toContain('Shift or E');
+  });
+
+  it('keeps roulette artwork neutral and shows only approved artwork for a held item', () => {
+    const button = touchItemButton();
+    updateTouchItemButton(button, {
+      ...empty,
+      phase: 'roulette',
+      itemId: 'shockwave',
+      displayName: 'Acoustic Shockwave Pulse',
+      icon: '◌',
+      rouletteProgress: 0.62,
+    });
+
+    const art = button.querySelector<HTMLImageElement>('[data-touch-item-art]');
+    expect(art?.hidden).toBe(true);
+    expect(art?.hasAttribute('src')).toBe(false);
+    expect(button.querySelector('[data-touch-item-placeholder]')?.textContent).toBe('◌');
+    expect(button.getAttribute('aria-label')?.toLowerCase()).toContain('roulette');
+    expect(button.getAttribute('aria-label')).toContain('Shift or E');
+
+    updateTouchItemButton(button, {
+      phase: 'held',
+      itemId: 'blaze-orbs',
+      displayName: 'Blaze Orbs',
+      icon: '✹',
+      remainingCharges: 3,
+      totalCharges: 5,
+      rouletteProgress: 1,
+      useFeedback: null,
+    });
+    expect(art?.hidden).toBe(false);
+    expect(art?.getAttribute('src')).toContain('assets/items/route-night/blaze-orbs.png');
+    expect(button.querySelector('[data-touch-item-charges]')?.textContent).toBe('3 / 5');
+    expect(button.getAttribute('aria-label')).toContain('Use Blaze Orbs, 3 of 5 charges.');
+    expect(button.getAttribute('aria-label')).toContain('Shift or E');
+  });
+
+  it('clears consumed artwork and falls back to the approved text glyph after an image error', () => {
+    const button = touchItemButton();
+    updateTouchItemButton(button, {
+      phase: 'held',
+      itemId: 'shockwave',
+      displayName: 'Acoustic Shockwave Pulse',
+      icon: '◌',
+      remainingCharges: 1,
+      totalCharges: 1,
+      rouletteProgress: 1,
+      useFeedback: null,
+    });
+    const art = button.querySelector<HTMLImageElement>('[data-touch-item-art]');
+    art?.dispatchEvent(new Event('error'));
+    expect(art?.hidden).toBe(true);
+    expect(button.querySelector('[data-touch-item-placeholder]')?.textContent).toBe('◌');
+
+    updateTouchItemButton(button, empty);
+    expect(art?.hidden).toBe(true);
+    expect(art?.hasAttribute('src')).toBe(false);
+    expect(button.querySelector('[data-touch-item-placeholder]')?.textContent).toBe('—');
+    expect(button.getAttribute('aria-label')).toContain('No item held');
   });
 });

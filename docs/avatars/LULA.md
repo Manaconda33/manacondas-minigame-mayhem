@@ -49,3 +49,19 @@ Manny approved Lula's front-steer-left, front-steer-right, front-hit, and front-
 - Format: 1024 × 1536 transparent sRGBA PNG, normal-Git runtime delivery derivative under ADR-092.
 - Approval: Manny approved Lula's selection-only full-body asset in the 2026-09-19 Character Select batch review.
 - Boundary: Character Select only; the approved portrait, race driver package, The Verdant Hart identity/geometry, statistics, and PBR/material implementation remain unchanged.
+
+## Results/Podium victory art — approved batch 01
+
+- Runtime asset: `public/assets/characters/aa-03/results/victory.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, fixed-size normal-Git runtime derivative.
+- Pose identity: grounded guardian's oath, hand over heart, and protective open palm.
+- Approval: Manny approved Lula's character-specific Results/Podium victory pose on 2026-09-19.
+- Boundary: Results/Podium presentation only; the accepted Character Select, race driver, kart, statistics, and gameplay contracts remain unchanged.
+
+## Results/Podium reaction art — approved batch 01
+
+- Runtime asset: `public/assets/characters/aa-03/results/reaction.png`.
+- Format: 1024 × 1536 transparent sRGBA PNG, fixed-size normal-Git runtime derivative.
+- Pose identity: dignified disappointment with one hand over her heart and a steady reset stance.
+- Approval: Manny approved Lula's lower-finish reaction pose on 2026-09-24.
+- Boundary: Results/Podium art only; this asset batch does not change the Results runtime mapping or Lula's accepted character/gameplay contracts.

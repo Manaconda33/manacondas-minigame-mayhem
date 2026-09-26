@@ -2,7 +2,7 @@
 
 Date: 2026-09-19
 
-Status: **BASELINE + COMPOSITION CORRECTION MERGED / DEPLOYED; APPROVED FULL-BODY PACKAGE IN FEATURE-BRANCH REVIEW**
+Status: **BASELINE + COMPOSITION CORRECTION + FULL-BODY PACKAGE MERGED / DEPLOYED / LIVE ACCEPTED** — 2026-09-19
 
 ## Authority and bounded objective
 
@@ -11,7 +11,7 @@ This checkpoint implements the next bounded Slice 6 screen under ADR-090. The go
 - `docs/PRD.md`, especially Sections 10.2 and 10.3;
 - `docs/DECISIONS.md`, ADR-086 Route Night, ADR-087 settings/audio foundation, ADR-088 Circuit Alpha PBR baseline, ADR-090 Character Select, and ADR-091 selection-only full-body art;
 - `docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png`;
-- the live-accepted Circuit Alpha material baseline recorded by ADR-088.
+- the live-accepted Circuit Alpha material baseline recorded by ADR-088; the live-accepted Character Select package recorded by ADR-090-092; and the next asset-direction decision recorded by ADR-093.
 
 The increment is limited to Character Select, the shared preview seam required by that screen, and three bounded original atmospheric layers. Race HUD, mini-map, pause/results, production race audio, post-processing, gameplay, topology, and the accepted asphalt/PBR implementation remain outside the change.
 
@@ -50,7 +50,7 @@ Manny approved twelve original full-body character illustrations on 2026-09-19: 
 | AA-11 | Accu | `public/assets/characters/aa-11/selection/full-body.png` |
 | AA-12 | Jennifer | `public/assets/characters/aa-12/selection/full-body.png` |
 
-All files are 1024 × 1536 transparent sRGBA PNGs under the shared revision `character-select-full-body-20260919-4` and Git LFS. Original generation, deterministic alpha preparation, source identifiers, runtime hashes, character-specific boundaries, and approval evidence are recorded in `docs/assets/CHARACTER-SELECT-FULL-BODY-ASSET-BRIEF.md` and `docs/ASSET-PROVENANCE.md`. Toph's marked candidate was rejected before staging; Jennifer's image is alone; Dragon Queen remains a literal dragon with wings and tail.
+All files are 1024 × 1536 transparent sRGBA runtime delivery derivatives under the shared revision `character-select-full-body-20260919-4` and the narrow normal-Git classification approved by ADR-092. Original generation, deterministic alpha preparation, source identifiers, runtime hashes, character-specific boundaries, and approval evidence are recorded in `docs/assets/CHARACTER-SELECT-FULL-BODY-ASSET-BRIEF.md` and `docs/ASSET-PROVENANCE.md`. Toph's marked candidate was rejected before staging; Jennifer's image is alone; Dragon Queen remains a literal dragon with wings and tail.
 
 ## Original generated Character Select atmosphere package
 
@@ -84,8 +84,17 @@ The complete suite passes with strict typecheck, zero-warning lint, branding/run
 
 The canonical reference and all three accepted generated layers were inspected directly. The available cloud browser could not reach the local preview URL and returned `ERR_BLOCKED_BY_CLIENT`; no local browser-rendered acceptance is claimed. Direct Git push is also blocked by missing GitHub credentials in this workspace, and the connected GitHub app has no LFS-object upload operation. No pointer-only remote branch or non-reproducible Actions workaround was created. An authenticated Git/LFS handoff must publish the exact committed objects before the hosted PR/deployment checkpoint can provide the desktop/mobile visual review required for live acceptance.
 
-## Acceptance gate and boundaries
+## Live acceptance
 
-After normal publication, the deployed review must verify Character Select at representative desktop and mobile sizes: roster density and readability, selected portrait/full-body identity art, face readability above the kart preview, real rotating kart GLB preview and yaw, fallback behavior, route-board/panel hierarchy, focus-visible states, reduced motion, race handoff, and back-to-hub navigation. The deployed result must be compared directly with ADR-086 and the canonical Route Night reference.
+- PR #187 merged at `7e8a9ea8901bef6ea4dd785780c4cc8295225ead`.
+- Post-merge CI/Pages run `35422609359` passed.
+- Manny completed the deployed Character Select visual-acceptance review on desktop and mobile against the approved Route Night design and all twelve approved roster assets: PASS.
+- The review covered roster readability, selected full-body identity, driver/kart lane separation and face readability, actual kart preview/fallback behavior, route-board/panel hierarchy, focus-visible and reduced-motion behavior, and Title → Hub → Character Select → Race handoff.
+- No defect was reported at the live acceptance checkpoint.
 
-This checkpoint does not authorize or include race HUD, mini-map, pause/results screens, race/engine/final-lap audio, post-processing, PBR/material changes, Circuit Alpha topology, racer statistics, item behavior/probability, AI tactics, avatar likeness changes, kart identity/geometry changes, Candidate B experiments, hosting changes, or later Slice 6 work. Stop at Manny's deployed Character Select visual-acceptance gate.
+The Character Select acceptance gate is closed. Race HUD, mini-map, Results/Podium, final audio, post-processing, and other later Slice 6 work were not included in this checkpoint and require their own bounded plan and acceptance gate.
+## Acceptance boundaries and closeout
+
+The deployed Character Select review verified the following representative desktop and mobile acceptance conditions: roster density and readability, selected portrait/full-body identity art, face readability above the kart preview, real rotating kart GLB preview and yaw, fallback behavior, route-board/panel hierarchy, focus-visible states, reduced motion, race handoff, and back-to-hub navigation. The accepted deployed result was compared directly with ADR-086 and the canonical Route Night reference.
+
+This checkpoint does not include race HUD, mini-map, pause/results screens, race/engine/final-lap audio, post-processing, PBR/material changes, Circuit Alpha topology, racer statistics, item behavior/probability, AI tactics, avatar likeness changes, kart identity/geometry changes, Candidate B experiments, hosting changes, or later Slice 6 work. The gate is closed; the next planned increment is separately defined by ADR-093 and the Race HUD / Results-Podium design brief.

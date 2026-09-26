@@ -6,12 +6,12 @@ This file is the operational source of truth for local and CI validation. Update
 
 `docs/SLICE-5-ARC-BLADE-SCOPE.md` and amendment 2.15 / ADR-076 govern the accepted implementation. Governance PR #138 merged at `7ce6511bc040d2b176ed528b687ed589fafd045d`; gameplay PR #139 merged at `8822341b61900799e0166cfe94bf69cb3986bf0e`. Hosted PR CI `35118244169` and post-merge validation/Pages `35118484183` passed with **48 files / 431 tests**, **82.50% statement coverage**, strict typecheck, zero-warning lint, asset verification and production build. Manny reported that all deployed Arc Blade live tests passed on September 16, 2026; PR #139 comment `5700594653` is the product-owner evidence. No browser/device versions beyond that explicit report are inferred.
 
-| Coverage | Evidence |
-| --- | --- |
+| Coverage                         | Evidence                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Inventory, movement and contacts | `tests/arc-blade.test.ts`: three charges and exact cadence, rollback without cues, forward/reverse equivalence, measured curved path and moving-owner return, arming/catch/expiry boundaries, per-leg hit isolation and turnaround separation, chronological wall/contact/catch ordering, immunity/counters, shared mixed-object capacity and owner cancellation. Real Circuit Alpha curves and elevated sections are included. |
-| Actual runtime and input | `tests/arc-runtime.test.ts`: moving keyboard/mobile ITEM paths, ordinary race-state guards, actual Rapier/controller spin and camera/hit state, independent Frost/Nitro/Prismatic state, before-contact Shockwave clearing, recovery and all three moving diagnostics. Counter PASS requires a real measured encounter; a miss remains INCONCLUSIVE. |
-| Presentation and cleanup | `tests/arc-presentation.test.ts`: finite trail/return accent, mobile/desktop chase/rear frustums after the camera intro, bounded flashes and audio voices, gesture unlock/volume/pause/unavailable audio/disposal, and 200 complete throws returning resource counts to baseline. |
-| Stress | `tests/arc-soak.test.ts`: 800 throws with 40 simultaneous objects and eight racer snapshots, finite transforms and bounded capacity/resources. The isolated CPU observation was local Node/JSDOM evidence, not final rendered-device performance certification. |
+| Actual runtime and input         | `tests/arc-runtime.test.ts`: moving keyboard/mobile ITEM paths, ordinary race-state guards, actual Rapier/controller spin and camera/hit state, independent Frost/Nitro/Prismatic state, before-contact Shockwave clearing, recovery and all three moving diagnostics. Counter PASS requires a real measured encounter; a miss remains INCONCLUSIVE.                                                                            |
+| Presentation and cleanup         | `tests/arc-presentation.test.ts`: finite trail/return accent, mobile/desktop chase/rear frustums after the camera intro, bounded flashes and audio voices, gesture unlock/volume/pause/unavailable audio/disposal, and 200 complete throws returning resource counts to baseline.                                                                                                                                               |
+| Stress                           | `tests/arc-soak.test.ts`: 800 throws with 40 simultaneous objects and eight racer snapshots, finite transforms and bounded capacity/resources. The isolated CPU observation was local Node/JSDOM evidence, not final rendered-device performance certification.                                                                                                                                                                 |
 
 ### Arc Blade deployed regression routes
 
@@ -831,6 +831,7 @@ Focused deployed desktop/mobile live gate after an approved gameplay merge:
 8. Normal unforced gameplay shows no Shockwave test badge/fixture, and accepted Nitro/Kinetic/Seeker/Apex/Blast/Slick plus Slick/Blast AI avoidance remain unchanged.
 
 Record exact gameplay commit, PR CI, post-merge CI/Pages run, desktop/mobile results, defects, and Manny's explicit live acceptance in `docs/IMPLEMENTATION-STATUS.md`. Passing this checkpoint closes only the Shockwave functional/counter increment; the other eight item effects, full AI item policy, final interaction matrix, soak/performance closure, issue #106, overall Slice 5 acceptance, and Slice 6 remain open.
+
 ## Vision-Obscuring Ink Splat - LIVE ACCEPTED
 
 Amendments 2.18-2.19 / ADR-079-080 and `docs/SLICE-5-INK-SPLAT-SCOPE.md` define the accepted Ink evidence contract. Gameplay and presentation merged through PR #148 at `2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`; the approved AI tuning amendment merged through PR #149 at `af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`. Hosted PR CI `35173826253` and post-merge validation/Pages `35188684882` passed with **54 test files / 463 tests**, **81.97% statement / 77.31% branch / 86.56% function / 83.52% line coverage**, strict typecheck, zero-warning lint, Git LFS/runtime-asset verification, branding checks, and production build.
@@ -842,7 +843,6 @@ Automated coverage proves progress-authoritative all-racers-ahead targeting acro
 The deployed primary route is `?testItem=ink-splat`. A deterministic incoming-Ink fixture exercises the human overlay without enabling general AI item tactics. Prismatic protected/expired fixtures verify actual resolved application/blocking. A miss, no-target setup, invalid/finished target, or fixture that never reaches the intended encounter is **INCONCLUSIVE**, not PASS.
 
 Manny's deployed review passed the required live matrix: one-charge consumption, racers-ahead impairment, human readability and fade, HUD/touch usability, refresh-without-stacking, visibly reduced but legal AI precision, pause/recovery/finish/restart/hub lifecycle, Prismatic protected/expired behavior, and normal unforced item behavior.
-
 
 ## Continuous Nitro Overdrive - LIVE ACCEPTED 2026-09-17
 
@@ -894,7 +894,6 @@ Governance publication is complete after local documentation validation, hosted 
 
 The bounded Issue #106 regression gate verifies presentation only. Finish as the player before at least two AI racers, keep the results card open, and confirm each later AI finish refreshes the standings from the authoritative race state. Finished racers must replace `RACING` with their locked finish time/order, the final displayed order must match authoritative standings, and the player's locked place/time must not change. Repeat on desktop and mobile. This gate must not alter checkpoint/lap authority, AI behavior, item balance, race timing, or victory/results entry behavior.
 
-
 ## Slice 5 final all-item interaction/counter matrix checkpoint
 
 The final interaction/counter evidence artifact is `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md`. Treat it as a consolidation gate over the production systems, not as permission to retune items.
@@ -902,7 +901,6 @@ The final interaction/counter evidence artifact is `docs/SLICE-5-ITEM-INTERACTIO
 Hosted validation for the checkpoint must run the complete suite, including the focused Shockwave, Prismatic, Apex, Blast, Slick, Blaze, Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, Hyper-Drive Rocket, RacerEffects, validated-progress, AI-item, and AI-race tests referenced by the matrix. A green focused subset is insufficient if the full repository suite fails.
 
 The matrix may be marked complete only when the PR diff is evidence/governance-only and hosted CI passes clean install, LFS verification, strict typecheck, zero-warning lint, complete automated tests, and production build. No new live-acceptance claim is made by this checkpoint. Lifecycle/object-count soak, item/VFX performance capture, gameplay capture, and the final desktop/mobile whole-slice acceptance remain separate gates.
-
 
 ## Slice 5 final lifecycle/object-count soak checkpoint
 
@@ -914,7 +912,6 @@ The closure gate combines two stress paths with the existing focused lifecycle s
 - **Timed-state / VFX soak:** 100 cycles of Nitro Surge effect state, Nitro Overdrive, Hyper-Drive Rocket, Prismatic protection, Ink Splat, Shockwave, inventory and racer-owned item visuals. Expiry plus disposal must leave neutral drive modifiers, no immunity flags, no timed item state, no pending/visible Shockwave, no Ink targets, no held inventory, and empty local/world VFX groups.
 
 The complete repository suite remains mandatory because existing focused tests supply item-specific impact/expiry, Arc/Blast repeated resource cleanup, audio voice/disconnect disposal, Prismatic music cleanup, AI finish cleanup, pause behavior, and camera/driver-state regressions. The soak does not substitute for the separate approximately 1.0 ms item/VFX performance gate or final desktop/mobile whole-slice acceptance.
-
 
 ## Slice 5 item/VFX rendered-runtime performance gate
 
@@ -934,7 +931,6 @@ Included code boundaries are inventory/roulette, item-owned timed effects/immuni
 
 Rendered-device evidence must record the stable badge values after at least 300 scored samples. Do not infer a browser or device model that the tester did not report. A Node/JSDOM measurement, CI duration, whole-frame FPS number, or production-build time cannot substitute for this gate.
 
-
 ### Recorded rendered-device performance evidence
 
 Product-owner deployed captures reached the full N600 rolling window on both required evidence routes:
@@ -944,7 +940,6 @@ Product-owner deployed captures reached the full N600 rolling window on both req
 
 The pass rule is p95 <= 1.00 ms. Both results pass exactly at the ceiling. Browser/device details are not inferred because they were not explicitly reported. Full evidence is recorded in `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`.
 
-
 ## Slice 5 final desktop/mobile whole-slice acceptance
 
 The final product-owner integration protocol is frozen in `docs/SLICE-5-FINAL-LIVE-ACCEPTANCE-2026-09-17.md`.
@@ -952,7 +947,6 @@ The final product-owner integration protocol is frozen in `docs/SLICE-5-FINAL-LI
 The gate intentionally reuses accepted item-specific and automated evidence instead of requiring all fifteen item matrices to be replayed. Live review is limited to normal desktop/mobile races, representative offensive/defensive/catch-up integration, desktop pause behavior, mobile simultaneous ITEM input, mobile backward ITEM modifier, cleanup/race-authority spot checks, and gameplay capture.
 
 A reported miss or ambiguous encounter is INCONCLUSIVE, not PASS. Slice 5 closure requires Manny's explicit whole-slice acceptance and a final documentation checkpoint with clean hosted and post-merge validation/Pages. Slice 6 remains locked until that closure record is published and Manny separately approves beginning Slice 6.
-
 
 ### Final whole-slice result - 2026-09-18
 
@@ -965,12 +959,12 @@ Manny completed the frozen Slice 5 final desktop/mobile integration matrix and r
 
 The live result is combined with the existing item-specific deployed acceptance record, final interaction matrix, lifecycle/object-count soak, AI-tactics acceptance, Issue #106 acceptance, and rendered-runtime Item/VFX performance evidence. No browser/device details are inferred. No new standalone final-session recording was supplied; the protocol's explicit-observation path is used with the cumulative existing capture/evidence record.
 
-
 ## Slice 6 baseline audit and visual-direction gate
 
 The kickoff audit is recorded in `docs/SLICE-6-BASELINE-AUDIT-AND-ART-DIRECTION-2026-09-18.md`.
 
 Before visual implementation:
+
 - verify current menu/HUD/settings/pause/results behavior against PRD Sections 10, 23, 24, 25, 35.7 and 37;
 - inventory current track/kart material-coordinate support before external texture assignment;
 - verify every proposed external production asset license and record provenance;
@@ -979,7 +973,6 @@ Before visual implementation:
 - confirm no Slice 5 gameplay/balance/race-authority files change in this planning checkpoint.
 
 The first product-owner visual gate is selection of Route Night, Pit Poster, Twilight Broadcast, or an approved hybrid. Technical settings architecture, performance-instrumentation planning, material-coordinate design and provenance scaffolding may proceed without locking the final visual language.
-
 
 ## Slice 6 settings / graphics / audio foundation checkpoint
 
@@ -1039,16 +1032,308 @@ Before publication, run the repository validation sequence: `npm run typecheck`,
 
 After hosted deployment, the product-owner visual gate must inspect title, hub, Controls, and Settings at representative desktop and mobile sizes against ADR-086 and the canonical Route Night reference. Verify browser audio unlock, playable/unavailable card routing, keyboard/mobile binding readability, persistent Master/Music/SFX settings, next-race Low/Medium/High selection, focus-visible treatment, and reduced-motion behavior. This automated checkpoint does not constitute deployed visual acceptance and does not authorize Character Select or later Slice 6 screens.
 
-## Slice 6 Route Night Character Select — feature branch
+## Slice 6 Route Night Character Select — live accepted
 
-The bounded Character Select checkpoint adds the responsive Route Night driver roster, selected production driver art, fixed six-stat presentation, and an isolated rotating kart preview. It must preserve the approved twelve-entry roster manifest, canonical class mapping in `docs/ROSTER-MAPPING.md`, kart GLB paths and visual yaw metadata, existing hub/race navigation, portrait fallbacks, and the protected Circuit Alpha material baseline.
+The bounded Character Select checkpoint added the responsive Route Night driver roster, selected production full-body driver art, fixed six-stat presentation, and an isolated rotating kart preview. It preserved the approved twelve-entry roster manifest, canonical class mapping in `docs/ROSTER-MAPPING.md`, kart GLB paths and visual yaw metadata, existing hub/race navigation, portrait fallbacks, and the protected Circuit Alpha material baseline.
+
+The focused contract was `npm test -- --run tests/character-select-ui.test.ts tests/route-night-ui.test.ts tests/app-shell.test.ts`. Pre-publication validation passed the complete test suite, strict typecheck, zero-warning lint, production build, branding/runtime-asset validation, and `git lfs fsck`.
+
+PR #187 merged at `7e8a9ea8901bef6ea4dd785780c4cc8295225ead`; post-merge CI/Pages run `35422609359` passed. Manny completed deployed desktop/mobile visual acceptance against ADR-086, ADR-090-092, the canonical Route Night reference, the approved Route Night design, and all twelve approved roster assets: PASS. The gate verified portraits, selected full-body identity, canonical class labels, six readable stats, actual GLB loading and restrained rotation, manifest-governed yaw, WebGL/asset fallback visibility, reduced-motion rendering, keyboard focus retention, start-race handoff, and back-to-hub navigation.
+
+This automated and deployed checkpoint is complete. The next increment is separate and is defined by the Race HUD / Results-Podium design brief and plan; it does not retroactively expand this Character Select test scope.
+
+## Slice 6A Race HUD / Circuit Alpha minimap asset checkpoint — branch-only
+
+The bounded Race HUD/minimap asset checkpoint adds `tests/race-hud-ui.test.ts`. The focused contract covers the revisioned race-HUD SVG and approved atmosphere/item asset paths, semantic live race-shell regions, held-item PNG mapping with text fallback, and the authored minimap frame layered beneath the existing live Circuit Alpha track path and racer markers.
 
 Run the focused contract with:
 
 ```bash
-npm test -- --run tests/character-select-ui.test.ts tests/route-night-ui.test.ts tests/app-shell.test.ts
+npx vitest run tests/race-hud-ui.test.ts --coverage=false
 ```
 
-Before publication, run the repository validation sequence: `npm run typecheck`, `npm run lint`, `npm run test:ci`, and `npm run build`. The build must also pass branding and runtime-asset validation, and `git lfs fsck` must remain clean.
+Before publication, run `npm run validate`, inspect the generated production asset paths, validate the authored SVG, and run `git diff --check`. This checkpoint must not claim Results/Podium behavior or deployed visual acceptance; those remain separate approval gates.
 
-After hosted deployment, the product-owner visual gate must inspect Character Select at representative desktop and mobile sizes against ADR-086, ADR-090, the canonical Route Night reference, and the approved roster assets. Verify all twelve portraits, selected front driver art, canonical class labels, six readable stats, actual GLB loading and restrained rotation, manifest-governed yaw, WebGL/asset fallback visibility, reduced-motion rendering, keyboard focus retention, start-race handoff, and back-to-hub navigation. This automated checkpoint does not constitute deployed visual acceptance and does not authorize the race HUD, pause/results, final audio, post-processing, or later Slice 6 screens.
+## Slice 6 next bounded Race HUD / mini-map / Results-Podium planning gate
+
+The next bounded increment is documented in `docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.md` and `docs/superpowers/plans/2026-09-19-race-hud-results-podium.md`. Its future validation must add focused contracts for the 15 item-art mappings, enriched eight-racer standings, shared Circuit Alpha mini-map topology, top-three victory/reaction rank mapping, five lower-finish reaction states, Results controls, responsive placement, fallback/reduced-motion behavior, and the complete Title → Hub → Character Select → Race → Results flow. It must still run the complete repository validation sequence and the deployed desktop/mobile acceptance gate.
+
+## Slice 6 Results/Podium runtime subset — feature branch
+
+This bounded, branch-only runtime checkpoint adds `tests/race-results.test.ts`, `tests/results-podium.test.ts`, and `tests/results-routing.test.ts`. It verifies eight stable racer/character identities with legacy result fields, authoritative place ordering, unchanged locked player place/time after late finishes, player placement in each of the eight finish positions, all-eight row access, approved victory-art mapping, full-body/portrait/monogram error fallback, late-standing refresh without replacing action controls, and disposal/navigation for Race Again, Change Driver, and Return to Hub. The Results status is the only live region; the standings use a labelled keyboard-scrollable region. The markup remains static under reduced motion.
+
+Run the focused contract with:
+
+```bash
+npx vitest run tests/race-results.test.ts tests/results-podium.test.ts tests/results-routing.test.ts tests/app-shell.test.ts --coverage=false
+```
+
+The complete `npm run validate` sequence passed with **71 test files / 561 tests**, **81.91% statement / 76.23% branch / 87.06% function / 83.62% line coverage**, strict typecheck, zero-warning lint, branding/runtime-asset verification, and production build. `git diff --check`, targeted Prettier checks, and `git lfs fsck` also passed. The Vite large-chunk warning remains present for the existing `KartTimeTrial` bundle.
+
+The reviewed code checkpoint is published on the feature branch at `51a18ec6e8430153bcc941611039044d8a760a16`.
+
+This checkpoint uses only the six already approved victory poses; other podium identities use approved selection art and the governed portrait/monogram fallback. It does not add ImageGen assets, reaction poses, a backdrop, item art, or additional race gameplay. It is automated branch evidence only: no hosted CI, deployment, or live visual acceptance is claimed. The remaining full Race HUD/mini-map/Results asset and desktop/mobile acceptance gates stay open.
+
+### Lower-finish reaction runtime mapping — feature branch
+
+Focused Results tests cover approved reaction selection for places 4–8,
+victory-only podium selection, stable character-ID resolution, exact cache
+revision use, and selection-art fallback when a reaction file fails. Run:
+
+```bash
+npx vitest run tests/results-podium.test.ts --coverage=false
+```
+
+The runtime asset verifier continues to check each reaction's exact hash,
+dimensions, RGBA transparency, and key-green exclusion. This automated mapping
+check does not replace hosted CI or desktop/mobile visual acceptance. The
+latest local full validation passed **72 test files / 583 tests**; coverage is
+81.93% statements, 76.25% branches, 87.07% functions, and 83.64% lines. The
+production build retains the existing non-blocking KartTimeTrial large-chunk
+warning.
+
+## Results lower-finish reaction art asset gate
+
+For each approved reaction batch, use its exact approved green render as the
+input to `tools/assets/prepare_results_reaction_cutouts.py` and verify the
+recorded source and runtime SHA-256 values. Run `node
+tools/verify-runtime-assets.mjs` to check all approved Results PNG hashes,
+1024 × 1536 RGBA format, transparent corners, zero RGB where alpha is zero,
+and absence of opaque key-green pixels. Inspect each cutout over a dark and
+bright background at runtime scale before publication. This asset gate does
+not imply Results runtime mapping or deployed visual acceptance.
+
+The Results/Podium tests verify the decorative backdrop URL and accessibility
+semantics while confirming the standings and race actions remain live. Runtime
+asset verification checks the backdrop's WebP signature and approved SHA-256.
+
+## Slice 6 Task 10 local release-evidence checkpoint — 2026-09-25
+
+The focused local regression command passed **10 test files / 79 tests**:
+
+```bash
+npx vitest run tests/race-hud-ui.test.ts tests/minimap.test.ts tests/results-podium.test.ts tests/results-routing.test.ts tests/app-shell.test.ts tests/route-night-ui.test.ts tests/item-hud-input.test.ts tests/race-results-assets.test.ts tests/race-results.test.ts tests/character-select-ui.test.ts --coverage=false
+```
+
+`npm run validate` passed strict typecheck, zero-warning lint, **72 test files /
+584 tests**, branding/runtime-asset verification, and production build. Coverage
+was **81.93% statements / 76.25% branches / 87.07% functions / 83.64% lines**.
+The asset verifier checked 18 Results/Podium assets including the approved
+backdrop, 36 materialized runtime GLBs, and 135 character PNGs. Exact asset
+source/runtime hashes are recorded in `docs/ASSET-PROVENANCE.md` and
+`docs/assets/ROUTE-NIGHT-RACE-RESULTS-ASSET-BRIEF.md`; backdrop runtime SHA-256:
+`24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`.
+`git diff --check`, `git lfs fsck`, and targeted Prettier checks passed. The
+existing Vite large-chunk warning for `KartTimeTrial` remains non-blocking.
+
+The five-restart cleanup/memory check is **INCONCLUSIVE / NOT PASSED**.
+`tests/results-routing.test.ts` verifies one mocked disposal/routing cycle for
+each of Race Again, Change Driver, and Return to Hub, but does not exercise five
+repeated cycles with real `KartTimeTrial` instances, compare browser memory,
+inspect marker/DOM accumulation across five restarts, or measure Results-only
+asset residency. No whole-app browser memory/soak harness was found in the
+repository. These limitations do not support a pass claim.
+
+GitHub inspection found no open PR for
+`feature/slice6-race-hud-minimap-results-podium` and no PR-triggered workflow run
+for `1c942fc2c5913859bc46d7a22188e132a15f6822`. Hosted PR CI/Pages and deployed
+visual review remain pending. Do not infer deployed desktop/mobile acceptance
+from these local tests or the production build.
+
+## Browser evidence 1 — deployed build provenance and baseline — 2026-09-25
+
+Connected Chrome opened the GitHub Pages URL listed in `README.md` at
+`https://manaconda33.github.io/manacondas-minigame-mayhem/`. The visible and
+accessible screen was the Route Night Title at **1363 × 936 CSS pixels, DPR 1**.
+The read-only DOM sample reported `data-screen="title"`, 85 elements, zero
+Results screens, and zero mini-map nodes. Those zero counts are expected on the
+Title screen and provide no lifecycle or memory evidence. The page evaluation
+surface did not expose `window.performance`; no heap reading was collected.
+
+The checked-in workflow only deploys Pages on pushes to `main`. At this check,
+`main` was `7e8a9ea8901bef6ea4dd785780c4cc8295225ead` and the feature branch was
+`cf9e357bb8faa88696865e28ab56323e15df1eee`. This Pages view therefore does not
+exercise the current feature branch. Do not count it toward Task 10's
+five-restart check or Task 11's deployed acceptance. Next browser evidence must
+be collected against a branch-matched local preview and labelled local, unless
+a later approved deployment supplies a matching deployed build.
+
+## Browser evidence 2 — feature-branch preview access — 2026-09-25
+
+The feature branch's Vite server started successfully at
+`http://127.0.0.1:5173/manacondas-minigame-mayhem/` after binding explicitly to
+loopback; binding to `0.0.0.0` failed while Vite queried unavailable network
+interfaces. The connected cloud browser rejected both the loopback URL and
+`http://localhost:5173/manacondas-minigame-mayhem/` with
+`net::ERR_BLOCKED_BY_CLIENT`. A follow-up browser inspection was denied by the
+browser URL policy for the local origin. The Vite process was stopped afterward.
+
+No feature-branch page opened, and no race cycle, DOM cleanup, heap sample, or
+Results asset-residency observation was collected. This is an environment
+access blocker, not evidence of a leak or a pass. Resume only with a reviewable
+branch-matched preview URL supplied by an approved preview/deployment path or
+with browser access explicitly supporting this workspace's local origin; do
+not bypass the browser's URL policy. Keep the five-restart and deployed visual
+gates open.
+
+## Browser evidence 3 — GitHub branch preview deployment attempt — 2026-09-25
+
+Manny requested a GitHub gameplay link that would leave the usual game at
+`https://manaconda33.github.io/manacondas-minigame-mayhem/` intact. A temporary
+feature-branch workflow at commit `81f59f2831891c609c5bc4c0526a2de3034849aa`
+tried to build `main` commit `7e8a9ea8901bef6ea4dd785780c4cc8295225ead` at
+the usual root and the feature revision at the intended
+`/manacondas-minigame-mayhem/previews/race-hud-results/` path. Locally,
+`npm run build -- --base /manacondas-minigame-mayhem/previews/race-hud-results/`
+passed branding and runtime-asset checks and built the preview-relative asset
+URLs; `npx prettier --check .github/workflows/temporary-race-results-preview.yml`
+passed. Hosted run
+[`36194146120`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36194146120)
+passed both LFS checks, both clean-install builds, site assembly, and artifact
+upload. The combined Pages artifact was 141 MB with digest
+`sha256:cf9bf34768b390d252c57183b75c247f1dd1ea5156ddee2e70ba87b6c68283ba`.
+
+The deployment job failed before running with GitHub's annotation:
+`Branch "feature/slice6-race-hud-minimap-results-podium" is not allowed to deploy to github-pages due to environment protection rules.`
+No preview was published. The temporary workflow was removed in the evidence
+cleanup. Before and after the rejected deployment, the usual Pages URL loaded
+the Title with the same script `assets/index-Dt74Qa1M.js` and stylesheet
+`assets/index-612kuw8p.css`. These matching paths establish that this attempt
+did not replace the currently served bundle; they do not prove any feature
+behavior. No race cycle, real-game disposal, stale marker or orphaned DOM count,
+Results-only asset request/residency check, or browser memory/resource measure
+was possible. The five-restart gate is **INCONCLUSIVE / NOT PASSED**, and Task 11
+deployed desktop/mobile acceptance remains pending.
+
+## Browser evidence 4 — isolated GitHub Pages preview availability — 2026-09-25
+
+Manny approved a temporary workflow-only `main` change to supply a gameplay
+link. Before publication, `main` was
+`7e8a9ea8901bef6ea4dd785780c4cc8295225ead` and the clean feature branch
+was `5ed7199a92061f1b9034ab7b69a6e6a18660fe92`. An isolated local build
+of that `main` checkpoint (`npm ci && npm run build`) produced the same root
+script and stylesheet filenames then served by Pages:
+`assets/index-Dt74Qa1M.js` and `assets/index-612kuw8p.css`. Local
+`npm run validate` passed 67 files / 536 tests, typecheck, lint, runtime-asset
+checks, and build; `npx prettier --check .github/workflows/ci.yml`,
+`git diff --check`, and `git lfs fsck` passed. The workflow-only `main` commit
+`29fad5d1e66de2fff9f3007bafedb4c2f551df09` pins the feature build to
+`5ed7199a92061f1b9034ab7b69a6e6a18660fe92`, places it under the isolated
+preview path, and preserves the `main` build at the Pages root. Hosted CI and
+Pages [run `36212375736`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36212375736)
+completed both validate and deploy jobs successfully.
+
+Connected Chrome opened
+`https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/`
+and observed the accessible Route Night Title (`data-screen="title"`), script
+`previews/race-hud-results/assets/index-UqrfspIU.js`, and stylesheet
+`previews/race-hud-results/assets/index-wawQ29f5.css`. In a separate tab, the
+usual `https://manaconda33.github.io/manacondas-minigame-mayhem/` rendered the
+Title and still loaded `assets/index-Dt74Qa1M.js` and
+`assets/index-612kuw8p.css`. This establishes preview availability and root
+bundle identity at the time of inspection. It does not establish race entry,
+five restart cycles, real-instance disposal, marker or DOM cleanup,
+Results-only asset residency, or browser memory behavior. Task 10 remains
+**INCONCLUSIVE / NOT PASSED**. The preview is a test surface; Task 11 deployed
+desktop/mobile visual acceptance and Manny's explicit acceptance remain pending.
+
+## Browser evidence 5 — Character Select desktop clipping defect — 2026-09-26
+
+Manny reported that Character Select at 100% desktop zoom cut off the driver
+statistics and START RACE control; his 1915 × 902 PNG showed the profile ending
+below the viewport. At 75% zoom, his 1910 × 906 PNG showed both the statistics
+and START RACE. This is a reported visual/accessibility defect, not Task 11
+acceptance. The preview remains pinned to feature commit
+`5ed7199a92061f1b9034ab7b69a6e6a18660fe92` at
+`https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/`.
+
+Connected Chrome followed Title → Hub → Character Select on that preview at
+1363 × 936 CSS pixels. Read-only DOM measurements showed the START RACE button
+bottom at **1032.59 px**, Character Select screen bottom at **1128.13 px**,
+`scrollHeight = clientHeight = 1128 px`, and body `overflow-y: hidden`.
+Thus the button was below the 936 px viewport with no effective scroll range
+in the Character Select element. The corrective local CSS gives the screen a
+100svh height and, on desktop viewports at most 1000 px high, reduces the hero
+stage height and top padding. The goal is a visible action at ordinary desktop
+height with scrolling as a fallback. This change is **not yet published or
+browser-verified**. Focused `npx vitest run tests/character-select-ui.test.ts tests/route-night-ui.test.ts tests/results-routing.test.ts --coverage=false`
+passed 3 files / 20 tests, and `npm run validate` passed 72 files / 584 tests,
+typecheck, lint, runtime-asset checks, and build. These DOM-based suites cannot
+prove viewport layout; deployed 100% desktop verification remains required.
+No race cycle or cleanup/memory measurement was made; Task 10 remains
+**INCONCLUSIVE / NOT PASSED** and Task 11 acceptance remains pending.
+
+The first deployed correction used feature commit
+`d06e9ead16214304deb15086ffc78d579f39db02` and `main` workflow commit
+`ff474bd71c679748feeff820a105153bf639767b`. Hosted CI/Pages
+[run `36253714178`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36253714178)
+passed. Connected Chrome reloaded the preview until its new stylesheet
+`index-DN4ieFcL.css` appeared, then followed Title → Hub → Character Select
+at 1363 × 936. START RACE bottom was **830.61 px** and the screen's
+`clientHeight = scrollHeight = 936 px`, so the action was in view. A screenshot
+then revealed the selected driver's legs were cropped: the art lane was
+207.95 px high while its image retained a 383.06 px minimum size. This is a
+new visual defect from the compact stage, so the correction is not accepted.
+A second local CSS change removes the image's intrinsic minimum height to
+allow `object-fit: contain` to fit the full body in its lane. That change
+requires publication and fresh browser review. No five-restart evidence or
+Task 11 acceptance follows from the first deploy.
+
+The follow-up feature commit `c13aa67fa5fc5929c3efde9c0ffc9a119a8d8aa1`
+was pinned by temporary `main` workflow commit
+`ab49071802c0d8dcac95dc3eb7b1244c175128d6` and published by
+[CI/Pages run `36254115150`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36254115150),
+whose validate and deploy jobs passed. Connected Chrome reloaded the same
+preview URL and verified the new `index-C4TC_rqF.css`, then followed Title →
+Hub → Character Select at **1363 × 936 CSS pixels**. The full-body driver image
+and its clipping lane both measured **207.95 px** high with matching top
+435.70 px and bottom 643.66 px. A screenshot showed the driver's head through
+shoes inside the panel, the statistics, and START RACE. The action bottom was
+**830.61 px** within the 936 px viewport; the screen measured 936 px with
+`scrollHeight = clientHeight = 936 px`. The usual Pages root still loaded the
+original `assets/index-Dt74Qa1M.js` and `assets/index-612kuw8p.css`.
+
+This is a browser pass for Character Select control reachability and complete
+driver silhouette at the inspected desktop viewport. It does not establish
+Manny's 1915 × 902 browser result, mobile presentation, actual GLB appearance
+(connected Chrome showed its WebGL CSS fallback), full-flow deployed visual
+acceptance, or any restart cleanup/memory outcome. Task 10 remains
+**INCONCLUSIVE / NOT PASSED** and Task 11 remains pending Manny's review.
+
+## Browser evidence 8 — Character Select desktop composition — 2026-09-26
+
+Feature commit `689d58b291da7e18b6ed4743f876eb9ef439cc79` was pinned into the existing non-production preview by main workflow commit `f32766b120e6a95afffdf4c2821b2575f3c79e8a`; hosted CI/Pages run [36257236545](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36257236545) completed successfully. The preview URL is [Race HUD / Results preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/).
+
+Connected Chrome followed Title → Hub → Character Select at **1363 × 936 CSS pixels** (the browser did not expose its zoom percentage). Screenshots inspected Lavi, Dragon Queen, and McFleurdel. Each complete selected silhouette fit within the art lane; Dragon Queen's wings and tail remained visible; the long McFleurdel name stayed above the art; all six statistics and START RACE were visible; the kart remained in its separate lane with the WebGL fallback; and the page retained a vertical scroll bar for lower content. The usual Pages root still rendered the Title screen. The browser API did not expose DOM bounding rectangles or viewport resizing, so exact element geometry was not collected.
+
+The planned **1915 × 902** desktop viewport and narrow coarse-pointer Character Select viewport remain unverified. This evidence is a bounded preview visual check, not deployed Task 11 acceptance. Task 10 five-restart cleanup/memory remains **INCONCLUSIVE / NOT PASSED**. Do not close Task 11 without its separate desktop/mobile observations and Manny's explicit acceptance.
+
+## Slice 6 mobile wheel, HUD, and camera implementation checkpoint — 2026-09-26
+
+The approved mobile controls/HUD/camera plan is implemented in three feature checkpoints: wheel/input priority (`112fa079827f3c33f4728669500c10e261a67dac`), compact HUD and item action (`194f9b5e778e88fded1763dc97452b709cadcb76`), and mobile-forward camera (`312184c5dc394e4437c3760fd8fd686688ad9698`). Follow-up commits record the browser limitations. The approved mockup was used as a composition reference only; it is not a runtime asset.
+
+Local `npm run validate` passed **74 test files / 602 tests**, typecheck, lint, branding/runtime-asset checks, and build. Focused wheel/input/item/HUD/camera tests passed; wheel tests cover centered throttle, normalized/clamped left/right steering, brake/reverse priority and restoration, release/cancel/lost-capture/hidden-document cleanup, and disposal. Item-button tests cover empty, neutral roulette, approved held art, charges/accessibility, consumption, and image fallback. Camera tests preserve desktop and rear values, intro continuity and spinout/rear switching while asserting lower forward framing on mobile. Targeted Prettier, `git diff --check`, and `git lfs fsck` passed. Vite emitted its existing non-blocking `KartTimeTrial` large-chunk warning.
+
+The isolated GitHub Pages preview is pinned to feature code `312184c` by main workflow commit `442e01a86d2089271f2cd33afcdc497dbea5e0f4`; hosted CI/Pages run [36259626041](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36259626041) passed validation and deployment. The preview URL is [Race HUD / Results preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/). The ordinary Pages root still loaded main-branch assets `assets/index-Dt74Qa1M.js` and `assets/index-612kuw8p.css`.
+
+Connected Chrome observed **1363 × 936 CSS pixels**, with `pointer: coarse` and `hover: none` both false; the browser API exposed no viewport/device emulation. Local Vite navigation returned `net::ERR_BLOCKED_BY_CLIENT`. The race HUD DOM and countdown rendered, but Chrome could not create a WebGL context and remained on “Initializing Circuit Alpha.” Thus no road/camera framing, touch controls, live item/drift/warning behavior, race finish, or Results routes could be visually exercised. The required 360–430 portrait/safe-area inspection remains open. Do not treat the preview as deployed acceptance.
+
+Task 10 five-restart cleanup/memory remains **INCONCLUSIVE / NOT PASSED**; these UI and geometry tests do not measure repeated real-game disposal, marker/DOM accumulation, Results-only asset residency, or browser memory. Task 11 deployed desktop/mobile acceptance and Manny's explicit acceptance remain pending.
+
+## Mobile HUD correction candidate — 2026-09-26
+
+After reviewing the mobile HUD checkpoint, Manny approved the wheel input behavior but requested a visual correction before accepting the HUD. The feature branch candidate now presents exactly four normal touch actions in the requested order: Rear view, Brake/Reverse, Use Item, Drift. The steering wheel is larger; the live speed readout is bottom-center; and the live drift/boost panel is lower-right above the controls. The mobile-only `Hold Space + steer to drift` instruction is replaced with a neutral `BOOST` state while idle; desktop wording is unchanged. The recovery action is a separate hidden control that appears only while the existing out-of-bounds recovery timer is active. Steering/acceleration, brake priority, release behavior, camera, item runtime behavior, and Results routing are otherwise untouched.
+
+Focused HUD/item suites passed **16 tests**. Full `npm run validate` passed **74 test files / 603 tests**, strict typecheck, lint, branding/runtime-asset checks, and production build. `git diff --check` passed. The branch preview was refreshed to feature commit `1906a040f2bb7c6de88d1783e5d15cb4d1f62bc0` by workflow-only `main` commit `6307fe3683fadb63fa173ea4891f09cd5aeee226`; hosted CI/Pages run [36262709355](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36262709355) passed validation and deployment. The preview URL is [Race HUD / Results preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/); `index-Cy_zdG4N.css` loaded after the refresh, matching the corrected local CSS build. The normal root game remains built from `main`.
+
+Connected Chrome can open the preview but reports fine pointer/hover and exposes no touch viewport emulation; its WebGL context is disabled. The race HUD DOM loaded, but this browser cannot render/test the mobile-only layout or live gameplay. The 360–430 CSS-pixel safe-area review is therefore still pending Manny's visual review. The implementation remains **unapproved**; this preview is a review surface, not production deployment or Task 11 acceptance. Task 10 remains **INCONCLUSIVE / NOT PASSED** and Task 11 acceptance remains pending.
+
+## Mobile HUD correction owner review — 2026-09-26
+
+Manny reviewed the refreshed [isolated branch preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/) and replied “Approved.” The approved scope is the corrected HUD presentation: four normal actions ordered Rear view → Brake/Reverse → Use Item → Drift; a larger steering wheel; bottom-center speed; drift/boost lower-right above the controls with no mobile `Hold Space + steer to drift` instruction; and contextual Recover outside the four normal controls. Feature code commit: `1906a040f2bb7c6de88d1783e5d15cb4d1f62bc0`. Preview workflow commit on `main`: `6307fe3683fadb63fa173ea4891f09cd5aeee226`. [CI/Pages run 36262709355](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36262709355) passed and published that pinned feature build at the preview path.
+
+This is product-owner approval of the HUD correction checkpoint, not measured touch or live race evidence. No device/viewport, safe-area measurements, five-restart cycles, heap samples, or complete Title → Hub → Character Select → Race → Results acceptance result accompanied the reply. The earlier connected Chrome limitation (fine pointer, no touch emulation, disabled WebGL) remains the only recorded browser capability evidence here. Task 2 portrait/interaction Step 4, Task 3 camera visual Step 4, and integrated Task 4 Step 3 stay open for their specified functional checks. Task 10 five-restart cleanup/memory is **INCONCLUSIVE / NOT PASSED**; Task 11 deployed desktop/mobile acceptance remains pending. The approval does not authorize a feature merge or production deployment.
+
+## Task 10 manual review disposition — 2026-09-26
+
+Manny stated, “I'm passing task 10 via manual review,” against feature head `5d58b6a0e7d909eb115612c0df10335126bb1996`. He clarified that he **played, restarted, reselected, and returned to main at least ten times on both mobile and desktop**. His manual review **passed Task 10's five-restart cleanup/memory gate** and the associated Slice 6 no-material-memory-increase criterion. The previous assertion that no five-restart real-game run occurred was incorrect and is superseded by this clarification. This is a qualitative product-owner measurement; no device models, numeric heap readings, marker/DOM counts, or Results-only asset-residency figures were reported, so do not invent them. The earlier focused/full validation and mocked routing tests remain separate automated evidence. Task 11's deployed desktop/mobile acceptance and hosted PR/post-merge CI remain pending.

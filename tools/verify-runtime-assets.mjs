@@ -91,6 +91,105 @@ console.log(
   `Verified ${String(runtimeTrackTextureHashes.size)} materialized runtime track textures.`,
 );
 
+const runtimeResultsHashes = new Map([
+  [
+    'public/assets/characters/aa-07/results/victory.png',
+    '21cbd6c61c2510baa22e351fce1564887331b511c0230345e79d7a3f42f91c02',
+  ],
+  [
+    'public/assets/characters/aa-08/results/victory.png',
+    '1ab53ed1c8d21314d14a99f9c80f65f4d3242cd929f30d1bf072c00ad86419cf',
+  ],
+  [
+    'public/assets/characters/aa-09/results/victory.png',
+    '19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b',
+  ],
+  [
+    'public/assets/characters/aa-10/results/victory.png',
+    'ceb43f0c7b12a7ad16556dfec460ffc29cfc4372561ce1fa9580a8399aa76c98',
+  ],
+  [
+    'public/assets/characters/aa-11/results/victory.png',
+    '59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b',
+  ],
+  [
+    'public/assets/characters/aa-12/results/victory.png',
+    '218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107',
+  ],
+  [
+    'public/assets/characters/aa-01/results/reaction.png',
+    'b6df95f50c0aa83908f2909e231b763031b2099e62b6fb67cff6a5798f97d650',
+  ],
+  [
+    'public/assets/characters/aa-02/results/reaction.png',
+    '062a932545ab14a2e5db365d60f45fe95b8285ba96850b38ae994c97e408a430',
+  ],
+  [
+    'public/assets/characters/aa-03/results/reaction.png',
+    '0ae22c91b376259390541dc7193648b6631015eee20b5f18153b31ba97482b91',
+  ],
+  [
+    'public/assets/characters/aa-04/results/reaction.png',
+    'cfb9800f7675c85c055acdbd6a9fbdc3e22748bbc9166e404f3e429c5fe6ee9b',
+  ],
+  [
+    'public/assets/characters/aa-05/results/reaction.png',
+    '57030b478a9b0cdf6607f5c3041385989768abda61d72d1316b8696b5c390445',
+  ],
+  [
+    'public/assets/characters/aa-06/results/reaction.png',
+    '0997d1684a9fc29c05995bb7e361a507d5e967f8965ab77312590fb6488e8e6b',
+  ],
+  [
+    'public/assets/characters/aa-07/results/reaction.png',
+    '6ea0df99354f4cb59310ae6ab7d41159940e3b5de23200b94127d6f8da717ca5',
+  ],
+  [
+    'public/assets/characters/aa-08/results/reaction.png',
+    'c99be19b82f41a1b2ace6be6f6d153e238056f4750392fa9affa2dffcf7c1b83',
+  ],
+  [
+    'public/assets/characters/aa-09/results/reaction.png',
+    '899fc626403f9811528acb01aa4f6bc259cdef334e19b3921f4ed488e3c3813f',
+  ],
+  [
+    'public/assets/characters/aa-10/results/reaction.png',
+    'c91d9947d42873d3da73f7f31edfca7f9201fcbb2be14f244f1d8fea2ecfbae8',
+  ],
+  [
+    'public/assets/characters/aa-11/results/reaction.png',
+    '65dc0695310a406f46b7f3574bdea7b28bceab6fcf0ce98c2db5dcf44eba40f5',
+  ],
+  [
+    'public/assets/characters/aa-12/results/reaction.png',
+    '048275029ea11e85cba10fd1ce918a6d3ec479396324fb1174e5ae7e772462b8',
+  ],
+]);
+
+for (const [path, expectedHash] of runtimeResultsHashes) {
+  const bytes = await readFile(path);
+  const actualHash = createHash('sha256').update(bytes).digest('hex');
+  if (actualHash !== expectedHash) {
+    throw new Error(`${path} no longer matches its approved Results/Podium bytes.`);
+  }
+}
+
+console.log(`Verified ${String(runtimeResultsHashes.size)} approved Results/Podium assets.`);
+
+const resultsBackdropPath = 'public/assets/ui/route-night/results-podium-backdrop.webp';
+const resultsBackdropBytes = await readFile(resultsBackdropPath);
+if (
+  resultsBackdropBytes.subarray(0, 4).toString('ascii') !== 'RIFF' ||
+  resultsBackdropBytes.subarray(8, 12).toString('ascii') !== 'WEBP'
+) {
+  throw new Error(`${resultsBackdropPath} is not a materialized WebP image.`);
+}
+const resultsBackdropHash = createHash('sha256').update(resultsBackdropBytes).digest('hex');
+if (resultsBackdropHash !== '24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465') {
+  throw new Error(`${resultsBackdropPath} no longer matches Manny's approved render derivative.`);
+}
+console.log('Verified the approved Route Night Results/Podium backdrop WebP.');
+
 const runtimeGlbs = [
   'public/assets/characters/aa-01/kart.glb',
   'public/assets/characters/aa-01/kart-lod1.glb',
@@ -423,6 +522,24 @@ const runtimePngs = [
   ['public/assets/characters/aa-12/driver/front-steer-right.png', 512, 512],
   ['public/assets/characters/aa-12/driver/front-hit.png', 512, 512],
   ['public/assets/characters/aa-12/driver/front-victory.png', 512, 512],
+  ['public/assets/characters/aa-07/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-08/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-09/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-10/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-11/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-12/results/victory.png', 1024, 1536],
+  ['public/assets/characters/aa-01/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-02/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-03/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-04/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-05/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-06/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-07/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-08/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-09/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-10/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-11/results/reaction.png', 1024, 1536],
+  ['public/assets/characters/aa-12/results/reaction.png', 1024, 1536],
   ['public/assets/characters/aa-01/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-02/selection/full-body.png', 1024, 1536],
   ['public/assets/characters/aa-03/selection/full-body.png', 1024, 1536],
@@ -510,6 +627,24 @@ const newTransparentFronts = new Set([
   'public/assets/characters/aa-12/driver/front-steer-right.png',
   'public/assets/characters/aa-12/driver/front-hit.png',
   'public/assets/characters/aa-12/driver/front-victory.png',
+  'public/assets/characters/aa-07/results/victory.png',
+  'public/assets/characters/aa-08/results/victory.png',
+  'public/assets/characters/aa-09/results/victory.png',
+  'public/assets/characters/aa-10/results/victory.png',
+  'public/assets/characters/aa-11/results/victory.png',
+  'public/assets/characters/aa-12/results/victory.png',
+  'public/assets/characters/aa-01/results/reaction.png',
+  'public/assets/characters/aa-02/results/reaction.png',
+  'public/assets/characters/aa-03/results/reaction.png',
+  'public/assets/characters/aa-04/results/reaction.png',
+  'public/assets/characters/aa-05/results/reaction.png',
+  'public/assets/characters/aa-06/results/reaction.png',
+  'public/assets/characters/aa-07/results/reaction.png',
+  'public/assets/characters/aa-08/results/reaction.png',
+  'public/assets/characters/aa-09/results/reaction.png',
+  'public/assets/characters/aa-10/results/reaction.png',
+  'public/assets/characters/aa-11/results/reaction.png',
+  'public/assets/characters/aa-12/results/reaction.png',
   'public/assets/characters/aa-01/selection/full-body.png',
   'public/assets/characters/aa-02/selection/full-body.png',
   'public/assets/characters/aa-03/selection/full-body.png',
@@ -597,13 +732,51 @@ for (const [path, expectedWidth, expectedHeight] of runtimePngs) {
     }
   }
 
-  if (path.includes('/aa-12/')) {
+  if (path.includes('/aa-12/selection/')) {
     const decoded = decodeRgbaRows(pixels, width, height);
     const largestCheckerRemnant = largestVeryPaleNeutralComponent(decoded, width, height);
     if (largestCheckerRemnant >= 8) {
       throw new Error(
         `${path} retains a ${String(largestCheckerRemnant)}-pixel pale checker component.`,
       );
+    }
+  }
+
+  if (
+    path === 'public/assets/characters/aa-10/results/victory.png' ||
+    path === 'public/assets/characters/aa-11/results/victory.png' ||
+    path === 'public/assets/characters/aa-12/results/victory.png'
+  ) {
+    const decoded = decodeRgbaRows(pixels, width, height);
+    for (let pixel = 0; pixel < width * height; pixel += 1) {
+      const offset = pixel * 4;
+      const red = decoded[offset];
+      const green = decoded[offset + 1];
+      const blue = decoded[offset + 2];
+      const alpha = decoded[offset + 3];
+      if (alpha === 0 && (red !== 0 || green !== 0 || blue !== 0)) {
+        throw new Error(`${path} has nonzero RGB values in a fully transparent pixel.`);
+      }
+      if (alpha > 0 && red === 0 && green === 255 && blue === 0) {
+        throw new Error(`${path} retains an opaque chroma-green matte pixel.`);
+      }
+    }
+  }
+
+  if (path.includes('/results/reaction.png')) {
+    const decoded = decodeRgbaRows(pixels, width, height);
+    for (let pixel = 0; pixel < width * height; pixel += 1) {
+      const offset = pixel * 4;
+      const red = decoded[offset];
+      const green = decoded[offset + 1];
+      const blue = decoded[offset + 2];
+      const alpha = decoded[offset + 3];
+      if (alpha === 0 && (red !== 0 || green !== 0 || blue !== 0)) {
+        throw new Error(`${path} has nonzero RGB values in a fully transparent pixel.`);
+      }
+      if (alpha > 0 && red === 0 && green === 255 && blue === 0) {
+        throw new Error(`${path} retains an opaque chroma-green matte pixel.`);
+      }
     }
   }
 
@@ -666,7 +839,9 @@ for (const [path, expectedWidth, expectedHeight] of runtimePngs) {
     }
   }
 
-  if (path.includes('/aa-03/') && !path.includes('/selection/')) {
+  // This legacy checker targets white checkerboard remnants in Lula's older
+  // runtime art. Authored Results art can contain legitimate pale highlights.
+  if (path.includes('/aa-03/') && !path.includes('/selection/') && !path.includes('/results/')) {
     const decoded = decodeRgbaRows(pixels, width, height);
     const filename = path.split('/').at(-1);
     const protectedRect = lulaProtectedRects[filename];

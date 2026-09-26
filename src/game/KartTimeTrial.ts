@@ -44,6 +44,7 @@ import { playDriftTierTone } from '../audio/driftTone';
 import { createKartTuning, type SurfaceType } from '../config/kartTuning';
 import { graphicsQualityProfile, type GraphicsQuality } from '../config/graphicsQuality';
 import { AiDriver, type AiRacerAwareness } from './ai/AiDriver';
+import { buildRaceStandings, type RaceRacerIdentity, type RaceStanding } from './raceResults';
 import { AiItemPolicy, driveInputWithItemModifiers } from './ai/AiItemPolicy';
 import { ChaseCamera } from './camera/ChaseCamera';
 import { SpinoutCameraAnchor } from './camera/SpinoutCameraAnchor';
@@ -65,6 +66,8 @@ import {
   guardrailContact,
 } from './track/GuardrailSystem';
 import { ItemBoxSystem } from './items/ItemBoxSystem';
+import { composePlayerDriveInput } from './input/composePlayerDrive';
+import type { WheelState } from '../app/touchWheel';
 import { ItemPerformanceMeter } from './items/ItemPerformanceMeter';
 import { ProjectileSystem, type ProjectileSnapshot } from './items/ProjectileSystem';
 import { executeItemUse } from './items/ItemEffectDispatcher';
@@ -123,6 +126,7 @@ export interface HudState {
   boostActive: boolean;
   activeBoostLabel: string | null;
   airborne: boolean;
+  recoveryPrompt: boolean;
   position: number;
   countdown: string;
   minimap: MinimapState;
@@ -142,13 +146,14 @@ export interface HudState {
 export interface RaceResult {
   time: number;
   place: number;
-  standings: { name: string; place: number | null; time: number | null }[];
+  standings: RaceStanding[];
 }
 
 export interface TimeTrialOptions {
   canvas: HTMLCanvasElement;
   character: CharacterDefinition;
   graphicsQuality: GraphicsQuality;
+  mobileSession: boolean;
   onHud: (state: HudState) => void;
   onFinish: (result: RaceResult) => void;
   onStandings?: (standings: RaceResult['standings']) => void;
@@ -156,6 +161,7 @@ export interface TimeTrialOptions {
 
 interface AiRacer {
   id: string;
+  characterId: string;
   name: string;
   portrait: string;
   controller: KartController;
@@ -223,6 +229,7 @@ export class KartTimeTrial {
   private fps = 60;
   private lastToneTier: DriftTier = 'none';
   private readonly touchPressed = new Set<string>();
+  private touchWheel: WheelState = { held: false, steering: 0 };
   private playerDriverVisual: DriverSpriteVisual | null = null;
   private driverHitSeconds = 0;
   private playerSteering = 0;
@@ -333,7 +340,7 @@ export class KartTimeTrial {
     this.scene.fog = new THREE.Fog(0x9b7d97, 180, 650);
 
     this.camera = new THREE.PerspectiveCamera(62, 1, 0.1, 900);
-    this.chaseCamera = new ChaseCamera(this.camera);
+    this.chaseCamera = new ChaseCamera(this.camera, options.mobileSession);
     this.scene.add(this.trackScene);
     this.itemBoxes = new ItemBoxSystem(this.track);
     this.scene.add(this.itemBoxes.group);
@@ -395,6 +402,7 @@ export class KartTimeTrial {
   }
 
   public dispose(): void {
+    this.touchWheel = { held: false, steering: 0 };
     cancelAnimationFrame(this.animationFrame);
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
@@ -457,6 +465,13 @@ export class KartTimeTrial {
     if (control === 'item' && pressed) this.requestPlayerItemUse();
   }
 
+  public setTouchWheel(state: WheelState): void {
+    this.touchWheel = {
+      held: state.held,
+      steering: Math.max(-1, Math.min(1, state.steering)),
+    };
+  }
+
   private startItemSimulationTiming(): number {
     return this.itemPerformance?.startSimulation() ?? -1;
   }
@@ -505,19 +520,18 @@ export class KartTimeTrial {
     const driveModifiers = this.racerEffects.driveModifiers('player');
     this.stopItemSimulationTiming(itemCpuStart);
     const playerSpinout = this.racerEffects.spinoutState('player');
+    const playerDrive = composePlayerDriveInput(
+      {
+        forward: this.isPressed('KeyW', 'ArrowUp') || this.touchPressed.has('accelerate'),
+        reverse: this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake'),
+        left: this.isPressed('KeyA', 'ArrowLeft') || this.touchPressed.has('left'),
+        right: this.isPressed('KeyD', 'ArrowRight') || this.touchPressed.has('right'),
+      },
+      { wheel: this.touchWheel, brake: this.touchPressed.has('brake') },
+    );
     const normalInput: DriveInput = {
-      throttle:
-        this.isPressed('KeyW', 'ArrowUp') || this.touchPressed.has('accelerate')
-          ? 1
-          : this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake')
-            ? -1
-            : 0,
-      steering:
-        this.isPressed('KeyA', 'ArrowLeft') || this.touchPressed.has('left')
-          ? 1
-          : this.isPressed('KeyD', 'ArrowRight') || this.touchPressed.has('right')
-            ? -1
-            : 0,
+      throttle: playerDrive.throttle,
+      steering: playerDrive.steering,
       brake: false,
       drift: this.isPressed('Space') || this.touchPressed.has('drift'),
       effectSpeedCapMultiplier: driveModifiers.speedCapMultiplier,
@@ -615,15 +629,23 @@ export class KartTimeTrial {
     }
   };
 
-  private resultStandings(): RaceResult['standings'] {
-    return this.currentStandings().map((racer) => ({
-      name:
-        racer.id === 'player'
-          ? 'YOU'
-          : (this.opponents.find(({ id }) => id === racer.id)?.name ?? racer.id),
-      place: racer.finishPlace,
-      time: racer.finishTime,
-    }));
+  private resultStandings(): RaceStanding[] {
+    const identities: RaceRacerIdentity[] = [
+      {
+        racerId: 'player',
+        characterId: this.options.character.id,
+        displayName: this.options.character.displayName,
+        portrait: this.options.character.portrait ?? '',
+      },
+      ...this.opponents.map((opponent) => ({
+        racerId: opponent.id,
+        characterId: opponent.characterId,
+        displayName: opponent.name,
+        portrait: opponent.portrait,
+      })),
+    ];
+
+    return buildRaceStandings(this.currentStandings(), identities);
   }
 
   private crossedCheckpoint(
@@ -1649,6 +1671,7 @@ export class KartTimeTrial {
       boostActive: feedback.boostActive,
       activeBoostLabel: driveModifiers.activeBoostLabel,
       airborne: feedback.airborne,
+      recoveryPrompt: this.outOfBoundsSeconds > 0,
       position: this.currentStandings().findIndex(({ id }) => id === 'player') + 1,
       countdown: this.raceDirector.countdownLabel(),
       item: this.itemSystem.hudSnapshot('player'),
@@ -1922,8 +1945,10 @@ export class KartTimeTrial {
       const controller = new KartController(this.world, tuning, stats, position, yaw);
       const visual = this.createOpponentVisual(character);
       this.scene.add(visual.group, visual.itemVisuals.worldGroup);
+      const racerId = `ai-${String(index + 1)}`;
       this.opponents.push({
-        id: `ai-${String(index + 1)}`,
+        id: racerId,
+        characterId: character.id,
         name: character.displayName,
         portrait: character.portrait ?? '',
         controller,
@@ -1943,7 +1968,7 @@ export class KartTimeTrial {
         steering: 0,
         lapTracker: new LapTracker(),
         progress: {
-          id: `ai-${String(index + 1)}`,
+          id: racerId,
           lap: 0,
           trackProgress: 0,
           finished: false,

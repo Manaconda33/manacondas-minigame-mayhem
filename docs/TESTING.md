@@ -1299,3 +1299,11 @@ Manny's 1915 × 902 browser result, mobile presentation, actual GLB appearance
 (connected Chrome showed its WebGL CSS fallback), full-flow deployed visual
 acceptance, or any restart cleanup/memory outcome. Task 10 remains
 **INCONCLUSIVE / NOT PASSED** and Task 11 remains pending Manny's review.
+
+## Browser evidence 8 — Character Select desktop composition — 2026-09-26
+
+Feature commit `689d58b291da7e18b6ed4743f876eb9ef439cc79` was pinned into the existing non-production preview by main workflow commit `f32766b120e6a95afffdf4c2821b2575f3c79e8a`; hosted CI/Pages run [36257236545](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36257236545) completed successfully. The preview URL is [Race HUD / Results preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/).
+
+Connected Chrome followed Title → Hub → Character Select at **1363 × 936 CSS pixels** (the browser did not expose its zoom percentage). Screenshots inspected Lavi, Dragon Queen, and McFleurdel. Each complete selected silhouette fit within the art lane; Dragon Queen's wings and tail remained visible; the long McFleurdel name stayed above the art; all six statistics and START RACE were visible; the kart remained in its separate lane with the WebGL fallback; and the page retained a vertical scroll bar for lower content. The usual Pages root still rendered the Title screen. The browser API did not expose DOM bounding rectangles or viewport resizing, so exact element geometry was not collected.
+
+The planned **1915 × 902** desktop viewport and narrow coarse-pointer Character Select viewport remain unverified. This evidence is a bounded preview visual check, not deployed Task 11 acceptance. Task 10 five-restart cleanup/memory remains **INCONCLUSIVE / NOT PASSED**. Do not close Task 11 without its separate desktop/mobile observations and Manny's explicit acceptance.

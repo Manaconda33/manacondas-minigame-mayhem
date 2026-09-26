@@ -480,7 +480,7 @@ Result: **10 test files / 79 tests passed**. Full `npm run validate` passed stri
 
 The five-restart cleanup/memory item remains **INCONCLUSIVE / NOT PASSED**. `tests/results-routing.test.ts` uses a mocked race factory and proves one disposal/routing cycle each for Race Again, Change Driver, and Return to Hub; it does not measure repeated real-game resource counts, stale markers, duplicated/orphaned DOM across five restarts, browser memory, or Results-only asset residency. No whole-app browser memory/soak harness exists in the repository. Do not mark this gate passed based on the routing suite.
 
-GitHub inspection found no open PR for this branch and no PR-triggered workflow run associated with `1c942fc2c5913859bc46d7a22188e132a15f6822`. Hosted PR CI, Pages deployment, and deployed desktop/mobile review remain pending. Results visual acceptance remains pending until the deployed Title → Hub → Character Select → Race → Results flow is reviewed at desktop and mobile sizes; local tests/build are not deployed acceptance.
+GitHub inspection found no open PR for this branch and no PR-triggered workflow run associated with `1c942fc2c5913859bc46d7a22188e132a15f6822`; hosted PR CI therefore remains pending. An authorized main CI/Pages workflow later passed for the isolated preview refresh (run `36259626041`), but deployed desktop/mobile review remains pending. Results visual acceptance requires a separate Title → Hub → Character Select → Race → Results review at desktop and mobile sizes; local tests/build and the isolated preview do not constitute deployed acceptance.
 
 ## Browser evidence 1 — deployed build provenance and baseline — 2026-09-25
 

@@ -49,6 +49,36 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Check out pinned Race Results preview
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v4
+        with:
+          ref: 5ed7199a92061f1b9034ab7b69a6e6a18660fe92
+          path: feature-preview
+          lfs: true
+
+      - name: Verify preview assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: git -C feature-preview lfs fsck
+
+      - name: Build Race Results at its preview URL
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: feature-preview
+        run: |
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/race-hud-results/
+
+      - name: Assemble the current game and isolated preview
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          test -f dist/assets/index-Dt74Qa1M.js
+          test -f dist/assets/index-612kuw8p.css
+          mkdir -p site-root/previews/race-hud-results
+          cp -a dist/. site-root/
+          cp -a feature-preview/dist/. site-root/previews/race-hud-results/
+          test -f site-root/index.html
+          test -f site-root/previews/race-hud-results/index.html
+
       - name: Configure GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
@@ -59,7 +89,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site-root
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

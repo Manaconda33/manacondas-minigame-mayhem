@@ -1278,3 +1278,24 @@ A second local CSS change removes the image's intrinsic minimum height to
 allow `object-fit: contain` to fit the full body in its lane. That change
 requires publication and fresh browser review. No five-restart evidence or
 Task 11 acceptance follows from the first deploy.
+
+The follow-up feature commit `c13aa67fa5fc5929c3efde9c0ffc9a119a8d8aa1`
+was pinned by temporary `main` workflow commit
+`ab49071802c0d8dcac95dc3eb7b1244c175128d6` and published by
+[CI/Pages run `36254115150`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36254115150),
+whose validate and deploy jobs passed. Connected Chrome reloaded the same
+preview URL and verified the new `index-C4TC_rqF.css`, then followed Title →
+Hub → Character Select at **1363 × 936 CSS pixels**. The full-body driver image
+and its clipping lane both measured **207.95 px** high with matching top
+435.70 px and bottom 643.66 px. A screenshot showed the driver's head through
+shoes inside the panel, the statistics, and START RACE. The action bottom was
+**830.61 px** within the 936 px viewport; the screen measured 936 px with
+`scrollHeight = clientHeight = 936 px`. The usual Pages root still loaded the
+original `assets/index-Dt74Qa1M.js` and `assets/index-612kuw8p.css`.
+
+This is a browser pass for Character Select control reachability and complete
+driver silhouette at the inspected desktop viewport. It does not establish
+Manny's 1915 × 902 browser result, mobile presentation, actual GLB appearance
+(connected Chrome showed its WebGL CSS fallback), full-flow deployed visual
+acceptance, or any restart cleanup/memory outcome. Task 10 remains
+**INCONCLUSIVE / NOT PASSED** and Task 11 remains pending Manny's review.

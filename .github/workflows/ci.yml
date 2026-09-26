@@ -71,8 +71,9 @@ jobs:
       - name: Assemble the current game and isolated preview
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          test -f dist/assets/index-Dt74Qa1M.js
-          test -f dist/assets/index-612kuw8p.css
+          test -f dist/index.html
+          test -n "$(find dist/assets -maxdepth 1 -type f -name 'index-*.js' -print -quit)"
+          test -n "$(find dist/assets -maxdepth 1 -type f -name 'index-*.css' -print -quit)"
           mkdir -p site-root/previews/race-hud-results
           cp -a dist/. site-root/
           cp -a feature-preview/dist/. site-root/previews/race-hud-results/

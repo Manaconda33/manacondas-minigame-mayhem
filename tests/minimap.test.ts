@@ -1,8 +1,19 @@
 import { describe, expect, it } from 'vitest';
 import { minimapPointAtProgress, normalizeMinimapTrack } from '../src/game/ui/Minimap';
 import { raceMinimapMarkup, updateRaceMinimap } from '../src/app/raceMinimap';
+import { readFileSync } from 'node:fs';
 
 describe('race minimap', () => {
+  it('keeps racer portrait markers visible through the Route Night frame cascade', () => {
+    const stylesheet = readFileSync('src/style.css', 'utf8');
+    const frameRules = Array.from(
+      stylesheet.matchAll(/(?:^|\n)\[data-minimap-frame\]\s*\{([^}]*)\}/g),
+    );
+    const lastFrameRule = frameRules.at(-1)?.[1] ?? '';
+
+    expect(lastFrameRule).toMatch(/\bfill:\s*none\s*;/);
+  });
+
   const track = normalizeMinimapTrack([
     { x: -20, z: -10 },
     { x: 20, z: -10 },

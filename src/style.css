@@ -4443,7 +4443,7 @@ h2 {
 }
 
 [data-minimap-frame] {
-  fill: var(--route-indigo);
+  fill: none;
   stroke: var(--route-ink);
   stroke-width: 1.5;
 }

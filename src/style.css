@@ -747,6 +747,8 @@ h2 {
 }
 .action-controls {
   right: max(1rem, env(safe-area-inset-right));
+  display: grid;
+  grid-template-columns: repeat(3, clamp(2.8rem, 12vw, 3.55rem));
 }
 .touch-controls button {
   width: clamp(3.4rem, 12vw, 5rem);
@@ -771,21 +773,87 @@ h2 {
   color: #e8c9ff;
   font-size: 0.72rem;
 }
-.touch-utility {
-  position: absolute;
-  top: max(5.8rem, env(safe-area-inset-top));
-  left: 50%;
-  display: flex;
-  gap: 0.5rem;
-  transform: translateX(-50%);
-  pointer-events: auto;
+.touch-controls .touch-steering-wheel {
+  display: grid;
+  place-items: center;
+  width: clamp(6.2rem, 25vw, 8rem);
+  height: auto;
+  aspect-ratio: 1;
+  padding: 0.38rem;
+  border: 3px solid rgb(120 232 250 / 78%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(14 25 48 / 88%) 45%, rgb(4 8 20 / 82%) 73%);
+  box-shadow:
+    0 0 1.2rem rgb(120 232 250 / 28%),
+    inset 0 0 0 3px rgb(7 11 25 / 90%);
 }
-.touch-utility button {
-  width: auto;
-  height: 2.4rem;
-  padding: 0 0.8rem;
-  border-radius: 999px;
-  font-size: 0.62rem;
+.touch-wheel-graphic {
+  position: relative;
+  display: block;
+  width: 90%;
+  height: 90%;
+  border: 0.55rem ridge #9beeff;
+  border-radius: 50%;
+  background:
+    linear-gradient(90deg, transparent 46%, #9beeff 47% 53%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, #9beeff 47% 53%, transparent 54%),
+    radial-gradient(circle, #132340 0 24%, #08101e 26% 100%);
+  box-shadow: inset 0 0 0 2px #07101f;
+}
+.touch-wheel-graphic::after {
+  position: absolute;
+  inset: 38%;
+  border-radius: 50%;
+  background: var(--route-gold);
+  content: '';
+  box-shadow: 0 0 0.6rem rgb(255 213 111 / 70%);
+}
+.touch-controls .action-controls button {
+  width: clamp(2.8rem, 12vw, 3.55rem);
+  height: clamp(2.8rem, 12vw, 3.55rem);
+  padding: 0.18rem;
+  border-radius: 0.8rem;
+  font-size: 0.58rem;
+  line-height: 1;
+}
+.touch-controls .action-controls .touch-item-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.08rem;
+  border-color: rgb(255 213 111 / 70%);
+  background: rgb(24 18 37 / 90%);
+}
+.touch-item-slot {
+  display: grid;
+  place-items: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  overflow: hidden;
+  border: 1px dashed rgb(181 245 255 / 50%);
+  border-radius: 0.35rem;
+  color: var(--route-cyan-soft);
+  font-size: 1rem;
+}
+.touch-item-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.touch-item-slot img[hidden] {
+  display: none;
+}
+.touch-item-button [data-touch-item-label] {
+  font-size: 0.47rem;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+}
+.touch-item-button [data-touch-item-charges] {
+  color: var(--route-gold-soft);
+  font-size: 0.37rem;
+  font-weight: 800;
+  line-height: 1;
 }
 .spinner {
   display: inline-block;
@@ -4440,107 +4508,108 @@ h2 {
   opacity: 0.18;
 }
 
-@media (max-width: 760px) {
-  .race-hud .top-left,
-  .race-hud .top-center,
-  .race-hud .top-right,
-  .race-hud .position-hud {
+@media (max-width: 760px) and (pointer: coarse) and (hover: none) {
+  .route-night-race[data-touch-session='true'] .race-hud .top-left,
+  .route-night-race[data-touch-session='true'] .race-hud .top-center,
+  .route-night-race[data-touch-session='true'] .race-hud .top-right,
+  .route-night-race[data-touch-session='true'] .race-hud .position-hud {
     padding: 0.55rem 0.65rem;
   }
 
-  .race-hud .top-left {
-    top: 0.55rem;
+  .route-night-race[data-touch-session='true'] .race-hud .top-left {
+    top: max(0.35rem, env(safe-area-inset-top));
     left: max(0.5rem, env(safe-area-inset-left));
-    width: 7.3rem;
-    height: 3.6rem;
+    width: 6.3rem;
+    height: 3.1rem;
   }
 
-  .race-hud .top-center {
-    top: 0.55rem;
-    width: 8.2rem;
-    height: 3.6rem;
-  }
-
-  .race-hud .top-right {
-    top: 0.55rem;
-    right: max(0.5rem, env(safe-area-inset-right));
+  .route-night-race[data-touch-session='true'] .race-hud .top-center {
+    top: max(0.35rem, env(safe-area-inset-top));
     width: 7.8rem;
-    height: 4.2rem;
+    height: 3.1rem;
   }
 
-  .race-hud .position-hud {
-    top: 4.7rem;
+  .route-night-race[data-touch-session='true'] .race-hud .top-right {
+    top: max(0.35rem, env(safe-area-inset-top));
     right: max(0.5rem, env(safe-area-inset-right));
-    width: 7.6rem;
-    height: 3.5rem;
+    width: 6rem;
+    height: 3.1rem;
   }
 
-  .race-hud .speed-hud .race-hud-speed-art {
-    bottom: -4rem;
-    height: 9rem;
+  .route-night-race[data-touch-session='true'] .race-hud .position-hud {
+    top: 3.65rem;
+    right: max(0.5rem, env(safe-area-inset-right));
+    width: 5.3rem;
+    height: 2.6rem;
   }
 
-  .race-hud .race-minimap {
-    top: 4.7rem;
+  .route-night-race[data-touch-session='true'] .race-hud .speed-hud .race-hud-speed-art {
+    bottom: -2.6rem;
+    height: 6rem;
+  }
+
+  .route-night-race[data-touch-session='true'] .race-minimap {
+    top: 3.55rem;
     left: max(0.5rem, env(safe-area-inset-left));
-    width: clamp(6rem, 25vw, 7.5rem);
+    width: clamp(5.5rem, 23vw, 6.5rem);
     padding: 0.3rem;
   }
 
-  .race-minimap > .hud-kicker {
-    top: 0.62rem;
-    left: 0.72rem;
-    font-size: 0.39rem;
+  .route-night-race .race-minimap > .hud-kicker {
+    top: 0.56rem;
+    left: 0.64rem;
+    font-size: 0.36rem;
   }
 
-  .race-hud .item-hud {
-    right: auto;
-    bottom: 6.2rem;
-    left: max(0.5rem, env(safe-area-inset-left));
-    width: 8rem;
-    height: 7.7rem;
-    padding: 0.45rem;
-  }
-
-  .item-hud-main b {
-    max-width: 5.25rem;
-    font-size: 0.5rem;
-  }
-
-  .item-art-wrap,
-  .item-art {
-    width: 2.45rem;
-    height: 2.45rem;
-    flex-basis: 2.45rem;
-  }
-
-  .item-hud small {
-    font-size: 0.42rem;
-  }
-
-  .race-hud .surface-hud {
-    bottom: 6.2rem;
-    left: max(0.5rem, env(safe-area-inset-left));
-    width: 7.5rem;
-    height: 2.8rem;
-  }
-
-  .race-hud .performance {
+  .route-night-race[data-touch-session='true'] .race-hud .item-hud,
+  .route-night-race[data-touch-session='true'] .race-hud .surface-hud,
+  .route-night-race[data-touch-session='true'] .race-hud .performance {
     display: none;
   }
 
-  .race-hud .drift-panel {
-    bottom: 6.2rem;
-    width: min(16rem, 56vw);
-    height: 4.1rem;
+  .route-night-race[data-touch-session='true'] .race-hud .drift-panel {
+    bottom: calc(max(0.75rem, env(safe-area-inset-bottom)) + 8rem);
+    left: 50%;
+    width: min(17rem, 78vw);
+    height: 4rem;
+    transform: translateX(-50%);
   }
 
-  .drift-panel-content {
-    padding: 0.42rem 0.6rem 0.25rem;
+  .route-night-race[data-touch-session='true'] .drift-panel-content {
+    padding: 0.4rem 0.6rem 0.25rem;
   }
 
-  .race-hud .hud strong {
-    font-size: 0.9rem;
+  .route-night-race[data-touch-session='true'] .drift-panel-content > span {
+    margin-bottom: 0.3rem;
+    font-size: 0.54rem;
+  }
+
+  .route-night-race[data-touch-session='true'] .touch-cluster {
+    bottom: max(0.6rem, env(safe-area-inset-bottom));
+  }
+
+  .route-night-race[data-touch-session='true'] .steering-controls {
+    left: max(0.6rem, env(safe-area-inset-left));
+  }
+
+  .route-night-race[data-touch-session='true'] .action-controls {
+    right: max(0.6rem, env(safe-area-inset-right));
+    grid-template-columns: repeat(3, clamp(2.7rem, 12vw, 3.4rem));
+    gap: 0.3rem;
+  }
+
+  .route-night-race[data-touch-session='true'] .touch-controls .action-controls button {
+    width: clamp(2.7rem, 12vw, 3.4rem);
+    height: clamp(2.7rem, 12vw, 3.4rem);
+    font-size: 0.52rem;
+  }
+
+  .route-night-race[data-touch-session='true'] .touch-controls .touch-steering-wheel {
+    width: clamp(6.2rem, 25vw, 7.6rem);
+  }
+
+  .route-night-race[data-touch-session='true'] .race-hud .hud strong {
+    font-size: 0.78rem;
   }
 }
 

@@ -18,7 +18,7 @@ import {
   updateResultsPodium,
 } from '../ui/resultsPodium';
 import type { RaceStanding } from '../game/raceResults';
-import { updateItemHud } from './itemHud';
+import { updateItemHud, updateTouchItemButton } from './itemHud';
 import { raceHudMarkup } from './raceHud';
 import { updateRaceMinimap } from './raceMinimap';
 import { touchControlsMarkup } from './touchControls';
@@ -370,6 +370,7 @@ export function mountAppShell(root: HTMLElement): void {
     };
     const minimap = getElement('[data-race-minimap]');
     const itemHud = getElement('#item-hud');
+    const touchItemButton = root.querySelector<HTMLButtonElement>('[data-touch="item"]');
     const updateHud = (state: HudState): void => {
       getElement('#lap').textContent = `${String(state.lap)} / 3`;
       getElement('#time').textContent = formatTime(state.elapsed);
@@ -388,6 +389,7 @@ export function mountAppShell(root: HTMLElement): void {
       inkOverlay.dataset.active = String(state.ink.active);
       updateRaceMinimap(minimap, state.minimap);
       updateItemHud(itemHud, state.item);
+      if (touchItemButton !== null) updateTouchItemButton(touchItemButton, state.item);
       const testMode = getElement('#item-test-mode');
       testMode.hidden = state.testModeItemLabel === null;
       testMode.textContent =

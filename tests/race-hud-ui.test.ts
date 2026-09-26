@@ -51,6 +51,48 @@ describe('Route Night race HUD asset contracts', () => {
     }
   });
 
+  it('exposes each live HUD value in one region and preserves warning hooks on mobile', () => {
+    const host = document.createElement('div');
+    host.innerHTML = raceHudMarkup('touch controls');
+
+    for (const region of [
+      'lap',
+      'time',
+      'speed',
+      'position',
+      'item',
+      'minimap',
+      'surface',
+      'performance',
+      'drift',
+    ]) {
+      expect(host.querySelectorAll(`[data-race-region="${region}"]`)).toHaveLength(1);
+    }
+    for (const selector of [
+      '#countdown',
+      '#wrong-way',
+      '#seeker-warning',
+      '#apex-warning',
+      '#item-use-message',
+    ]) {
+      expect(host.querySelector(selector)).not.toBeNull();
+    }
+  });
+
+  it('applies the touch HUD only when coarse-only controls are present', () => {
+    const desktop = document.createElement('div');
+    desktop.innerHTML = raceHudMarkup('');
+    const touch = document.createElement('div');
+    touch.innerHTML = raceHudMarkup('<div id="touch-controls"></div>');
+
+    expect(desktop.querySelector('.route-night-race')?.hasAttribute('data-touch-session')).toBe(
+      false,
+    );
+    expect(touch.querySelector('.route-night-race')?.getAttribute('data-touch-session')).toBe(
+      'true',
+    );
+  });
+
   it('maps a held item to its approved visual while keeping text fallback data live', () => {
     const host = document.createElement('div');
     host.innerHTML = itemHudMarkup();

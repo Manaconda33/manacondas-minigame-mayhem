@@ -63,11 +63,13 @@
 - Consumes: `ItemHudSnapshot` from existing `updateHud`; Task 1 touch controls and wheel.
 - Produces: `updateTouchItemButton(button: HTMLElement, state: ItemHudSnapshot): void` in `src/app/itemHud.ts`, using `routeNightItemAssetUrl` and the same error fallback convention as the main item HUD.
 
-- [ ] **Step 1: Write failing tests** for empty slot, neutral roulette, held approved art URL and charge label, consumed empty slot, image-load fallback, item button keyboard/accessibility label, and a single `data-race-region` per HUD value. Pin coarse-only touch markup and preserved warning IDs.
-- [ ] **Step 2: Run** `npx vitest run tests/item-hud-input.test.ts tests/race-hud-ui.test.ts`; expect the new assertions to fail.
-- [ ] **Step 3: Implement** the item-button projection from the existing snapshot and compact mobile CSS for lap/time/speed/position/minimap, lower wheel/action row, item/drift/effect state and recovery. Keep countdown and warnings legible; do not render example mockup numbers or new gauges. Desktop layout stays intact.
+- [x] **Step 1: Write failing tests** for empty slot, neutral roulette, held approved art URL and charge label, consumed empty slot, image-load fallback, item button keyboard/accessibility label, and a single `data-race-region` per HUD value. Pin coarse-only touch markup and preserved warning IDs.
+- [x] **Step 2: Run** `npx vitest run tests/item-hud-input.test.ts tests/race-hud-ui.test.ts`; expected missing-interface and markup failures were observed.
+- [x] **Step 3: Implement** the item-button projection from the existing snapshot and compact mobile CSS for lap/time/speed/position/minimap, lower wheel/action row, item/drift/effect state and recovery. Keep countdown and warnings legible; do not render example mockup numbers or new gauges. Desktop layout stays intact.
 - [ ] **Step 4: Run** the focused suites; expect pass. Inspect actual 360–430 CSS-pixel portrait viewports with safe-area emulation/real mobile; test a held item, empty item, drift, warning, and Results transition. Adjust overlap and tap targets from browser evidence.
-- [ ] **Step 5: Commit** as `feat: organize mobile race HUD and item action`.
+- [x] **Step 5: Commit** as `feat: organize mobile race HUD and item action`.
+
+**Evidence so far:** focused suites passed (`15/15` tests), and full `npm run validate` passed (`74/74` test files; `599/599` tests, typecheck, lint, runtime asset checks and build). Local browser navigation is currently rejected with `net::ERR_BLOCKED_BY_CLIENT`; the required 360–430 portrait view is not yet observed. Continue the planned visual review through the authorized branch preview before closing Step 4.
 
 ### Task 3: Mobile forward chase framing
 

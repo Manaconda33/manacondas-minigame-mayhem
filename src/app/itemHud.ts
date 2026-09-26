@@ -83,3 +83,68 @@ export function updateItemHud(host: HTMLElement, state: ItemHudSnapshot): void {
       : '';
   meta.textContent = `${charges}SHIFT / E`;
 }
+
+function requiredTouchElement(host: HTMLElement, selector: string): HTMLElement {
+  const element = host.querySelector<HTMLElement>(selector);
+  if (element === null) throw new Error(`Required touch item element missing: ${selector}`);
+  return element;
+}
+
+export function updateTouchItemButton(button: HTMLElement, state: ItemHudSnapshot): void {
+  const art = requiredTouchElement(button, '[data-touch-item-art]') as HTMLImageElement;
+  const placeholder = requiredTouchElement(button, '[data-touch-item-placeholder]');
+  const label = requiredTouchElement(button, '[data-touch-item-label]');
+  const charges = requiredTouchElement(button, '[data-touch-item-charges]');
+
+  if (art.dataset.fallbackBound !== 'true') {
+    art.addEventListener('error', () => {
+      art.hidden = true;
+      placeholder.textContent = art.dataset.fallbackGlyph ?? '—';
+      placeholder.hidden = false;
+      art.dataset.failed = 'true';
+    });
+    art.dataset.fallbackBound = 'true';
+  }
+
+  button.dataset.phase = state.phase;
+  if (state.phase === 'empty' || state.itemId === null) {
+    art.hidden = true;
+    art.removeAttribute('src');
+    art.dataset.failed = 'false';
+    placeholder.textContent = '—';
+    placeholder.hidden = false;
+    label.textContent = 'ITEM';
+    charges.textContent = 'EMPTY';
+    button.setAttribute('aria-label', 'Use item. No item held. Keyboard: Shift or E.');
+    return;
+  }
+
+  if (state.phase === 'roulette') {
+    art.hidden = true;
+    art.removeAttribute('src');
+    art.dataset.failed = 'false';
+    placeholder.textContent = '◌';
+    placeholder.hidden = false;
+    label.textContent = 'ITEM';
+    charges.textContent = 'ROLLING';
+    button.setAttribute('aria-label', 'Use item. Roulette in progress. Keyboard: Shift or E.');
+    return;
+  }
+
+  const asset = routeNightItemAssetUrl(state.itemId);
+  if (art.getAttribute('src') !== asset) {
+    art.src = asset;
+    art.dataset.failed = 'false';
+    art.dataset.fallbackGlyph = state.icon;
+  }
+  const failed = art.dataset.failed === 'true';
+  art.hidden = failed;
+  placeholder.textContent = state.icon;
+  placeholder.hidden = !failed;
+  label.textContent = 'ITEM';
+  charges.textContent = `${String(state.remainingCharges)} / ${String(state.totalCharges)}`;
+  button.setAttribute(
+    'aria-label',
+    `Use ${state.displayName}, ${String(state.remainingCharges)} of ${String(state.totalCharges)} charges. Keyboard: Shift or E.`,
+  );
+}

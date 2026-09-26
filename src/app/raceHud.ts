@@ -3,7 +3,8 @@ import { itemHudMarkup } from './itemHud';
 import { raceMinimapMarkup } from './raceMinimap';
 
 export function raceHudMarkup(touchControls: string): string {
-  return `<section class="game-shell route-night-race" aria-label="Circuit Alpha Grand Prix">
+  const touchSession = touchControls.trim() !== '';
+  return `<section class="game-shell route-night-race"${touchSession ? ' data-touch-session="true"' : ''} aria-label="Circuit Alpha Grand Prix">
     <canvas id="game-canvas" tabindex="0"></canvas>
     <div class="race-hud-atmosphere" data-route-asset="race-hud-atmosphere" aria-hidden="true" style="--race-hud-atmosphere: url('${routeNightAssetUrl('race-hud-atmosphere')}')"></div>
     <div id="ink-overlay" class="ink-overlay" aria-hidden="true" hidden>

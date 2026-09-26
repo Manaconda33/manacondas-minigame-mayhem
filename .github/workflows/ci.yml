@@ -53,7 +53,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v4
         with:
-          ref: 689d58b291da7e18b6ed4743f876eb9ef439cc79
+          ref: 194f9b5e778e88fded1763dc97452b709cadcb76
           path: feature-preview
           lfs: true
 

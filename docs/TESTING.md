@@ -1204,3 +1204,35 @@ behavior. No race cycle, real-game disposal, stale marker or orphaned DOM count,
 Results-only asset request/residency check, or browser memory/resource measure
 was possible. The five-restart gate is **INCONCLUSIVE / NOT PASSED**, and Task 11
 deployed desktop/mobile acceptance remains pending.
+
+## Browser evidence 4 — isolated GitHub Pages preview availability — 2026-09-25
+
+Manny approved a temporary workflow-only `main` change to supply a gameplay
+link. Before publication, `main` was
+`7e8a9ea8901bef6ea4dd785780c4cc8295225ead` and the clean feature branch
+was `5ed7199a92061f1b9034ab7b69a6e6a18660fe92`. An isolated local build
+of that `main` checkpoint (`npm ci && npm run build`) produced the same root
+script and stylesheet filenames then served by Pages:
+`assets/index-Dt74Qa1M.js` and `assets/index-612kuw8p.css`. Local
+`npm run validate` passed 67 files / 536 tests, typecheck, lint, runtime-asset
+checks, and build; `npx prettier --check .github/workflows/ci.yml`,
+`git diff --check`, and `git lfs fsck` passed. The workflow-only `main` commit
+`29fad5d1e66de2fff9f3007bafedb4c2f551df09` pins the feature build to
+`5ed7199a92061f1b9034ab7b69a6e6a18660fe92`, places it under the isolated
+preview path, and preserves the `main` build at the Pages root. Hosted CI and
+Pages [run `36212375736`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36212375736)
+completed both validate and deploy jobs successfully.
+
+Connected Chrome opened
+`https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/`
+and observed the accessible Route Night Title (`data-screen="title"`), script
+`previews/race-hud-results/assets/index-UqrfspIU.js`, and stylesheet
+`previews/race-hud-results/assets/index-wawQ29f5.css`. In a separate tab, the
+usual `https://manaconda33.github.io/manacondas-minigame-mayhem/` rendered the
+Title and still loaded `assets/index-Dt74Qa1M.js` and
+`assets/index-612kuw8p.css`. This establishes preview availability and root
+bundle identity at the time of inspection. It does not establish race entry,
+five restart cycles, real-instance disposal, marker or DOM cleanup,
+Results-only asset residency, or browser memory behavior. Task 10 remains
+**INCONCLUSIVE / NOT PASSED**. The preview is a test surface; Task 11 deployed
+desktop/mobile visual acceptance and Manny's explicit acceptance remain pending.

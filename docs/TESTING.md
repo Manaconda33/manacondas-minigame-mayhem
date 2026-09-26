@@ -1262,3 +1262,19 @@ typecheck, lint, runtime-asset checks, and build. These DOM-based suites cannot
 prove viewport layout; deployed 100% desktop verification remains required.
 No race cycle or cleanup/memory measurement was made; Task 10 remains
 **INCONCLUSIVE / NOT PASSED** and Task 11 acceptance remains pending.
+
+The first deployed correction used feature commit
+`d06e9ead16214304deb15086ffc78d579f39db02` and `main` workflow commit
+`ff474bd71c679748feeff820a105153bf639767b`. Hosted CI/Pages
+[run `36253714178`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36253714178)
+passed. Connected Chrome reloaded the preview until its new stylesheet
+`index-DN4ieFcL.css` appeared, then followed Title → Hub → Character Select
+at 1363 × 936. START RACE bottom was **830.61 px** and the screen's
+`clientHeight = scrollHeight = 936 px`, so the action was in view. A screenshot
+then revealed the selected driver's legs were cropped: the art lane was
+207.95 px high while its image retained a 383.06 px minimum size. This is a
+new visual defect from the compact stage, so the correction is not accepted.
+A second local CSS change removes the image's intrinsic minimum height to
+allow `object-fit: contain` to fit the full body in its lane. That change
+requires publication and fresh browser review. No five-restart evidence or
+Task 11 acceptance follows from the first deploy.

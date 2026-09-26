@@ -3505,6 +3505,7 @@ h2 {
   display: block;
   width: min(92%, 21rem);
   height: 100%;
+  min-height: 0;
   object-fit: contain;
   object-position: center bottom;
   filter: drop-shadow(0 0 1.2rem rgb(120 232 250 / 16%));

@@ -357,7 +357,8 @@ export function mountAppShell(root: HTMLElement): void {
   const renderGame = async (): Promise<void> => {
     characterPreview?.dispose();
     characterPreview = null;
-    const touchControls = touchControlsMarkup(isMobileSession());
+    const mobileSession = isMobileSession();
+    const touchControls = touchControlsMarkup(mobileSession);
     root.innerHTML = raceHudMarkup(touchControls);
 
     const canvas = root.querySelector<HTMLCanvasElement>('#game-canvas');
@@ -464,6 +465,7 @@ export function mountAppShell(root: HTMLElement): void {
       canvas,
       character: selectedCharacter,
       graphicsQuality: appSettings.graphics.quality,
+      mobileSession,
       onHud: updateHud,
       onStandings: renderStandings,
       onFinish: (result) => {

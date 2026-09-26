@@ -152,6 +152,7 @@ export interface TimeTrialOptions {
   canvas: HTMLCanvasElement;
   character: CharacterDefinition;
   graphicsQuality: GraphicsQuality;
+  mobileSession: boolean;
   onHud: (state: HudState) => void;
   onFinish: (result: RaceResult) => void;
   onStandings?: (standings: RaceResult['standings']) => void;
@@ -338,7 +339,7 @@ export class KartTimeTrial {
     this.scene.fog = new THREE.Fog(0x9b7d97, 180, 650);
 
     this.camera = new THREE.PerspectiveCamera(62, 1, 0.1, 900);
-    this.chaseCamera = new ChaseCamera(this.camera);
+    this.chaseCamera = new ChaseCamera(this.camera, options.mobileSession);
     this.scene.add(this.trackScene);
     this.itemBoxes = new ItemBoxSystem(this.track);
     this.scene.add(this.itemBoxes.group);

@@ -82,11 +82,13 @@
 
 - `new ChaseCamera(camera: THREE.PerspectiveCamera, mobileForward = false)`; `KartTimeTrial` passes the existing coarse/no-hover session result. The `update(position, forward, rearView, dt)` signature stays unchanged.
 
-- [ ] **Step 1: Write failing tests** showing mobile forward framing targets more road/less sky than desktop after intro, while desktop chase height/distance and rear-view height/distance remain at established values; test switching rear/forward and spinout anchor behavior.
-- [ ] **Step 2: Run** `npx vitest run tests/chase-camera.test.ts`; expect new mobile assertions to fail.
-- [ ] **Step 3: Implement** a mobile forward-only look target/position profile, preserving intro continuity and existing rear profile. Do not crop the renderer or alter physics and checkpoint coordinates.
+- [x] **Step 1: Write failing tests** showing mobile forward framing targets more road/less sky than desktop after intro, while desktop chase height/distance and rear-view height/distance remain at established values; test switching rear/forward and spinout anchor behavior.
+- [x] **Step 2: Run** `npx vitest run tests/chase-camera.test.ts`; the new mobile comparison failed before implementation as expected.
+- [x] **Step 3: Implement** a mobile forward-only look target/position profile, preserving intro continuity and existing rear profile. Do not crop the renderer or alter physics and checkpoint coordinates.
 - [ ] **Step 4: Run** the camera suite; expect pass. Inspect actual gameplay on narrow portrait and desktop preview: horizon, road sightline, racer position, hazards and rear view. Tune numeric values from screenshots rather than treating geometry tests as pixel acceptance.
-- [ ] **Step 5: Commit** as `feat: frame mobile race toward the road`.
+- [x] **Step 5: Commit** as `feat: frame mobile race toward the road`.
+
+**Evidence so far:** `tests/chase-camera.test.ts` passed (`7/7` tests); typecheck, targeted lint, diff check and LFS check passed. Pixel inspection remains open under the same browser limitation recorded at Task 2. Retest the camera after the next authorized preview refresh; keep Task 11 acceptance pending.
 
 ### Task 4: Integrated validation and preview review
 

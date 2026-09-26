@@ -69,7 +69,7 @@
 - [ ] **Step 4: Run** the focused suites; expect pass. Inspect actual 360–430 CSS-pixel portrait viewports with safe-area emulation/real mobile; test a held item, empty item, drift, warning, and Results transition. Adjust overlap and tap targets from browser evidence.
 - [x] **Step 5: Commit** as `feat: organize mobile race HUD and item action`.
 
-**Evidence so far:** focused suites passed (`15/15` tests), and full `npm run validate` passed (`74/74` test files; `599/599` tests, typecheck, lint, runtime asset checks and build). Local browser navigation is currently rejected with `net::ERR_BLOCKED_BY_CLIENT`; the required 360–430 portrait view is not yet observed. Continue the planned visual review through the authorized branch preview before closing Step 4.
+**Evidence so far:** focused suites passed (`15/15` tests), and full `npm run validate` passed (`74/74` test files; `599/599` tests, typecheck, lint, runtime asset checks and build). GitHub Actions run 620 passed and refreshed the isolated preview at commit `194f9b5`; the ordinary main URL still loads its unchanged main-branch assets. The browser viewport is 1363×936 with `pointer: coarse` and `hover: none` both false, and the available browser interface has no viewport emulation control. Local browser navigation remains rejected with `net::ERR_BLOCKED_BY_CLIENT`. The branch preview race DOM renders, but its WebGL context is disabled in this browser, so the game stays at initialization and live control behavior cannot be visually inspected. The required 360–430 portrait view remains unobserved; keep Step 4 open for a real mobile/safe-area view.
 
 ### Task 3: Mobile forward chase framing
 

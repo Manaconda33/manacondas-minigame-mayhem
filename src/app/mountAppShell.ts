@@ -22,6 +22,7 @@ import { updateItemHud } from './itemHud';
 import { raceHudMarkup } from './raceHud';
 import { updateRaceMinimap } from './raceMinimap';
 import { touchControlsMarkup } from './touchControls';
+import { bindTouchWheel } from './touchWheel';
 import {
   routeNightAssetUrl,
   routeNightButtonFrameMarkup,
@@ -88,11 +89,14 @@ function routeNightEditorialStripMarkup(): string {
 export function mountAppShell(root: HTMLElement): void {
   let game: KartTimeTrialInstance | null = null;
   let characterPreview: CharacterKartPreview | null = null;
+  let touchWheelDispose: (() => void) | null = null;
   let selectedCharacter = characterById('aa-02');
   let appSettings = loadGameSettings();
   audioMixer.configure(appSettings.audio);
 
   const disposeGame = (): void => {
+    touchWheelDispose?.();
+    touchWheelDispose = null;
     game?.dispose();
     game = null;
   };
@@ -475,6 +479,10 @@ export function mountAppShell(root: HTMLElement): void {
     canvas.focus();
     const controls = root.querySelector('#touch-controls');
     if (controls !== null) {
+      const steeringWheel = controls.querySelector<HTMLElement>('#mobile-steering-wheel');
+      if (steeringWheel !== null) {
+        touchWheelDispose = bindTouchWheel(steeringWheel, (state) => game?.setTouchWheel(state));
+      }
       const release = (event: Event): void => {
         const control = (event.currentTarget as HTMLElement).dataset.touch;
         if (control !== undefined) game?.setTouchControl(control, false);

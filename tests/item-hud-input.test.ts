@@ -82,7 +82,9 @@ describe('Slice 5 mobile ITEM control', () => {
     const container = document.createElement('div');
     container.innerHTML = touchControlsMarkup(true);
 
-    expect(container.querySelector('[data-touch="left"]')).not.toBeNull();
+    expect(container.querySelector('#mobile-steering-wheel')?.getAttribute('aria-label')).toContain(
+      'accelerates',
+    );
     expect(container.querySelector('[data-touch="brake"]')).not.toBeNull();
     expect(container.querySelector('[data-touch="drift"]')).not.toBeNull();
     expect(container.querySelector('[data-touch="rear"]')).not.toBeNull();

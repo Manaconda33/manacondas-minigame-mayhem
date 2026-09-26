@@ -43,11 +43,13 @@
 - `KartTimeTrial.setTouchWheel(state: WheelState): void` stores the touch wheel state; existing `setTouchControl(control: string, pressed: boolean)` keeps discrete actions.
 - `composePlayerDriveInput(keyboard: { forward: boolean; reverse: boolean; left: boolean; right: boolean }, touch: { wheel: WheelState; brake: boolean }): { throttle: -1 | 0 | 1; steering: number }`; left has the existing positive steering sign, right negative. Preserve keyboard forward/reverse precedence when no wheel is held.
 
-- [ ] **Step 1: Write failing tests** for center/left/right pointer steering (clamped to ±1), wheel contact throttle, brake before/after wheel press, restoration, wheel release/cancel/lost capture/visibility cleanup, simultaneous drift/rear/item controls, and return-to-route disposal. Add a regression test for keyboard precedence and backward item use.
-- [ ] **Step 2: Run** `npx vitest run tests/touch-wheel.test.ts tests/player-drive-input.test.ts tests/item-hud-input.test.ts`; expect failures from missing interfaces/markup.
-- [ ] **Step 3: Implement** the wheel adapter, state combiner, wheel markup with accessible name, and app-shell binding/disposer. Route wheel state through `KartTimeTrial` and merge throttle/steering with existing keyboard inputs; leave the physics controller and special-item input modifiers unchanged. One pointer owns the wheel, other buttons keep their own capture.
-- [ ] **Step 4: Run** the same focused suites; expect pass. Check `setTouchWheel` neutralizes on game disposal and pointer interruptions.
-- [ ] **Step 5: Commit** as `feat: add mobile steering wheel drive input`.
+- [x] **Step 1: Write failing tests** for center/left/right pointer steering (clamped to ±1), wheel contact throttle, brake before/after wheel press, restoration, wheel release/cancel/lost capture/visibility cleanup, simultaneous drift/rear/item controls, and return-to-route disposal. Add a regression test for keyboard precedence and backward item use.
+- [x] **Step 2: Run** `npx vitest run tests/touch-wheel.test.ts tests/player-drive-input.test.ts tests/item-hud-input.test.ts`; expected failures from missing interfaces/markup were observed.
+- [x] **Step 3: Implement** the wheel adapter, state combiner, wheel markup with accessible name, and app-shell binding/disposer. Route wheel state through `KartTimeTrial` and merge throttle/steering with existing keyboard inputs; leave the physics controller and special-item input modifiers unchanged. One pointer owns the wheel, other buttons keep their own capture.
+- [x] **Step 4: Run** the same focused suites; `15/15` tests passed. `npm run validate` passed typecheck, lint, `74/74` files and `594/594` tests, runtime asset checks, and build. Wheel release, cancel, lost capture, hidden-document, independent control markup, and disposer cleanup are covered. Game disposal neutralizes stored wheel state.
+- [x] **Step 5: Commit** as `feat: add mobile steering wheel drive input`.
+
+**Evidence:** focused tests passed after the expected red run; full validation passed on 2026-09-26. `touchWheel.test.ts` reports 100% line coverage. Build emitted the existing large `KartTimeTrial` chunk warning.
 
 ### Task 2: Compact item action and race HUD
 

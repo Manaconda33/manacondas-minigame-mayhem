@@ -66,6 +66,8 @@ import {
   guardrailContact,
 } from './track/GuardrailSystem';
 import { ItemBoxSystem } from './items/ItemBoxSystem';
+import { composePlayerDriveInput } from './input/composePlayerDrive';
+import type { WheelState } from '../app/touchWheel';
 import { ItemPerformanceMeter } from './items/ItemPerformanceMeter';
 import { ProjectileSystem, type ProjectileSnapshot } from './items/ProjectileSystem';
 import { executeItemUse } from './items/ItemEffectDispatcher';
@@ -225,6 +227,7 @@ export class KartTimeTrial {
   private fps = 60;
   private lastToneTier: DriftTier = 'none';
   private readonly touchPressed = new Set<string>();
+  private touchWheel: WheelState = { held: false, steering: 0 };
   private playerDriverVisual: DriverSpriteVisual | null = null;
   private driverHitSeconds = 0;
   private playerSteering = 0;
@@ -397,6 +400,7 @@ export class KartTimeTrial {
   }
 
   public dispose(): void {
+    this.touchWheel = { held: false, steering: 0 };
     cancelAnimationFrame(this.animationFrame);
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
@@ -459,6 +463,13 @@ export class KartTimeTrial {
     if (control === 'item' && pressed) this.requestPlayerItemUse();
   }
 
+  public setTouchWheel(state: WheelState): void {
+    this.touchWheel = {
+      held: state.held,
+      steering: Math.max(-1, Math.min(1, state.steering)),
+    };
+  }
+
   private startItemSimulationTiming(): number {
     return this.itemPerformance?.startSimulation() ?? -1;
   }
@@ -507,19 +518,18 @@ export class KartTimeTrial {
     const driveModifiers = this.racerEffects.driveModifiers('player');
     this.stopItemSimulationTiming(itemCpuStart);
     const playerSpinout = this.racerEffects.spinoutState('player');
+    const playerDrive = composePlayerDriveInput(
+      {
+        forward: this.isPressed('KeyW', 'ArrowUp') || this.touchPressed.has('accelerate'),
+        reverse: this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake'),
+        left: this.isPressed('KeyA', 'ArrowLeft') || this.touchPressed.has('left'),
+        right: this.isPressed('KeyD', 'ArrowRight') || this.touchPressed.has('right'),
+      },
+      { wheel: this.touchWheel, brake: this.touchPressed.has('brake') },
+    );
     const normalInput: DriveInput = {
-      throttle:
-        this.isPressed('KeyW', 'ArrowUp') || this.touchPressed.has('accelerate')
-          ? 1
-          : this.isPressed('KeyS', 'ArrowDown') || this.touchPressed.has('brake')
-            ? -1
-            : 0,
-      steering:
-        this.isPressed('KeyA', 'ArrowLeft') || this.touchPressed.has('left')
-          ? 1
-          : this.isPressed('KeyD', 'ArrowRight') || this.touchPressed.has('right')
-            ? -1
-            : 0,
+      throttle: playerDrive.throttle,
+      steering: playerDrive.steering,
       brake: false,
       drift: this.isPressed('Space') || this.touchPressed.has('drift'),
       effectSpeedCapMultiplier: driveModifiers.speedCapMultiplier,

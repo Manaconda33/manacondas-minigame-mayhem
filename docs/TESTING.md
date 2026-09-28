@@ -1375,3 +1375,14 @@ Independent code review found and corrected three regressions before publication
 - Recorded evidence: PR #197 comment `5876242101`.
 - Accepted scope: the updated deployed Results/Podium composition, including the larger 4th–8th reaction-card treatment and revised top-three podium placement.
 - Boundary: no browser/device identity, mobile-specific behavior, or complete-flow acceptance is inferred unless separately reported. Task 11 remains open for those unreported criteria; Task 10 remains passed.
+
+## Task 11 phone landscape report and candidate verification — 2026-09-28
+
+Manny supplied a portrait race screenshot and four landscape screenshots from his phone. Portrait was described as “mostly perfect.” Landscape race showed the large desktop item and Boost panels overlapping the minimap/wheel and touch controls, with keyboard help visible; landscape Title and Hub hid navigation below the viewport without working scroll. Character Select could scroll. These screenshots establish defects, not mobile acceptance.
+
+For the local CSS candidate on `fix/mobile-landscape-layout`, full `npm run validate` passed **74 files / 609 tests**, including typecheck, lint, runtime-asset verification and build; `git lfs fsck` and `git diff --check` passed. A browser viewport render was unavailable in the local environment, so the CSS checks do not establish actual spacing, tap usability, or scroll reachability. Review the authorized branch preview on a real phone in landscape: scroll Title to Press Start; scroll Hub to the Circuit Alpha Play action and utility navigation; scroll the utility screens; enter a race and verify the minimap, lap/time/position, speed, Boost, wheel, Rear/Brake/Item/Drift controls, warnings, and safe areas do not overlap or block the road. Rotate to portrait and confirm the previously reviewed layout is intact. The accepted preview outcome and available evidence are recorded below; exact device/viewport were not reported. Keep Task 11 open until production acceptance.
+
+
+## Task 11 landscape branch-preview owner acceptance — 2026-09-28
+
+Manny passed the landscape rework after reviewing the authorized branch preview. Reviewed implementation commit: `9aceba5de4c5d184772d3467f47463b26a633df0`. Preview URL: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/. Pages validation/deployment run: [`36476447976`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36476447976), successful. This records acceptance of the landscape correction only; no exact device/viewport, portrait, mobile Results/Podium, or full-flow outcome is inferred. This is not production/live acceptance. Keep Task 11 open for remaining criteria and keep the PR unmerged until release approval.

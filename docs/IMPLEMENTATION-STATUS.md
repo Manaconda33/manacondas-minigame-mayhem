@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; RACE HUD / MINIMAP / RESULTS-PODIUM MERGED AND DEPLOYED; TASK 10 FIVE-RESTART GATE PASSED BY MANNY'S MOBILE/DESKTOP MANUAL REVIEW; MINIMAP PORTRAIT CORRECTION LIVE VISUALLY CONFIRMED; TASK 11 DESKTOP TITLE, HUB, CHARACTER SELECT, AND HUD CORRECTION ACCEPTED; RESULTS CORRECTION IN PROGRESS; TASK 11 REMAINS OPEN**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - CIRCUIT ALPHA PBR PASS LIVE ACCEPTED; ROUTE NIGHT TITLE/HUB/UTILITY + CHARACTER SELECT MERGED / DEPLOYED / LIVE ACCEPTED; RACE HUD / MINIMAP / RESULTS-PODIUM MERGED AND DEPLOYED; TASK 10 FIVE-RESTART GATE PASSED BY MANNY'S MOBILE/DESKTOP MANUAL REVIEW; MINIMAP PORTRAIT CORRECTION LIVE VISUALLY CONFIRMED; TASK 11 DESKTOP TITLE, HUB, CHARACTER SELECT, HUD CORRECTION, AND UPDATED RESULTS/PODIUM DEPLOYMENT ACCEPTED; TASK 11 REMAINS OPEN FOR UNREPORTED MOBILE/FULL-FLOW CRITERIA**
 
 PRD baseline: **v1.1 with approved implementation amendments through 2.22**. Slice 6 kickoff and Route Night are governed by ADR-085-086; the published settings/graphics/audio foundation is ADR-087; the bounded material-coordinate / first Circuit Alpha PBR increment is governed by ADR-088; the Character Select baseline and full-body package are governed by ADR-090-092; the next Race HUD / mini-map / Results-Podium asset direction is governed by ADR-093.
 
@@ -10,9 +10,9 @@ Latest verified merged gameplay checkpoint on `main`: **`5136a002ec1d39b13f8470f
 
 Latest verified Slice 5 acceptance-protocol checkpoint on `main`: **`fd967afca41366579fe448bcb7c3d9c0631edf1c`** (final desktop/mobile whole-slice matrix through PR #172; hosted PR CI `35305490406` and post-merge validation/Pages run `35337153793` passed **62 test files / 507 tests**).
 
-Latest verified repository/deployment head on `main`: **`4f0cbb696c17e4c54e365505007ba81717925c80`** (PR #192 desktop Race HUD correction; hosted validation and Pages deployment passed).
+Latest verified repository/deployment head on `main`: **`fa4f9e6171730dd62033dc1912f4f1b60200e3a0`** (PR #197 Results finisher-portrait / podium-placement correction; post-merge CI/Pages run `36464412874` passed).n; hosted validation and Pages deployment passed).
 
-Latest verified Slice 6 gameplay checkpoint on `main`: **`e04ef8252b454c734e8e96411a6ca6a346b71fd6`** (PR #188 Race HUD, minimap, and Results/Podium; deployed with workflow repair PR #189 at `f7d88ccb135f10e252ae2eb2f9259e8d64250142`; Task 11 deployed visual acceptance remains pending).
+Latest verified Slice 6 gameplay checkpoint on `main`: **`fa4f9e6171730dd62033dc1912f4f1b60200e3a0`** (PR #197 updated Results/Podium composition on top of the merged Race HUD/minimap/Results release; post-merge CI/Pages run `36464412874` passed; Manny visually accepted the reviewed updated podium deployment).nimap, and Results/Podium; deployed with workflow repair PR #189 at `f7d88ccb135f10e252ae2eb2f9259e8d64250142`; Task 11 deployed visual acceptance remains pending).
 
 The former feature branch `feature/slice6-race-hud-minimap-results-podium` was squash-merged through PR #188 at `e04ef8252b454c734e8e96411a6ca6a346b71fd6`. The release integrates the approved Results/Podium backdrop behind live Results content. All twelve approved lower-finish reaction assets are published and mapped by stable character ID to places 4–8; victory mapping remains for places 1–3. The backdrop ImageGen output ID and source/runtime hashes are recorded in `docs/ASSET-PROVENANCE.md`; its runtime SHA-256 is `24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`.
 
@@ -125,7 +125,7 @@ The final all-item interaction/counter evidence is complete through `docs/SLICE-
 
 ## Next recommended action
 
-Complete the five-restart cleanup/memory evidence with an appropriate existing runtime harness; do not infer memory or Results-only asset-leak results from the mocked route tests. Keep hosted PR CI, deployed desktop/mobile visual review, and product-owner acceptance pending. Do not merge or deploy before those required review gates.
+Continue Task 11 only with the remaining unreported deployed acceptance criteria, especially mobile-specific Results/HUD behavior and the complete Title → Hub → Character Select → Race → Results flow. Do not repeat already accepted desktop Title/Hub/Character Select/HUD or updated Results/Podium checks unless a regression appears. Task 10 remains passed.
 
 ## Approval state
 
@@ -565,3 +565,12 @@ Manny's deployed screenshot at the cache-busted production URL confirmed PR #195
 Manny rejected the deployed Results composition at main `55c708f`: the 4th–8th reaction art remains tiny beneath a duplicate eight-row standings list, and the three victory portraits' feet overlap the podium fronts. His current direction supersedes the earlier compact reaction-rail treatment: remove the list, show 4th–8th as larger image cards with place/name/time overlaid at the bottom, and put the winners' feet on the actual platform tops. Task 11 remains OPEN and paused; the prior Results changes have no product-owner acceptance.
 
 The local candidate removes the duplicate standings list from the rendered Results board, arranges the five reaction cards in two rows on desktop and three on narrow screens, raises the first/second/third victory art anchors independently by 5/6/4 viewport-height percentage points based on the supplied desktop capture, and retains the existing race actions and live finishing update path. Unfinished racers retain Racing placeholder cards; a short viewport can scroll the Results panel. The approved art assets, placement authority, race logic, and navigation are unchanged. Local full validation passed 74 test files / 609 tests, strict typecheck, lint, runtime-asset checks, and production build. Visual alignment remains a deployed product-owner check; this candidate has not been published or accepted. Task 10 remains PASSED BY PRODUCT-OWNER MANUAL REVIEW.
+
+
+## Task 11 Results/Podium deployment acceptance — 2026-09-28
+
+PR #197 (`fix: redesign Results finisher portraits and podium placement`) merged to `main` at **`fa4f9e6171730dd62033dc1912f4f1b60200e3a0`** after hosted PR CI passed. Post-merge CI/GitHub Pages run **`36464412874`** completed successfully, publishing the updated Results composition: places 4–8 use larger reaction-portrait cards with bottom overlays instead of the duplicate standings list, and the top-three presentation is repositioned against the podium platforms.
+
+Manny reviewed the updated deployed podium/results presentation and stated **“Updated podium deployment approved.”** Record the reviewed Results/Podium correction as **LIVE VISUALLY ACCEPTED**. Product-owner evidence is recorded on PR #197 in comment **`5876242101`**.
+
+**Evidence boundary:** this acceptance applies to the updated deployed Results/Podium presentation that Manny reviewed. It does not infer browser/device details or unreported mobile-specific/full-flow Task 11 checks. Task 10 remains **PASSED BY PRODUCT-OWNER MANUAL REVIEW**. Task 11 remains open only for acceptance criteria not yet explicitly reported.

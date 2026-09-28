@@ -1,6 +1,6 @@
 import type { ItemId } from '../game/items/itemDefinitions';
 
-const ROUTE_NIGHT_ASSET_VERSION = '20260925-1';
+const ROUTE_NIGHT_ASSET_VERSION = '20260928-1';
 
 const ROUTE_NIGHT_ASSETS = {
   'title-hero': 'route-night-title-hero.webp',

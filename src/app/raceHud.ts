@@ -33,10 +33,7 @@ export function raceHudMarkup(touchControls: string): string {
       </section>
       ${itemHudMarkup()}
       ${raceMinimapMarkup()}
-      <section class="hud route-hud-panel bottom-left surface-hud" data-race-region="surface">
-        ${routeNightRaceHudMarkup('frame-panel', 'race-hud-panel-art')}
-        <div class="race-hud-panel-content"><span class="hud-kicker">Surface</span><strong id="surface">ASPHALT</strong></div>
-      </section>
+      <span id="surface" class="sr-only" data-race-region="surface">ASPHALT</span>
       <section class="hud route-hud-panel bottom-right performance" data-race-region="performance">
         ${routeNightRaceHudMarkup('frame-panel', 'race-hud-panel-art')}
         <div class="race-hud-panel-content"><span class="hud-kicker">Performance</span><strong id="performance">60 FPS · 16.7 ms</strong></div>

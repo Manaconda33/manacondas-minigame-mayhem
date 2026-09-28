@@ -153,13 +153,13 @@ describe('Results/Podium presentation', () => {
     expect(first).toMatch(/left:\s*49%\s*;/);
     expect(second).toMatch(/left:\s*31%\s*;/);
     expect(third).toMatch(/left:\s*68%\s*;/);
-    expect(first).toMatch(/bottom:\s*31%\s*;/);
-    expect(second).toMatch(/bottom:\s*27%\s*;/);
-    expect(third).toMatch(/bottom:\s*27%\s*;/);
+    expect(first).toMatch(/bottom:\s*36%\s*;/);
+    expect(second).toMatch(/bottom:\s*34%\s*;/);
+    expect(third).toMatch(/bottom:\s*34%\s*;/);
 
     const podiumCaption = rule('\\.results-podium-cards \\.results-racer-caption');
     const reactionCaption = rule('\\.results-finisher-cards \\.results-racer-caption');
-    expect(podiumCaption).toMatch(/bottom:\s*-3\.1rem\s*;/);
+    expect(podiumCaption).toMatch(/bottom:\s*-5rem\s*;/);
     expect(reactionCaption).toMatch(/position:\s*absolute\s*;/);
     expect(reactionCaption).toMatch(/bottom:\s*0\s*;/);
     expect(reactionCaption).toMatch(/background:\s*linear-gradient/);

@@ -4792,7 +4792,7 @@ h2 {
 
 .results-podium-cards [data-place='1'] {
   left: 49%;
-  bottom: 31%;
+  bottom: 36%;
   width: clamp(12rem, 17vw, 19rem);
   height: min(43vh, 36rem);
   transform: translateX(-50%);
@@ -4800,7 +4800,7 @@ h2 {
 
 .results-podium-cards [data-place='2'] {
   left: 31%;
-  bottom: 27%;
+  bottom: 34%;
   width: clamp(10rem, 14vw, 16rem);
   height: min(34vh, 30rem);
   transform: translateX(-50%);
@@ -4808,7 +4808,7 @@ h2 {
 
 .results-podium-cards [data-place='3'] {
   left: 68%;
-  bottom: 27%;
+  bottom: 34%;
   width: clamp(10rem, 14vw, 16rem);
   height: min(34vh, 30rem);
   transform: translateX(-50%);
@@ -4902,7 +4902,7 @@ h2 {
 }
 
 .results-podium-cards .results-racer-caption {
-  bottom: -3.1rem;
+  bottom: -5rem;
 }
 
 .results-standings-panel,

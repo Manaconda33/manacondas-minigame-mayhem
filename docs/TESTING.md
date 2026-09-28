@@ -1390,9 +1390,14 @@ Manny passed the landscape rework after reviewing the authorized branch preview.
 
 ## Task 11 landscape correction production deployment — 2026-09-28
 
-Manny approved publication after passing the branch preview. PR #200 squash-merged at `998db2f31b8012366b7c813f7fba08d609d8f5da`; post-merge CI/GitHub Pages run [`36479382762`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36479382762) passed validation, build, artifact assembly, and production deployment. The deployed CSS matches the reviewed implementation at `9aceba5de4c5d184772d3467f47463b26a633df0`. This is a deployment record, not a claim of a separate post-deployment device check. Keep Task 11 open for remaining mobile Results/Podium and full-flow criteria.
+Manny approved publication after passing the branch preview. PR #200 squash-merged at `998db2f31b8012366b7c813f7fba08d609d8f5da`; post-merge CI/GitHub Pages run [`36479382762`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36479382762) passed validation, build, artifact assembly, and production deployment. The deployed CSS matches the reviewed implementation at `9aceba5de4c5d184772d3467f47463b26a633df0`. This is a deployment record, not a claim of a separate post-deployment device check. At that point mobile Results/Podium and complete-flow review remained open; Manny's later Results/Podium pass is recorded below. Keep Task 11 open for complete-flow and other unreviewed criteria.
 
 
 ## Task 11 portrait mobile Race HUD owner acceptance — 2026-09-28
 
-Manny clarified that the remaining Race HUD orientation was portrait and explicitly passed it with **“It passes.”** Record the portrait mobile Race HUD checkpoint as passed by product-owner review. No device model, viewport dimensions, or additional interaction checklist is inferred from this statement. This pass does not cover mobile Results/Podium or the complete mobile flow; keep Task 11 open for those and all other unreviewed criteria.
+Manny clarified that the remaining Race HUD orientation was portrait and explicitly passed it with **“It passes.”** Record the portrait mobile Race HUD checkpoint as passed by product-owner review. No device model, viewport dimensions, or additional interaction checklist is inferred from this statement. At this portrait checkpoint, Results/Podium was not inferred; Manny's later explicit mobile Results/Podium pass is recorded below. The complete mobile flow and all other unreviewed criteria remain open.
+
+
+## Task 11 mobile Results/Podium owner acceptance — 2026-09-28
+
+Manny clarified that **both the portrait mobile Race HUD and Results/Podium pass**. Record the mobile Results/Podium checkpoint as passed by product-owner review. No device/browser, individual finish-place scenario, or complete-flow result is inferred. This does not close the complete mobile flow or other unreviewed Task 11 criteria.

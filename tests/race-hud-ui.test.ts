@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import { itemHudMarkup, updateItemHud } from '../src/app/itemHud';
 import { raceHudMarkup } from '../src/app/raceHud';
 import { raceMinimapMarkup } from '../src/app/raceMinimap';
@@ -10,6 +11,47 @@ import {
 import type { ItemHudSnapshot } from '../src/game/items/ItemSystem';
 
 describe('Route Night race HUD asset contracts', () => {
+  it('uses the Surface readout space for a larger desktop item HUD', () => {
+    const host = document.createElement('div');
+    host.innerHTML = raceHudMarkup('');
+    const stylesheet = readFileSync('src/style.css', 'utf8');
+    const itemPanel = /\.race-hud \.item-hud\s*\{([^}]*)\}/.exec(stylesheet)?.[1] ?? '';
+    const itemArt = /\.item-art\s*\{([^}]*)\}/.exec(stylesheet)?.[1] ?? '';
+
+    expect(host.querySelector('.surface-hud')).toBeNull();
+    expect(host.querySelector('#surface.sr-only')?.textContent).toBe('ASPHALT');
+    expect(itemPanel).toMatch(/height:\s*13rem\s*;/);
+    expect(itemPanel).toMatch(/bottom:\s*2\.9rem\s*;/);
+    expect(itemArt).toMatch(/width:\s*6rem\s*;/);
+    expect(itemArt).toMatch(/height:\s*6rem\s*;/);
+  });
+
+  it('keeps the speed gauge artwork fully within its desktop panel', () => {
+    const stylesheet = readFileSync('src/style.css', 'utf8');
+    const speedArt =
+      /\.race-hud \.speed-hud \.race-hud-speed-art\s*\{([^}]*)\}/.exec(stylesheet)?.[1] ?? '';
+    const mobileSpeedArt =
+      /\.route-night-race\[data-touch-session='true'\] \.race-hud \.speed-hud \.race-hud-speed-art\s*\{([^}]*)\}/.exec(
+        stylesheet,
+      )?.[1] ?? '';
+
+    expect(speedArt).toMatch(/top:\s*-1rem\s*;/);
+    expect(speedArt).toMatch(/height:\s*7rem\s*;/);
+    expect(speedArt).not.toMatch(/bottom:\s*-3rem\s*;/);
+    expect(mobileSpeedArt).toMatch(/top:\s*auto\s*;/);
+  });
+
+  it('removes the unnecessary gold star ornament from the item frame', () => {
+    const hudArtwork = readFileSync(
+      'public/assets/ui/route-night/route-night-race-hud.svg',
+      'utf8',
+    );
+    const itemFrame = /<symbol id="frame-item"[\s\S]*?<\/symbol>/.exec(hudArtwork)?.[0] ?? '';
+
+    expect(itemFrame).not.toContain('m110 21 10 24');
+    expect(itemFrame).not.toContain('stroke="#f3c85c"');
+  });
+
   it('uses a mobile-appropriate boost label instead of a keyboard-only drift instruction', () => {
     const mobile = document.createElement('div');
     mobile.innerHTML = raceHudMarkup('<div id="touch-controls"></div>');

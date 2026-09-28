@@ -43,7 +43,6 @@
     <path d="M34 6h152l28 28v152l-28 28H34L6 186V34Z" fill="url(#hud-panel-fill)" stroke="#78e8fa" stroke-width="2" opacity=".98"/>
     <path d="M34 6h62M124 214h62l28-28v-62" fill="none" stroke="#b5f5ff" stroke-width="2" opacity=".8"/>
     <path d="M12 70V34l28-28M208 150v36l-28 28" fill="none" stroke="#a77bff" stroke-width="2" opacity=".85"/>
-    <path d="m110 21 10 24 25 10-25 10-10 25-10-25-25-10 25-10Z" fill="none" stroke="#f3c85c" stroke-width="1.5" opacity=".82"/>
     <circle cx="110" cy="110" r="74" fill="none" stroke="#78e8fa" stroke-width="1" stroke-dasharray="4 10" opacity=".55"/>
   </symbol>
 

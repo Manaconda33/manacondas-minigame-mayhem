@@ -4712,6 +4712,10 @@ h2 {
   flex-direction: column;
   gap: 0.5rem;
   overflow: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--route-cyan) var(--route-ink);
+  scrollbar-width: thin;
   padding: 0.75rem;
   border: 1px solid rgb(120 232 250 / 42%);
   background:
@@ -4722,6 +4726,11 @@ h2 {
     inset 0 0 1.5rem rgb(120 232 250 / 5%);
   backdrop-filter: blur(10px);
   pointer-events: auto;
+}
+
+.results-board:focus-visible {
+  outline: 2px solid var(--route-gold);
+  outline-offset: -3px;
 }
 
 .results-header {
@@ -4792,7 +4801,7 @@ h2 {
 
 .results-podium-cards [data-place='1'] {
   left: 49%;
-  bottom: 31%;
+  bottom: 36%;
   width: clamp(12rem, 17vw, 19rem);
   height: min(43vh, 36rem);
   transform: translateX(-50%);
@@ -4800,7 +4809,7 @@ h2 {
 
 .results-podium-cards [data-place='2'] {
   left: 31%;
-  bottom: 27%;
+  bottom: 33%;
   width: clamp(10rem, 14vw, 16rem);
   height: min(34vh, 30rem);
   transform: translateX(-50%);
@@ -4808,7 +4817,7 @@ h2 {
 
 .results-podium-cards [data-place='3'] {
   left: 68%;
-  bottom: 27%;
+  bottom: 31%;
   width: clamp(10rem, 14vw, 16rem);
   height: min(34vh, 30rem);
   transform: translateX(-50%);
@@ -4889,6 +4898,14 @@ h2 {
   white-space: nowrap;
 }
 
+.results-racer-time {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--route-cyan-soft);
+  font-size: 0.54rem;
+  font-variant-numeric: tabular-nums;
+}
+
 .results-player-tag {
   display: inline-block;
   margin-left: 0.35rem;
@@ -4905,7 +4922,6 @@ h2 {
   bottom: -5rem;
 }
 
-.results-standings-panel,
 .results-finishers {
   min-width: 0;
   padding: 0.5rem;
@@ -4913,89 +4929,9 @@ h2 {
   background: linear-gradient(145deg, rgb(17 25 44 / 86%), rgb(9 14 29 / 89%));
 }
 
-.results-standings-panel {
-  display: flex;
-  min-height: 0;
-  flex-direction: column;
-}
-
-.results-standings-panel > header {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid var(--route-line);
-}
-
-.results-standings-panel > header h3 {
-  margin: 0;
-  color: #f3f6ff;
-  font-size: 0.78rem;
-}
-
-.results-standings-panel > header span {
-  color: var(--route-cyan);
-  font-size: 0.48rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-}
-
-.results-standings-scroll {
-  min-height: 0;
-  flex: 1 1 auto;
-  overflow: auto;
-  overscroll-behavior: contain;
-  scrollbar-color: var(--route-cyan) var(--route-ink);
-  scrollbar-width: thin;
-}
-
-.results-standings-scroll:focus-visible {
-  outline: 2px solid var(--route-gold);
-  outline-offset: -2px;
-}
-
-.results-standings {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.results-standings li {
-  display: grid;
-  min-height: 1.75rem;
-  align-items: center;
-  grid-template-columns: 2.65rem minmax(0, 1fr) auto;
-  gap: 0.3rem;
-  padding: 0.2rem 0.1rem;
-  border-bottom: 1px solid rgb(120 232 250 / 12%);
-}
-
-.results-standing-place {
-  color: var(--route-gold);
-  font-size: 0.62rem;
-  font-weight: 900;
-}
-
-.results-standing-name {
-  overflow: hidden;
-  color: #e3eaf6;
-  font-size: 0.62rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.results-standings li strong {
-  color: var(--route-cyan-soft);
-  font-size: 0.56rem;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
 .results-finishers {
   flex: 0 0 auto;
-  padding: 0.4rem 0.5rem 0.45rem;
+  padding: 0.45rem;
 }
 
 .results-finishers > h3 {
@@ -5009,15 +4945,27 @@ h2 {
 
 .results-finisher-cards {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.25rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.results-finisher-cards .results-racer-card:nth-child(-n + 3) {
+  grid-column: span 2;
+}
+
+.results-finisher-cards .results-racer-card:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.results-finisher-cards .results-racer-card:nth-child(5) {
+  grid-column: 4 / span 2;
 }
 
 .results-finisher-cards .results-racer-card {
   position: relative;
   display: block;
   min-width: 0;
-  height: 4.7rem;
+  height: clamp(7.5rem, 15vh, 10rem);
   overflow: hidden;
   padding: 0;
   border: 1px solid rgb(120 232 250 / 18%);
@@ -5034,19 +4982,23 @@ h2 {
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 0.15rem 0.05rem 0.18rem;
+  padding: 0.4rem 0.12rem 0.3rem;
   border-radius: 0;
   background: linear-gradient(180deg, transparent, rgb(5 9 20 / 88%) 32%);
   text-shadow: 0 1px 3px #050914;
 }
 
 .results-finisher-cards .results-place-label {
-  font-size: 0.47rem;
+  font-size: 0.7rem;
 }
 
 .results-finisher-cards .results-racer-caption h3 {
-  margin-top: 0.08rem;
-  font-size: 0.52rem;
+  margin-top: 0.12rem;
+  font-size: 0.68rem;
+}
+
+.results-finisher-cards .results-racer-time {
+  font-size: 0.56rem;
 }
 
 .results-actions {
@@ -5172,44 +5124,19 @@ h2 {
     font-size: 0.58rem;
   }
 
+  .results-racer-time,
+  .results-finisher-cards .results-racer-time {
+    font-size: 0.42rem;
+  }
+
   .results-player-tag {
     margin-left: 0.15rem;
     padding: 0.04rem 0.16rem;
     font-size: 0.39rem;
   }
 
-  .results-standings-panel,
   .results-finishers {
     padding: 0.3rem 0.35rem;
-  }
-
-  .results-standings-panel > header {
-    padding-bottom: 0.2rem;
-  }
-
-  .results-standings-panel > header h3 {
-    font-size: 0.62rem;
-  }
-
-  .results-standings-panel > header span {
-    font-size: 0.4rem;
-  }
-
-  .results-standings-scroll {
-    max-height: 22dvh;
-  }
-
-  .results-standings li {
-    min-height: 1.35rem;
-    grid-template-columns: 2.15rem minmax(0, 1fr) auto;
-    gap: 0.15rem;
-    padding: 0.12rem 0.05rem;
-  }
-
-  .results-standing-place,
-  .results-standing-name,
-  .results-standings li strong {
-    font-size: 0.48rem;
   }
 
   .results-finishers > h3 {
@@ -5218,11 +5145,22 @@ h2 {
   }
 
   .results-finisher-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.16rem;
   }
 
+  .results-finisher-cards .results-racer-card:nth-child(n) {
+    grid-column: auto;
+  }
+
+  .results-finisher-cards .results-racer-card:nth-child(5) {
+    grid-column: 1 / -1;
+    width: calc(50% - 0.08rem);
+    justify-self: center;
+  }
+
   .results-finisher-cards .results-racer-card {
-    height: 4rem;
+    height: clamp(4.5rem, 11dvh, 6.5rem);
   }
 
   .results-finisher-cards .results-art-frame {
@@ -5230,11 +5168,11 @@ h2 {
   }
 
   .results-finisher-cards .results-place-label {
-    font-size: 0.38rem;
+    font-size: 0.46rem;
   }
 
   .results-finisher-cards .results-racer-caption h3 {
-    font-size: 0.42rem;
+    font-size: 0.44rem;
   }
 
   .results-actions {

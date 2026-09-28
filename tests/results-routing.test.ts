@@ -161,7 +161,11 @@ describe('Results navigation', () => {
     expect(root.querySelector('[data-results-status]')?.textContent).toContain(
       'All 8 racers finished',
     );
-    expect(root.querySelector('[data-results-standings]')?.textContent).toContain('01:12.875');
+    expect(root.querySelector('[data-results-finishers] [data-place="8"]')).not.toBeNull();
+    expect(
+      root.querySelector('[data-results-finishers] [data-place="8"] [data-results-time]')
+        ?.textContent,
+    ).toBe('01:12.875');
     expect(root.querySelector('[data-action="race-again"]')).toBe(raceAgain);
   });
 });

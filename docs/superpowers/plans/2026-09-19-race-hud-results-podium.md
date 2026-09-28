@@ -116,11 +116,15 @@
 
 ## Task 11: Perform the deployed visual acceptance and reconcile docs
 
-- [ ] Review the deployed flow on representative desktop and mobile sizes: Title → Hub → Character Select → Race → finish in 1st, 2nd, 3rd, and 8th → Results/Podium → Race Again / Change Driver / Return to Hub.
-- [ ] Check all 15 item visuals at readable HUD size, all eight mini-map markers, player/opponent marker contrast, countdown/warning clearance, touch-control clearance, atmosphere restraint, top-three composition, 4th-8th reactions, all-eight standings access, fallback, and reduced motion.
+- [x] Review the complete deployed Title → Hub → Character Select → Race → Results flow on desktop and mobile portrait/landscape. **2026-09-28 owner acceptance:** Manny confirmed the desktop end-to-end flow had already been completed and approved, and that the complete mobile flow passes in both orientations.
+- [ ] Separately verify each finish-place/action scenario: finish in 1st, 2nd, 3rd, and 8th; Race Again, Change Driver, and Return to Hub. The complete-flow report does not infer which specific variants were exercised.
+- [x] Review the accepted portrait/landscape Race HUD and Results/Podium presentation, including the eight visible/discernible minimap portraits, control/warning clearance, compact landscape HUD, top-three podium composition, and lower-finisher treatment. Manny passed the respective desktop/mobile presentation checkpoints and the full flow on 2026-09-28.
+- [ ] Separately inspect all fifteen item-art states at HUD size, missing-art fallback, reduced-motion Results behavior, and all specific finish-place/action variants listed above. These checks were not individually reported in the full-flow acceptance.
 - [ ] Compare the deployed result directly with the canonical Route Night target and the design brief; reject any generated asset with embedded copy, copied marks, unreadable silhouette, or an atmosphere layer that competes with live data.
-- [ ] After Manny's explicit deployed acceptance, update `docs/IMPLEMENTATION-STATUS.md`, `docs/TESTING.md`, `docs/DECISIONS.md`, the design/asset briefs, and `README.md` with the final merge SHA, hosted run, asset hashes, acceptance result, and any bounded defect.
+- [x] After Manny's explicit deployed acceptance, reconcile the applicable status and testing documentation, this plan, and README with the reviewed runtime checkpoint, hosted run, and acceptance result. No new design decision or asset was introduced, so `docs/DECISIONS.md` and the asset briefs/provenance do not require changes in this acceptance-only update.
 - [ ] Keep pause, final audio, post-processing, and unrelated Slice 6 work explicitly deferred unless a separate approval changes the scope.
+
+The full-flow acceptance above closes the PRD's Title → Results flow criterion. It does not close the broader Slice 6 release gates or claim unreported place/action variants, all fifteen item-art states, Results fallback, reduced-motion Results, or the explicit Route Night comparison.
 
 ## Separately approved runtime subset — 2026-09-23
 

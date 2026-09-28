@@ -1400,4 +1400,13 @@ Manny clarified that the remaining Race HUD orientation was portrait and explici
 
 ## Task 11 mobile Results/Podium owner acceptance — 2026-09-28
 
-Manny clarified that **both the portrait mobile Race HUD and Results/Podium pass**. Record the mobile Results/Podium checkpoint as passed by product-owner review. No device/browser, individual finish-place scenario, or complete-flow result is inferred. This does not close the complete mobile flow or other unreviewed Task 11 criteria.
+Manny clarified that **both the portrait mobile Race HUD and Results/Podium pass**. Record the mobile Results/Podium checkpoint as passed by product-owner review. No device/browser or individual finish-place scenario is inferred. Manny's subsequent complete-flow acceptance is recorded below.
+
+
+## Task 11 complete-flow owner acceptance — 2026-09-28
+
+Manny confirmed the complete production Title → Hub → Character Select → Race → Results flow passes on desktop and mobile in both portrait and landscape. Mark the PRD full-flow criterion **PASSED BY PRODUCT-OWNER REVIEW**. The separately accepted mobile HUD and Results/Podium and landscape correction are not to be repeated without a regression.
+
+Still unreported as individual plan-level checks: finish-place variants for 1st/2nd/3rd/8th and each Results action; all fifteen item-art states; missing-art fallback; reduced-motion Results behavior; and the explicit Route Night reference comparison. These are evidence gaps, not known defects. Slice 6's broader release gates remain separate, including production/final-lap audio, full-game Medium performance and browser-matrix evidence, final quality checklist, and complete release evidence. Settings persistence/graphics presets have been implemented and deployed; Task 10's five-restart gate was passed by Manny's manual review.
+
+After this documentation reconciliation, `npm run validate` passed typecheck, lint, **74 test files / 609 tests**, branding/runtime-asset checks, and production build; coverage was **82.01% statements / 76.49% branches / 87.04% functions / 83.77% lines**. `git diff --check` and `git lfs fsck` passed. The existing nonblocking large `KartTimeTrial` bundle warning remains.

@@ -297,6 +297,7 @@ Record the deployed commit, CI/Pages run, desktop result, mobile result, any lay
 ## Slice 5 HazardSystem + Timed Blast Orb checkpoint
 
 Automated evidence for the approved PRD amendment 2.8 / ADR-069 increment must confirm:
+
 - one shared maximum of 40 active/reserved projectile + hazard objects, with full-capacity rejection preserving the held charge;
 - forward spawn approximately 1.75 m ahead at 14 m/s plus 0.35x inherited planar owner velocity capped at 12 m/s, and backward spawn approximately 1.75 m behind with 0.20x inherited planar velocity capped at 12 m/s;
 - deterministic 6 m/s² planar drag and guardrail containment without rail-triggered detonation;
@@ -596,6 +597,7 @@ This matrix is required in addition to the repository-wide validation commands a
 - Nitro Overdrive: six-second window, pulse no faster than every 0.75 seconds, approximately 0.9-second pulse, 1.15x initial cap target, clean window expiry.
 - Hyper-Drive Rocket: position/gap prerequisite, legal Circuit Alpha spline autopilot, immunity, approximately 1.25x initial cap target, automatic overtakes, maximum approximately six seconds, approximately 0.3-second control return, no teleport/progress mutation/direct first-place deposit.
 - Prismatic Invincibility: approximately six seconds, +12% speed, hazard/projectile immunity, hostile-contact spin, expiry warning/restoration.
+
 ### Input, AI, race authority, and pause
 
 - Left Shift and E both activate held items.
@@ -895,6 +897,7 @@ The bounded Issue #106 regression gate verifies presentation only. Finish as the
 ## Slice 5 final all-item interaction/counter matrix checkpoint
 
 The final interaction/counter evidence artifact is `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md`. Treat it as a consolidation gate over the production systems, not as permission to retune items.
+
 Hosted validation for the checkpoint must run the complete suite, including the focused Shockwave, Prismatic, Apex, Blast, Slick, Blaze, Frost, Arc Blade, Arc Hammers, Ink, Nitro Overdrive, Hyper-Drive Rocket, RacerEffects, validated-progress, AI-item, and AI-race tests referenced by the matrix. A green focused subset is insufficient if the full repository suite fails.
 
 The matrix may be marked complete only when the PR diff is evidence/governance-only and hosted CI passes clean install, LFS verification, strict typecheck, zero-warning lint, complete automated tests, and production build. No new live-acceptance claim is made by this checkpoint. Lifecycle/object-count soak, item/VFX performance capture, gameplay capture, and the final desktop/mobile whole-slice acceptance remain separate gates.
@@ -1194,7 +1197,8 @@ The deployment job failed before running with GitHub's annotation:
 `Branch "feature/slice6-race-hud-minimap-results-podium" is not allowed to deploy to github-pages due to environment protection rules.`
 No preview was published. The temporary workflow was removed in the evidence
 cleanup. Before and after the rejected deployment, the usual Pages URL loaded
-the Title with the same script `assets/index-Dt74Qa1M.js` and stylesheet`assets/index-612kuw8p.css`. These matching paths establish that this attempt
+the Title with the same script `assets/index-Dt74Qa1M.js` and stylesheet
+`assets/index-612kuw8p.css`. These matching paths establish that this attempt
 did not replace the currently served bundle; they do not prove any feature
 behavior. No race cycle, real-game disposal, stale marker or orphaned DOM count,
 Results-only asset request/residency check, or browser memory/resource measure
@@ -1369,12 +1373,15 @@ Independent code review found and corrected three regressions before publication
 - Post-merge CI/GitHub Pages: run `36464412874` — **PASS**.
 - Product-owner deployed visual review: Manny stated, **“Updated podium deployment approved.”**
 - Recorded evidence: PR #197 comment `5876242101`.
+- Accepted scope: the updated deployed Results/Podium composition, including the larger 4th–8th reaction-card treatment and revised top-three podium placement.
+- Boundary: no browser/device identity, mobile-specific behavior, or complete-flow acceptance is inferred unless separately reported. Task 11 remains open for those unreported criteria; Task 10 remains passed.
 
 ## Task 11 phone landscape report and candidate verification — 2026-09-28
 
 Manny supplied a portrait race screenshot and four landscape screenshots from his phone. Portrait was described as “mostly perfect.” Landscape race showed the large desktop item and Boost panels overlapping the minimap/wheel and touch controls, with keyboard help visible; landscape Title and Hub hid navigation below the viewport without working scroll. Character Select could scroll. These screenshots establish defects, not mobile acceptance.
 
-For the local CSS candidate on `fix/mobile-landscape-layout`, full `npm run validate` passed **74 files / 609 tests**, including typecheck, lint, runtime-asset verification and build; `git lfs fsck` and `git diff --check` passed. A browser viewport render was unavailable in the local environment, so the CSS checks do not establish actual spacing, tap usability, or scroll reachability. Review the authorized branch preview on a real phone in landscape: scroll Title to Press Start; scroll Hub to the Circuit Alpha Play action and utility navigation; scroll the utility screens; enter a race and verify the minimap, lap/time/position, speed, Boost, wheel, Rear/Brake/Item/Drift controls, warnings, and safe areas do not overlap or block the road. Rotate to portrait and confirm the previously reviewed layout is intact. Record exact preview commit, URL, device/viewport, and Manny's disposition. Keep Task 11 open until explicit production acceptance.
+For the local CSS candidate on `fix/mobile-landscape-layout`, full `npm run validate` passed **74 files / 609 tests**, including typecheck, lint, runtime-asset verification and build; `git lfs fsck` and `git diff --check` passed. A browser viewport render was unavailable in the local environment, so the CSS checks do not establish actual spacing, tap usability, or scroll reachability. Review the authorized branch preview on a real phone in landscape: scroll Title to Press Start; scroll Hub to the Circuit Alpha Play action and utility navigation; scroll the utility screens; enter a race and verify the minimap, lap/time/position, speed, Boost, wheel, Rear/Brake/Item/Drift controls, warnings, and safe areas do not overlap or block the road. Rotate to portrait and confirm the previously reviewed layout is intact. The accepted preview outcome and available evidence are recorded below; exact device/viewport were not reported. Keep Task 11 open until production acceptance.
+
 
 ## Task 11 landscape branch-preview owner acceptance — 2026-09-28
 

@@ -147,16 +147,35 @@ describe('Results/Podium presentation', () => {
 
     expect(podium).toMatch(/position:\s*absolute\s*;/);
     expect(podium).toMatch(/inset:\s*0\s*;/);
-    expect(summary).toMatch(/width:\s*min\(24rem, 22vw\)\s*;/);
+    expect(summary).toMatch(/width:\s*min\(28rem, 22vw\)\s*;/);
     expect(actions).toMatch(/position:\s*absolute\s*;/);
     expect(actions).toMatch(/bottom:\s*max\(1rem, env\(safe-area-inset-bottom\)\)\s*;/);
     expect(first).toMatch(/left:\s*49%\s*;/);
     expect(second).toMatch(/left:\s*31%\s*;/);
     expect(third).toMatch(/left:\s*68%\s*;/);
+    expect(first).toMatch(/bottom:\s*31%\s*;/);
+    expect(second).toMatch(/bottom:\s*27%\s*;/);
+    expect(third).toMatch(/bottom:\s*27%\s*;/);
+
+    const podiumCaption = rule('\\.results-podium-cards \\.results-racer-caption');
+    const reactionCaption = rule('\\.results-finisher-cards \\.results-racer-caption');
+    expect(podiumCaption).toMatch(/bottom:\s*-3\.1rem\s*;/);
+    expect(reactionCaption).toMatch(/position:\s*absolute\s*;/);
+    expect(reactionCaption).toMatch(/bottom:\s*0\s*;/);
+    expect(reactionCaption).toMatch(/background:\s*linear-gradient/);
+
+    const resultsMobileStyles = stylesheet.slice(
+      stylesheet.lastIndexOf('@media (max-width: 760px)'),
+    );
+    const mobilePodiumCaption =
+      /\.results-podium-cards \.results-racer-caption\s*\{([^}]*)\}/.exec(
+        resultsMobileStyles,
+      )?.[1] ?? '';
+    expect(mobilePodiumCaption).toMatch(/bottom:\s*-1\.6rem\s*;/);
 
     for (const viewportWidth of [1024, 1280, 1363, 1600, 2048]) {
       const thirdPlaceRight = viewportWidth * 0.68 + Math.max(160, viewportWidth * 0.14) / 2;
-      const summaryLeft = viewportWidth - Math.min(384, viewportWidth * 0.22) - 16;
+      const summaryLeft = viewportWidth - Math.min(448, viewportWidth * 0.22) - 16;
       expect(summaryLeft).toBeGreaterThan(thirdPlaceRight);
     }
   });

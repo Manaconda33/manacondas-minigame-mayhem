@@ -4707,7 +4707,7 @@ h2 {
   top: max(1rem, env(safe-area-inset-top));
   right: max(1rem, env(safe-area-inset-right));
   display: flex;
-  width: min(24rem, 22vw);
+  width: min(28rem, 22vw);
   max-height: calc(100% - max(2rem, env(safe-area-inset-top) + env(safe-area-inset-bottom)));
   flex-direction: column;
   gap: 0.5rem;
@@ -4792,7 +4792,7 @@ h2 {
 
 .results-podium-cards [data-place='1'] {
   left: 49%;
-  bottom: 28%;
+  bottom: 31%;
   width: clamp(12rem, 17vw, 19rem);
   height: min(43vh, 36rem);
   transform: translateX(-50%);
@@ -4800,7 +4800,7 @@ h2 {
 
 .results-podium-cards [data-place='2'] {
   left: 31%;
-  bottom: 23%;
+  bottom: 27%;
   width: clamp(10rem, 14vw, 16rem);
   height: min(34vh, 30rem);
   transform: translateX(-50%);
@@ -4808,7 +4808,7 @@ h2 {
 
 .results-podium-cards [data-place='3'] {
   left: 68%;
-  bottom: 23%;
+  bottom: 27%;
   width: clamp(10rem, 14vw, 16rem);
   height: min(34vh, 30rem);
   transform: translateX(-50%);
@@ -4899,6 +4899,10 @@ h2 {
   font-weight: 900;
   letter-spacing: 0.08em;
   vertical-align: 0.1em;
+}
+
+.results-podium-cards .results-racer-caption {
+  bottom: -3.1rem;
 }
 
 .results-standings-panel,
@@ -5011,28 +5015,29 @@ h2 {
 
 .results-finisher-cards .results-racer-card {
   position: relative;
-  display: flex;
+  display: block;
   min-width: 0;
-  flex-direction: column;
-  align-items: center;
+  height: 4.7rem;
   overflow: hidden;
-  padding: 0.15rem;
+  padding: 0;
   border: 1px solid rgb(120 232 250 / 18%);
   background: linear-gradient(180deg, rgb(13 22 43 / 64%), rgb(6 10 22 / 88%));
 }
 
 .results-finisher-cards .results-art-frame {
-  height: 3rem;
-  flex: 0 0 auto;
+  height: 100%;
 }
 
 .results-finisher-cards .results-racer-caption {
-  position: static;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  padding: 0.1rem 0 0;
+  padding: 0.15rem 0.05rem 0.18rem;
   border-radius: 0;
-  background: none;
-  text-shadow: none;
+  background: linear-gradient(180deg, transparent, rgb(5 9 20 / 88%) 32%);
+  text-shadow: 0 1px 3px #050914;
 }
 
 .results-finisher-cards .results-place-label {
@@ -5155,6 +5160,10 @@ h2 {
     padding: 0.15rem 0.2rem;
   }
 
+  .results-podium-cards .results-racer-caption {
+    bottom: -1.6rem;
+  }
+
   .results-place-label {
     font-size: 0.48rem;
   }
@@ -5213,11 +5222,11 @@ h2 {
   }
 
   .results-finisher-cards .results-racer-card {
-    padding: 0.1rem;
+    height: 4rem;
   }
 
   .results-finisher-cards .results-art-frame {
-    height: 2.4rem;
+    height: 100%;
   }
 
   .results-finisher-cards .results-place-label {
@@ -5257,7 +5266,7 @@ h2 {
   }
 
   .results-finisher-cards .results-art-frame {
-    height: 2.1rem;
+    height: 100%;
   }
 
   .results-action {

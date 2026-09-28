@@ -10,9 +10,9 @@ Latest verified merged gameplay checkpoint on `main`: **`5136a002ec1d39b13f8470f
 
 Latest verified Slice 5 acceptance-protocol checkpoint on `main`: **`fd967afca41366579fe448bcb7c3d9c0631edf1c`** (final desktop/mobile whole-slice matrix through PR #172; hosted PR CI `35305490406` and post-merge validation/Pages run `35337153793` passed **62 test files / 507 tests**).
 
-Latest verified repository/deployment head on `main`: **`fa4f9e6171730dd62033dc1912f4f1b60200e3a0`** (PR #197 Results finisher-portrait / podium-placement correction; post-merge CI/Pages run `36464412874` passed).n; hosted validation and Pages deployment passed).
+Latest verified repository/deployment head on `main`: **`fa4f9e6171730dd62033dc1912f4f1b60200e3a0`** (PR #197 Results finisher-portrait / podium-placement correction; post-merge CI/Pages run `36464412874` passed).
 
-Latest verified Slice 6 gameplay checkpoint on `main`: **`fa4f9e6171730dd62033dc1912f4f1b60200e3a0`** (PR #197 updated Results/Podium composition on top of the merged Race HUD/minimap/Results release; post-merge CI/Pages run `36464412874` passed; Manny visually accepted the reviewed updated podium deployment).nimap, and Results/Podium; deployed with workflow repair PR #189 at `f7d88ccb135f10e252ae2eb2f9259e8d64250142`; Task 11 deployed visual acceptance remains pending).
+Latest verified Slice 6 gameplay checkpoint on `main`: **`fa4f9e6171730dd62033dc1912f4f1b60200e3a0`** (PR #197 updated Results/Podium composition on top of the merged Race HUD/minimap/Results release; post-merge CI/Pages run `36464412874` passed; Manny visually accepted the reviewed updated podium deployment).
 
 The former feature branch `feature/slice6-race-hud-minimap-results-podium` was squash-merged through PR #188 at `e04ef8252b454c734e8e96411a6ca6a346b71fd6`. The release integrates the approved Results/Podium backdrop behind live Results content. All twelve approved lower-finish reaction assets are published and mapped by stable character ID to places 4–8; victory mapping remains for places 1–3. The backdrop ImageGen output ID and source/runtime hashes are recorded in `docs/ASSET-PROVENANCE.md`; its runtime SHA-256 is `24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`.
 

@@ -108,7 +108,12 @@ describe('Results/Podium presentation', () => {
     expect(backdrop?.querySelector('img')?.getAttribute('src')).toContain(
       'assets/ui/route-night/results-podium-backdrop.webp?v=',
     );
-    expect(host.querySelectorAll('[data-results-standings] li')).toHaveLength(8);
+    expect(host.querySelector('[data-results-standings]')).toBeNull();
+    expect(host.querySelectorAll('[data-results-finishers] .results-racer-card')).toHaveLength(5);
+    expect(host.querySelectorAll('[data-results-time]')).toHaveLength(8);
+    expect(
+      host.querySelector('[data-results-podium] [data-place="2"] [data-results-time]')?.textContent,
+    ).toBe('01:03.125');
     expect(host.querySelector('[data-action="race-again"]')).not.toBeNull();
   });
 
@@ -124,13 +129,15 @@ describe('Results/Podium presentation', () => {
     expect(stage).not.toBeNull();
     expect(stage?.contains(podium)).toBe(true);
     expect(stage?.contains(summary)).toBe(true);
+    expect(summary?.getAttribute('tabindex')).toBe('0');
+    expect(summary?.getAttribute('aria-label')).toContain('fourth through eighth');
     expect(
       podium?.querySelectorAll('[data-results-art][data-result-state="victory"]'),
     ).toHaveLength(3);
     expect(
       reactionRail?.querySelectorAll('[data-results-art][data-result-state="reaction"]'),
     ).toHaveLength(5);
-    expect(summary?.querySelectorAll('[data-results-standings] li')).toHaveLength(8);
+    expect(summary?.querySelector('[data-results-standings]')).toBeNull();
     expect(stage?.contains(host.querySelector('[data-results-actions]'))).toBe(true);
   });
 
@@ -148,14 +155,15 @@ describe('Results/Podium presentation', () => {
     expect(podium).toMatch(/position:\s*absolute\s*;/);
     expect(podium).toMatch(/inset:\s*0\s*;/);
     expect(summary).toMatch(/width:\s*min\(28rem, 22vw\)\s*;/);
+    expect(summary).toMatch(/overflow-y:\s*auto\s*;/);
     expect(actions).toMatch(/position:\s*absolute\s*;/);
     expect(actions).toMatch(/bottom:\s*max\(1rem, env\(safe-area-inset-bottom\)\)\s*;/);
     expect(first).toMatch(/left:\s*49%\s*;/);
     expect(second).toMatch(/left:\s*31%\s*;/);
     expect(third).toMatch(/left:\s*68%\s*;/);
-    expect(first).toMatch(/bottom:\s*31%\s*;/);
-    expect(second).toMatch(/bottom:\s*27%\s*;/);
-    expect(third).toMatch(/bottom:\s*27%\s*;/);
+    expect(first).toMatch(/bottom:\s*36%\s*;/);
+    expect(second).toMatch(/bottom:\s*33%\s*;/);
+    expect(third).toMatch(/bottom:\s*31%\s*;/);
 
     const podiumCaption = rule('\\.results-podium-cards \\.results-racer-caption');
     const reactionCaption = rule('\\.results-finisher-cards \\.results-racer-caption');
@@ -214,7 +222,7 @@ describe('Results/Podium presentation', () => {
       expect(
         host.querySelector(`${area} [data-racer-id="player"]`)?.getAttribute('data-place'),
       ).toBe(String(place));
-      expect(host.querySelectorAll('[data-results-standings] li')).toHaveLength(8);
+      expect(host.querySelector('[data-results-standings]')).toBeNull();
     },
   );
 
@@ -298,7 +306,7 @@ describe('Results/Podium presentation', () => {
     expect(image.hidden).toBe(true);
     expect(card.querySelector('[data-art-monogram]')?.textContent).toBe('AX');
     expect(card.querySelector('[data-art-monogram]')?.hasAttribute('hidden')).toBe(false);
-    expect(host.querySelectorAll('[data-results-standings] li')).toHaveLength(8);
+    expect(host.querySelectorAll('[data-results-finishers] .results-racer-card')).toHaveLength(5);
   });
 
   it('falls back from a missing reaction image to that character’s selection art', () => {
@@ -325,10 +333,9 @@ describe('Results/Podium presentation', () => {
     host.innerHTML = renderResultsPodium(initial);
     const raceAgain = host.querySelector('[data-action="race-again"]');
     expect(host.querySelector('[data-results-status]')?.getAttribute('aria-live')).toBe('polite');
-    expect(host.querySelector('[data-results-standings]')?.hasAttribute('aria-live')).toBe(false);
-    expect(host.querySelector('[data-results-standings-scroll]')?.getAttribute('role')).toBe(
-      'region',
-    );
+    expect(host.querySelector('[data-results-standings]')).toBeNull();
+    expect(host.querySelectorAll('[data-results-finishers] .results-racer-card')).toHaveLength(5);
+    expect(host.querySelectorAll('[data-results-finishers] [data-results-time]')).toHaveLength(5);
 
     const refreshed = initial.map((standing) =>
       standing.racerId === 'ai-6' ? { ...standing, place: 6, time: 70.875 } : standing,
@@ -339,8 +346,13 @@ describe('Results/Podium presentation', () => {
     expect(host.querySelector('[data-results-status]')?.textContent).toContain(
       '6 of 8 racers finished',
     );
-    expect(host.querySelector('[data-results-standings]')?.textContent).toContain('01:10.875');
-    expect(host.querySelectorAll('[data-results-standings] li')).toHaveLength(8);
+    expect(host.querySelector('[data-results-finishers] [data-place="6"]')).not.toBeNull();
+    expect(host.querySelectorAll('[data-results-finishers] .results-racer-card')).toHaveLength(5);
+    expect(host.querySelectorAll('[data-results-finishers] [data-place="0"]')).toHaveLength(2);
+    expect(
+      host.querySelector('[data-results-finishers] [data-place="6"] [data-results-time]')
+        ?.textContent,
+    ).toBe('01:10.875');
   });
 
   it('offers all three named race routes as keyboard-accessible buttons', () => {

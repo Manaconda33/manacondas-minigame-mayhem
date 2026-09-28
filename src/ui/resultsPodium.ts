@@ -102,7 +102,8 @@ function racerCardMarkup(standing: RaceStanding, isPodium: boolean): string {
   const playerTag =
     standing.racerId === 'player' ? '<span class="results-player-tag">YOU</span>' : '';
   const label = place > 0 ? ordinalPlace(place) : 'Racing';
-  return `<article class="results-racer-card${standing.racerId === 'player' ? ' is-player' : ''}" data-racer-id="${escapeHtml(standing.racerId)}" data-place="${String(place)}" aria-label="${escapeHtml(`${label} place, ${displayName}${standing.racerId === 'player' ? ', you' : ''}`)}">${resultArtMarkup(standing, isPodium)}<div class="results-racer-caption"><span class="results-place-label">${escapeHtml(label)}</span><h3>${escapeHtml(displayName)}</h3>${playerTag}</div></article>`;
+  const time = standing.time === null ? 'RACING' : formatResultTime(standing.time);
+  return `<article class="results-racer-card${standing.racerId === 'player' ? ' is-player' : ''}" data-racer-id="${escapeHtml(standing.racerId)}" data-place="${String(place)}" aria-label="${escapeHtml(`${label} place, ${displayName}, ${time}${standing.racerId === 'player' ? ', you' : ''}`)}">${resultArtMarkup(standing, isPodium)}<div class="results-racer-caption"><span class="results-place-label">${escapeHtml(label)}</span><h3>${escapeHtml(displayName)}</h3><span class="results-racer-time" data-results-time>${escapeHtml(time)}</span>${playerTag}</div></article>`;
 }
 
 function podiumMarkup(standings: readonly RaceStanding[]): string {
@@ -114,21 +115,8 @@ function podiumMarkup(standings: readonly RaceStanding[]): string {
 
 function lowerFinishersMarkup(standings: readonly RaceStanding[]): string {
   return orderedStandings(standings)
-    .filter(({ place }) => place !== null && place >= 4 && place <= 8)
+    .filter(({ place }) => place === null || (place >= 4 && place <= 8))
     .map((standing) => racerCardMarkup(standing, false))
-    .join('');
-}
-
-export function resultsStandingsMarkup(standings: readonly RaceStanding[]): string {
-  return orderedStandings(standings)
-    .map((standing, index) => {
-      const displayName = characterFor(standing)?.displayName ?? standing.displayName;
-      const place = standing.place === null ? '—' : ordinalPlace(standing.place);
-      const time = standing.time === null ? 'RACING' : formatResultTime(standing.time);
-      const playerTag =
-        standing.racerId === 'player' ? '<span class="results-player-tag">YOU</span>' : '';
-      return `<li data-racer-id="${escapeHtml(standing.racerId)}" data-place="${standing.place === null ? '' : String(standing.place)}"><span class="results-standing-place">${escapeHtml(place)}</span><span class="results-standing-name">${escapeHtml(displayName)}${playerTag}</span><strong>${escapeHtml(time)}</strong><span class="sr-only">Position ${String(index + 1)} of 8</span></li>`;
-    })
     .join('');
 }
 
@@ -138,7 +126,7 @@ function actionsMarkup(): string {
 
 export function renderResultsPodium(standings: readonly RaceStanding[]): string {
   const backdrop = routeNightAssetUrl('results-podium-backdrop');
-  return `<section class="results-screen" data-results-root data-screen="results" aria-labelledby="results-title"><div class="results-backdrop" data-route-asset="results-podium-backdrop" aria-hidden="true"><img src="${backdrop}" alt="" decoding="async" /><img class="results-backdrop-stage" src="${backdrop}" alt="" decoding="async" /></div><div class="results-screen-glow" aria-hidden="true"></div><div class="results-stage" data-results-stage><section class="results-podium" data-results-podium aria-label="Top three finishers"><h3 class="sr-only">Podium</h3><div class="results-podium-cards">${podiumMarkup(standings)}</div></section><aside class="results-board" data-results-summary><header class="results-header"><p class="eyebrow">GRAND PRIX · COMPLETE</p><h2 id="results-title" tabindex="-1">Race Results</h2><p class="results-status" data-results-status role="status" aria-live="polite">${resultsStatus(standings)}</p></header><section class="results-standings-panel"><header><h3 id="results-standings-title">Final standings</h3><span>8 RACERS</span></header><div class="results-standings-scroll" data-results-standings-scroll role="region" aria-labelledby="results-standings-title" tabindex="0"><ol class="results-standings" data-results-standings>${resultsStandingsMarkup(standings)}</ol></div></section><section class="results-finishers" data-results-finishers aria-label="Finishers in places four through eight"><h3>Other finishers</h3><div class="results-finisher-cards">${lowerFinishersMarkup(standings)}</div></section></aside><nav class="results-actions" data-results-actions aria-label="Race options">${actionsMarkup()}</nav></div></section>`;
+  return `<section class="results-screen" data-results-root data-screen="results" aria-labelledby="results-title"><div class="results-backdrop" data-route-asset="results-podium-backdrop" aria-hidden="true"><img src="${backdrop}" alt="" decoding="async" /><img class="results-backdrop-stage" src="${backdrop}" alt="" decoding="async" /></div><div class="results-screen-glow" aria-hidden="true"></div><div class="results-stage" data-results-stage><section class="results-podium" data-results-podium aria-label="Top three finishers"><h3 class="sr-only">Podium</h3><div class="results-podium-cards">${podiumMarkup(standings)}</div></section><aside class="results-board" data-results-summary aria-label="Race results: fourth through eighth place" tabindex="0"><header class="results-header"><p class="eyebrow">GRAND PRIX · COMPLETE</p><h2 id="results-title" tabindex="-1">Race Results</h2><p class="results-status" data-results-status role="status" aria-live="polite">${resultsStatus(standings)}</p></header><section class="results-finishers" data-results-finishers aria-label="Finishers in places four through eight"><h3>4th–8th place</h3><div class="results-finisher-cards">${lowerFinishersMarkup(standings)}</div></section></aside><nav class="results-actions" data-results-actions aria-label="Race options">${actionsMarkup()}</nav></div></section>`;
 }
 
 export function updateResultsPodium(root: HTMLElement, standings: readonly RaceStanding[]): void {
@@ -146,11 +134,9 @@ export function updateResultsPodium(root: HTMLElement, standings: readonly RaceS
   const finishers = root.querySelector<HTMLElement>(
     '[data-results-finishers] .results-finisher-cards',
   );
-  const rows = root.querySelector<HTMLOListElement>('[data-results-standings]');
   const status = root.querySelector<HTMLElement>('[data-results-status]');
   if (podium !== null) podium.innerHTML = podiumMarkup(standings);
   if (finishers !== null) finishers.innerHTML = lowerFinishersMarkup(standings);
-  if (rows !== null) rows.innerHTML = resultsStandingsMarkup(standings);
   if (status !== null) status.textContent = resultsStatus(standings);
   bindResultsArtFallbacks(root);
 }

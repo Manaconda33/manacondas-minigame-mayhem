@@ -1385,9 +1385,14 @@ For the local CSS candidate on `fix/mobile-landscape-layout`, full `npm run vali
 
 ## Task 11 landscape branch-preview owner acceptance — 2026-09-28
 
-Manny passed the landscape rework after reviewing the authorized branch preview. Reviewed implementation commit: `9aceba5de4c5d184772d3467f47463b26a633df0`. Preview URL: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/. Pages validation/deployment run: [`36476447976`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36476447976), successful. This records acceptance of the landscape correction only; no exact device/viewport, portrait, mobile Results/Podium, or full-flow outcome is inferred. This is not production/live acceptance. Keep Task 11 open for remaining criteria and the PR was unmerged pending release approval at the time; its approval and merge are recorded below.
+Manny passed the landscape rework after reviewing the authorized branch preview. Reviewed implementation commit: `9aceba5de4c5d184772d3467f47463b26a633df0`. Preview URL: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/race-hud-results/. Pages validation/deployment run: [`36476447976`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36476447976), successful. This records acceptance of the landscape correction only; no exact device/viewport, portrait, mobile Results/Podium, or full-flow outcome was inferred at that checkpoint. Manny later passed the portrait Race HUD separately, as recorded below. This is not production/live acceptance. Keep Task 11 open for remaining criteria and the PR was unmerged pending release approval at the time; its approval and merge are recorded below.
 
 
 ## Task 11 landscape correction production deployment — 2026-09-28
 
 Manny approved publication after passing the branch preview. PR #200 squash-merged at `998db2f31b8012366b7c813f7fba08d609d8f5da`; post-merge CI/GitHub Pages run [`36479382762`](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36479382762) passed validation, build, artifact assembly, and production deployment. The deployed CSS matches the reviewed implementation at `9aceba5de4c5d184772d3467f47463b26a633df0`. This is a deployment record, not a claim of a separate post-deployment device check. Keep Task 11 open for remaining mobile Results/Podium and full-flow criteria.
+
+
+## Task 11 portrait mobile Race HUD owner acceptance — 2026-09-28
+
+Manny clarified that the remaining Race HUD orientation was portrait and explicitly passed it with **“It passes.”** Record the portrait mobile Race HUD checkpoint as passed by product-owner review. No device model, viewport dimensions, or additional interaction checklist is inferred from this statement. This pass does not cover mobile Results/Podium or the complete mobile flow; keep Task 11 open for those and all other unreviewed criteria.

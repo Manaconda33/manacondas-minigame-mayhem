@@ -2,7 +2,7 @@
 
 ## Current slice
 
-**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - Task 10 five-restart gate PASSED by Manny's mobile/desktop manual review; Task 11 complete Title → Hub → Character Select → Race → Results flow PASSED on desktop and mobile portrait/landscape; desktop/mobile HUD and Results/Podium checkpoints accepted; Task 11 remains open only for unreported plan-level scenario checks; broader Slice 6 release gates remain open.**
+**Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - Task 10 five-restart gate PASSED by Manny's mobile/desktop manual review; Task 11 complete Title → Hub → Character Select → Race → Results flow PASSED on desktop and mobile portrait/landscape; desktop/mobile HUD and Results/Podium checkpoints accepted; Task 11 plan-level scenario checks PASSED by Manny's review; broader Slice 6 release gates remain open.**
 
 PRD baseline: **v1.1 with approved implementation amendments through 2.22**. Slice 6 kickoff and Route Night are governed by ADR-085-086; the published settings/graphics/audio foundation is ADR-087; the bounded material-coordinate / first Circuit Alpha PBR increment is governed by ADR-088; the Character Select baseline and full-body package are governed by ADR-090-092; the next Race HUD / mini-map / Results-Podium asset direction is governed by ADR-093.
 
@@ -12,13 +12,13 @@ Latest verified Slice 5 acceptance-protocol checkpoint on `main`: **`fd967afca41
 
 Latest verified pre-PR #204 documentation baseline on `main`: **`c2b2176cb4d3161b9d695ec59786e00ae7f5f234`** (PR #203 mobile Results/Podium acceptance record; post-merge CI/Pages run `36483753967` passed).
 
-Latest merged documentation checkpoint on `main`: **`d3a616cde58eecedd1559fb471f34b4285043897`** (PR #204; post-merge CI/Pages run `36489087922` passed). PR #204 changed documentation only; the latest gameplay/presentation code checkpoint remains PR #200 at `998db2f31b8012366b7c813f7fba08d609d8f5da`.
+Latest merged documentation checkpoint on `main`: **`283694851f899e88069e001fadcf07c8950152ed`** (PR #205; post-merge CI/Pages run `36492833739` passed). PR #205 clarified the chronology of landscape defect screenshots and acceptance; it changed documentation only. The latest gameplay/presentation code checkpoint remains PR #200 at `998db2f31b8012366b7c813f7fba08d609d8f5da`.
 
 Latest verified Slice 6 gameplay/presentation checkpoint on `main`: **`998db2f31b8012366b7c813f7fba08d609d8f5da`** (PR #200 landscape correction; post-merge CI/Pages run `36479382762` passed). PR #197 Results/Podium correction remains the accepted Results baseline at `fa4f9e6171730dd62033dc1912f4f1b60200e3a0`, run `36464412874` passed.
 
 The former feature branch `feature/slice6-race-hud-minimap-results-podium` was squash-merged through PR #188 at `e04ef8252b454c734e8e96411a6ca6a346b71fd6`. The release integrates the approved Results/Podium backdrop behind live Results content. All twelve approved lower-finish reaction assets are published and mapped by stable character ID to places 4–8; victory mapping remains for places 1–3. The backdrop ImageGen output ID and source/runtime hashes are recorded in `docs/ASSET-PROVENANCE.md`; its runtime SHA-256 is `24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`.
 
-**Current release evidence:** PR #188 is merged; PRs #189–#191 repaired and recorded the initial Pages deployment and minimap portrait visibility. PR #197 corrected Results/Podium and PR #200 corrected landscape navigation/race HUD; their post-merge Pages runs `36464412874` and `36479382762` passed. PRs #201–#204 recorded publication/acceptance checkpoints; current `main` is `d3a616cde58eecedd1559fb471f34b4285043897`, and CI/Pages run `36489087922` passed. Manny has accepted the deployed Title/Hub/Character Select, desktop Race HUD and Results/Podium, mobile portrait Race HUD and Results/Podium, landscape correction, and complete end-to-end flow on desktop plus mobile portrait and landscape. Task 10's five-restart gate is passed. No device models or numeric memory measurements are inferred. The existing Vite large-chunk warning for `KartTimeTrial` remains.
+**Current release evidence:** PR #188 is merged; PRs #189–#191 repaired and recorded the initial Pages deployment and minimap portrait visibility. PR #197 corrected Results/Podium and PR #200 corrected landscape navigation/race HUD; their post-merge Pages runs `36464412874` and `36479382762` passed. PRs #201–#205 recorded publication/acceptance checkpoints; current `main` is `283694851f899e88069e001fadcf07c8950152ed`, and CI/Pages run `36492833739` passed. Manny has accepted the deployed Title/Hub/Character Select, desktop Race HUD and Results/Podium, mobile portrait Race HUD and Results/Podium, landscape correction, and complete end-to-end flow on desktop plus mobile portrait and landscape. Task 10's five-restart gate is passed. No device models or numeric memory measurements are inferred. The existing Vite large-chunk warning for `KartTimeTrial` remains.
 
 Authorized Ink implementation baseline: governance-published `main` **`b62c96ae8297150d8f4cafaede4623d5b01a1e0b`**; implementation merged at **`2df6bf372b01e8a0f13c4bad71737ef8f5ab415d`** through PR #148, with post-merge validation/Pages **`35168880807`** passed. The tuned amendment merged through PR #149 at **`af4fa73c2a05ad25e4e2d7343f89f3cf6b9f510f`**; hosted PR CI **`35173826253`** and post-merge validation/Pages **`35188684882`** passed. Manny reported **“Pass”** on 2026-09-17; PR #149 comment **`5709839182`** records live acceptance.
 
@@ -127,7 +127,7 @@ The final all-item interaction/counter evidence is complete through `docs/SLICE-
 
 ## Next recommended action
 
-Do not repeat the accepted desktop or mobile full-flow and presentation checks unless a regression appears. Reconcile only the still-unreported plan-level cases before closing Task 11: finish-place coverage for 1st/2nd/3rd/8th, each Results action (Race Again / Change Driver / Return to Hub), all fifteen item-art states, missing-art fallback, reduced-motion Results behavior, and the planned Route Night comparison. These are unreported checks, not known defects. Keep the remaining Slice 6 release gates separate: final production audio/final-lap transition and other deferred presentation work, full-game Medium performance and browser-matrix evidence, final quality checklist, and complete release evidence package. Settings persistence/graphics presets are implemented and deployed; Task 10 memory/restart gate is accepted. Do not begin later Slice 6 work without its applicable approval.
+Do not repeat the accepted desktop or mobile full-flow, presentation, or Task 11 scenario checks unless a regression appears. Manny reported the remaining plan-level checks passed on 2026-09-28: 1st/2nd/3rd/8th finish-place cases; Race Again, Change Driver, and Return to Hub; all fifteen item-art states at HUD size; missing-art fallback; reduced-motion Results behavior; and the canonical Route Night comparison. Record Task 11's plan-level scenario gate as PASSED BY PRODUCT-OWNER REVIEW. Keep the broader Slice 6 release gates separate: final production audio/final-lap transition and other deferred presentation work, full-game Medium performance and browser-matrix evidence, final quality checklist, and complete release evidence package. Settings persistence/graphics presets are implemented and deployed; Task 10 memory/restart gate is accepted. Do not begin later Slice 6 work without its applicable approval.
 
 ## Approval state
 
@@ -612,3 +612,14 @@ This flow-level pass does not invent browser/device details or claim separately 
 **Task 11 status:** complete-flow acceptance **PASSED** for desktop and mobile portrait/landscape. Keep the remaining unreported presentation scenarios distinct from this pass. **Slice 6 is not complete**: final production audio/final-lap transition and other deferred presentation work, full-game Medium performance/browser-matrix evidence, final quality checklist, and the complete release evidence package remain separate release gates. Settings persistence/graphics presets are already implemented and deployed; Task 10's five-restart/no-material-memory-increase gate is passed by Manny's qualitative manual review.
 
 **Documentation-reconciliation validation:** On the current `main` source baseline plus these documentation changes, `npm run validate` passed typecheck, zero-warning lint, **74 test files / 609 tests** (**82.01% statements / 76.49% branches / 87.04% functions / 83.77% lines**), branding/runtime-asset verification, and production build. `git diff --check` and `git lfs fsck` passed. The existing nonblocking `KartTimeTrial` bundle-size warning remains.
+
+
+## Task 11 remaining plan-level scenario owner acceptance — 2026-09-28
+
+Manny reported that all three remaining Task 11 plan-level scenario groups passed:
+
+- **Finish placements and Results actions:** 1st, 2nd, 3rd, and 8th place; Race Again, Change Driver, and Return to Hub.
+- **HUD art and presentation behavior:** all fifteen item-art states at HUD size, missing-art fallback, and reduced-motion Results behavior.
+- **Visual comparison:** deployed Results/Race Night presentation compared with the canonical Route Night target and design brief.
+
+This owner report completes the remaining individual Task 11 checks alongside the previously recorded production full-flow acceptance on desktop and mobile portrait/landscape. No browser/device details or additional measurements are inferred. Task 11's listed plan-level acceptance is PASSED; the broader Slice 6 release gates remain open as listed above.

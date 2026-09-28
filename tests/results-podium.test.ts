@@ -159,7 +159,7 @@ describe('Results/Podium presentation', () => {
 
     const podiumCaption = rule('\\.results-podium-cards \\.results-racer-caption');
     const reactionCaption = rule('\\.results-finisher-cards \\.results-racer-caption');
-    expect(podiumCaption).toMatch(/bottom:\s*-3\.1rem\s*;/);
+    expect(podiumCaption).toMatch(/bottom:\s*-5rem\s*;/);
     expect(reactionCaption).toMatch(/position:\s*absolute\s*;/);
     expect(reactionCaption).toMatch(/bottom:\s*0\s*;/);
     expect(reactionCaption).toMatch(/background:\s*linear-gradient/);

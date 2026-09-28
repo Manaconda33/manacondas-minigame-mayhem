@@ -1365,3 +1365,13 @@ Manny then reported that the desktop Results card buried the podium backdrop. Th
 Manny's deployed 1917 × 904 Results screenshot showed the 1st-place shoe approximately 45 px below the center platform top, the 2nd-place feet approximately 50 px below the left platform top, and the 3rd-place feet approximately 30–40 px below the right platform top. The current eight-row list also consumed most of the upper-right board, leaving five small reaction tiles underneath. The local candidate removes that list and enlarges places 4–8 into image cards with placing/name/time overlaid at the bottom; independent portrait anchors lift each winner toward the visible gold top edge. Tests now assert no duplicate list, five ordered lower-finish cards, preserved late-finish updates/actions, the corrected desktop anchors, preserved finish times and Racing placeholders, and scrollable overflow on short viewports. Focused Results/routing suites passed 36 tests; full `npm run validate` passed 74 files / 609 tests with typecheck, lint, asset verification, and production build. These DOM/style contracts do not prove the actual rendered feet align at every viewport. Task 11 remains OPEN and paused until approval-gated publication and Manny's deployed desktop/mobile acceptance; Task 10 remains PASSED by Manny's manual review.
 
 Independent code review found and corrected three regressions before publication: hidden finish times, unfinished racers missing from the card view, and clipped cards on short mobile viewports. The Results board now scrolls on overflow and is keyboard focusable with a visible focus outline; the five cards include Racing placeholders until authoritative placements arrive. A rendered desktop/mobile visual pass is still required because stylesheet assertions cannot prove feet/platform registration.
+
+
+## Task 11 updated Results/Podium deployed acceptance — 2026-09-28
+
+- Production implementation: PR #197, merged at `fa4f9e6171730dd62033dc1912f4f1b60200e3a0`.
+- Post-merge CI/GitHub Pages: run `36464412874` — **PASS**.
+- Product-owner deployed visual review: Manny stated, **“Updated podium deployment approved.”**
+- Recorded evidence: PR #197 comment `5876242101`.
+- Accepted scope: the updated deployed Results/Podium composition, including the larger 4th–8th reaction-card treatment and revised top-three podium placement.
+- Boundary: no browser/device identity, mobile-specific behavior, or complete-flow acceptance is inferred unless separately reported. Task 11 remains open for those unreported criteria; Task 10 remains passed.

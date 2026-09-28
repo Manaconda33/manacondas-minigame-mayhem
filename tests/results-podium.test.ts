@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import {
   bindResultsArtFallbacks,
   formatResultTime,
@@ -109,6 +110,55 @@ describe('Results/Podium presentation', () => {
     );
     expect(host.querySelectorAll('[data-results-standings] li')).toHaveLength(8);
     expect(host.querySelector('[data-action="race-again"]')).not.toBeNull();
+  });
+
+  it('layers the top three over the backdrop while keeping the results board compact', () => {
+    const host = document.createElement('div');
+    host.innerHTML = renderResultsPodium(standingsWithPlayerPlace(2));
+
+    const stage = host.querySelector<HTMLElement>('[data-results-stage]');
+    const podium = host.querySelector<HTMLElement>('[data-results-podium]');
+    const summary = host.querySelector<HTMLElement>('[data-results-summary]');
+    const reactionRail = host.querySelector<HTMLElement>('[data-results-finishers]');
+
+    expect(stage).not.toBeNull();
+    expect(stage?.contains(podium)).toBe(true);
+    expect(stage?.contains(summary)).toBe(true);
+    expect(
+      podium?.querySelectorAll('[data-results-art][data-result-state="victory"]'),
+    ).toHaveLength(3);
+    expect(
+      reactionRail?.querySelectorAll('[data-results-art][data-result-state="reaction"]'),
+    ).toHaveLength(5);
+    expect(summary?.querySelectorAll('[data-results-standings] li')).toHaveLength(8);
+    expect(stage?.contains(host.querySelector('[data-results-actions]'))).toBe(true);
+  });
+
+  it('positions the heroes on the backdrop podium and keeps controls below the stage', () => {
+    const stylesheet = readFileSync('src/style.css', 'utf8');
+    const rule = (selector: string): string =>
+      new RegExp(`${selector}\\s*\\{([^}]*)\\}`).exec(stylesheet)?.[1] ?? '';
+    const podium = rule('\\.results-podium');
+    const summary = rule('\\.results-board');
+    const actions = rule('\\.results-actions');
+    const first = rule("\\.results-podium-cards \\[data-place='1'\\]");
+    const second = rule("\\.results-podium-cards \\[data-place='2'\\]");
+    const third = rule("\\.results-podium-cards \\[data-place='3'\\]");
+
+    expect(podium).toMatch(/position:\s*absolute\s*;/);
+    expect(podium).toMatch(/inset:\s*0\s*;/);
+    expect(summary).toMatch(/width:\s*min\(24rem, 22vw\)\s*;/);
+    expect(actions).toMatch(/position:\s*absolute\s*;/);
+    expect(actions).toMatch(/bottom:\s*max\(1rem, env\(safe-area-inset-bottom\)\)\s*;/);
+    expect(first).toMatch(/left:\s*49%\s*;/);
+    expect(second).toMatch(/left:\s*31%\s*;/);
+    expect(third).toMatch(/left:\s*68%\s*;/);
+
+    for (const viewportWidth of [1024, 1280, 1363, 1600, 2048]) {
+      const thirdPlaceRight = viewportWidth * 0.68 + Math.max(160, viewportWidth * 0.14) / 2;
+      const summaryLeft = viewportWidth - Math.min(384, viewportWidth * 0.22) - 16;
+      expect(summaryLeft).toBeGreaterThan(thirdPlaceRight);
+    }
   });
 
   it('orders podium and lower finishers by authoritative place, not callback array order', () => {

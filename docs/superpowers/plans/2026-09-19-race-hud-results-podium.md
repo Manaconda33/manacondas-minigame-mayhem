@@ -117,14 +117,14 @@
 ## Task 11: Perform the deployed visual acceptance and reconcile docs
 
 - [x] Review the complete deployed Title → Hub → Character Select → Race → Results flow on desktop and mobile portrait/landscape. **2026-09-28 owner acceptance:** Manny confirmed the desktop end-to-end flow had already been completed and approved, and that the complete mobile flow passes in both orientations.
-- [ ] Separately verify each finish-place/action scenario: finish in 1st, 2nd, 3rd, and 8th; Race Again, Change Driver, and Return to Hub. The complete-flow report does not infer which specific variants were exercised.
+- [x] Separately verify each finish-place/action scenario: finish in 1st, 2nd, 3rd, and 8th; Race Again, Change Driver, and Return to Hub. **2026-09-28 owner report:** Manny confirms all listed finish-place cases and actions passed. No browser/device details are inferred.
 - [x] Review the accepted portrait/landscape Race HUD and Results/Podium presentation, including the eight visible/discernible minimap portraits, control/warning clearance, compact landscape HUD, top-three podium composition, and lower-finisher treatment. Manny passed the respective desktop/mobile presentation checkpoints and the full flow on 2026-09-28. The landscape screenshots supplied with the original report show the pre-fix defect state; corrected-layout evidence is the accepted branch preview and later production full-flow pass.
-- [ ] Separately inspect all fifteen item-art states at HUD size, missing-art fallback, reduced-motion Results behavior, and all specific finish-place/action variants listed above. These checks were not individually reported in the full-flow acceptance.
-- [ ] Compare the deployed result directly with the canonical Route Night target and the design brief; reject any generated asset with embedded copy, copied marks, unreadable silhouette, or an atmosphere layer that competes with live data.
+- [x] Separately inspect all fifteen item-art states at HUD size, missing-art fallback, reduced-motion Results behavior, and all specific finish-place/action variants listed above. **2026-09-28 owner report:** Manny confirms all fifteen states, fallback, reduced-motion behavior, and the separately listed finish-place/action cases passed.
+- [x] Compare the deployed result directly with the canonical Route Night target and the design brief; reject any generated asset with embedded copy, copied marks, unreadable silhouette, or an atmosphere layer that competes with live data. **2026-09-28 owner report:** Manny confirms this comparison passed.
 - [x] After Manny's explicit deployed acceptance, reconcile the applicable status and testing documentation, this plan, and README with the reviewed runtime checkpoint, hosted run, and acceptance result. No new design decision or asset was introduced, so `docs/DECISIONS.md` and the asset briefs/provenance do not require changes in this acceptance-only update.
 - [ ] Keep pause, final audio, post-processing, and unrelated Slice 6 work explicitly deferred unless a separate approval changes the scope.
 
-The full-flow acceptance above closes the PRD's Title → Results flow criterion. It does not close the broader Slice 6 release gates or claim unreported place/action variants, all fifteen item-art states, Results fallback, reduced-motion Results, or the explicit Route Night comparison.
+The full-flow acceptance above closes the PRD's Title → Results flow criterion. The remaining plan-level place/action, item-art, fallback, reduced-motion, and Route Night comparison checks are also recorded as PASSED BY PRODUCT-OWNER REVIEW. The broader Slice 6 release gates remain open.
 
 ## Separately approved runtime subset — 2026-09-23
 

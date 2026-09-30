@@ -29,9 +29,9 @@
   "mobileComparison": "recorded_owner_screenshot",
   "renderedVisualReview": "passed_by_product_owner",
   "sourceCountsAreHardwareMeasurements": false,
-  "mainCommit": "897b1ca603d9e1e5bd44377e379884a85f7caebb",
-  "publicProductionChanged": false,
-  "runtimeMergeProductionAuthorized": false,
+  "mainCommit": "99bcebe0d28c9c35bdcb8285221726a3e18eccf1",
+  "publicProductionChanged": true,
+  "runtimeMergeProductionAuthorized": true,
   "mobileComparisonEvidence": "mobile-comparison.md",
   "mobileSummary": {
     "scoredFrames": 5047,
@@ -46,5 +46,18 @@
     "maxTriangles": 219548
   },
   "rawCaptureVerified": false,
-  "renderedVisualReviewStatement": "The game looked exactly the same."
+  "renderedVisualReviewStatement": "The game looked exactly the same.",
+  "production": {
+    "status": "live_verified",
+    "ownerApproval": "Merge / publish approved.",
+    "mergeCommit": "99bcebe0d28c9c35bdcb8285221726a3e18eccf1",
+    "mergeTree": "ddd4aabf48598c24dc8d8a4cc694d826b426f2d4",
+    "prCI": 36793089009,
+    "ciPagesRun": 36793279928,
+    "conclusion": "success",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+    "deliveredFilesMatched": true,
+    "evidence": "production-delivery.json",
+    "laterGraphicsAuthorized": false
+  }
 }

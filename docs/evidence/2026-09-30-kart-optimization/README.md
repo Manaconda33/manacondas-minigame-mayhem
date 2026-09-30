@@ -1,5 +1,7 @@
 # Kart draw-call optimization review — 2026-09-30
 
+> **Current disposition: LIVE.** Owner visual review passed and merge/production explicitly approved. PR #213 merged; CI/Pages and delivered bundles verified. Earlier review/pending statements below are historical; see the latest production record.
+
 Owner approved the focused optimization pass after the mobile baseline, before visual enhancements. Base main: 897b1ca603d9e1e5bd44377e379884a85f7caebb; diagnostics are live through PR #212. Current main CI/Pages 36790456527 passed. Preserve all prior gameplay/HUD/Results/audio/manual acceptance. Review publication is authorized; this new runtime's merge/production remains a separate owner gate. No VFX/bloom/blur/quality downgrade/next slice.
 
 ## Cause and bounded change
@@ -33,3 +35,9 @@ Actual rendered/mobile comparison is pending owner review; private cloud browser
 ## Owner mobile comparison received
 
 Manny supplied a complete-race Results diagnostics screenshot. See `mobile-comparison.md`: max calls 321 → 226 (29.6% lower), triangles 244,722 → 219,548, median FPS/p95 unchanged, >50 ms intervals 5 → 3, but maximum interval 116.7 → 233.5 ms. Draw-call target is met in this observed run; different grid/player and unverified raw metadata limit attribution. This supersedes the earlier pending mobile-summary wording. Explicit rendered-visual acceptance and merge/production approval remain pending.
+
+## Optimization production publication — LIVE, 2026-09-30
+
+Manny passed visual preservation (“The game looked exactly the same”) and explicitly authorized “Merge / publish approved.” PR #213 squash-merged at `99bcebe0d28c9c35bdcb8285221726a3e18eccf1`, tree `ddd4aabf48598c24dc8d8a4cc694d826b426f2d4`, identical to the accepted review. Exact-head PR CI 36793089009 passed. [Post-merge CI/Pages 36793279928](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36793279928) PASSED validation and protected-main Pages deployment. Production index, both JS bundles and CSS independently fetched and matched the locally built accepted runtime byte-for-byte. `production-delivery.json` retains hashes. No workflow/protection changes.
+
+Production: https://manaconda33.github.io/manacondas-minigame-mayhem/. Diagnostics: append `?testRacePerf=1`. Owner mobile screenshot maximum calls fell 321 → 226 (29.6% lower), with unchanged median 59.9 FPS/p95 16.8 ms; maximum isolated stall increased 116.7 → 233.5 ms. The draw-call target was met in that run; raw JSON/source/device metadata and strict same-grid attribution remain limited. This is not a full PRD performance pass. Visual preservation and this increment's publication are PASSED/approved; existing accepted gameplay/HUD/Results/audio gates remain passed. Earlier pending-publication/visual-acceptance statements are historical. No VFX, bloom, blur or next-slice work authorized or begun.

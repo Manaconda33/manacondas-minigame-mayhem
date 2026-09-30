@@ -1,0 +1,34 @@
+{
+  "runtimeMergeCommit": "99bcebe0d28c9c35bdcb8285221726a3e18eccf1",
+  "runtimeTree": "ddd4aabf48598c24dc8d8a4cc694d826b426f2d4",
+  "ciPagesRun": 36793279928,
+  "productionUrl": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+  "deliveredFiles": [
+    {
+      "path": "index.html",
+      "sha256": "13ecb7bc7077c6dcffc47ac03ee7fd9f3b80620c407db4d37bc1747cf139bf54",
+      "bytes": 719,
+      "matchesLocalBuild": true
+    },
+    {
+      "path": "assets/index-Cu9IB3ld.js",
+      "sha256": "d054f4effa4ece1ddbfc143b7f52ce91b3d95f5f84366b8b06cd78380aec56b0",
+      "bytes": 797304,
+      "matchesLocalBuild": true
+    },
+    {
+      "path": "assets/index-B7Jt5ma7.css",
+      "sha256": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
+      "bytes": 84735,
+      "matchesLocalBuild": true
+    },
+    {
+      "path": "assets/KartTimeTrial-bLrloTsu.js",
+      "sha256": "c8fdc3b7d0915f87974877e87185a08b17256980dade50093eaccd05fd8a1bca",
+      "bytes": 3084387,
+      "matchesLocalBuild": true
+    }
+  ],
+  "allMatched": true,
+  "method": "HTTP fetch of production index and compiled JS/CSS compared byte-for-byte with the locally built accepted runtime. Existing assets unchanged and exact gates passed in CI. No new device measurement inferred."
+}

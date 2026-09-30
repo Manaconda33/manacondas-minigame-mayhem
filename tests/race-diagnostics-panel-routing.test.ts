@@ -43,6 +43,22 @@ vi.mock('../src/ui/characterKartPreview', () => ({
   },
 }));
 const cleanups: (() => void)[] = [];
+it('keeps typing hardware provenance from sending driving/pause keys to the race', async () => {
+  const root = await race('?testRacePerf=1');
+  document.body.append(root);
+  const key = vi.fn();
+  const release = vi.fn();
+  window.addEventListener('keydown', key);
+  window.addEventListener('keyup', release);
+  const input = root.querySelector<HTMLInputElement>('[data-diagnostics-hardware]');
+  input?.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP', bubbles: true }));
+  input?.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyW', bubbles: true }));
+  window.removeEventListener('keydown', key);
+  window.removeEventListener('keyup', release);
+  root.remove();
+  expect(key).not.toHaveBeenCalled();
+  expect(release).toHaveBeenCalledTimes(1);
+});
 beforeEach(() => {
   vi.stubGlobal('matchMedia', () => ({ matches: false }));
   harness.games.length = 0;
@@ -58,7 +74,9 @@ it('disposes an asynchronously created race after the shell closes instead of in
     c();
   });
   harness.releases[0]?.();
-  await vi.waitFor(() => { expect(harness.disposals).toBe(1); });
+  await vi.waitFor(() => {
+    expect(harness.disposals).toBe(1);
+  });
   expect(harness.starts).toBe(0);
 });
 afterEach(() => {

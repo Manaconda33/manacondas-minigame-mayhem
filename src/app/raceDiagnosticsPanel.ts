@@ -58,6 +58,10 @@ export function mountRaceDiagnosticsPanel(
     }
   };
   button?.addEventListener('click', download);
+  const stopDrivingKeys = (event: KeyboardEvent): void => {
+    event.stopPropagation();
+  };
+  panel.addEventListener('keydown', stopDrivingKeys);
   const value = (n: number | null): string => (n === null ? 'unavailable' : n.toFixed(1));
   return {
     update(snapshot) {
@@ -67,6 +71,7 @@ export function mountRaceDiagnosticsPanel(
     dispose() {
       disposed = true;
       button?.removeEventListener('click', download);
+      panel.removeEventListener('keydown', stopDrivingKeys);
       panel.remove();
     },
   };

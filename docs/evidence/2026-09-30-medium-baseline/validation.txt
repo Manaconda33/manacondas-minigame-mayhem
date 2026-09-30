@@ -24,19 +24,19 @@ npm warn Unknown env config "http-proxy". This will stop working in the next maj
 
 
  Test Files  85 passed (85)
-      Tests  662 passed (662)
-   Start at  17:35:17
-   Duration  17.93s (transform 3.38s, setup 0ms, import 9.65s, tests 33.29s, environment 55.31s)
+      Tests  663 passed (663)
+   Start at  17:39:20
+   Duration  17.68s (transform 3.30s, setup 0ms, import 9.87s, tests 31.90s, environment 54.10s)
 
  % Coverage report from v8
 -------------------|---------|----------|---------|---------|-------------------
 File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
 -------------------|---------|----------|---------|---------|-------------------
-All files          |   86.62 |    77.77 |   88.42 |   88.92 |                   
- src/app           |   82.41 |    59.76 |   86.76 |    84.8 |                   
+All files          |   86.62 |    77.77 |   88.43 |   88.93 |                   
+ src/app           |   82.55 |    59.76 |   86.95 |   84.92 |                   
   itemHud.ts       |   94.56 |     87.5 |   85.71 |   96.66 | 39-41             
   mountAppShell.ts |   71.68 |    53.74 |   82.05 |   73.04 | ...95,555-571,627 
-  ...sticsPanel.ts |   91.66 |    48.14 |     100 |     100 | 22-65             
+  ...sticsPanel.ts |    92.5 |    48.14 |     100 |     100 | 22-69             
   raceMinimap.ts   |   93.33 |    43.75 |      80 |   96.36 | 33,40             
   touchWheel.ts    |   96.29 |    72.72 |     100 |     100 | 22-25,45-67       
  src/audio         |   86.31 |    81.19 |   83.33 |   89.85 |                   
@@ -136,10 +136,10 @@ All files          |   86.62 |    77.77 |   88.42 |   88.92 |
 -------------------|---------|----------|---------|---------|-------------------
 
 =============================== Coverage summary ===============================
-Statements   : 86.62% ( 6838/7894 )
+Statements   : 86.62% ( 6842/7898 )
 Branches     : 77.77% ( 3800/4886 )
-Functions    : 88.42% ( 970/1097 )
-Lines        : 88.92% ( 6273/7054 )
+Functions    : 88.43% ( 971/1098 )
+Lines        : 88.93% ( 6277/7058 )
 ================================================================================
 npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
 
@@ -162,10 +162,10 @@ rendering chunks...
 computing gzip size...
 dist/index.html                            0.71 kB │ gzip:     0.39 kB
 dist/assets/index-B7Jt5ma7.css            84.73 kB │ gzip:    17.16 kB
-dist/assets/index-CrNNO6gj.js            793.45 kB │ gzip:   206.54 kB
-dist/assets/KartTimeTrial-DD9Pff1U.js  3,082.38 kB │ gzip: 1,159.60 kB
+dist/assets/index-cIpD_EoN.js            793.54 kB │ gzip:   206.57 kB
+dist/assets/KartTimeTrial-DlKEk1GI.js  3,082.38 kB │ gzip: 1,159.60 kB
 
-✓ built in 412ms
+✓ built in 397ms
 [plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application

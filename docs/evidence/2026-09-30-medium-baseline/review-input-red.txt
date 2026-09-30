@@ -1,0 +1,41 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/race-diagnostics-panel-routing.test.ts (7 tests | 1 failed) 697ms
+   × keeps typing hardware provenance from sending driving/pause keys to the race 143ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-panel-routing.test.ts > keeps typing hardware provenance from sending driving/pause keys to the race
+AssertionError: expected "vi.fn()" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st vi.fn() call:
+
+    Array [
+      KeyboardEvent {
+        "isTrusted": false,
+      },
+    ]
+
+
+Number of calls: 1
+
+ ❯ tests/race-diagnostics-panel-routing.test.ts:55:19
+     53|   window.removeEventListener('keydown', key);
+     54|   root.remove();
+     55|   expect(key).not.toHaveBeenCalled();
+       |                   ^
+     56| });
+     57| beforeEach(() => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  17:37:27
+   Duration  1.57s (transform 189ms, setup 0ms, import 237ms, tests 697ms, environment 507ms)
+

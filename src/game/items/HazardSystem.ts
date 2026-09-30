@@ -53,6 +53,10 @@ function squaredHorizontalDistance(a: THREE.Vector3, b: THREE.Vector3): number {
 
 /** Ground-bound hazards own no racer progress or controller state. */
 export class HazardSystem {
+  private soundListener?: (cue: string, position: THREE.Vector3) => void;
+  public setSoundListener(listener: (cue: string, position: THREE.Vector3) => void): void {
+    this.soundListener = listener;
+  }
   public readonly group = new THREE.Group();
   private readonly slicks = new Map<number, Slick>();
   private readonly orbs = new Map<number, Orb>();
@@ -358,6 +362,7 @@ export class HazardSystem {
   }
 
   private detonate(orb: Orb, targets: readonly HazardTarget[]): ProjectileImpact[] {
+    this.soundListener?.('blast-orb-explosion', orb.mesh.position);
     const eligible =
       orb.age < C.ownerImmunitySeconds - 1e-9
         ? targets.filter((racer) => racer.id !== orb.ownerId)

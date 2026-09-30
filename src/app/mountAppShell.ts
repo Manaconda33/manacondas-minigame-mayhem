@@ -1,3 +1,4 @@
+import { uiSfx, preloadUiSfx } from '../audio/uiSfx';
 import { Howler } from 'howler';
 import { resumeAudioContext } from '../audio/driftTone';
 import { audioMixer } from '../audio/AudioMixer';
@@ -91,6 +92,7 @@ export function mountAppShell(root: HTMLElement): void {
   let characterPreview: CharacterKartPreview | null = null;
   let touchWheelDispose: (() => void) | null = null;
   let selectedCharacter = characterById('aa-02');
+  preloadUiSfx();
   let appSettings = loadGameSettings();
   audioMixer.configure(appSettings.audio);
 
@@ -308,6 +310,8 @@ export function mountAppShell(root: HTMLElement): void {
           },
         });
         audioMixer.configure(appSettings.audio);
+        uiSfx.refreshMix();
+        uiSfx.play('ui-setting-change', { gain: 0.2 });
         const output = root.querySelector<HTMLOutputElement>(`[data-setting-value="${bus}"]`);
         if (output !== null) output.textContent = `${String(Math.round(value * 100))}%`;
       });
@@ -514,6 +518,19 @@ export function mountAppShell(root: HTMLElement): void {
     if (target === null) return;
     const action = target.dataset.action;
     void unlockAudio();
+    const cue =
+      action === 'race-again'
+        ? 'results-race-again'
+        : action === 'change-driver'
+          ? 'results-change-driver'
+          : action === 'return-to-hub'
+            ? 'results-return-hub'
+            : action === 'confirm-character'
+              ? 'ui-start-race'
+              : action === 'menu'
+                ? 'ui-back'
+                : 'ui-confirm';
+    uiSfx.play(cue, { gain: 0.28 });
     if (action === 'enter' || action === 'menu') renderMenu();
     if (action === 'controls') renderControls();
     if (action === 'settings') renderSettings();
@@ -538,10 +555,15 @@ export function mountAppShell(root: HTMLElement): void {
   root.addEventListener('click', (event) => {
     const target = (event.target as HTMLElement).closest<HTMLElement>('[data-character]');
     if (target === null) return;
+    void unlockAudio();
+    uiSfx.play('driver-select', { gain: 0.28 });
     selectedCharacter = characterById(target.dataset.character ?? '');
     renderCharacterSelect();
     root.querySelector<HTMLElement>(`[data-character="${selectedCharacter.id}"]`)?.focus();
   });
 
+  root.addEventListener('focusin', (event) => {
+    if ((event.target as HTMLElement).matches('button')) uiSfx.play('ui-focus', { gain: 0.12 });
+  });
   renderTitle();
 }

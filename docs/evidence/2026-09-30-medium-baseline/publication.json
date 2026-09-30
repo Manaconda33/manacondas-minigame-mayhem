@@ -43,5 +43,17 @@
     "maxDrawCalls": 321,
     "maxTriangles": 244722
   },
-  "productionChanged": false
+  "productionChanged": true,
+  "production": {
+    "ownerApproval": "Approved & also explain the draw calls to me in layman's terms.",
+    "mergeCommit": "4656206f2582bf859bbc75eb7151bda47622a3f3",
+    "pr": 212,
+    "prCI": 36789928527,
+    "ciPagesRun": 36790118341,
+    "conclusion": "success",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+    "deliveredBundlesVerified": true,
+    "evidence": "production-delivery.json",
+    "nextGraphicsScopeAuthorized": false
+  }
 }

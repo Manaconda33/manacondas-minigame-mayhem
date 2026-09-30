@@ -1,0 +1,33 @@
+{
+  "runtimeMergeCommit": "4656206f2582bf859bbc75eb7151bda47622a3f3",
+  "ciPagesRun": 36790118341,
+  "productionUrl": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+  "deliveredFiles": [
+    {
+      "path": "index.html",
+      "sha256": "819dde7068149775654243ce8f9beb8753212a723ea66a2bbedc9a76ffe6f980",
+      "bytes": 719,
+      "matchesLocalBuild": true
+    },
+    {
+      "path": "assets/KartTimeTrial-DlKEk1GI.js",
+      "sha256": "f2096c6985cd228468cee632e0b45c9261f3f2f16aaae51dcf8c05f26ffe1e29",
+      "bytes": 3082382,
+      "matchesLocalBuild": true
+    },
+    {
+      "path": "assets/index-B7Jt5ma7.css",
+      "sha256": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
+      "bytes": 84735,
+      "matchesLocalBuild": true
+    },
+    {
+      "path": "assets/index-cIpD_EoN.js",
+      "sha256": "22668973913fa9c50ca45ae0e73c2c23dd30adf9ef7f9504dc06f879e064bb7a",
+      "bytes": 793549,
+      "matchesLocalBuild": true
+    }
+  ],
+  "allMatched": true,
+  "method": "HTTP fetch of production index and compiled JS/CSS, compared byte-for-byte to locally built identical runtime tree. No new manual acceptance inferred."
+}

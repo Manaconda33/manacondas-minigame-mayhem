@@ -1,0 +1,34 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/race-diagnostics-panel-routing.test.ts (6 tests | 1 failed) 1556ms
+   × disposes an asynchronously created race after the shell closes instead of installing stale diagnostics 1136ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-panel-routing.test.ts > disposes an asynchronously created race after the shell closes instead of installing stale diagnostics
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/race-diagnostics-panel-routing.test.ts:50:52
+     48|   cleanups.splice(0).forEach(c => { c(); });
+     49|   harness.releases[0]?.();
+     50|   await vi.waitFor(() => expect(harness.disposals).toBe(1));
+       |                                                    ^
+     51|   expect(harness.starts).toBe(0);
+     52| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  17:32:35
+   Duration  2.37s (transform 181ms, setup 0ms, import 235ms, tests 1.56s, environment 464ms)
+

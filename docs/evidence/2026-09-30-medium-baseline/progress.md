@@ -5,3 +5,6 @@ Pre-flight: Task 1 schema/meter → Task 2 race/UI → Task 3 exported evidence;
 Baseline: clean npm ci; 81 files / 642 tests passed.
 Task 1: complete. Missing-module RED observed; focused GREEN 2 files / 8 tests, typecheck/lint passed. Evidence: task1-red.txt, task1-green.txt.
 Ruling: plan says native execution and no delegation; perform a separate self-review at completion. Cost: review lacks independent author perspective.
+Task 1 verification correction: initial lint failed on four test callback styles. Fixed via ESLint; final full validation below supersedes that failed lint. No failed lint was used to publish a completed runtime milestone.
+Task 2: complete. Real RAF tests and app tests RED→GREEN; corrected initial matchMedia fixture and reran UI RED against baseline. Focused 8 files / 36 tests passed. Full npm run validate PASS: 85 files / 662 tests, strict typecheck, zero-warning lint, exact asset/branding gates and production build; git lfs fsck and git diff --check passed.
+Task 2 additional regression: delayed creation after shell dispose RED→GREEN; old race now disposed before start. No simulation, camera, HUD fields, audio behavior, asset bytes, item meter or quality changes.

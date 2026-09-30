@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/race-diagnostics-panel-routing.test.ts (5 tests | 1 failed) 470ms
+   × shows opt-in counters and downloads independent schema JSON with URL cleanup, including Results 72ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-panel-routing.test.ts > shows opt-in counters and downloads independent schema JSON with URL cleanup, including Results
+AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+ ❯ tests/race-diagnostics-panel-routing.test.ts:79:70
+     77|   });
+     78|   r.options.onDiagnostics?.(r.meter.snapshot());
+     79|   expect(root.querySelector('[data-race-diagnostics]')?.textContent).t…
+       |                                                                      ^
+     80|   const create = vi.fn((_blob: Blob) => 'blob:test');
+     81|   const revoke = vi.fn();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  17:30:02
+   Duration  1.32s (transform 183ms, setup 0ms, import 237ms, tests 470ms, environment 494ms)
+

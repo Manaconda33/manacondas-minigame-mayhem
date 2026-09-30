@@ -5359,3 +5359,20 @@ h2 {
     transition: none !important;
   }
 }
+/* Present only for the explicit testRacePerf=1 route. */
+.race-diagnostics {
+  position: fixed;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  max-width: min(32rem, 90vw);
+  max-height: 70vh;
+  overflow: auto;
+  padding: 0.5rem;
+  color: #fff;
+  background: #101627ed;
+  border: 1px solid #72daff;
+  font: 12px/1.4 monospace;
+}
+.race-diagnostics input, .race-diagnostics button { display: block; max-width: 100%; margin-top: 0.5rem; }

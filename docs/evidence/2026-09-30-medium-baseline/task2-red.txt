@@ -1,0 +1,232 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/race-diagnostics-routing.test.ts (6 tests | 6 failed) 454ms
+     × records a raw 250ms stall while leaving the simulation clamp and post-render reads intact 147ms
+     × excludes pause/hidden/resume and rapid between-frame transitions without clearing warm samples 74ms
+     × stops on finished phase, retains Results export, throttles callbacks and clears disposed capture 60ms
+     × does not read counters or callback when disabled () 60ms
+     × does not read counters or callback when disabled (?testRacePerf=0) 57ms
+     × does not read counters or callback when disabled (?testRacePerf=true) 55ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > real race RAF diagnostics wiring > records a raw 250ms stall while leaving the simulation clamp and post-render reads intact
+TypeError: r.game.exportPerformanceCapture is not a function
+ ❯ tests/race-diagnostics-routing.test.ts:66:28
+     64|     r.tick(250);
+     65|     expect(r.advance).toHaveBeenLastCalledWith(0.1, expect.any(Functio…
+     66|     const capture = r.game.exportPerformanceCapture(metadata);
+       |                            ^
+     67|     expect(capture?.samples.at(-1)?.rawFrameMs).toBe(250);
+     68|     expect(capture?.samples.at(-1)?.counters?.drawCalls).toBe(22);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > real race RAF diagnostics wiring > excludes pause/hidden/resume and rapid between-frame transitions without clearing warm samples
+TypeError: r.game.exportPerformanceCapture is not a function
+ ❯ tests/race-diagnostics-routing.test.ts:74:27
+     72|   it('excludes pause/hidden/resume and rapid between-frame transitions…
+     73|     const r = await setup(); r.tick();
+     74|     const before = r.game.exportPerformanceCapture(metadata)?.summary.…
+       |                           ^
+     75|     window.dispatchEvent(new KeyboardEvent('keydown',{ code: 'KeyP' })…
+     76|     window.dispatchEvent(new KeyboardEvent('keydown',{ code: 'KeyP' })…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > real race RAF diagnostics wiring > stops on finished phase, retains Results export, throttles callbacks and clears disposed capture
+TypeError: r.game.exportPerformanceCapture is not a function
+ ❯ tests/race-diagnostics-routing.test.ts:86:27
+     84|   it('stops on finished phase, retains Results export, throttles callb…
+     85|     const r = await setup(); r.tick();
+     86|     const frames = r.game.exportPerformanceCapture(metadata)?.summary.…
+       |                           ^
+     87|     r.phase('finished'); r.tick(); r.tick(2000);
+     88|     expect(r.game.exportPerformanceCapture(metadata)).toMatchObject({ …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > real race RAF diagnostics wiring > does not read counters or callback when disabled ()
+ FAIL  tests/race-diagnostics-routing.test.ts > real race RAF diagnostics wiring > does not read counters or callback when disabled (?testRacePerf=0)
+ FAIL  tests/race-diagnostics-routing.test.ts > real race RAF diagnostics wiring > does not read counters or callback when disabled (?testRacePerf=true)
+TypeError: r.game.exportPerformanceCapture is not a function
+ ❯ tests/race-diagnostics-routing.test.ts:96:19
+     94|   it.each(['', '?testRacePerf=0', '?testRacePerf=true'])('does not rea…
+     95|     const r = await setup(query);
+     96|     expect(r.game.exportPerformanceCapture(metadata)).toBeNull();
+       |                   ^
+     97|     expect(harness.reads).not.toContain('read');
+     98|     expect(r.callback).not.toHaveBeenCalled();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  17:27:06
+   Duration  1.66s (transform 410ms, setup 0ms, import 545ms, tests 454ms, environment 524ms)
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/race-diagnostics-panel-routing.test.ts (5 tests | 5 failed) 5143ms
+   × ordinary HUD has no diagnostic panel or callback () 1073ms
+   × ordinary HUD has no diagnostic panel or callback (?testRacePerf=0) 1021ms
+   × ordinary HUD has no diagnostic panel or callback (?testRacePerf=true) 1017ms
+   × shows opt-in counters and downloads independent schema JSON with URL cleanup, including Results 1015ms
+   × rejects stale callback/download after restart and shell disposal 1017ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-panel-routing.test.ts > ordinary HUD has no diagnostic panel or callback ()
+ FAIL  tests/race-diagnostics-panel-routing.test.ts > ordinary HUD has no diagnostic panel or callback (?testRacePerf=0)
+ FAIL  tests/race-diagnostics-panel-routing.test.ts > ordinary HUD has no diagnostic panel or callback (?testRacePerf=true)
+ FAIL  tests/race-diagnostics-panel-routing.test.ts > shows opt-in counters and downloads independent schema JSON with URL cleanup, including Results
+ FAIL  tests/race-diagnostics-panel-routing.test.ts > rejects stale callback/download after restart and shell disposal
+AssertionError: expected 0 to be greater than 0
+ ❯ tests/race-diagnostics-panel-routing.test.ts:22:55
+     20|   root.querySelector<HTMLElement>('[data-action="play"]')?.click();
+     21|   root.querySelector<HTMLElement>('[data-action="confirm-character"]')…
+     22|   await vi.waitFor(() => expect(harness.games.length).toBeGreaterThan(…
+       |                                                       ^
+     23|   return root;
+     24| }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 5 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: target.matchMedia is not a function
+ ❯ isMobileSession src/app/mobileSession.ts:4:17
+      2|
+      3| export function isMobileSession(target: Window = window): boolean {
+      4|   return target.matchMedia(MOBILE_SESSION_QUERY).matches;
+       |                 ^
+      5| }
+      6|
+ ❯ renderGame src/app/mountAppShell.ts:393:27
+ ❯ HTMLDivElement.<anonymous> src/app/mountAppShell.ts:572:46
+ ❯ HTMLDivElement.callTheUserObjectsOperation node_modules/jsdom/lib/generated/idl/EventListener.js:26:30
+ ❯ innerInvokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16
+ ❯ invokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3
+ ❯ HTMLButtonElementImpl._dispatch node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9
+ ❯ fireAnEvent node_modules/jsdom/lib/jsdom/living/helpers/events.js:18:36
+ ❯ HTMLButtonElementImpl.click node_modules/jsdom/lib/jsdom/living/nodes/HTMLElement-impl.js:85:5
+ ❯ HTMLButtonElement.click node_modules/jsdom/lib/generated/idl/HTMLElement.js:111:34
+
+This error originated in "tests/race-diagnostics-panel-routing.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "ordinary HUD has no diagnostic panel or callback ()". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: target.matchMedia is not a function
+ ❯ isMobileSession src/app/mobileSession.ts:4:17
+      2|
+      3| export function isMobileSession(target: Window = window): boolean {
+      4|   return target.matchMedia(MOBILE_SESSION_QUERY).matches;
+       |                 ^
+      5| }
+      6|
+ ❯ renderGame src/app/mountAppShell.ts:393:27
+ ❯ HTMLDivElement.<anonymous> src/app/mountAppShell.ts:572:46
+ ❯ HTMLDivElement.callTheUserObjectsOperation node_modules/jsdom/lib/generated/idl/EventListener.js:26:30
+ ❯ innerInvokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16
+ ❯ invokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3
+ ❯ HTMLButtonElementImpl._dispatch node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9
+ ❯ fireAnEvent node_modules/jsdom/lib/jsdom/living/helpers/events.js:18:36
+ ❯ HTMLButtonElementImpl.click node_modules/jsdom/lib/jsdom/living/nodes/HTMLElement-impl.js:85:5
+ ❯ HTMLButtonElement.click node_modules/jsdom/lib/generated/idl/HTMLElement.js:111:34
+
+This error originated in "tests/race-diagnostics-panel-routing.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "ordinary HUD has no diagnostic panel or callback (?testRacePerf=0)". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: target.matchMedia is not a function
+ ❯ isMobileSession src/app/mobileSession.ts:4:17
+      2|
+      3| export function isMobileSession(target: Window = window): boolean {
+      4|   return target.matchMedia(MOBILE_SESSION_QUERY).matches;
+       |                 ^
+      5| }
+      6|
+ ❯ renderGame src/app/mountAppShell.ts:393:27
+ ❯ HTMLDivElement.<anonymous> src/app/mountAppShell.ts:572:46
+ ❯ HTMLDivElement.callTheUserObjectsOperation node_modules/jsdom/lib/generated/idl/EventListener.js:26:30
+ ❯ innerInvokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16
+ ❯ invokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3
+ ❯ HTMLButtonElementImpl._dispatch node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9
+ ❯ fireAnEvent node_modules/jsdom/lib/jsdom/living/helpers/events.js:18:36
+ ❯ HTMLButtonElementImpl.click node_modules/jsdom/lib/jsdom/living/nodes/HTMLElement-impl.js:85:5
+ ❯ HTMLButtonElement.click node_modules/jsdom/lib/generated/idl/HTMLElement.js:111:34
+
+This error originated in "tests/race-diagnostics-panel-routing.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "ordinary HUD has no diagnostic panel or callback (?testRacePerf=true)". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: target.matchMedia is not a function
+ ❯ isMobileSession src/app/mobileSession.ts:4:17
+      2|
+      3| export function isMobileSession(target: Window = window): boolean {
+      4|   return target.matchMedia(MOBILE_SESSION_QUERY).matches;
+       |                 ^
+      5| }
+      6|
+ ❯ renderGame src/app/mountAppShell.ts:393:27
+ ❯ HTMLDivElement.<anonymous> src/app/mountAppShell.ts:572:46
+ ❯ HTMLDivElement.callTheUserObjectsOperation node_modules/jsdom/lib/generated/idl/EventListener.js:26:30
+ ❯ innerInvokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16
+ ❯ invokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3
+ ❯ HTMLButtonElementImpl._dispatch node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9
+ ❯ fireAnEvent node_modules/jsdom/lib/jsdom/living/helpers/events.js:18:36
+ ❯ HTMLButtonElementImpl.click node_modules/jsdom/lib/jsdom/living/nodes/HTMLElement-impl.js:85:5
+ ❯ HTMLButtonElement.click node_modules/jsdom/lib/generated/idl/HTMLElement.js:111:34
+
+This error originated in "tests/race-diagnostics-panel-routing.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "shows opt-in counters and downloads independent schema JSON with URL cleanup, including Results". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: target.matchMedia is not a function
+ ❯ isMobileSession src/app/mobileSession.ts:4:17
+      2|
+      3| export function isMobileSession(target: Window = window): boolean {
+      4|   return target.matchMedia(MOBILE_SESSION_QUERY).matches;
+       |                 ^
+      5| }
+      6|
+ ❯ renderGame src/app/mountAppShell.ts:393:27
+ ❯ HTMLDivElement.<anonymous> src/app/mountAppShell.ts:572:46
+ ❯ HTMLDivElement.callTheUserObjectsOperation node_modules/jsdom/lib/generated/idl/EventListener.js:26:30
+ ❯ innerInvokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16
+ ❯ invokeEventListeners node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3
+ ❯ HTMLButtonElementImpl._dispatch node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9
+ ❯ fireAnEvent node_modules/jsdom/lib/jsdom/living/helpers/events.js:18:36
+ ❯ HTMLButtonElementImpl.click node_modules/jsdom/lib/jsdom/living/nodes/HTMLElement-impl.js:85:5
+ ❯ HTMLButtonElement.click node_modules/jsdom/lib/generated/idl/HTMLElement.js:111:34
+
+This error originated in "tests/race-diagnostics-panel-routing.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "rejects stale callback/download after restart and shell disposal". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+     Errors  5 errors
+   Start at  17:27:59
+   Duration  5.98s (transform 187ms, setup 0ms, import 231ms, tests 5.14s, environment 480ms)
+

@@ -1,4 +1,6 @@
 import { MusicDirector } from '../audio/MusicDirector';
+import { racePerformanceFromSearch } from '../game/diagnostics/raceDiagnostics';
+import { mountRaceDiagnosticsPanel } from './raceDiagnosticsPanel';
 import { uiSfx, preloadUiSfx } from '../audio/uiSfx';
 import { Howler } from 'howler';
 import { resumeAudioContext } from '../audio/driftTone';
@@ -106,6 +108,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
   window.addEventListener('pageshow', onPageShow);
   onVisibility();
   let game: KartTimeTrialInstance | null = null;
+  let diagnosticsPanel: ReturnType<typeof mountRaceDiagnosticsPanel> | null = null;
   let characterPreview: CharacterKartPreview | null = null;
   let touchWheelDispose: (() => void) | null = null;
   let selectedCharacter = characterById('aa-02');
@@ -115,6 +118,8 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
 
   const disposeGame = (): void => {
     raceGeneration++;
+    diagnosticsPanel?.dispose();
+    diagnosticsPanel = null;
     touchWheelDispose?.();
     touchWheelDispose = null;
     game?.dispose();
@@ -393,6 +398,15 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     const mobileSession = isMobileSession();
     const touchControls = touchControlsMarkup(mobileSession);
     root.innerHTML = raceHudMarkup(touchControls);
+    const diagnosticsEnabled = racePerformanceFromSearch(window.location.search);
+    const racePanel = diagnosticsEnabled
+      ? mountRaceDiagnosticsPanel(root, (metadata) =>
+          !disposed && generation === raceGeneration
+            ? (game?.exportPerformanceCapture(metadata) ?? null)
+            : null,
+        )
+      : null;
+    diagnosticsPanel = racePanel;
 
     const canvas = root.querySelector<HTMLCanvasElement>('#game-canvas');
     if (canvas === null) throw new Error('Game canvas was not created.');
@@ -498,12 +512,19 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
       if (finish === null || finish.hidden) return;
       updateResultsPodium(finish, standings);
     };
-    game = await KartTimeTrial.create({
+    const createdGame = await KartTimeTrial.create({
       canvas,
       character: selectedCharacter,
       graphicsQuality: appSettings.graphics.quality,
       mobileSession,
       onHud: updateHud,
+      ...(racePanel === null
+        ? {}
+        : {
+            onDiagnostics: (snapshot) => {
+              if (!disposed && generation === raceGeneration) racePanel.update(snapshot);
+            },
+          }),
       onMusicState: (state) => {
         if (generation === raceGeneration) music.race(state);
       },
@@ -520,6 +541,12 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
         root.querySelector<HTMLElement>('#results-title')?.focus();
       },
     });
+    if (disposed || generation !== raceGeneration) {
+      createdGame.dispose();
+      racePanel?.dispose();
+      return;
+    }
+    game = createdGame;
     const loading = root.querySelector('#loading');
     if (loading !== null) loading.remove();
     canvas.focus();

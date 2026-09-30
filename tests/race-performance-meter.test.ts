@@ -51,7 +51,9 @@ describe('whole-race meter', () => {
   });
   it('retains raw stalls and pins quantiles and median reciprocal FPS', () => {
     const meter = new RacePerformanceMeter(true, 0);
-    [10, 20, 30, 100].forEach((ms) => meter.record(observation(ms)));
+    [10, 20, 30, 100].forEach((ms) => {
+      meter.record(observation(ms));
+    });
     expect(meter.snapshot()).toMatchObject({
       scoredFrames: 4,
       durationMs: 160,
@@ -67,7 +69,9 @@ describe('whole-race meter', () => {
   });
   it('rejects invalid/ineligible/boundary frames and warms only eligible frames once', () => {
     const meter = new RacePerformanceMeter(true, 2);
-    [NaN, Infinity, 0, -1].forEach((ms) => meter.record(observation(ms)));
+    [NaN, Infinity, 0, -1].forEach((ms) => {
+      meter.record(observation(ms));
+    });
     meter.record(observation(10, { phase: 'countdown' }));
     meter.record(observation(10, { paused: true }));
     meter.record(observation(10, { hidden: true }));
@@ -87,7 +91,9 @@ describe('whole-race meter', () => {
   });
   it('splits long-frame runs on boundaries without erasing previous samples', () => {
     const meter = new RacePerformanceMeter(true, 0);
-    [60, 70, 10, 80].forEach((ms) => meter.record(observation(ms)));
+    [60, 70, 10, 80].forEach((ms) => {
+      meter.record(observation(ms));
+    });
     expect(meter.snapshot()).toMatchObject({ over50msFrames: 3, longestOver50msRun: 2 });
     meter.record(observation(500, { boundary: true }));
     meter.record(observation(90));
@@ -99,7 +105,9 @@ describe('whole-race meter', () => {
   });
   it('bounds the original sample window explicitly and stops at authoritative finish', () => {
     const meter = new RacePerformanceMeter(true, 0, 2);
-    [10, 20, 250].forEach((ms) => meter.record(observation(ms)));
+    [10, 20, 250].forEach((ms) => {
+      meter.record(observation(ms));
+    });
     meter.record(observation(10, { phase: 'finished' }));
     meter.record(observation(99));
     const capture = meter.exportCapture(metadata);

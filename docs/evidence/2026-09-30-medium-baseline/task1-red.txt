@@ -1,0 +1,53 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/race-performance-meter.test.ts (0 test)
+ ❯ tests/renderer-counters.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-performance-meter.test.ts [ tests/race-performance-meter.test.ts ]
+Error: Failed to resolve import "../src/game/diagnostics/RacePerformanceMeter" from "tests/race-performance-meter.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem/tests/race-performance-meter.test.ts:2:37
+  1  |  import { describe, expect, it } from "vitest";
+  2  |  import { RacePerformanceMeter } from "../src/game/diagnostics/RacePerformanceMeter";
+     |                                        ^
+  3  |  import { racePerformanceFromSearch } from "../src/game/diagnostics/raceDiagnostics";
+  4  |  const metadata = {
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/node.js:31066:39
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/node.js:31063:14
+ ❯ normalizeUrl node_modules/vite/dist/node/chunks/node.js:28008:18
+ ❯ node_modules/vite/dist/node/chunks/node.js:28076:30
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/node.js:28044:4
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/node.js:30851:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/node.js:20619:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/renderer-counters.test.ts [ tests/renderer-counters.test.ts ]
+Error: Failed to resolve import "../src/game/diagnostics/RendererCounters" from "tests/renderer-counters.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem/tests/renderer-counters.test.ts:3:37
+  1  |  import { describe, expect, it, vi } from "vitest";
+  2  |  import { readRendererCounters } from "../src/game/diagnostics/RendererCounters";
+     |                                        ^
+  3  |  describe("renderer counter adapter", () => {
+  4  |  	it("reads frame totals and actual drawing buffer without additive memory or renderer mutation", () => {
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/node.js:31066:39
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/node.js:31063:14
+ ❯ normalizeUrl node_modules/vite/dist/node/chunks/node.js:28008:18
+ ❯ node_modules/vite/dist/node/chunks/node.js:28076:30
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/node.js:28044:4
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/node.js:30851:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/node.js:20619:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  no tests
+   Start at  17:23:52
+   Duration  722ms (transform 0ms, setup 0ms, import 0ms, tests 0ms, environment 991ms)
+

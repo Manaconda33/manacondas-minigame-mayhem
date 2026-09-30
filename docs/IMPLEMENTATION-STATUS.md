@@ -1,5 +1,7 @@
 # Implementation Status
 
+**Current audio checkpoint:** Music integrated listening PASSED by Manny; merge and production publication explicitly approved on 2026-09-30. PR #210 merged at `40f42c13a7700257aebc87cf7b8fe80e707e3837`. See the final music production publication record below. Earlier pending statements describe historical checkpoints. Broader Slice 6 release gates remain open.
+
 ## Current slice
 
 **Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization - Task 10 five-restart gate PASSED by Manny's mobile/desktop manual review; Task 11 complete Title → Hub → Character Select → Race → Results flow PASSED on desktop and mobile portrait/landscape; desktop/mobile HUD and Results/Podium checkpoints accepted; Task 11 plan-level scenario checks PASSED by Manny's review; broader Slice 6 release gates remain open.**
@@ -677,3 +679,14 @@ Draft PR #210: https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/21
 Owner-private full-game listening preview: https://manaconda-music-integration-review.manaconda2433.chatgpt.site. Root-base snapshot source commit `4f1eb6e45159f61a68a22f52d4325bd17d0b2ec9`, deployment `appgdep_6abd63e26a08819189b620f256cc312f`, succeeded on 2026-09-30. `/review-build.json` records canonical code commit/tree, local validation and all five approved asset hashes. Every snapshot WAV matched its approved hash before publication. This is a private compiled listening snapshot; GitHub remains canonical.
 
 Integrated listening, merge and separate production-publication approval are still pending. Main remains `dff4e409b54068c3053ec67b8fb3fb586d4dc383`; the public production game is unchanged. No review-branch Pages deployment or protection change was attempted. The initial private snapshot package rejected an unsupported static directory; it was corrected to supported `out` before successful publication.
+
+
+## Music integrated listening and production publication — LIVE, 2026-09-30
+
+Manny reported **“Good stuff. Integrated listening approved. Ready for merge & production publication.”** This closes integrated listening as **PASSED BY PRODUCT-OWNER REVIEW** and separately authorizes merge and production publication. PR #210 approval comment `5918828879` records the owner evidence; no additional browser/device measurements are inferred.
+
+PR #210 squash-merged to main at **`40f42c13a7700257aebc87cf7b8fe80e707e3837`**, tree `81d30cac025b0f71372c31efddf98a3388825b69`, identical to the accepted review tree. Post-merge CI/Pages run [36770873477](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36770873477) PASSED validation, LFS fsck, typecheck, zero-warning lint, tests, exact SFX/music/runtime asset gates, production and pinned Results-preview builds, artifact upload and protected-main Pages deployment. No workflow or environment protection was changed.
+
+Fresh local `npm run validate` also PASSED **81 test files / 642 tests**, strict typecheck, zero-warning lint, all asset gates and production build; `git lfs fsck` passed. Existing Vite large-bundle warning remains. Production URL: https://manaconda33.github.io/manacondas-minigame-mayhem/. All five actual revisioned runtime WAV URLs returned HTTP 200, matched their approved SHA-256 hashes and RIFF/WAVE signatures; the delivered entry module matched the accepted production build byte-for-byte. Delivery evidence: `docs/evidence/2026-09-30-music-production-delivery.json`. An initial delivery probe before deployment completed returned 404; the post-deployment verification passed all five exact runtime URLs.
+
+**Music: LIVE; asset listening and integrated listening accepted; publication approved and verified.** Earlier pending/review-only wording is historical. Existing SFX and Task 10/11 acceptance remain closed. Next recommended action: reconcile remaining broader Slice 6 browser/performance, final quality checklist and release evidence against the PRD. No next PRD slice is authorized; no duplicate music/SFX listening gate is required absent a regression.

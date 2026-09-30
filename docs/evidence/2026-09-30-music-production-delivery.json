@@ -1,0 +1,47 @@
+{
+  "production": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+  "runtime_commit": "40f42c13a7700257aebc87cf7b8fe80e707e3837",
+  "files": [
+    {
+      "file": "02-circuit-alpha-final-lap-loop.wav",
+      "sha256": "365ac335ebc5fa749fbd120825f52618c8611533207af6012f8764aa92828984",
+      "bytes": 11266248,
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/02-circuit-alpha-final-lap-loop.wav?v=365ac335ebc5",
+      "pass": true
+    },
+    {
+      "file": "01-circuit-alpha-race-loop.wav",
+      "sha256": "cfec5c73e40e62eb23a1fd2c5fc848abb0deda51e541825771ebc414725296fc",
+      "bytes": 22536296,
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/01-circuit-alpha-race-loop.wav?v=cfec5c73e40e",
+      "pass": true
+    },
+    {
+      "file": "05-finish-celebration-results-podium-loop.wav",
+      "sha256": "5ea686e2e63639ce05f2fd8cb94cbc9cabebaf23a9d093c9eafc6291fc71714d",
+      "bytes": 13054064,
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/05-finish-celebration-results-podium-loop.wav?v=5ea686e2e636",
+      "pass": true
+    },
+    {
+      "file": "04-grid-preparation-character-select-loop.wav",
+      "sha256": "0c8adfd4e6dc82982dfadff5d80b9e5d891aa74e7d1b0f98c89489ded834cd82",
+      "bytes": 12702072,
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/04-grid-preparation-character-select-loop.wav?v=0c8adfd4e6dc",
+      "pass": true
+    },
+    {
+      "file": "03-route-night-title-hub-loop.wav",
+      "sha256": "0eb3106d5935cc6e9fcd11368e35c991d3f370e23487e3c958414c59f49003c4",
+      "bytes": 10334732,
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/03-route-night-title-hub-loop.wav?v=0eb3106d5935",
+      "pass": true
+    }
+  ],
+  "module_bundles": [
+    "/manacondas-minigame-mayhem/assets/index-BjUNIlAr.js"
+  ],
+  "bundle_matches_accepted_build": true,
+  "ci_pages_run": 36770873477,
+  "integrated_listening": "PASSED BY PRODUCT-OWNER REVIEW"
+}

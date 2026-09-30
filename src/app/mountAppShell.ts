@@ -1,3 +1,4 @@
+import { MusicDirector } from '../audio/MusicDirector';
 import { uiSfx, preloadUiSfx } from '../audio/uiSfx';
 import { Howler } from 'howler';
 import { resumeAudioContext } from '../audio/driftTone';
@@ -87,7 +88,23 @@ function routeNightEditorialStripMarkup(): string {
   return `<div class="route-night-editorial-strip" data-route-asset="editorial-strip" aria-hidden="true"><img src="${routeNightAssetUrl('editorial-strip')}" alt="" loading="lazy" decoding="async" /></div>`;
 }
 
-export function mountAppShell(root: HTMLElement): void {
+export function mountAppShell(root: HTMLElement, music = new MusicDirector()): () => void {
+  let raceGeneration = 0;
+  let disposed = false;
+  let musicTimer: ReturnType<typeof setInterval> | undefined;
+  const onVisibility = (): void => {
+    music.visibility(document.hidden);
+  };
+  const onPageHide = (): void => {
+    music.visibility(true);
+  };
+  const onPageShow = (): void => {
+    music.visibility(document.hidden);
+  };
+  document.addEventListener('visibilitychange', onVisibility);
+  window.addEventListener('pagehide', onPageHide);
+  window.addEventListener('pageshow', onPageShow);
+  onVisibility();
   let game: KartTimeTrialInstance | null = null;
   let characterPreview: CharacterKartPreview | null = null;
   let touchWheelDispose: (() => void) | null = null;
@@ -97,6 +114,7 @@ export function mountAppShell(root: HTMLElement): void {
   audioMixer.configure(appSettings.audio);
 
   const disposeGame = (): void => {
+    raceGeneration++;
     touchWheelDispose?.();
     touchWheelDispose = null;
     game?.dispose();
@@ -105,10 +123,15 @@ export function mountAppShell(root: HTMLElement): void {
 
   const unlockAudio = async (): Promise<void> => {
     const context = (Howler as unknown as { ctx?: AudioContext | null }).ctx;
-    await resumeAudioContext(context);
+    await Promise.all([resumeAudioContext(context), music.unlock()]);
+    if (disposed) return;
+    musicTimer ??= setInterval(() => {
+      music.tick();
+    }, 50);
   };
 
   const renderTitle = (): void => {
+    music.route('hub');
     root.innerHTML = `
       <main class="screen title-screen route-night-screen" data-screen="title">
         <div class="route-night-backdrop title-backdrop" data-route-asset="title-hero" aria-hidden="true">
@@ -162,6 +185,7 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderMenu = (): void => {
+    music.route('hub');
     characterPreview?.dispose();
     characterPreview = null;
     root.innerHTML = `
@@ -229,6 +253,7 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderControls = (): void => {
+    music.route('hub');
     characterPreview?.dispose();
     characterPreview = null;
     root.innerHTML = `
@@ -269,6 +294,7 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderSettings = (): void => {
+    music.route('hub');
     characterPreview?.dispose();
     characterPreview = null;
     root.innerHTML = `
@@ -350,6 +376,7 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderCharacterSelect = (): void => {
+    music.route('select');
     characterPreview?.dispose();
     characterPreview = null;
     root.innerHTML = characterSelectMarkup(characterManifest, selectedCharacter);
@@ -359,6 +386,8 @@ export function mountAppShell(root: HTMLElement): void {
   };
 
   const renderGame = async (): Promise<void> => {
+    const generation = ++raceGeneration;
+    music.route(null);
     characterPreview?.dispose();
     characterPreview = null;
     const mobileSession = isMobileSession();
@@ -475,8 +504,13 @@ export function mountAppShell(root: HTMLElement): void {
       graphicsQuality: appSettings.graphics.quality,
       mobileSession,
       onHud: updateHud,
+      onMusicState: (state) => {
+        if (generation === raceGeneration) music.race(state);
+      },
       onStandings: renderStandings,
       onFinish: (result) => {
+        if (generation !== raceGeneration) return;
+        music.route('results');
         const gameShell = getElement('.game-shell');
         markGameFinished(gameShell);
         const finish = getElement('#finish');
@@ -566,4 +600,14 @@ export function mountAppShell(root: HTMLElement): void {
     if ((event.target as HTMLElement).matches('button')) uiSfx.play('ui-focus', { gain: 0.12 });
   });
   renderTitle();
+  return () => {
+    disposed = true;
+    disposeGame();
+    characterPreview?.dispose();
+    clearInterval(musicTimer);
+    music.dispose();
+    document.removeEventListener('visibilitychange', onVisibility);
+    window.removeEventListener('pagehide', onPageHide);
+    window.removeEventListener('pageshow', onPageShow);
+  };
 }

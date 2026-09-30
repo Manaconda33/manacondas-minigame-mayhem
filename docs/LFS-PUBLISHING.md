@@ -41,3 +41,7 @@ Lavi's Potato kart established this procedure on 2026-08-16. GitHub Actions run 
 Uploading a valid LFS object is not proof that the deployed game can use it. Any Pages workflow that builds runtime GLBs must check out with `lfs: true`, run `git lfs fsck`, and invoke the repository’s binary-signature gate before publishing `dist/`. The gate must reject an LFS pointer at a required runtime path.
 
 When bytes at a public runtime path change, update that character package’s controlled asset revision (or use a new filename) before requesting manual confirmation. A correct build can otherwise be masked by a browser or edge-cache response for an older bad object. Record the materialization run, deployment run, deployed commit, asset revision, and manual device result in `docs/IMPLEMENTATION-STATUS.md`.
+
+## Approved music runtime exception — 2026-09-30
+
+Manny explicitly requested an alternative to the blocked Git/LFS upload for the five supplied, edited, listening-approved revision 2 tracks. ADR-095 and the five exact `.gitattributes` paths classify those runtime WAVs as normal-Git delivery files. The connected GitHub binary blob API accepts their unchanged approved bytes. This exception does not apply to SFX, other music, source recordings, or future assets. Build verification enforces each approved SHA-256, WAV format and sample count. No temporary workflow or environment-protection change is needed.

@@ -3,7 +3,7 @@
 *.bat text eol=crlf
 *.cmd text eol=crlf
 
-# Git LFS: production 3D models and audio must never enter normal Git history.
+# Git LFS: production 3D models and audio, except the exact approved runtime paths below.
 *.glb filter=lfs diff=lfs merge=lfs -text
 *.gltf filter=lfs diff=lfs merge=lfs -text
 *.bin filter=lfs diff=lfs merge=lfs -text
@@ -35,3 +35,11 @@ public/assets/characters/**/results/*.png -filter -diff -merge -text
 
 # The approved fixed-size Results environment is an opaque runtime derivative.
 public/assets/ui/route-night/results-podium-backdrop.webp -filter -diff -merge -text
+
+# Manny requested an alternative to blocked LFS uploads for these five approved music loops.
+# Exact byte/hash inventory: assets/audio/music-review-v2/manifest.json; ADR-095.
+public/assets/audio/music-v2/01-circuit-alpha-race-loop.wav -filter -diff -merge -text
+public/assets/audio/music-v2/02-circuit-alpha-final-lap-loop.wav -filter -diff -merge -text
+public/assets/audio/music-v2/03-route-night-title-hub-loop.wav -filter -diff -merge -text
+public/assets/audio/music-v2/04-grid-preparation-character-select-loop.wav -filter -diff -merge -text
+public/assets/audio/music-v2/05-finish-celebration-results-podium-loop.wav -filter -diff -merge -text

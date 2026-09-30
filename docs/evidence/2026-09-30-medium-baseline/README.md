@@ -1,6 +1,9 @@
 # Medium baseline evidence index
 
-Current baseline measurement: **PENDING**. This is not a whole-race Medium pass.
+> **2026-09-30 owner scope update:** Manny selected the supplied mobile race result to replace the desktop Medium baseline requirement for this checkpoint. Baseline summary is recorded from the screenshot; the raw JSON attachment is unavailable/unverified. No further desktop capture is required for this checkpoint. See `docs/evidence/2026-09-30-medium-baseline/mobile-baseline.md` for metrics, provenance limits and target comparisons. Earlier desktop/pending instructions below describe the superseded capture scope. This does not assert measured desktop performance, a full PRD performance pass, or runtime merge/production approval.
+
+
+Current baseline: **RECORDED — owner-selected mobile screenshot summary**. Raw JSON is unverified; this is not a full PRD performance pass.
 
 Source of implementation: review/slice6-full-race-diagnostics; startup main b18d8dda2c97812b310dc321498609ee1f5a0436. PRD v1.1/amendments through 2.22; active Slice 6. Main CI/Pages 36784593002 passed. Review source SHA/URL and browser evidence are recorded below as publication completes.
 

@@ -1,5 +1,8 @@
 # Full-Race Diagnostics and Medium Baseline Implementation Plan
 
+> **2026-09-30 owner scope update:** Manny selected the supplied mobile race result to replace the desktop Medium baseline requirement for this checkpoint. Baseline summary is recorded from the screenshot; the raw JSON attachment is unavailable/unverified. No further desktop capture is required for this checkpoint. See `docs/evidence/2026-09-30-medium-baseline/mobile-baseline.md` for metrics, provenance limits and target comparisons. Earlier desktop/pending instructions below describe the superseded capture scope. This does not assert measured desktop performance, a full PRD performance pass, or runtime merge/production approval.
+
+
 > **For agentic workers:** Use superpowers:executing-plans for native, task-by-task execution. Steps use checkbox syntax. Do not delegate unless Manny requests it.
 
 **Goal:** Capture trustworthy whole-race frame timing and renderer counters so later Slice 6 effects and optimization are driven by measured evidence.

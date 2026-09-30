@@ -1,5 +1,8 @@
 # Whole-race Medium capture methodology
 
+> **2026-09-30 owner scope update:** Manny selected the supplied mobile race result to replace the desktop Medium baseline requirement for this checkpoint. Baseline summary is recorded from the screenshot; the raw JSON attachment is unavailable/unverified. No further desktop capture is required for this checkpoint. See `docs/evidence/2026-09-30-medium-baseline/mobile-baseline.md` for metrics, provenance limits and target comparisons. Earlier desktop/pending instructions below describe the superseded capture scope. This does not assert measured desktop performance, a full PRD performance pass, or runtime merge/production approval.
+
+
 Scope: PRD v1.1/amendments through 2.22, G-05, 2.6, 30, 35.7, 36.5. This instrumentation does not change targets or close Slice 6.
 
 ## Reproduce

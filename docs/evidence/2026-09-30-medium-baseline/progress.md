@@ -12,3 +12,7 @@ Final review: self-review (plan explicitly requires native execution/no delegati
 Ruling: separate diagnostic panel module owns DOM/listener cleanup and preserves the app callback/export contract. Cost if wrong: consolidate one module.
 Review PR: https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/212. Publication uses GitHub connector text commits; original approved asset bytes are unchanged. Compiled private snapshot remains supplementary to canonical GitHub.
 Task 3: methodology, explicit pending baseline index, owner-private permitted review and CI evidence complete. Runtime CI 36786989565 PASS; private deployment appgdep_6abd911e64a481919913462fcdaa5e12 succeeded. Hardware baseline and rendered-runtime smoke remain blocked/pending; no capture is invented. Stop at PR #212 for owner runtime review/merge/production approval.
+
+## Owner baseline substitution — 2026-09-30
+
+Manny explicitly replaced the desktop Medium prerequisite with the supplied mobile result. Saved screenshot transcription and provenance/attachment limits in mobile-baseline.md; reconciled current status, methodology, testing, plan and publication metadata. Raw JSON is unverified. p95/triangles meet reference targets; 59.9 FPS is below the literal 60 target and 321 draw calls exceed 250. No automatic performance pass, runtime change, merge, deployment or later-slice work.

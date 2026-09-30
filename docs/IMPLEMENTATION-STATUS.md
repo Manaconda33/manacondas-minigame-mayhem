@@ -1,5 +1,7 @@
 # Implementation Status
 
+**Current next task:** Full-race diagnostics / Medium baseline is authorized for native implementation in a new session. Read `docs/handoffs/2026-09-30-full-race-diagnostics.md` and the linked implementation plan. Graphics effects and runtime production publication remain separately gated.
+
 **Current audio checkpoint:** Music integrated listening PASSED by Manny; merge and production publication explicitly approved on 2026-09-30. PR #210 merged at `40f42c13a7700257aebc87cf7b8fe80e707e3837`. See the final music production publication record below. Earlier pending statements describe historical checkpoints. Broader Slice 6 release gates remain open.
 
 ## Current slice
@@ -690,3 +692,17 @@ PR #210 squash-merged to main at **`40f42c13a7700257aebc87cf7b8fe80e707e3837`**,
 Fresh local `npm run validate` also PASSED **81 test files / 642 tests**, strict typecheck, zero-warning lint, all asset gates and production build; `git lfs fsck` passed. Existing Vite large-bundle warning remains. Production URL: https://manaconda33.github.io/manacondas-minigame-mayhem/. All five actual revisioned runtime WAV URLs returned HTTP 200, matched their approved SHA-256 hashes and RIFF/WAVE signatures; the delivered entry module matched the accepted production build byte-for-byte. Delivery evidence: `docs/evidence/2026-09-30-music-production-delivery.json`. An initial delivery probe before deployment completed returned 404; the post-deployment verification passed all five exact runtime URLs.
 
 **Music: LIVE; asset listening and integrated listening accepted; publication approved and verified.** Earlier pending/review-only wording is historical. Existing SFX and Task 10/11 acceptance remain closed. Next recommended action: reconcile remaining broader Slice 6 browser/performance, final quality checklist and release evidence against the PRD. No next PRD slice is authorized; no duplicate music/SFX listening gate is required absent a regression.
+
+
+## Slice 6 graphics audit — 2026-09-30
+
+Manny authorized the graphics audit after accepted music publication. Pinned main baseline: `25ebe7996d7f9bbcae13142713118964d0d11123`. Audit report: `docs/SLICE-6-GRAPHICS-AUDIT-2026-09-30.md`. Source/evidence audit complete; all 109 TypeScript source files inspected. Existing lighting/shadows, asphalt PBR, preset persistence, item effects and WebGL2 render path are present. General drift/speed effects are partial; off-road dust, scene bloom and quality-dependent motion blur/disable control are missing. Full-race performance diagnostics and Medium/browser/release evidence remain open. RAF timing is clamped before HUD statistics; current Item/VFX meter is subsystem-only. Context-loss recovery and explicit runtime resource ownership require targeted investigation; no measured leak or performance failure is inferred.
+
+**Next recommended bounded increment:** opt-in full-race raw frame/counter capture and resource-budget baseline, before more costly VFX/post-processing. This audit changes no gameplay, runtime, assets, settings or PRD. All Task 10/11, restart, SFX and music approvals remain PASSED. Main CI/Pages run `36771534267` was observed passing; no new device measurements or local rerun are claimed. Later graphics implementation/publication and Slice 6 final closure require applicable approval; no next slice is authorized.
+
+
+## Full-race diagnostics implementation handoff ready — 2026-09-30
+
+Manny aligned with the audit recommendation and instructed: “I'm aligned with this - set everything up in the repo so I can hand off to a new session to get started.” The approved bounded next scope is opt-in raw whole-frame diagnostics, renderer counters, JSON export and a current Medium baseline. Native execution begins with Task 1 of `docs/superpowers/plans/2026-09-30-full-race-diagnostics-medium-baseline.md`; session instructions are in `docs/handoffs/2026-09-30-full-race-diagnostics.md`. No duplicate audit or scope approval is needed. This checkpoint contains preparation/documentation only; diagnostics runtime is NOT implemented and no new performance capture exists.
+
+Preserve all previously accepted owner gates. Implement in an isolated review branch; verify with actual focused/full tests and hosted CI; provide a permitted review preview and measured capture or honest blocker. Runtime merge/production publication and later effects require approval. No next slice is authorized. Plan defaults describe instrumentation semantics, not new PRD thresholds. Earlier audit-only authorization wording predates this continuation instruction.

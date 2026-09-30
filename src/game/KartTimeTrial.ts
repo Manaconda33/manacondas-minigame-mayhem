@@ -1,3 +1,4 @@
+import type { RaceMusicState } from '../audio/musicCatalog';
 import { RaceSfx } from '../audio/RaceSfx';
 import { itemImpactCue } from '../audio/itemSoundCues';
 import { uiSfx } from '../audio/uiSfx';
@@ -158,6 +159,7 @@ export interface TimeTrialOptions {
   graphicsQuality: GraphicsQuality;
   mobileSession: boolean;
   onHud: (state: HudState) => void;
+  onMusicState?: (state: RaceMusicState) => void;
   onFinish: (result: RaceResult) => void;
   onStandings?: (standings: RaceResult['standings']) => void;
 }
@@ -1792,6 +1794,12 @@ export class KartTimeTrial {
       },
     };
     this.options.onHud(soundHud);
+    this.options.onMusicState?.({
+      phase: this.raceDirector.phase(this.playerProgress.finished),
+      lap: soundHud.lap,
+      paused: this.paused,
+      prismatic: soundHud.prismaticSeconds > 0,
+    });
     this.raceAudioIfPresent()?.update(
       {
         paused: this.paused || document.hidden,

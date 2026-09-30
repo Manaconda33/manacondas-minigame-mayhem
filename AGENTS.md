@@ -17,7 +17,7 @@ For character work:
 
 For binary assets:
 
-- Follow `.gitattributes` and ADR-012. Never place an LFS-governed asset into normal Git as a workaround.
+- Follow `.gitattributes` and ADR-012. Never place an LFS-governed asset into normal Git as a workaround. ADR-095 records Manny's explicit alternative-path instruction and the five exact approved music-v2 runtime WAV exceptions in `.gitattributes`; all other audio stays LFS-governed.
 - Use normal authenticated Git and Git LFS when the environment can reach GitHub.
 - When a hosted Work environment cannot push directly, use the GitHub Actions bridge in `docs/LFS-PUBLISHING.md` only for assets that committed source can reproduce byte-for-byte.
 - If an asset cannot be reproduced to its approved LFS object ID, stop and request an authenticated external Git/LFS handoff.

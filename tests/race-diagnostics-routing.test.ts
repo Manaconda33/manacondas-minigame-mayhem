@@ -7,6 +7,11 @@ import type { RaceCaptureMetadata } from '../src/game/diagnostics/raceDiagnostic
 const harness = vi.hoisted(() => ({
   raf: null as FrameRequestCallback | null,
   reads: [] as string[],
+  loadedKarts: false,
+  animatedKarts: false,
+  deferAi: false,
+  loaderCalls: 0,
+  pendingAi: [] as (() => void)[],
 }));
 vi.mock('three', async (importOriginal) => {
   const actual = await importOriginal<typeof THREE>();
@@ -43,13 +48,37 @@ vi.mock('three', async (importOriginal) => {
     },
   };
 });
-vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({
-  GLTFLoader: class {
-    loadAsync() {
-      return Promise.resolve({ scene: new THREE.Group() });
-    }
-  },
-}));
+vi.mock('three/examples/jsm/loaders/GLTFLoader.js', async () => {
+  const actual = await vi.importActual<typeof THREE>('three');
+  return {
+    GLTFLoader: class {
+      loadAsync() {
+        const scene = new actual.Group();
+        if (harness.loadedKarts) {
+          const material = new actual.MeshStandardMaterial();
+          for (let i = 0; i < 3; i += 1) {
+            const mesh = new actual.Mesh(new actual.BoxGeometry(), material);
+            mesh.position.x = i;
+            scene.add(mesh);
+          }
+          const wheel = new actual.Mesh(new actual.BoxGeometry(), material);
+          wheel.name = 'SteeringWheel';
+          scene.add(wheel);
+        }
+        const result = {
+          scene,
+          animations: harness.animatedKarts ? [new actual.AnimationClip()] : [],
+        };
+        harness.loaderCalls += 1;
+        if (harness.deferAi && harness.loaderCalls <= 7)
+          return new Promise<typeof result>((resolve) => {
+            harness.pendingAi.push(() => { resolve(result); });
+          });
+        return Promise.resolve(result);
+      }
+    },
+  };
+});
 const metadata: RaceCaptureMetadata = {
   schemaVersion: 1,
   sourceCommit: null,
@@ -122,6 +151,11 @@ async function setup(query = '?testRacePerf=1') {
 }
 beforeEach(() => {
   harness.reads.length = 0;
+  harness.loadedKarts = false;
+  harness.animatedKarts = false;
+  harness.deferAi = false;
+  harness.loaderCalls = 0;
+  harness.pendingAi.length = 0;
   vi.spyOn(performance, 'now').mockReturnValue(0);
   vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
     harness.raf = cb;
@@ -204,4 +238,56 @@ describe('real race RAF diagnostics wiring', () => {
       expect(r.callback).not.toHaveBeenCalled();
     },
   );
+});
+
+describe('loaded kart optimization routing', () => {
+  it('retains animated models without batching their moving parts', async () => {
+    harness.loadedKarts = true;
+    harness.animatedKarts = true;
+    const r = await setup();
+    const scene = (r.game as unknown as { scene: THREE.Scene }).scene;
+    const batches: THREE.Object3D[] = [];
+    scene.traverse((object) => {
+      if (object.name === 'batched-static-kart-parts') batches.push(object);
+    });
+    expect(batches).toHaveLength(0);
+  });
+  it('does not install or batch AI models that arrive after race disposal', async () => {
+    harness.loadedKarts = true;
+    harness.deferAi = true;
+    const r = await setup();
+    const scene = (r.game as unknown as { scene: THREE.Scene }).scene;
+    const batches = (): number => {
+      let count = 0;
+      scene.traverse((object) => {
+        if (object.name === 'batched-static-kart-parts') count += 1;
+      });
+      return count;
+    };
+    expect(harness.pendingAi).toHaveLength(7);
+    expect(batches()).toBe(1);
+    r.game.dispose();
+    for (const resolve of harness.pendingAi.splice(0)) resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(batches()).toBe(1);
+  });
+  it('batches both player and seven AI karts and releases owned geometry on race disposal', async () => {
+    harness.loadedKarts = true;
+    const r = await setup();
+    const scene = (r.game as unknown as { scene: THREE.Scene }).scene;
+    const batches: THREE.Mesh[] = [];
+    scene.traverse((object) => {
+      if (object instanceof THREE.Mesh && object.name === 'batched-static-kart-parts')
+        batches.push(object as THREE.Mesh);
+    });
+    expect(batches).toHaveLength(8);
+    let disposed = 0;
+    for (const mesh of batches)
+      mesh.geometry.addEventListener('dispose', () => {
+        disposed += 1;
+      });
+    r.game.dispose();
+    expect(disposed).toBe(8);
+  });
 });

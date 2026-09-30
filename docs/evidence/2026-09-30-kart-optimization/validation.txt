@@ -1,0 +1,175 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 validate
+> npm run typecheck && npm run lint && npm run test:ci && npm run build
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 typecheck
+> tsc -b --pretty false
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 lint
+> eslint . --max-warnings 0
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 test:ci
+> vitest run --coverage
+
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+      Coverage enabled with v8
+
+
+ Test Files  86 passed (86)
+      Tests  682 passed (682)
+   Start at  18:37:02
+   Duration  18.94s (transform 3.71s, setup 0ms, import 10.71s, tests 34.91s, environment 57.47s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   86.86 |    78.05 |   88.51 |    89.2 |                   
+ src/app           |   82.55 |    59.76 |   86.95 |   84.92 |                   
+  itemHud.ts       |   94.56 |     87.5 |   85.71 |   96.66 | 39-41             
+  mountAppShell.ts |   71.68 |    53.74 |   82.05 |   73.04 | ...95,555-571,627 
+  ...sticsPanel.ts |    92.5 |    48.14 |     100 |     100 | 22-69             
+  raceMinimap.ts   |   93.33 |    43.75 |      80 |   96.36 | 33,40             
+  touchWheel.ts    |   96.29 |    72.72 |     100 |     100 | 22-25,45-67       
+ src/audio         |   86.31 |    81.19 |   83.33 |   89.85 |                   
+  ArcBladeAudio.ts |   98.03 |      100 |    87.5 |     100 |                   
+  ...ammerAudio.ts |   58.82 |    35.29 |      75 |   63.04 | ...54,60-62,68-75 
+  FrostAudio.ts    |   96.55 |      100 |     100 |   96.55 | 37                
+  ...ocketAudio.ts |   84.88 |    84.61 |   84.61 |   89.47 | ...4,60-62,96,112 
+  InkSplatAudio.ts |   87.23 |      100 |   77.77 |   88.88 | 52-54,60-61       
+  MusicDirector.ts |   95.89 |    92.02 |     100 |   98.43 | 149-150           
+  ...driveAudio.ts |   83.92 |    91.66 |      75 |   86.79 | 29,66-68,74-76    
+  ...maticMusic.ts |   98.27 |    96.15 |    87.5 |     100 | 54                
+  RaceSfx.ts       |   71.77 |     68.3 |   58.82 |   79.04 | ...87-191,195-201 
+  ...rningAudio.ts |   88.88 |    93.54 |      75 |   89.47 | 84-88,94          
+  SfxBank.ts       |   87.03 |    90.27 |   86.95 |    90.1 | ...47-148,151,160 
+  ...usicOutput.ts |   91.34 |    88.46 |   86.66 |   97.56 | 52,83             
+  blazeTone.ts     |   61.11 |    15.38 |     100 |   58.82 | 11-17,28          
+  driftTone.ts     |   88.46 |    66.66 |     100 |   95.45 | 12                
+  itemSoundCues.ts |   66.66 |       50 |   66.66 |      80 | 45-46             
+  uiSfx.ts         |     100 |       50 |     100 |     100 | 11                
+ src/characters    |   90.41 |    79.48 |     100 |    90.9 |                   
+  manifest.ts      |   88.33 |    78.12 |     100 |   89.28 | ...21,634,637,640 
+  raceRoster.ts    |     100 |    85.71 |     100 |     100 | 18                
+ src/config        |   93.44 |    87.17 |     100 |   98.07 |                   
+  gameSettings.ts  |   87.09 |    77.27 |     100 |   96.29 | 65                
+ src/game          |   59.57 |     43.1 |   49.23 |   61.07 |                   
+  KartTimeTrial.ts |   59.34 |    42.83 |   48.03 |   60.86 | ...2285,2299-2315 
+  raceResults.ts   |     100 |     62.5 |     100 |     100 | 33-37,40          
+ src/game/ai       |   91.28 |    85.21 |   93.33 |   94.46 |                   
+  AiDriver.ts      |   98.29 |    93.97 |   94.73 |   99.05 | 193               
+  AiItemPolicy.ts  |    76.4 |    73.87 |    87.5 |      84 | ...18,226-227,260 
+ src/game/camera   |   98.07 |    95.34 |     100 |     100 |                   
+  ...meraAnchor.ts |   94.11 |    85.71 |     100 |     100 | 10,22             
+ ...me/diagnostics |   98.33 |    91.22 |     100 |   98.07 |                   
+  ...manceMeter.ts |   98.24 |    91.22 |     100 |   97.95 | 43                
+ src/game/driver   |      96 |    97.87 |     100 |     100 |                   
+  ...priteState.ts |      96 |    97.87 |     100 |     100 | 59                
+ src/game/input    |     100 |    88.23 |     100 |     100 |                   
+  ...layerDrive.ts |     100 |    88.23 |     100 |     100 | 31-37             
+ src/game/items    |   92.48 |    86.21 |   97.23 |    95.3 |                   
+  ...sileSystem.ts |   97.41 |    95.18 |     100 |   98.03 | 188-189           
+  ...esentation.ts |     100 |    77.27 |     100 |     100 | 73-74,81-84,93    
+  ArcBlade.ts      |   97.79 |    88.23 |     100 |   98.34 | 213-214           
+  ...terFixture.ts |   80.73 |    84.49 |     100 |   81.91 | ...58,161-162,191 
+  ...ladeVisual.ts |   98.24 |    93.61 |     100 |     100 | 21,87,143         
+  ...terFixture.ts |   66.66 |    63.86 |      75 |   69.66 | ...74,177-178,194 
+  ...mmerVisual.ts |   93.79 |    70.27 |   94.44 |    99.1 | 210               
+  ArcHammers.ts    |    90.9 |       75 |     100 |     100 | 49,91-96          
+  FrostFixture.ts  |   77.97 |    86.66 |   73.68 |   82.85 | ...51,259,264-267 
+  FrostVisual.ts   |   97.72 |    84.61 |     100 |     100 | 23,67             
+  HazardSystem.ts  |   98.71 |     95.8 |     100 |     100 | ...59,396-406,419 
+  ...riveRocket.ts |   95.23 |     90.9 |     100 |     100 | 56,88             
+  ...pexFixture.ts |     100 |    91.66 |     100 |     100 | 26                
+  ...kerFixture.ts |    90.9 |    85.71 |     100 |     100 | 23                
+  ...terFixture.ts |   73.33 |       70 |    90.9 |   77.61 | ...99-100,120-121 
+  ...platSystem.ts |   96.07 |       90 |     100 |     100 | 77,115            
+  ItemBoxSystem.ts |      93 |    70.83 |     100 |   96.51 | 229-231           
+  ...Dispatcher.ts |   87.91 |    85.95 |     100 |   95.94 | 75,108,170        
+  ItemInventory.ts |   92.85 |     87.5 |     100 |     100 | 30                
+  ...manceMeter.ts |   88.88 |    80.48 |   91.66 |   93.47 | 96,143,145        
+  ...csCapacity.ts |   93.33 |       75 |     100 |     100 | 17                
+  ItemSelector.ts  |   96.66 |      100 |     100 |   96.42 | 83                
+  ItemSystem.ts    |   95.29 |       90 |     100 |     100 | ...32,142,160,189 
+  ItemTargeting.ts |     100 |    93.33 |     100 |     100 | 26                
+  ...oOverdrive.ts |    91.3 |     87.5 |     100 |     100 | 38,55,63,116      
+  ...terFixture.ts |   86.76 |    86.66 |     100 |    90.9 | ...65,211-212,223 
+  ...aticSystem.ts |   97.95 |    93.93 |     100 |     100 | 54,75             
+  ...aticVisual.ts |   98.59 |    83.33 |     100 |     100 | 8-9,86            
+  ...tileSystem.ts |   93.53 |    87.08 |      96 |   95.56 | ...5-886,917,1008 
+  RacerEffects.ts  |   95.48 |    94.28 |     100 |   98.37 | 276-277           
+  ...tAutopilot.ts |   89.28 |    54.83 |     100 |   92.59 | 63-64             
+  ...erWarnings.ts |   95.55 |    83.33 |     100 |     100 | 18,26,63,75       
+  ...terFixture.ts |   83.58 |    77.08 |     100 |   92.59 | 33-34,127-128     
+  ...waveSystem.ts |   97.02 |    93.18 |     100 |    98.9 | 122               
+ src/game/physics  |   97.04 |    92.61 |   96.77 |   98.24 |                   
+  ...StepRunner.ts |    90.9 |      100 |   66.66 |    90.9 | 23                
+  ...Controller.ts |   97.22 |    92.41 |     100 |   98.55 | 206,238-239       
+ src/game/race     |   89.02 |    83.01 |     100 |   95.71 |                   
+  ...kpointGate.ts |   88.88 |    77.77 |     100 |     100 | 20,32             
+  RaceDirector.ts  |      75 |    66.66 |     100 |   86.36 | 15-17             
+ ...game/rendering |   95.65 |    91.66 |     100 |     100 |                   
+  ...KartMeshes.ts |   95.65 |    91.66 |     100 |     100 | 37,64-72          
+ src/game/track    |   98.12 |    76.43 |   97.77 |   99.33 |                   
+  CircuitAlpha.ts  |    92.3 |       75 |    90.9 |   95.83 | 116-117           
+  ...railSystem.ts |   98.21 |    85.71 |     100 |     100 | 41,92             
+  ...oordinates.ts |     100 |    69.23 |     100 |     100 | 34,52-66,102-103  
+  ...eResources.ts |   88.23 |       80 |     100 |    92.3 | 43-44             
+  ...TrackScene.ts |   99.26 |    76.66 |     100 |     100 | ...44,491-692,709 
+ src/game/ui       |   91.17 |       60 |     100 |     100 |                   
+  Minimap.ts       |   91.17 |       60 |     100 |     100 | 31-72             
+ src/ui            |   77.81 |    62.22 |    87.3 |   79.24 |                   
+  ...artPreview.ts |   66.45 |    32.85 |   66.66 |    67.8 | ...01-204,226-268 
+  ...cterSelect.ts |   77.27 |    51.85 |     100 |   84.21 | 71-73             
+  raceAssets.ts    |   92.85 |    92.85 |     100 |     100 | 41                
+  resultsPodium.ts |    93.1 |    77.89 |   89.65 |   93.58 | 8-15,65-72        
+  routeNight.ts    |     100 |    84.21 |     100 |     100 | 90,102,106        
+ tests             |   97.95 |       70 |     100 |     100 |                   
+  ...untime-rig.ts |     100 |    66.66 |     100 |     100 | 36-37             
+  requireValue.ts  |   66.66 |       75 |     100 |     100 | 2                 
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 86.86% ( 6930/7978 )
+Branches     : 78.05% ( 3848/4930 )
+Functions    : 88.51% ( 979/1106 )
+Lines        : 89.2% ( 6353/7122 )
+================================================================================
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 build
+> tsc -b && node tools/verify-sfx-assets.mjs && node tools/verify-music-assets.mjs && node tools/verify-branding.mjs && node tools/verify-runtime-assets.mjs && vite build
+
+Verified 96 listening-approved runtime SFX hashes and WAV signatures.
+Verified all five approved music hashes, stereo PCM16/48kHz WAVs and loop sample counts.
+Verified Manaconda's Minigame Mayhem branding.
+Verified 10 archived Cleo asset hashes.
+Verified 3 materialized runtime track textures.
+Verified 18 approved Results/Podium assets.
+Verified the approved Route Night Results/Podium backdrop WebP.
+Verified 36 materialized runtime GLBs.
+Decoded and verified 135 runtime character PNGs.
+vite v8.2.1 building client environment for production...
+[2K
+transforming...✓ 127 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                            0.71 kB │ gzip:     0.39 kB
+dist/assets/index-B7Jt5ma7.css            84.73 kB │ gzip:    17.16 kB
+dist/assets/index-Cu9IB3ld.js            797.30 kB │ gzip:   207.43 kB
+dist/assets/KartTimeTrial-bLrloTsu.js  3,084.38 kB │ gzip: 1,160.41 kB
+
+✓ built in 443ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

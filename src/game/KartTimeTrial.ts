@@ -1,3 +1,6 @@
+import { RaceSfx } from '../audio/RaceSfx';
+import { itemImpactCue } from '../audio/itemSoundCues';
+import { uiSfx } from '../audio/uiSfx';
 import { PrismaticSystem, PRISMATIC } from './items/PrismaticSystem';
 import { FROST } from './items/FrostOrbs';
 import { FrostVisual } from './items/FrostVisual';
@@ -194,6 +197,8 @@ interface OpponentVisual {
 }
 
 export class KartTimeTrial {
+  private readonly raceAudio = new RaceSfx();
+  private audioApexPhase = '';
   private readonly renderer: THREE.WebGLRenderer;
   private readonly scene = new THREE.Scene();
   private readonly camera: THREE.PerspectiveCamera;
@@ -297,6 +302,11 @@ export class KartTimeTrial {
     this.itemPhysicsCapacity,
     (event) => {
       this.arcFixture.observe(event, this.arcEvidence());
+      if (event.kind === 'hit')
+        this.raceAudioIfPresent()?.cue(
+          'arc-blade-impact',
+          this.projectiles.snapshots().find((projectile) => projectile.id === event.id)?.position,
+        );
     },
     (position) => this.slickGround.at(position),
   );
@@ -331,6 +341,12 @@ export class KartTimeTrial {
   }
 
   private constructor(private readonly options: TimeTrialOptions) {
+    this.projectiles.setSoundListener((cue, position) => {
+      this.raceAudio.cue(cue, position);
+    });
+    this.hazards.setSoundListener((cue, position) => {
+      this.raceAudio.cue(cue, position);
+    });
     const graphics = graphicsQualityProfile(options.graphicsQuality);
     this.renderer = new THREE.WebGLRenderer({ canvas: options.canvas, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, graphics.pixelRatioCap));
@@ -402,11 +418,13 @@ export class KartTimeTrial {
   }
 
   public dispose(): void {
+    this.raceAudioIfPresent()?.dispose();
     this.touchWheel = { held: false, steering: 0 };
     cancelAnimationFrame(this.animationFrame);
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
     window.removeEventListener('resize', this.resize);
+    document.removeEventListener('visibilitychange', this.onAudioVisibilityChange);
     this.itemBoxes.dispose();
     this.itemSystem.dispose();
     this.nitroOverdrive.dispose();
@@ -588,7 +606,7 @@ export class KartTimeTrial {
     const rocketAfterAdvance = this.hyperDriveRocketSnapshot();
     this.stopItemSimulationTiming(itemCpuStart);
     if (rocketBeforeAdvance.active && !rocketAfterAdvance.active)
-      this.hyperDriveRocketAudioIfPresent()?.play('return', audioMixer.volume('sfx'));
+      this.hyperDriveRocketAudioIfPresent()?.play('return', this.legacySfxVolume());
 
     itemCpuStart = this.startItemSimulationTiming();
     this.racerEffects.advance(dt, false, false);
@@ -873,26 +891,39 @@ export class KartTimeTrial {
 
     if (decision.action === 'wait') return;
     if (decision.action === 'pulse') {
-      this.nitroOverdrive.pulse(opponent.id);
+      if (this.nitroOverdrive.pulse(opponent.id))
+        this.raceAudioIfPresent()?.cue('overdrive-pulse', opponent.controller.position(), 0.4);
       return;
     }
 
-    executeItemUse(this.itemSystem, this.racerEffects, opponent.id, decision.direction, {
-      racers,
-      projectileSystem: this.projectiles,
-      projectileLaunch: {
-        position: opponent.controller.position(),
-        forward: opponent.controller.forward(),
-        velocity: opponent.controller.velocity(),
+    const itemResult = executeItemUse(
+      this.itemSystem,
+      this.racerEffects,
+      opponent.id,
+      decision.direction,
+      {
+        racers,
+        projectileSystem: this.projectiles,
+        projectileLaunch: {
+          position: opponent.controller.position(),
+          forward: opponent.controller.forward(),
+          velocity: opponent.controller.velocity(),
+        },
+        apexSystem: this.apex,
+        hazardSystem: this.hazards,
+        shockwaveSystem: this.shockwave,
+        prismaticSystem: this.prismatic,
+        inkSplatSystem: this.inkSplat,
+        onInkResolution: (resolution) => {
+          if (resolution.appliedTargetIds.includes('player'))
+            this.raceAudioIfPresent()?.cue('ink-impact', undefined, 0.4);
+        },
+        nitroOverdriveSystem: this.nitroOverdrive,
+        hyperDriveRocketSystem: this.hyperDriveRocket,
       },
-      apexSystem: this.apex,
-      hazardSystem: this.hazards,
-      shockwaveSystem: this.shockwave,
-      prismaticSystem: this.prismatic,
-      inkSplatSystem: this.inkSplat,
-      nitroOverdriveSystem: this.nitroOverdrive,
-      hyperDriveRocketSystem: this.hyperDriveRocket,
-    });
+    );
+    if (itemResult === 'activated')
+      this.raceAudioIfPresent()?.itemUse(heldItem.itemId, true, opponent.controller.position());
   }
 
   private resolveKartContacts(dt: number): void {
@@ -956,6 +987,12 @@ export class KartTimeTrial {
           );
           this.activateDriverHit(b.id);
         }
+        if (a.id === 'player' || b.id === 'player')
+          this.raceAudioIfPresent()?.cue(
+            closingSpeed > 6 ? 'kart-contact-heavy' : 'kart-contact-light',
+            undefined,
+            0.45,
+          );
         this.contactCooldowns.set(key, 0.18);
       }
     }
@@ -999,6 +1036,8 @@ export class KartTimeTrial {
       );
       if (outwardSpeed > 1.5 && !this.guardrailContactCooldowns.has(racer.id)) {
         this.activateDriverHit(racer.id, 0.28);
+        if (racer.id === 'player')
+          this.raceAudioIfPresent()?.cue('guardrail-impact', undefined, 0.45);
       }
       if (!this.guardrailContactCooldowns.has(racer.id)) {
         this.guardrailContactCooldowns.set(racer.id, 0.24);
@@ -1021,7 +1060,10 @@ export class KartTimeTrial {
           blocked: boolean,
           objectId?: number,
         ) => {
-          if (blocked) this.prismaticVisual.blocked();
+          if (blocked) {
+            this.prismaticVisual.blocked();
+            this.raceAudioIfPresent()?.cue('prismatic-block', undefined, 0.5);
+          }
           this.prismaticFixture.observe(itemId, blocked, 'player', objectId);
           if (itemId === 'arc-hammers')
             this.arcHammerFixture.observeContact(objectId, blocked, this.arcEvidence());
@@ -1231,6 +1273,11 @@ export class KartTimeTrial {
       this.hazards,
     );
     for (const impact of impacts) {
+      if (impact.itemId === 'slick-trap')
+        this.raceAudioIfPresent()?.cue(
+          itemImpactCue(impact.itemId),
+          targets.find((target) => target.id === impact.targetId)?.position,
+        );
       if (impact.effect === 'frost') continue;
       const definition = ITEM_DEFINITIONS[impact.itemId];
       const activated = this.racerEffects.activateSpinout(impact.targetId, {
@@ -1389,8 +1436,10 @@ export class KartTimeTrial {
       return;
     const nitroOverdrive = this.nitroOverdriveIfPresent();
     if (nitroOverdrive?.isActive('player')) {
-      if (nitroOverdrive.pulse('player'))
-        this.nitroOverdriveAudioIfPresent()?.play('pulse', audioMixer.volume('sfx'));
+      if (nitroOverdrive.pulse('player')) {
+        this.raceAudioIfPresent()?.cue('overdrive-pulse');
+        this.nitroOverdriveAudioIfPresent()?.play('pulse', this.legacySfxVolume());
+      }
       return;
     }
     const heldItemId = this.itemSystem.heldItem('player')?.itemId;
@@ -1423,7 +1472,19 @@ export class KartTimeTrial {
         nitroOverdriveSystem: nitroOverdrive,
         hyperDriveRocketSystem: hyperDriveRocket,
         onInkResolution: (resolution) => {
-          if (resolution.accepted) this.inkAudioIfPresent()?.play(audioMixer.volume('sfx'));
+          if (resolution.accepted) {
+            this.inkAudioIfPresent()?.play(this.legacySfxVolume());
+            for (const targetId of resolution.appliedTargetIds)
+              this.raceAudioIfPresent()?.cue(
+                'ink-impact',
+                targetId === 'player'
+                  ? undefined
+                  : this.opponents
+                      .find((opponent) => opponent.id === targetId)
+                      ?.controller.position(),
+                0.4,
+              );
+          }
         },
         projectileLaunch: {
           position: this.kart.position(),
@@ -1433,17 +1494,18 @@ export class KartTimeTrial {
       },
     );
     if (heldItemId === 'nitro-overdrive' && result === 'activated')
-      this.nitroOverdriveAudioIfPresent()?.play('activate', audioMixer.volume('sfx'));
+      this.nitroOverdriveAudioIfPresent()?.play('activate', this.legacySfxVolume());
     if (heldItemId === 'nitro-overdrive' && result === 'rejected') {
       this.itemUseMessage = 'OVERDRIVE NOT READY · ITEM HELD';
       this.itemUseMessageSeconds = 1.5;
     }
     if (heldItemId === 'hyper-drive-rocket' && result === 'activated')
-      this.hyperDriveRocketAudioIfPresent()?.play('activate', audioMixer.volume('sfx'));
+      this.hyperDriveRocketAudioIfPresent()?.play('activate', this.legacySfxVolume());
     if (heldItemId === 'hyper-drive-rocket' && result === 'rejected') {
       this.itemUseMessage = 'ROCKET NOT READY · ITEM HELD';
       this.itemUseMessageSeconds = 1.5;
     }
+    this.raceAudioIfPresent()?.itemUse(heldItemId, result === 'activated', this.kart.position());
     if (this.itemSystem.heldItem('player')?.itemId === 'arc-blade' && result === 'rejected') {
       const cooldown = this.itemSystem.useCooldownRemaining('player');
       this.itemUseMessage =
@@ -1490,6 +1552,7 @@ export class KartTimeTrial {
   }
 
   private respawn(): void {
+    this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
     this.arcFixture.cancel(this.projectiles);
     this.arcHammerFixture.cancel(this.projectiles);
     this.projectiles.cancelOwnerArcs('player');
@@ -1572,7 +1635,7 @@ export class KartTimeTrial {
     }
     if (feedback.driftTier !== this.lastToneTier && feedback.driftTier !== 'none') {
       const context = (Howler as unknown as { ctx?: AudioContext | null }).ctx;
-      playDriftTierTone(feedback.driftTier, context, audioMixer.volume('sfx'));
+      playDriftTierTone(feedback.driftTier, context, this.legacySfxVolume());
     }
     this.lastToneTier = feedback.driftTier;
     let itemVfxStart = this.startItemVfxTiming();
@@ -1593,21 +1656,22 @@ export class KartTimeTrial {
     this.seekerWarning = threats.find((threat) => threat.targetId === 'player')?.level ?? null;
     this.seekerWarningVisual.update(threats, targets, this.elapsed);
     this.stopItemVfxTiming(itemVfxStart);
-    this.seekerWarningAudio.update(this.seekerWarning, dt, audioMixer.volume('sfx'), this.paused);
+    this.seekerWarningAudio.update(this.seekerWarning, dt, this.legacySfxVolume(), this.paused);
     const apexWarning = this.apex.warningFor('player');
     this.apexWarningAudio.update(
       apexWarning === null ? null : apexWarning === 'diving' ? 3 : 2,
       dt,
-      audioMixer.volume('sfx'),
+      this.legacySfxVolume(),
       this.paused,
     );
     itemVfxStart = this.startItemVfxTiming();
-    this.apexPresentation.update(
-      this.apex.snapshot(),
-      targets,
-      this.apex.drainBlasts(),
-      this.paused ? 0 : dt,
-    );
+    const audioApex = this.apex.snapshot();
+    if (audioApex?.phase === 'dive' && this.audioApexPhase !== 'dive')
+      this.raceAudioIfPresent()?.cue('apex-dive', audioApex.position);
+    this.audioApexPhase = audioApex?.phase ?? '';
+    const audioBlasts = this.apex.drainBlasts();
+    for (const position of audioBlasts) this.raceAudioIfPresent()?.cue('apex-explosion', position);
+    this.apexPresentation.update(this.apex.snapshot(), targets, audioBlasts, this.paused ? 0 : dt);
     this.stopItemVfxTiming(itemVfxStart);
     this.prismaticFixture.updateMarker(
       targets.find((racer) => racer.id === this.prismaticFixture.controlledRacer())?.position,
@@ -1624,22 +1688,22 @@ export class KartTimeTrial {
       this.paused ? 0 : dt,
     );
     this.stopItemVfxTiming(itemVfxStart);
-    if (this.paused || audioMixer.volume('sfx') <= 0) this.projectiles.silenceFrostAudio();
-    if (this.paused || audioMixer.volume('sfx') <= 0) this.projectiles.silenceArcAudio();
-    if (this.paused || audioMixer.volume('sfx') <= 0) this.projectiles.silenceHammerAudio();
-    if (this.paused || audioMixer.volume('sfx') <= 0) this.inkAudioIfPresent()?.stop();
-    if (this.paused || audioMixer.volume('sfx') <= 0) this.nitroOverdriveAudioIfPresent()?.stop();
+    if (this.paused || this.legacySfxVolume() <= 0) this.projectiles.silenceFrostAudio();
+    if (this.paused || this.legacySfxVolume() <= 0) this.projectiles.silenceArcAudio();
+    if (this.paused || this.legacySfxVolume() <= 0) this.projectiles.silenceHammerAudio();
+    if (this.paused || this.legacySfxVolume() <= 0) this.inkAudioIfPresent()?.stop();
+    if (this.paused || this.legacySfxVolume() <= 0) this.nitroOverdriveAudioIfPresent()?.stop();
     this.hyperDriveRocketAudioIfPresent()?.update(
       hyperDriveRocket.active,
       hyperDriveRocket.autopilotWeight,
-      audioMixer.volume('sfx'),
+      this.legacySfxVolume(),
       this.paused,
     );
     this.prismaticMusic.update(
       this.prismatic.remaining('player'),
       dt,
       audioMixer.volume('music'),
-      this.paused,
+      this.paused || document.hidden,
     );
     this.updatePlayerDriverSprite();
   }
@@ -1657,7 +1721,7 @@ export class KartTimeTrial {
     const snapshot = this.lapTracker.snapshot();
     const feedback = this.kart.feedback();
     const driveModifiers = this.racerEffects.driveModifiers('player');
-    this.options.onHud({
+    const soundHud: HudState = {
       lap: Math.min(snapshot.lap + 1, 3),
       speedKph: Math.round(this.kart.speedMetersPerSecond() * 3.6),
       elapsed: this.elapsed,
@@ -1726,7 +1790,49 @@ export class KartTimeTrial {
           },
         ],
       },
-    });
+    };
+    this.options.onHud(soundHud);
+    this.raceAudioIfPresent()?.update(
+      {
+        paused: this.paused || document.hidden,
+        countdown: soundHud.countdown,
+        finished: soundHud.finished,
+        lap: soundHud.lap,
+        place: soundHud.position,
+        speed: this.kart.speedMetersPerSecond(),
+        throttle:
+          this.touchWheel.held ||
+          this.isPressed('KeyW', 'ArrowUp') ||
+          this.touchPressed.has('accelerate')
+            ? 1
+            : 0,
+        driftTier: soundHud.driftTier,
+        boost: soundHud.boostActive,
+        airborne: soundHud.airborne,
+        surface: soundHud.surface,
+        wrongWay: soundHud.wrongWay,
+        itemPhase: soundHud.item.phase,
+        spinout: this.racerEffects.spinoutState('player') !== null,
+        prismatic: soundHud.prismaticSeconds > 0,
+        overdrive: soundHud.nitroOverdrive.active,
+        rocket: soundHud.hyperDriveRocket.active,
+        frost: soundHud.frostSeconds > 0,
+        position: this.kart.position(),
+        forward: this.kart.forward(),
+        ai: this.opponents
+          .filter((opponent) => !opponent.progress.finished)
+          .map((opponent) => ({
+            id: opponent.id,
+            position: opponent.controller.position(),
+            speed: opponent.controller.speedMetersPerSecond(),
+          })),
+        projectiles: this.projectiles.snapshots(),
+        hazards: this.hazards.activeSnapshots(),
+        seekerWarning: soundHud.seekerWarning,
+        apexWarning: soundHud.apexWarning,
+      },
+      frameSeconds,
+    );
   }
 
   private async createKartVisual(): Promise<void> {
@@ -2045,7 +2151,13 @@ export class KartTimeTrial {
     window.addEventListener('keydown', this.onKeyDown, { passive: false });
     window.addEventListener('keyup', this.onKeyUp, { passive: false });
     window.addEventListener('resize', this.resize);
+    document.addEventListener('visibilitychange', this.onAudioVisibilityChange);
   }
+
+  private readonly onAudioVisibilityChange = (): void => {
+    this.raceAudio.bank.setPaused(this.paused || document.hidden);
+    if (document.hidden) this.prismaticMusic.update(0, 0, 0, true);
+  };
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
     void this.projectiles.unlockArcAudio();
@@ -2061,6 +2173,8 @@ export class KartTimeTrial {
     }
     if ((event.code === 'Escape' || event.code === 'KeyP') && !event.repeat) {
       this.paused = !this.paused;
+      this.raceAudioIfPresent()?.bank.setPaused(this.paused);
+      uiSfx.play(this.paused ? 'ui-pause' : 'ui-resume', { gain: 0.25 });
     }
     if (event.code === 'KeyR' && !event.repeat) this.respawn();
     if (isItemUseKey(event.code) && !event.repeat) this.requestPlayerItemUse();
@@ -2073,6 +2187,14 @@ export class KartTimeTrial {
 
   private isPressed(...codes: string[]): boolean {
     return codes.some((code) => this.pressed.has(code));
+  }
+
+  private raceAudioIfPresent(): RaceSfx | undefined {
+    return (this as unknown as { raceAudio?: RaceSfx }).raceAudio;
+  }
+
+  private legacySfxVolume(): number {
+    return this.raceAudioIfPresent() ? 0 : audioMixer.volume('sfx');
   }
 
   private inkAudioIfPresent(): InkSplatAudio | undefined {

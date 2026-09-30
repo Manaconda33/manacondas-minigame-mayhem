@@ -1415,3 +1415,10 @@ After this documentation reconciliation, `npm run validate` passed typecheck, li
 ## Task 11 remaining plan-level scenario owner acceptance — 2026-09-28
 
 Manny reported all remaining plan-level checks passed: 1st/2nd/3rd/8th finish-place cases; Race Again, Change Driver, and Return to Hub; all fifteen item-art states at HUD size; missing-art fallback; reduced-motion Results behavior; and comparison with the canonical Route Night target/design brief. Together with the previously recorded desktop and mobile portrait/landscape full-flow pass, Task 11's listed acceptance checks are complete. No browser/device details or additional measurements are inferred. Broader Slice 6 release gates remain open.
+
+
+## SFX review assets v1 — asset-only verification
+
+The pending-listening-review source package is in `assets/audio/sfx-review-v1/` and is not mounted in the production game. After LFS checkout, run `python assets/audio/sfx-review-v1/verify_sfx.py`. It verifies the exact 96 manifest hashes, mono 48 kHz PCM16 WAV format, durations, at least 3 dB peak headroom, 13 loop boundaries, and faded one-shot endpoints. For regeneration, use Python 3.12.14 and `python -m pip install -r assets/audio/sfx-review-v1/requirements.txt`, then `python assets/audio/sfx-review-v1/create_sfx.py`; validate against the committed original manifest, not hashes rewritten by the generator.
+
+Serve the repository locally (`python -m http.server 8000`) and open `/assets/audio/sfx-review-v1/preview.html` for listening. This review preview loads its relative WAV files and is not a GitHub Pages production publication. Test engine layers, tires, boosts/impacts, countdown/finish, distinguishing Seeker/Apex warnings, item signatures, and short UI cues through headphones and phone speakers. Record Manny's listening approval separately from the automated waveform/hash checks; no such approval has yet been reported. In-game mix/spatialization/pause/voice budgets and music transitions require a later approved runtime integration. Do not repeat accepted Task 10/11 flow gates absent regression.

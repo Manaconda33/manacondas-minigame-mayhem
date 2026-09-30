@@ -623,3 +623,12 @@ Manny reported that all three remaining Task 11 plan-level scenario groups passe
 - **Visual comparison:** deployed Results/Race Night presentation compared with the canonical Route Night target and design brief.
 
 This owner report completes the remaining individual Task 11 checks alongside the previously recorded production full-flow acceptance on desktop and mobile portrait/landscape. No browser/device details or additional measurements are inferred. Task 11's listed plan-level acceptance is PASSED; the broader Slice 6 release gates remain open as listed above.
+
+
+## Slice 6 SFX review assets v1 — 2026-09-30
+
+Manny authorized creating all sound effects in order: kart/driving, race events, item handling, menus/results, then explicitly requested repository storage. The review package contains **96 original synthesized WAVs, including 13 loops**: 21 kart/driving, 9 race events, 54 item handling, and 12 menus/results cues. It is stored under `assets/audio/sfx-review-v1/`, outside the production public asset tree, with deterministic Python source, pinned authoring dependencies, manifest/hash ledger, cue CSV, relative-path listening preview, and an independent WAV verifier.
+
+**Review state:** creation and review-branch storage authorized; listening acceptance, runtime integration, merge and production publication remain pending. Existing accepted procedural runtime effects remain in place. Music assets and final-lap music remain separate work. This does not close the Slice 6 production-audio gate.
+
+Local evidence: all 96 WAVs match the original downloadable package byte-for-byte; independent verification passes exact SHA-256 hashes, mono 48 kHz PCM16 format, durations, peak headroom, 13 loop boundary checks, and one-shot endpoint fades. No perceptual listening or in-game/device acceptance is inferred. The local shell cannot connect to GitHub; Git LFS publication uses the documented deterministic Actions bridge. LFS upload/fetch-back and full hosted validation are pending until the bridge completes; the temporary workflow must be removed before review/merge.

@@ -1,0 +1,97 @@
+id,group,file,description,loop,priority,duration_seconds,peak_dbfs,rms_dbfs,sha256,boundary_step
+engine-low-rpm,01-kart-driving,wav/01-kart-driving/engine-low-rpm.wav,Shared kart engine layer; crossfade and pitch in runtime.,True,core,2.0,-13.66,-20.0,d6587fa7743188a798c937eb6638a2e2b786d3310caebbbb6261daf2344f0096,0.0
+engine-high-rpm,01-kart-driving,wav/01-kart-driving/engine-high-rpm.wav,Shared kart engine layer; crossfade and pitch in runtime.,True,core,2.0,-13.62,-20.0,6656d1ba13f2e2eb5eed474ffd709956ed92ac7436997d4abbd462aeb0299120,0.0
+tire-drift-loop,01-kart-driving,wav/01-kart-driving/tire-drift-loop.wav,Sustained tire squeal while drifting.,True,core,2.0,-8.13,-20.0,344bfc905ed9b5ba231bae00199752e306c8916b3f45c79a087d936089c83a94,0.0
+drift-blue,01-kart-driving,wav/01-kart-driving/drift-blue.wav,Distinct drift charge tier reached.,False,core,0.21,-6.88,-16.48,96fb9722e4c59c637b05f445ecdafc72f47c12be274f4ae6bfce4ea2ffcffea7,0.0
+drift-orange,01-kart-driving,wav/01-kart-driving/drift-orange.wav,Distinct drift charge tier reached.,False,core,0.21,-6.33,-16.48,d86640bf7b00735647248b8d761aca64aee129a967484b3c1cccdfa3fb696114,0.0
+drift-purple,01-kart-driving,wav/01-kart-driving/drift-purple.wav,Distinct drift charge tier reached.,False,core,0.21,-6.36,-16.48,e82d3982a8e021e1e59de8b9a492eb4f68e4a54b50ff1535603c30e5311e3778,0.0
+drift-boost-release,01-kart-driving,wav/01-kart-driving/drift-boost-release.wav,Boost activation or completion feedback.,False,core,0.48,-3.01,-18.74,ae8d6304062e9f5ed0e28c7c91541d3b2eb87f1628efd8130f1db90a2f8884e3,0.0
+boost-pad,01-kart-driving,wav/01-kart-driving/boost-pad.wav,Boost activation or completion feedback.,False,core,0.35,-3.01,-18.56,69f74d0adb12c18168ff5eb86857a0b1cd2af2dbfbfe9be47ddde5e7ba20235f,0.0
+boost-end,01-kart-driving,wav/01-kart-driving/boost-end.wav,Boost activation or completion feedback.,False,core,0.28,-3.01,-17.74,edb657a52f5f1277bdd9f64841eeb992f12fd74faff5d9f2af4adfc2758f3f6d,0.0
+boost-sustain-loop,01-kart-driving,wav/01-kart-driving/boost-sustain-loop.wav,Air/exhaust layer during boost.,True,core,2.0,-7.59,-20.0,918dd777cfb7549fd5afa27ac7e5ed67a1ad7e1d6b1c91a97684d046c34d0b17,0.0
+tires-asphalt-loop,01-kart-driving,wav/01-kart-driving/tires-asphalt-loop.wav,Tire contact texture for asphalt.,True,core,2.0,-6.36,-20.0,15841efbe708f21499434bf1ead7e1857fc0fe775b0972189d449139a578cb34,0.0
+tires-dirt-loop,01-kart-driving,wav/01-kart-driving/tires-dirt-loop.wav,Tire contact texture for dirt.,True,core,2.0,-5.97,-20.0,a4ffdd36b0ed19ccd34dcdda7c4e8e208650bf21c8d660d87fc187b979c91c83,0.0
+tires-grass-loop,01-kart-driving,wav/01-kart-driving/tires-grass-loop.wav,Tire contact texture for grass.,True,core,2.0,-7.5,-20.0,0da477f464693cc3ad3c52a9e20e8365ceccb45c573545a3d7af1d9a7e6d8156,0.0
+kart-contact-light,01-kart-driving,wav/01-kart-driving/kart-contact-light.wav,Collision feedback; choose by impact strength/contact type.,False,core,0.18,-3.01,-20.8,1357e3b5d4d414f731bfe46b563e61a18ef7a38a3c61b7edeef1620a7e42c416,0.0
+kart-contact-heavy,01-kart-driving,wav/01-kart-driving/kart-contact-heavy.wav,Collision feedback; choose by impact strength/contact type.,False,core,0.45,-3.01,-21.58,9a828f1effba4d45c0dcb1a89f7b3f0aac9b6867fd2d94780a0e37ab48aecbb8,0.0
+guardrail-impact,01-kart-driving,wav/01-kart-driving/guardrail-impact.wav,Collision feedback; choose by impact strength/contact type.,False,core,0.38,-3.01,-19.25,b8c03afa4984fc5ac147d786135fc094fbf490cc9e5aee6786f458c510895850,0.0
+spinout,01-kart-driving,wav/01-kart-driving/spinout.wav,Brief loss-of-control cue.,False,core,0.65,-3.01,-16.64,b19eca6534e38bdd581bfc4c831550e8b8007378552f029d66a4b7cede85801a,0.0
+jump-takeoff,01-kart-driving,wav/01-kart-driving/jump-takeoff.wav,Short ramp departure whoosh.,False,core,0.24,-3.01,-18.13,493aa750c51ea45aa71f00c20b0c1cb7002e8a1603e7696ff6a1d29cc3a9bcba,0.0
+landing-light,01-kart-driving,wav/01-kart-driving/landing-light.wav,Ordinary landing.,False,core,0.24,-3.01,-20.14,bde5dc3339e73b3de23116e182a3c77e942c23b800642ee072844a6605c863f8,0.0
+landing-heavy,01-kart-driving,wav/01-kart-driving/landing-heavy.wav,Hard landing.,False,core,0.42,-3.01,-21.94,d217cffcd33234512f80f9ec538c9112593ef72304c97811cb51fcab7e2e5385,0.0
+recovery,01-kart-driving,wav/01-kart-driving/recovery.wav,Return to legal course.,False,core,0.45,-5.87,-16.48,695333c989ef121ab8bf9d13b07e9b91651eeddf493e701a689ca250af290e5c,0.0
+countdown-tick,02-race-events,wav/02-race-events/countdown-tick.wav,"Repeat for 3, 2, 1.",False,core,0.19,-6.09,-16.48,358ef8baac86459ddea54785b0e84949ab1fca97319c3299fdf50a3ed82455c8,0.0
+race-start-go,02-race-events,wav/02-race-events/race-start-go.wav,Distinct GO signal.,False,core,0.35,-6.02,-16.48,378d3eaae394d6a910ab56a2bf189490481529af7a1316c924cb3f58626b19d1,0.0
+lap-complete,02-race-events,wav/02-race-events/lap-complete.wav,Validated lap completion.,False,core,0.33,-6.04,-16.48,7ae27f5f0c5a754b9821297dc801abcd82213920dee833e41bf467a7ce637ab9,0.0
+final-lap,02-race-events,wav/02-race-events/final-lap.wav,"Final-lap signal, separate from future music arrangement.",False,core,0.57,-5.8,-16.48,7d4e4ad1bedef250105ab5551b244e7e5a6b007980c7ec54ed427672b7ff411e,0.0
+wrong-way,02-race-events,wav/02-race-events/wrong-way.wav,Rate-limited wrong-way warning.,False,core,0.38,-4.72,-16.48,122c0e581b8d07488d130091724eeca05922ab6c1bda76791e51de7b8431d646,0.0
+race-finish,02-race-events,wav/02-race-events/race-finish.wav,Player crosses finish; short nonverbal sting.,False,core,0.72,-6.12,-16.48,0bba91d534f74d8b2b5cc6eddaa9f777cc8cf27959a2b8e1bdd8a64ae0800e5b,0.0
+placement-win,02-race-events,wav/02-race-events/placement-win.wav,Placement feedback: placement-win.,False,core,0.82,-5.61,-16.48,f9c1748674cc95f5a0f64c1171e8702ab98b670ec044fb25cc0d30b093b1e6ff,0.0
+placement-podium,02-race-events,wav/02-race-events/placement-podium.wav,Placement feedback: placement-podium.,False,core,0.615,-5.66,-16.48,cad9bd9a1a9eb4a1ceb3a5cc6e0452dace502c5590dc4bce0687a5c6604df1bc,0.0
+placement-other,02-race-events,wav/02-race-events/placement-other.wav,Placement feedback: placement-other.,False,core,0.41,-6.25,-16.48,78072fc9f587cfdcc4ef0caf82ca0a51239dc8cd43abe4c23876e0983fe63ab9,0.0
+item-box-collect,03-item-handling,wav/03-item-handling/item-box-collect.wav,Shared item feedback: item-box-collect.,False,core,0.18,-6.62,-16.48,ecac0fa7b35a3fec825a3cf4d3c306d75734e0fbf65d8e5e3f0c872fb430c3a1,0.0
+item-ready,03-item-handling,wav/03-item-handling/item-ready.wav,Shared item feedback: item-ready.,False,core,0.18,-6.1,-16.48,14b2f5de2e2116eda3a3ce4175da83ef0794f6de8761e3ad6f3471f16b43058c,0.0
+item-unavailable,03-item-handling,wav/03-item-handling/item-unavailable.wav,Shared item feedback: item-unavailable.,False,core,0.18,-6.95,-16.48,34485d4170b44fe4ba9753f4747549ce6f769525994bfd8d77141ffbed20ec75,0.0
+protection-block,03-item-handling,wav/03-item-handling/protection-block.wav,Shared item feedback: protection-block.,False,core,0.18,-6.44,-16.48,c034aec239dfddbdf9dbede379ea2f9e55a9616441b2e32b55cac76bc001ed0b,0.0
+counter-destroy,03-item-handling,wav/03-item-handling/counter-destroy.wav,Shared item feedback: counter-destroy.,False,core,0.18,-6.85,-16.48,c6f44c7fd43bc37a75409c90c1957478b35b08ed12d809a247d4f69b82ac300e,0.0
+nitro-surge-activate,03-item-handling,wav/03-item-handling/nitro-surge-activate.wav,nitro surge activate,False,core,0.35,-5.56,-16.48,376c47998e7c69deb0b4b5ff3e72af55e5de19ca28fecaa78db32dd74c6e70d2,0.0
+nitro-surge-tail,03-item-handling,wav/03-item-handling/nitro-surge-tail.wav,nitro surge tail,False,core,0.5,-3.01,-19.81,3e87857c923de7417e8883b03dab85ff7ace3070f3af481f14f3db801565eebf,0.0
+kinetic-disc-launch,03-item-handling,wav/03-item-handling/kinetic-disc-launch.wav,kinetic disc launch,False,core,0.25,-5.68,-16.48,3bc2496e0f1565c955f4fdb07c4c858b927fab63b2bde12c9bb0c511d22ec7a8,0.0
+kinetic-disc-travel-loop,03-item-handling,wav/03-item-handling/kinetic-disc-travel-loop.wav,kinetic disc travel loop,True,core,2.0,-6.82,-20.0,4803a0065b37c893a58c4937231fc8249ce41c9c7a8b9730d91ec687301d1fb5,0.0
+kinetic-disc-ricochet,03-item-handling,wav/03-item-handling/kinetic-disc-ricochet.wav,kinetic disc ricochet,False,core,0.17,-5.23,-16.48,0180c036d83d7d09aad834bbfd8e74b7601f6fc6b7886d21be5ab99fcead94e9,0.0
+kinetic-disc-impact,03-item-handling,wav/03-item-handling/kinetic-disc-impact.wav,kinetic disc impact,False,core,0.32,-3.01,-18.17,8683d61a0d45c3d4b98c68dcbb2fdb093fcb95943e5f4934da682e5ad502a511,0.0
+seeker-launch,03-item-handling,wav/03-item-handling/seeker-launch.wav,seeker launch,False,core,0.35,-5.28,-16.48,b05f4a07e0d7a7ffcdf17f182d6ad7bc92d11ceac068810e8e64e93f55cb4cf1,0.0
+seeker-travel-loop,03-item-handling,wav/03-item-handling/seeker-travel-loop.wav,seeker travel loop,True,core,2.0,-13.55,-20.0,c4efe3c083df4c13f9816932e8b1580e55df5f0c8bc158160c56aea3ccea5422,0.0
+seeker-warning,03-item-handling,wav/03-item-handling/seeker-warning.wav,Distinct incoming threat; runtime controls cadence.,False,core,0.105,-6.02,-16.48,f2cbdbae080cd8c252bb5cf07fec2af4de43c7c0dc9c555e2b54b02a6ccd32ad,0.0
+seeker-warning-urgent,03-item-handling,wav/03-item-handling/seeker-warning-urgent.wav,Distinct incoming threat; runtime controls cadence.,False,core,0.21,-6.09,-16.48,483242158037aee33df637a3442b527bec974523119cfa7a956f5a530e01df56,0.0
+apex-warning,03-item-handling,wav/03-item-handling/apex-warning.wav,Distinct incoming threat; runtime controls cadence.,False,core,0.21,-6.0,-16.48,2b69e725ed9765a77e5bc4e45f61ba64accda2022722d352463411d507a1450b,0.0
+apex-warning-urgent,03-item-handling,wav/03-item-handling/apex-warning-urgent.wav,Distinct incoming threat; runtime controls cadence.,False,core,0.42,-5.67,-16.48,f96323575338217b58fd77487cea81bd44fd8b1bd5c4312b7d928c468f8abcc0,0.0
+seeker-impact,03-item-handling,wav/03-item-handling/seeker-impact.wav,seeker impact,False,core,0.5,-3.01,-19.73,2399f6828617a473313fab4c2906d88ac377481d86e1ac88b5e6703dda2a67b7,0.0
+apex-launch,03-item-handling,wav/03-item-handling/apex-launch.wav,apex launch,False,core,0.6,-3.01,-19.76,71560ee0bc51251d84a66604088d52ca55ca6f5c831ffa53302f4c9b885107ba,0.0
+apex-dive,03-item-handling,wav/03-item-handling/apex-dive.wav,apex dive,False,core,0.75,-3.01,-18.84,27272993fcba52ea3be58bd7785db7eb94068e8b4b892086da93c41f0d26351f,0.0
+apex-explosion,03-item-handling,wav/03-item-handling/apex-explosion.wav,apex explosion,False,core,1.0,-3.01,-20.67,11b96c460a3f8be3b14a59c6fead283ead4df24d8917e4841ba056832720e55a,0.0
+blast-orb-deploy,03-item-handling,wav/03-item-handling/blast-orb-deploy.wav,blast orb deploy,False,core,0.22,-3.01,-16.87,0c3b62651a105f974d7d664a15c6d7e384fca47ab05130afb1187f2551869c18,0.0
+blast-orb-fuse-tick,03-item-handling,wav/03-item-handling/blast-orb-fuse-tick.wav,blast orb fuse tick,False,core,0.09,-6.02,-16.48,a6568b0449ce3c9af143304c12f0073bd7cd92c4d266804b53518c9104c65d01,0.0
+blast-orb-explosion,03-item-handling,wav/03-item-handling/blast-orb-explosion.wav,blast orb explosion,False,core,0.85,-3.01,-20.45,26b5cd34ed25de2a80460a1becdd9534388ca5fdfe8db3ea638bd1a7a37b32d3,0.0
+slick-deploy,03-item-handling,wav/03-item-handling/slick-deploy.wav,slick deploy,False,core,0.28,-3.01,-18.12,1d1e91d381b2537a623e2727c6bc9fe5cde21ac9f903091ef242fbd45895e9b4,0.0
+slick-trigger-skid,03-item-handling,wav/03-item-handling/slick-trigger-skid.wav,Slick-induced skid.,False,core,0.6,-3.01,-18.23,0b7c831bb3e09294a460ac83e74a45844a84e623c50c1bf61640fe2af3444dcf,0.0
+shockwave-activate,03-item-handling,wav/03-item-handling/shockwave-activate.wav,shockwave activate,False,core,0.65,-3.01,-18.49,8ca631d8cbe3a4f80cc80a22bcf51f1b34f328005e622a87ca537a91d3275c7d,0.0
+shockwave-counter,03-item-handling,wav/03-item-handling/shockwave-counter.wav,shockwave counter,False,core,0.26,-3.01,-17.35,81eec3effad824d8a72c476db7d6df26e68c8b7ee4c8fbae48e419a91f9911a0,0.0
+prismatic-activate,03-item-handling,wav/03-item-handling/prismatic-activate.wav,Invincibility activation; separate from musical layer.,False,core,0.36,-6.23,-16.48,8950133480b331aa878584c2b666bc16c9d4ee1dd803eb7c2ec66cf140caa22e,0.0
+prismatic-block,03-item-handling,wav/03-item-handling/prismatic-block.wav,prismatic block,False,core,0.22,-5.07,-16.48,1910d8fd88021d01b1582fc1153924067ebca06d800de7fcafde1edfb8028674,0.0
+prismatic-expire,03-item-handling,wav/03-item-handling/prismatic-expire.wav,Invincibility ended.,False,core,0.25,-6.06,-16.48,77fb2418dccac5d88f56a987b32052d5c4b4827df40a2e9886bca9fdad4ad4b3,0.0
+blaze-launch,03-item-handling,wav/03-item-handling/blaze-launch.wav,blaze launch,False,core,0.28,-3.01,-18.99,bab43c94fd7a36ff614baff78523739218ce4ff97b6702617c24d3b2542c1cec,0.0
+blaze-travel-loop,03-item-handling,wav/03-item-handling/blaze-travel-loop.wav,blaze travel loop,True,core,2.0,-7.65,-20.0,6e04e49d8e2352834a77a2bd1427eb62151e5491c0ef6b16b96f5a9afec82cba,0.0
+blaze-impact,03-item-handling,wav/03-item-handling/blaze-impact.wav,blaze impact,False,core,0.5,-3.01,-20.9,7d4ddfccd641afc628c52935bfa5d7152217b692d216553acd3366e3dd90ca0a,0.0
+frost-launch,03-item-handling,wav/03-item-handling/frost-launch.wav,frost launch,False,core,0.25,-3.01,-17.48,9c92bd3ae990c5d543c0463d7909c49dc2698b129e4d65a92f6ac5657830f69e,0.0
+frost-travel-loop,03-item-handling,wav/03-item-handling/frost-travel-loop.wav,frost travel loop,True,core,2.0,-6.09,-20.0,02cb3506633c6d1419cf5db11454bc8a1f7b6e94d99208f640ae04145615a1a1,0.0
+frost-impact,03-item-handling,wav/03-item-handling/frost-impact.wav,frost impact,False,core,0.5,-3.01,-20.01,472b6144e778faf551be4381b50d8ef5e2bdb715935eb4fbd350451fa181c73d,0.0
+frost-end,03-item-handling,wav/03-item-handling/frost-end.wav,frost end,False,core,0.24,-4.92,-16.48,61860616ade2f5a8570f6373bbb1db38e475cdec3e5bd3b63b1195064ca77eed,0.0
+arc-blade-launch,03-item-handling,wav/03-item-handling/arc-blade-launch.wav,arc blade launch,False,core,0.25,-5.32,-16.48,89a89c272e0b8aa957de630fc0ebd76aa0d22164df3d97fb5f39c500b5d8421a,0.0
+arc-blade-flight-loop,03-item-handling,wav/03-item-handling/arc-blade-flight-loop.wav,arc blade flight loop,True,core,2.0,-7.51,-20.0,03c28502b758969fc26261b6426ef9d35e9e7ef05e514b38bcf8a5fd014307d0,0.0
+arc-blade-return,03-item-handling,wav/03-item-handling/arc-blade-return.wav,arc blade return,False,core,0.3,-5.03,-16.48,189472d24fc7819cf2f79517109067d2971c5845c78c5d2de924c247073d5558,0.0
+arc-blade-catch,03-item-handling,wav/03-item-handling/arc-blade-catch.wav,arc blade catch,False,core,0.18,-5.36,-16.48,a533e66098bb8303f962fcbdaead90128b458c484886c2e85f3c75785196c3c0,0.0
+arc-blade-impact,03-item-handling,wav/03-item-handling/arc-blade-impact.wav,arc blade impact,False,core,0.3,-3.01,-18.25,cf4bbe4173bfbaee2ae1c9757a706d9b75b95de13b0426cbe24135b0c6166309,0.0
+arc-hammer-launch,03-item-handling,wav/03-item-handling/arc-hammer-launch.wav,arc hammer launch,False,core,0.24,-5.6,-16.48,87190b0161450411bd1b4ed072c74ab8b4fa064d87c5c4f61d3e0289048dd877,0.0
+arc-hammer-bounce,03-item-handling,wav/03-item-handling/arc-hammer-bounce.wav,Hammer supporting-surface bounce.,False,core,0.22,-3.01,-19.91,c33951349fcc41a12c3f7c10576e3f0b0038577dd6425c24f3e371decdb79621,0.0
+arc-hammer-hit,03-item-handling,wav/03-item-handling/arc-hammer-hit.wav,arc hammer hit,False,core,0.32,-3.01,-19.93,812c3c2a17275d8486c0f59c086818d426d72dff4b8184832cfbfd84229205c0,0.0
+ink-activate,03-item-handling,wav/03-item-handling/ink-activate.wav,ink activate,False,core,0.2,-3.32,-16.48,85cad0c54bfa19c7134a8a3321d325fd99f62d3d074bd0bf0a7072d07c9018d3,0.0
+ink-impact,03-item-handling,wav/03-item-handling/ink-impact.wav,ink impact,False,core,0.38,-3.01,-18.74,a32ec513428a893dcc1037c41f1dc0b482ca498cf521e4312a8e327f54a2afa4,0.0
+overdrive-activate,03-item-handling,wav/03-item-handling/overdrive-activate.wav,overdrive activate,False,core,0.35,-5.42,-16.48,55e6f677c7e5f4eabf39b958680b7480e3af0b3f375bb68b8f55fba82f60e54a,0.0
+overdrive-pulse,03-item-handling,wav/03-item-handling/overdrive-pulse.wav,overdrive pulse,False,core,0.16,-6.28,-16.48,810054e515301de1e97385a8d73a73cea1f4f65da27157759b2b9575478ea83c,0.0
+overdrive-expire,03-item-handling,wav/03-item-handling/overdrive-expire.wav,overdrive expire,False,core,0.28,-4.93,-16.48,43c061ac32133610cf042c2c521f2c60e496f7848138ec2f42a7ee35ffb32812,0.0
+rocket-activate,03-item-handling,wav/03-item-handling/rocket-activate.wav,rocket activate,False,core,0.5,-3.01,-18.94,2d39c5268f5a83db9c4e9d2d6020304c6e7203389168d2942f093d25f0c3bbcf,0.0
+rocket-propulsion-loop,03-item-handling,wav/03-item-handling/rocket-propulsion-loop.wav,rocket propulsion loop,True,core,2.0,-8.32,-20.0,8721c288bf8b842e53c7269ed01374b97a38b68ac833d563d1813aa6e9081ed5,0.0
+rocket-return,03-item-handling,wav/03-item-handling/rocket-return.wav,rocket return,False,core,0.4,-4.54,-16.48,05ce85ed3ba5676ac82f32275de1cacb7885280a50d7f4c50f80c8500b3e8bce,0.0
+ui-focus,04-menus-results,wav/04-menus-results/ui-focus.wav,ui focus,False,core,0.06,-6.82,-16.48,45c4f77391706892ffb11b9354c1d4df5f03a0e446fd1bed0c8b8f2f9845a86a,0.0
+ui-confirm,04-menus-results,wav/04-menus-results/ui-confirm.wav,ui confirm,False,core,0.16,-6.38,-16.48,85e5b4935f6991525720a5832438a2bfa18cd9a357c3c157ffb34b349affebef,0.0
+ui-back,04-menus-results,wav/04-menus-results/ui-back.wav,ui back,False,core,0.16,-6.86,-16.48,e8fc82dbfe436f7fa902fda957876b8dc5ee21ea8406eb6ca5ba93d85aec50f4,0.0
+driver-select,04-menus-results,wav/04-menus-results/driver-select.wav,driver select,False,core,0.225,-6.4,-16.48,d555378057e11e7cf39b28dfc75a77f527d1dc7024c8db022aa58f9f505d5123,0.0
+ui-start-race,04-menus-results,wav/04-menus-results/ui-start-race.wav,ui start race,False,core,0.23,-6.74,-16.48,867874a45fcf11025956642a29eb1c099641e4fb4494c84de16e9ff2b3413975,0.0
+ui-pause,04-menus-results,wav/04-menus-results/ui-pause.wav,ui pause,False,core,0.14,-6.98,-16.48,ae4bc727f1736a40d68e7d4d99721bfc42466dcd807ef2802838587ecab09e88,0.0
+ui-resume,04-menus-results,wav/04-menus-results/ui-resume.wav,ui resume,False,core,0.14,-6.87,-16.48,f82fa49fd04cc706cfb6568d919ca81e76521705206cb384b942ae33f16d0f5d,0.0
+ui-setting-change,04-menus-results,wav/04-menus-results/ui-setting-change.wav,ui setting change,False,core,0.06,-6.66,-16.48,921133bdf93d564eb3d598723abe710e62007d05ad9fe9882bd491189afad85a,0.0
+ui-unavailable,04-menus-results,wav/04-menus-results/ui-unavailable.wav,ui unavailable,False,core,0.14,-7.23,-16.48,b06c48380e7c555b9325d2c4666eac473f29be51cfa3f4f3a0c3bf52af00eccf,0.0
+results-race-again,04-menus-results,wav/04-menus-results/results-race-again.wav,results race again,False,core,0.17,-6.27,-16.48,4d16c6478d63e6d58e54829de68b2a27d2a3a0d0c8d893911af4ebb692736427,0.0
+results-change-driver,04-menus-results,wav/04-menus-results/results-change-driver.wav,results change driver,False,core,0.17,-6.69,-16.48,4fa22e33730028dc9e1f5d74e3a3a6c539a515054c7bd33931052925238c6337,0.0
+results-return-hub,04-menus-results,wav/04-menus-results/results-return-hub.wav,results return hub,False,core,0.17,-6.38,-16.48,3fd6f855143f011bd075a05336f7e9eae170ef22d665e16bfe77d279edd88e5b,0.0

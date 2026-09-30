@@ -1,0 +1,14 @@
+{
+  "cue_count": 96,
+  "decoded": 96,
+  "clipping_failures": [],
+  "loop_count": 13,
+  "max_loop_boundary_step": 0.0,
+  "groups": {
+    "01-kart-driving": 21,
+    "02-race-events": 9,
+    "03-item-handling": 54,
+    "04-menus-results": 12
+  },
+  "perceptual_review": "pending"
+}

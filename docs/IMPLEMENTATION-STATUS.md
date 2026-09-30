@@ -669,3 +669,11 @@ Local `npm run validate` passed: **81 files / 642 tests**, 82.01% statement, 76.
 Task 10, Task 11 desktop/mobile portrait/landscape and presentation scenario acceptance remain PASSED. Prior landscape defect screenshots remain pre-fix examples. All SFX listening/in-game/publication approvals remain complete. No next PRD slice is authorized.
 
 Canonical initial review source `3593dca2a2402fad6f355fdfdb32575d1405526f` was fetched back through public Git; all five stored WAVs matched approved SHA-256s and RIFF/WAVE signatures. Independent whole-branch review found three important lifecycle defects (scheduled final lap surviving finish, aborted-decode re-entry, cleanup during suspension). All were fixed with observed RED→GREEN regressions; a fourth regression preserves race preload across countdown. Final local validation passed 81 files / 642 tests. Integrated listening and production publication remain pending.
+
+### Music review publication evidence
+
+Draft PR #210: https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/210. Reviewed/fixed source `f4c381b8ac101e2acc5157c4328c5eeac060ef23` has the same tree as locally validated `1fedf16dba423959f43dd2e61b434b2caabeacd4`; public Git fetch-back confirmed that identity. Hosted PR CI run `36765665421` succeeded: https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36765665421.
+
+Owner-private full-game listening preview: https://manaconda-music-integration-review.manaconda2433.chatgpt.site. Root-base snapshot source commit `4f1eb6e45159f61a68a22f52d4325bd17d0b2ec9`, deployment `appgdep_6abd63e26a08819189b620f256cc312f`, succeeded on 2026-09-30. `/review-build.json` records canonical code commit/tree, local validation and all five approved asset hashes. Every snapshot WAV matched its approved hash before publication. This is a private compiled listening snapshot; GitHub remains canonical.
+
+Integrated listening, merge and separate production-publication approval are still pending. Main remains `dff4e409b54068c3053ec67b8fb3fb586d4dc383`; the public production game is unchanged. No review-branch Pages deployment or protection change was attempted. The initial private snapshot package rejected an unsupported static directory; it was corrected to supported `out` before successful publication.

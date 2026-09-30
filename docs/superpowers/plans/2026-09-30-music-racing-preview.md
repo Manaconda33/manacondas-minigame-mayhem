@@ -42,10 +42,14 @@
 ## Task 3: Review publication and handoff
 
 - [x] Review the complete diff independently; address important findings with regression tests.
-- [ ] Publish the canonical review branch/PR through connected GitHub binary/tree APIs; independently verify uploaded bytes against the approved manifest. Existing LFS objects remain unchanged.
-- [ ] Build an exact root-base private listening snapshot with source commit/hash provenance; publish without changing public Pages.
-- [ ] Record approval, validation, alternative upload/publication evidence, private preview, and pending integrated/production gates in status/testing/decision records.
+- [x] Publish the canonical review branch/PR through connected GitHub binary/tree APIs; independently verify uploaded bytes against the approved manifest. Existing LFS objects remain unchanged.
+- [x] Build an exact root-base private listening snapshot with source commit/hash provenance; publish without changing public Pages.
+- [x] Record approval, validation, alternative upload/publication evidence, private preview, and pending integrated/production gates in status/testing/decision records.
 
 ## Authorization and execution
 
 Manny approved the five-cue plan, supplied the tracks, authorized edits, rejected revision 1 seams, accepted revision 2 loops/transition, and then explicitly authorized integration and a private review preview. Native execution proceeds within that scope; no duplicate plan-approval request is required.
+
+## Verified handoff
+
+Draft PR #210; code source `f4c381b8ac101e2acc5157c4328c5eeac060ef23`; hosted CI `36765665421` passed. Private integrated preview: https://manaconda-music-integration-review.manaconda2433.chatgpt.site. All five exact approved files uploaded using connected GitHub binary blobs, fetched back and hash-verified. Local validation: 81 files / 642 tests. Asset/listening acceptance remains complete; integrated listening, merge and separate production publication remain pending.

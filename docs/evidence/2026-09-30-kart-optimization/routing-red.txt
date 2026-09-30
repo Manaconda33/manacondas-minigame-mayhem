@@ -1,0 +1,34 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/race-diagnostics-routing.test.ts (7 tests | 1 failed) 559ms
+     × batches both player and seven AI karts and releases owned geometry on race disposal 73ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > loaded kart optimization routing > batches both player and seven AI karts and releases owned geometry on race disposal
+AssertionError: expected [] to have a length of 8 but got +0
+
+- Expected
++ Received
+
+- 8
++ 0
+
+ ❯ tests/race-diagnostics-routing.test.ts:234:21
+    232|       if (object instanceof THREE.Mesh && object.name === 'batched-sta…
+    233|     });
+    234|     expect(batches).toHaveLength(8);
+       |                     ^
+    235|     let disposed = 0;
+    236|     for (const mesh of batches) mesh.geometry.addEventListener('dispos…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  18:31:59
+   Duration  2.07s (transform 585ms, setup 0ms, import 775ms, tests 559ms, environment 563ms)
+

@@ -1,0 +1,34 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/kart-mesh-batching.test.ts (16 tests | 1 failed) 762ms
+     × releases replaced source buffers at load time and preserves rotated/scaled nested parts 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/kart-mesh-batching.test.ts > static kart batching > releases replaced source buffers at load time and preserves rotated/scaled nested parts
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ tests/kart-mesh-batching.test.ts:112:21
+    110|     }
+    111|     const before = vertices(root); const release = batchStaticKartMesh…
+    112|     expect(retired).toBe(2);
+       |                     ^
+    113|     expectPreserved(vertices(root), before);
+    114|     release(); expect(retired).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 passed (16)
+   Start at  18:35:11
+   Duration  1.45s (transform 39ms, setup 0ms, import 84ms, tests 762ms, environment 475ms)
+

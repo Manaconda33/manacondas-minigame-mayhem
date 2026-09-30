@@ -1,3 +1,4 @@
+import { batchStaticKartMeshes } from './rendering/batchStaticKartMeshes';
 import type { RaceMusicState } from '../audio/musicCatalog';
 import { RaceSfx } from '../audio/RaceSfx';
 import { itemImpactCue } from '../audio/itemSoundCues';
@@ -234,6 +235,7 @@ export class KartTimeTrial {
   private readonly pressed = new Set<string>();
   private readonly kartMesh = new THREE.Group();
   private readonly driftLights: THREE.Mesh[] = [];
+  private readonly kartBatchReleases: (() => void)[] = [];
   private readonly kart: KartController;
   private readonly opponents: AiRacer[] = [];
   private readonly aiItemPolicy = new AiItemPolicy();
@@ -452,6 +454,7 @@ export class KartTimeTrial {
 
   public dispose(): void {
     this.diagnosticsDisposed = true;
+    for (const release of this.kartBatchReleases.splice(0)) release();
     this.racePerformance?.dispose();
     this.racePerformance = null;
     this.raceAudioIfPresent()?.dispose();
@@ -1901,6 +1904,7 @@ export class KartTimeTrial {
     if (this.options.character.kart !== undefined) {
       try {
         const gltf = await new GLTFLoader().loadAsync(this.options.character.kart);
+        if (this.diagnosticsDisposed) return;
         const model = gltf.scene;
         // Keep physics untouched and apply only the manifest's enforced
         // visual-axis correction. Production GLBs use `extras.forward: -Z`;
@@ -1918,6 +1922,7 @@ export class KartTimeTrial {
             object.receiveShadow = true;
           }
         });
+        if (gltf.animations.length === 0) this.kartBatchReleases.push(batchStaticKartMeshes(model));
         this.kartMesh.add(model);
         this.addDriverSprite(model);
         this.addDriftLights();
@@ -2157,6 +2162,7 @@ export class KartTimeTrial {
     if (character.kart !== undefined) {
       void new GLTFLoader().loadAsync(character.kart).then(
         (gltf) => {
+          if (this.diagnosticsDisposed) return;
           const model = gltf.scene;
           model.rotation.y = character.kartVisualYaw ?? 0;
           const bounds = new THREE.Box3().setFromObject(model);
@@ -2170,6 +2176,8 @@ export class KartTimeTrial {
               object.receiveShadow = true;
             }
           });
+          if (gltf.animations.length === 0)
+            this.kartBatchReleases.push(batchStaticKartMeshes(model));
           if (driverVisual !== null) {
             driverVisual.modeledSteeringControl = model.getObjectByName('SteeringWheel') ?? null;
             if (driverVisual.modeledSteeringControl !== null) {

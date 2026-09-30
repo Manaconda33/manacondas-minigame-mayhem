@@ -1,5 +1,7 @@
 # Implementation Status
 
+**Current optimization review:** Manny approved the focused draw-call pass. Load-time batching of compatible static opaque kart geometry is implemented on `review/slice6-kart-draw-call-optimization`, based on main `897b1ca603d9e1e5bd44377e379884a85f7caebb`. Original approved assets, steering/anchors, shadows, gameplay/HUD/Results/audio and previous manual acceptance are preserved. Structural GLTF evidence: 5–30 mesh submissions become 4–7 per kart, identical triangles; actual mobile comparison pending. See `docs/evidence/2026-09-30-kart-optimization/`. Review PR/preview and final validation follow; runtime merge/production and later visuals remain owner gates.
+
 **Current diagnostics checkpoint:** PR #212 merged at `4656206f2582bf859bbc75eb7151bda47622a3f3`; runtime production publication explicitly approved by Manny and verified. CI/Pages 36790118341 passed; delivered production bundles match the accepted runtime. Mobile baseline summary recorded per Manny's substitution; raw JSON unverified and broader performance gates remain open. No VFX/bloom/blur/optimization/next slice authorized.
 
 **Current audio checkpoint:** Music integrated listening PASSED by Manny; merge and production publication explicitly approved on 2026-09-30. PR #210 merged at `40f42c13a7700257aebc87cf7b8fe80e707e3837`. See the final music production publication record below. Earlier pending statements describe historical checkpoints. Broader Slice 6 release gates remain open.

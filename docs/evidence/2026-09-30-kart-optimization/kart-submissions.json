@@ -1,0 +1,149 @@
+{
+  "method": "Real GLTFLoader geometry/material parsing, embedded image decoding stubbed. Counts are mesh submissions when every part is visible, not actual camera/shadow frame measurements or FPS. Source assets unmodified.",
+  "rows": [
+    {
+      "kart": "aa-01",
+      "before": {
+        "meshSubmissions": 30,
+        "triangles": 10396
+      },
+      "after": {
+        "meshSubmissions": 5,
+        "triangles": 10396
+      },
+      "removedSubmissionsPerPass": 25
+    },
+    {
+      "kart": "aa-02",
+      "before": {
+        "meshSubmissions": 14,
+        "triangles": 9552
+      },
+      "after": {
+        "meshSubmissions": 5,
+        "triangles": 9552
+      },
+      "removedSubmissionsPerPass": 9
+    },
+    {
+      "kart": "aa-03",
+      "before": {
+        "meshSubmissions": 10,
+        "triangles": 21948
+      },
+      "after": {
+        "meshSubmissions": 5,
+        "triangles": 21948
+      },
+      "removedSubmissionsPerPass": 5
+    },
+    {
+      "kart": "aa-04",
+      "before": {
+        "meshSubmissions": 17,
+        "triangles": 20260
+      },
+      "after": {
+        "meshSubmissions": 5,
+        "triangles": 20260
+      },
+      "removedSubmissionsPerPass": 12
+    },
+    {
+      "kart": "aa-05",
+      "before": {
+        "meshSubmissions": 16,
+        "triangles": 18724
+      },
+      "after": {
+        "meshSubmissions": 5,
+        "triangles": 18724
+      },
+      "removedSubmissionsPerPass": 11
+    },
+    {
+      "kart": "aa-06",
+      "before": {
+        "meshSubmissions": 21,
+        "triangles": 12164
+      },
+      "after": {
+        "meshSubmissions": 5,
+        "triangles": 12164
+      },
+      "removedSubmissionsPerPass": 16
+    },
+    {
+      "kart": "aa-07",
+      "before": {
+        "meshSubmissions": 19,
+        "triangles": 19844
+      },
+      "after": {
+        "meshSubmissions": 6,
+        "triangles": 19844
+      },
+      "removedSubmissionsPerPass": 13
+    },
+    {
+      "kart": "aa-08",
+      "before": {
+        "meshSubmissions": 18,
+        "triangles": 8604
+      },
+      "after": {
+        "meshSubmissions": 7,
+        "triangles": 8604
+      },
+      "removedSubmissionsPerPass": 11
+    },
+    {
+      "kart": "aa-09",
+      "before": {
+        "meshSubmissions": 14,
+        "triangles": 9312
+      },
+      "after": {
+        "meshSubmissions": 4,
+        "triangles": 9312
+      },
+      "removedSubmissionsPerPass": 10
+    },
+    {
+      "kart": "aa-10",
+      "before": {
+        "meshSubmissions": 17,
+        "triangles": 14568
+      },
+      "after": {
+        "meshSubmissions": 5,
+        "triangles": 14568
+      },
+      "removedSubmissionsPerPass": 12
+    },
+    {
+      "kart": "aa-11",
+      "before": {
+        "meshSubmissions": 5,
+        "triangles": 4156
+      },
+      "after": {
+        "meshSubmissions": 4,
+        "triangles": 4156
+      },
+      "removedSubmissionsPerPass": 1
+    },
+    {
+      "kart": "aa-12",
+      "before": {
+        "meshSubmissions": 17,
+        "triangles": 14220
+      },
+      "after": {
+        "meshSubmissions": 5,
+        "triangles": 14220
+      },
+      "removedSubmissionsPerPass": 12
+    }
+  ]
+}

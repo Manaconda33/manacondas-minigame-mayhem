@@ -41,7 +41,7 @@
 
 ## Task 3: Review publication and handoff
 
-- [ ] Review the complete diff independently; address important findings with regression tests.
+- [x] Review the complete diff independently; address important findings with regression tests.
 - [ ] Publish the canonical review branch/PR through connected GitHub binary/tree APIs; independently verify uploaded bytes against the approved manifest. Existing LFS objects remain unchanged.
 - [ ] Build an exact root-base private listening snapshot with source commit/hash provenance; publish without changing public Pages.
 - [ ] Record approval, validation, alternative upload/publication evidence, private preview, and pending integrated/production gates in status/testing/decision records.

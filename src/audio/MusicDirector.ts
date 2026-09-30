@@ -20,6 +20,7 @@ export class MusicDirector {
   private unlocked = false;
   private hidden = false;
   private paused = false;
+  private preparingRace = false;
   private duck = false;
   private disposed = false;
   private loading: MusicCue | null = null;
@@ -39,12 +40,14 @@ export class MusicDirector {
   }
 
   public route(cue: MusicCue | null): void {
+    this.preparingRace = false;
     this.paused = false;
     this.duck = false;
     this.select(cue);
   }
 
   public race(state: RaceMusicState): void {
+    this.preparingRace = state.phase === 'countdown';
     this.paused = state.paused;
     this.duck = state.prismatic && state.phase === 'racing';
     if (this.paused && this.current && this.outgoing && this.output.time() < this.current.at) {
@@ -72,18 +75,33 @@ export class MusicDirector {
       this.wanted = cue;
       this.generation++;
       this.loading = null;
+      // Cancel future audio immediately, even while the context or replacement decode is unavailable.
+      if (this.current && this.output.time() < this.current.at) {
+        this.current.voice.stop();
+        this.current = this.outgoing;
+        this.outgoing = null;
+      }
+      if (!this.output.ready()) {
+        this.clear();
+        this.saved = null;
+      }
     }
     this.reconcile();
   }
 
   private reconcile(): void {
-    if (this.disposed || this.hidden || !this.unlocked || !this.output.ready()) return;
+    if (this.disposed) return;
     if (this.wanted === null) {
       this.saved = null;
       this.clear();
-      this.output.retain([]);
+      this.output.retain(this.preparingRace ? ['race', 'final-lap'] : []);
+      if (this.preparingRace && !this.hidden && this.unlocked && this.output.ready()) {
+        void this.output.load('race');
+        void this.output.load('final-lap');
+      }
       return;
     }
+    if (this.hidden || !this.unlocked || !this.output.ready()) return;
     if (this.saved) {
       const saved = this.saved;
       this.saved = null;

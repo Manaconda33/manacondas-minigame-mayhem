@@ -387,7 +387,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
 
   const renderGame = async (): Promise<void> => {
     const generation = ++raceGeneration;
-    music.route(null);
+    music.race({ phase: 'countdown', lap: 1, paused: false, prismatic: false });
     characterPreview?.dispose();
     characterPreview = null;
     const mobileSession = isMobileSession();

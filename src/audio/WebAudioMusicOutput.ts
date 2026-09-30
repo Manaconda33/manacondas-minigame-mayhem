@@ -63,7 +63,7 @@ export class WebAudioMusicOutput implements MusicOutput {
     if (this.disposed) return false;
     if (this.buffers.has(cue)) return true;
     const pending = this.pending.get(cue);
-    if (pending) return pending;
+    if (pending && !this.requests.get(cue)?.signal.aborted) return pending;
     const context = this.context();
     if (!context) return false;
     const request = new AbortController();
@@ -82,8 +82,11 @@ export class WebAudioMusicOutput implements MusicOutput {
       } catch {
         return false;
       } finally {
-        this.requests.delete(cue);
-        this.pending.delete(cue);
+        // A superseded aborted decode must not remove its replacement request.
+        if (this.requests.get(cue) === request) {
+          this.requests.delete(cue);
+          this.pending.delete(cue);
+        }
       }
     })();
     this.pending.set(cue, load);

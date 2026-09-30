@@ -255,6 +255,42 @@ describe('approved game music', () => {
   });
 });
 
+it('cancels scheduled final-lap playback before delayed Results audio is available', async () => {
+  const h = harness();
+  await h.music.unlock();
+  h.music.race({ phase: 'racing', lap: 1, paused: false, prismatic: false });
+  await h.flush();
+  h.clock(101);
+  h.music.race({ phase: 'racing', lap: 3, paused: false, prismatic: false });
+  await h.flush();
+  h.loads.set('results', new Promise(() => undefined));
+  h.music.race({ phase: 'finished', lap: 3, paused: false, prismatic: false });
+  expect(must(h.voices[1]).stopped).toBe(true);
+  h.clock(107);
+  h.music.tick();
+  expect(h.voices.filter((v) => !v.stopped).map((v) => v.cue)).not.toContain('final-lap');
+});
+it('clears obsolete playback during a suspended restart or route change', async () => {
+  const h = harness();
+  await h.music.unlock();
+  h.music.route('race');
+  await h.flush();
+  h.available(false);
+  h.music.route(null);
+  expect(must(h.voices[0]).stopped).toBe(true);
+  h.available(true);
+  await h.music.unlock();
+  h.music.route('race');
+  await h.flush();
+  h.available(false);
+  h.music.route('results');
+  expect(must(h.voices[1]).stopped).toBe(true);
+  h.available(true);
+  await h.music.unlock();
+  await h.flush();
+  expect(must(h.voices.at(-1)).cue).toBe('results');
+});
+
 function must<T>(value: T | null | undefined): T {
   if (value === undefined || value === null) throw new Error('Required fixture value missing.');
   return value;

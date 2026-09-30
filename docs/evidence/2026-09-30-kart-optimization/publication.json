@@ -1,0 +1,35 @@
+{
+  "runtimeCommit": "1caa47dddf3c0d2c14e7d7a38f57c09fb0a73eb4",
+  "runtimeTree": "a7587731ca5dedf538139f23303b80c8dc4ce8eb",
+  "localCommit": "86dd107f9ca4e3fd3e9fddcf3564b5b0c5c19b97",
+  "reviewPR": 213,
+  "hostedCI": {
+    "id": 36792153860,
+    "conclusion": "success"
+  },
+  "localValidation": {
+    "testFiles": 86,
+    "tests": 682,
+    "typecheck": "pass",
+    "lint": "pass",
+    "assetGates": "pass",
+    "build": "pass",
+    "lfsFsck": "pass",
+    "diffCheck": "pass"
+  },
+  "privatePreview": {
+    "projectId": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "versionId": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_b3e89140751481919d3267efbe0e264f",
+    "deploymentId": "appgdep_6abd9e01d0ec81919707e666bfc9f5cd",
+    "status": "succeeded",
+    "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+    "sourceCommit": "bbea0e0ac3223b909f67050b3dd2491e54e07329",
+    "archiveHash": "sha256:17f7148d7d5199a6e4bc0fea92f46349d7fb11309391778a8ae46d5e7989c443"
+  },
+  "mobileComparison": "pending_owner_review",
+  "renderedVisualReview": "pending_owner_review",
+  "sourceCountsAreHardwareMeasurements": false,
+  "mainCommit": "897b1ca603d9e1e5bd44377e379884a85f7caebb",
+  "publicProductionChanged": false,
+  "runtimeMergeProductionAuthorized": false
+}

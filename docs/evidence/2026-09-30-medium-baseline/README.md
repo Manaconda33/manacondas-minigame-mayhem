@@ -24,3 +24,17 @@ No access to Manny's identified baseline desktop is available in this session. A
 - Pause/resume/tab return preserve scored samples and exclude transition gaps; restart starts a fresh window.
 - Finish and export before navigation. Enter hardware details and retain original JSON for baseline review.
 - Runtime merge/production approval is still required. No next graphics increment or slice is authorized.
+
+## Published runtime/source verification
+
+Canonical runtime: `4673aac5caae8c8b153526a74afb9d70cb24c15f`, tree `b5502b6f66ae19cdc36fba3031218a82aa5c2241`; remote fetch and local tree comparison passed against `59b7982`. Review PR: https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/212. Full final validation: **85 files / 663 tests**, strict typecheck, zero-warning lint, all exact asset/branding checks and production build; LFS fsck/diff checks passed. The existing large-chunk build warning remains. `review.md` records the separate self-review and the fixed keyboard provenance interaction.
+
+Browser blocker observed: the owner-private review origin offers “Continue with ChatGPT”; following it opens OpenAI’s “Welcome back” login form. This cloud browser has no signed-in owner session. No credentials were supplied/requested, no access protection changed, and no rendered-runtime smoke or capture result is claimed. Baseline hardware identity is independently unavailable. Owner can use the private review with their own ChatGPT sign-in and the capture procedure; unit/runtime wiring evidence is complete.
+
+## Review deployment and CI
+
+- [Diagnostic review](https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site/?testRacePerf=1) — owner-private, sign in with ChatGPT. Private deployment `appgdep_6abd911e64a481919913462fcdaa5e12` succeeded. Compiled snapshot source `962a08bc78db28bee0eb436c87bf898da991b7a2`, canonical runtime/source-tree stamp above, supplementary hashes/provenance at `/review-build.json`. Server accepted archive SHA-256 `b22fb1ec62cf409850aa4deb76a3a9e8010762d211dcc894595beb14e892ea59`.
+- [Runtime PR CI](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36786989565) PASSED on `4673aac5caae8c8b153526a74afb9d70cb24c15f`: fresh LFS checkout/fsck, clean install, typecheck, lint, 85 files / 663 tests, exact asset gates and production build. Production deployment skipped for this PR.
+- `publication.json`: exact source, archive, deployment, test and blocker facts. Delivery success is a backend deployment result; served private asset bytes and actual gameplay are not independently browser-verified behind the sign-in wall.
+
+Stop here for Manny's runtime review and merge/production approval. Complete the identified-desktop capture with the linked method before claiming the broader Medium performance gate. Existing acceptance remains passed; no VFX/bloom/blur/next-slice work has begun.

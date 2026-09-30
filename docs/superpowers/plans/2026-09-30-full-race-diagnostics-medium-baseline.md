@@ -70,31 +70,37 @@ Store at most 36,000 scored intervals (an engineering memory bound). On reaching
 
 ## Task 1: Meter and counter adapter
 
-- [ ] Write failing `race-performance-meter.test.ts` cases: exact flag parsing; disabled no samples; raw 250 ms recorded as 250 ms; nonfinite/zero/negative rejection; countdown/paused/hidden skipped; boundary interval skipped; warmup counts only eligible intervals; pause leaves earlier samples intact; explicit full-sample truncation; immutable export; dispose stops collection.
-- [ ] Pin statistics with durations [10,20,30,100] and warmup 0: medianFrameMs 25, p95FrameMs 100, max 100, medianFps `(1000/20 + 1000/30)/2`, one >50 ms frame. Durations [60,70,10,80] have three >50 ms frames and longest run 2. A boundary splits a run but preserves total samples.
-- [ ] Write failing `renderer-counters.test.ts`: read calls/triangles from info.render; geometries/textures from info.memory without multiplying by frames; actual drawing-buffer dimensions; adapter does not call renderer.render/info.reset or mutate shadow/quality.
-- [ ] Run `npx vitest run tests/race-performance-meter.test.ts tests/renderer-counters.test.ts` and observe relevant assertion/import failures.
-- [ ] Implement meter, schema and adapter with the interfaces/policies above. Keep GPU/texture byte fields unavailable; do not add costly scene traversal or GPU query machinery in this task.
-- [ ] Rerun focused tests, `npm run typecheck`, `npm run lint`; commit `feat: add opt-in full-race performance capture primitives`.
+- [x] Write failing `race-performance-meter.test.ts` cases: exact flag parsing; disabled no samples; raw 250 ms recorded as 250 ms; nonfinite/zero/negative rejection; countdown/paused/hidden skipped; boundary interval skipped; warmup counts only eligible intervals; pause leaves earlier samples intact; explicit full-sample truncation; immutable export; dispose stops collection.
+- [x] Pin statistics with durations [10,20,30,100] and warmup 0: medianFrameMs 25, p95FrameMs 100, max 100, medianFps `(1000/20 + 1000/30)/2`, one >50 ms frame. Durations [60,70,10,80] have three >50 ms frames and longest run 2. A boundary splits a run but preserves total samples.
+- [x] Write failing `renderer-counters.test.ts`: read calls/triangles from info.render; geometries/textures from info.memory without multiplying by frames; actual drawing-buffer dimensions; adapter does not call renderer.render/info.reset or mutate shadow/quality.
+- [x] Run `npx vitest run tests/race-performance-meter.test.ts tests/renderer-counters.test.ts` and observe relevant assertion/import failures.
+- [x] Implement meter, schema and adapter with the interfaces/policies above. Keep GPU/texture byte fields unavailable; do not add costly scene traversal or GPU query machinery in this task.
+- [x] Rerun focused tests, `npm run typecheck`, `npm run lint`; commit `feat: add opt-in full-race performance capture primitives`.
 
 ## Task 2: Wire raw timing and opt-in capture/export
 
-- [ ] Add failing routing tests that drive the real race frame integration using injected RAF timestamps/fake renderer. A 250 ms interval yields raw diagnostics 250 ms while the existing simulation still receives 0.1 seconds. A paused/hidden transition is excluded and the first resumed interval is skipped. Renderer counter reads occur after render.
-- [ ] Add app tests: no diagnostics for absent/0/true flag; `?testRacePerf=1` exposes a diagnostic panel, counters and Download Capture control; ordinary HUD/control markup is unchanged. Download produces schema version 1 JSON and revokes its object URL; disposed/replaced races cannot update the new panel or export stale data.
-- [ ] Run `npx vitest run tests/race-diagnostics-routing.test.ts` and observe failures before wiring.
-- [ ] Wire race-owned meter and callback. Preserve RAF scheduling, simulation, HUD frame fields, camera, audio, pause handling and current item timing. Add independent raw timing variables and eligibility boundary tracking; do not refactor the large race module broadly.
-- [ ] Implement isolated app diagnostic UI only when opted in. Use existing routing/generation cleanup, allow download at Results before disposal, identify sample window/warmup/truncation, and label memory counts correctly. Do not add automatic pass badges.
-- [ ] Run focused tests and existing `tests/item-performance-meter.test.ts`, `tests/settings.test.ts`, `tests/music-routing.test.ts`, `tests/results-routing.test.ts`; run full `npm run validate` and `git lfs fsck`; commit `feat: expose race diagnostics and bounded JSON capture`.
+- [x] Add failing routing tests that drive the real race frame integration using injected RAF timestamps/fake renderer. A 250 ms interval yields raw diagnostics 250 ms while the existing simulation still receives 0.1 seconds. A paused/hidden transition is excluded and the first resumed interval is skipped. Renderer counter reads occur after render.
+- [x] Add app tests: no diagnostics for absent/0/true flag; `?testRacePerf=1` exposes a diagnostic panel, counters and Download Capture control; ordinary HUD/control markup is unchanged. Download produces schema version 1 JSON and revokes its object URL; disposed/replaced races cannot update the new panel or export stale data.
+- [x] Run `npx vitest run tests/race-diagnostics-routing.test.ts` and observe failures before wiring.
+- [x] Wire race-owned meter and callback. Preserve RAF scheduling, simulation, HUD frame fields, camera, audio, pause handling and current item timing. Add independent raw timing variables and eligibility boundary tracking; do not refactor the large race module broadly.
+- [x] Implement isolated app diagnostic UI only when opted in. Use existing routing/generation cleanup, allow download at Results before disposal, identify sample window/warmup/truncation, and label memory counts correctly. Do not add automatic pass badges.
+- [x] Run focused tests and existing `tests/item-performance-meter.test.ts`, `tests/settings.test.ts`, `tests/music-routing.test.ts`, `tests/results-routing.test.ts`; run full `npm run validate` and `git lfs fsck`; commit `feat: expose race diagnostics and bounded JSON capture`.
 
 ## Task 3: Review build and Medium baseline evidence
 
-- [ ] Write the methodology and capture index. Record actual source SHA, browser/OS/device, graphics quality, drawing-buffer dimensions/DPR, eight racers, scenario, exclusions, raw data path and known limitations. Use a complete ordinary three-lap race with warmup excluded; avoid forced-item fixtures for the primary baseline.
-- [ ] Validate the new runtime in a real browser: opt-in source/counters/export, raw long interval handling, pause/tab return, finish/restart/navigation cleanup. Run at an actual 1920×1080 drawing buffer on Medium. If device/capability or browser automation is unavailable, record the precise blocker and leave measurements pending; provide a review link and concise owner capture instructions.
+- [x] Write the methodology and capture index. Record actual source SHA, browser/OS/device, graphics quality, drawing-buffer dimensions/DPR, eight racers, scenario, exclusions, raw data path and known limitations. Use a complete ordinary three-lap race with warmup excluded; avoid forced-item fixtures for the primary baseline.
+- [x] Validate the new runtime in a real browser: opt-in source/counters/export, raw long interval handling, pause/tab return, finish/restart/navigation cleanup. Run at an actual 1920×1080 drawing buffer on Medium. If device/capability or browser automation is unavailable, record the precise blocker and leave measurements pending; provide a review link and concise owner capture instructions.
 - [ ] Capture current visual baseline before adding effects. Record median FPS, p95/max interval, >50 ms count/run, draw-call and triangle maxima, resource count observations and unavailable GPU/heap/texture measurements. A short/truncated/provenance-incomplete export is diagnostics, not final PRD acceptance.
-- [ ] Review diff for preserved physics/audio/ordinary HUD and no unauthorized graphics behavior. Run `npm run validate`, `git diff --check`, `git lfs fsck` before publishing review code; record real output/counts and CI.
-- [ ] Publish an implementation review branch/PR and permitted listening/gameplay review deployment using the existing approved repository workflow. Do not modify protected Pages environments or retry known blocked LFS workarounds. Do not deploy runtime changes to production yet.
-- [ ] Update status/testing records, link captured JSON and review URL, record results or pending hardware evidence, and stop for Manny's review/publication approval. Do not start VFX/bloom/blur automatically.
+- [x] Review diff for preserved physics/audio/ordinary HUD and no unauthorized graphics behavior. Run `npm run validate`, `git diff --check`, `git lfs fsck` before publishing review code; record real output/counts and CI.
+- [x] Publish an implementation review branch/PR and permitted listening/gameplay review deployment using the existing approved repository workflow. Do not modify protected Pages environments or retry known blocked LFS workarounds. Do not deploy runtime changes to production yet.
+- [x] Update status/testing records, link captured JSON and review URL, record results or pending hardware evidence, and stop for Manny's review/publication approval. Do not start VFX/bloom/blur automatically.
 
 ## Setup self-review
 
 Interfaces use one authority; raw timing and clamped simulation remain separate. All five review-focus conditions have Task 1/2 tests. Tasks 1–3 cover audit recommendation 1; later rendering effects and cleanup repairs are explicitly deferred. Engineering capture bounds/quantile conventions are documented without changing PRD targets. New runtime publication remains a separate approval gate.
+
+## Native execution checkpoint
+
+Tasks 1–2 implemented and verified in review PR #212; exact evidence and initial-failure corrections are in `docs/evidence/2026-09-30-medium-baseline/progress.md`. Final runtime `4673aac5caae8c8b153526a74afb9d70cb24c15f`, full validation 85 files / 663 tests. Task 3 methodology prepared; actual identified-desktop capture and real browser smoke remain pending the documented hardware/authentication blockers. Private review publication/CI is recorded in the evidence index as it completes. No runtime merge/production or later graphics scope is authorized.
+
+Task 3 real browser/device fallback was executed: precise auth/hardware blockers documented, measurements pending. The actual visual/whole-race capture checkbox remains open. Runtime PR CI passed and private review deployed; stop for owner review/production approval.

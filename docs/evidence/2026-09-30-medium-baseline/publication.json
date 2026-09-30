@@ -1,0 +1,37 @@
+{
+  "runtimeCommit": "4673aac5caae8c8b153526a74afb9d70cb24c15f",
+  "runtimeTree": "b5502b6f66ae19cdc36fba3031218a82aa5c2241",
+  "runtimeCI": {
+    "id": 36786989565,
+    "conclusion": "success"
+  },
+  "privatePreview": {
+    "projectId": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "versionId": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_27730cdd36cc81918179def92e869595",
+    "deploymentId": "appgdep_6abd911e64a481919913462fcdaa5e12",
+    "status": "succeeded",
+    "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+    "sourceCommit": "962a08bc78db28bee0eb436c87bf898da991b7a2",
+    "archiveHash": "sha256:b22fb1ec62cf409850aa4deb76a3a9e8010762d211dcc894595beb14e892ea59",
+    "sourceManifest": "/review-build.json"
+  },
+  "localValidation": {
+    "testFiles": 85,
+    "tests": 663,
+    "typecheck": "pass",
+    "lint": "pass",
+    "assetGates": "pass",
+    "build": "pass",
+    "lfsFsck": "pass",
+    "diffCheck": "pass"
+  },
+  "browserValidation": {
+    "status": "blocked",
+    "reason": "Owner-private preview requires ChatGPT login; cloud browser has no owner session. No credential/access changes."
+  },
+  "primaryMediumBaseline": {
+    "status": "pending",
+    "reason": "No access to identified baseline physical desktop; complete three-lap eight-racer 1920x1080 Medium capture still required."
+  },
+  "productionChanged": false
+}

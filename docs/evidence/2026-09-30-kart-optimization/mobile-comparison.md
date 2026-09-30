@@ -23,4 +23,8 @@ Maximum draw calls decreased by 95 (29.6%) and are 24 below the <=250 reference 
 
 Fewer >50 ms frames and shorter longest run coexist with a worse maximum interval. The screenshot cannot attribute that 233.5 ms isolated stall to rendering, OS/browser activity or another subsystem; do not hide it, infer a broad frame-time pass, or start speculative repairs. No truncated/raceCompleted flags, raw intervals, heap/GPU/texture-byte/shadow-object/particle data are verified. Scored count is below the cap and Results is visible.
 
-Disposition: actual mobile diagnostic summary RECORDED, draw-call target met in this run. Explicit visual acceptance of unchanged karts/driver behavior/shadows and separate runtime merge/production approval remain pending. Existing gameplay/HUD/Results/audio/manual acceptance remains passed. This screenshot alone authorizes no merge/deployment, VFX/bloom/blur or next slice.
+Disposition: actual mobile diagnostic summary RECORDED, draw-call target met in this run. Manny's visual acceptance PASSED: “The game looked exactly the same.” Separate runtime merge/production approval remains pending. Existing gameplay/HUD/Results/audio/manual acceptance remains passed. This screenshot alone authorizes no merge/deployment, VFX/bloom/blur or next slice.
+
+## Owner visual acceptance
+
+Manny reported on 2026-09-30: “The game looked exactly the same.” Record visual preservation as PASSED BY PRODUCT-OWNER REVIEW for this optimization. Do not infer additional hardware/raw-capture measurements or merge/production authorization from that statement. Existing accepted gameplay/HUD/Results/audio gates remain passed.

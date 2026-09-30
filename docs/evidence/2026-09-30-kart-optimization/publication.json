@@ -27,7 +27,7 @@
     "archiveHash": "sha256:17f7148d7d5199a6e4bc0fea92f46349d7fb11309391778a8ae46d5e7989c443"
   },
   "mobileComparison": "recorded_owner_screenshot",
-  "renderedVisualReview": "pending_owner_review",
+  "renderedVisualReview": "passed_by_product_owner",
   "sourceCountsAreHardwareMeasurements": false,
   "mainCommit": "897b1ca603d9e1e5bd44377e379884a85f7caebb",
   "publicProductionChanged": false,
@@ -45,5 +45,6 @@
     "maxDrawCalls": 226,
     "maxTriangles": 219548
   },
-  "rawCaptureVerified": false
+  "rawCaptureVerified": false,
+  "renderedVisualReviewStatement": "The game looked exactly the same."
 }

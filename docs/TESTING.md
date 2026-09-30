@@ -1,5 +1,8 @@
 # Testing and Validation
 
+> **2026-09-30 owner scope update:** Manny selected the supplied mobile race result to replace the desktop Medium baseline requirement for this checkpoint. Baseline summary is recorded from the screenshot; the raw JSON attachment is unavailable/unverified. No further desktop capture is required for this checkpoint. See `docs/evidence/2026-09-30-medium-baseline/mobile-baseline.md` for metrics, provenance limits and target comparisons. Earlier desktop/pending instructions below describe the superseded capture scope. This does not assert measured desktop performance, a full PRD performance pass, or runtime merge/production approval.
+
+
 This file is the operational source of truth for local and CI validation. Update it when commands, environments, or evidence requirements change.
 
 ## Slice 5 Arc Blade - deployed and LIVE ACCEPTED
@@ -1473,3 +1476,13 @@ For subsequent publication, derive each runtime URL from `assets/audio/music-rev
 The approved next increment is specified in `docs/superpowers/plans/2026-09-30-full-race-diagnostics-medium-baseline.md`. Test raw RAF stalls separately from simulation clamp; paused/hidden/countdown/resume exclusion; bounded immutable capture; post-render counters; exact opt-in/disabled behavior; JSON download and race-generation/disposal cleanup. Keep existing ItemPerformanceMeter tests/evidence intact. Record future actual results rather than treating this setup as a passing diagnostics implementation.
 
 For the Medium baseline, identify source, browser/OS/device, eight racers, complete ordinary race, Medium preset and actual 1920×1080 drawing buffer/DPR; export raw capture, quantile method, long-frame observations and draw-call/triangle maxima. Mark GPU timing, texture bytes and unsupported heap values unavailable. Unit tests or a short/truncated capture do not close the full-race PRD gate. Task 3 adds the detailed reproducible methodology and actual capture index. Existing accepted restart/listening/full-flow gates are not reopened.
+
+## Opt-in whole-race diagnostics — review increment, 2026-09-30
+
+Use only `?testRacePerf=1` to enable the race-owned raw RAF capture and diagnostic-only panel. Other values/absent flags leave ordinary UI and per-frame diagnostics disabled. `testItemPerf` remains unchanged and subsystem-only. Methodology: `docs/SLICE-6-MEDIUM-PERFORMANCE-METHODOLOGY.md`; actual evidence/pending baseline: `docs/evidence/2026-09-30-medium-baseline/README.md`.
+
+Focused commands: `npx vitest run tests/race-performance-meter.test.ts tests/renderer-counters.test.ts tests/race-diagnostics-routing.test.ts tests/race-diagnostics-panel-routing.test.ts tests/item-performance-meter.test.ts tests/settings.test.ts tests/music-routing.test.ts tests/results-routing.test.ts`. Race routing tests construct the real KartTimeTrial and drive injected RAF timestamps with a fake renderer; they prove raw 250 ms versus unchanged simulation 0.1 seconds, counter order, eligibility boundaries and lifecycle, not actual GPU/hardware performance. App tests prove flag isolation, JSON export/revocation, Results availability, stale callbacks/buttons and disposal after delayed startup. Run full `npm run validate`, `git diff --check`, `git lfs fsck` before review publication.
+
+No short/provenance-incomplete/JSDOM capture closes the eight-racer 1920×1080 Medium gate. Hardware, complete race, dimensions, source and nontruncated evidence remain required. No old owner acceptance is reopened; merge/production and later graphics work remain gated.
+
+Diagnostics runtime checkpoint `4673aac5caae8c8b153526a74afb9d70cb24c15f` passed hosted PR CI [36786989565](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36786989565): fresh LFS checkout/fsck, clean install, strict typecheck, zero-warning lint, 85 files / 663 tests, asset gates and production build. Local final statement coverage 86.62%; exact output saved in the evidence directory. A separate self-review fixed the hardware-input driving-key interaction with RED→GREEN coverage. Cloud rendered-runtime check is blocked by the owner-private preview's sign-in wall; no smoke/capture pass is claimed. Production/main is unchanged.

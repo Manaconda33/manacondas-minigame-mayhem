@@ -73,6 +73,14 @@ import { ItemBoxSystem } from './items/ItemBoxSystem';
 import { composePlayerDriveInput } from './input/composePlayerDrive';
 import type { WheelState } from '../app/touchWheel';
 import { ItemPerformanceMeter } from './items/ItemPerformanceMeter';
+import { RacePerformanceMeter } from './diagnostics/RacePerformanceMeter';
+import { readRendererCounters } from './diagnostics/RendererCounters';
+import {
+  racePerformanceFromSearch,
+  type RaceCaptureMetadata,
+  type RacePerformanceCapture,
+  type RacePerformanceSnapshot,
+} from './diagnostics/raceDiagnostics';
 import { ProjectileSystem, type ProjectileSnapshot } from './items/ProjectileSystem';
 import { executeItemUse } from './items/ItemEffectDispatcher';
 import { selectItem } from './items/ItemSelector';
@@ -162,6 +170,7 @@ export interface TimeTrialOptions {
   onMusicState?: (state: RaceMusicState) => void;
   onFinish: (result: RaceResult) => void;
   onStandings?: (standings: RaceResult['standings']) => void;
+  onDiagnostics?: (snapshot: RacePerformanceSnapshot) => void;
 }
 
 interface AiRacer {
@@ -199,6 +208,16 @@ interface OpponentVisual {
 }
 
 export class KartTimeTrial {
+  private racePerformance: RacePerformanceMeter | null = racePerformanceFromSearch(
+    window.location.search,
+  )
+    ? new RacePerformanceMeter(true)
+    : null;
+  private diagnosticsBoundary = true;
+  private diagnosticsEligibility = false;
+  private diagnosticsLastUpdate = -Infinity;
+  private diagnosticsDisposed = false;
+  private readonly captureViewport = { width: window.innerWidth, height: window.innerHeight };
   private readonly raceAudio = new RaceSfx();
   private audioApexPhase = '';
   private readonly renderer: THREE.WebGLRenderer;
@@ -416,10 +435,25 @@ export class KartTimeTrial {
 
   public start(): void {
     this.lastFrame = performance.now();
+    this.diagnosticsBoundary = true;
     this.animationFrame = requestAnimationFrame(this.frame);
   }
 
+  public exportPerformanceCapture(metadata: RaceCaptureMetadata): RacePerformanceCapture | null {
+    return (
+      this.racePerformance?.exportCapture({
+        ...metadata,
+        quality: this.options.graphicsQuality,
+        racerCount: this.opponents.length + 1,
+        nominalViewport: { ...this.captureViewport },
+      }) ?? null
+    );
+  }
+
   public dispose(): void {
+    this.diagnosticsDisposed = true;
+    this.racePerformance?.dispose();
+    this.racePerformance = null;
     this.raceAudioIfPresent()?.dispose();
     this.touchWheel = { held: false, steering: 0 };
     cancelAnimationFrame(this.animationFrame);
@@ -509,7 +543,9 @@ export class KartTimeTrial {
   }
 
   private readonly frame = (now: number): void => {
-    const frameSeconds = Math.min((now - this.lastFrame) / 1000, 0.1);
+    if (this.diagnosticsDisposed) return;
+    const rawFrameMs = now - this.lastFrame;
+    const frameSeconds = Math.min(rawFrameMs / 1000, 0.1);
     this.lastFrame = now;
     this.itemPerformance?.beginFrame(
       !this.paused && this.raceDirector.phase(this.playerProgress.finished) === 'racing',
@@ -522,6 +558,24 @@ export class KartTimeTrial {
     this.updateVisuals(frameSeconds);
     this.itemPerformance?.endFrame();
     this.renderer.render(this.scene, this.camera);
+    if (this.racePerformance !== null) {
+      const phase = this.raceDirector.phase(this.playerProgress.finished);
+      const eligible = phase === 'racing' && !this.paused && !document.hidden;
+      this.racePerformance.record({
+        rawFrameMs,
+        phase,
+        paused: this.paused,
+        hidden: document.hidden,
+        boundary: this.diagnosticsBoundary || eligible !== this.diagnosticsEligibility,
+        counters: readRendererCounters(this.renderer),
+      });
+      this.diagnosticsBoundary = false;
+      this.diagnosticsEligibility = eligible;
+      if (now - this.diagnosticsLastUpdate >= 1000) {
+        this.diagnosticsLastUpdate = now;
+        this.options.onDiagnostics?.(this.racePerformance.snapshot());
+      }
+    }
     this.updateHud(frameSeconds);
     this.animationFrame = requestAnimationFrame(this.frame);
   };
@@ -2163,6 +2217,7 @@ export class KartTimeTrial {
   }
 
   private readonly onAudioVisibilityChange = (): void => {
+    if (this.racePerformance) this.diagnosticsBoundary = true;
     this.raceAudio.bank.setPaused(this.paused || document.hidden);
     if (document.hidden) this.prismaticMusic.update(0, 0, 0, true);
   };
@@ -2180,6 +2235,7 @@ export class KartTimeTrial {
       event.preventDefault();
     }
     if ((event.code === 'Escape' || event.code === 'KeyP') && !event.repeat) {
+      if (this.racePerformance) this.diagnosticsBoundary = true;
       this.paused = !this.paused;
       this.raceAudioIfPresent()?.bank.setPaused(this.paused);
       uiSfx.play(this.paused ? 'ui-pause' : 'ui-resume', { gain: 0.25 });

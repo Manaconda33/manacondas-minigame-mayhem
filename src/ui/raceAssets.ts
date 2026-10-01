@@ -10,6 +10,7 @@ const APPROVED_VICTORY_HASH_BY_CHARACTER: Readonly<Record<string, string>> = {
   'aa-09': '19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b',
   'aa-10': 'ceb43f0c7b12a7ad16556dfec460ffc29cfc4372561ce1fa9580a8399aa76c98',
   'aa-11': '59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b',
+  'aa-13': '6729f3f8d1e095720a5163b1fc8af8b6cd1282d5d8f576fb1dab17db735bda09',
   'aa-12': '218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107',
 };
 
@@ -25,6 +26,7 @@ const APPROVED_REACTION_HASH_BY_CHARACTER: Readonly<Record<string, string>> = {
   'aa-09': '899fc626403f9811528acb01aa4f6bc259cdef334e19b3921f4ed488e3c3813f',
   'aa-10': 'c91d9947d42873d3da73f7f31edfca7f9201fcbb2be14f244f1d8fea2ecfbae8',
   'aa-11': '65dc0695310a406f46b7f3574bdea7b28bceab6fcf0ce98c2db5dcf44eba40f5',
+  'aa-13': 'b736b45954db1ea143695a0ce198fa471dfc582cad76ad475f405924fdb8edd0',
   'aa-12': '048275029ea11e85cba10fd1ce918a6d3ec479396324fb1174e5ae7e772462b8',
 };
 

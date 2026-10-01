@@ -5376,3 +5376,26 @@ h2 {
   font: 12px/1.4 monospace;
 }
 .race-diagnostics input, .race-diagnostics button { display: block; max-width: 100%; margin-top: 0.5rem; }
+
+/* Roster page controls remain reachable at every accepted selection breakpoint. */
+.character-roster-pages {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+}
+.character-roster-pages .menu-button {
+  min-height: 44px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+}
+.character-roster-pages .menu-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.character-roster-pages > span {
+  color: #e8d8ff;
+  font-size: 0.7rem;
+  white-space: nowrap;
+}

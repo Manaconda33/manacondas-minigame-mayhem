@@ -1,0 +1,83 @@
+{
+  "canonicalRuntime": {
+    "repository": "Manaconda33/manacondas-minigame-mayhem",
+    "commit": "5dfd217c4ab75be309ddc61bc312e0e08d859fcf",
+    "tree": "28ab63986decefe3794b36b5bca776d2176f3a89",
+    "pr": 224,
+    "ci": {
+      "run": 36893095542,
+      "status": "success"
+    }
+  },
+  "preview": {
+    "id": "appgdep_6abe8c62556c8191b3ad0bfe2d4f1e72",
+    "project_id": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "title": "Manaconda race diagnostics review",
+    "version_id": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_ddcba90e53d08191bc1635ed4ef10206",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6abd8e96a17081919b0934998de64bf8",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-10-01T16:38:04.444605+00:00",
+    "versionNumber": 9,
+    "sourceCommit": "330230323736d8368787b09dfeb1636a87335623",
+    "archive": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_00000000b41481f6acb7f6bb683afa0d",
+      "content_hash": "sha256:fad81d9a96a78cd54ee28298020756f6ef19bcedbfb9bc611d91497e61f33811",
+      "size_bytes": 175493120,
+      "file_count": 364
+    },
+    "build": {
+      "sourceCommit": "5dfd217c4ab75be309ddc61bc312e0e08d859fcf",
+      "sourceTree": "28ab63986decefe3794b36b5bca776d2176f3a89",
+      "pr": 224,
+      "status": "bloom review only; owner visual acceptance and separate public publication pending",
+      "base": "/",
+      "validation": {
+        "files": 95,
+        "tests": 743,
+        "fullValidation": "passed"
+      },
+      "files": [
+        {
+          "path": "index.html",
+          "bytes": 638,
+          "sha256": "0419b7340d27d39371d4cffb3d19cc97d4b91ad98e14d348b9d0f0216500291d"
+        },
+        {
+          "path": "assets/KartTimeTrial-Dk1XzU0I.js",
+          "bytes": 3115993,
+          "sha256": "2cad5ceb9c56e8efd09b4c78cd53d7e7c73e56f076b984f1e0b0d3aa1121e1fd"
+        },
+        {
+          "path": "assets/index-fF3gjAeq.js",
+          "bytes": 801378,
+          "sha256": "1fb3d90a612abc308b71429eeeaa437e0c590aecd25806018c1f85e7035e11ac"
+        },
+        {
+          "path": "assets/index-B7Jt5ma7.css",
+          "bytes": 84735,
+          "sha256": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2"
+        }
+      ]
+    },
+    "localCompressedArchiveSha256": "2f6384cc1511f5059392cbc01fc4e0d2cb69bba352a071c4203bd065c7e6c519",
+    "archiveHashNote": "Local input is gzip-compressed; native saved archive metadata describes a tar representation. Hashes are recorded separately; equivalence of raw archive bytes is not asserted."
+  },
+  "ownerNewBloomVisual": "pending",
+  "mergePublicPublicationApproval": "pending",
+  "previousAcceptance": "preserved",
+  "renderedDevicePerformance": "not claimed",
+  "contextLossRecovery": "removed from remaining scope by owner",
+  "rulings": [
+    "Retain existing isolated task clone; cost if wrong: relocate branch.",
+    "Disabled diagnostic frame-read assertion excludes startup drawing-buffer sizing; cost if wrong: startup counter read not covered by frame-only assertion.",
+    "Structural review coverage gap regraded Important and covered; cost if wrong: test maintenance.",
+    "Reviewer did not exercise GPU pixels/device/hosting; separate evidence retained; cost if unavailable: owner visual review and honest measurement limits."
+  ]
+}

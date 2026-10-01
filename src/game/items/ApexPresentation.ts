@@ -1,3 +1,4 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import type { ApexSnapshot, ApexTarget } from './ApexMissileSystem';
 import { APEX_CONFIG } from './itemDefinitions';
@@ -12,21 +13,21 @@ export class ApexPresentation {
   );
   private readonly trail = new THREE.Mesh(
     new THREE.ConeGeometry(0.5, 4, 6),
-    new THREE.MeshBasicMaterial({
+    markBloomMaterial(new THREE.MeshBasicMaterial({
       color: 0xcba0ff,
       transparent: true,
       opacity: 0.65,
       depthWrite: false,
-    }),
+    }), 'color'),
   );
   private readonly blast = new THREE.Mesh(
     new THREE.RingGeometry(0.8, 1, 40),
-    new THREE.MeshBasicMaterial({
+    markBloomMaterial(new THREE.MeshBasicMaterial({
       color: 0xedbdff,
       transparent: true,
       side: THREE.DoubleSide,
       depthWrite: false,
-    }),
+    }), 'color'),
   );
   private blastRemaining = 0;
   private time = 0;

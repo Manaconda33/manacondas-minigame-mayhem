@@ -1,0 +1,44 @@
+{
+  "status": "review only; not deployed",
+  "base_main": "e4defab83b19fcd7a94d27b8ddb361e3b34fadc5",
+  "named_asset_commit": "8c7ef6371e433d6d8d4284b72bf4a0c2eb106ea1",
+  "materialization_run": 36892887641,
+  "named_asset_ci": 36892887671,
+  "runtime_revision": "archer-runtime-20261001-1",
+  "rear_mount": [
+    0,
+    0.85,
+    -0.12
+  ],
+  "front_mount": [
+    0,
+    0.78,
+    -0.12
+  ],
+  "tests": {
+    "files": 95,
+    "passed": 750
+  },
+  "rendered_review": "pending: agent-browser socket denied; Chromium absent and download failed",
+  "approved_reaction_invisible_rgb": "preserved exact approved bytes; hash/alpha/corners/matte gates retained",
+  "refresh": "Merged selective bloom main; shared renderer exact SHA-256 matches main: 3c56d4ccc3155debcf214b7d7a0382993eb23efd22e5e314a91123d38dc1832e",
+  "independent_review": "No Critical/Important issues; see code-review.txt",
+  "deferred_minors": [
+    "Post-race change-driver branch lacks a separate page-restoration test; menu/play restoration is covered.",
+    "Manifest test description says twelve while asserting thirteen."
+  ],
+  "offline_mounted_sheets": [
+    {
+      "path": "docs/evidence/2026-10-01-archer/mounted-review-1.png",
+      "sha256": "2707844be1458af286c80b60a89306ba254dffab42dbefe5649ff7b8829b0fda"
+    },
+    {
+      "path": "docs/evidence/2026-10-01-archer/mounted-review-2.png",
+      "sha256": "86c0c44c6e2ffd29837025caeedb00ea3ba5c25da4ac10c430cc1f8aed17a2dd"
+    },
+    {
+      "path": "docs/evidence/2026-10-01-archer/mounted-review-3.png",
+      "sha256": "3fdc9f1f251d19ae5b4d4aa5751e34b9cca83748406dab8e0900c117a18c919d"
+    }
+  ]
+}

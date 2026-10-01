@@ -1,10 +1,11 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import { FROST } from './FrostOrbs';
 
 export function frostCrystal(radius: number, color = 0x9ae5ff): THREE.Mesh {
   return new THREE.Mesh(
     new THREE.OctahedronGeometry(radius),
-    new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.7, depthWrite: false }),
+    markBloomMaterial(new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.7, depthWrite: false }), 'color'),
   );
 }
 

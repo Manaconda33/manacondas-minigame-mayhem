@@ -9,6 +9,7 @@ describe('race Results victory assets', () => {
     ['aa-10', 'ceb43f0c7b12a7ad16556dfec460ffc29cfc4372561ce1fa9580a8399aa76c98'],
     ['aa-11', '59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b'],
     ['aa-12', '218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107'],
+    ['aa-13', '6729f3f8d1e095720a5163b1fc8af8b6cd1282d5d8f576fb1dab17db735bda09'],
   ])('maps approved %s victory art to its hash-revisioned runtime URL', (characterId, hash) => {
     expect(raceResultsVictoryUrl(characterId, 1)).toBe(
       `/assets/characters/${characterId}/results/victory.png?v=${hash}`,
@@ -18,6 +19,6 @@ describe('race Results victory assets', () => {
   it('keeps mapped art limited to podium places', () => {
     expect(raceResultsVictoryUrl('aa-07', 4)).toBeNull();
     expect(raceResultsVictoryUrl('aa-10', 8)).toBeNull();
-    expect(raceResultsVictoryUrl('aa-13', 1)).toBeNull();
+    expect(raceResultsVictoryUrl('aa-14', 1)).toBeNull();
   });
 });

@@ -1,3 +1,4 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import type { SlickSurface } from './SlickGroundSurface';
 import type { CircuitAlpha } from '../track/CircuitAlpha';
@@ -383,12 +384,12 @@ export class HazardSystem {
     }));
     const mesh = new THREE.Mesh(
       new THREE.RingGeometry(0.8, 1, 32),
-      new THREE.MeshBasicMaterial({
+      markBloomMaterial(new THREE.MeshBasicMaterial({
         color: 0xffbe70,
         side: THREE.DoubleSide,
         transparent: true,
         depthWrite: false,
-      }),
+      }), 'color'),
     );
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.copy(orb.mesh.position).y -= C.radius - 0.12;

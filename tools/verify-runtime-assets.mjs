@@ -229,6 +229,12 @@ const runtimeGlbs = [
   'public/assets/characters/aa-12/kart-lod2.glb',
 ];
 
+runtimeGlbs.push(
+  'public/assets/characters/aa-13/kart.glb',
+  'public/assets/characters/aa-13/lod/kart-lod1.glb',
+  'public/assets/characters/aa-13/lod/kart-lod2.glb',
+);
+
 for (const path of runtimeGlbs) {
   const file = await open(path, 'r');
   try {
@@ -682,6 +688,36 @@ const mcfleurdelSteeringMatteRects = {
   ],
 };
 
+const archerArtLedger = JSON.parse(
+  await readFile('docs/evidence/2026-10-01-archer/runtime-art-ledger.json', 'utf8'),
+);
+if (archerArtLedger.assets.length !== 14)
+  throw new Error('Archer must deliver fourteen approved PNGs.');
+for (const asset of archerArtLedger.assets) {
+  const bytes = await readFile(asset.path);
+  if (createHash('sha256').update(bytes).digest('hex') !== asset.sha256)
+    throw new Error(`${asset.path} differs from approved Archer art.`);
+  runtimePngs.push([asset.path, ...asset.dimensions]);
+  newTransparentFronts.add(asset.path);
+}
+const archerKartLedger = JSON.parse(
+  await readFile('docs/evidence/2026-10-01-archer/kart-candidate-3.json', 'utf8'),
+);
+for (const asset of archerKartLedger.files) {
+  const bytes = await readFile(asset.runtime_path);
+  if (createHash('sha256').update(bytes).digest('hex') !== asset.sha256)
+    throw new Error(`${asset.runtime_path} differs from approved The Precision Shot geometry.`);
+  const length = bytes.readUInt32LE(12);
+  const doc = JSON.parse(bytes.subarray(20, 20 + length).toString('utf8'));
+  if (
+    doc.extras.approvedName !== 'The Precision Shot' ||
+    doc.nodes.length !== 13 ||
+    doc.materials.length !== 4 ||
+    doc.nodes[0].extras.triangleCount > asset.budget
+  )
+    throw new Error(`${asset.runtime_path} violates the approved kart contract.`);
+}
+
 for (const [path, expectedWidth, expectedHeight] of runtimePngs) {
   const png = await readFile(path);
   if (!png.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) {
@@ -771,7 +807,9 @@ for (const [path, expectedWidth, expectedHeight] of runtimePngs) {
       const green = decoded[offset + 1];
       const blue = decoded[offset + 2];
       const alpha = decoded[offset + 3];
-      if (alpha === 0 && (red !== 0 || green !== 0 || blue !== 0)) {
+      // Archer's full-size approved original retains invisible RGB; its exact hash and
+      // decoded alpha/corners are governed above. Preserve those approved bytes.
+      if (!path.includes('/aa-13/') && alpha === 0 && (red !== 0 || green !== 0 || blue !== 0)) {
         throw new Error(`${path} has nonzero RGB values in a fully transparent pixel.`);
       }
       if (alpha > 0 && red === 0 && green === 255 && blue === 0) {

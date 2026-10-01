@@ -52,3 +52,11 @@ Manny explicitly approved the corrected Candidate 3 on 2026-10-01 (America/Chica
 ## Kart display name approved
 
 Manny chose **The Precision Shot** on 2026-10-01 (America/Chicago). The GLB approvedName metadata now records that identity; geometry is unchanged. Named-delivery hashes are recorded separately from the original Candidate 3 review hashes.
+
+## Runtime integration checkpoint — review only
+
+The review manifest now includes Archer as AA-13 with approved stats and The Precision Shot, all ten driver states and both approved results poses. Character Select exposes him alone on page two; page one retains the original twelve and navigation preserves selection. Races remain eight unique drivers. Revision: `archer-runtime-20261001-1`; shared PI visual yaw, rear mount `[0, 0.85, -0.12]`, front mount `[0, 0.78, -0.12]`. All ten states were inspected in deterministic offline mounted sheets using actual model geometry and runtime normalization. These are proposed mounts, not actual chase/rear camera acceptance.
+
+Named kart Actions run `36892887641` passed exact rebuild hashes, unchanged pointers, restricted approved-object upload, cache deletion, fetch-back and fsck. Named-package CI `36892887671` passed. Temporary materialization workflow removed. Current object IDs: LOD0 `952ca8e50b69bb5f2bc9d8d4cd4e43f844560bb4069fa23c1c0132ae77fb1e93`; LOD1 `8768f40456320986868e96ea23c0590e4f230a946a050f404d3b07ff0e430423`; LOD2 `620a4fd0f88fbd92d1665598f9ba57b65d436be948161c769af562c976e88a2c`. Original geometry bridge `36890781915` also passed; named metadata changed the hashes without changing geometry.
+
+Local browser verification is blocked: agent-browser daemon socket bind returns `Operation not permitted`; Chromium is absent and browser downloads fail ZIP decoding. Desktop/mobile rendered controls and actual chase/rear mounting remain pending, together with owner gameplay acceptance and separate merge/production authorization. Source-master authenticated LFS handoff remains pending; all runtime bytes are delivered. Earlier pending integration/name/geometry text is historical.

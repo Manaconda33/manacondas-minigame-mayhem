@@ -78,7 +78,7 @@ function standingsWithPlayerPlace(playerPlace: number): RaceStanding[] {
 }
 
 describe('Results/Podium presentation', () => {
-  it.each(Array.from({ length: 12 }, (_, index) => `aa-${String(index + 1).padStart(2, '0')}`))(
+  it.each(Array.from({ length: 13 }, (_, index) => `aa-${String(index + 1).padStart(2, '0')}`))(
     'maps approved reaction art for %s only to lower-finish places',
     (characterId) => {
       expect(raceResultsReactionUrl(characterId, 4)).toContain(

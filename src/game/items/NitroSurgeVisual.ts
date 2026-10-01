@@ -1,14 +1,15 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 
 function additiveMaterial(color: number, opacity: number): THREE.MeshBasicMaterial {
-  return new THREE.MeshBasicMaterial({
+  return markBloomMaterial(new THREE.MeshBasicMaterial({
     color,
     transparent: true,
     opacity,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
     toneMapped: false,
-  });
+  }), 'color');
 }
 
 export class NitroSurgeVisual {

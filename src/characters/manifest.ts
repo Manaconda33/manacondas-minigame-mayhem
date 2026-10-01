@@ -587,6 +587,53 @@ const alex: CharacterDefinition = {
   stats: { speed: 6, acceleration: 9, weight: 2, handling: 8, miniTurbo: 7, traction: 4 },
 };
 
+const archer: CharacterDefinition = {
+  id: 'aa-13',
+  displayName: 'Archer',
+  descriptor: 'Precision Speedster',
+  initials: 'AR',
+  accent: '#df38cc',
+  assetState: 'production',
+  portrait: assetUrl('assets/characters/aa-13/portrait.png', 'archer-runtime-20261001-1'),
+  selectionArt: assetUrl(
+    'assets/characters/aa-13/selection/full-body.png',
+    CHARACTER_SELECTION_ART_REVISION,
+  ),
+  kartName: 'The Precision Shot',
+  kart: assetUrl('assets/characters/aa-13/kart.glb', 'archer-runtime-20261001-1'),
+  kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
+  driverSpritePosition: [0, 0.85, -0.12],
+  frontDriverSpritePosition: [0, 0.78, -0.12],
+  driver: {
+    rear: assetUrl('assets/characters/aa-13/driver/rear.png', 'archer-runtime-20261001-1'),
+    front: assetUrl('assets/characters/aa-13/driver/front.png', 'archer-runtime-20261001-1'),
+    steerLeft: assetUrl(
+      'assets/characters/aa-13/driver/steer-left.png',
+      'archer-runtime-20261001-1',
+    ),
+    steerRight: assetUrl(
+      'assets/characters/aa-13/driver/steer-right.png',
+      'archer-runtime-20261001-1',
+    ),
+    hit: assetUrl('assets/characters/aa-13/driver/hit.png', 'archer-runtime-20261001-1'),
+    victory: assetUrl('assets/characters/aa-13/driver/victory.png', 'archer-runtime-20261001-1'),
+    frontSteerLeft: assetUrl(
+      'assets/characters/aa-13/driver/front-steer-left.png',
+      'archer-runtime-20261001-1',
+    ),
+    frontSteerRight: assetUrl(
+      'assets/characters/aa-13/driver/front-steer-right.png',
+      'archer-runtime-20261001-1',
+    ),
+    frontHit: assetUrl('assets/characters/aa-13/driver/front-hit.png', 'archer-runtime-20261001-1'),
+    frontVictory: assetUrl(
+      'assets/characters/aa-13/driver/front-victory.png',
+      'archer-runtime-20261001-1',
+    ),
+  },
+  stats: { speed: 8, acceleration: 5, weight: 4, handling: 8, miniTurbo: 7, traction: 4 },
+};
+
 export const characterManifest: readonly CharacterDefinition[] = [
   lavi,
   manaconda,
@@ -600,14 +647,15 @@ export const characterManifest: readonly CharacterDefinition[] = [
   jennifer,
   dragonQueen,
   alex,
+  archer,
 ];
 
 export function validateCharacterManifest(
   manifest: readonly CharacterDefinition[] = characterManifest,
 ): string[] {
   const errors: string[] = [];
-  if (manifest.length !== 12)
-    errors.push(`Expected 12 characters; found ${String(manifest.length)}.`);
+  if (manifest.length !== 13)
+    errors.push(`Expected 13 characters; found ${String(manifest.length)}.`);
   const ids = new Set<string>();
   for (const character of manifest) {
     if (ids.has(character.id)) errors.push(`Duplicate character id: ${character.id}.`);

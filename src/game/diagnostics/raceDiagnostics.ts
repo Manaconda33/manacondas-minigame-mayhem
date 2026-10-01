@@ -1,3 +1,4 @@
+import type { BloomSnapshot } from '../rendering/RaceBloom';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
 
 export function racePerformanceFromSearch(search: string): boolean {
@@ -42,6 +43,7 @@ export interface RacePerformanceSnapshot {
 export interface RaceCaptureMetadata {
   schemaVersion: 1;
   sourceCommit: string | null;
+  bloom?: BloomSnapshot;
   capturedAt: string;
   quality: GraphicsQuality;
   userAgent: string;

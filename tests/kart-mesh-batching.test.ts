@@ -24,11 +24,15 @@ function vertices(root: THREE.Object3D): Map<string, number[]> {
     const uv = mesh.geometry.getAttribute('uv') as THREE.BufferAttribute | undefined;
     const index = mesh.geometry.index;
     const normalMatrix = new THREE.Matrix3().getNormalMatrix(object.matrixWorld);
+    // Multi-material controls load as groups; their child primitives remain dynamic too.
+    let steeringControl: THREE.Object3D | null = object;
+    while (steeringControl !== null && steeringControl.name !== 'SteeringWheel')
+      steeringControl = steeringControl.parent;
     const key = [
       mesh.material.uuid,
       object.castShadow,
       object.receiveShadow,
-      object.name === 'SteeringWheel' ? 'steering' : 'static',
+      steeringControl !== null ? 'steering' : 'static',
     ].join('|');
     const values = result.get(key) ?? [];
     for (let i = 0; i < (index?.count ?? position.count); i += 1) {
@@ -161,7 +165,7 @@ describe('static kart batching', () => {
     expect(meshCount(root)).toBe(4);
   });
 
-  for (let id = 1; id <= 12; id += 1) {
+  for (let id = 1; id <= 13; id += 1) {
     it(`preserves approved production kart aa-${String(id).padStart(2, '0')} while reducing submissions`, async () => {
       const encoded = readFileSync(
         `public/assets/characters/aa-${String(id).padStart(2, '0')}/kart.glb`,

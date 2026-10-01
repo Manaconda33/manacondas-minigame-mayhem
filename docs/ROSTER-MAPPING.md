@@ -1,10 +1,10 @@
 # Roster profile allocation
 
-This ledger is the source of truth for mapping approved Manaconda's Minigame Mayhem characters to the twelve fixed PRD balance profiles. Each internal profile may be assigned to one active production character only. An assigned profile is unavailable to every later character unless Manny explicitly approves a remap or retires the assigned character from production.
+This ledger is the source of truth for mapping approved Manaconda's Minigame Mayhem characters to the thirteen approved PRD balance profiles. Each internal profile may be assigned to one active production character only. An assigned profile is unavailable to every later character unless Manny explicitly approves a remap or retires the assigned character from production.
 
 ## Allocation rules
 
-- Every active production character must use one AA-01 through AA-12 profile.
+- Every active production character must use one AA-01 through AA-13 profile.
 - Each profile may be assigned once among active production characters.
 - Each active production character may hold one profile.
 - Character appearance or personality may inform discussion but cannot determine a mapping without an approved driving-feel decision.
@@ -44,6 +44,8 @@ Stat order is Speed / Acceleration / Weight / Handling / Mini-Turbo / Traction.
 | AA-10   | Straight-Line Heavy | Heavyweight   | 10 / 4 / 9 / 3 / 4 / 6 | Assigned | Krios        | The Hornbreaker      | Manny, 2026-08-22 |
 | AA-11   | Collision Tank      | Heavyweight   | 8 / 4 / 10 / 3 / 5 / 6 | Assigned | Accu         | Pink Precision       | Manny, 2026-08-20 |
 | AA-12   | All-Surface Heavy   | Heavyweight   | 8 / 5 / 8 / 4 / 4 / 7  | Assigned | Jennifer     | The Hearthwarden     | Manny, 2026-09-03 |
+
+| AA-13 | Precision Speedster | Medium | 8 / 5 / 4 / 8 / 7 / 4 | Assigned | Archer | The Precision Shot | Manny, 2026-10-01 |
 
 ## Front-action rollout checkpoint
 
@@ -164,3 +166,11 @@ change to places 4–8 runtime selection.
 ### AA-06: Cleo / The Gilded Stitch
 
 Manny approved Cleo for AA-06 on 2026-08-21. Handling 7 and Traction 7 supported her precision-craft, stable-line identity while moderate remaining values kept her distinct from the drift and heavyweight specialists. Manny retired Cleo from production on 2026-08-26 while preserving her complete approved package for possible restoration. AA-06 was released for reassignment and is now assigned to Dragon Queen. See `docs/CHARACTER-ARCHIVE.md` for Cleo's durable archive and restoration gate.
+
+## Archer expansion — approved allocation, not runtime-active
+
+Manny approved AA-13 Archer / Precision Speedster on 2026-10-01: Speed 8, Acceleration 5, Weight 4, Handling 8, Mini-Turbo 7, Traction 4 (36 points). Archer is allocated as a new thirteenth profile on Character Select page two; no AA-01–AA-12 profile is released or remapped. Art is individually approved; geometry, runtime expansion, publication and live acceptance remain pending. See `docs/avatars/ARCHER.md`.
+
+## Archer runtime review checkpoint
+
+The approved AA-13 allocation extends the roster to thirteen unique profiles. Page one retains the existing twelve drivers in their existing order; page two exposes Archer. The race remains the player plus seven unique AI opponents. The review manifest uses `archer-runtime-20261001-1`; Archer is not deployed or live accepted. Kart name and Candidate 3 geometry are approved. Actual chase/rear mounting and desktop/mobile page controls await rendered owner review.

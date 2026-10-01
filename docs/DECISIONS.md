@@ -956,6 +956,10 @@ Manny reported “The exhaust effects are great.” on private version 7, then i
 
 Manny accepted private version 8, including the boost-bubble correction, and explicitly authorized merge/publication with “Approved for merge / publish” on 2026-10-01 (America/Chicago). PR #221 merged at `fa9487615330d74f79e46a09c1fdbf1dd14fc8c5`; final PR CI `36881140355` and post-merge CI/Pages `36882109291` passed. Public index, both JS bundles and CSS returned HTTP 200 with exact validated-production-build hashes. Full validation passed 91 files / 727 tests. All prior acceptance stays passed; no hardware/global-performance result, bloom, blur or next-slice authority is inferred. Evidence: `docs/evidence/2026-10-01-exhaust-boost-flares/production-delivery.json`. Earlier pending statements are historical.
 
+## Approved roster extension — Archer, 2026-10-01
+
+Manny approved AA-13 Archer / Precision Speedster (8/5/4/8/7/4), page-two placement, all fourteen 2D illustrations, corrected Candidate 3 geometry and kart name The Precision Shot. Extend capacity to thirteen while preserving existing twelve profiles/order, eight-racer grid, existing graphics and physics. Add page state to the existing selection flow; browsing preserves selection and reopening restores the selected page. Normal-Git runtime PNG exceptions and deterministic Actions bridge remain authoritative; source masters retain LFS governance. Candidate 3 arrow points toward the curved bow; steering faces the driver. Model normalization retains shared PI yaw, thirteen nodes and four materials. Proposed sprite mounts rear `[0, 0.85, -0.12]`, front `[0, 0.78, -0.12]` require actual chase/rear review. This is a review branch, without merge or production authorization.
+
 
 ## ADR-100: Context-loss recovery scope waiver and selective bloom direction
 

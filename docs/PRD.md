@@ -3124,3 +3124,7 @@ Report back with:
 STOP after Slice 0. Do not begin Slice 1 until I explicitly approve the Slice 0 checkpoint.
 
 End of PRD v1.1
+
+## Approved roster extension — Archer, 2026-10-01
+
+Manny approved adding Archer as AA-13 Precision Speedster, a new thirteenth profile with Speed 8 / Acceleration 5 / Weight 4 / Handling 8 / Mini-Turbo 7 / Traction 4 (36 total), Medium class. Character Select retains the existing twelve drivers on page one and exposes Archer on page two with previous/next controls. Page navigation preserves the selected driver; reopening selection restores that driver’s page. His kart is The Precision Shot. Existing AA-01–AA-12 identities, stats and ordering remain locked. Races retain eight unique racers: the player and seven AI opponents sampled after excluding the player. Earlier twelve-profile requirements describe the original scaffold and are superseded only for roster capacity by this amendment. Character art and Candidate 3 geometry are approved; actual gameplay mounting/responsive visual acceptance and separate merge/production approval remain required.

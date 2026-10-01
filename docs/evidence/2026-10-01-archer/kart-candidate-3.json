@@ -1,0 +1,34 @@
+{
+  "status": "geometry approved by Manny on 2026-10-01 America/Chicago; runtime integration pending",
+  "change": "Arrowhead points toward curved bow; bow, string, jewel and steering unchanged",
+  "files": [
+    {
+      "lod": "lod0",
+      "path": "tools/assets/candidates/archer-kart-candidate-3-lod0.glb",
+      "sha256": "952ca8e50b69bb5f2bc9d8d4cd4e43f844560bb4069fa23c1c0132ae77fb1e93",
+      "triangles": 12088,
+      "budget": 25000,
+      "runtime_path": "public/assets/characters/aa-13/kart.glb",
+      "original_review_sha256": "84fa90c358fbb226933b9a35d5b47e14739d2d56d45dd1259adb574aaca829d8"
+    },
+    {
+      "lod": "lod1",
+      "path": "tools/assets/candidates/archer-kart-candidate-3-lod1.glb",
+      "sha256": "8768f40456320986868e96ea23c0590e4f230a946a050f404d3b07ff0e430423",
+      "triangles": 6704,
+      "budget": 12000,
+      "runtime_path": "public/assets/characters/aa-13/lod/kart-lod1.glb",
+      "original_review_sha256": "de3dee169430be9b926e5891ecc41a5c695305a2e83783d54392679802f5a1d1"
+    },
+    {
+      "lod": "lod2",
+      "path": "tools/assets/candidates/archer-kart-candidate-3-lod2.glb",
+      "sha256": "620a4fd0f88fbd92d1665598f9ba57b65d436be948161c769af562c976e88a2c",
+      "triangles": 4316,
+      "budget": 5000,
+      "runtime_path": "public/assets/characters/aa-13/lod/kart-lod2.glb",
+      "original_review_sha256": "122e8b3dc7a4e8c067cb581238d971f90b5f83252b8ac0da80d28df64a8c41ca"
+    }
+  ],
+  "approved_name": "The Precision Shot"
+}

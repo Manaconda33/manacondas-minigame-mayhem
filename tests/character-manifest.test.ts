@@ -23,10 +23,26 @@ import {
 } from '../src/characters/manifest';
 
 describe('character manifest', () => {
+  it('adds Archer as a unique Precision Speedster with his complete approved package', () => {
+    const archer = characterById('aa-13');
+    expect(archer.displayName).toBe('Archer');
+    expect(archer.kartName).toBe('The Precision Shot');
+    expect(archer.stats).toEqual({
+      speed: 8,
+      acceleration: 5,
+      weight: 4,
+      handling: 8,
+      miniTurbo: 7,
+      traction: 4,
+    });
+    expect(archer.kartVisualYaw).toBe(Math.PI);
+    expect(Object.keys(archer.driver ?? {})).toHaveLength(10);
+    expect(archer.driver?.frontHit).toContain('/aa-13/driver/front-hit.png?v=');
+  });
   it('contains exactly twelve unique, valid profiles', () => {
     expect(validateCharacterManifest()).toEqual([]);
-    expect(characterManifest).toHaveLength(12);
-    expect(new Set(characterManifest.map(({ id }) => id)).size).toBe(12);
+    expect(characterManifest).toHaveLength(13);
+    expect(new Set(characterManifest.map(({ id }) => id)).size).toBe(13);
   });
 
   it('maps every active racer to selection-only full-body art', () => {

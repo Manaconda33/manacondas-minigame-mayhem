@@ -76,7 +76,11 @@ export function characterWeightClass(character: CharacterDefinition): string {
 export function characterSelectMarkup(
   characters: readonly CharacterDefinition[],
   selectedCharacter: CharacterDefinition,
+  requestedPage = 0,
 ): string {
+  const pageCount = Math.max(1, Math.ceil(characters.length / 12));
+  const page = Math.min(pageCount - 1, Math.max(0, requestedPage));
+  const pageCharacters = characters.slice(page * 12, (page + 1) * 12);
   const kartName = selectedCharacter.kartName ?? 'Fallback prototype';
   const selectedClass = characterWeightClass(selectedCharacter);
   return `
@@ -95,7 +99,7 @@ export function characterSelectMarkup(
         <div><p class="route-label">ROUTE NIGHT / CIRCUIT ALPHA</p><h1>Choose your driver</h1><p class="character-select-intro">Pick a racer. Plot a brighter night.</p></div>
         <div class="character-select-route-status" aria-label="Character checkpoint status">
           ${routeNightStatusMarkup('live', 'status-marker-icon')}
-          <span><small>DRIVER CHECKPOINT</small><strong>02 / 12 LIVE</strong></span>
+          <span><small>DRIVER CHECKPOINT</small><strong>${String(characters.length)} DRIVERS</strong></span>
         </div>
         ${routeNightOrnamentMarkup('branch', 'character-select-route-branch')}
       </header>
@@ -107,10 +111,10 @@ export function characterSelectMarkup(
       </div>
 
       <div class="character-select-layout">
-        <section class="character-roster-panel" data-character-roster aria-label="Twelve approved driver roster">
-          <div class="character-panel-heading"><span class="panel-node"><i>01</i></span>${routeNightIconMarkup('route', 'panel-heading-icon')}<div><p>DRIVER ROSTER</p><h2>Choose a line</h2></div><b>12 / 12</b></div>
+        <section class="character-roster-panel" data-character-roster aria-label="Approved driver roster page ${String(page + 1)} of ${String(pageCount)}">
+          <div class="character-panel-heading"><span class="panel-node"><i>01</i></span>${routeNightIconMarkup('route', 'panel-heading-icon')}<div><p>DRIVER ROSTER</p><h2>Choose a line</h2></div><b>${String(page + 1)} / ${String(pageCount)}</b></div>
           <div class="character-grid">
-            ${characters
+            ${pageCharacters
               .map(
                 (
                   character,
@@ -122,6 +126,11 @@ export function characterSelectMarkup(
               )
               .join('')}
           </div>
+          <nav class="character-roster-pages" aria-label="Driver roster pages">
+            <button class="menu-button" data-action="roster-previous" ${page === 0 ? 'disabled' : ''}>Previous page</button>
+            <span role="status">Page ${String(page + 1)} of ${String(pageCount)}</span>
+            <button class="menu-button" data-action="roster-next" ${page + 1 === pageCount ? 'disabled' : ''}>Next page</button>
+          </nav>
           <div class="character-roster-footer"><span>${routeNightIconMarkup('checkpoint', 'route-footer-icon')} ALL DRIVER PROFILES LIVE</span><span>ROSTER LOCKED</span></div>
         </section>
 

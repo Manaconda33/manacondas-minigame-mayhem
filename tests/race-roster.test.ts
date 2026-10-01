@@ -10,6 +10,16 @@ describe('AI character roster selection', () => {
     expect(opponents.some(({ id }) => id === 'aa-02')).toBe(false);
   });
 
+  it('excludes Archer when he is the player and keeps the eight-racer grid', () => {
+    const opponents = selectAiRoster(characterManifest, 'aa-13', 7, () => 0.42);
+    expect(opponents).toHaveLength(7);
+    expect(new Set(opponents.map(({ id }) => id)).size).toBe(7);
+    expect(opponents.some(({ id }) => id === 'aa-13')).toBe(false);
+    expect(selectAiRoster(characterManifest, 'aa-01', 12).some(({ id }) => id === 'aa-13')).toBe(
+      true,
+    );
+  });
+
   it('varies the selected roster when the random source changes', () => {
     const first = selectAiRoster(characterManifest, 'aa-01', 7, () => 0);
     const second = selectAiRoster(characterManifest, 'aa-01', 7, () => 0.999);
@@ -17,7 +27,7 @@ describe('AI character roster selection', () => {
   });
 
   it('rejects a grid larger than the unique available roster', () => {
-    expect(() => selectAiRoster(characterManifest, 'aa-01', 12)).toThrow(
+    expect(() => selectAiRoster(characterManifest, 'aa-01', 13)).toThrow(
       'AI roster exceeds the available unique racers.',
     );
   });

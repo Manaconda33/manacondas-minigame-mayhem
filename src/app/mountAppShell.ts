@@ -112,6 +112,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
   let characterPreview: CharacterKartPreview | null = null;
   let touchWheelDispose: (() => void) | null = null;
   let selectedCharacter = characterById('aa-02');
+  let characterPage = 0;
   preloadUiSfx();
   let appSettings = loadGameSettings();
   audioMixer.configure(appSettings.audio);
@@ -384,7 +385,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     music.route('select');
     characterPreview?.dispose();
     characterPreview = null;
-    root.innerHTML = characterSelectMarkup(characterManifest, selectedCharacter);
+    root.innerHTML = characterSelectMarkup(characterManifest, selectedCharacter, characterPage);
     bindPortraitFallbacks();
     const canvas = root.querySelector<HTMLCanvasElement>('[data-kart-preview-canvas]');
     if (canvas !== null) characterPreview = new CharacterKartPreview(canvas, selectedCharacter);
@@ -595,13 +596,33 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     if (action === 'enter' || action === 'menu') renderMenu();
     if (action === 'controls') renderControls();
     if (action === 'settings') renderSettings();
-    if (action === 'play') renderCharacterSelect();
+    if (action === 'play') {
+      characterPage = Math.floor(
+        characterManifest.findIndex(({ id }) => id === selectedCharacter.id) / 12,
+      );
+      renderCharacterSelect();
+    }
+    if (action === 'roster-next' || action === 'roster-previous') {
+      characterPage = Math.min(
+        Math.ceil(characterManifest.length / 12) - 1,
+        Math.max(0, characterPage + (action === 'roster-next' ? 1 : -1)),
+      );
+      renderCharacterSelect();
+      root
+        .querySelector<HTMLElement>(
+          `[data-action="${action === 'roster-next' ? 'roster-previous' : 'roster-next'}"]`,
+        )
+        ?.focus();
+    }
     if (action === 'confirm-character') void renderGame();
     if (action === 'race-again') {
       disposeGame();
       void renderGame();
     }
     if (action === 'change-driver') {
+      characterPage = Math.floor(
+        characterManifest.findIndex(({ id }) => id === selectedCharacter.id) / 12,
+      );
       disposeGame();
       renderCharacterSelect();
       root.querySelector<HTMLElement>(`[data-character="${selectedCharacter.id}"]`)?.focus();

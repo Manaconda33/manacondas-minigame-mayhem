@@ -1,0 +1,14 @@
+Archer final whole-feature review (read-only)
+Reviewed AGENTS.md, integration plan, Archer record and complete feature diff from base 4fe73c58e4c51201f917658e705fca8b2b3db8ec including staged integration (now committed 591db3d). Untracked source/candidates/cache excluded.
+
+Critical: None found.
+Important: None found.
+Minor:
+1. tests/character-select-ui.test.ts:16-36 covers reopening through menu/play, but not the separate post-race change-driver handler at src/app/mountAppShell.ts:622-629. Code correctly restores selected page by inspection; add a regression exercising that branch when convenient.
+2. tests/character-manifest.test.ts:44 retains the description "exactly twelve" while asserting thirteen. Update the test label for accurate failure output.
+
+Confirmed: original twelve manifest definitions/order/stats unchanged; Archer appended as AA-13 with approved stats, The Precision Shot, ten driver states and shared PI yaw; page browsing preserves selected driver and native page buttons retain keyboard focus; race runtime requests exactly seven unique AI opponents excluding player; results mappings include both Archer poses; exact PNG/GLB ledgers and decoder/corner/chroma-matte checks remain. Approved invisible RGB exception applies to AA-13 only; old packages retain their zero-RGB guard.
+
+Independent validation: 6 focused Vitest suites /103 tests PASS; runtime asset verifier PASS (39 materialized GLBs and149 decoded PNGs); git diff --check from base PASS.
+
+Limitations/remaining acceptance: actual chase/rear camera mounting, desktop/mobile rendered reachability and owner gameplay acceptance are explicitly pending because browser verification is blocked. Offline placement sheets and DOM/CSS review do not replace those checks. Source-master authenticated LFS handoff also remains documented. This review does not authorize merge or deployment.

@@ -13,6 +13,27 @@ function openCharacterSelect(): HTMLElement {
 }
 
 describe('Route Night Character Select', () => {
+  it('reaches Archer on page two, preserves selection while browsing, and reopens his page', () => {
+    const root = openCharacterSelect();
+    expect(root.querySelectorAll('[data-character]')).toHaveLength(12);
+    expect(root.querySelector('[data-character="aa-13"]')).toBeNull();
+    root.querySelector<HTMLElement>('[data-action="roster-next"]')?.click();
+    expect(root.querySelectorAll('[data-character]')).toHaveLength(1);
+    expect(root.querySelector('[data-selected-driver-name]')?.textContent).toBe('Lavi');
+    root.querySelector<HTMLElement>('[data-character="aa-13"]')?.click();
+    expect(root.querySelector('[data-selected-driver-name]')?.textContent).toBe('Archer');
+    expect(root.querySelector('[data-selected-driver-kart]')?.textContent).toBe(
+      'The Precision Shot',
+    );
+    root.querySelector<HTMLElement>('[data-action="roster-previous"]')?.click();
+    expect(root.querySelectorAll('[data-character]')).toHaveLength(12);
+    expect(root.querySelector('[data-selected-driver-name]')?.textContent).toBe('Archer');
+    root.querySelector<HTMLElement>('[data-action="menu"]')?.click();
+    root.querySelector<HTMLElement>('[data-action="play"]')?.click();
+    expect(root.querySelector('[data-character="aa-13"]')?.getAttribute('aria-pressed')).toBe(
+      'true',
+    );
+  });
   it('renders a Route Night twelve-driver selection surface with approved generated layers', () => {
     const root = openCharacterSelect();
 
@@ -51,7 +72,7 @@ describe('Route Night Character Select', () => {
   });
 
   it('provides a distinct full-body selection asset for every active racer', () => {
-    expect(characterManifest).toHaveLength(12);
+    expect(characterManifest).toHaveLength(13);
 
     for (const character of characterManifest) {
       expect(character.selectionArt).toContain(
@@ -60,7 +81,7 @@ describe('Route Night Character Select', () => {
       expect(character.selectionArt).not.toBe(character.driver?.front);
     }
 
-    expect(characterManifest.filter((entry) => entry.selectionArt !== undefined)).toHaveLength(12);
+    expect(characterManifest.filter((entry) => entry.selectionArt !== undefined)).toHaveLength(13);
   });
 
   it('uses the selection asset in the profile instead of the race driver frame', () => {

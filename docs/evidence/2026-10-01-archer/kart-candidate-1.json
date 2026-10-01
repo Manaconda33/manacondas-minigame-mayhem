@@ -1,0 +1,33 @@
+{
+  "status": "local geometry candidate; owner approval pending",
+  "forward": "-Z",
+  "nodes": 13,
+  "materials": 4,
+  "files": [
+    {
+      "lod": "lod0",
+      "triangles": 11636,
+      "budget": 25000,
+      "path": "tools/assets/candidates/archer-kart-candidate-1-lod0.glb",
+      "sha256": "8507df9496f5744fc4297ea3770e9378496fdcdadc93c70609b6f34eaaac883c",
+      "bytes": 543804
+    },
+    {
+      "lod": "lod1",
+      "triangles": 6612,
+      "budget": 12000,
+      "path": "tools/assets/candidates/archer-kart-candidate-1-lod1.glb",
+      "sha256": "f149db3e470d47ab01e08031c8a05cc0620777df2d913cac55e108daad0a3eec",
+      "bytes": 338252
+    },
+    {
+      "lod": "lod2",
+      "triangles": 4340,
+      "budget": 5000,
+      "path": "tools/assets/candidates/archer-kart-candidate-1-lod2.glb",
+      "sha256": "978d25200cf208249940537137d33116ef5e9012ab8b17260e1da96e1816486b",
+      "bytes": 241696
+    }
+  ],
+  "verification": "real GLB contract test: all LODs, binary lengths, finite positions, dynamic node meshes, triangle limits, repeated exact hashes"
+}

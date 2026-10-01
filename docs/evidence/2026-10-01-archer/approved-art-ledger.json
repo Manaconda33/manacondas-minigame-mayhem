@@ -1,0 +1,273 @@
+{
+  "character": "Archer",
+  "id": "aa-13",
+  "status": "individually approved source art; runtime derivatives prepared; source masters retained locally pending authenticated handoff",
+  "assets": [
+    {
+      "asset": "portrait",
+      "source": "public/assets/characters/aa-13/source/portrait-approved-v1.png",
+      "sha256": "6b23bfce4acc178a9595b31fb87c0511bc167376fd2653547d362bce962a5a92",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 634182,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "selection-full-body",
+      "source": "public/assets/characters/aa-13/source/selection-full-body-approved-v1.png",
+      "sha256": "a1b78ddcf56cae6dd5cce52426c97231b049cbb7366641301d9cb61bd2881a5a",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 854022,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "rear",
+      "source": "public/assets/characters/aa-13/source/rear-approved-v1.png",
+      "sha256": "4f08a0715f20bb4b2a2af977c619494ab09e1b59f4d3f9bf93c12d619f28ce42",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 832504,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front",
+      "source": "public/assets/characters/aa-13/source/front-approved-v1.png",
+      "sha256": "f3e7374bed02d438fa64eef6ca979602f17c99eacc438dcf3cfa79e5ae58971c",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 722327,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "steer-left",
+      "source": "public/assets/characters/aa-13/source/steer-left-approved-v1.png",
+      "sha256": "b4f72774857f35b2e04f1ee0070c7fd8508b64e1779178a80e641dd58340de3f",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 836349,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "steer-right",
+      "source": "public/assets/characters/aa-13/source/steer-right-approved-v1.png",
+      "sha256": "e1beb19dd6b1d1a3e40a2766c8e62c30b973e181577d7ca05298817e60b2db45",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 836509,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "hit",
+      "source": "public/assets/characters/aa-13/source/hit-approved-v1.png",
+      "sha256": "b993fa7d6fe7e0973c1aeba09c818b890fe894b3c4c782491fc0f9942e62e7ba",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 866687,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "victory",
+      "source": "public/assets/characters/aa-13/source/victory-approved-v1.png",
+      "sha256": "b451ca3d0ddf108cde43fe6e6640c9c6ca39efb390d2673637c3cce206a7cd39",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 794117,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front-steer-left",
+      "source": "public/assets/characters/aa-13/source/front-steer-left-approved-v1.png",
+      "sha256": "c36f6adc593a91f055afa5b8c7b1b2983e3cbc72aefbec56974717f52ccb6d9b",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 715663,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front-steer-right",
+      "source": "public/assets/characters/aa-13/source/front-steer-right-approved-v1.png",
+      "sha256": "5aedb5ef3ffe2f1b79d738266a55a6831c311afe2d99af6b697c8029a450be01",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 710722,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front-hit",
+      "source": "public/assets/characters/aa-13/source/front-hit-approved-v1.png",
+      "sha256": "b17148d89c6095630e8d5924753cc1a72dddd38b15c99ba5a6926b1522090564",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 619271,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front-victory",
+      "source": "public/assets/characters/aa-13/source/front-victory-approved-v1.png",
+      "sha256": "92c77013f06ca9d42bc3440a73b0f328f27e79a62c8ea8176b7cfeef3c4a2749",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 696818,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "results-victory",
+      "source": "public/assets/characters/aa-13/source/results-victory-approved-v1.png",
+      "sha256": "6729f3f8d1e095720a5163b1fc8af8b6cd1282d5d8f576fb1dab17db735bda09",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 840626,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "results-reaction",
+      "source": "public/assets/characters/aa-13/source/results-reaction-approved-v1.png",
+      "sha256": "b736b45954db1ea143695a0ce198fa471dfc582cad76ad475f405924fdb8edd0",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 811826,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    }
+  ]
+}

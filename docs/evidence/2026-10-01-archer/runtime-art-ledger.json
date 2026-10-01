@@ -1,0 +1,246 @@
+{
+  "character": "Archer",
+  "id": "aa-13",
+  "revision": "archer-art-20261001-1",
+  "status": "asset delivery only; not runtime-active",
+  "assets": [
+    {
+      "asset": "portrait",
+      "path": "public/assets/characters/aa-13/portrait.png",
+      "sha256": "4781825b60e104dee1bd92b91bb37fe65796a855a8343027d3a5a8ab1330f378",
+      "dimensions": [
+        256,
+        256
+      ],
+      "source_sha256": "6b23bfce4acc178a9595b31fb87c0511bc167376fd2653547d362bce962a5a92",
+      "canvas_inset": 8,
+      "alpha_bounds": [
+        8,
+        24,
+        248,
+        248
+      ]
+    },
+    {
+      "asset": "selection-full-body",
+      "path": "public/assets/characters/aa-13/selection/full-body.png",
+      "sha256": "a1b78ddcf56cae6dd5cce52426c97231b049cbb7366641301d9cb61bd2881a5a",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "source_sha256": "a1b78ddcf56cae6dd5cce52426c97231b049cbb7366641301d9cb61bd2881a5a",
+      "canvas_inset": 0,
+      "alpha_bounds": [
+        15,
+        17,
+        1024,
+        1522
+      ]
+    },
+    {
+      "asset": "rear",
+      "path": "public/assets/characters/aa-13/driver/rear.png",
+      "sha256": "7451248cd5ce3f671bec335a67d858cd7180087b1f36fed2fce2a84d46abf026",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "4f08a0715f20bb4b2a2af977c619494ab09e1b59f4d3f9bf93c12d619f28ce42",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        35,
+        35,
+        478,
+        488
+      ]
+    },
+    {
+      "asset": "front",
+      "path": "public/assets/characters/aa-13/driver/front.png",
+      "sha256": "42a05c78fd80697bc0930e1d38d860556eb43d3e5533a0b25619bf6550ad9c5e",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "f3e7374bed02d438fa64eef6ca979602f17c99eacc438dcf3cfa79e5ae58971c",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        33,
+        34,
+        479,
+        471
+      ]
+    },
+    {
+      "asset": "steer-left",
+      "path": "public/assets/characters/aa-13/driver/steer-left.png",
+      "sha256": "4ff0b51b5e451cbbcadea64b1736bb26099321dc761c7b911b235470b3626271",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "b4f72774857f35b2e04f1ee0070c7fd8508b64e1779178a80e641dd58340de3f",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        32,
+        42,
+        485,
+        484
+      ]
+    },
+    {
+      "asset": "steer-right",
+      "path": "public/assets/characters/aa-13/driver/steer-right.png",
+      "sha256": "00a8bca669facd4b4d1b78a17e51b7bb78338ba5ccf65d5df64b80f6a00b98d0",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "e1beb19dd6b1d1a3e40a2766c8e62c30b973e181577d7ca05298817e60b2db45",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        16,
+        43,
+        488,
+        470
+      ]
+    },
+    {
+      "asset": "hit",
+      "path": "public/assets/characters/aa-13/driver/hit.png",
+      "sha256": "93bc7493fc67cddb6c554e8de773de9c67367f2caf9b9c7eaf842a458801fb36",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "b993fa7d6fe7e0973c1aeba09c818b890fe894b3c4c782491fc0f9942e62e7ba",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        29,
+        55,
+        488,
+        471
+      ]
+    },
+    {
+      "asset": "victory",
+      "path": "public/assets/characters/aa-13/driver/victory.png",
+      "sha256": "7d7c78590fa4b24eb2be93b803f4a6b09047611ad0ac621c21c60b8fe4101155",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "b451ca3d0ddf108cde43fe6e6640c9c6ca39efb390d2673637c3cce206a7cd39",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        33,
+        37,
+        492,
+        483
+      ]
+    },
+    {
+      "asset": "front-steer-left",
+      "path": "public/assets/characters/aa-13/driver/front-steer-left.png",
+      "sha256": "9c6071c712f5f5479c7af82d4b61a7ac6428e8d4bbc057d33445b0456a46b427",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "c36f6adc593a91f055afa5b8c7b1b2983e3cbc72aefbec56974717f52ccb6d9b",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        27,
+        41,
+        490,
+        474
+      ]
+    },
+    {
+      "asset": "front-steer-right",
+      "path": "public/assets/characters/aa-13/driver/front-steer-right.png",
+      "sha256": "64fc2b9d8ede94700eea2bb189ce3ef27dd4f7b7d900b31bf74854156d9f89ac",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "5aedb5ef3ffe2f1b79d738266a55a6831c311afe2d99af6b697c8029a450be01",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        16,
+        43,
+        490,
+        472
+      ]
+    },
+    {
+      "asset": "front-hit",
+      "path": "public/assets/characters/aa-13/driver/front-hit.png",
+      "sha256": "90bc0b7bdd860bbb1a7204ba2a7fe1da228678ebf8b456f3dfd78555fca8ecdd",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "b17148d89c6095630e8d5924753cc1a72dddd38b15c99ba5a6926b1522090564",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        21,
+        24,
+        492,
+        489
+      ]
+    },
+    {
+      "asset": "front-victory",
+      "path": "public/assets/characters/aa-13/driver/front-victory.png",
+      "sha256": "03e5b484e86ce573fb7a682d3d9446d05d3dd4bd929ce48d5b32e45ea59630c2",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "92c77013f06ca9d42bc3440a73b0f328f27e79a62c8ea8176b7cfeef3c4a2749",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        16,
+        46,
+        487,
+        482
+      ]
+    },
+    {
+      "asset": "results-victory",
+      "path": "public/assets/characters/aa-13/results/victory.png",
+      "sha256": "6729f3f8d1e095720a5163b1fc8af8b6cd1282d5d8f576fb1dab17db735bda09",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "source_sha256": "6729f3f8d1e095720a5163b1fc8af8b6cd1282d5d8f576fb1dab17db735bda09",
+      "canvas_inset": 0,
+      "alpha_bounds": [
+        95,
+        32,
+        1010,
+        1505
+      ]
+    },
+    {
+      "asset": "results-reaction",
+      "path": "public/assets/characters/aa-13/results/reaction.png",
+      "sha256": "b736b45954db1ea143695a0ce198fa471dfc582cad76ad475f405924fdb8edd0",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "source_sha256": "b736b45954db1ea143695a0ce198fa471dfc582cad76ad475f405924fdb8edd0",
+      "canvas_inset": 0,
+      "alpha_bounds": [
+        0,
+        32,
+        994,
+        1504
+      ]
+    }
+  ]
+}

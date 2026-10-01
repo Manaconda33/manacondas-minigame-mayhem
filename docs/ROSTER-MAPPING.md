@@ -164,3 +164,7 @@ change to places 4–8 runtime selection.
 ### AA-06: Cleo / The Gilded Stitch
 
 Manny approved Cleo for AA-06 on 2026-08-21. Handling 7 and Traction 7 supported her precision-craft, stable-line identity while moderate remaining values kept her distinct from the drift and heavyweight specialists. Manny retired Cleo from production on 2026-08-26 while preserving her complete approved package for possible restoration. AA-06 was released for reassignment and is now assigned to Dragon Queen. See `docs/CHARACTER-ARCHIVE.md` for Cleo's durable archive and restoration gate.
+
+## Archer expansion — approved allocation, not runtime-active
+
+Manny approved AA-13 Archer / Precision Speedster on 2026-10-01: Speed 8, Acceleration 5, Weight 4, Handling 8, Mini-Turbo 7, Traction 4 (36 points). Archer is allocated as a new thirteenth profile on Character Select page two; no AA-01–AA-12 profile is released or remapped. Art is individually approved; geometry, runtime expansion, publication and live acceptance remain pending. See `docs/avatars/ARCHER.md`.

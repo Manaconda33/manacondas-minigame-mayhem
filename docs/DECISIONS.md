@@ -960,13 +960,18 @@ Manny accepted private version 8, including the boost-bubble correction, and exp
 ## ADR-100: Context-loss recovery scope waiver and selective bloom direction
 
 - **Date:** 2026-10-01 (America/Chicago).
-- **Status:** Context-loss scope waiver effective; written bloom design approved; implementation plan awaiting review/execution selection.
+- **Status:** Context-loss scope waiver effective; selective bloom LIVE ACCEPTED; owner visual acceptance and explicit merge/publication approval complete.
 - **Authority:** Manny: “Let's skip the context-loss recovery & remove it from our work. I've run this game hundreds of times across mobile & desktop & this has never occurred. Let's do bloom.” Then “approved” to selective race bloom, Low off and capped Medium/High, preserved road/art/HUD, private review and separate publication approval.
 - **Decision:** Remove application-owned context-loss recovery from remaining implementation and release gates; supersede PRD 29.3's prior requirement and historical audit recommendations. Do not claim implemented recovery or a context-loss test pass. Prepare explicit eligibility, depth-occluded selective bloom with original base rendering preserved and quality-capped buffers; written design is `docs/superpowers/specs/2026-10-01-selective-bloom-design.md`.
 - **Preservation:** Existing acceptance stays closed. Motion blur, character/Archer work and next slice remain outside scope. No runtime/asset/dependency/workflow/protection/publication change at this design checkpoint.
-- **Next gate:** Manny approved the written design with “Plan approved.” Implementation plan review/execution selection remains next. New-bloom private review and separate merge/publication approval remain required.
+- **Release state:** The written design, implementation plan, Native execution, private visual review and public merge/publication are complete. Context-loss recovery remains deliberately waived, not passed.
 
 
 ### ADR-100 implementation checkpoint
 
-Manny approved the implementation plan and Native execution with “Approved, let's get started.” Selective bloom is implemented in review, with full 95-file/743-test validation and independent-review fixes; evidence in `docs/evidence/2026-10-01-selective-bloom/`. New-bloom visual review and separate public publication remain pending. All earlier acceptance stays closed; no rendered/device performance pass, motion blur, Archer work or next-slice authority inferred.
+Manny approved the implementation plan and Native execution with “Approved, let's get started.” Selective bloom completed review with full 95-file/743-test validation and independent-review fixes; evidence in `docs/evidence/2026-10-01-selective-bloom/`. Private version 9 owner visual acceptance and public merge/publication are now complete. All earlier acceptance stays closed; no identified-device performance pass, motion blur, Archer work or next-slice authority is inferred.
+
+
+### ADR-100 release disposition — 2026-10-01
+
+Manny approved private version 9 and explicitly authorized merge/publication with **“Approved for merge/publication.”** PR #224 merged at `e4defab83b19fcd7a94d27b8ddb361e3b34fadc5`; post-merge CI/Pages run `36896865717` passed, including validate job `110485924179` and deploy job `110487025858`. The accepted selective bloom keeps Low off; Medium/High are quality-bounded and restricted to explicitly eligible drift/exhaust/boost-chevron/item energy, while road, kart bodies, driver art, HUD, dust and speed lines remain excluded. Final review validation remains 95 files / 743 tests plus typecheck, zero-warning lint, exact asset checks, production build, diff and LFS checks. Owner visual acceptance is PASSED. No identified-device/global-performance certification or independent public-site byte/hash refetch is claimed because the current session's external network path could not resolve the Pages host; GitHub's deployment job itself completed successfully. Context-loss recovery remains explicitly waived, and no motion blur, Archer work, broader Slice 6 closure or next-slice authority is inferred. Evidence: `docs/evidence/2026-10-01-selective-bloom/production-delivery.json`.

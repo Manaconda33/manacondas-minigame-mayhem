@@ -1,0 +1,59 @@
+{
+  "repository": "Manaconda33/manacondas-minigame-mayhem",
+  "branch": "review/slice6-ai-driving-vfx",
+  "pullRequest": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/217",
+  "runtimeCommit": "847913a480c2f94e3bc2123559cadec2b1227cc3",
+  "runtimeTree": "ed8fd83d64b9566b2bcfaab647c0fd40fe93ee89",
+  "baseMain": "d1ccb41b0c413fed1376f82bdc332dd727bbb3d4",
+  "localValidation": {
+    "files": 89,
+    "tests": 711,
+    "status": "passed",
+    "log": "validation.txt"
+  },
+  "ci": {
+    "id": 36861101430,
+    "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36861101430",
+    "head": "847913a480c2f94e3bc2123559cadec2b1227cc3",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "privatePreview": {
+    "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+    "projectId": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "versionId": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_a2799a1969548191834708e50fcf2bd3",
+    "versionNumber": 5,
+    "sourceCommit": "e16a69cc15e11f33f14aedd42068581f6657dc7a",
+    "deploymentId": "appgdep_6abe505fdb34819189bed9fd5f4c0607",
+    "status": "succeeded",
+    "archive": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_00000000aaa481f6b28288b9b8d688df",
+      "content_hash": "sha256:8d45b81af96039b5c6eacc05bc914432882ccabfe8c20ba84794a5e23c081c21",
+      "size_bytes": 175472640,
+      "file_count": 364
+    }
+  },
+  "acceptance": {
+    "scope": "approved AI drift and AI wheel dust",
+    "ownerAIVisual": "pending",
+    "mergePublication": "pending",
+    "priorAcceptance": "preserved",
+    "hardwareGlobalBudget": "not claimed"
+  },
+  "build": {
+    "repository": "Manaconda33/manacondas-minigame-mayhem",
+    "sourceCommit": "847913a480c2f94e3bc2123559cadec2b1227cc3",
+    "sourceTree": "ed8fd83d64b9566b2bcfaab647c0fd40fe93ee89",
+    "pullRequest": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/217",
+    "validation": "89 files / 711 tests; typecheck, lint, asset gates, build, LFS fsck and code review passed",
+    "scope": "AI drift cues and off-road wheel dust in two shared pools; owner visual acceptance and separate merge/publication approval pending",
+    "limitations": "Existing acceptance preserved; no new device, hardware or global-particle-budget pass claimed. No bloom, blur or next slice.",
+    "sha256": {
+      "index.html": "8ff2db4b8769c57a7144f0e0c9054c91973980bc3f1bc0c97e0cf9c10a81d627",
+      "assets/KartTimeTrial-Cc_20GE6.js": "836745661c0f76d2f6c6e2dbd4d725d66dca30938b38d9b90f25e2fd8299ffa3",
+      "assets/index-B7Jt5ma7.css": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
+      "assets/index-BK_9m5Nk.js": "24b275d551498c2441ed2217f9ceebed2d5ffa5462c0370472a8d1e23be87da6"
+    }
+  }
+}

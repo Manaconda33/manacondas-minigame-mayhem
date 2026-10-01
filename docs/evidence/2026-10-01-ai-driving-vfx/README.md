@@ -27,3 +27,7 @@ Use the private preview linked in `provenance.json`. Watch nearby opponents thro
 ## Publication boundary
 
 Review PR and owner-private playable preview are authorized. Public main stays unchanged until owner new-effect acceptance and separate merge/publication approval. Preview provenance pins exact canonical runtime/tree, root-base index/bundles/CSS, site source commit, saved version and deployment.
+
+## Published review checkpoint
+
+PR [#217](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/217) is open. Runtime source `847913a480c2f94e3bc2123559cadec2b1227cc3` has the same tree as the final locally validated source; hosted CI [36861101430](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36861101430) passed. The sole-owner private review preview deployed version 5 successfully. Its packaged index, entry JS, kart JS and CSS match the pinned build hashes. `provenance.json` records the exact runtime/tree, build, site source commit, saved version, deployment and archive hash. This subsequent evidence-only checkpoint does not change runtime. Owner AI visual acceptance and separate merge/publication approval remain pending; public main is unchanged.

@@ -1,4 +1,6 @@
-# Player drift visual review checkpoint — 2026-09-30
+# Player drift visual checkpoint — 2026-09-30
+
+**Final status: LIVE ACCEPTED.** Manny approved the supplied review and explicitly authorized merge/publication. PR #214 merged at `399bbbd6683332a1681b5f1e9d716ed18882644e`. Final PR CI 36795775083 and post-merge CI/Pages 36796770466 passed; production index/JS/CSS matched the accepted build byte-for-byte. See `owner-acceptance.md`, `production-delivery.json` and updated `provenance.json`. Earlier pending statements below record historical review scope and are superseded. Broader performance gates remain open; no next increment is authorized.
 
 ## Authority and scope
 

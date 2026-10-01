@@ -41,7 +41,26 @@
     "deployment_id": "appgdep_6abda710f2b08191b6e3fbaa9f1edee4"
   },
   "previewSourceCommit": "8dbc7fec41c70407bde98deb217e48161a395821",
-  "ownerRenderedAcceptance": "pending",
-  "runtimeMergeApproval": "pending",
-  "publicProductionPublication": "not performed"
+  "ownerRenderedAcceptance": "passed_by_product_owner",
+  "runtimeMergeApproval": "explicitly_approved",
+  "publicProductionPublication": "live_verified",
+  "ownerApproval": "Approved. Merge / publish release, please.",
+  "mergeCommit": "399bbbd6683332a1681b5f1e9d716ed18882644e",
+  "finalPRHead": "1455561b3e202cff47e86dde416ebcd5bef24f85",
+  "finalPRCI": {
+    "id": 36795775083,
+    "conclusion": "success"
+  },
+  "production": {
+    "status": "live_verified",
+    "mergeCommit": "399bbbd6683332a1681b5f1e9d716ed18882644e",
+    "mergeTree": "3322bc64eaf92139fcbe79da7fa27786cb1ae560",
+    "ciPagesRun": 36796770466,
+    "conclusion": "success",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+    "deliveredFilesMatched": true,
+    "evidence": "production-delivery.json",
+    "broaderPerformanceGates": "open",
+    "laterGraphicsAuthorized": false
+  }
 }

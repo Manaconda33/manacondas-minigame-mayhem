@@ -1,0 +1,33 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/a96ab8e7f536/game
+
+ ❯ tests/race-diagnostics-routing.test.ts (18 tests | 1 failed) 1760ms
+   × routes player and nearby AI exhaust with item overlap suppression and lifecycle cleanup 105ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > routes player and nearby AI exhaust with item overlap suppression and lifecycle cleanup
+AssertionError: expected 2 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 2
+
+ ❯ tests/race-diagnostics-routing.test.ts:828:22
+    826|   expect(runtime.nitroOverdrive.snapshot('player')).toMatchObject({act…
+    827|   runtime.updateVisuals(0.1);
+    828|   expect(mesh.count).toBe(0);
+       |                      ^
+    829|   runtime.nitroOverdrive.clear('player');
+    830|   runtime.updateVisuals(0.1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 passed (18)
+   Start at  21:17:54
+   Duration  3.35s (transform 637ms, setup 0ms, import 841ms, tests 1.76s, environment 590ms)

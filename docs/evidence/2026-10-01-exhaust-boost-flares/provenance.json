@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "baseMain": "8a7a5f9075519172c4266086564c3bf966dfac48",
+  "baseMainCI": 36872649961,
+  "canonicalRuntimeCommit": "c26d2f97ace2859a2ab3b08302f123631c9b1926",
+  "canonicalRuntimeTree": "da51b85ac2e4c79dc5973ccfcaaab835a61489b0",
+  "localValidation": {
+    "testFiles": 91,
+    "tests": 726,
+    "typecheck": "passed",
+    "lint": "passed",
+    "assetGates": "passed",
+    "build": "passed",
+    "diffCheck": "passed",
+    "lfsFsck": "passed",
+    "log": "validate.txt"
+  },
+  "review": {
+    "independent": "completed",
+    "importantIssue": "Overdrive exhaust overlap between pulses",
+    "fix": "suppression uses full active Overdrive window",
+    "regression": "observed red; final full validation passed",
+    "otherCriticalOrImportant": "none reported"
+  },
+  "privatePreview": {
+    "projectId": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "sourceCommit": "9c67a8fb273b7076243e6303d4fea920bd81846c",
+    "version": 7,
+    "versionId": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_bd36dcf1bf9c8191a012290198b3d8bc",
+    "deploymentId": "appgdep_6abe6cdb42e481919e3cdeb671b02f73",
+    "status": "succeeded",
+    "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+    "archive": {
+      "sha256": "f82f4a22e0121aaf898f2fe2447ca3d9fa6f52907f538124c959f1cf84bff686",
+      "bytes": 155979979,
+      "fileCount": 363
+    },
+    "files": [
+      {
+        "path": "index.html",
+        "sha256": "7c820d21f36ac87025b0f27dc4b20488de6d70feeaf63ac273a5f28241d053c6",
+        "bytes": 638,
+        "archiveMatchesBuild": true
+      },
+      {
+        "path": "assets/KartTimeTrial-mInX23VQ.js",
+        "sha256": "5d3d825a719aae3b268a43500c3a42a0cbe0f2f08cb5e3216e613868b2e5939f",
+        "bytes": 3106400,
+        "archiveMatchesBuild": true
+      },
+      {
+        "path": "assets/index-CuiyU7lH.js",
+        "sha256": "02401226cbcf5f074002d9f1ebca0cdf07ab7bb9696c1638dd9b524f5e8cfb35",
+        "bytes": 797442,
+        "archiveMatchesBuild": true
+      },
+      {
+        "path": "assets/index-B7Jt5ma7.css",
+        "sha256": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
+        "bytes": 84735,
+        "archiveMatchesBuild": true
+      }
+    ]
+  },
+  "acceptance": {
+    "scope": "approved",
+    "ownerNewEffectVisual": "pending",
+    "mergePublication": "pending",
+    "priorAcceptance": "preserved",
+    "renderedDevicePerformance": "not claimed"
+  }
+}

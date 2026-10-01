@@ -31,7 +31,7 @@
   "acceptance": {
     "scope": "approved",
     "ownerDustVisual": "passed by product-owner review",
-    "mergePublication": "pending",
+    "mergePublication": "approved and published",
     "priorAcceptance": "preserved",
     "hardwarePerformance": "not claimed"
   },
@@ -61,5 +61,21 @@
       "conclusion": "success"
     },
     "scope": "Player off-road wheel dust visual acceptance; merge/public production publication remains separately gated"
+  },
+  "releaseApproval": {
+    "quote": "Yep, approved.",
+    "date": "2026-09-30",
+    "timezone": "America/Chicago",
+    "context": "Explicit response to approving merge and public release of PR #215"
+  },
+  "release": {
+    "pullRequest": 215,
+    "mergeCommit": "416e5e2b4c1a2ffc4949607ea8a028f96125e338",
+    "acceptedFinalPRCI": 36801543503,
+    "postMergeCI": 36801897851,
+    "ciConclusion": "success",
+    "production": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+    "deliveryEvidence": "production-delivery.json",
+    "runtimeMatchesAcceptedPreviewSource": true
   }
 }

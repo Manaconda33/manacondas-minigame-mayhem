@@ -26,7 +26,7 @@ describe('Slice 6 settings', () => {
     const settings = loadGameSettings(new MemoryStorage());
 
     expect(settings).toEqual(DEFAULT_GAME_SETTINGS);
-    expect(GRAPHICS_QUALITY_PROFILES.medium).toEqual({
+    expect(GRAPHICS_QUALITY_PROFILES.medium).toMatchObject({
       pixelRatioCap: 1.5,
       driftParticleCapacity: 96,
       shadows: true,

@@ -1,3 +1,4 @@
+import { WheelDustVisual } from '../src/game/vfx/WheelDustVisual';
 import { DriftVisual } from '../src/game/vfx/DriftVisual';
 import { requireValue } from './requireValue';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
@@ -56,6 +57,7 @@ function rig() {
   const prismaticMusic = new PrismaticMusic();
   const fields = {
     driftVisual: new DriftVisual('medium'),
+    wheelDust: new WheelDustVisual('medium'),
     track,
     kart,
     opponents: [{ id: 'rival', controller: rival, progress: rivalProgress, driverHitSeconds: 0 }],
@@ -119,6 +121,7 @@ function rig() {
       shockwave.dispose();
       projectiles.dispose();
       fields.driftVisual.dispose();
+      fields.wheelDust.dispose();
       world.free();
     },
   };

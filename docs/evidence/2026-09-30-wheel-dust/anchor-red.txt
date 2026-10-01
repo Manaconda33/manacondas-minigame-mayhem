@@ -1,0 +1,28 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/dc5391c50197/repo
+
+ ❯ tests/race-diagnostics-routing.test.ts (13 tests | 1 failed | 12 skipped) 242ms
+   × keeps normalized modeled wheel emission positions after static batching removes wheel meshes 241ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > keeps normalized modeled wheel emission positions after static batching removes wheel meshes
+AssertionError: expected 2.025222364608765 to be less than 0.041
+ ❯ tests/race-diagnostics-routing.test.ts:480:7
+    478|     expect(
+    479|       Math.abs(requireValue(transform.elements[12]) - origin.x - requi…
+    480|     ).toBeLessThan(0.041);
+       |       ^
+    481|     expect(
+    482|       Math.abs(requireValue(transform.elements[14]) - origin.z - requi…
+ ❯ tests/race-diagnostics-routing.test.ts:476:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  20:14:22
+   Duration  1.53s (transform 512ms, setup 0ms, import 675ms, tests 242ms, environment 489ms)
+

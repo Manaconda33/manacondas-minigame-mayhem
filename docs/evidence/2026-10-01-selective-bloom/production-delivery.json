@@ -1,0 +1,40 @@
+{
+  "releaseCommit": "e4defab83b19fcd7a94d27b8ddb361e3b34fadc5",
+  "pullRequest": 224,
+  "ownerApproval": {
+    "visualAcceptance": true,
+    "mergePublicationApproval": true,
+    "quote": "Approved for merge/publication."
+  },
+  "reviewRuntimeCommit": "5dfd217c4ab75be309ddc61bc312e0e08d859fcf",
+  "finalReviewHead": "980812b0caff9a6a1f7bd216f6fb232c8dcb0a07",
+  "ciRun": 36896865717,
+  "validationJob": 110485924179,
+  "deployJob": 110487025858,
+  "workflowConclusion": "success",
+  "checkedAt": "2026-10-01T17:10:49.294Z",
+  "base": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+  "validation": {
+    "testFiles": 95,
+    "tests": 743,
+    "typecheck": "pass",
+    "lint": "pass",
+    "exactAssetChecks": "pass",
+    "productionBuild": "pass",
+    "diffCheck": "pass",
+    "lfsFsck": "pass"
+  },
+  "liveHttpHashVerification": {
+    "attempted": true,
+    "result": "unavailable",
+    "reason": "Current session external network path could not resolve manaconda33.github.io; no fresh HTTP status or public-byte/hash match is claimed."
+  },
+  "boundaries": {
+    "ownerVisualAcceptance": "pass",
+    "identifiedDevicePerformanceCertification": "not claimed",
+    "contextLossRecovery": "waived by owner, not tested",
+    "motionBlur": "not authorized",
+    "archerWork": "not authorized",
+    "nextSlice": "not authorized"
+  }
+}

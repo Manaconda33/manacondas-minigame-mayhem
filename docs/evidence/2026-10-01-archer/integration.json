@@ -1,6 +1,6 @@
 {
   "status": "review only; not deployed",
-  "base_main": "e4defab83b19fcd7a94d27b8ddb361e3b34fadc5",
+  "base_main": "8d27a0b18724387927cc2b83a309a69b3d0a888e",
   "named_asset_commit": "8c7ef6371e433d6d8d4284b72bf4a0c2eb106ea1",
   "materialization_run": 36892887641,
   "named_asset_ci": 36892887671,
@@ -40,5 +40,16 @@
       "path": "docs/evidence/2026-10-01-archer/mounted-review-3.png",
       "sha256": "3fdc9f1f251d19ae5b4d4aa5751e34b9cca83748406dab8e0900c117a18c919d"
     }
-  ]
+  ],
+  "runtime_ci": {
+    "commit": "62583845461098caee5fec3e1334502da671de1d",
+    "run": 36897722265,
+    "conclusion": "success"
+  },
+  "preview_proposal": {
+    "pr": 226,
+    "pinned_runtime": "62583845461098caee5fec3e1334502da671de1d",
+    "route": "/manacondas-minigame-mayhem/previews/archer/",
+    "status": "prepared; preview publication approval pending"
+  }
 }

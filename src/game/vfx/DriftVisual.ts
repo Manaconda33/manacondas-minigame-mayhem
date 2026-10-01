@@ -2,7 +2,19 @@ import * as THREE from 'three';
 import { graphicsQualityProfile, type GraphicsQuality } from '../../config/graphicsQuality';
 import type { DriftTier, KartFeedback } from '../physics/KartController';
 
+export interface DriftEmitter {
+  id: string;
+  feedback: KartFeedback;
+  kartWorld: THREE.Matrix4;
+  active: boolean;
+}
+interface EmissionState {
+  emission: number;
+  previousTier: DriftTier;
+  previousDrifting: boolean;
+}
 interface Particle {
+  owner: string;
   position: THREE.Vector3;
   velocity: THREE.Vector3;
   age: number;
@@ -14,7 +26,7 @@ interface Particle {
 const COLORS = { blue: 0x38bdf8, orange: 0xff8a28, purple: 0xa855f7 } as const;
 const UP = new THREE.Vector3(0, 1, 0);
 
-/** Player drift presentation only. One bounded world-space batch, independent of gameplay RNG. */
+/** Drift presentation for one kart or a shared bounded set of racers. One bounded world-space batch, independent of gameplay RNG. */
 export class DriftVisual {
   public readonly group = new THREE.Group();
   private readonly mesh: THREE.InstancedMesh<THREE.ConeGeometry, THREE.MeshBasicMaterial>;
@@ -24,15 +36,21 @@ export class DriftVisual {
   private readonly direction = new THREE.Vector3();
   private readonly forward = new THREE.Vector3();
   private readonly right = new THREE.Vector3();
-  private emission = 0;
-  private previousTier: DriftTier = 'none';
-  private previousDrifting = false;
+  private readonly playerState: EmissionState = {
+    emission: 0,
+    previousTier: 'none',
+    previousDrifting: false,
+  };
+  private readonly emitters = new Map<string, EmissionState>();
+  private owner = 'player';
+  private emissionScale = 1;
   private randomState = 0x619a43;
   private disposed = false;
 
   public constructor(quality: GraphicsQuality) {
     const capacity = graphicsQualityProfile(quality).driftParticleCapacity;
     this.pool = Array.from({ length: capacity }, () => ({
+      owner: 'player',
       position: new THREE.Vector3(),
       velocity: new THREE.Vector3(),
       age: 0,
@@ -70,54 +88,102 @@ export class DriftVisual {
     seconds: number,
     enabled = true,
   ): void {
-    if (this.disposed) return;
+    if (!this.prepare(seconds, enabled)) return;
+    this.advance(Math.min(seconds, 0.1));
+    this.owner = 'player';
+    this.emissionScale = 1;
+    this.emit(feedback, kartWorld, Math.min(seconds, 0.1), this.playerState, true);
+    this.draw();
+  }
+
+  public updateEmitters(emitters: readonly DriftEmitter[], seconds: number, enabled = true): void {
+    if (!this.prepare(seconds, enabled)) return;
+    const dt = Math.min(seconds, 0.1);
+    this.advance(dt);
+    let activeCount = 0;
+    for (const emitter of emitters) if (emitter.active) activeCount++;
+    this.emissionScale = 1 / Math.max(1, activeCount);
+    for (const emitter of emitters) {
+      let state = this.emitters.get(emitter.id);
+      if (state === undefined) {
+        state = { emission: 0, previousTier: 'none', previousDrifting: false };
+        this.emitters.set(emitter.id, state);
+      }
+      this.owner = emitter.id;
+      this.emit(emitter.feedback, emitter.kartWorld, dt, state, emitter.active);
+    }
+    this.draw();
+  }
+
+  public clearEmitter(id: string): void {
+    this.emitters.delete(id);
+    for (const p of this.pool) if (p.owner === id) p.lifetime = 0;
+    this.draw();
+  }
+
+  private prepare(seconds: number, enabled: boolean): boolean {
+    if (this.disposed) return false;
     if (!enabled) {
       this.clear();
-      return;
+      return false;
     }
-    if (!Number.isFinite(seconds) || seconds <= 0) return;
-    const dt = Math.min(seconds, 0.1);
+    return Number.isFinite(seconds) && seconds > 0;
+  }
+
+  private advance(dt: number): void {
     for (const particle of this.pool) {
       if (particle.age >= particle.lifetime) continue;
       particle.age += dt;
       particle.position.addScaledVector(particle.velocity, dt);
       particle.velocity.y -= dt * 2.2;
     }
+  }
+
+  private emit(
+    feedback: KartFeedback,
+    kartWorld: THREE.Matrix4,
+    dt: number,
+    state: EmissionState,
+    active: boolean,
+  ): void {
     this.forward.set(0, 0, 1).transformDirection(kartWorld);
     this.right.set(1, 0, 0).transformDirection(kartWorld);
     const tier = feedback.driftTier;
-    if (!feedback.airborne) {
-      if (feedback.drifting && tier === 'purple' && this.previousTier !== 'purple') {
+    if (!feedback.airborne && active) {
+      if (feedback.drifting && tier === 'purple' && state.previousTier !== 'purple') {
         this.burst(kartWorld, false);
       }
       if (
-        this.previousDrifting &&
+        state.previousDrifting &&
         !feedback.drifting &&
-        this.previousTier === 'purple' &&
+        state.previousTier === 'purple' &&
         feedback.boostActive
       ) {
         this.burst(kartWorld, true);
       }
       if (feedback.drifting && tier !== 'none') {
         const rate = ((tier === 'blue' ? 36 : tier === 'orange' ? 60 : 84) * this.pool.length) / 96;
-        this.emission = Math.min(this.emission + dt * rate, this.pool.length);
-        while (this.emission >= 2) {
+        state.emission = Math.min(
+          state.emission + dt * rate * this.emissionScale,
+          this.pool.length,
+        );
+        while (state.emission >= 2) {
           this.spawn(kartWorld, -0.72, tier, false);
           this.spawn(kartWorld, 0.72, tier, false);
-          this.emission -= 2;
+          state.emission -= 2;
         }
-      } else this.emission = 0;
-    } else this.emission = 0;
-    this.previousTier = feedback.drifting && !feedback.airborne ? tier : 'none';
-    this.previousDrifting = feedback.drifting && !feedback.airborne;
-    this.draw();
+      } else state.emission = 0;
+    } else state.emission = 0;
+    state.previousTier = feedback.drifting && !feedback.airborne ? tier : 'none';
+    state.previousDrifting = feedback.drifting && !feedback.airborne;
   }
 
   public clear(): void {
     for (const particle of this.pool) particle.lifetime = 0;
-    this.emission = 0;
-    this.previousTier = 'none';
-    this.previousDrifting = false;
+    this.playerState.emission = 0;
+    this.playerState.previousTier = 'none';
+    this.playerState.previousDrifting = false;
+    this.emitters.clear();
     this.mesh.count = 0;
     this.group.visible = false;
   }
@@ -126,6 +192,7 @@ export class DriftVisual {
     if (this.disposed) return;
     this.clear();
     this.disposed = true;
+    this.mesh.dispose();
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();
     this.group.clear();
@@ -140,7 +207,7 @@ export class DriftVisual {
   }
 
   private burst(kartWorld: THREE.Matrix4, exhaust: boolean): void {
-    const count = Math.round(this.pool.length * (exhaust ? 0.125 : 0.167));
+    const count = Math.round(this.pool.length * (exhaust ? 0.125 : 0.167) * this.emissionScale);
     for (let i = 0; i < count; i += 1)
       this.spawn(kartWorld, exhaust ? 0 : i % 2 === 0 ? -0.72 : 0.72, 'purple', exhaust);
   }
@@ -153,6 +220,7 @@ export class DriftVisual {
   ): void {
     const particle = this.pool.find((candidate) => candidate.age >= candidate.lifetime);
     if (particle === undefined) return;
+    particle.owner = this.owner;
     const flame = tier === 'orange' && this.random() > 0.5;
     particle.position.set(x, -0.08, exhaust ? -1.6 : -1.15).applyMatrix4(kartWorld);
     particle.velocity.copy(this.forward).multiplyScalar(exhaust ? -7 : -1.8 - this.random() * 1.5);

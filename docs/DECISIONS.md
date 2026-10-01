@@ -906,3 +906,12 @@ Manny explicitly reported: **“Good stuff. Integrated listening approved. Ready
 ### ADR-096 release disposition — 2026-09-30 (America/Chicago)
 
 Manny accepted the private version 4 wheel-dust review with “Approved.”, then explicitly answered the separate merge/public release question with “Yep, approved.” PR #215 merged at `416e5e2b4c1a2ffc4949607ea8a028f96125e338`; final PR CI `36801543503` and post-merge CI/Pages `36801897851` passed. Public index/entry JS/kart JS/CSS were fetched and matched the validated build exactly. This closes the bounded dust review and release gates; earlier pending statements are historical. All existing acceptance remains passed, and no new device/performance pass, broader Slice 6 release acceptance or next-slice authority is inferred. Evidence: `docs/evidence/2026-09-30-wheel-dust/production-delivery.json`.
+
+## ADR-097: Bounded AI drift and off-road wheel dust
+
+- **Date:** 2026-09-30 (America/Chicago); resumed review publication 2026-10-01.
+- **Status:** Scope/design approved; implementation review; owner visual acceptance and public release pending.
+- **Authority:** Manny approved AI drift parity and added AI wheel dust: “Approved. I think you should do the wheel dust for AI racers at the same time.”
+- **Decision:** Reuse accepted drift/dust presentation in two shared AI batches with aggregate quality caps (drift 48/96/144, dust 32/64/96), independent racer transition/emission history and independent visual RNG. Restrict new emission to unfinished, non-spinout racers within 60m and the camera frustum. Ground support/surface queries are read-only. Cache normalized GLB wheel centers before batching; retain procedural fallback. Freeze pause/hidden; per-owner recovery/finish cleanup and race disposal release owned resources.
+- **Preservation:** Player emission equations/limits, all gameplay/AI tactics, boost timing, camera behavior, HUD/Results/audio/art/settings and earlier acceptance remain intact. No speed/FOV, bloom, blur or next slice. Local aggregate bounds do not close global particle or hardware performance gates.
+- **Evidence and release:** `docs/evidence/2026-10-01-ai-driving-vfx/`; review PR and sole-owner private preview only. Require new-effect visual acceptance, then separate merge/publication approval.

@@ -1,6 +1,8 @@
 # Circuit Alpha material preview — publication checkpoint
 
-Status: **PUBLICATION AUTHORIZED / HOSTED CI AND PAGES PENDING.**
+Status: **PREVIEW DEPLOYED / MATERIALS LIVE ACCEPTED IN PRODUCTION.**
+
+Preview PR #235 merged at `e54e4aa2ceaa3f5f0b8659248adfec9c22a086db`; main CI/Pages `36932805048` and exact hosted delivery/startup verification passed. Manny subsequently approved production merge/publication. Materials PR #234 merged at `0aaea588b1260548cd96d5e4226da7ecfc8397f3`, with main CI/Pages `36934885453` and exact production delivery verified. Production evidence: `docs/evidence/2026-10-01-terrain-materials/production-delivery.json`. The proposal/stop scope below describes the earlier preview-only checkpoint.
 
 Runtime candidate: `375c933766dbc52cead91592cd69d954ab022d38` on `review/circuit-alpha-material-completion`.
 Production baseline: `68dc1c9a3f68d953c9468d926b533bba21781459`.

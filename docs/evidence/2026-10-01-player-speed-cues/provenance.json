@@ -1,0 +1,53 @@
+{
+  "repository": "Manaconda33/manacondas-minigame-mayhem",
+  "branch": "review/slice6-player-speed-cues",
+  "pullRequest": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/219",
+  "baseMain": "5dd81ebe5a6890289c76dbfecd57ee12ce5f96ac",
+  "runtimeCommit": "a9070ea4718eaa9037ef4f1297443e9d9f0e7066",
+  "runtimeTree": "3c86e53ee10bfe2214acccb819be35ad882c1b0d",
+  "ci": {
+    "id": 36869989873,
+    "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36869989873",
+    "head": "a9070ea4718eaa9037ef4f1297443e9d9f0e7066",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "privatePreview": {
+    "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+    "projectId": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "versionId": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_8f579be3fd9881918ff41b58dc731bbd",
+    "versionNumber": 6,
+    "sourceCommit": "aa5d5ce054ebabd9857c0162d18b00f274f71e1a",
+    "deploymentId": "appgdep_6abe628399e88191b7e788e414b17ca0",
+    "status": "succeeded",
+    "archive": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_000000000aa081f6a86d1214e843475f",
+      "content_hash": "sha256:c4bb7c4b0f7eba2f221378e097a44d4da2a565fbe7a67eea493692585d41f65f",
+      "size_bytes": 175472640,
+      "file_count": 364
+    }
+  },
+  "build": {
+    "repository": "Manaconda33/manacondas-minigame-mayhem",
+    "sourceCommit": "a9070ea4718eaa9037ef4f1297443e9d9f0e7066",
+    "sourceTree": "3c86e53ee10bfe2214acccb819be35ad882c1b0d",
+    "pullRequest": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/219",
+    "validation": "90 files / 720 tests; typecheck, zero-warning lint, asset gates, build, diff/LFS checks passed; independent code review no Critical/Important production issues",
+    "scope": "Player-only 62-68 degree speed FOV and bounded peripheral strokes; owner visual acceptance and separate merge/publication approval pending",
+    "limitations": "Existing acceptance preserved; no browser-rendered/device/hardware/global-budget pass. No bloom blur new assets or next slice.",
+    "sha256": {
+      "index.html": "4d852efd66c1a57754fc5c09fb09c53d7ba306c8c351e6b3a620da31ab74ec49",
+      "assets/KartTimeTrial-BSAh2BA7.js": "f4fe7ccb1fa266d98ae784ed961620d372dac801da0352da87d22900da58bf22",
+      "assets/index-FmGYzi9o.js": "2e0c29e71bf19886121803d564b84b86c9953de2849b5014f93baf5b45163cfb",
+      "assets/index-B7Jt5ma7.css": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2"
+    }
+  },
+  "acceptance": {
+    "scope": "approved",
+    "ownerSpeedVisual": "pending",
+    "mergePublication": "pending",
+    "priorAcceptance": "preserved",
+    "renderedDevicePerformance": "not claimed"
+  }
+}

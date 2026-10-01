@@ -1,5 +1,7 @@
 # AI drift and wheel dust review — 2026-10-01
 
+**Final status: LIVE ACCEPTED.** Manny accepted private version 5 and explicitly approved merge/publication with “Approved - merge & publish approved.” PR #217 merged at `8380390ed07d281d8b99a3956272550ff6fdf0a6`; final PR CI `36861828504` and post-merge CI/Pages `36865162215` passed. Public index/entry JS/kart JS/CSS match the validated production build byte-for-byte. See `production-delivery.json` and updated `provenance.json`. Earlier pending statements below are historical. Existing acceptance remains passed; broader performance/release gates remain open, with no further scope authorized.
+
 ## Authority and acceptance
 
 Manny approved the bounded AI drift visual design and explicitly expanded it: “Approved. I think you should do the wheel dust for AI racers at the same time.” (2026-09-30, America/Chicago). “Continue” on 2026-10-01 resumes this same task. Canonical main `d1ccb41b0c413fed1376f82bdc332dd727bbb3d4` and CI/Pages `36802445247` were verified green. Diagnostics, kart optimization, player drift, player dust, gameplay/HUD/Results/audio and all existing manual acceptance remain LIVE ACCEPTED. This review does not reopen them.
@@ -31,3 +33,7 @@ Review PR and owner-private playable preview are authorized. Public main stays u
 ## Published review checkpoint
 
 PR [#217](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/217) is open. Runtime source `847913a480c2f94e3bc2123559cadec2b1227cc3` has the same tree as the final locally validated source; hosted CI [36861101430](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36861101430) passed. The sole-owner private review preview deployed version 5 successfully. Its packaged index, entry JS, kart JS and CSS match the pinned build hashes. `provenance.json` records the exact runtime/tree, build, site source commit, saved version, deployment and archive hash. This subsequent evidence-only checkpoint does not change runtime. Owner AI visual acceptance and separate merge/publication approval remain pending; public main is unchanged.
+
+## Owner acceptance and public release
+
+Manny's exact approval on 2026-10-01 (America/Chicago): **“Approved - merge & publish approved.”** This accepts the supplied AI drift/dust review and authorizes PR #217 merge and public publication. The merged runtime matches accepted private version 5 source; only base-aware build URLs differ. CI/Pages passed and all four production index/JS/CSS hash checks passed. This release-record change is documentation only. LIVE: https://manaconda33.github.io/manacondas-minigame-mayhem/.

@@ -7,7 +7,15 @@ export interface DustWheelContact {
   surface: SurfaceType;
   grounded: boolean;
 }
+export interface DustEmitter {
+  id: string;
+  wheels: readonly DustWheelContact[];
+  velocity: THREE.Vector3;
+  forward: THREE.Vector3;
+  active: boolean;
+}
 interface Particle {
+  owner: string;
   position: THREE.Vector3;
   velocity: THREE.Vector3;
   age: number;
@@ -16,12 +24,14 @@ interface Particle {
   color: number;
 }
 
-/** Player-only, world-space wheel dust. No physics writes or gameplay random draws. */
+/** One bounded world-space wheel dust batch for one or many racers. No physics writes or gameplay random draws. */
 export class WheelDustVisual {
   public readonly group = new THREE.Group();
   private readonly mesh: THREE.InstancedMesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
   private readonly pool: Particle[];
   private readonly emission = [0, 0, 0, 0];
+  private readonly emitters = new Map<string, number[]>();
+  private owner = 'player';
   private readonly dummy = new THREE.Object3D();
   private readonly color = new THREE.Color();
   private readonly opacity: THREE.InstancedBufferAttribute;
@@ -31,6 +41,7 @@ export class WheelDustVisual {
   public constructor(quality: GraphicsQuality) {
     const capacity = graphicsQualityProfile(quality).dustParticleCapacity;
     this.pool = Array.from({ length: capacity }, () => ({
+      owner: 'player',
       position: new THREE.Vector3(),
       velocity: new THREE.Vector3(),
       age: 0,
@@ -94,22 +105,77 @@ export class WheelDustVisual {
     seconds: number,
     enabled = true,
   ): void {
-    if (this.disposed) return;
+    if (!this.prepare(seconds, enabled)) return;
+    const dt = Math.min(seconds, 0.1);
+    this.advance(dt);
+    this.owner = 'player';
+    this.emit(wheels, velocity, forward, dt, this.emission, 1);
+    this.draw(cameraRotation);
+  }
+
+  public updateEmitters(
+    emitters: readonly DustEmitter[],
+    cameraRotation: THREE.Quaternion,
+    seconds: number,
+    enabled = true,
+  ): void {
+    if (!this.prepare(seconds, enabled)) return;
+    const dt = Math.min(seconds, 0.1);
+    this.advance(dt);
+    let activeCount = 0;
+    for (const emitter of emitters) if (emitter.active) activeCount++;
+    const scale = 1 / Math.max(1, activeCount);
+    for (const emitter of emitters) {
+      let emission = this.emitters.get(emitter.id);
+      if (emission === undefined) {
+        emission = [0, 0, 0, 0];
+        this.emitters.set(emitter.id, emission);
+      }
+      if (!emitter.active) {
+        emission.fill(0);
+        continue;
+      }
+      this.owner = emitter.id;
+      this.emit(emitter.wheels, emitter.velocity, emitter.forward, dt, emission, scale);
+    }
+    this.draw(cameraRotation);
+  }
+
+  public clearEmitter(id: string): void {
+    this.emitters.delete(id);
+    for (const p of this.pool) if (p.owner === id) p.lifetime = 0;
+    // Draw is refreshed by the next visual frame, using the current camera rotation.
+  }
+
+  private prepare(seconds: number, enabled: boolean): boolean {
+    if (this.disposed) return false;
     if (!enabled) {
       this.clear();
-      return;
+      return false;
     }
-    if (!Number.isFinite(seconds) || seconds <= 0) return;
-    const dt = Math.min(seconds, 0.1);
+    return Number.isFinite(seconds) && seconds > 0;
+  }
+
+  private advance(dt: number): void {
     for (const particle of this.pool) {
       if (particle.age >= particle.lifetime) continue;
       particle.age += dt;
       particle.position.addScaledVector(particle.velocity, dt);
       particle.velocity.multiplyScalar(Math.exp(-dt * 1.8));
     }
+  }
+
+  private emit(
+    wheels: readonly DustWheelContact[],
+    velocity: THREE.Vector3,
+    forward: THREE.Vector3,
+    dt: number,
+    emission: number[],
+    scale: number,
+  ): void {
     const speed = Math.hypot(velocity.x, velocity.z);
     const slip = Math.abs(velocity.x * forward.z - velocity.z * forward.x);
-    for (let i = 0; i < this.emission.length; i++) {
+    for (let i = 0; i < emission.length; i++) {
       const wheel = wheels[i];
       if (
         wheel === undefined ||
@@ -119,7 +185,7 @@ export class WheelDustVisual {
         (wheel.surface !== 'dirt' && wheel.surface !== 'grass') ||
         !Number.isFinite(wheel.position.x + wheel.position.y + wheel.position.z)
       ) {
-        this.emission[i] = 0;
+        emission[i] = 0;
         continue;
       }
       const rate =
@@ -127,18 +193,18 @@ export class WheelDustVisual {
           (wheel.surface === 'grass' ? 0.7 : 1) *
           this.pool.length) /
         64;
-      this.emission[i] = Math.min(2, (this.emission[i] ?? 0) + dt * rate);
-      while ((this.emission[i] ?? 0) >= 1) {
+      emission[i] = Math.min(2, (emission[i] ?? 0) + dt * rate * scale);
+      while ((emission[i] ?? 0) >= 1) {
         this.spawn(wheel, velocity);
-        this.emission[i] = (this.emission[i] ?? 0) - 1;
+        emission[i] = (emission[i] ?? 0) - 1;
       }
     }
-    this.draw(cameraRotation);
   }
 
   public clear(): void {
     for (const particle of this.pool) particle.lifetime = 0;
     this.emission.fill(0);
+    this.emitters.clear();
     this.mesh.count = 0;
     this.group.visible = false;
   }
@@ -164,6 +230,7 @@ export class WheelDustVisual {
   private spawn(wheel: DustWheelContact, velocity: THREE.Vector3): void {
     const particle = this.pool.find((candidate) => candidate.age >= candidate.lifetime);
     if (particle === undefined) return;
+    particle.owner = this.owner;
     particle.position.copy(wheel.position);
     particle.position.x += (this.random() - 0.5) * 0.08;
     particle.position.z += (this.random() - 0.5) * 0.08;

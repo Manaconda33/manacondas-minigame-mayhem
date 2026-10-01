@@ -1,3 +1,4 @@
+import { AiDrivingVisual } from './vfx/AiDrivingVisual';
 import { DriftVisual } from './vfx/DriftVisual';
 import { WheelDustVisual, type DustWheelContact } from './vfx/WheelDustVisual';
 import { batchStaticKartMeshes } from './rendering/batchStaticKartMeshes';
@@ -239,6 +240,9 @@ export class KartTimeTrial {
   private readonly driftLights: THREE.Mesh[] = [];
   private readonly driftVisual: DriftVisual;
   private readonly wheelDust: WheelDustVisual;
+  private readonly aiDrivingVisual?: AiDrivingVisual;
+  private readonly aiVisualBlocked = (id: string): boolean =>
+    this.racerEffects.spinoutState(id) !== null;
   private readonly dustVelocity = new THREE.Vector3();
   private readonly dustWheelAnchors = [
     new THREE.Vector3(-1.05, 0, 0.98),
@@ -378,6 +382,8 @@ export class KartTimeTrial {
     await game.createKartVisual();
     game.renderer.compile(game.driftVisual.group, game.camera, game.scene);
     game.renderer.compile(game.wheelDust.group, game.camera, game.scene);
+    if (game.aiDrivingVisual !== undefined)
+      game.renderer.compile(game.aiDrivingVisual.group, game.camera, game.scene);
     return game;
   }
 
@@ -393,6 +399,8 @@ export class KartTimeTrial {
     this.scene.add(this.driftVisual.group);
     this.wheelDust = new WheelDustVisual(options.graphicsQuality);
     this.scene.add(this.wheelDust.group);
+    this.aiDrivingVisual = new AiDrivingVisual(options.graphicsQuality);
+    this.scene.add(this.aiDrivingVisual.group);
     this.renderer = new THREE.WebGLRenderer({ canvas: options.canvas, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, graphics.pixelRatioCap));
     this.renderer.shadowMap.enabled = graphics.shadows;
@@ -480,6 +488,7 @@ export class KartTimeTrial {
     this.racePerformance?.dispose();
     this.driftVisual.dispose();
     this.wheelDust.dispose();
+    this.aiDrivingVisual?.dispose();
     this.racePerformance = null;
     this.raceAudioIfPresent()?.dispose();
     this.touchWheel = { held: false, steering: 0 };
@@ -807,6 +816,7 @@ export class KartTimeTrial {
   }
 
   private finishOpponent(opponent: AiRacer): void {
+    this.aiDrivingVisual?.clearRacer(opponent.id);
     this.raceDirector.registerFinish(opponent.progress);
     this.itemSystem.clear(opponent.id);
     this.nitroOverdrive.clear(opponent.id);
@@ -819,6 +829,7 @@ export class KartTimeTrial {
   }
 
   private recoverOpponent(opponent: AiRacer, projection: TrackProjection): void {
+    this.aiDrivingVisual?.clearRacer(opponent.id);
     const tangent = projection.tangent;
     this.projectiles.cancelOwnerArcs(opponent.id);
     this.racerEffects.clearFrost(opponent.id);
@@ -1706,6 +1717,15 @@ export class KartTimeTrial {
       );
       this.stopItemVfxTiming(opponentItemVfxStart);
     }
+    this.aiDrivingVisual?.update(
+      this.opponents,
+      this.world,
+      this.track,
+      this.camera,
+      this.paused || document.hidden ? 0 : dt,
+      this.raceDirector.phase(this.playerProgress.finished) === 'racing',
+      this.aiVisualBlocked,
+    );
     const feedback = this.kart.feedback();
     const color =
       feedback.driftTier === 'purple'
@@ -2252,6 +2272,7 @@ export class KartTimeTrial {
               object.receiveShadow = true;
             }
           });
+          this.aiDrivingVisual?.captureModel(group, model);
           if (gltf.animations.length === 0)
             this.kartBatchReleases.push(batchStaticKartMeshes(model));
           if (driverVisual !== null) {

@@ -387,6 +387,160 @@ describe('drift visual runtime wiring', () => {
   });
 });
 
+it('routes nearby AI drift and real off-road dust into two shared batches without physics writes', async () => {
+  const r = await setup();
+  const runtime = r.game as unknown as {
+    updateVisuals: (dt: number) => void;
+    scene: THREE.Scene;
+    track: import('../src/game/track/CircuitAlpha').CircuitAlpha;
+    world: import('@dimforge/rapier3d-compat').World;
+    kart: import('../src/game/physics/KartController').KartController;
+    opponents: {
+      id: string;
+      controller: import('../src/game/physics/KartController').KartController;
+      progress: { finished: boolean };
+    }[];
+  };
+  const group = runtime.scene.getObjectByName('AiDrivingVisual');
+  expect(group).toBeDefined();
+  vi.spyOn(runtime, 'updateVisuals').mockRestore();
+  const point = requireValue(runtime.track.samples[30]).clone();
+  const forward = requireValue(runtime.track.tangents[30]).clone();
+  point.addScaledVector(new THREE.Vector3(forward.z, 0, -forward.x), 8);
+  point.y = 0.34;
+  runtime.kart.body.setTranslation(point.clone().addScaledVector(forward, -8), true);
+  const ai = requireValue(runtime.opponents[0]);
+  ai.controller.body.setTranslation(point, true);
+  ai.controller.body.setLinvel(forward.clone().multiplyScalar(16), true);
+  vi.spyOn(ai.controller, 'feedback').mockReturnValue({
+    drifting: true,
+    driftTier: 'purple',
+    chargeRatio: 1,
+    airborne: false,
+    boostActive: false,
+  });
+  runtime.world.step();
+  const velocity = ai.controller.body.linvel();
+  for (let i = 0; i < 6; i++) runtime.updateVisuals(0.1);
+  const sparks = requireValue(group).getObjectByName('drift-spark-pool') as THREE.InstancedMesh;
+  const dust = requireValue(group).getObjectByName('wheel-dust-pool') as THREE.InstancedMesh;
+  expect(sparks.count).toBeGreaterThan(0);
+  expect(dust.count).toBeGreaterThan(0);
+  expect(ai.controller.body.linvel()).toEqual(velocity);
+  const before = dust.instanceMatrix.array.slice();
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+  runtime.updateVisuals(0.1);
+  expect(dust.instanceMatrix.array).toEqual(before);
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+  r.phase('finished');
+  runtime.updateVisuals(0.1);
+  expect(dust.count).toBe(0);
+  expect(sparks.count).toBe(0);
+  let disposed = 0;
+  sparks.addEventListener('dispose', () => disposed++);
+  dust.addEventListener('dispose', () => disposed++);
+  r.game.dispose();
+  expect(disposed).toBe(2);
+});
+
+it('uses normalized AI model wheel anchors after batching and suppresses distant or unseen emissions', async () => {
+  harness.modeledDustWheels = true;
+  const r = await setup();
+  const runtime = r.game as unknown as {
+    updateVisuals: (dt: number) => void;
+    scene: THREE.Scene;
+    racerEffects: import('../src/game/items/RacerEffects').RacerEffects;
+    world: import('@dimforge/rapier3d-compat').World;
+    kart: import('../src/game/physics/KartController').KartController;
+    opponents: {
+      id: string;
+      controller: import('../src/game/physics/KartController').KartController;
+      mesh: THREE.Group;
+      progress: { finished: boolean };
+    }[];
+    recoverOpponent: (ai: unknown, projection: unknown) => void;
+    track: import('../src/game/track/CircuitAlpha').CircuitAlpha;
+  };
+  vi.spyOn(runtime, 'updateVisuals').mockRestore();
+  const offroad = requireValue(runtime.track.samples[30]).clone();
+  const tangent = requireValue(runtime.track.tangents[30]);
+  offroad.addScaledVector(new THREE.Vector3(tangent.z, 0, -tangent.x), 8);
+  offroad.y = 0.34;
+  const playerPoint = offroad.clone().add(new THREE.Vector3(0, 0, -8));
+  runtime.kart.respawn(playerPoint, 0);
+  runtime.kart.body.setTranslation(playerPoint, true);
+  runtime.opponents.forEach((ai) => {
+    ai.controller.body.setTranslation({ x: 1000, y: 0.34, z: 0 }, true);
+  });
+  const ai = requireValue(runtime.opponents[0]);
+  ai.controller.respawn(offroad, 0);
+  ai.controller.body.setTranslation(offroad, true);
+  ai.controller.body.setLinvel({ x: 0, y: 0, z: 20 }, true);
+  vi.spyOn(ai.controller, 'feedback').mockReturnValue({
+    drifting: true,
+    driftTier: 'purple',
+    chargeRatio: 1,
+    airborne: false,
+    boostActive: false,
+  });
+  runtime.world.step();
+  const origin = ai.controller.position();
+  runtime.updateVisuals(0.1);
+  const group = requireValue(runtime.scene.getObjectByName('AiDrivingVisual'));
+  const dust = group.getObjectByName('wheel-dust-pool') as THREE.InstancedMesh;
+  const sparks = group.getObjectByName('drift-spark-pool') as THREE.InstancedMesh;
+  expect(ai.mesh.getObjectByName('Wheel_FL')).toBeUndefined();
+  expect(dust.count).toBe(4);
+  const expected = [
+    [0.966667, -1.45],
+    [0.966667, 0.483333],
+    [-1.691667, -1.45],
+    [-1.691667, 0.483333],
+  ];
+  const matrix = new THREE.Matrix4();
+  expected.forEach(([x, z], i) => {
+    dust.getMatrixAt(i, matrix);
+    expect(Math.abs(matrix.elements[12] - origin.x - requireValue(x))).toBeLessThan(0.041);
+    expect(Math.abs(matrix.elements[14] - origin.z - requireValue(z))).toBeLessThan(0.041);
+  });
+  // Outside the 60m budget, then near but behind the chase camera.
+  for (const point of [
+    origin.clone().add(new THREE.Vector3(0, 0, 90)),
+    origin.clone().add(new THREE.Vector3(0, 0, -35)),
+  ]) {
+    ai.controller.body.setTranslation(point, true);
+    for (let i = 0; i < 12; i++) runtime.updateVisuals(0.1);
+    expect(dust.count).toBe(0);
+    expect(sparks.count).toBe(0);
+    ai.controller.body.setTranslation(origin, true);
+    runtime.updateVisuals(0.001);
+    expect(sparks.count).toBe(0); // No deferred purple charge/release burst.
+    runtime.updateVisuals(0.1);
+    expect(dust.count).toBeGreaterThan(0);
+  }
+  runtime.racerEffects.activateSpinout(ai.id, {
+    id: 'test',
+    label: 'test',
+    durationSeconds: 1,
+    direction: 1,
+    turns: 1,
+  });
+  for (let i = 0; i < 12; i++) runtime.updateVisuals(0.1);
+  expect(dust.count).toBe(0);
+  expect(sparks.count).toBe(0);
+  runtime.racerEffects.clearSpinout(ai.id);
+  runtime.updateVisuals(0.001);
+  expect(sparks.count).toBe(0);
+  runtime.updateVisuals(0.1);
+  expect(dust.count).toBeGreaterThan(0);
+  runtime.recoverOpponent(ai, runtime.track.project(origin));
+  expect(sparks.count).toBe(0);
+  ai.progress.finished = true;
+  runtime.updateVisuals(0.1);
+  expect(dust.count).toBe(0);
+  r.game.dispose();
+});
+
 describe('player wheel dust runtime wiring', () => {
   it('prewarms dust and samples real off-road contacts without altering player motion', async () => {
     const r = await setup();

@@ -36,8 +36,8 @@
   },
   "acceptance": {
     "scope": "approved AI drift and AI wheel dust",
-    "ownerAIVisual": "pending",
-    "mergePublication": "pending",
+    "ownerAIVisual": "passed by product-owner review",
+    "mergePublication": "approved and published",
     "priorAcceptance": "preserved",
     "hardwareGlobalBudget": "not claimed"
   },
@@ -55,5 +55,24 @@
       "assets/index-B7Jt5ma7.css": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
       "assets/index-BK_9m5Nk.js": "24b275d551498c2441ed2217f9ceebed2d5ffa5462c0370472a8d1e23be87da6"
     }
+  },
+  "ownerApproval": {
+    "quote": "Approved - merge & publish approved.",
+    "date": "2026-10-01",
+    "timezone": "America/Chicago",
+    "privateVersion": 5,
+    "reviewedPRHead": "b61a85e7f48bd7830cabce42b3676124a2a223ef",
+    "reviewedPRHeadCI": 36861828504,
+    "scope": "AI drift and AI off-road wheel dust visual acceptance and explicit merge/public publication approval"
+  },
+  "release": {
+    "pullRequest": 217,
+    "mergeCommit": "8380390ed07d281d8b99a3956272550ff6fdf0a6",
+    "acceptedFinalPRCI": 36861828504,
+    "postMergeCI": 36865162215,
+    "ciConclusion": "success",
+    "production": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+    "deliveryEvidence": "production-delivery.json",
+    "runtimeMatchesAcceptedPreviewSource": true
   }
 }

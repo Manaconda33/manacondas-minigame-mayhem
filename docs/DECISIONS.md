@@ -910,8 +910,12 @@ Manny accepted the private version 4 wheel-dust review with “Approved.”, the
 ## ADR-097: Bounded AI drift and off-road wheel dust
 
 - **Date:** 2026-09-30 (America/Chicago); resumed review publication 2026-10-01.
-- **Status:** Scope/design approved; implementation review; owner visual acceptance and public release pending.
+- **Status:** LIVE ACCEPTED; owner visual acceptance and explicit merge/publication approval complete.
 - **Authority:** Manny approved AI drift parity and added AI wheel dust: “Approved. I think you should do the wheel dust for AI racers at the same time.”
 - **Decision:** Reuse accepted drift/dust presentation in two shared AI batches with aggregate quality caps (drift 48/96/144, dust 32/64/96), independent racer transition/emission history and independent visual RNG. Restrict new emission to unfinished, non-spinout racers within 60m and the camera frustum. Ground support/surface queries are read-only. Cache normalized GLB wheel centers before batching; retain procedural fallback. Freeze pause/hidden; per-owner recovery/finish cleanup and race disposal release owned resources.
 - **Preservation:** Player emission equations/limits, all gameplay/AI tactics, boost timing, camera behavior, HUD/Results/audio/art/settings and earlier acceptance remain intact. No speed/FOV, bloom, blur or next slice. Local aggregate bounds do not close global particle or hardware performance gates.
 - **Evidence and release:** `docs/evidence/2026-10-01-ai-driving-vfx/`; review PR and sole-owner private preview only. Require new-effect visual acceptance, then separate merge/publication approval.
+
+### ADR-097 release disposition — 2026-10-01
+
+Manny accepted private version 5 and explicitly approved merge/publication: **“Approved - merge & publish approved.”** PR #217 merged at `8380390ed07d281d8b99a3956272550ff6fdf0a6`; final PR CI `36861828504` and post-merge CI/Pages `36865162215` passed. Public index/entry JS/kart JS/CSS hashes match the validated production build exactly (`production-delivery.json`). AI drift/dust is LIVE ACCEPTED; earlier pending statements are historical. Existing acceptance remains passed; no broader performance, full Slice 6 closure, new asset or next-scope authority is inferred.

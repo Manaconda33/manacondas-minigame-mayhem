@@ -31,3 +31,14 @@ Author separately inspected the final runtime diff for authority writes, anchore
 Use the private review build on Medium. Drive through blue → orange → purple, release the purple boost, and inspect both chase/rear cameras. Confirm visible trails stay behind both rear wheels, orange remains distinguishable, purple burst/release reads clearly, track/HUD remain readable, and controls, boost timing and existing audio feel unchanged. Exercise pause/resume, recovery, race completion/Results, and restart. Preserve all existing manual acceptance; this new presentation still needs owner acceptance.
 
 Complete one normal full race with `?testRacePerf=1`; compare with the accepted owner mobile optimization summary (226 max calls, 59.9 median FPS, 16.8 ms p95, 233.5 ms max, 3 frames >50 ms). That earlier race had a different grid/player and no verified raw JSON, so it is context rather than an identical controlled run. Manny's mobile substitution stands; do not require another desktop baseline. Do not assert a full PRD performance pass from tests or the earlier mobile screenshot.
+
+## Review publication provenance
+
+- PR: https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/214
+- Reviewed runtime commit: `0d4c5a84a65231bdfb58dd40bd13b05e1b647b24`; local/uploaded/fetched trees match `1e4d9a7e19ac20376e1d7fb00906dc6a84948b13`.
+- Exact runtime-head hosted CI: https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36795442050 — completed/success.
+- Private review: https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site/?testRacePerf=1 — version 3, deployment succeeded. Owner-only audience preserved.
+- Pushed preview snapshot: `8dbc7fec41c70407bde98deb217e48161a395821`; source stamp `0d4c5a84a65231bdfb58dd40bd13b05e1b647b24`. Root-base build manifest and bundle hashes: `preview-build.json`.
+- Saved version/deployment/archive provenance: `provenance.json`; archive SHA-256 `a74c9baa49de67eeb93f37e465eebb406683effdc72a8108bb1d52515895802e`.
+- Cloud browser showed the owner sign-in boundary; rendered acceptance was not claimed (`browser-review.md`).
+- Public main and public game were not merged/released. New runtime merge/public production approval pending. The follow-up checkpoint adds documentation only; its CI is independently checked before presenting the final PR.

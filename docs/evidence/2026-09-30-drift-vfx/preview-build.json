@@ -1,0 +1,15 @@
+{
+  "repository": "Manaconda33/manacondas-minigame-mayhem",
+  "sourceCommit": "0d4c5a84a65231bdfb58dd40bd13b05e1b647b24",
+  "sourceTree": "1e4d9a7e19ac20376e1d7fb00906dc6a84948b13",
+  "pullRequest": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/214",
+  "validation": "87 files / 693 tests; typecheck, lint, asset/branding gates, build and LFS checks passed",
+  "scope": "Player blue/orange/purple drift visual pool and purple release pulse; runtime merge/public production approval pending",
+  "limitations": "Owner rendered/mobile performance review pending; no GPU timing certification; AI/dust/speed/bloom/blur outside scope",
+  "sha256": {
+    "index.html": "ff58194e74ff2b68276220d9fc29b64581d7b6494e6936b4ca00540b6000c052",
+    "assets/KartTimeTrial-BREVZbsU.js": "67f3ab13e56eb006db3c6459ac626c74a0ec1e56cc46f0330294a341a0e35ed9",
+    "assets/index-BmjAvI0h.js": "412ba3be5139db7575509c9355ee52af0325d0851df22d1a5f7151f42f14f5e6",
+    "assets/index-B7Jt5ma7.css": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2"
+  }
+}

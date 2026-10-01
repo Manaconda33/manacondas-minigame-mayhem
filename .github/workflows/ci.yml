@@ -100,6 +100,24 @@ jobs:
           npm ci
           npm run build -- --base /manacondas-minigame-mayhem/previews/motion-blur/
 
+      - name: Check out pinned terrain material review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v5
+        with:
+          ref: 375c933766dbc52cead91592cd69d954ab022d38
+          path: terrain-preview
+          lfs: true
+
+      - name: Verify and build terrain material review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: terrain-preview
+        env:
+          VITE_SOURCE_COMMIT: 375c933766dbc52cead91592cd69d954ab022d38
+        run: |
+          git lfs fsck
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/terrain-materials/
+
       - name: Assemble the current game and isolated previews
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -117,6 +135,9 @@ jobs:
           mkdir -p site-root/previews/motion-blur
           cp -a motion-blur-preview/dist/. site-root/previews/motion-blur/
           test -f site-root/previews/motion-blur/index.html
+          mkdir -p site-root/previews/terrain-materials
+          cp -a terrain-preview/dist/. site-root/previews/terrain-materials/
+          test -f site-root/previews/terrain-materials/index.html
 
       - name: Configure GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

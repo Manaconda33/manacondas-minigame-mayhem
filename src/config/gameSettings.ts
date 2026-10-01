@@ -12,6 +12,7 @@ export interface AudioSettings {
 
 export interface GraphicsSettings {
   readonly quality: GraphicsQuality;
+  readonly motionBlur?: boolean;
 }
 
 export interface GameSettings {
@@ -35,6 +36,7 @@ export const DEFAULT_GAME_SETTINGS: GameSettings = {
   },
   graphics: {
     quality: 'medium',
+    motionBlur: true,
   },
 };
 
@@ -84,6 +86,7 @@ export function normalizeGameSettings(value: unknown): GameSettings {
     },
     graphics: {
       quality: isGraphicsQuality(quality) ? quality : DEFAULT_GAME_SETTINGS.graphics.quality,
+      motionBlur: typeof graphics?.motionBlur === 'boolean' ? graphics.motionBlur : true,
     },
   };
 }

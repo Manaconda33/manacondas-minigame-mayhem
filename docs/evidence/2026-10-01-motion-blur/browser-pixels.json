@@ -1,0 +1,106 @@
+{
+  "checkedAt": "2026-10-01T19:45:15.354Z",
+  "browser": "153.0.8010.0",
+  "renderer": "Chromium software WebGL / SwiftShader; synthetic current-frame pattern",
+  "limitations": "Shader/pixel check only; no gameplay visual acceptance or device/full-race performance certification.",
+  "sourceSha256": "80764063e28072b7497e1c8f53b158620157849f320f2053d62c9e70fbc14413",
+  "results": [
+    {
+      "quality": "low",
+      "width": 800,
+      "height": 600,
+      "protectedChanged": 0,
+      "edgeChanged": 0,
+      "maxDelta": 0,
+      "drawsAdded": 0,
+      "glError": 0,
+      "snapshot": {
+        "enabled": false,
+        "strength": 0,
+        "textureBytes": 0,
+        "fallbackReason": null
+      }
+    },
+    {
+      "quality": "medium",
+      "width": 800,
+      "height": 600,
+      "protectedChanged": 0,
+      "edgeChanged": 100528,
+      "maxDelta": 28,
+      "drawsAdded": 1,
+      "glError": 0,
+      "snapshot": {
+        "enabled": true,
+        "strength": 0.21987832143856748,
+        "textureBytes": 460800,
+        "fallbackReason": null
+      }
+    },
+    {
+      "quality": "high",
+      "width": 800,
+      "height": 600,
+      "protectedChanged": 0,
+      "edgeChanged": 105252,
+      "maxDelta": 57,
+      "drawsAdded": 1,
+      "glError": 0,
+      "snapshot": {
+        "enabled": true,
+        "strength": 0.3198230130015527,
+        "textureBytes": 460800,
+        "fallbackReason": null
+      }
+    },
+    {
+      "quality": "low",
+      "width": 375,
+      "height": 667,
+      "protectedChanged": 0,
+      "edgeChanged": 0,
+      "maxDelta": 0,
+      "drawsAdded": 0,
+      "glError": 0,
+      "snapshot": {
+        "enabled": false,
+        "strength": 0,
+        "textureBytes": 0,
+        "fallbackReason": null
+      }
+    },
+    {
+      "quality": "medium",
+      "width": 375,
+      "height": 667,
+      "protectedChanged": 0,
+      "edgeChanged": 53422,
+      "maxDelta": 29,
+      "drawsAdded": 1,
+      "glError": 0,
+      "snapshot": {
+        "enabled": true,
+        "strength": 0.21987832143856748,
+        "textureBytes": 240000,
+        "fallbackReason": null
+      }
+    },
+    {
+      "quality": "high",
+      "width": 375,
+      "height": 667,
+      "protectedChanged": 0,
+      "edgeChanged": 54092,
+      "maxDelta": 57,
+      "drawsAdded": 1,
+      "glError": 0,
+      "snapshot": {
+        "enabled": true,
+        "strength": 0.3198230130015527,
+        "textureBytes": 240000,
+        "fallbackReason": null
+      }
+    }
+  ],
+  "errors": []
+}

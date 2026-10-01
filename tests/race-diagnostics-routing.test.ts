@@ -57,6 +57,9 @@ vi.mock('three', async (importOriginal) => {
         harness.reads.push('render');
         this.info.render.calls = 22;
       }
+      copyFramebufferToTexture() {
+        /* GPU copy boundary only. */
+      }
     },
     TextureLoader: class {
       load() {
@@ -218,6 +221,57 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 describe('real race RAF diagnostics wiring', () => {
+  it('enforces the blur frame budget in ordinary play with diagnostics disabled', async () => {
+    const r = await setup('');
+    const runtime = r.game as unknown as {
+      kart: import('../src/game/physics/KartController').KartController;
+      playerNormalTopSpeed: number;
+      motionBlur: import('../src/game/rendering/RaceMotionBlur').RaceMotionBlur;
+    };
+    const velocity = runtime.kart.forward().multiplyScalar(runtime.playerNormalTopSpeed);
+    vi.spyOn(runtime.kart, 'velocity').mockImplementation((target = new THREE.Vector3()) =>
+      target.copy(velocity),
+    );
+    for (let i = 0; i < 90; i++) r.tick();
+    for (let i = 0; i < 60; i++) r.tick(i % 2 === 0 ? 16 : 25);
+    expect(runtime.motionBlur.snapshot().fallbackReason).toBe('Frame budget');
+    expect(runtime.motionBlur.snapshot().textureBytes).toBe(0);
+    expect(r.game.exportPerformanceCapture(metadata)).toBeNull();
+  });
+  it('drives blur from actual player speed and clears rear view recovery and Results', async () => {
+    const r = await setup();
+    const runtime = r.game as unknown as {
+      kart: import('../src/game/physics/KartController').KartController;
+      playerNormalTopSpeed: number;
+      updateVisuals: (dt: number) => void;
+      respawn: () => void;
+    };
+    vi.spyOn(runtime, 'updateVisuals').mockRestore();
+    const velocity = runtime.kart.forward().multiplyScalar(runtime.playerNormalTopSpeed);
+    vi.spyOn(runtime.kart, 'velocity').mockImplementation((target = new THREE.Vector3()) =>
+      target.copy(velocity),
+    );
+    const snapshot = () => r.game.exportPerformanceCapture(metadata)?.metadata.motionBlur;
+    for (let i = 0; i < 90; i++) r.tick();
+    expect(snapshot()?.strength).toBeGreaterThan(0.2);
+    const before = snapshot()?.strength;
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    r.tick(500);
+    expect(snapshot()?.strength).toBe(before);
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyC' }));
+    r.tick();
+    expect(snapshot()?.strength).toBe(0);
+    window.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyC' }));
+    for (let i = 0; i < 90; i++) r.tick();
+    expect(snapshot()?.strength).toBeGreaterThan(0.2);
+    runtime.respawn();
+    expect(snapshot()?.strength).toBe(0);
+    r.phase('finished');
+    r.tick();
+    expect(snapshot()?.strength).toBe(0);
+    r.game.dispose();
+  });
   it('records a raw 250ms stall while leaving the simulation clamp and post-render reads intact', async () => {
     const r = await setup();
     harness.reads.length = 0;

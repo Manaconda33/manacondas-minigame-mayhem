@@ -1,5 +1,15 @@
 # Architecture and Product Decisions
 
+## ADR-101: Bounded quality-dependent peripheral motion blur
+
+- **Date:** 2026-10-01 (America/Chicago).
+- **Status:** Scope approved; local implementation/validation passed; preview publication, owner visual acceptance and production publication pending.
+- **Authority:** Manny's “Scope approved.” at main `b07c5b1ba054f0d4af999b72caf59ee13568ca01`; PRD 23.7 / 35.7. Full-screen High blur is optional; High uses a stronger capped peripheral variant.
+- **Decision:** Preserve existing bloom/base rendering; add current-frame blur to left/right 20% bands between 20–80% height. Low/off/reduced-motion bypass textures. Medium/High use 3/5 samples and 0.22/0.32 blend caps; radius follows read-only smoothed normalized forward speed independently of opacity. Two band copies and one overlay avoid history/scene rerender. DOM HUD/touch and central road/player art remain outside the blur region; gameplay clarity awaits owner review.
+- **Settings/lifecycle:** Persist graphics.motionBlur with v1 compatibility, apply next race. Rear/spinout/countdown/finish/recovery clear; pause/hidden freeze without drawing; startup warms shader/textures; resize/disposal release resources. testMotionBlur=0 is a read-only comparison bypass.
+- **Performance:** Input bounded to 4096 per axis / 8,388,608 pixels. After 60 active valid warmup frames, 30-frame mean above 17.67ms or 12 consecutive slow frames disables blur for the race. Timing excludes inactive/invalid frames and lifecycle boundaries independently of diagnostics. This conservative guard does not certify hardware performance or attribute frame cost to blur.
+- **Preservation/gates:** No gameplay, accepted bloom, camera transform, roster/art/audio/binary/lockfile/dependency/hosting/protection changes. All prior acceptance remains closed; context-loss recovery stays waived. Evidence: docs/evidence/2026-10-01-motion-blur/. Preview-only publication requires approval; visual review and later implementation merge/production publication remain separate. No broader Slice 6 closure or next-slice authority.
+
 This file is the current decision register. The complete original ADR-001 through ADR-021 record is preserved verbatim at `docs/history/DECISIONS-through-ADR-021.md` and remains authoritative except where a later ADR explicitly supersedes an earlier decision.
 
 Future sessions must read this current register and follow the historical link when implementing behavior governed by ADR-001 through ADR-021.

@@ -1,5 +1,6 @@
 import { bloomDisabledFromSearch, markBloomMaterial } from './rendering/bloomEligibility';
 import { RaceBloom } from './rendering/RaceBloom';
+import { RaceMotionBlur } from './rendering/RaceMotionBlur';
 import { ExhaustVisual, type ExhaustEmitter } from './vfx/ExhaustVisual';
 import { AiDrivingVisual } from './vfx/AiDrivingVisual';
 import { DriftVisual } from './vfx/DriftVisual';
@@ -173,6 +174,7 @@ export interface TimeTrialOptions {
   canvas: HTMLCanvasElement;
   character: CharacterDefinition;
   graphicsQuality: GraphicsQuality;
+  motionBlur?: boolean;
   mobileSession: boolean;
   onHud: (state: HudState) => void;
   onMusicState?: (state: RaceMusicState) => void;
@@ -230,6 +232,8 @@ export class KartTimeTrial {
   private audioApexPhase = '';
   private readonly renderer: THREE.WebGLRenderer;
   private readonly bloom: RaceBloom;
+  private readonly motionBlur: RaceMotionBlur;
+  private motionBlurActive = false;
   private readonly scene = new THREE.Scene();
   private readonly camera: THREE.PerspectiveCamera;
   private readonly track = new CircuitAlpha();
@@ -421,7 +425,21 @@ export class KartTimeTrial {
     this.exhaustVisual = new ExhaustVisual(options.graphicsQuality);
     this.scene.add(this.exhaustVisual.group);
     this.renderer = new THREE.WebGLRenderer({ canvas: options.canvas, antialias: true });
-    this.bloom = new RaceBloom(this.renderer, options.graphicsQuality, bloomDisabledFromSearch(window.location.search));
+    this.bloom = new RaceBloom(
+      this.renderer,
+      options.graphicsQuality,
+      bloomDisabledFromSearch(window.location.search),
+    );
+    this.motionBlur = new RaceMotionBlur(
+      this.renderer,
+      options.graphicsQuality,
+      options.motionBlur !== false &&
+        new URLSearchParams(window.location.search).get('testMotionBlur') !== '0' &&
+        !(
+          typeof window.matchMedia === 'function' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ),
+    );
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, graphics.pixelRatioCap));
     this.renderer.shadowMap.enabled = graphics.shadows;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -499,6 +517,7 @@ export class KartTimeTrial {
       this.racePerformance?.exportCapture({
         ...metadata,
         bloom: this.bloom.snapshot(),
+        motionBlur: this.motionBlur.snapshot(),
         quality: this.options.graphicsQuality,
         racerCount: this.opponents.length + 1,
         nominalViewport: { ...this.captureViewport },
@@ -564,6 +583,7 @@ export class KartTimeTrial {
     this.hyperDriveRocketVisual.dispose();
     disposeTrackScene(this.trackScene);
     this.bloom.dispose();
+    this.motionBlur.dispose();
     this.renderer.dispose();
   }
 
@@ -623,6 +643,21 @@ export class KartTimeTrial {
     this.updateVisuals(frameSeconds);
     this.itemPerformance?.endFrame();
     this.bloom.render(this.scene, this.camera);
+    const blurEligible =
+      this.raceDirector.phase(this.playerProgress.finished) === 'racing' &&
+      !this.rearViewActive &&
+      this.racerEffects.spinoutState('player') === null;
+    const blurActive = blurEligible && !this.paused && !document.hidden;
+    const blurBoundary = blurActive !== this.motionBlurActive;
+    this.motionBlurActive = blurActive;
+    this.motionBlur.update(
+      this.kart.velocity(this.playerSpeedVelocity).dot(this.kart.forward(this.forward)) /
+        this.playerNormalTopSpeed,
+      this.paused || document.hidden ? 0 : frameSeconds,
+      blurEligible,
+      blurBoundary ? Number.NaN : rawFrameMs,
+    );
+    this.motionBlur.render(!this.paused && !document.hidden);
     if (this.racePerformance !== null) {
       const phase = this.raceDirector.phase(this.playerProgress.finished);
       const eligible = phase === 'racing' && !this.paused && !document.hidden;
@@ -1678,6 +1713,7 @@ export class KartTimeTrial {
 
   private respawn(): void {
     this.playerSpeedVisual.clear();
+    this.motionBlur.clear();
     this.driftVisual.clear();
     this.exhaustVisual?.clearRacer('player');
     this.wheelDust.clear();
@@ -2537,5 +2573,6 @@ export class KartTimeTrial {
     this.renderer.setSize(width, height, false);
     const buffer = this.renderer.getDrawingBufferSize(new THREE.Vector2());
     this.bloom.resize(buffer.x, buffer.y);
+    this.motionBlur.resize(buffer.x, buffer.y);
   };
 }

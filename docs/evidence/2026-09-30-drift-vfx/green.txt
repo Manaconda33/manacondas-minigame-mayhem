@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+
+ Test Files  3 passed (3)
+      Tests  25 passed (25)
+   Start at  19:12:32
+   Duration  2.12s (transform 560ms, setup 0ms, import 774ms, tests 860ms, environment 1.62s)
+

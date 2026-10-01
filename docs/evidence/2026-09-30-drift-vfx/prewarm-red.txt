@@ -1,0 +1,48 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/drift-visual.test.ts (9 tests | 1 failed) 51ms
+     × prepares the instance color layout before the first drift shader is compiled 12ms
+ ❯ tests/race-diagnostics-routing.test.ts (11 tests | 1 failed) 888ms
+     × prepares the drift material during race startup before driving 78ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/drift-visual.test.ts > drift visual particle pool > prepares the instance color layout before the first drift shader is compiled
+AssertionError: expected null not to be null
+ ❯ tests/drift-visual.test.ts:29:36
+     27|   it('prepares the instance color layout before the first drift shader…
+     28|     const visual = new DriftVisual('medium'); const mesh = particles(v…
+     29|     expect(mesh.instanceColor).not.toBeNull();
+       |                                    ^
+     30|     expect(mesh.count).toBe(0); visual.dispose();
+     31|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > drift visual runtime wiring > prepares the drift material during race startup before driving
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/race-diagnostics-routing.test.ts:308:50
+    306| describe('drift visual runtime wiring', () => {
+    307|   it('prepares the drift material during race startup before driving',…
+    308|     await setup(); expect(harness.compiledDrift).toBe(true);
+       |                                                  ^
+    309|   });
+    310|   it('uses actual player feedback, freezes paused frames and clears Re…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 18 passed (20)
+   Start at  19:10:10
+   Duration  2.16s (transform 507ms, setup 0ms, import 719ms, tests 940ms, environment 1.02s)
+

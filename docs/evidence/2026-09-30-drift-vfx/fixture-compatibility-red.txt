@@ -1,0 +1,137 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 validate
+> npm run typecheck && npm run lint && npm run test:ci && npm run build
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 typecheck
+> tsc -b --pretty false
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 lint
+> eslint . --max-warnings 0
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 test:ci
+> vitest run --coverage
+
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+      Coverage enabled with v8
+
+ ❯ tests/prismatic-runtime.test.ts (13 tests | 2 failed) 538ms
+     × rejects paused/countdown/finished input, consumes a valid use, and clears on recovery 65ms
+     × applies simultaneous Frost hits through runtime without spin, refreshes hazard snapshots, and clears recovery 22ms
+ ❯ tests/arc-runtime.test.ts (21 tests | 1 failed) 443ms
+     × recovery cancels owned returning blades while preserving charges and unrelated launched projectiles 34ms
+ ❯ tests/arc-hammers-runtime.test.ts (5 tests | 1 failed) 533ms
+     × preserves a fired Hammer through ordinary player recovery as governed 64ms
+ ❯ tests/hyper-drive-rocket.test.ts (12 tests | 1 failed) 334ms
+     × uses the real dispatcher seam, controller input, and recovery-preserved state 104ms
+ ❯ tests/ink-runtime.test.ts (5 tests | 1 failed) 132ms
+     × survives ordinary recovery and clears on explicit finish/disposal paths 19ms
+ ❯ tests/nitro-overdrive.test.ts (10 tests | 1 failed) 113ms
+     × routes desktop and mobile ITEM through the real KartTimeTrial method 41ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/arc-hammers-runtime.test.ts > Kinetic Arc Hammers production runtime integration > preserves a fired Hammer through ordinary player recovery as governed
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1619:22
+    1617|
+    1618|   private respawn(): void {
+    1619|     this.driftVisual.clear();
+       |                      ^
+    1620|     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
+    1621|     this.arcFixture.cancel(this.projectiles);
+ ❯ tests/arc-hammers-runtime.test.ts:263:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/arc-runtime.test.ts > Arc production input, effects and counter fixtures > recovery cancels owned returning blades while preserving charges and unrelated launched projectiles
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1619:22
+    1617|
+    1618|   private respawn(): void {
+    1619|     this.driftVisual.clear();
+       |                      ^
+    1620|     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
+    1621|     this.arcFixture.cancel(this.projectiles);
+ ❯ tests/arc-runtime.test.ts:197:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/hyper-drive-rocket.test.ts > Hyper-Drive Rocket production runtime path > uses the real dispatcher seam, controller input, and recovery-preserved state
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1619:22
+    1617|
+    1618|   private respawn(): void {
+    1619|     this.driftVisual.clear();
+       |                      ^
+    1620|     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
+    1621|     this.arcFixture.cancel(this.projectiles);
+ ❯ tests/hyper-drive-rocket.test.ts:298:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/ink-runtime.test.ts > Vision-Obscuring Ink Splat production runtime integration > survives ordinary recovery and clears on explicit finish/disposal paths
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1619:22
+    1617|
+    1618|   private respawn(): void {
+    1619|     this.driftVisual.clear();
+       |                      ^
+    1620|     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
+    1621|     this.arcFixture.cancel(this.projectiles);
+ ❯ tests/ink-runtime.test.ts:99:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/nitro-overdrive.test.ts > Nitro Overdrive production presentation and input seams > routes desktop and mobile ITEM through the real KartTimeTrial method
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1619:22
+    1617|
+    1618|   private respawn(): void {
+    1619|     this.driftVisual.clear();
+       |                      ^
+    1620|     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
+    1621|     this.arcFixture.cancel(this.projectiles);
+ ❯ tests/nitro-overdrive.test.ts:228:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  tests/prismatic-runtime.test.ts > Prismatic real runtime wiring > rejects paused/countdown/finished input, consumes a valid use, and clears on recovery
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1619:22
+    1617|
+    1618|   private respawn(): void {
+    1619|     this.driftVisual.clear();
+       |                      ^
+    1620|     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
+    1621|     this.arcFixture.cancel(this.projectiles);
+ ❯ tests/prismatic-runtime.test.ts:148:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  tests/prismatic-runtime.test.ts > Prismatic real runtime wiring > applies simultaneous Frost hits through runtime without spin, refreshes hazard snapshots, and clears recovery
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1619:22
+    1617|
+    1618|   private respawn(): void {
+    1619|     this.driftVisual.clear();
+       |                      ^
+    1620|     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
+    1621|     this.arcFixture.cancel(this.projectiles);
+ ❯ tests/prismatic-runtime.test.ts:260:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  6 failed | 81 passed (87)
+      Tests  7 failed | 684 passed (691)
+   Start at  19:07:11
+   Duration  19.96s (transform 3.81s, setup 0ms, import 11.10s, tests 38.04s, environment 59.68s)
+

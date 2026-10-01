@@ -1,3 +1,4 @@
+import { DriftVisual } from './vfx/DriftVisual';
 import { batchStaticKartMeshes } from './rendering/batchStaticKartMeshes';
 import type { RaceMusicState } from '../audio/musicCatalog';
 import { RaceSfx } from '../audio/RaceSfx';
@@ -235,6 +236,7 @@ export class KartTimeTrial {
   private readonly pressed = new Set<string>();
   private readonly kartMesh = new THREE.Group();
   private readonly driftLights: THREE.Mesh[] = [];
+  private readonly driftVisual: DriftVisual;
   private readonly kartBatchReleases: (() => void)[] = [];
   private readonly kart: KartController;
   private readonly opponents: AiRacer[] = [];
@@ -360,6 +362,7 @@ export class KartTimeTrial {
     await RAPIER.init();
     const game = new KartTimeTrial(options);
     await game.createKartVisual();
+    game.renderer.compile(game.driftVisual.group, game.camera, game.scene);
     return game;
   }
 
@@ -371,6 +374,8 @@ export class KartTimeTrial {
       this.raceAudio.cue(cue, position);
     });
     const graphics = graphicsQualityProfile(options.graphicsQuality);
+    this.driftVisual = new DriftVisual(options.graphicsQuality);
+    this.scene.add(this.driftVisual.group);
     this.renderer = new THREE.WebGLRenderer({ canvas: options.canvas, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, graphics.pixelRatioCap));
     this.renderer.shadowMap.enabled = graphics.shadows;
@@ -456,6 +461,7 @@ export class KartTimeTrial {
     this.diagnosticsDisposed = true;
     for (const release of this.kartBatchReleases.splice(0)) release();
     this.racePerformance?.dispose();
+    this.driftVisual.dispose();
     this.racePerformance = null;
     this.raceAudioIfPresent()?.dispose();
     this.touchWheel = { held: false, steering: 0 };
@@ -1611,6 +1617,7 @@ export class KartTimeTrial {
   }
 
   private respawn(): void {
+    this.driftVisual.clear();
     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
     this.arcFixture.cancel(this.projectiles);
     this.arcHammerFixture.cancel(this.projectiles);
@@ -1692,6 +1699,14 @@ export class KartTimeTrial {
       (light.material as THREE.MeshBasicMaterial).color.setHex(color);
       light.scale.setScalar(0.75 + feedback.chargeRatio * 1.4);
     }
+    this.kartMesh.updateWorldMatrix(true, false);
+    this.driftVisual.update(
+      feedback,
+      this.kartMesh.matrixWorld,
+      this.paused || document.hidden ? 0 : dt,
+      this.raceDirector.phase(this.playerProgress.finished) === 'racing' &&
+        this.racerEffects.spinoutState('player') === null,
+    );
     if (feedback.driftTier !== this.lastToneTier && feedback.driftTier !== 'none') {
       const context = (Howler as unknown as { ctx?: AudioContext | null }).ctx;
       playDriftTierTone(feedback.driftTier, context, this.legacySfxVolume());

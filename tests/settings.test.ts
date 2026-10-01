@@ -28,6 +28,7 @@ describe('Slice 6 settings', () => {
     expect(settings).toEqual(DEFAULT_GAME_SETTINGS);
     expect(GRAPHICS_QUALITY_PROFILES.medium).toEqual({
       pixelRatioCap: 1.5,
+      driftParticleCapacity: 96,
       shadows: true,
       shadowMapSize: 2048,
     });

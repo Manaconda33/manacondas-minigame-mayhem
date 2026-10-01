@@ -1,0 +1,47 @@
+{
+  "runtimeCommit": "0d4c5a84a65231bdfb58dd40bd13b05e1b647b24",
+  "runtimeTree": "1e4d9a7e19ac20376e1d7fb00906dc6a84948b13",
+  "pullRequest": 214,
+  "ci": {
+    "id": 36795442050,
+    "sha": "0d4c5a84a65231bdfb58dd40bd13b05e1b647b24",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36795442050"
+  },
+  "preview": {
+    "id": "appgdep_6abda710f2b08191b6e3fbaa9f1edee4",
+    "project_id": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "title": "Manaconda race diagnostics review",
+    "version_id": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_f3f84894cca88191b01488640bb16ee1",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6abd8e96a17081919b0934998de64bf8",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-10-01T00:19:39.543383+00:00"
+  },
+  "version": {
+    "id": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_f3f84894cca88191b01488640bb16ee1",
+    "project_id": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "version_number": 3,
+    "source": {
+      "commit_sha": "8dbc7fec41c70407bde98deb217e48161a395821"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_000000002df481f6a4c25b6b932f2548",
+      "content_hash": "sha256:a74c9baa49de67eeb93f37e465eebb406683effdc72a8108bb1d52515895802e",
+      "size_bytes": 175462400,
+      "file_count": 364
+    },
+    "deployment_id": "appgdep_6abda710f2b08191b6e3fbaa9f1edee4"
+  },
+  "previewSourceCommit": "8dbc7fec41c70407bde98deb217e48161a395821",
+  "ownerRenderedAcceptance": "pending",
+  "runtimeMergeApproval": "pending",
+  "publicProductionPublication": "not performed"
+}

@@ -1,3 +1,4 @@
+import type { KartFeedback } from '../src/game/physics/KartController';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { KartTimeTrial } from '../src/game/KartTimeTrial';
@@ -7,6 +8,7 @@ import type { RaceCaptureMetadata } from '../src/game/diagnostics/raceDiagnostic
 const harness = vi.hoisted(() => ({
   raf: null as FrameRequestCallback | null,
   reads: [] as string[],
+  compiledDrift: false,
   loadedKarts: false,
   animatedKarts: false,
   deferAi: false,
@@ -20,6 +22,13 @@ vi.mock('three', async (importOriginal) => {
     WebGLRenderer: class {
       info = { render: { calls: 1, triangles: 2 }, memory: { geometries: 3, textures: 4 } };
       shadowMap = { enabled: false, type: 0 };
+      compile(group: THREE.Object3D) {
+        const mesh = group.getObjectByName('drift-spark-pool') as THREE.InstancedMesh | undefined;
+        harness.compiledDrift =
+          mesh !== undefined && mesh.instanceColor !== null && mesh.count === 0;
+        return new Set();
+      }
+
       setPixelRatio() {
         /* External renderer/audio/UI behavior is outside this diagnostic test. */
       }
@@ -72,7 +81,9 @@ vi.mock('three/examples/jsm/loaders/GLTFLoader.js', async () => {
         harness.loaderCalls += 1;
         if (harness.deferAi && harness.loaderCalls <= 7)
           return new Promise<typeof result>((resolve) => {
-            harness.pendingAi.push(() => { resolve(result); });
+            harness.pendingAi.push(() => {
+              resolve(result);
+            });
           });
         return Promise.resolve(result);
       }
@@ -151,6 +162,7 @@ async function setup(query = '?testRacePerf=1') {
 }
 beforeEach(() => {
   harness.reads.length = 0;
+  harness.compiledDrift = false;
   harness.loadedKarts = false;
   harness.animatedKarts = false;
   harness.deferAi = false;
@@ -289,5 +301,60 @@ describe('loaded kart optimization routing', () => {
       });
     r.game.dispose();
     expect(disposed).toBe(8);
+  });
+});
+
+describe('drift visual runtime wiring', () => {
+  it('prepares the drift material during race startup before driving', async () => {
+    await setup();
+    expect(harness.compiledDrift).toBe(true);
+  });
+  it('uses actual player feedback, freezes paused frames and clears Results/recovery/disposal', async () => {
+    const r = await setup();
+    const runtime = r.game as unknown as {
+      updateVisuals: (seconds: number) => void;
+      kart: { feedback: () => KartFeedback };
+      scene: THREE.Scene;
+      respawn: () => void;
+    };
+    vi.spyOn(runtime, 'updateVisuals').mockRestore();
+    vi.spyOn(runtime.kart, 'feedback').mockReturnValue({
+      drifting: true,
+      driftTier: 'purple',
+      chargeRatio: 1,
+      boostActive: false,
+      airborne: false,
+    });
+    runtime.updateVisuals(0.1);
+    const mesh = runtime.scene.getObjectByName('drift-spark-pool') as
+      THREE.InstancedMesh<THREE.BufferGeometry, THREE.MeshBasicMaterial> | undefined;
+    expect(mesh).toBeInstanceOf(THREE.InstancedMesh);
+    if (mesh === undefined) throw new Error('No runtime drift pool');
+    expect(mesh.count).toBeGreaterThan(0);
+    const count = mesh.count;
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    runtime.updateVisuals(0.1);
+    expect(mesh.count).toBe(count);
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+    runtime.updateVisuals(0.1);
+    expect(mesh.count).toBe(count);
+    Object.defineProperty(document, 'hidden', { configurable: true, value: false });
+    runtime.respawn();
+    expect(mesh.count).toBe(0);
+    runtime.updateVisuals(0.1);
+    expect(mesh.count).toBeGreaterThan(0);
+    r.phase('finished');
+    runtime.updateVisuals(0.1);
+    expect(mesh.count).toBe(0);
+    let released = 0;
+    mesh.geometry.addEventListener('dispose', () => {
+      released += 1;
+    });
+    mesh.material.addEventListener('dispose', () => {
+      released += 1;
+    });
+    r.game.dispose();
+    expect(released).toBe(2);
   });
 });

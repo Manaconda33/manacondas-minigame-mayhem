@@ -1,0 +1,30 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 build
+> tsc -b && node tools/verify-sfx-assets.mjs && node tools/verify-music-assets.mjs && node tools/verify-branding.mjs && node tools/verify-runtime-assets.mjs && vite build
+
+Verified 96 listening-approved runtime SFX hashes and WAV signatures.
+Verified all five approved music hashes, stereo PCM16/48kHz WAVs and loop sample counts.
+Verified Manaconda's Minigame Mayhem branding.
+Verified 10 archived Cleo asset hashes.
+Verified 3 materialized runtime track textures.
+Verified 18 approved Results/Podium assets.
+Verified the approved Route Night Results/Podium backdrop WebP.
+Verified 36 materialized runtime GLBs.
+Decoded and verified 135 runtime character PNGs.
+vite v8.2.1 building client environment for production...
+
+transforming...✓ 131 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                            0.71 kB │ gzip:     0.39 kB
+dist/assets/index-B7Jt5ma7.css            84.73 kB │ gzip:    17.16 kB
+dist/assets/index-CPOHjbKK.js            797.56 kB │ gzip:   207.51 kB
+dist/assets/KartTimeTrial-w5cgC0xW.js  3,100.95 kB │ gzip: 1,162.99 kB
+
+✓ built in 540ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

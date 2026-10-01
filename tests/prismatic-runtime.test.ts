@@ -1,3 +1,4 @@
+import { PlayerSpeedVisual } from '../src/game/vfx/PlayerSpeedVisual';
 import { WheelDustVisual } from '../src/game/vfx/WheelDustVisual';
 import { DriftVisual } from '../src/game/vfx/DriftVisual';
 import { requireValue } from './requireValue';
@@ -56,6 +57,7 @@ function rig() {
   const prismaticVisual = new PrismaticVisual();
   const prismaticMusic = new PrismaticMusic();
   const fields = {
+    playerSpeedVisual: new PlayerSpeedVisual(new PerspectiveCamera(62), 'low'),
     driftVisual: new DriftVisual('medium'),
     wheelDust: new WheelDustVisual('medium'),
     track,
@@ -120,6 +122,7 @@ function rig() {
       hazards.dispose();
       shockwave.dispose();
       projectiles.dispose();
+      fields.playerSpeedVisual.dispose();
       fields.driftVisual.dispose();
       fields.wheelDust.dispose();
       world.free();

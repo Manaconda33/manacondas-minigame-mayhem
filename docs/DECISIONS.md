@@ -919,3 +919,14 @@ Manny accepted the private version 4 wheel-dust review with “Approved.”, the
 ### ADR-097 release disposition — 2026-10-01
 
 Manny accepted private version 5 and explicitly approved merge/publication: **“Approved - merge & publish approved.”** PR #217 merged at `8380390ed07d281d8b99a3956272550ff6fdf0a6`; final PR CI `36861828504` and post-merge CI/Pages `36865162215` passed. Public index/entry JS/kart JS/CSS hashes match the validated production build exactly (`production-delivery.json`). AI drift/dust is LIVE ACCEPTED; earlier pending statements are historical. Existing acceptance remains passed; no broader performance, full Slice 6 closure, new asset or next-scope authority is inferred.
+
+
+## ADR-098: Bounded player speed cues
+
+- **Date:** 2026-10-01 (America/Chicago).
+- **Status:** Scope/design approved; implementation review only. Owner visual and separate merge/public production approval pending.
+- **Authority:** Manny's “Approved” to player FOV expansion 62–68° and faint peripheral speed lines with quality/lifecycle bounds.
+- **Decision:** Use read-only signed forward speed normalized to each kart's normal top speed; eased 70–100% band and exponential smoothing. Preserve all camera transforms/anchors and update projection only. One clip-space ShaderMaterial InstancedMesh allocates 6/10/14 strokes per Low/Medium/High, alpha ≤0.15, no textures or shadow draws. Central horizontal road/kart region remains clear; owner verifies actual HUD/legibility. Existing next-race quality application remains intact.
+- **Lifecycle:** Freeze pause/hidden; reset countdown/spinout/finish/recovery; release owned resources once at disposal; warm the shader at race creation.
+- **Preservation:** All existing acceptance through PRs #212–218 remains closed; player/AI drift/dust, gameplay, boost/exhaust identity, HUD/Results/audio/assets/settings remain intact. No bloom, blur, new slice or hardware/global-budget claim. This is only part of PRD 22.1/23.5, not full speed/boost polish or Slice 6 closure.
+- **Evidence/gates:** `docs/evidence/2026-10-01-player-speed-cues/`. Review branch/private preview only; public main changes require later approval.

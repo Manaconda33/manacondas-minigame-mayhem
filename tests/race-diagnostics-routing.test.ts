@@ -638,3 +638,103 @@ it('keeps normalized modeled wheel emission positions after static batching remo
     expect(transform.elements[13]).toBeCloseTo(0.08, 4);
   });
 });
+
+it('routes player forward speed into camera FOV and peripheral strokes with lifecycle cleanup', async () => {
+  const r = await setup();
+  const runtime = r.game as unknown as {
+    updateVisuals: (dt: number) => void;
+    scene: THREE.Scene;
+    camera: THREE.PerspectiveCamera;
+    kart: import('../src/game/physics/KartController').KartController;
+    respawn: () => void;
+  };
+  vi.spyOn(runtime, 'updateVisuals').mockRestore();
+  const forward = runtime.kart.forward();
+  const velocity = forward.clone().multiplyScalar(70);
+  runtime.kart.body.setLinvel(velocity, true);
+  for (let i = 0; i < 60; i++) runtime.updateVisuals(1 / 60);
+  const group = runtime.scene.getObjectByName('PlayerSpeedVisual');
+  expect(group).toBeDefined();
+  const strokes = requireValue(group).getObjectByName('speed-line-pool') as THREE.InstancedMesh;
+  expect(strokes.count).toBeGreaterThan(0);
+  expect(runtime.camera.fov).toBeGreaterThan(67);
+  expect(runtime.camera.fov).toBeLessThanOrEqual(68);
+  expect(runtime.kart.body.linvel().x).toBeCloseTo(velocity.x);
+  expect(runtime.kart.body.linvel().z).toBeCloseTo(velocity.z);
+  const matrix = strokes.instanceMatrix.array.slice();
+  const fov = runtime.camera.fov;
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+  runtime.updateVisuals(0.1);
+  expect(strokes.instanceMatrix.array).toEqual(matrix);
+  expect(runtime.camera.fov).toBe(fov);
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+  Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+  runtime.updateVisuals(0.1);
+  expect(strokes.instanceMatrix.array).toEqual(matrix);
+  expect(runtime.camera.fov).toBe(fov);
+  Object.defineProperty(document, 'hidden', { configurable: true, value: false });
+  runtime.respawn();
+  expect(strokes.count).toBe(0);
+  expect(runtime.camera.fov).toBe(62);
+  runtime.kart.body.setLinvel(velocity, true);
+  runtime.updateVisuals(0.1);
+  expect(strokes.count).toBeGreaterThan(0);
+  r.phase('countdown');
+  runtime.updateVisuals(0.1);
+  expect(strokes.count).toBe(0);
+  expect(runtime.camera.fov).toBe(62);
+  r.phase('racing');
+  runtime.updateVisuals(0.1);
+  expect(strokes.count).toBeGreaterThan(0);
+  r.phase('finished');
+  runtime.updateVisuals(0.1);
+  expect(strokes.count).toBe(0);
+  expect(runtime.camera.fov).toBe(62);
+  let disposed = 0;
+  strokes.addEventListener('dispose', () => disposed++);
+  strokes.geometry.addEventListener('dispose', () => disposed++);
+  (strokes.material as THREE.Material).addEventListener('dispose', () => disposed++);
+  r.game.dispose();
+  expect(disposed).toBe(3);
+});
+
+it('suppresses reverse and lateral speed, clears spinout cues and retains cues in rear view', async () => {
+  const r = await setup();
+  const runtime = r.game as unknown as {
+    updateVisuals: (dt: number) => void;
+    scene: THREE.Scene;
+    camera: THREE.PerspectiveCamera;
+    kart: import('../src/game/physics/KartController').KartController;
+    racerEffects: import('../src/game/items/RacerEffects').RacerEffects;
+  };
+  vi.spyOn(runtime, 'updateVisuals').mockRestore();
+  const group = requireValue(runtime.scene.getObjectByName('PlayerSpeedVisual'));
+  const mesh = requireValue(group.getObjectByName('speed-line-pool')) as THREE.InstancedMesh;
+  const forward = runtime.kart.forward();
+  for (const velocity of [
+    forward.clone().multiplyScalar(-70),
+    new THREE.Vector3(forward.z, 0, -forward.x).multiplyScalar(70),
+  ]) {
+    runtime.kart.body.setLinvel(velocity, true);
+    for (let i = 0; i < 20; i++) runtime.updateVisuals(0.1);
+    expect(runtime.camera.fov).toBe(62);
+    expect(mesh.count).toBe(0);
+  }
+  runtime.kart.body.setLinvel(forward.clone().multiplyScalar(70), true);
+  for (let i = 0; i < 20; i++) runtime.updateVisuals(0.1);
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyC' }));
+  runtime.updateVisuals(0.1);
+  expect(runtime.camera.fov).toBeGreaterThan(67.9);
+  expect(mesh.count).toBeGreaterThan(0);
+  runtime.racerEffects.activateSpinout('player', {
+    id: 'speed-test',
+    label: 'speed-test',
+    durationSeconds: 0.85,
+    direction: 1,
+    turns: 1,
+    preserveMomentum: false,
+  });
+  runtime.updateVisuals(0.1);
+  expect(runtime.camera.fov).toBe(62);
+  expect(mesh.count).toBe(0);
+});

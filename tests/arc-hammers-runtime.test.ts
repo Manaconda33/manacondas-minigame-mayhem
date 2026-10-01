@@ -1,3 +1,4 @@
+import { DriftVisual } from '../src/game/vfx/DriftVisual';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
@@ -13,7 +14,10 @@ import { ShockwaveSystem } from '../src/game/items/ShockwaveSystem';
 import { ItemSystem, ITEM_ROULETTE_SECONDS } from '../src/game/items/ItemSystem';
 import { FrostFixture } from '../src/game/items/FrostFixture';
 import { FrostVisual } from '../src/game/items/FrostVisual';
-import { ArcBladeCounterFixture, type ArcCounterEvidence } from '../src/game/items/ArcBladeCounterFixture';
+import {
+  ArcBladeCounterFixture,
+  type ArcCounterEvidence,
+} from '../src/game/items/ArcBladeCounterFixture';
 import { ArcHammerCounterFixture } from '../src/game/items/ArcHammerCounterFixture';
 import { PrismaticCounterFixture } from '../src/game/items/PrismaticCounterFixture';
 import { PrismaticVisual } from '../src/game/items/PrismaticVisual';
@@ -95,6 +99,7 @@ function hammerRuntimeRig(index = 24, elevation = 0.72) {
   const hazards = new HazardSystem(track, projectiles.capacity, surfaceQuery);
   const apex = new ApexMissileSystem(track, projectiles);
   const fields = {
+    driftVisual: new DriftVisual('medium'),
     track,
     kart,
     opponents: [{ id: 'rival', controller: rival, progress: rivalProgress, driverHitSeconds: 0 }],
@@ -138,7 +143,10 @@ function hammerRuntimeRig(index = 24, elevation = 0.72) {
   };
 
   function buildGame() {
-    return Object.assign(Object.create(KartTimeTrial.prototype) as object, fields) as unknown as typeof fields & {
+    return Object.assign(
+      Object.create(KartTimeTrial.prototype) as object,
+      fields,
+    ) as unknown as typeof fields & {
       updateProjectiles(dt: number): void;
       requestPlayerItemUse(): void;
       respawn(): void;
@@ -172,6 +180,7 @@ function hammerRuntimeRig(index = 24, elevation = 0.72) {
       projectiles.dispose();
       slickGround.dispose();
       trackScene.clear();
+      fields.driftVisual.dispose();
       world.free();
     },
   };
@@ -191,10 +200,12 @@ function incomingHammer(r: ReturnType<typeof rig>) {
       direction: 'forward',
       config: ARC_HAMMER_PROJECTILE_CONFIG,
       launch: {
-        position: r.kart.position().addScaledVector(
-          r.forward,
-          -(ARC_HAMMER_CONFIG.spawnOffsetMeters + ARC_HAMMER_CONFIG.radiusMeters),
-        ),
+        position: r.kart
+          .position()
+          .addScaledVector(
+            r.forward,
+            -(ARC_HAMMER_CONFIG.spawnOffsetMeters + ARC_HAMMER_CONFIG.radiusMeters),
+          ),
         forward: r.forward,
         velocity: new THREE.Vector3(),
       },

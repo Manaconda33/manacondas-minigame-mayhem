@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/ecf65bea806a/manacondas-minigame-mayhem
+
+ ❯ tests/race-diagnostics-routing.test.ts (10 tests | 1 failed) 753ms
+     × uses actual player feedback, freezes paused frames and clears Results/recovery/disposal 63ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > drift visual runtime wiring > uses actual player feedback, freezes paused frames and clears Results/recovery/disposal
+AssertionError: expected undefined to be an instance of InstancedMesh
+ ❯ tests/race-diagnostics-routing.test.ts:310:18
+    308|     runtime.updateVisuals(0.1);
+    309|     const mesh = runtime.scene.getObjectByName('drift-spark-pool') as …
+    310|     expect(mesh).toBeInstanceOf(THREE.InstancedMesh);
+       |                  ^
+    311|     if (mesh === undefined) throw new Error('No runtime drift pool');
+    312|     expect(mesh.count).toBeGreaterThan(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  19:06:34
+   Duration  1.94s (transform 431ms, setup 0ms, import 578ms, tests 753ms, environment 484ms)
+

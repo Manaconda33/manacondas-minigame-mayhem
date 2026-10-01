@@ -1,5 +1,7 @@
 # Testing and Validation
 
+> **2026-09-30 player drift VFX review:** `docs/evidence/2026-09-30-drift-vfx/` records implementation, red/green evidence, limits and owner runtime review instructions. The new player-only effect requires rendered chase/rear and full-race mobile review before merge/publication. Existing manual acceptance remains passed; broader performance gates remain open.
+
 > **2026-09-30 owner scope update:** Manny selected the supplied mobile race result to replace the desktop Medium baseline requirement for this checkpoint. Baseline summary is recorded from the screenshot; the raw JSON attachment is unavailable/unverified. No further desktop capture is required for this checkpoint. See `docs/evidence/2026-09-30-medium-baseline/mobile-baseline.md` for metrics, provenance limits and target comparisons. Earlier desktop/pending instructions below describe the superseded capture scope. This does not assert measured desktop performance, a full PRD performance pass, or runtime merge/production approval.
 
 

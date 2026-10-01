@@ -1,3 +1,4 @@
+import { DriftVisual } from '../src/game/vfx/DriftVisual';
 import { requireValue } from './requireValue';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import RAPIER from '@dimforge/rapier3d-compat';
@@ -54,6 +55,7 @@ function rig() {
   const prismaticVisual = new PrismaticVisual();
   const prismaticMusic = new PrismaticMusic();
   const fields = {
+    driftVisual: new DriftVisual('medium'),
     track,
     kart,
     opponents: [{ id: 'rival', controller: rival, progress: rivalProgress, driverHitSeconds: 0 }],
@@ -116,6 +118,7 @@ function rig() {
       hazards.dispose();
       shockwave.dispose();
       projectiles.dispose();
+      fields.driftVisual.dispose();
       world.free();
     },
   };

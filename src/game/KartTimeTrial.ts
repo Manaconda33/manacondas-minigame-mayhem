@@ -1766,7 +1766,7 @@ export class KartTimeTrial {
           ? 0xff8a28
           : 0x38bdf8;
     for (const light of this.driftLights) {
-      light.visible = feedback.driftTier !== 'none';
+      light.visible = feedback.drifting && feedback.driftTier !== 'none';
       (light.material as THREE.MeshBasicMaterial).color.setHex(color);
       light.scale.setScalar(0.75 + feedback.chargeRatio * 1.4);
     }

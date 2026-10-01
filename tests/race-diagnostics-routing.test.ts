@@ -837,3 +837,43 @@ it('routes player and nearby AI exhaust with item overlap suppression and lifecy
   runtime.updateVisuals(0.1);
   expect(mesh.count).toBe(0);
 });
+
+it('keeps legacy spherical indicators exclusive to charged active drifting, not boost-strip or released boosts', async () => {
+  const r = await setup();
+  const runtime = r.game as unknown as {
+    updateVisuals: (dt: number) => void;
+    kart: import('../src/game/physics/KartController').KartController;
+    driftLights: THREE.Mesh[];
+  };
+  vi.spyOn(runtime, 'updateVisuals').mockRestore();
+  const feedback = vi.spyOn(runtime.kart, 'feedback');
+  for (const tier of ['blue', 'orange', 'purple'] as const) {
+    feedback.mockReturnValue({
+      drifting: false,
+      driftTier: tier,
+      chargeRatio: 0,
+      boostActive: true,
+      airborne: false,
+    });
+    runtime.updateVisuals(0.1);
+    expect(runtime.driftLights.every((light) => !light.visible)).toBe(true);
+    feedback.mockReturnValue({
+      drifting: true,
+      driftTier: tier,
+      chargeRatio: 1,
+      boostActive: false,
+      airborne: false,
+    });
+    runtime.updateVisuals(0.1);
+    expect(runtime.driftLights.every((light) => light.visible)).toBe(true);
+  }
+  feedback.mockReturnValue({
+    drifting: true,
+    driftTier: 'none',
+    chargeRatio: 0,
+    boostActive: false,
+    airborne: false,
+  });
+  runtime.updateVisuals(0.1);
+  expect(runtime.driftLights.every((light) => !light.visible)).toBe(true);
+});

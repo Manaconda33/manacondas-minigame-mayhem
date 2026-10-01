@@ -1,0 +1,37 @@
+{
+  "status": "local revised geometry; owner review pending",
+  "changes": [
+    "smooth ornamental recurve bow, bowstring, solid arrowhead and fletching, raised gold-set magenta gem",
+    "wheel clear of hood with driver-facing tilt and forward anchored column"
+  ],
+  "files": [
+    {
+      "lod": "lod0",
+      "triangles": 12088,
+      "budget": 25000,
+      "path": "tools/assets/candidates/archer-kart-candidate-2-lod0.glb",
+      "sha256": "d3465974b49b2805ec45eac699ee587ff1e1c999aaa4ba1a5c20cf1dcdb22d5d",
+      "bytes": 547480
+    },
+    {
+      "lod": "lod1",
+      "triangles": 6704,
+      "budget": 12000,
+      "path": "tools/assets/candidates/archer-kart-candidate-2-lod1.glb",
+      "sha256": "08b4b58b445f78fcf0c1bf5d63fbb56a4cb5f254bb5a7b4c717464a4667cf73f",
+      "bytes": 337040
+    },
+    {
+      "lod": "lod2",
+      "triangles": 4316,
+      "budget": 5000,
+      "path": "tools/assets/candidates/archer-kart-candidate-2-lod2.glb",
+      "sha256": "d45116ef5aff64bfe69535a141d10903c756d1a935d99a2811a00a3ed867a0f7",
+      "bytes": 239712
+    }
+  ],
+  "nodes": 13,
+  "materials": 4,
+  "forward": "-Z",
+  "tests": "real GLB contract and independent driver-facing wheel/column regression; repeated exact LOD hashes"
+}

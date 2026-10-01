@@ -24,3 +24,27 @@ Reference-matched low pointed ivory bodywork, gold edging, purple accents, bow-a
 `docs/evidence/2026-10-01-archer/approved-art-ledger.json` identifies the exact approved source PNGs, hashes, dimensions and alpha observations. Original bytes are retained locally under `public/assets/characters/aa-13/source/` and remain LFS-governed. Authenticated source-master upload is blocked: shell Git/LFS has no credentials. Source masters are excluded from the remote commit rather than publishing unresolved pointers or bypassing LFS. `runtime-art-ledger.json` records all 14 delivery hashes; `python tools/assets/prepare_archer_2d.py --verify` fully decodes and validates the delivery package without source masters. Actual mounted cockpit alignment awaits the kart.
 
 Archer is not yet in the runtime manifest. Existing AA-01–AA-12 mappings, eight-racer grid, physics, items, accepted graphics, audio and UI remain unchanged. The asset delivery branch was refreshed onto main `4fe73c58e4c51201f917658e705fca8b2b3db8ec`, including the accepted exhaust release. Refresh main again before runtime integration.
+
+## Kart geometry candidate 1 — local owner review
+
+Reference-based ivory tapered prow, gold edge strips, purple aerodynamic side blades, embedded bow/arrow hood emblem and magenta gem, open dark seat, gold-spoke purple wheels, rear engine vanes and paired gold-collared magenta exhaust outlets. No wheel or prop is baked into driver art. One inclined modeled steering ring with a column extended into the structural tub. Kart name remains unassigned.
+
+LOD0 / LOD1 / LOD2: 11,636 / 6,612 / 4,340 triangles; all below 25,000 / 12,000 / 5,000. All have the required 13 nodes, four vertex-colored materials and -Z forward metadata. Independent tests build and parse actual GLBs and repeat each build to prove identical hashes. Four-view sheet uses depth-buffered rendering of actual mesh geometry; no illustrative embellishment or live-lighting claim. Exact candidate inventory: `docs/evidence/2026-10-01-archer/kart-candidate-1.json`.
+
+Structural review: steering-column base at y=0.58 intersects the tub's y=0.33–0.59 envelope; wheel axles cross the tub and all tire centers; exhaust shells span z=1.28–1.86 and overlap the engine casing through z=1.62. Hood emblem tubes penetrate the sloped hood by 0.013 m; purple side blades overlap armor side panels and front axles. Gold edge tubes overlap their blade/hood supports. Actual mounted chase/rear views remain pending; shared PI visual correction is required at integration.
+
+Candidate is local and not added to the 2D asset PR or the runtime manifest. Await geometry review before delivery/integration.
+
+## Kart candidate 2 — requested emblem / steering corrections
+
+Manny's screenshots identified an underdeveloped bow/arrow emblem and a steering wheel/column facing the nose. Candidate 2 replaces the segmented emblem with continuous swept recurve limbs, a fine string, solid arrowhead and fletching, and a raised magenta gem in a gold bezel. The entire badge follows and intersects the hood surface. The wheel mount moves to (0, 1.22, -0.14), beyond the hood's rear edge at -0.42; its top leans noseward so its face points toward the seated driver (+Z). The column base is at (0, 0.60, -0.69), ahead of the wheel and embedded in the hood/tub.
+
+The steering regression failed on Candidate 1 and passes on Candidate 2. All actual GLBs pass node/material/forward/finite-position/budget checks and reproduce identical hashes. LOD0/1/2: 12,088 / 6,704 / 4,316 triangles. New candidate filenames preserve prior review links. Four-view and close-up sheets render the actual geometry; runtime cockpit mounting remains pending. Exact hashes: `docs/evidence/2026-10-01-archer/kart-candidate-2.json`. Geometry owner approval remains pending; no remote publication or runtime activation.
+
+## Kart candidate 3 — arrow direction refinement
+
+Manny accepted the improvement in Candidate 2 and requested one remaining tweak: arrowhead toward the curved bow rather than the string. Candidate 3 reverses the arrow along its existing axis, exchanging head/tail direction while retaining the bow, string, jewel and corrected steering geometry. Candidate 2 review files remain available; Candidate 3 uses new filenames. Final geometry approval remains pending.
+
+## Candidate 3 geometry approval
+
+Manny explicitly approved the corrected Candidate 3 on 2026-10-01 (America/Chicago). Its three exact approved hashes are in the Candidate 3 ledger. Runtime delivery uses `kart.glb`, `lod/kart-lod1.glb`, `lod/kart-lod2.glb` and the existing deterministic Actions materialization bridge; no direct shell LFS upload is attempted. Driver mounting, kart display name, roster-page integration and owner gameplay review remain pending. No production publication is authorized.

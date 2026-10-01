@@ -156,6 +156,8 @@ async function setup(query = '?testRacePerf=1') {
     onDiagnostics: callback,
   });
   games.push(game);
+  // Buffer sizing at startup is independent of opt-in frame-counter capture.
+  harness.reads.length = 0;
   const internals = game as unknown as Runtime;
   vi.spyOn(internals, 'updateVisuals').mockImplementation(() => {
     /* External renderer/audio/UI behavior is outside this diagnostic test. */
@@ -222,6 +224,7 @@ describe('real race RAF diagnostics wiring', () => {
     r.tick(250);
     expect(r.advance).toHaveBeenLastCalledWith(0.1, expect.any(Function));
     const capture = r.game.exportPerformanceCapture(metadata);
+    expect(capture?.metadata.bloom).toMatchObject({ quality: 'medium' });
     expect(capture?.samples.at(-1)?.rawFrameMs).toBe(250);
     expect(capture?.samples.at(-1)?.counters?.drawCalls).toBe(22);
     expect(harness.reads).toEqual(['render', 'read']);

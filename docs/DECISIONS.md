@@ -955,3 +955,18 @@ Manny reported “The exhaust effects are great.” on private version 7, then i
 ### ADR-099 release disposition — 2026-10-01
 
 Manny accepted private version 8, including the boost-bubble correction, and explicitly authorized merge/publication with “Approved for merge / publish” on 2026-10-01 (America/Chicago). PR #221 merged at `fa9487615330d74f79e46a09c1fdbf1dd14fc8c5`; final PR CI `36881140355` and post-merge CI/Pages `36882109291` passed. Public index, both JS bundles and CSS returned HTTP 200 with exact validated-production-build hashes. Full validation passed 91 files / 727 tests. All prior acceptance stays passed; no hardware/global-performance result, bloom, blur or next-slice authority is inferred. Evidence: `docs/evidence/2026-10-01-exhaust-boost-flares/production-delivery.json`. Earlier pending statements are historical.
+
+
+## ADR-100: Context-loss recovery scope waiver and selective bloom direction
+
+- **Date:** 2026-10-01 (America/Chicago).
+- **Status:** Context-loss scope waiver effective; written bloom design approved; implementation plan awaiting review/execution selection.
+- **Authority:** Manny: “Let's skip the context-loss recovery & remove it from our work. I've run this game hundreds of times across mobile & desktop & this has never occurred. Let's do bloom.” Then “approved” to selective race bloom, Low off and capped Medium/High, preserved road/art/HUD, private review and separate publication approval.
+- **Decision:** Remove application-owned context-loss recovery from remaining implementation and release gates; supersede PRD 29.3's prior requirement and historical audit recommendations. Do not claim implemented recovery or a context-loss test pass. Prepare explicit eligibility, depth-occluded selective bloom with original base rendering preserved and quality-capped buffers; written design is `docs/superpowers/specs/2026-10-01-selective-bloom-design.md`.
+- **Preservation:** Existing acceptance stays closed. Motion blur, character/Archer work and next slice remain outside scope. No runtime/asset/dependency/workflow/protection/publication change at this design checkpoint.
+- **Next gate:** Manny approved the written design with “Plan approved.” Implementation plan review/execution selection remains next. New-bloom private review and separate merge/publication approval remain required.
+
+
+### ADR-100 implementation checkpoint
+
+Manny approved the implementation plan and Native execution with “Approved, let's get started.” Selective bloom is implemented in review, with full 95-file/743-test validation and independent-review fixes; evidence in `docs/evidence/2026-10-01-selective-bloom/`. New-bloom visual review and separate public publication remain pending. All earlier acceptance stays closed; no rendered/device performance pass, motion blur, Archer work or next-slice authority inferred.

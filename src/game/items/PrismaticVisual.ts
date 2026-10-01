@@ -1,3 +1,4 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 
 const CYAN = new THREE.Color(0x66ffff);
@@ -23,21 +24,21 @@ export class PrismaticVisual {
   );
   private readonly edges = new THREE.LineSegments(
     new THREE.EdgesGeometry(this.shell.geometry),
-    new THREE.LineBasicMaterial({
+    markBloomMaterial(new THREE.LineBasicMaterial({
       color: 0xaaffff,
       transparent: true,
       opacity: 0.35,
       depthWrite: false,
-    }),
+    }), 'color'),
   );
   private readonly particles = Array.from({ length: 18 }, () => ({
     mesh: new THREE.Mesh(
       new THREE.OctahedronGeometry(0.08),
-      new THREE.MeshBasicMaterial({
+      markBloomMaterial(new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0,
         depthWrite: false,
-      }),
+      }), 'color'),
     ),
     age: 1,
   }));

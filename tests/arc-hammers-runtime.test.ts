@@ -1,3 +1,4 @@
+import { disabledMotionBlur } from './disabledMotionBlur';
 import { PerspectiveCamera } from 'three';
 import { PlayerSpeedVisual } from '../src/game/vfx/PlayerSpeedVisual';
 import { WheelDustVisual } from '../src/game/vfx/WheelDustVisual';
@@ -102,6 +103,7 @@ function hammerRuntimeRig(index = 24, elevation = 0.72) {
   const hazards = new HazardSystem(track, projectiles.capacity, surfaceQuery);
   const apex = new ApexMissileSystem(track, projectiles);
   const fields = {
+    motionBlur: disabledMotionBlur(),
     playerSpeedVisual: new PlayerSpeedVisual(new PerspectiveCamera(62), 'low'),
     driftVisual: new DriftVisual('medium'),
     wheelDust: new WheelDustVisual('medium'),

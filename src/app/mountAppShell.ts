@@ -324,7 +324,8 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
           <div class="utility-panel settings-panel graphics-panel">
             <div class="panel-heading"><span class="panel-node is-gold"><i>02</i></span>${routeNightIconMarkup('graphics', 'panel-heading-icon is-gold')}<div><p>RENDER PATH</p><h2>Graphics quality</h2></div></div>
             <label class="setting setting-select" data-setting="graphics" for="graphics-quality"><span><strong>Graphics quality</strong><small>Applies to the next race</small></span><select id="graphics-quality"><option value="low"${appSettings.graphics.quality === 'low' ? ' selected' : ''}>Low</option><option value="medium"${appSettings.graphics.quality === 'medium' ? ' selected' : ''}>Medium</option><option value="high"${appSettings.graphics.quality === 'high' ? ' selected' : ''}>High</option></select></label>
-            <p class="settings-note">No page reload required. The next Circuit Alpha race uses the selected render profile.</p>
+            <label class="setting setting-select" for="motion-blur"><span><strong>Motion blur</strong><small>Peripheral speed effect; off on Low</small></span><select id="motion-blur"><option value="on"${appSettings.graphics.motionBlur !== false ? ' selected' : ''}>On</option><option value="off"${appSettings.graphics.motionBlur === false ? ' selected' : ''}>Off</option></select></label>
+            <p class="settings-note">No page reload required. The next Circuit Alpha race uses these graphics settings.</p>
           </div>
         </section>
         ${button('RETURN TO HUB', 'menu', 'primary', 'back')}
@@ -360,7 +361,17 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
       appSettings = saveGameSettings({
         ...appSettings,
         graphics: {
+          ...appSettings.graphics,
           quality,
+        },
+      });
+    });
+    root.querySelector<HTMLSelectElement>('#motion-blur')?.addEventListener('change', (event) => {
+      appSettings = saveGameSettings({
+        ...appSettings,
+        graphics: {
+          ...appSettings.graphics,
+          motionBlur: (event.target as HTMLSelectElement).value === 'on',
         },
       });
     });
@@ -517,6 +528,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
       canvas,
       character: selectedCharacter,
       graphicsQuality: appSettings.graphics.quality,
+      motionBlur: appSettings.graphics.motionBlur !== false,
       mobileSession,
       onHud: updateHud,
       ...(racePanel === null

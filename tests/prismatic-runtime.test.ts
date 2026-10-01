@@ -1,3 +1,4 @@
+import { disabledMotionBlur } from './disabledMotionBlur';
 import { PlayerSpeedVisual } from '../src/game/vfx/PlayerSpeedVisual';
 import { WheelDustVisual } from '../src/game/vfx/WheelDustVisual';
 import { DriftVisual } from '../src/game/vfx/DriftVisual';
@@ -57,6 +58,7 @@ function rig() {
   const prismaticVisual = new PrismaticVisual();
   const prismaticMusic = new PrismaticMusic();
   const fields = {
+    motionBlur: disabledMotionBlur(),
     playerSpeedVisual: new PlayerSpeedVisual(new PerspectiveCamera(62), 'low'),
     driftVisual: new DriftVisual('medium'),
     wheelDust: new WheelDustVisual('medium'),

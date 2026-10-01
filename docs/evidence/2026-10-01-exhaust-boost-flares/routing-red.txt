@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/a96ab8e7f536/game
+
+ ❯ tests/race-diagnostics-routing.test.ts (18 tests | 1 failed) 1688ms
+   × routes player and nearby AI exhaust with item overlap suppression and lifecycle cleanup 77ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > routes player and nearby AI exhaust with item overlap suppression and lifecycle cleanup
+AssertionError: expected undefined to be defined
+ ❯ tests/race-diagnostics-routing.test.ts:754:16
+    752|   vi.spyOn(runtime, 'updateVisuals').mockRestore();
+    753|   const mesh = runtime.scene.getObjectByName('exhaust-flare-pool') as …
+    754|   expect(mesh).toBeDefined();
+       |                ^
+    755|   runtime.opponents.forEach(ai=>ai.controller.body.setTranslation({x:1…
+    756|   const velocity=runtime.kart.forward().multiplyScalar(70);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 17 passed (18)
+   Start at  21:13:15
+   Duration  3.21s (transform 564ms, setup 0ms, import 762ms, tests 1.69s, environment 603ms)

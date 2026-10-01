@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "baseMain": "8a7a5f9075519172c4266086564c3bf966dfac48",
+  "baseMainCI": 36872649961,
+  "canonicalRuntimeCommit": "26ac04d9cc8b516334d08a6871ba46d88a721cc6",
+  "canonicalRuntimeTree": "fe15f55a6a39643c9252dc3cdc9f886e3856942b",
+  "localValidation": {
+    "testFiles": 91,
+    "tests": 727,
+    "typecheck": "passed",
+    "lint": "passed",
+    "assetGates": "passed",
+    "build": "passed",
+    "diffCheck": "passed",
+    "lfsFsck": "passed",
+    "log": "validate.txt"
+  },
+  "review": {
+    "independent": "completed",
+    "importantIssue": "Overdrive exhaust overlap between pulses",
+    "fix": "suppression uses full active Overdrive window",
+    "regression": "observed red; final full validation passed",
+    "otherCriticalOrImportant": "none reported"
+  },
+  "privatePreview": {
+    "projectId": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "sourceCommit": "00955d213d235110e0f67ca0b22abbafef4969fb",
+    "version": 8,
+    "versionId": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_9ce24fedbb008191afd022fa3441416b",
+    "deploymentId": "appgdep_6abe759269d08191a743af351a2e0137",
+    "status": "succeeded",
+    "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+    "files": [
+      {
+        "path": "index.html",
+        "bytes": 638,
+        "sha256": "84cf0f463a5b415175d5e81b6b532cbd78545c28442239e4152163a3cbbcf2b3",
+        "archiveMatchesBuild": true
+      },
+      {
+        "path": "assets/index-BPytq6B1.js",
+        "bytes": 797442,
+        "sha256": "f8cfdfa41d2fe4ddc4775a4b7ad4a0efcefaf2423c7f76af9b53308a45bf23d5",
+        "archiveMatchesBuild": true
+      },
+      {
+        "path": "assets/KartTimeTrial-B54L3xPO.js",
+        "bytes": 3106412,
+        "sha256": "fd68f5da55faaa2e46646644ba88bdf780583a5e46c7d524fc70b8c6df131361",
+        "archiveMatchesBuild": true
+      },
+      {
+        "path": "assets/index-B7Jt5ma7.css",
+        "bytes": 84735,
+        "sha256": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
+        "archiveMatchesBuild": true
+      }
+    ],
+    "archive": {
+      "sha256": "5ebc59069428575787537126237cd01de01f96f9574c552710d4d20fdd85b84e",
+      "bytes": 155978122,
+      "fileCount": 363
+    }
+  },
+  "acceptance": {
+    "scope": "approved",
+    "ownerNewEffectVisual": "exhaust appearance accepted in private version 7; boost-bubble correction review pending",
+    "mergePublication": "pending",
+    "priorAcceptance": "preserved",
+    "renderedDevicePerformance": "not claimed"
+  },
+  "ownerReviewAdjustment": {
+    "date": "2026-10-01",
+    "timezone": "America/Chicago",
+    "quote": "The exhaust effects are great.",
+    "correctionApproval": "Approved.",
+    "scope": "Legacy spherical indicators only during charged active drifting; boost strips/released boosts use new exhaust flares",
+    "correctionVisual": "pending",
+    "regression": "boost-bubble-red.txt",
+    "mergePublication": "pending"
+  },
+  "previewHistory": [
+    {
+      "projectId": "appgprj_6abd8e96a17081919b0934998de64bf8",
+      "sourceCommit": "9c67a8fb273b7076243e6303d4fea920bd81846c",
+      "version": 7,
+      "versionId": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_bd36dcf1bf9c8191a012290198b3d8bc",
+      "deploymentId": "appgdep_6abe6cdb42e481919e3cdeb671b02f73",
+      "status": "succeeded",
+      "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+      "archive": {
+        "sha256": "f82f4a22e0121aaf898f2fe2447ca3d9fa6f52907f538124c959f1cf84bff686",
+        "bytes": 155979979,
+        "fileCount": 363
+      },
+      "files": [
+        {
+          "path": "index.html",
+          "sha256": "7c820d21f36ac87025b0f27dc4b20488de6d70feeaf63ac273a5f28241d053c6",
+          "bytes": 638,
+          "archiveMatchesBuild": true
+        },
+        {
+          "path": "assets/KartTimeTrial-mInX23VQ.js",
+          "sha256": "5d3d825a719aae3b268a43500c3a42a0cbe0f2f08cb5e3216e613868b2e5939f",
+          "bytes": 3106400,
+          "archiveMatchesBuild": true
+        },
+        {
+          "path": "assets/index-CuiyU7lH.js",
+          "sha256": "02401226cbcf5f074002d9f1ebca0cdf07ab7bb9696c1638dd9b524f5e8cfb35",
+          "bytes": 797442,
+          "archiveMatchesBuild": true
+        },
+        {
+          "path": "assets/index-B7Jt5ma7.css",
+          "sha256": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
+          "bytes": 84735,
+          "archiveMatchesBuild": true
+        }
+      ]
+    }
+  ]
+}

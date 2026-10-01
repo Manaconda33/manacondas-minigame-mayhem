@@ -1,0 +1,70 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/a96ab8e7f536/game
+
+ ❯ tests/exhaust-visual.test.ts (5 tests | 5 failed) 27ms
+     × suppresses slow/reverse/invalid speeds and grows ordinary boosts without changing kart transforms 11ms
+     × shares the low cap across eight racers, culling far/hidden AI 4ms
+     × shares the medium cap across eight racers, culling far/hidden AI 4ms
+     × shares the high cap across eight racers, culling far/hidden AI 3ms
+     × uses modeled outlet ends before batching, keeps owner cleanup independent and freezes pause 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/exhaust-visual.test.ts > shared restrained exhaust and ordinary boost flares > suppresses slow/reverse/invalid speeds and grows ordinary boosts without changing kart transforms
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ tests/exhaust-visual.test.ts:36:25
+     34|     e.boostActive = true; v.update([e], camera, 0.1);
+     35|     const boostMatrix = new THREE.Matrix4(); pool(v).getMatrixAt(0, bo…
+     36|     expect(normalCount).toBe(2);
+       |                         ^
+     37|     expect(pool(v).count).toBeGreaterThan(normalCount);
+     38|     expect(new THREE.Vector3().setFromMatrixScale(boostMatrix).z).toBe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/exhaust-visual.test.ts > shared restrained exhaust and ordinary boost flares > shares the low cap across eight racers, culling far/hidden AI
+ FAIL  tests/exhaust-visual.test.ts > shared restrained exhaust and ordinary boost flares > shares the medium cap across eight racers, culling far/hidden AI
+ FAIL  tests/exhaust-visual.test.ts > shared restrained exhaust and ordinary boost flares > shares the high cap across eight racers, culling far/hidden AI
+AssertionError: expected 0 to be greater than 16
+ ❯ tests/exhaust-visual.test.ts:51:27
+     49|     racers.forEach(e=>e.boostActive=true);
+     50|     for(let i=0;i<60;i++) v.update(racers,camera,1/60);
+     51|     expect(pool(v).count).toBeGreaterThan(16);
+       |                           ^
+     52|     expect(pool(v).count).toBeLessThanOrEqual(cap);
+     53|     expect(v.group.children).toHaveLength(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/exhaust-visual.test.ts > shared restrained exhaust and ordinary boost flares > uses modeled outlet ends before batching, keeps owner cleanup independent and freezes pause
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/exhaust-visual.test.ts:68:96
+     66|     v.captureModel(a.mesh,model); model.clear();
+     67|     v.update([a,b],camera,0.1);
+     68|     expect(positions(v).some(p=>Math.abs(p.x+1)<0.01 && Math.abs(p.y-1…
+       |                                                                                                ^
+     69|     const before=pool(v).instanceMatrix.array.slice();
+     70|     for(const dt of [0,-1,NaN,Infinity])v.update([],camera,dt);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed (5)
+   Start at  21:11:11
+   Duration  1.29s (transform 67ms, setup 0ms, import 137ms, tests 27ms, environment 849ms)

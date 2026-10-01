@@ -1,0 +1,33 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/a96ab8e7f536/game
+
+ ❯ tests/race-diagnostics-routing.test.ts (19 tests | 1 failed) 1773ms
+   × keeps legacy spherical indicators exclusive to charged active drifting, not boost-strip or released boosts 65ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > keeps legacy spherical indicators exclusive to charged active drifting, not boost-strip or released boosts
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/race-diagnostics-routing.test.ts:859:66
+    857|     });
+    858|     runtime.updateVisuals(0.1);
+    859|     expect(runtime.driftLights.every((light) => !light.visible)).toBe(…
+       |                                                                  ^
+    860|     feedback.mockReturnValue({
+    861|       drifting: true,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 18 passed (19)
+   Start at  21:56:46
+   Duration  3.44s (transform 634ms, setup 0ms, import 839ms, tests 1.77s, environment 658ms)

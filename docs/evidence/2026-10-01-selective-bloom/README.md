@@ -30,3 +30,8 @@ Manny's owner visual review passed and he explicitly authorized merge/publicatio
 The current session attempted an independent refetch of the public Pages endpoint, but its external network path could not resolve `manaconda33.github.io`; therefore this record does **not** claim a fresh HTTP status or public-byte/hash comparison. That limitation does not change the successful GitHub Pages deployment result. Owner visual acceptance, the reviewed version 9 runtime, and GitHub-hosted CI/deployment are the release evidence.
 
 Selective bloom is LIVE ACCEPTED. Context-loss recovery remains explicitly waived rather than tested. No identified-device/global-performance certification, motion blur, Archer work, broader Slice 6 closure or next-slice authority is inferred.
+
+
+## Owner production confirmation
+
+After the successful PR #224 merge and GitHub Pages deployment, Manny reported: **“Bloom confirmed as deployed to production by running the game locally.”** This is the product-owner manual production confirmation for the selective bloom release. It resolves the practical delivery uncertainty left by the session's inability to independently refetch the Pages host. It does not create an identified-device performance certification or a byte/hash verification claim.

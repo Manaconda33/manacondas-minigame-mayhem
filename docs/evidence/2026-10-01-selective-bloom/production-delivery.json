@@ -36,5 +36,12 @@
     "motionBlur": "not authorized",
     "archerWork": "not authorized",
     "nextSlice": "not authorized"
+  },
+  "ownerProductionConfirmation": {
+    "confirmed": true,
+    "method": "Owner manually ran the game locally after publication and confirmed bloom was deployed to production.",
+    "quote": "Bloom confirmed as deployed to production by running the game locally.",
+    "date": "2026-10-01",
+    "timezone": "America/Chicago"
   }
 }

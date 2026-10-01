@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 
-def render(parts, translations, path, detail=False):
+def render(parts, translations, path, detail=False, mount=None):
     width, height = 900, 640
     sheet = Image.new('RGB', (1800, 780 if detail else 1430), '#111323')
     draw = ImageDraw.Draw(sheet)
@@ -13,12 +13,14 @@ def render(parts, translations, path, detail=False):
         font = ImageFont.truetype(fontpath, 22)
     except OSError:
         title = font = ImageFont.load_default()
-    draw.text((40, 24), 'ARCHER — KART CANDIDATE 3', fill='#f2dfba', font=title)
+    draw.text((40, 24), mount['title'] if mount else 'ARCHER — KART CANDIDATE 3', fill='#f2dfba', font=title)
     views = [((4, 3, -6), 'Front three-quarter'), ((-4, 3, 6), 'Rear three-quarter'),
              ((0, 8, 0.001), 'Top • bow-and-arrow emblem'), ((7, 1.4, 0), 'Side profile')]
     if detail:
         views=[((0,8,0.001),'Hood • ornamental recurve bow and arrow'),
                ((7,1.4,0),'Steering • driver-facing wheel and forward column')]
+    if mount:
+        views=mount['views']
     for index, (camera, label) in enumerate(views):
         direction = np.array(camera, float)
         direction /= np.linalg.norm(direction)
@@ -30,9 +32,13 @@ def render(parts, translations, path, detail=False):
         pixels = np.full((height, width, 3), [23, 26, 43], dtype=np.uint8)
         light = np.array([-0.4, 0.85, -0.35]); light /= np.linalg.norm(light)
         center = np.array([0, 0.83, 0])
+        if mount: center=np.array([0,0.5,0])
         if detail: center=np.array([0,0.95,-1.20] if index==0 else [0,1.05,-0.30])
         scale = (620 if index==0 else 440) if detail else (125 if index == 2 else 155)
-        for name, primitives in parts.items():
+        if mount: scale=210
+        draw_parts=dict(parts)
+        if mount: draw_parts['DriverSprite']=[(mount['sprite'](index,right,up),-1)]
+        for name, primitives in draw_parts.items():
             for geo, material in primitives:
                 vertices, normals, colors, indices = geo.arrays()
                 world = vertices + np.array(translations[name])
@@ -62,14 +68,16 @@ def render(parts, translations, path, detail=False):
                     normal/=max(np.linalg.norm(normal),1e-9)
                     shade=0.52+0.48*abs(float(np.dot(normal,light)))
                     color=colors[ids,:3].mean(axis=0)
-                    if material==3:shade=1
-                    rgb=(np.clip(color*shade,0,1)**(1/2.2)*255).astype(np.uint8)
-                    pixels[y0:y1+1,x0:x1+1][mask]=rgb
+                    if material in (3,-1):shade=1
+                    rgb=(np.clip(color*shade,0,1)**(1 if material==-1 else 1/2.2)*255).astype(np.uint8)
+                    alpha=float(colors[ids,3].mean())
+                    dest=pixels[y0:y1+1,x0:x1+1]
+                    dest[mask]=(rgb*alpha+dest[mask]*(1-alpha)).astype(np.uint8)
                     region[mask]=z[mask]
         x,y=(index%2)*width,90+(index//2)*650
         sheet.paste(Image.fromarray(pixels), (x,y))
         draw.text((x+25,y+10), label, fill='#ddd7e9', font=font)
-    draw.text((30,740 if detail else 1390), 'Actual mesh geometry • ivory / gold / purple • live lighting and exhaust effects pending',
+    draw.text((30,740 if detail else 1390), 'Runtime scale / PI yaw / 1.45m billboards • proposed mounts • live camera review pending' if mount else 'Actual mesh geometry • ivory / gold / purple • live lighting and exhaust effects pending',
               fill='#b9b3c8',font=font)
     path.parent.mkdir(parents=True,exist_ok=True)
     sheet.save(path)

@@ -48,3 +48,7 @@ Manny accepted the improvement in Candidate 2 and requested one remaining tweak:
 ## Candidate 3 geometry approval
 
 Manny explicitly approved the corrected Candidate 3 on 2026-10-01 (America/Chicago). Its three exact approved hashes are in the Candidate 3 ledger. Runtime delivery uses `kart.glb`, `lod/kart-lod1.glb`, `lod/kart-lod2.glb` and the existing deterministic Actions materialization bridge; no direct shell LFS upload is attempted. Driver mounting, kart display name, roster-page integration and owner gameplay review remain pending. No production publication is authorized.
+
+## Kart display name approved
+
+Manny chose **The Precision Shot** on 2026-10-01 (America/Chicago). The GLB approvedName metadata now records that identity; geometry is unchanged. Named-delivery hashes are recorded separately from the original Candidate 3 review hashes.

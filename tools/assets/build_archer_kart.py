@@ -220,7 +220,7 @@ def geometry():
 def main():
     shared.LOD,shared.OUT,shared.PREVIEW=LOD,OUT,PREVIEW
     shared.TRANSLATIONS=TRANSLATIONS
-    shared.APPROVED_NAME='Archer reference kart (working description)'
+    shared.APPROVED_NAME='The Precision Shot'
     shared.GENERATOR='Minigame Mayhem deterministic Archer reference kart builder'
     shared.MATERIALS=[]
     for name,metal,rough in [('IvoryArmor',0.15,0.48),('GoldPurpleTrim',0.65,0.30),

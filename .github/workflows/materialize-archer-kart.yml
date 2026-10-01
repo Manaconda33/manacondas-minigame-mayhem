@@ -1,4 +1,5 @@
 name: Materialize approved Archer kart
+# Named delivery: The Precision Shot; approved geometry is unchanged.
 on:
   pull_request:
     branches: [main]

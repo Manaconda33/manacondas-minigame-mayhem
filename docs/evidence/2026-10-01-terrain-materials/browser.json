@@ -1,0 +1,67 @@
+{
+  "checkedAt": "2026-10-01T21:50:27.273Z",
+  "browser": "153.0.8010.0",
+  "checks": {
+    "maps": [
+      {
+        "name": "circuit-alpha-leafy_grass-pbr",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "packedShared": true,
+        "aoChannel": 0
+      },
+      {
+        "name": "circuit-alpha-brown_mud-pbr",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "packedShared": true,
+        "aoChannel": 0
+      },
+      {
+        "name": "circuit-alpha-gravel_floor_02-pbr",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "packedShared": true,
+        "aoChannel": 0
+      }
+    ],
+    "glError": 0,
+    "renderer": "WebKit WebGL"
+  },
+  "fallbackColors": [
+    2640693,
+    8803638,
+    7231615
+  ],
+  "gameplayChecks": [
+    {
+      "name": "desktop",
+      "viewport": {
+        "width": 960,
+        "height": 640
+      },
+      "deliveredJpegs": 9,
+      "errors": [],
+      "stage": "race startup/countdown; software renderer"
+    },
+    {
+      "name": "portrait",
+      "viewport": {
+        "width": 375,
+        "height": 667
+      },
+      "deliveredJpegs": 9,
+      "errors": [],
+      "stage": "race startup/countdown; software renderer"
+    }
+  ],
+  "sourceSha256": "7a87f9375b7074d210b3bf7e4671bf3fb975892086224557bccfbd87bcce7fdf",
+  "errorsBeforeIntentionalNetworkFailure": [],
+  "limitation": "Real track/material shader and network-fallback checks under software WebGL; screenshots use existing key/fill colors with shadows disabled for identical comparison. No owner visual acceptance, hardware performance or complete race certification."
+}

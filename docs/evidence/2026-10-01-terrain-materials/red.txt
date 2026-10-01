@@ -1,0 +1,66 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/5e780c07f26c/repo
+
+ ❯ tests/terrain-materials.test.ts (4 tests | 4 failed) 332ms
+     × renders grass, dirt and shoulder with separate color, normal and shared packed roughness/AO maps 116ms
+     × uses meter-scaled ground UVs and a seam-safe shoulder without changing race topology 89ms
+     × restores the accepted flat grass palette when albedo fails and retains surviving maps 43ms
+     × detaches both packed-map roles on failure and frees every new texture exactly once 82ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/terrain-materials.test.ts > Circuit Alpha terrain completion > renders grass, dirt and shoulder with separate color, normal and shared packed roughness/AO maps
+AssertionError: track-ground: expected null to be an instance of Texture
+ ❯ tests/terrain-materials.test.ts:32:34
+     30|     for (const name of ['track-ground', 'split-bend-dirt-line', 'track…
+     31|       const material = surface(scene, name).material;
+     32|       expect(material.map, name).toBeInstanceOf(THREE.Texture);
+       |                                  ^
+     33|       expect(material.normalMap, name).toBeInstanceOf(THREE.Texture);
+     34|       expect(material.aoMap, name).toBeInstanceOf(THREE.Texture);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/terrain-materials.test.ts > Circuit Alpha terrain completion > uses meter-scaled ground UVs and a seam-safe shoulder without changing race topology
+AssertionError: expected 1 to be close to 450, received difference is 449, but expected 0.005
+ ❯ tests/terrain-materials.test.ts:62:47
+     60|     const position = ground.getAttribute('position');
+     61|     // A 900m plane at 2m per grass tile needs 450 repetitions.
+     62|     expect(Math.abs(uv.getX(1) - uv.getX(0))).toBeCloseTo(450);
+       |                                               ^
+     63|     expect(Math.abs(position.getX(1) - position.getX(0))).toBeCloseTo(…
+     64|     const shoulder = surface(scene, 'track-shoulder').geometry.getAttr…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/terrain-materials.test.ts > Circuit Alpha terrain completion > restores the accepted flat grass palette when albedo fails and retains surviving maps
+AssertionError: expected null to be an instance of Texture
+ ❯ tests/terrain-materials.test.ts:77:17
+     75|     const material = surface(scene, 'track-ground').material;
+     76|     const map = material.map;
+     77|     expect(map).toBeInstanceOf(THREE.Texture);
+       |                 ^
+     78|     const request = requests.find(({ texture }) => texture === map);
+     79|     if (!request) throw new Error('Missing grass albedo request');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/terrain-materials.test.ts > Circuit Alpha terrain completion > detaches both packed-map roles on failure and frees every new texture exactly once
+AssertionError: expected null to be an instance of Texture
+ ❯ tests/terrain-materials.test.ts:95:28
+     93|     const scene = createTrackScene(new CircuitAlpha());
+     94|     const material = surface(scene, 'split-bend-dirt-line').material;
+     95|     expect(material.aoMap).toBeInstanceOf(THREE.Texture);
+       |                            ^
+     96|     const packed = requests.find(({ texture }) => texture === material…
+     97|     if (!packed) throw new Error('Missing dirt packed-map request');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  00:37:40
+   Duration  1.50s (transform 109ms, setup 0ms, import 172ms, tests 332ms, environment 767ms)
+

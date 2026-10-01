@@ -1,0 +1,204 @@
+{
+  "revision": "slice6-terrain-20261001-1",
+  "license": "CC0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "verifiedDate": "2026-10-01",
+  "assets": [
+    {
+      "id": "leafy_grass",
+      "metadata": {
+        "date_published": 1685145600,
+        "name": "Leafy Grass",
+        "categories": ["outdoor", "floor"],
+        "type": 1,
+        "tags": [
+          "grass",
+          "green",
+          "nature",
+          "ground",
+          "foliage",
+          "leaves",
+          "plants",
+          "outdoors",
+          "twigs",
+          "sticks",
+          "trampled"
+        ],
+        "authors": {
+          "Charlotte Baglioni": "All"
+        },
+        "info": null,
+        "dimensions": [2000, 2000],
+        "max_resolution": [8192, 8192],
+        "files_hash": "90fd49a21ddface404d32d9956c3a9f3ca8e0679",
+        "description": "Free 8K leafy grass texture: trampled green blades with scattered brown leaves and twigs, low-relief rough soil surface with a natural matte finish.",
+        "attributes": {
+          "surface_use": "ground",
+          "origin": "natural",
+          "setting": "outdoor"
+        },
+        "category_id": "21e06d88-2ab6-5bdd-ad11-869b7ff0b573",
+        "category": "Ground & Terrain/Grass & Vegetation/Lush & Green Grass",
+        "img_version": "8866acdc",
+        "download_count": 93043,
+        "thumbnail_url": "https://cdn.polyhaven.com/asset_img/thumbs/leafy_grass.png?width=256&height=256&v=8866acdc"
+      },
+      "maps": [
+        {
+          "role": "albedo",
+          "filename": "leafy_grass_diff_1k.jpg",
+          "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/leafy_grass/leafy_grass_diff_1k.jpg",
+          "bytes": 1195394,
+          "sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a"
+        },
+        {
+          "role": "normal",
+          "filename": "leafy_grass_nor_gl_1k.jpg",
+          "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/leafy_grass/leafy_grass_nor_gl_1k.jpg",
+          "bytes": 1466049,
+          "sha256": "832328216adc0a7e1f70a31d5ee48c9ab7f2152d83816122736cf42ac4b2ebd6"
+        },
+        {
+          "role": "arm",
+          "filename": "leafy_grass_arm_1k.jpg",
+          "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/leafy_grass/leafy_grass_arm_1k.jpg",
+          "bytes": 1010081,
+          "sha256": "95432451cb2693794459fe7ea339ea9ffdb5959c40373740f80a4aa1703f089d"
+        }
+      ]
+    },
+    {
+      "id": "brown_mud",
+      "metadata": {
+        "type": 1,
+        "date_published": 1529359200,
+        "name": "Brown Mud",
+        "categories": ["terrain", "natural", "outdoor"],
+        "authors": {
+          "Rob Tuytel": "All"
+        },
+        "dimensions": [1299.996018409729, 1299.996018409729],
+        "sponsors": ["7934315"],
+        "max_resolution": [8192, 8192],
+        "files_hash": "0b3fc1acb1a5e7d01c2757f2a426240b48954988",
+        "tags": [
+          "mud",
+          "dirt",
+          "stones",
+          "dry",
+          "ground",
+          "soil",
+          "plant debris",
+          "granular",
+          "organic matter",
+          "earthy",
+          "twigs",
+          "earth"
+        ],
+        "description": "Free 8K texture of brown mud with dry, granular soil, scattered stones, twigs and plant debris, rough compacted surface and organic earthy variation.",
+        "category_id": "d9215ca1-f9af-578a-a269-6cd2338bdba6",
+        "category": "Ground & Terrain/Soil & Mud/Bare Dirt & Soil",
+        "attributes": {
+          "surface_use": "ground",
+          "condition": ["weathered"],
+          "origin": "natural",
+          "setting": "outdoor"
+        },
+        "img_version": "bd93589e",
+        "download_count": 55563,
+        "thumbnail_url": "https://cdn.polyhaven.com/asset_img/thumbs/brown_mud.png?width=256&height=256&v=bd93589e"
+      },
+      "maps": [
+        {
+          "role": "albedo",
+          "filename": "brown_mud_diff_1k.jpg",
+          "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_mud/brown_mud_diff_1k.jpg",
+          "bytes": 501955,
+          "sha256": "df3f135c899f10a3b018738343b222cbc67d13e7c76c5d8da834a3d34c984417"
+        },
+        {
+          "role": "normal",
+          "filename": "brown_mud_nor_gl_1k.jpg",
+          "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_mud/brown_mud_nor_gl_1k.jpg",
+          "bytes": 1011780,
+          "sha256": "ac517ca39eb507ae0f27e2b3db431c60888f9b5c3c52bec49d2c0775da0920cb"
+        },
+        {
+          "role": "arm",
+          "filename": "brown_mud_arm_1k.jpg",
+          "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_mud/brown_mud_arm_1k.jpg",
+          "bytes": 224431,
+          "sha256": "40a5ac438f23ea454ff45f3f62f0fe4ac5b89c42fd070d10e7d41c51252caf88"
+        }
+      ]
+    },
+    {
+      "id": "gravel_floor_02",
+      "metadata": {
+        "name": "Gravel Floor 02",
+        "categories": ["floor", "gravel"],
+        "type": 1,
+        "tags": [
+          "rough",
+          "rocks",
+          "gravel",
+          "gravelly",
+          "gravelly ground",
+          "driveway gravel",
+          "driveway",
+          "stones",
+          "coarse",
+          "gray",
+          "driveway stones",
+          "stony",
+          "outdoors"
+        ],
+        "info": null,
+        "dimensions": [2000, 2000],
+        "date_published": 1709164800,
+        "max_resolution": [8192, 8192],
+        "authors": {
+          "Jenelle van Heerden": "Processing",
+          "Dimitrios Savva": "Photography"
+        },
+        "files_hash": "410a3bd10ee2eb1b23f599b4be1b5a30034a7859",
+        "description": "Free 8K texture of coarse gray driveway gravel, a rough, stony floor material with dense small rocks ideal for outdoor driveways, paths, and gravelly ground.",
+        "category_id": "a97bb631-d60c-54fb-ba1b-2121cbed91c6",
+        "category": "Ground & Terrain/Gravel & Pebbles/Driveway Gravel",
+        "sponsors": ["101447488"],
+        "attributes": {
+          "surface_use": "ground",
+          "origin": "natural",
+          "setting": "outdoor",
+          "condition": ["clean"]
+        },
+        "img_version": "6f38e842",
+        "download_count": 29822,
+        "thumbnail_url": "https://cdn.polyhaven.com/asset_img/thumbs/gravel_floor_02.png?width=256&height=256&v=6f38e842"
+      },
+      "maps": [
+        {
+          "role": "albedo",
+          "filename": "gravel_floor_02_diff_1k.jpg",
+          "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_floor_02/gravel_floor_02_diff_1k.jpg",
+          "bytes": 1240441,
+          "sha256": "ac9874264762a9e8d337e684259d51dac41a012933f0d8013033fee7076383f3"
+        },
+        {
+          "role": "normal",
+          "filename": "gravel_floor_02_nor_gl_1k.jpg",
+          "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_floor_02/gravel_floor_02_nor_gl_1k.jpg",
+          "bytes": 1545680,
+          "sha256": "7db09804733f912bd120a1a3179bb867a01819ab9539a1c80eadfaff7e22509e"
+        },
+        {
+          "role": "arm",
+          "filename": "gravel_floor_02_arm_1k.jpg",
+          "sourceUrl": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_floor_02/gravel_floor_02_arm_1k.jpg",
+          "bytes": 1103127,
+          "sha256": "53101410122574a22e3982748bec9edfbd0ba1608b9bff16de76f46fe80a17a9"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "releaseCommit": "89fb56e8e8f5f1d45efd45e5cc5fc32c83917f6e",
+  "pullRequest": 223,
+  "acceptedPreview": {
+    "runtimeCommit": "62583845461098caee5fec3e1334502da671de1d",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/archer/",
+    "pagesRun": 36899647137,
+    "deliveryVerification": "HTTP 200 and exact SHA-256 matches recorded in preview-delivery.json for preview HTML, both JS bundles, CSS, fourteen runtime PNGs and three named kart GLBs"
+  },
+  "reconciliation": {
+    "head": "7d45689b06bde5cda8a0dd164511c2068d3f713f",
+    "comparedToAcceptedPreview": "no src/ or public/ changes; documentation/workflow synchronization only"
+  },
+  "ownerApproval": {
+    "previewGameplayAccepted": true,
+    "mergePublicationApproved": true,
+    "statement": "I just tested him (preview branch from another session) & want to save on usage by merging / publishing here (approved if you can do it)."
+  },
+  "prCi": {
+    "run": 36901694798,
+    "conclusion": "success",
+    "tests": {
+      "files": 95,
+      "count": 750
+    },
+    "typecheck": "pass",
+    "lint": "pass",
+    "lfsVerification": "pass",
+    "productionBuild": "pass"
+  },
+  "production": {
+    "run": 36901993155,
+    "validationJob": 110503140289,
+    "deployJob": 110504394729,
+    "conclusion": "success",
+    "pagesDeployment": "success",
+    "pinnedArcherReviewVerification": "pass"
+  },
+  "boundaries": {
+    "separateOwnerProductionRootPlaytest": "not claimed",
+    "devicePerformanceCertification": "not claimed",
+    "sourceMasterLfsHandoff": "deferred; runtime bytes delivered",
+    "existingTwelveRosterOrder": "preserved",
+    "racersPerRace": 8
+  }
+}

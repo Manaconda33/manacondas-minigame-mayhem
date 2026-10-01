@@ -64,8 +64,8 @@
   },
   "acceptance": {
     "scope": "approved",
-    "ownerNewEffectVisual": "exhaust appearance accepted in private version 7; boost-bubble correction review pending",
-    "mergePublication": "pending",
+    "ownerNewEffectVisual": "passed by product-owner review, including boost-bubble correction",
+    "mergePublication": "approved and published",
     "priorAcceptance": "preserved",
     "renderedDevicePerformance": "not claimed"
   },
@@ -75,9 +75,9 @@
     "quote": "The exhaust effects are great.",
     "correctionApproval": "Approved.",
     "scope": "Legacy spherical indicators only during charged active drifting; boost strips/released boosts use new exhaust flares",
-    "correctionVisual": "pending",
+    "correctionVisual": "passed",
     "regression": "boost-bubble-red.txt",
-    "mergePublication": "pending"
+    "mergePublication": "approved and published"
   },
   "previewHistory": [
     {
@@ -120,5 +120,24 @@
         }
       ]
     }
-  ]
+  ],
+  "ownerApproval": {
+    "quote": "Approved for merge / publish",
+    "date": "2026-10-01",
+    "timezone": "America/Chicago",
+    "privateVersion": 8,
+    "reviewedPRHead": "3950b2bea45c174a5dae440d685496eb5995088a",
+    "reviewedPRCI": 36881140355,
+    "scope": "Exhaust/ordinary boost visual acceptance including drift-only legacy sphere correction and explicit merge/publication authority"
+  },
+  "release": {
+    "pullRequest": 221,
+    "mergeCommit": "fa9487615330d74f79e46a09c1fdbf1dd14fc8c5",
+    "acceptedFinalPRCI": 36881140355,
+    "postMergeCI": 36882109291,
+    "ciConclusion": "success",
+    "production": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+    "deliveryEvidence": "production-delivery.json",
+    "runtimeMatchesAcceptedPreviewSource": true
+  }
 }

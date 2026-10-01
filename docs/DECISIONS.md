@@ -939,7 +939,7 @@ Manny accepted private version 6 and explicitly authorized merge/publication wit
 ## ADR-099: Bounded shared exhaust and ordinary boost flares
 
 - **Date:** 2026-10-01 (America/Chicago).
-- **Status:** Design/scope approved; implementation review only. Owner visual and separate merge/publication approval pending.
+- **Status:** LIVE ACCEPTED; private version 8 owner visual and explicit merge/publication approval complete.
 - **Authority:** Manny's “Approved” to stronger ordinary high-speed exhaust and boost flares for the player and nearby AI, after accepted player speed cues.
 - **Decision:** One shared unlit InstancedMesh capped at 24/48/72 Low/Medium/High, 3/6/9 per racer. Captured normalized modeled outlet ends precede batching; read-only signed forward speed and controller ordinary-boost feedback drive bounded rearward cones and short cyan/violet flecks. No physics, camera, HUD, audio, asset or dependency changes.
 - **Preservation:** Suppress during accepted purple boosts and Nitro Surge, the entire Nitro Overdrive window and Hyper-Drive Rocket; preserve their existing identity. All existing acceptance remains passed. No bloom, blur, next slice, wider speed/boost completion or hardware/global-budget result.
@@ -950,3 +950,8 @@ Manny accepted private version 6 and explicitly authorized merge/publication wit
 ### ADR-099 owner review adjustment — 2026-10-01
 
 Manny reported “The exhaust effects are great.” on private version 7, then identified legacy blue spheres still appearing after boost strips at fixed chassis positions. Manny approved the bounded correction: the existing spherical drift indicators are visible only while actively drifting with a charged tier. Ordinary boost flares retain boost-strip/released-boost presentation; accepted drift particles, purple pulses and item effects are unchanged. Owner review of this correction and separate merge/publication approval remain pending. Full validation passed 91 files / 727 tests, including a red-before-fix regression covering blue/orange/purple boost suppression and preserved active drift indicators.
+
+
+### ADR-099 release disposition — 2026-10-01
+
+Manny accepted private version 8, including the boost-bubble correction, and explicitly authorized merge/publication with “Approved for merge / publish” on 2026-10-01 (America/Chicago). PR #221 merged at `fa9487615330d74f79e46a09c1fdbf1dd14fc8c5`; final PR CI `36881140355` and post-merge CI/Pages `36882109291` passed. Public index, both JS bundles and CSS returned HTTP 200 with exact validated-production-build hashes. Full validation passed 91 files / 727 tests. All prior acceptance stays passed; no hardware/global-performance result, bloom, blur or next-slice authority is inferred. Evidence: `docs/evidence/2026-10-01-exhaust-boost-flares/production-delivery.json`. Earlier pending statements are historical.

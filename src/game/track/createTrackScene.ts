@@ -2,11 +2,13 @@ import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import { CircuitAlpha } from './CircuitAlpha';
 import { createGuardrailVisual } from './GuardrailSystem';
-import {
-  createLoopStripGeometry,
-  createSegmentStripGeometry,
-} from './TrackMaterialCoordinates';
+import { createLoopStripGeometry, createSegmentStripGeometry } from './TrackMaterialCoordinates';
 import { createCircuitAlphaAsphaltMaterials } from './TrackMaterials';
+import {
+  createCircuitAlphaTerrainMaterials,
+  DIRT_TILE_METERS,
+  GRASS_TILE_METERS,
+} from './TerrainMaterials';
 
 interface TrackPose {
   point: THREE.Vector3;
@@ -52,6 +54,7 @@ function createSegmentStrip(
   halfWidth: number,
   material: THREE.Material,
   y: number,
+  tileMeters = 2,
 ): THREE.Mesh {
   return new THREE.Mesh(
     createSegmentStripGeometry(
@@ -61,6 +64,7 @@ function createSegmentStrip(
       centerOffset,
       halfWidth,
       y,
+      tileMeters,
     ),
     material,
   );
@@ -752,26 +756,25 @@ export function createTrackScene(track: CircuitAlpha): THREE.Group {
   group.name = 'circuit-alpha-environment';
   group.add(createSky());
 
-  const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(900, 900),
-    new THREE.MeshStandardMaterial({ color: COLORS.grass, roughness: 1, metalness: 0 }),
-  );
+  const terrain = createCircuitAlphaTerrainMaterials();
+  const groundGeometry = new THREE.PlaneGeometry(900, 900);
+  const groundUvs = groundGeometry.getAttribute('uv');
+  for (let index = 0; index < groundUvs.count; index++) {
+    groundUvs.setXY(
+      index,
+      (groundUvs.getX(index) * 900) / GRASS_TILE_METERS,
+      (groundUvs.getY(index) * 900) / GRASS_TILE_METERS,
+    );
+  }
+
+  const ground = new THREE.Mesh(groundGeometry, terrain.grass);
   ground.name = 'track-ground';
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = -0.08;
   ground.receiveShadow = true;
   group.add(ground);
 
-  const shoulder = createStrip(
-    track,
-    track.roadHalfWidth + 0.78,
-    new THREE.MeshStandardMaterial({
-      color: COLORS.shoulder,
-      roughness: 0.92,
-      metalness: 0.01,
-    }),
-    -0.025,
-  );
+  const shoulder = createStrip(track, track.roadHalfWidth + 0.78, terrain.shoulder, -0.025);
   shoulder.name = 'track-shoulder';
   shoulder.receiveShadow = true;
   group.add(shoulder);
@@ -799,12 +802,9 @@ export function createTrackScene(track: CircuitAlpha): THREE.Group {
     0.315,
     3.75,
     2.25,
-    new THREE.MeshStandardMaterial({
-      color: COLORS.dirt,
-      roughness: 1,
-      metalness: 0,
-    }),
+    terrain.dirt,
     0.026,
+    DIRT_TILE_METERS,
   );
   dirt.name = 'split-bend-dirt-line';
   dirt.receiveShadow = true;

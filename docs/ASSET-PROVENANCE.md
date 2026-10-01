@@ -440,3 +440,30 @@ Runtime SHA-256:
 `24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465`.
 The runtime hash and RIFF/WebP signature are checked by
 `tools/verify-runtime-assets.mjs`.
+
+
+## Circuit Alpha terrain-v1 — review candidates, 2026-10-01
+
+Scope approval authorizes material preparation; owner visual acceptance and production publication are pending. Source: Poly Haven, **CC0**, verified 2026-10-01 at https://polyhaven.com/license. All nine 1024 x 1024 JPG files are unchanged source-distribution bytes; runtime tint, normal strength and AO intensity preserve Route Night identity. No crop, resample, generation or geometry displacement. Full per-map source URLs, MD5-verified download SHA-256s, authors and source dimensions are committed in `public/assets/track/materials/terrain-v1/manifest.json`. Physical dimensions in the source API are millimeters.
+
+| Material | Source ID / URL | Authors | Use / source tile width |
+| --- | --- | --- | --- |
+| Leafy Grass | https://polyhaven.com/a/leafy_grass | Charlotte Baglioni | grass / 2m |
+| Brown Mud | https://polyhaven.com/a/brown_mud | Rob Tuytel | dirt / 1.3m |
+| Gravel Floor 02 | https://polyhaven.com/a/gravel_floor_02 | Jenelle van Heerden, Dimitrios Savva | violet shoulder / 2m |
+
+Runtime root: `public/assets/track/materials/terrain-v1/`; revision `slice6-terrain-20261001-1`. Albedo is sRGB; OpenGL normal and packed ARM are linear. ARM red supplies baked surface AO, green supplies roughness; metallic remains zero. No displacement, higher-resolution maps or source previews ship.
+
+| Runtime file | SHA-256 |
+| --- | --- |
+| `leafy_grass_diff_1k.jpg` | `cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a` |
+| `leafy_grass_nor_gl_1k.jpg` | `832328216adc0a7e1f70a31d5ee48c9ab7f2152d83816122736cf42ac4b2ebd6` |
+| `leafy_grass_arm_1k.jpg` | `95432451cb2693794459fe7ea339ea9ffdb5959c40373740f80a4aa1703f089d` |
+| `brown_mud_diff_1k.jpg` | `df3f135c899f10a3b018738343b222cbc67d13e7c76c5d8da834a3d34c984417` |
+| `brown_mud_nor_gl_1k.jpg` | `ac517ca39eb507ae0f27e2b3db431c60888f9b5c3c52bec49d2c0775da0920cb` |
+| `brown_mud_arm_1k.jpg` | `40a5ac438f23ea454ff45f3f62f0fe4ac5b89c42fd070d10e7d41c51252caf88` |
+| `gravel_floor_02_diff_1k.jpg` | `ac9874264762a9e8d337e684259d51dac41a012933f0d8013033fee7076383f3` |
+| `gravel_floor_02_nor_gl_1k.jpg` | `7db09804733f912bd120a1a3179bb867a01819ab9539a1c80eadfaff7e22509e` |
+| `gravel_floor_02_arm_1k.jpg` | `53101410122574a22e3982748bec9edfbd0ba1608b9bff16de76f46fe80a17a9` |
+
+Payload: 9,298,938 bytes; conservative nine-texture decoded RGBA+mip estimate 48 MiB. Runtime JPGs follow existing normal-Git track-JPG policy; LFS-governed formats retain their policy. Build validation checks every reviewed JPEG signature/hash/size. Accepted asphalt maps and hashes are untouched.

@@ -1,10 +1,10 @@
 # Bounded race motion blur — 2026-10-01
 
-Status: **Owner visual acceptance PASSED; production merge/publication AUTHORIZED; production verification pending.**
+Status: **LIVE ACCEPTED / DEPLOYED. Owner visual acceptance, production merge/publication and GitHub Pages deployment are complete.**
 
 ## Authority and baseline
 
-Manny approved the scope with “Scope approved.” after repository catch-up at `b07c5b1ba054f0d4af999b72caf59ee13568ca01`, then approved the published pinned preview for merge/publication to main. PRD 23.7 / 35.7 govern the requirement. No material PRD change, next-slice authority, production publication, or reopening of accepted gameplay, Archer, bloom, HUD/Results, audio or Task 10/11 is inferred. Context-loss recovery remains waived.
+Manny approved the scope with “Scope approved.” after repository catch-up at `b07c5b1ba054f0d4af999b72caf59ee13568ca01`, then approved the published pinned preview for merge/publication to main. PRD 23.7 / 35.7 govern the requirement. No material PRD change, next-slice authority, or reopening of accepted gameplay, Archer, bloom, HUD/Results, audio or Task 10/11 is inferred. Context-loss recovery remains waived.
 
 ## Implementation
 
@@ -39,12 +39,13 @@ node tools/verify-motion-blur-browser.mjs
 
 The runner starts Vite in its own process network context, runs pixel assertions against the real shader and writes the JSON evidence. Initial agent-browser daemon startup and standard Chrome downloads were unavailable in this Work environment; optional npm-packaged Chromium plus Playwright supplied the rendered check. No browser-download workaround enters the game dependency set.
 
-## Review/publication gates
+## Review/publication closure
 
-1. Feature PR CI must pass.
-2. Preview infrastructure PR #232 merged at `e933e35717cade97062a9d7e18ffba40a0ec0287`; post-merge CI/Pages run `36921241484` passed the pinned preview build, artifact assembly and deployment.
-3. Manny completed the gameplay visual review and approved the effect for merge/publication to main.
-4. Reconcile PR #231 with current main while keeping the reviewed runtime blobs unchanged, then require fresh hosted PR CI.
-5. Merge/publish only after that reconciliation passes, then require post-merge production CI/Pages verification.
+1. Feature runtime validation and hosted PR CI passed.
+2. Preview infrastructure PR #232 merged at `e933e35717cade97062a9d7e18ffba40a0ec0287`; post-merge CI/Pages `36921241484` passed.
+3. Manny completed the published gameplay visual review and approved merge/publication.
+4. Reconciled PR #231 head `32ac3c3435d894f912d921c747777c9375d1c6cc` preserved the reviewed runtime and passed hosted PR CI `36925864779`.
+5. PR #231 squash-merged at `981d75f83b592bbb5801be6b7a282144b1ab4e20`. Post-merge CI/Pages `36926139532` passed validate job `110583812445`, Pages artifact `11194431395` and deploy job `110585102886`. Production root: https://manaconda33.github.io/manacondas-minigame-mayhem/.
+6. Independent public HTTP/hash refetch is not claimed: both the web fetcher and execution environment could not resolve/access the GitHub Pages host during this session. GitHub's deployment job itself completed successfully.
 
 Broader full-race Medium/baseline-hardware performance, browser matrix and final release evidence remain open. No unrelated optimization or new slice is authorized.

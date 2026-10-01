@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/a96ab8e7f536/game
+
+ ❯ tests/race-diagnostics-routing.test.ts (16 tests | 1 failed) 1357ms
+   × routes player forward speed into camera FOV and peripheral strokes with lifecycle cleanup 98ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > routes player forward speed into camera FOV and peripheral strokes with lifecycle cleanup
+AssertionError: expected undefined to be defined
+ ❯ tests/race-diagnostics-routing.test.ts:657:17
+    655|   for (let i = 0; i < 60; i++) runtime.updateVisuals(1 / 60);
+    656|   const group = runtime.scene.getObjectByName('PlayerSpeedVisual');
+    657|   expect(group).toBeDefined();
+       |                 ^
+    658|   const strokes = requireValue(group).getObjectByName('speed-line-pool…
+    659|   expect(strokes.count).toBeGreaterThan(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 passed (16)
+   Start at  20:21:19
+   Duration  2.74s (transform 533ms, setup 0ms, import 704ms, tests 1.36s, environment 540ms)

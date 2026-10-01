@@ -1,0 +1,136 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 validate
+> npm run typecheck && npm run lint && npm run test:ci && npm run build
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 typecheck
+> tsc -b --pretty false
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 lint
+> eslint . --max-warnings 0
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 test:ci
+> vitest run --coverage
+
+
+ RUN  v4.1.10 /workspace/scratch/a96ab8e7f536/game
+      Coverage enabled with v8
+
+ ❯ tests/arc-runtime.test.ts (21 tests | 1 failed) 463ms
+     × recovery cancels owned returning blades while preserving charges and unrelated launched projectiles 26ms
+ ❯ tests/arc-hammers-runtime.test.ts (5 tests | 1 failed) 501ms
+     × preserves a fired Hammer through ordinary player recovery as governed 69ms
+ ❯ tests/hyper-drive-rocket.test.ts (12 tests | 1 failed) 393ms
+     × uses the real dispatcher seam, controller input, and recovery-preserved state 144ms
+ ❯ tests/prismatic-runtime.test.ts (13 tests | 2 failed) 539ms
+     × rejects paused/countdown/finished input, consumes a valid use, and clears on recovery 46ms
+     × applies simultaneous Frost hits through runtime without spin, refreshes hazard snapshots, and clears recovery 19ms
+ ❯ tests/ink-runtime.test.ts (5 tests | 1 failed) 123ms
+     × survives ordinary recovery and clears on explicit finish/disposal paths 19ms
+ ❯ tests/nitro-overdrive.test.ts (10 tests | 1 failed) 109ms
+     × routes desktop and mobile ITEM through the real KartTimeTrial method 47ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/arc-hammers-runtime.test.ts > Kinetic Arc Hammers production runtime integration > preserves a fired Hammer through ordinary player recovery as governed
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1658:28
+    1656|
+    1657|   private respawn(): void {
+    1658|     this.playerSpeedVisual.clear();
+       |                            ^
+    1659|     this.driftVisual.clear();
+    1660|     this.wheelDust.clear();
+ ❯ tests/arc-hammers-runtime.test.ts:277:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/arc-runtime.test.ts > Arc production input, effects and counter fixtures > recovery cancels owned returning blades while preserving charges and unrelated launched projectiles
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1658:28
+    1656|
+    1657|   private respawn(): void {
+    1658|     this.playerSpeedVisual.clear();
+       |                            ^
+    1659|     this.driftVisual.clear();
+    1660|     this.wheelDust.clear();
+ ❯ tests/arc-runtime.test.ts:197:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/hyper-drive-rocket.test.ts > Hyper-Drive Rocket production runtime path > uses the real dispatcher seam, controller input, and recovery-preserved state
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1658:28
+    1656|
+    1657|   private respawn(): void {
+    1658|     this.playerSpeedVisual.clear();
+       |                            ^
+    1659|     this.driftVisual.clear();
+    1660|     this.wheelDust.clear();
+ ❯ tests/hyper-drive-rocket.test.ts:298:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/ink-runtime.test.ts > Vision-Obscuring Ink Splat production runtime integration > survives ordinary recovery and clears on explicit finish/disposal paths
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1658:28
+    1656|
+    1657|   private respawn(): void {
+    1658|     this.playerSpeedVisual.clear();
+       |                            ^
+    1659|     this.driftVisual.clear();
+    1660|     this.wheelDust.clear();
+ ❯ tests/ink-runtime.test.ts:99:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/nitro-overdrive.test.ts > Nitro Overdrive production presentation and input seams > routes desktop and mobile ITEM through the real KartTimeTrial method
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1658:28
+    1656|
+    1657|   private respawn(): void {
+    1658|     this.playerSpeedVisual.clear();
+       |                            ^
+    1659|     this.driftVisual.clear();
+    1660|     this.wheelDust.clear();
+ ❯ tests/nitro-overdrive.test.ts:228:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  tests/prismatic-runtime.test.ts > Prismatic real runtime wiring > rejects paused/countdown/finished input, consumes a valid use, and clears on recovery
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1658:28
+    1656|
+    1657|   private respawn(): void {
+    1658|     this.playerSpeedVisual.clear();
+       |                            ^
+    1659|     this.driftVisual.clear();
+    1660|     this.wheelDust.clear();
+ ❯ tests/prismatic-runtime.test.ts:154:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  tests/prismatic-runtime.test.ts > Prismatic real runtime wiring > applies simultaneous Frost hits through runtime without spin, refreshes hazard snapshots, and clears recovery
+TypeError: Cannot read properties of undefined (reading 'clear')
+ ❯ KartTimeTrial.respawn src/game/KartTimeTrial.ts:1658:28
+    1656|
+    1657|   private respawn(): void {
+    1658|     this.playerSpeedVisual.clear();
+       |                            ^
+    1659|     this.driftVisual.clear();
+    1660|     this.wheelDust.clear();
+ ❯ tests/prismatic-runtime.test.ts:266:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  6 failed | 84 passed (90)
+      Tests  7 failed | 712 passed (719)
+   Start at  20:24:47
+   Duration  22.06s (transform 5.15s, setup 0ms, import 12.78s, tests 44.32s, environment 64.35s)

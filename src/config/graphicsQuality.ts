@@ -4,6 +4,7 @@ export interface GraphicsQualityProfile {
   readonly pixelRatioCap: number;
   readonly driftParticleCapacity: 48 | 96 | 144;
   readonly dustParticleCapacity: 32 | 64 | 96;
+  readonly speedLineCapacity: 6 | 10 | 14;
   readonly shadows: boolean;
   readonly shadowMapSize: 1024 | 2048;
 }
@@ -14,6 +15,7 @@ export const GRAPHICS_QUALITY_PROFILES: Readonly<Record<GraphicsQuality, Graphic
       pixelRatioCap: 1,
       driftParticleCapacity: 48,
       dustParticleCapacity: 32,
+      speedLineCapacity: 6,
       shadows: false,
       shadowMapSize: 1024,
     },
@@ -21,6 +23,7 @@ export const GRAPHICS_QUALITY_PROFILES: Readonly<Record<GraphicsQuality, Graphic
       pixelRatioCap: 1.5,
       driftParticleCapacity: 96,
       dustParticleCapacity: 64,
+      speedLineCapacity: 10,
       shadows: true,
       shadowMapSize: 2048,
     },
@@ -28,6 +31,7 @@ export const GRAPHICS_QUALITY_PROFILES: Readonly<Record<GraphicsQuality, Graphic
       pixelRatioCap: 2,
       driftParticleCapacity: 144,
       dustParticleCapacity: 96,
+      speedLineCapacity: 14,
       shadows: true,
       shadowMapSize: 2048,
     },

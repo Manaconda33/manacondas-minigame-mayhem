@@ -54,6 +54,7 @@ import { graphicsQualityProfile, type GraphicsQuality } from '../config/graphics
 import { AiDriver, type AiRacerAwareness } from './ai/AiDriver';
 import { buildRaceStandings, type RaceRacerIdentity, type RaceStanding } from './raceResults';
 import { AiItemPolicy, driveInputWithItemModifiers } from './ai/AiItemPolicy';
+import { PlayerSpeedVisual } from './vfx/PlayerSpeedVisual';
 import { ChaseCamera } from './camera/ChaseCamera';
 import { SpinoutCameraAnchor } from './camera/SpinoutCameraAnchor';
 import { FixedStepRunner } from './physics/FixedStepRunner';
@@ -260,6 +261,9 @@ export class KartTimeTrial {
   private readonly opponents: AiRacer[] = [];
   private readonly aiItemPolicy = new AiItemPolicy();
   private readonly chaseCamera: ChaseCamera;
+  private readonly playerSpeedVisual: PlayerSpeedVisual;
+  private readonly playerSpeedVelocity = new THREE.Vector3();
+  private readonly playerNormalTopSpeed: number;
   private readonly spinoutCameraAnchor = new SpinoutCameraAnchor();
   private readonly position = new THREE.Vector3();
   private readonly forward = new THREE.Vector3();
@@ -380,6 +384,7 @@ export class KartTimeTrial {
     await RAPIER.init();
     const game = new KartTimeTrial(options);
     await game.createKartVisual();
+    game.renderer.compile(game.playerSpeedVisual.group, game.camera, game.scene);
     game.renderer.compile(game.driftVisual.group, game.camera, game.scene);
     game.renderer.compile(game.wheelDust.group, game.camera, game.scene);
     if (game.aiDrivingVisual !== undefined)
@@ -410,6 +415,9 @@ export class KartTimeTrial {
 
     this.camera = new THREE.PerspectiveCamera(62, 1, 0.1, 900);
     this.chaseCamera = new ChaseCamera(this.camera, options.mobileSession);
+    this.playerNormalTopSpeed = createKartTuning(options.character.stats).maxSpeed;
+    this.playerSpeedVisual = new PlayerSpeedVisual(this.camera, options.graphicsQuality);
+    this.scene.add(this.playerSpeedVisual.group);
     this.scene.add(this.trackScene);
     this.itemBoxes = new ItemBoxSystem(this.track);
     this.scene.add(this.itemBoxes.group);
@@ -486,6 +494,7 @@ export class KartTimeTrial {
     this.diagnosticsDisposed = true;
     for (const release of this.kartBatchReleases.splice(0)) release();
     this.racePerformance?.dispose();
+    this.playerSpeedVisual.dispose();
     this.driftVisual.dispose();
     this.wheelDust.dispose();
     this.aiDrivingVisual?.dispose();
@@ -1646,6 +1655,7 @@ export class KartTimeTrial {
   }
 
   private respawn(): void {
+    this.playerSpeedVisual.clear();
     this.driftVisual.clear();
     this.wheelDust.clear();
     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
@@ -1682,6 +1692,12 @@ export class KartTimeTrial {
       this.racerEffects.spinoutState('player') !== null,
     );
     this.chaseCamera.update(position, cameraForward, this.rearViewActive, dt);
+    this.playerSpeedVisual.update(
+      this.kart.velocity(this.playerSpeedVelocity).dot(forward) / this.playerNormalTopSpeed,
+      this.paused || document.hidden ? 0 : dt,
+      this.raceDirector.phase(this.playerProgress.finished) === 'racing' &&
+        this.racerEffects.spinoutState('player') === null,
+    );
     for (const opponent of this.opponents) {
       const opponentPosition = opponent.controller.position();
       const opponentForward = opponent.controller.forward();

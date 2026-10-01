@@ -1,6 +1,6 @@
 # Selective bloom review — 2026-10-01
 
-Status: implementation and local verification complete; canonical review CI/private preview publication in progress. Owner new-bloom visual acceptance and separate public merge/publication remain pending. Public main is unchanged.
+Status: REVIEW READY; implementation/local verification, runtime hosted CI and owner-private preview publication passed. Owner new-bloom visual acceptance and separate public merge/publication remain pending. Public main is unchanged.
 
 Manny approved the selective bloom direction, written design and implementation plan with Native execution. He explicitly removed context-loss recovery from remaining implementation/release gates. PRD 29.3 and ADR-100 record that waiver; it is not a recovery test pass. No motion blur, Archer work or next slice.
 
@@ -13,3 +13,11 @@ Rendered automation limitation: no installed Chromium executable was found. The 
 Owner preview: Medium/High should show narrow colored halos around the selected energy, with crisp cores and readable road/driver/HUD in chase/rear and portrait/landscape. Low retains the accepted appearance. Confirm glow disappears with hidden/expired effects and respects solid occlusion. For attributable same-device comparisons use `?testRacePerf=1` and `?testRacePerf=1&testBloom=off`; the comparison switch is diagnostics-only and never persists settings. Export captures if available. One extra mask scene draw set plus three fullscreen draws adds real cost; no full PRD budget/frame-rate pass is inferred.
 
 Rulings: retained existing isolated task clone rather than nesting a worktree (cost if wrong: relocate branch); disabled-diagnostics frame-read test starts after required startup buffer sizing (cost if wrong: startup counter read not detected by that frame-only assertion); structural review gap regraded Important (cost if wrong: extra focused test maintenance); reviewer-unexercised rendered/device/hosting checks remain independent evidence (cost if unavailable: owner review and honest measurement limits).
+
+## Published review checkpoint
+
+Draft PR [#224](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/224). Canonical runtime `5dfd217c4ab75be309ddc61bc312e0e08d859fcf`, tree `28ab63986decefe3794b36b5bca776d2176f3a89`, was fetched back through public Git and matched the locally validated entire tree. Hosted runtime CI [36893095542](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36893095542) passed; public deployment skipped as expected for a PR.
+
+Owner-private gameplay preview: https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site. Version9 source `330230323736d8368787b09dfeb1636a87335623`, saved version `appgprj_6abd8e96a17081919b0934998de64bf8~appgver_ddcba90e53d08191bc1635ed4ef10206`, deployment `appgdep_6abe8c62556c8191b3ad0bfe2d4f1e72` succeeded. Packaged index/JS/CSS matched pinned root-base build SHA-256s. Native archive metadata and local compressed-archive hash are recorded separately; native stores a tar representation, so raw-archive-byte equality is not asserted. Source is a compiled review snapshot; GitHub remains canonical. Access remains sole-owner private. An expired source credential was renewed before the successful preview push; audience/protection was unchanged.
+
+`provenance.json` records source/build/version/deployment and approval boundaries. Owner new-bloom visual review and separate public merge/publication remain pending. Public main remains `4fe73c58e4c51201f917658e705fca8b2b3db8ec`. This final review-record change is documentation-only, with runtime/assets identical to private version9.

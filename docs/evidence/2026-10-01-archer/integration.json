@@ -50,6 +50,9 @@
     "pr": 226,
     "pinned_runtime": "62583845461098caee5fec3e1334502da671de1d",
     "route": "/manacondas-minigame-mayhem/previews/archer/",
-    "status": "prepared; preview publication approval pending"
+    "status": "preview-only merge approved; published and HTTP/hash verified",
+    "merge": "403d7bb1a8d7fc8002a06853557295fc33eabc39",
+    "pages_run": 36899647137,
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/archer/"
   }
 }

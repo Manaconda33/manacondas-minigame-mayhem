@@ -1,5 +1,11 @@
 # Implementation Status
 
+## GitHub Pages preview published — 2026-10-01
+
+Manny explicitly approved “merging preview only approved. Provide the preview link so I can test.” Workflow-only PR #226 merged at `403d7bb1a8d7fc8002a06853557295fc33eabc39`. CI/Pages run `36899647137` passed validation and deployment. Preview: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/archer/. The preview pins tested runtime `62583845461098caee5fec3e1334502da671de1d`. HTTP 200 and exact SHA-256 matches were verified for preview HTML, both JS bundles, CSS, all fourteen runtime PNGs and all three named kart GLBs; evidence: `preview-delivery.json`.
+
+Root game retains twelve drivers and accepted bloom; no Archer roster production merge is authorized. Actual owner desktop/mobile page controls and chase/rear driver mounting review remain pending. Earlier preview-publication-approval-pending wording is historical.
+
 **Archer runtime review checkpoint (2026-10-01):** Page-two integration implemented; approved fourteen runtime PNGs and The Precision Shot’s three named GLBs delivered in draft PR #223. Refreshed onto selective-bloom release-record main `8d27a0b18724387927cc2b83a309a69b3d0a888e`; local tests: 95 files / 750 tests PASS; typecheck/lint PASS; production build PASS with 39 materialized GLBs and 149 decoded character PNGs. Offline mounted review covers all ten states; sheets are committed in the Archer evidence directory. Independent review found no Critical/Important issues; two minor test coverage/label findings are recorded in `code-review.txt`. Shared race renderer matches main byte-for-byte. Actual chase/rear and responsive rendered owner acceptance remain PENDING because local browser verification is blocked. Runtime review commit `62583845461098caee5fec3e1334502da671de1d` passed hosted CI `36897722265`. Workflow-only draft PR #226 prepares the pinned gameplay review at `/previews/archer/`; it needs separate preview-publication approval because Pages deploys only from main. No Archer runtime merge or production publication authorized.
 
 ## Runtime integration checkpoint — review only

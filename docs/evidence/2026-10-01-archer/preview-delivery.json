@@ -1,0 +1,136 @@
+{
+  "status": "GitHub Pages preview published; HTTP/hash delivery verified; owner gameplay acceptance pending",
+  "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/archer/",
+  "preview_only_pr": 226,
+  "merge": "403d7bb1a8d7fc8002a06853557295fc33eabc39",
+  "pages_run": 36899647137,
+  "pinned_runtime": "62583845461098caee5fec3e1334502da671de1d",
+  "files": [
+    {
+      "path": "index.html",
+      "http": 200,
+      "sha256": "6a566e38644fde1c99cb4bdb87ad5f42b3064cb3deecbb5081bd1ada170d4808",
+      "bytes": 767
+    },
+    {
+      "path": "assets/index-EL9lX_Ml.js",
+      "http": 200,
+      "sha256": "1bcc6c586b8bf4f1aee61292b3d33639e379d39964daf59274b35c7a1110ee35",
+      "bytes": 804189
+    },
+    {
+      "path": "assets/KartTimeTrial-C00prh_b.js",
+      "http": 200,
+      "sha256": "f0accefa2d42056a739ad35496552f5eebd6186d9ec4d6616b3d416c5791bad8",
+      "bytes": 3116036
+    },
+    {
+      "path": "assets/index-KLiXI-1N.css",
+      "http": 200,
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "bytes": 85082
+    },
+    {
+      "path": "assets/characters/aa-13/portrait.png",
+      "http": 200,
+      "sha256": "4781825b60e104dee1bd92b91bb37fe65796a855a8343027d3a5a8ab1330f378",
+      "bytes": 91555
+    },
+    {
+      "path": "assets/characters/aa-13/selection/full-body.png",
+      "http": 200,
+      "sha256": "a1b78ddcf56cae6dd5cce52426c97231b049cbb7366641301d9cb61bd2881a5a",
+      "bytes": 2359266
+    },
+    {
+      "path": "assets/characters/aa-13/driver/rear.png",
+      "http": 200,
+      "sha256": "7451248cd5ce3f671bec335a67d858cd7180087b1f36fed2fce2a84d46abf026",
+      "bytes": 267003
+    },
+    {
+      "path": "assets/characters/aa-13/driver/front.png",
+      "http": 200,
+      "sha256": "42a05c78fd80697bc0930e1d38d860556eb43d3e5533a0b25619bf6550ad9c5e",
+      "bytes": 318581
+    },
+    {
+      "path": "assets/characters/aa-13/driver/steer-left.png",
+      "http": 200,
+      "sha256": "4ff0b51b5e451cbbcadea64b1736bb26099321dc761c7b911b235470b3626271",
+      "bytes": 262860
+    },
+    {
+      "path": "assets/characters/aa-13/driver/steer-right.png",
+      "http": 200,
+      "sha256": "00a8bca669facd4b4d1b78a17e51b7bb78338ba5ccf65d5df64b80f6a00b98d0",
+      "bytes": 257557
+    },
+    {
+      "path": "assets/characters/aa-13/driver/hit.png",
+      "http": 200,
+      "sha256": "93bc7493fc67cddb6c554e8de773de9c67367f2caf9b9c7eaf842a458801fb36",
+      "bytes": 260385
+    },
+    {
+      "path": "assets/characters/aa-13/driver/victory.png",
+      "http": 200,
+      "sha256": "7d7c78590fa4b24eb2be93b803f4a6b09047611ad0ac621c21c60b8fe4101155",
+      "bytes": 281170
+    },
+    {
+      "path": "assets/characters/aa-13/driver/front-steer-left.png",
+      "http": 200,
+      "sha256": "9c6071c712f5f5479c7af82d4b61a7ac6428e8d4bbc057d33445b0456a46b427",
+      "bytes": 317059
+    },
+    {
+      "path": "assets/characters/aa-13/driver/front-steer-right.png",
+      "http": 200,
+      "sha256": "64fc2b9d8ede94700eea2bb189ce3ef27dd4f7b7d900b31bf74854156d9f89ac",
+      "bytes": 318716
+    },
+    {
+      "path": "assets/characters/aa-13/driver/front-hit.png",
+      "http": 200,
+      "sha256": "90bc0b7bdd860bbb1a7204ba2a7fe1da228678ebf8b456f3dfd78555fca8ecdd",
+      "bytes": 350932
+    },
+    {
+      "path": "assets/characters/aa-13/driver/front-victory.png",
+      "http": 200,
+      "sha256": "03e5b484e86ce573fb7a682d3d9446d05d3dd4bd929ce48d5b32e45ea59630c2",
+      "bytes": 327278
+    },
+    {
+      "path": "assets/characters/aa-13/results/victory.png",
+      "http": 200,
+      "sha256": "6729f3f8d1e095720a5163b1fc8af8b6cd1282d5d8f576fb1dab17db735bda09",
+      "bytes": 2399162
+    },
+    {
+      "path": "assets/characters/aa-13/results/reaction.png",
+      "http": 200,
+      "sha256": "b736b45954db1ea143695a0ce198fa471dfc582cad76ad475f405924fdb8edd0",
+      "bytes": 2363864
+    },
+    {
+      "path": "assets/characters/aa-13/kart.glb",
+      "http": 200,
+      "sha256": "952ca8e50b69bb5f2bc9d8d4cd4e43f844560bb4069fa23c1c0132ae77fb1e93",
+      "bytes": 547452
+    },
+    {
+      "path": "assets/characters/aa-13/lod/kart-lod1.glb",
+      "http": 200,
+      "sha256": "8768f40456320986868e96ea23c0590e4f230a946a050f404d3b07ff0e430423",
+      "bytes": 337016
+    },
+    {
+      "path": "assets/characters/aa-13/lod/kart-lod2.glb",
+      "http": 200,
+      "sha256": "620a4fd0f88fbd92d1665598f9ba57b65d436be948161c769af562c976e88a2c",
+      "bytes": 239684
+    }
+  ]
+}

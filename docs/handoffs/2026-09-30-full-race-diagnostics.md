@@ -1,3 +1,5 @@
+> **Superseded continuation:** Diagnostics, optimization and player drift effects are now accepted and published. Start with `docs/handoffs/2026-09-30-post-drift-release.md`. The tasks and pending gates below are historical.
+
 # Full-race diagnostics session handoff — 2026-09-30
 
 ## Current source

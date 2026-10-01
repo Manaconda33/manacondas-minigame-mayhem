@@ -1,0 +1,28 @@
+{
+  "recordedAt": "2026-10-01",
+  "feature": "bounded-quality-dependent-race-motion-blur",
+  "ownerVisualAcceptance": "passed",
+  "ownerProductionApproval": "approved",
+  "reviewedRuntime": "949fd77993b9859bc9ca68da5b8f3bc01bd846d6",
+  "reconciledPrHead": "32ac3c3435d894f912d921c747777c9375d1c6cc",
+  "prNumber": 231,
+  "prCiRun": 36925864779,
+  "mergeCommit": "981d75f83b592bbb5801be6b7a282144b1ab4e20",
+  "postMergeRun": 36926139532,
+  "validateJob": 110583812445,
+  "deployJob": 110585102886,
+  "pagesArtifact": {
+    "id": 11194431395,
+    "digest": "sha256:4bf764a6c3571f888ad815d6c0f898771ff759294fe236cb6f73f47b8bea0d68"
+  },
+  "productionUrl": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+  "githubPagesDeployment": "success",
+  "publicHttpProbe": {
+    "status": "not_observed",
+    "reason": "GitHub Pages host was inaccessible/unresolvable from the execution environment"
+  },
+  "limitations": [
+    "No independent production byte/hash refetch is claimed.",
+    "No broader full-race hardware performance or browser-matrix acceptance is inferred."
+  ]
+}

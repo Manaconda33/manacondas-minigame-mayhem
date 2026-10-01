@@ -84,6 +84,22 @@ jobs:
           npm ci
           npm run build -- --base /manacondas-minigame-mayhem/previews/archer/
 
+      - name: Check out pinned motion blur review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v5
+        with:
+          ref: 949fd77993b9859bc9ca68da5b8f3bc01bd846d6
+          path: motion-blur-preview
+          lfs: true
+
+      - name: Verify and build motion blur review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: motion-blur-preview
+        run: |
+          git lfs fsck
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/motion-blur/
+
       - name: Assemble the current game and isolated previews
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -98,6 +114,9 @@ jobs:
           mkdir -p site-root/previews/archer
           cp -a archer-preview/dist/. site-root/previews/archer/
           test -f site-root/previews/archer/index.html
+          mkdir -p site-root/previews/motion-blur
+          cp -a motion-blur-preview/dist/. site-root/previews/motion-blur/
+          test -f site-root/previews/motion-blur/index.html
 
       - name: Configure GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

@@ -738,3 +738,102 @@ it('suppresses reverse and lateral speed, clears spinout cues and retains cues i
   expect(runtime.camera.fov).toBe(62);
   expect(mesh.count).toBe(0);
 });
+
+it('routes player and nearby AI exhaust with item overlap suppression and lifecycle cleanup', async () => {
+  const r = await setup();
+  const runtime = r.game as unknown as {
+    updateVisuals: (dt: number) => void;
+    scene: THREE.Scene;
+    kart: import('../src/game/physics/KartController').KartController;
+    opponents: {
+      id: string;
+      controller: import('../src/game/physics/KartController').KartController;
+      progress: { finished: boolean };
+    }[];
+    racerEffects: import('../src/game/items/RacerEffects').RacerEffects;
+    respawn: () => void;
+    nitroOverdrive: import('../src/game/items/NitroOverdrive').NitroOverdriveSystem;
+  };
+  vi.spyOn(runtime, 'updateVisuals').mockRestore();
+  const mesh = runtime.scene.getObjectByName('exhaust-flare-pool') as THREE.InstancedMesh;
+  expect(mesh).toBeDefined();
+  runtime.opponents.forEach((ai) => {
+    ai.controller.body.setTranslation({ x: 1000, y: 0, z: 0 }, true);
+  });
+  const velocity = runtime.kart.forward().multiplyScalar(70);
+  runtime.kart.body.setLinvel(velocity, true);
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(2);
+  const before = runtime.kart.body.linvel();
+  const matrices = mesh.instanceMatrix.array.slice();
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+  runtime.updateVisuals(0.1);
+  expect(mesh.instanceMatrix.array).toEqual(matrices);
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+  Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+  runtime.updateVisuals(0.1);
+  expect(mesh.instanceMatrix.array).toEqual(matrices);
+  Object.defineProperty(document, 'hidden', { configurable: true, value: false });
+  expect(runtime.kart.body.linvel()).toEqual(before);
+  runtime.respawn();
+  expect(mesh.count).toBe(0);
+  runtime.kart.body.setLinvel(velocity, true);
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(2);
+  runtime.racerEffects.activateSpinout('player', {
+    id: 'exhaust-test',
+    label: 'test',
+    durationSeconds: 1,
+    direction: 1,
+    turns: 1,
+  });
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(0);
+  runtime.racerEffects.clearSpinout('player');
+  runtime.kart.body.setLinvel(velocity, true);
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(2);
+  r.phase('countdown');
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(0);
+  r.phase('racing');
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(2);
+  const ai = requireValue(runtime.opponents[0]);
+  const near = runtime.kart.position().addScaledVector(runtime.kart.forward(), 5);
+  ai.controller.respawn(near, Math.atan2(runtime.kart.forward().x, runtime.kart.forward().z));
+  ai.controller.body.setLinvel(velocity, true);
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(4);
+  ai.progress.finished = true;
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(2);
+  runtime.racerEffects.activateTemporaryBoost('player', {
+    id: 'nitro-surge',
+    label: 'Nitro',
+    durationSeconds: 1,
+    speedCapMultiplier: 1.2,
+    accelerationMultiplier: 1,
+    ignoreOffRoadSpeedPenalty: false,
+  });
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(0);
+  runtime.racerEffects.clearTemporaryBoost('player', 'nitro-surge');
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(2);
+  runtime.nitroOverdrive.activate('player', () => true);
+  runtime.nitroOverdrive.advance(1);
+  expect(runtime.nitroOverdrive.snapshot('player')).toMatchObject({
+    active: true,
+    pulseRemainingSeconds: 0,
+  });
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(0);
+  runtime.nitroOverdrive.clear('player');
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(2);
+
+  r.phase('finished');
+  runtime.updateVisuals(0.1);
+  expect(mesh.count).toBe(0);
+});

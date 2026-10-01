@@ -1,0 +1,66 @@
+2026-10-01T13:51:31.9618772Z Current runner version: '2.337.0'
+2026-10-01T13:51:31.9655619Z ##[group]Runner Image Provisioner
+2026-10-01T13:51:31.9657409Z Hosted Compute Agent
+2026-10-01T13:51:31.9658390Z Version: 20260901.588
+2026-10-01T13:51:31.9659480Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-01T13:51:31.9660898Z Build Date: 2026-09-01T19:56:44Z
+2026-10-01T13:51:31.9662091Z Worker ID: {bd440071-b540-4d3c-9cb4-1327409dd6b1}
+2026-10-01T13:51:31.9663384Z Azure Region: eastus2
+2026-10-01T13:51:31.9664585Z ##[endgroup]
+2026-10-01T13:51:31.9667690Z ##[group]Operating System
+2026-10-01T13:51:31.9668920Z Ubuntu
+2026-10-01T13:51:31.9669942Z 24.04.5
+2026-10-01T13:51:31.9670830Z LTS
+2026-10-01T13:51:31.9671825Z ##[endgroup]
+2026-10-01T13:51:31.9672846Z ##[group]Runner Image
+2026-10-01T13:51:31.9674100Z Image: ubuntu-24.04
+2026-10-01T13:51:31.9675179Z Version: 20260927.320.1
+2026-10-01T13:51:31.9677794Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-01T13:51:31.9680746Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-01T13:51:31.9682666Z ##[endgroup]
+2026-10-01T13:51:31.9684895Z ##[group]GITHUB_TOKEN Permissions
+2026-10-01T13:51:31.9688791Z Contents: read
+2026-10-01T13:51:31.9689814Z Metadata: read
+2026-10-01T13:51:31.9690863Z Pages: write
+2026-10-01T13:51:31.9692037Z ##[endgroup]
+2026-10-01T13:51:31.9695194Z Secret source: Actions
+2026-10-01T13:51:31.9697222Z Cache mode: write
+2026-10-01T13:51:31.9698786Z Prepare workflow directory
+2026-10-01T13:51:32.0201070Z Prepare all required actions
+2026-10-01T13:51:32.0279840Z Getting action download info
+2026-10-01T13:51:32.3119006Z Download action repository 'actions/deploy-pages@v4' (SHA:d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e)
+2026-10-01T13:51:32.7387266Z Complete job name: deploy
+2026-10-01T13:51:32.8214913Z ##[group]Run actions/deploy-pages@v4
+2026-10-01T13:51:32.8215872Z with:
+2026-10-01T13:51:32.8219844Z   token: ***
+2026-10-01T13:51:32.8220299Z   timeout: 600000
+2026-10-01T13:51:32.8220772Z   error_count: 10
+2026-10-01T13:51:32.8221261Z   reporting_interval: 5000
+2026-10-01T13:51:32.8221775Z   artifact_name: github-pages
+2026-10-01T13:51:32.8222288Z   preview: false
+2026-10-01T13:51:32.8222998Z ##[endgroup]
+2026-10-01T13:51:33.0272962Z (node:2178) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-01T13:51:33.0275536Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-01T13:51:33.1022571Z Fetching artifact metadata for "github-pages" in this workflow run
+2026-10-01T13:51:33.2007281Z Found 1 artifact(s)
+2026-10-01T13:51:33.2020475Z Creating Pages deployment with payload:
+2026-10-01T13:51:33.2021405Z {
+2026-10-01T13:51:33.2022030Z 	"artifact_id": 11167103308,
+2026-10-01T13:51:33.2023106Z 	"pages_build_version": "845f68fc173a147d54ecdf74395e65bda328fc4e",
+2026-10-01T13:51:33.2075822Z 	"oidc_token": "***"
+2026-10-01T13:51:33.2076399Z }
+2026-10-01T13:51:33.6558869Z Created deployment for 845f68fc173a147d54ecdf74395e65bda328fc4e, ID: 845f68fc173a147d54ecdf74395e65bda328fc4e
+2026-10-01T13:51:38.6575354Z Getting Pages deployment status...
+2026-10-01T13:51:38.8452846Z Current status: deployment_queued
+2026-10-01T13:51:43.8457448Z Getting Pages deployment status...
+2026-10-01T13:51:44.0342312Z Current status: deployment_queued
+2026-10-01T13:51:49.0351922Z Getting Pages deployment status...
+2026-10-01T13:51:49.2044712Z Current status: deployment_queued
+2026-10-01T13:51:54.2048003Z Getting Pages deployment status...
+2026-10-01T13:51:54.3937926Z Current status: deployment_queued
+2026-10-01T13:51:59.3939266Z Getting Pages deployment status...
+2026-10-01T13:51:59.6310458Z ##[error]Deployment failed, try again later.
+2026-10-01T13:51:59.6585151Z Evaluate and set environment url
+2026-10-01T13:51:59.6590237Z Evaluated environment url: https://manaconda33.github.io/manacondas-minigame-mayhem/
+2026-10-01T13:51:59.6591521Z Cleaning up orphan processes
+2026-10-01T13:51:59.6897528Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/deploy-pages@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

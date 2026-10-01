@@ -924,9 +924,13 @@ Manny accepted private version 5 and explicitly approved merge/publication: **�
 ## ADR-098: Bounded player speed cues
 
 - **Date:** 2026-10-01 (America/Chicago).
-- **Status:** Scope/design approved; implementation review only. Owner visual and separate merge/public production approval pending.
+- **Status:** LIVE ACCEPTED; owner visual and explicit merge/publication approval complete.
 - **Authority:** Manny's “Approved” to player FOV expansion 62–68° and faint peripheral speed lines with quality/lifecycle bounds.
 - **Decision:** Use read-only signed forward speed normalized to each kart's normal top speed; eased 70–100% band and exponential smoothing. Preserve all camera transforms/anchors and update projection only. One clip-space ShaderMaterial InstancedMesh allocates 6/10/14 strokes per Low/Medium/High, alpha ≤0.15, no textures or shadow draws. Central horizontal road/kart region remains clear; owner verifies actual HUD/legibility. Existing next-race quality application remains intact.
 - **Lifecycle:** Freeze pause/hidden; reset countdown/spinout/finish/recovery; release owned resources once at disposal; warm the shader at race creation.
 - **Preservation:** All existing acceptance through PRs #212–218 remains closed; player/AI drift/dust, gameplay, boost/exhaust identity, HUD/Results/audio/assets/settings remain intact. No bloom, blur, new slice or hardware/global-budget claim. This is only part of PRD 22.1/23.5, not full speed/boost polish or Slice 6 closure.
-- **Evidence/gates:** `docs/evidence/2026-10-01-player-speed-cues/`. Review branch/private preview only; public main changes require later approval.
+- **Evidence/gates:** `docs/evidence/2026-10-01-player-speed-cues/`. Owner accepted private version 6 and approved merge/publication; release disposition follows.
+
+### ADR-098 release disposition — 2026-10-01
+
+Manny accepted private version 6 and explicitly authorized merge/publication with “Approved for merge / publish.” on 2026-10-01 (America/Chicago). PR #219 merged at `845f68fc173a147d54ecdf74395e65bda328fc4e`; final PR CI `36870557916` and post-merge CI/Pages `36871486372` passed. Public index, both JS bundles and CSS returned HTTP 200 with exact validated-production-build hashes. Full validation passed 90 files / 720 tests. Existing acceptance remains passed. No new device/hardware/global-budget result, bloom/blur or next-slice authority is inferred. Evidence: `docs/evidence/2026-10-01-player-speed-cues/production-delivery.json`. Earlier pending statements are historical.

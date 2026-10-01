@@ -1,5 +1,7 @@
 # Player speed cues — 2026-10-01
 
+**Final status: LIVE ACCEPTED.** Manny accepted private version 6 and explicitly authorized merge/publication with “Approved for merge / publish.” on 2026-10-01 (America/Chicago). PR #219 merged at `845f68fc173a147d54ecdf74395e65bda328fc4e`; final PR CI `36870557916` and post-merge CI/Pages `36871486372` passed. Public index, both JS bundles and CSS returned HTTP 200 with exact validated-production-build hashes. Full validation passed 90 files / 720 tests. Existing acceptance remains passed. No new device/hardware/global-budget result, bloom/blur or next-slice authority is inferred. See `production-delivery.json` and updated `provenance.json`. Earlier review/pending statements below are historical.
+
 ## Status and authority
 
 **REVIEW ONLY.** Manny approved the bounded proposal on 2026-10-01 with “Approved”: smooth player FOV expansion from 62° toward 68° at high speed; faint peripheral speed lines; bounded quality budgets and pause/recovery/finish/disposal handling. This is a bounded PRD 22.1/23.5 increment inside active Slice 6, not complete speed/boost polish or Slice 6 closure. Base main `5dd81ebe5a6890289c76dbfecd57ee12ce5f96ac` and CI/Pages `36866177416` were verified. All acceptance through PRs #212–218 remains closed. September 30's pending AI/dust proposal is superseded by the accepted October 1 release.
@@ -28,3 +30,9 @@ Owner new-effect visual acceptance and separate merge/public production approval
 ## Published review checkpoint
 
 Draft PR [#219](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/219) is open. Canonical runtime `a9070ea4718eaa9037ef4f1297443e9d9f0e7066` has the same tree as the locally validated checkpoint (`3c86e53ee10bfe2214acccb819be35ad882c1b0d`); public Git fetch-back confirmed it. Hosted CI [36869989873](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36869989873) passed. Owner-private preview version 6 deployed successfully: https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site. The packaged index, both JavaScript bundles and CSS match the pinned root-base validated build SHA-256s. `provenance.json` records canonical runtime/tree, CI, source/saved-version/deployment and archive hashes. This evidence-only follow-up does not change runtime. Owner new-effect visual acceptance and separate merge/public production approval remain pending; public main remains the accepted PR #218 checkpoint.
+
+## Owner acceptance and public release
+
+Manny accepted private version 6 and explicitly authorized merge/publication with “Approved for merge / publish.” on 2026-10-01 (America/Chicago). PR #219 merged at `845f68fc173a147d54ecdf74395e65bda328fc4e`; final PR CI `36870557916` and post-merge CI/Pages `36871486372` passed. Public index, both JS bundles and CSS returned HTTP 200 with exact validated-production-build hashes. Full validation passed 90 files / 720 tests. Existing acceptance remains passed. No new device/hardware/global-budget result, bloom/blur or next-slice authority is inferred. Public source/runtime equals the accepted private version 6; root-base and Pages-base build URLs intentionally differ. LIVE: https://manaconda33.github.io/manacondas-minigame-mayhem/. This release record changes documentation only.
+
+GitHub Pages attempt 1 failed after deployment queuing with “Deployment failed, try again later.” Retrying the failed workflow jobs succeeded in attempt 2 using the same release source; validation and deploy both passed. The failure log is preserved in `pages-attempt-1.txt`.

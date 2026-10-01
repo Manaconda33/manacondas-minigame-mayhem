@@ -24,15 +24,15 @@ npm warn Unknown env config "http-proxy". This will stop working in the next maj
 
 
  Test Files  91 passed (91)
-      Tests  726 passed (726)
-   Start at  21:19:27
-   Duration  21.05s (transform 4.06s, setup 0ms, import 11.78s, tests 40.53s, environment 63.28s)
+      Tests  727 passed (727)
+   Start at  21:57:31
+   Duration  22.26s (transform 4.78s, setup 0ms, import 13.52s, tests 43.02s, environment 66.37s)
 
  % Coverage report from v8
 -------------------|---------|----------|---------|---------|-------------------
 File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 -------------------|---------|----------|---------|---------|-------------------
-All files          |   88.78 |    80.06 |    90.1 |   91.07 |
+All files          |   88.78 |     80.1 |    90.1 |   91.07 |
  src/app           |   82.55 |    59.76 |   86.95 |   84.92 |
   itemHud.ts       |   94.56 |     87.5 |   85.71 |   96.66 | 39-41
   mountAppShell.ts |   71.68 |    53.74 |   82.05 |   73.04 | ...95,555-571,627
@@ -61,8 +61,8 @@ All files          |   88.78 |    80.06 |    90.1 |   91.07 |
   raceRoster.ts    |     100 |    85.71 |     100 |     100 | 18
  src/config        |   93.44 |    87.17 |     100 |   98.07 |
   gameSettings.ts  |   87.09 |    77.27 |     100 |   96.29 | 65
- src/game          |   69.99 |    55.41 |   58.95 |   71.68 |
-  KartTimeTrial.ts |   69.83 |    55.32 |   58.01 |   71.55 | ...2438,2451-2452
+ src/game          |   69.99 |    55.87 |   58.95 |   71.68 |
+  KartTimeTrial.ts |   69.83 |    55.78 |   58.01 |   71.55 | ...2438,2451-2452
   raceResults.ts   |     100 |     62.5 |     100 |     100 | 33-37,40
  src/game/ai       |   91.28 |    85.21 |   93.33 |   94.46 |
   AiDriver.ts      |   98.29 |    93.97 |   94.73 |   99.05 | 193
@@ -142,7 +142,7 @@ All files          |   88.78 |    80.06 |    90.1 |   91.07 |
 
 =============================== Coverage summary ===============================
 Statements   : 88.78% ( 7693/8665 )
-Branches     : 80.06% ( 4192/5236 )
+Branches     : 80.1% ( 4196/5238 )
 Functions    : 90.1% ( 1047/1162 )
 Lines        : 91.07% ( 7051/7742 )
 ================================================================================
@@ -165,12 +165,12 @@ vite v8.2.1 building client environment for production...
 transforming...✓ 132 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/index.html                            0.71 kB │ gzip:     0.38 kB
+dist/index.html                            0.71 kB │ gzip:     0.39 kB
 dist/assets/index-B7Jt5ma7.css            84.73 kB │ gzip:    17.16 kB
-dist/assets/index-DCRdssSm.js            797.65 kB │ gzip:   207.53 kB
-dist/assets/KartTimeTrial-UwHDl47X.js  3,106.42 kB │ gzip: 1,165.27 kB
+dist/assets/index-B1_Vp1Qb.js            797.65 kB │ gzip:   207.53 kB
+dist/assets/KartTimeTrial-ClHFta9W.js  3,106.43 kB │ gzip: 1,165.28 kB
 
-✓ built in 442ms
+✓ built in 490ms
 [plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application

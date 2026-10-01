@@ -1,10 +1,10 @@
 # Bounded race motion blur — 2026-10-01
 
-Status: **Local implementation/validation passed; owner preview and publication pending.**
+Status: **Owner visual acceptance PASSED; production merge/publication AUTHORIZED; production verification pending.**
 
 ## Authority and baseline
 
-Manny approved the scope with “Scope approved.” after repository catch-up at `b07c5b1ba054f0d4af999b72caf59ee13568ca01`. PRD 23.7 / 35.7 govern the requirement. No material PRD change, next-slice authority, production publication, or reopening of accepted gameplay, Archer, bloom, HUD/Results, audio or Task 10/11 is inferred. Context-loss recovery remains waived.
+Manny approved the scope with “Scope approved.” after repository catch-up at `b07c5b1ba054f0d4af999b72caf59ee13568ca01`, then approved the published pinned preview for merge/publication to main. PRD 23.7 / 35.7 govern the requirement. No material PRD change, next-slice authority, production publication, or reopening of accepted gameplay, Archer, bloom, HUD/Results, audio or Task 10/11 is inferred. Context-loss recovery remains waived.
 
 ## Implementation
 
@@ -42,9 +42,9 @@ The runner starts Vite in its own process network context, runs pixel assertions
 ## Review/publication gates
 
 1. Feature PR CI must pass.
-2. Separately approve and merge only the prepared preview-infrastructure PR, which pins this validated feature runtime at `/previews/motion-blur/` and retains production's accepted runtime plus existing previews.
-3. Verify preview HTML/bundles/assets delivery after Pages completes, then provide the playable URL.
-4. Manny reviews Medium/High at speed and boost, clarity of road/kart/driver/HUD, Low/Off, rear/pause/recovery and desktop/mobile portrait/landscape. Existing accepted gates are preserved, not re-run as open work.
-5. New-effect visual approval precedes separately authorized implementation merge/production publication.
+2. Preview infrastructure PR #232 merged at `e933e35717cade97062a9d7e18ffba40a0ec0287`; post-merge CI/Pages run `36921241484` passed the pinned preview build, artifact assembly and deployment.
+3. Manny completed the gameplay visual review and approved the effect for merge/publication to main.
+4. Reconcile PR #231 with current main while keeping the reviewed runtime blobs unchanged, then require fresh hosted PR CI.
+5. Merge/publish only after that reconciliation passes, then require post-merge production CI/Pages verification.
 
 Broader full-race Medium/baseline-hardware performance, browser matrix and final release evidence remain open. No unrelated optimization or new slice is authorized.

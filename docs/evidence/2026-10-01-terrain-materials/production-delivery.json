@@ -1,0 +1,74 @@
+{
+  "production": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+  "merge_commit": "0aaea588b1260548cd96d5e4226da7ecfc8397f3",
+  "html_sha256": "dbe7fb9c03b881ccc5d6bc1d3d86605b8041d33b26ae88bfdcea61c419700e8d",
+  "assets": [
+    {
+      "path": "/manacondas-minigame-mayhem/assets/index-DOAjSLaV.js",
+      "bytes": 804853,
+      "sha256": "e283f884159859147fdfa4c155f37ec38fd2c336f40cf6793772c1daba6abe2c"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/index-KLiXI-1N.css",
+      "bytes": 85082,
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/brown_mud_arm_1k.jpg",
+      "bytes": 224431,
+      "sha256": "40a5ac438f23ea454ff45f3f62f0fe4ac5b89c42fd070d10e7d41c51252caf88"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/brown_mud_diff_1k.jpg",
+      "bytes": 501955,
+      "sha256": "df3f135c899f10a3b018738343b222cbc67d13e7c76c5d8da834a3d34c984417"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/brown_mud_nor_gl_1k.jpg",
+      "bytes": 1011780,
+      "sha256": "ac517ca39eb507ae0f27e2b3db431c60888f9b5c3c52bec49d2c0775da0920cb"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/gravel_floor_02_arm_1k.jpg",
+      "bytes": 1103127,
+      "sha256": "53101410122574a22e3982748bec9edfbd0ba1608b9bff16de76f46fe80a17a9"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/gravel_floor_02_diff_1k.jpg",
+      "bytes": 1240441,
+      "sha256": "ac9874264762a9e8d337e684259d51dac41a012933f0d8013033fee7076383f3"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/gravel_floor_02_nor_gl_1k.jpg",
+      "bytes": 1545680,
+      "sha256": "7db09804733f912bd120a1a3179bb867a01819ab9539a1c80eadfaff7e22509e"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/leafy_grass_arm_1k.jpg",
+      "bytes": 1010081,
+      "sha256": "95432451cb2693794459fe7ea339ea9ffdb5959c40373740f80a4aa1703f089d"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/leafy_grass_diff_1k.jpg",
+      "bytes": 1195394,
+      "sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a"
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/leafy_grass_nor_gl_1k.jpg",
+      "bytes": 1466049,
+      "sha256": "832328216adc0a7e1f70a31d5ee48c9ab7f2152d83816122736cf42ac4b2ebd6"
+    }
+  ],
+  "status": "LIVE ACCEPTED / DEPLOYED",
+  "owner_authority": "Manny: merge & publication to main approved.",
+  "date": "2026-10-01 (America/Chicago)",
+  "runtime_pr": 234,
+  "preview_pr": 235,
+  "reviewed_source": "375c933766dbc52cead91592cd69d954ab022d38",
+  "runtime_pr_ci": 36932505230,
+  "production_ci_pages": 36934885453,
+  "validation": "99 test files / 768 tests; typecheck, zero-warning lint, LFS verification, exact runtime assets and production build passed",
+  "scope": "Circuit Alpha grass, dirt, violet shoulder and restrained baked surface AO only",
+  "preserved": "Accepted asphalt, topology/physics, gameplay, characters, HUD/Results, audio, bloom and motion blur; context-loss recovery remains waived",
+  "limits": "No separate owner production-root playtest or hardware performance certification inferred; diagnostics deferred; lighting/shadow/camera scopes and broader Slice 6 gates remain open"
+}

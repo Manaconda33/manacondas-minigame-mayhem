@@ -896,9 +896,9 @@ Manny explicitly reported: **“Good stuff. Integrated listening approved. Ready
 
 ## ADR-096: Bounded player-only off-road wheel dust
 
-- **Date:** 2026-10-01.
-- **Status:** Scope approved; implementation/review checkpoint; owner runtime acceptance and production publication pending.
+- **Date:** 2026-09-30 (America/Chicago).
+- **Status:** Scope and owner runtime visual acceptance approved; merge/public production publication pending.
 - **Authority:** Manny replied “Approved.” to the player-only dust design after post-drift repository catch-up. PRD 23.6 supplies the speed/slip/surface-driven instanced dust requirement; no material PRD change is introduced.
 - **Decision:** Cache actual normalized approved GLB wheel centers before static mesh batching; use four read-only ground rays and shared Circuit Alpha surface projection. One camera-facing world-space pool with normal alpha blending, a procedural 32×32 radial-alpha map, and quality caps 32/64/96. Emission requires grounded dirt/grass motion above 1.2m/s; rate depends on speed and lateral slip. Pause/hidden freeze, old trails fade after emission stops, recovery/finish/disposal clear. Dispose mesh instance buffers plus owned texture/geometry/material. Use independent visual RNG.
 - **Preserved boundaries:** Existing accepted drift caps/effects, physics/surface penalties, boosts, controls, cameras, UI/HUD/Results, audio, roster/art/assets, settings persistence and next-race quality application remain unchanged. AI effects, speed/FOV, bloom/blur and later slices remain outside this scope. No claim that these local caps close global particle or full-race performance gates.
-- **Evidence/gates:** `docs/evidence/2026-09-30-wheel-dust/` records focused/full validation, observed red/green and review resolution, canonical branch/CI and private preview. Owner new-effect review and separate merge/publication approval remain required. Existing Task 10/11 and audio/manual acceptance are not reopened.
+- **Evidence/gates:** `docs/evidence/2026-09-30-wheel-dust/` records focused/full validation, observed red/green and review resolution, canonical branch/CI and private preview. Owner new-effect review passed with “Approved.” on 2026-09-30 for private version 4. Separate merge/publication approval remains required. Existing Task 10/11 and audio/manual acceptance are not reopened.

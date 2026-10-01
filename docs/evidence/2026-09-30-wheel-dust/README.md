@@ -37,3 +37,7 @@ Review branch/PR and sole-owner private preview are authorized by the approved s
 ## Published review checkpoint
 
 PR [#215](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/215) is open. Runtime source `1cfda76e2585d1a8df02122e39727195abae85ee` has the same tree as the final locally validated source; hosted CI [36800757799](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36800757799) passed. The sole-owner private review site deployed version 4 successfully. `provenance.json` pins the source/tree, root-base index and bundle hashes, preview source commit, saved version, deployment and archive hash. This subsequent evidence-only checkpoint does not change runtime. Main remained `fa87711c81590c3ebf19b195daa02602db677e3f`. Owner dust visual acceptance and merge/publication approval remain pending.
+
+## Owner visual acceptance — 2026-09-30 (America/Chicago)
+
+Manny replied **“Approved.”** to the version 4 wheel-dust review checkpoint. This closes the bounded player dust visual acceptance gate for runtime `1cfda76e2585d1a8df02122e39727195abae85ee` (runtime-identical PR head `dee5a9682c1fd71a3200d691d638fbd194bef4a3`; final CI `36801027238` passed). Earlier pending visual-review statements are historical. Existing acceptance remains passed. No additional device, camera, per-scenario or hardware measurement is inferred from this approval. Separate merge/public production publication approval is still pending under the post-drift handoff; PR #215 remains open and public production is unchanged.

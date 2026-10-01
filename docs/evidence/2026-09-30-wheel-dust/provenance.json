@@ -30,7 +30,7 @@
   },
   "acceptance": {
     "scope": "approved",
-    "ownerDustVisual": "pending",
+    "ownerDustVisual": "passed by product-owner review",
     "mergePublication": "pending",
     "priorAcceptance": "preserved",
     "hardwarePerformance": "not claimed"
@@ -49,5 +49,17 @@
       "assets/index-B7Jt5ma7.css": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
       "assets/index-BZX8yjpd.js": "649fa011ca0e368ec5d8e57ba5a300b67d8ed09907be753d0c32fd6f178e936d"
     }
+  },
+  "ownerApproval": {
+    "quote": "Approved.",
+    "date": "2026-09-30",
+    "timezone": "America/Chicago",
+    "privateVersion": 4,
+    "reviewedPRHead": "dee5a9682c1fd71a3200d691d638fbd194bef4a3",
+    "reviewedPRHeadCI": {
+      "id": 36801027238,
+      "conclusion": "success"
+    },
+    "scope": "Player off-road wheel dust visual acceptance; merge/public production publication remains separately gated"
   }
 }

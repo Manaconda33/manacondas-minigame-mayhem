@@ -49,6 +49,7 @@ export class PlayerSpeedVisual {
       }),
       capacity,
     );
+    this.mesh.material.userData.bloomBlackAdapter = true;
     this.mesh.name = 'speed-line-pool';
     this.mesh.count = 0;
     this.mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);

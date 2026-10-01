@@ -1,3 +1,4 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import { itemImpactCue } from '../../audio/itemSoundCues';
 import * as THREE from 'three';
 import { Howler } from 'howler';
@@ -299,14 +300,14 @@ export class ProjectileSystem {
     const spinner = new THREE.Group();
     const core = new THREE.Mesh(
       new THREE.CircleGeometry(request.config.radiusMeters * 0.7, 20),
-      new THREE.MeshBasicMaterial({
+      markBloomMaterial(new THREE.MeshBasicMaterial({
         color: 0xa7f3ff,
         transparent: true,
         opacity: 0.9,
         side: THREE.DoubleSide,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
-      }),
+      }), 'color'),
     );
     const ring = new THREE.Mesh(
       new THREE.TorusGeometry(
@@ -315,13 +316,13 @@ export class ProjectileSystem {
         7,
         24,
       ),
-      new THREE.MeshBasicMaterial({
+      markBloomMaterial(new THREE.MeshBasicMaterial({
         color: 0x48d8ff,
         transparent: true,
         opacity: 0.95,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
-      }),
+      }), 'color'),
     );
     spinner.add(core, ring);
     if (request.itemId === 'seeker-drone') {
@@ -355,18 +356,18 @@ export class ProjectileSystem {
       ring.scale.set(1.1, 1.1, 1.1);
       const glow = new THREE.Mesh(
         new THREE.SphereGeometry(request.config.radiusMeters * 1.05, 14, 10),
-        new THREE.MeshBasicMaterial({
+        markBloomMaterial(new THREE.MeshBasicMaterial({
           color: 0xff861c,
           transparent: true,
           opacity: 0.48,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
-        }),
+        }), 'color'),
       );
       glow.name = 'blaze-orb-glow';
       const hotCore = new THREE.Mesh(
         new THREE.SphereGeometry(request.config.radiusMeters * 0.68, 14, 10),
-        new THREE.MeshBasicMaterial({ color: 0xffe4a1 }),
+        markBloomMaterial(new THREE.MeshBasicMaterial({ color: 0xffe4a1 }), 'color'),
       );
       hotCore.name = 'blaze-orb-hot-core';
       const trail = new THREE.Group();
@@ -1071,7 +1072,7 @@ export class ProjectileSystem {
         frost
           ? new THREE.OctahedronGeometry(0.06)
           : new THREE.SphereGeometry(0.045 + (index % 2) * 0.012, 6, 4),
-        new THREE.MeshBasicMaterial({
+        markBloomMaterial(new THREE.MeshBasicMaterial({
           color: frost
             ? index % 2 === 0
               ? 0xffffff
@@ -1083,7 +1084,7 @@ export class ProjectileSystem {
           opacity: 0.85,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
-        }),
+        }), 'color'),
       );
       spark.position.set(Math.cos(angle) * 0.28, (index % 3) * 0.05, Math.sin(angle) * 0.28);
       group.add(spark);

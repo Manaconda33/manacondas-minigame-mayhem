@@ -1,3 +1,4 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import { CircuitAlpha } from './CircuitAlpha';
 import { createGuardrailVisual } from './GuardrailSystem';
@@ -118,6 +119,7 @@ function createSky(): THREE.Mesh {
         }`,
     }),
   );
+  sky.material.userData.bloomBlackAdapter = true;
   sky.name = 'dusk-sky';
   return sky;
 }
@@ -579,6 +581,7 @@ function createBoostPad(track: CircuitAlpha, progress: number): THREE.Group {
     roughness: 0.28,
     metalness: 0.15,
   });
+  markBloomMaterial(chevronMaterial, 'emissive');
   for (const x of [-3.1, -1.55, 0, 1.55, 3.1]) {
     const bar = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.06, 2.45), chevronMaterial);
     bar.position.set(x, 0.09, 0);

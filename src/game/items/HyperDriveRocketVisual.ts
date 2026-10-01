@@ -1,3 +1,4 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import type { HyperDriveRocketSnapshot } from './HyperDriveRocket';
 
@@ -50,12 +51,12 @@ export class HyperDriveRocketVisual {
 
     for (const x of [-0.33, 0.33]) {
       const outerGeometry = new THREE.ConeGeometry(0.2, 1.3, 10);
-      const outerMaterial = additiveMaterial(0x4fe1ff, 0.9);
+      const outerMaterial = markBloomMaterial(additiveMaterial(0x4fe1ff, 0.9), 'color');
       const outer = new THREE.Mesh(outerGeometry, outerMaterial);
       outer.rotation.x = Math.PI / 2;
       outer.position.set(x, 0.1, -1.05);
       const coreGeometry = new THREE.ConeGeometry(0.09, 0.9, 8);
-      const coreMaterial = additiveMaterial(0xfff0a3, 0.98);
+      const coreMaterial = markBloomMaterial(additiveMaterial(0xfff0a3, 0.98), 'color');
       const core = new THREE.Mesh(coreGeometry, coreMaterial);
       core.rotation.x = Math.PI / 2;
       core.position.set(x, 0.1, -0.98);
@@ -66,7 +67,7 @@ export class HyperDriveRocketVisual {
     }
 
     const ringGeometry = new THREE.TorusGeometry(0.88, 0.05, 7, 36);
-    const ringMaterial = additiveMaterial(0xa9f5ff, 0.68);
+    const ringMaterial = markBloomMaterial(additiveMaterial(0xa9f5ff, 0.68), 'color');
     this.ring = new THREE.Mesh(ringGeometry, ringMaterial);
     this.ring.position.set(0, 0.13, 0.1);
     this.geometries.push(ringGeometry);

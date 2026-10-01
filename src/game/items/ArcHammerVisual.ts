@@ -1,14 +1,15 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 
 function energyMaterial(color: number, opacity = 1): THREE.MeshBasicMaterial {
-  return new THREE.MeshBasicMaterial({
+  return markBloomMaterial(new THREE.MeshBasicMaterial({
     color,
     transparent: true,
     opacity,
     side: THREE.DoubleSide,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
-  });
+  }), 'color');
 }
 
 function disposeObject(object: THREE.Object3D): void {

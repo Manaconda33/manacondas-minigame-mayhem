@@ -1,3 +1,4 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import { SHOCKWAVE_CONFIG as C } from './itemDefinitions';
 import type { SlickSurface } from './SlickGroundSurface';
@@ -201,14 +202,14 @@ export class ShockwaveSystem {
   private createVisual(ownerId: string, center: THREE.Vector3): ShockwaveVisual {
     const mesh = new THREE.Mesh(
       new THREE.RingGeometry(0.72, VISUAL_BASE_RADIUS, 48),
-      new THREE.MeshBasicMaterial({
+      markBloomMaterial(new THREE.MeshBasicMaterial({
         color: 0x9cecff,
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 0.82,
         depthWrite: false,
         blending: THREE.NormalBlending,
-      }),
+      }), 'color'),
     );
     mesh.name = `shockwave-pulse-${String(this.visualSerial++)}`;
     this.positionVisual(mesh, center);

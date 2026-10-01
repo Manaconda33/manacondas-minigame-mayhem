@@ -1851,7 +1851,7 @@ Fallback is allowed for character portraits, driver sprites, individual kart mod
 webglcontextlost  
 webglcontextrestored
 
-If restoration succeeds, rebuild resources. Otherwise offer a clean reload.
+Owner scope update — 2026-10-01 (America/Chicago): Manny explicitly removed application-owned context-loss recovery from the remaining project work and release gates after hundreds of mobile/desktop runs without an observed incident. The earlier rebuild/clean-reload requirement is waived; do not schedule it as pending work. This records scope, not implemented or tested recovery.
 
 ## 29.4 Race Restart
 

@@ -1,3 +1,4 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import { graphicsQualityProfile, type GraphicsQuality } from '../../config/graphicsQuality';
 import type { DriftTier, KartFeedback } from '../physics/KartController';
@@ -61,13 +62,13 @@ export class DriftVisual {
     }));
     this.mesh = new THREE.InstancedMesh(
       new THREE.ConeGeometry(1, 1, 4, 1),
-      new THREE.MeshBasicMaterial({
+      markBloomMaterial(new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0.9,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
         toneMapped: false,
-      }),
+      }), 'color'),
       capacity,
     );
     this.mesh.name = 'drift-spark-pool';

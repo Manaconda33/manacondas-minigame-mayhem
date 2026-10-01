@@ -1,3 +1,5 @@
+import { bloomDisabledFromSearch, markBloomMaterial } from './rendering/bloomEligibility';
+import { RaceBloom } from './rendering/RaceBloom';
 import { ExhaustVisual, type ExhaustEmitter } from './vfx/ExhaustVisual';
 import { AiDrivingVisual } from './vfx/AiDrivingVisual';
 import { DriftVisual } from './vfx/DriftVisual';
@@ -227,6 +229,7 @@ export class KartTimeTrial {
   private readonly raceAudio = new RaceSfx();
   private audioApexPhase = '';
   private readonly renderer: THREE.WebGLRenderer;
+  private readonly bloom: RaceBloom;
   private readonly scene = new THREE.Scene();
   private readonly camera: THREE.PerspectiveCamera;
   private readonly track = new CircuitAlpha();
@@ -397,6 +400,7 @@ export class KartTimeTrial {
     game.renderer.compile(game.wheelDust.group, game.camera, game.scene);
     if (game.aiDrivingVisual !== undefined)
       game.renderer.compile(game.aiDrivingVisual.group, game.camera, game.scene);
+    game.bloom.warmup(game.scene, game.camera);
     return game;
   }
 
@@ -417,6 +421,7 @@ export class KartTimeTrial {
     this.exhaustVisual = new ExhaustVisual(options.graphicsQuality);
     this.scene.add(this.exhaustVisual.group);
     this.renderer = new THREE.WebGLRenderer({ canvas: options.canvas, antialias: true });
+    this.bloom = new RaceBloom(this.renderer, options.graphicsQuality, bloomDisabledFromSearch(window.location.search));
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, graphics.pixelRatioCap));
     this.renderer.shadowMap.enabled = graphics.shadows;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -493,6 +498,7 @@ export class KartTimeTrial {
     return (
       this.racePerformance?.exportCapture({
         ...metadata,
+        bloom: this.bloom.snapshot(),
         quality: this.options.graphicsQuality,
         racerCount: this.opponents.length + 1,
         nominalViewport: { ...this.captureViewport },
@@ -557,6 +563,7 @@ export class KartTimeTrial {
     this.nitroOverdriveVisual.dispose();
     this.hyperDriveRocketVisual.dispose();
     disposeTrackScene(this.trackScene);
+    this.bloom.dispose();
     this.renderer.dispose();
   }
 
@@ -615,7 +622,7 @@ export class KartTimeTrial {
 
     this.updateVisuals(frameSeconds);
     this.itemPerformance?.endFrame();
-    this.renderer.render(this.scene, this.camera);
+    this.bloom.render(this.scene, this.camera);
     if (this.racePerformance !== null) {
       const phase = this.raceDirector.phase(this.playerProgress.finished);
       const eligible = phase === 'racing' && !this.paused && !document.hidden;
@@ -2253,7 +2260,7 @@ export class KartTimeTrial {
     for (const x of [-0.72, 0.72]) {
       const spark = new THREE.Mesh(
         new THREE.SphereGeometry(0.16, 8, 6),
-        new THREE.MeshBasicMaterial({ color: 0x38bdf8 }),
+        markBloomMaterial(new THREE.MeshBasicMaterial({ color: 0x38bdf8 }), 'color'),
       );
       spark.position.set(x, -0.08, -1.15);
       spark.visible = false;
@@ -2528,5 +2535,7 @@ export class KartTimeTrial {
     this.camera.aspect = width / Math.max(height, 1);
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height, false);
+    const buffer = this.renderer.getDrawingBufferSize(new THREE.Vector2());
+    this.bloom.resize(buffer.x, buffer.y);
   };
 }

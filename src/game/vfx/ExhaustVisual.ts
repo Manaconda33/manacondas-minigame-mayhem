@@ -1,3 +1,4 @@
+import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import { graphicsQualityProfile, type GraphicsQuality } from '../../config/graphicsQuality';
 
@@ -45,13 +46,13 @@ export class ExhaustVisual {
     geometry.translate(0, 0, -0.5);
     this.mesh = new THREE.InstancedMesh(
       geometry,
-      new THREE.MeshBasicMaterial({
+      markBloomMaterial(new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0.55,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
         toneMapped: false,
-      }),
+      }), 'color'),
       capacity,
     );
     this.mesh.name = 'exhaust-flare-pool';

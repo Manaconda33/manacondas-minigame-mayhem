@@ -1,6 +1,6 @@
 # Selective bloom review — 2026-10-01
 
-Status: REVIEW READY; implementation/local verification, runtime hosted CI and owner-private preview publication passed. Owner new-bloom visual acceptance and separate public merge/publication remain pending. Public main is unchanged.
+Status: LIVE ACCEPTED. Owner new-bloom visual acceptance and explicit merge/publication approval passed. PR #224 merged at `e4defab83b19fcd7a94d27b8ddb361e3b34fadc5`; post-merge CI/Pages `36896865717` passed.
 
 Manny approved the selective bloom direction, written design and implementation plan with Native execution. He explicitly removed context-loss recovery from remaining implementation/release gates. PRD 29.3 and ADR-100 record that waiver; it is not a recovery test pass. No motion blur, Archer work or next slice.
 
@@ -8,7 +8,7 @@ The original race scene renders directly to screen. Explicitly marked drift/exha
 
 `validation.txt` retains final 95-file/743-test full validation, coverage, strict typecheck, zero-warning lint, exact approved asset checks and production build. LFS fsck/diff checks passed. Existing bundle-size/npm-environment warnings remain. `review.md` records both Important review fixes and observed regressions.
 
-Rendered automation limitation: no installed Chromium executable was found. The managed private static-preview workflow has no compatible development server and requires a control-browser skill unavailable in this session. No new GPU pixel/occlusion, owner perceptual or identified-device performance pass is claimed. New bloom visual review is pending; prior Task10/11, audio, drift/dust/speed/exhaust reviews remain closed.
+Rendered automation limitation: no installed Chromium executable was found. The managed private static-preview workflow has no compatible development server and requires a control-browser skill unavailable in this session. No new automated GPU pixel/occlusion or identified-device performance pass is claimed. Owner perceptual review is PASSED; prior Task10/11, audio, drift/dust/speed/exhaust reviews remain closed.
 
 Owner preview: Medium/High should show narrow colored halos around the selected energy, with crisp cores and readable road/driver/HUD in chase/rear and portrait/landscape. Low retains the accepted appearance. Confirm glow disappears with hidden/expired effects and respects solid occlusion. For attributable same-device comparisons use `?testRacePerf=1` and `?testRacePerf=1&testBloom=off`; the comparison switch is diagnostics-only and never persists settings. Export captures if available. One extra mask scene draw set plus three fullscreen draws adds real cost; no full PRD budget/frame-rate pass is inferred.
 
@@ -20,4 +20,13 @@ Draft PR [#224](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/2
 
 Owner-private gameplay preview: https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site. Version9 source `330230323736d8368787b09dfeb1636a87335623`, saved version `appgprj_6abd8e96a17081919b0934998de64bf8~appgver_ddcba90e53d08191bc1635ed4ef10206`, deployment `appgdep_6abe8c62556c8191b3ad0bfe2d4f1e72` succeeded. Packaged index/JS/CSS matched pinned root-base build SHA-256s. Native archive metadata and local compressed-archive hash are recorded separately; native stores a tar representation, so raw-archive-byte equality is not asserted. Source is a compiled review snapshot; GitHub remains canonical. Access remains sole-owner private. An expired source credential was renewed before the successful preview push; audience/protection was unchanged.
 
-`provenance.json` records source/build/version/deployment and approval boundaries. Owner new-bloom visual review and separate public merge/publication remain pending. Public main remains `4fe73c58e4c51201f917658e705fca8b2b3db8ec`. This final review-record change is documentation-only, with runtime/assets identical to private version9.
+`provenance.json` records source/build/version/deployment and approval boundaries. Manny subsequently approved private version 9 and explicitly authorized merge/publication. PR #224 merged at `e4defab83b19fcd7a94d27b8ddb361e3b34fadc5`; post-merge CI/Pages `36896865717` passed. The accepted runtime/assets remain the version 9-reviewed implementation.
+
+
+## Production publication
+
+Manny's owner visual review passed and he explicitly authorized merge/publication with “Approved for merge/publication.” PR #224 was marked ready without changing its approved head, then squash-merged to `e4defab83b19fcd7a94d27b8ddb361e3b34fadc5`. GitHub Actions run [36896865717](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36896865717) completed successfully: validate job `110485924179` passed all repository checks and deploy job `110487025858` published GitHub Pages successfully.
+
+The current session attempted an independent refetch of the public Pages endpoint, but its external network path could not resolve `manaconda33.github.io`; therefore this record does **not** claim a fresh HTTP status or public-byte/hash comparison. That limitation does not change the successful GitHub Pages deployment result. Owner visual acceptance, the reviewed version 9 runtime, and GitHub-hosted CI/deployment are the release evidence.
+
+Selective bloom is LIVE ACCEPTED. Context-loss recovery remains explicitly waived rather than tested. No identified-device/global-performance certification, motion blur, Archer work, broader Slice 6 closure or next-slice authority is inferred.

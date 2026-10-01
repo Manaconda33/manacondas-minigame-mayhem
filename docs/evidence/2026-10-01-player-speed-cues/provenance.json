@@ -45,9 +45,36 @@
   },
   "acceptance": {
     "scope": "approved",
-    "ownerSpeedVisual": "pending",
-    "mergePublication": "pending",
+    "ownerSpeedVisual": "passed by product-owner review",
+    "mergePublication": "approved and published",
     "priorAcceptance": "preserved",
     "renderedDevicePerformance": "not claimed"
+  },
+  "ownerApproval": {
+    "quote": "Approved for merge / publish.",
+    "date": "2026-10-01",
+    "timezone": "America/Chicago",
+    "privateVersion": 6,
+    "reviewedPRHead": "afa2d4439680192628bb0cacc8edc9c812ae4133",
+    "reviewedPRHeadCI": 36870557916,
+    "scope": "Player speed cues visual acceptance and explicit merge/publication approval"
+  },
+  "release": {
+    "pullRequest": 219,
+    "mergeCommit": "845f68fc173a147d54ecdf74395e65bda328fc4e",
+    "acceptedFinalPRCI": 36870557916,
+    "postMergeCI": 36871486372,
+    "ciConclusion": "success",
+    "production": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+    "deliveryEvidence": "production-delivery.json",
+    "runtimeMatchesAcceptedPreviewSource": true,
+    "pagesAttempts": {
+      "first": "transient queued deployment failure",
+      "retry": 2,
+      "retryConclusion": "success",
+      "validateJob": 110401766977,
+      "deployJob": 110401719491,
+      "firstFailureLog": "pages-attempt-1.txt"
+    }
   }
 }

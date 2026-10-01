@@ -1,0 +1,45 @@
+{
+  "releaseCommit": "845f68fc173a147d54ecdf74395e65bda328fc4e",
+  "ciRun": 36871486372,
+  "checkedAt": "2026-10-01T13:56:06.670105+00:00",
+  "base": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+  "files": [
+    {
+      "path": "index.html",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/index.html?release=845f68fc173a147d54ecdf74395e65bda328fc4e",
+      "status": 200,
+      "bytes": 719,
+      "sha256": "57b28b6ef6e8df68b7e73bea940789c7bf852842ab7f5f31dfc979b0dd037653",
+      "expectedSha256": "57b28b6ef6e8df68b7e73bea940789c7bf852842ab7f5f31dfc979b0dd037653",
+      "match": true
+    },
+    {
+      "path": "assets/index-CPOHjbKK.js",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/index-CPOHjbKK.js?release=845f68fc173a147d54ecdf74395e65bda328fc4e",
+      "status": 200,
+      "bytes": 797568,
+      "sha256": "3e93434b9c96a71d76ff50f92b8e1681f6896fa7b15c473c08cd7aa7b66d7ea8",
+      "expectedSha256": "3e93434b9c96a71d76ff50f92b8e1681f6896fa7b15c473c08cd7aa7b66d7ea8",
+      "match": true
+    },
+    {
+      "path": "assets/KartTimeTrial-w5cgC0xW.js",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/KartTimeTrial-w5cgC0xW.js?release=845f68fc173a147d54ecdf74395e65bda328fc4e",
+      "status": 200,
+      "bytes": 3100952,
+      "sha256": "b166d61c0b3e22f8a0169a70c12b87aad390f7724247a2dcdcd5dc32cdb86ca9",
+      "expectedSha256": "b166d61c0b3e22f8a0169a70c12b87aad390f7724247a2dcdcd5dc32cdb86ca9",
+      "match": true
+    },
+    {
+      "path": "assets/index-B7Jt5ma7.css",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/index-B7Jt5ma7.css?release=845f68fc173a147d54ecdf74395e65bda328fc4e",
+      "status": 200,
+      "bytes": 84735,
+      "sha256": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
+      "expectedSha256": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
+      "match": true
+    }
+  ],
+  "allMatch": true
+}

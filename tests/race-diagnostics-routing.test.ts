@@ -1,3 +1,4 @@
+import { requireValue } from './requireValue';
 import type { KartFeedback } from '../src/game/physics/KartController';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
@@ -9,6 +10,8 @@ const harness = vi.hoisted(() => ({
   raf: null as FrameRequestCallback | null,
   reads: [] as string[],
   compiledDrift: false,
+  compiledDust: false,
+  modeledDustWheels: false,
   loadedKarts: false,
   animatedKarts: false,
   deferAi: false,
@@ -24,8 +27,13 @@ vi.mock('three', async (importOriginal) => {
       shadowMap = { enabled: false, type: 0 };
       compile(group: THREE.Object3D) {
         const mesh = group.getObjectByName('drift-spark-pool') as THREE.InstancedMesh | undefined;
-        harness.compiledDrift =
+        harness.compiledDrift ||=
           mesh !== undefined && mesh.instanceColor !== null && mesh.count === 0;
+        const dust = group.getObjectByName('wheel-dust-pool') as THREE.InstancedMesh | undefined;
+        harness.compiledDust ||=
+          dust?.count === 0 &&
+          dust.instanceColor !== null &&
+          dust.geometry.hasAttribute('dustOpacity');
         return new Set();
       }
 
@@ -63,6 +71,24 @@ vi.mock('three/examples/jsm/loaders/GLTFLoader.js', async () => {
     GLTFLoader: class {
       loadAsync() {
         const scene = new actual.Group();
+        if (harness.modeledDustWheels) {
+          const parent = new actual.Group();
+          parent.position.set(0.3, 0, 0.4);
+          parent.rotation.y = Math.PI / 2;
+          const material = new actual.MeshStandardMaterial();
+          for (const [name, x, z] of [
+            ['Wheel_FL', -0.8, -1.1],
+            ['Wheel_FR', 0.8, -1.1],
+            ['Wheel_RL', -0.8, 1.1],
+            ['Wheel_RR', 0.8, 1.1],
+          ] as const) {
+            const wheel = new actual.Mesh(new actual.BoxGeometry(0.2, 0.2, 0.2), material);
+            wheel.name = name;
+            wheel.position.set(x, 0.4, z);
+            parent.add(wheel);
+          }
+          scene.add(parent);
+        }
         if (harness.loadedKarts) {
           const material = new actual.MeshStandardMaterial();
           for (let i = 0; i < 3; i += 1) {
@@ -163,6 +189,8 @@ async function setup(query = '?testRacePerf=1') {
 beforeEach(() => {
   harness.reads.length = 0;
   harness.compiledDrift = false;
+  harness.compiledDust = false;
+  harness.modeledDustWheels = false;
   harness.loadedKarts = false;
   harness.animatedKarts = false;
   harness.deferAi = false;
@@ -356,5 +384,103 @@ describe('drift visual runtime wiring', () => {
     });
     r.game.dispose();
     expect(released).toBe(2);
+  });
+});
+
+describe('player wheel dust runtime wiring', () => {
+  it('prewarms dust and samples real off-road contacts without altering player motion', async () => {
+    const r = await setup();
+    expect(harness.compiledDust).toBe(true);
+    const runtime = r.game as unknown as {
+      updateVisuals: (seconds: number) => void;
+      kart: import('../src/game/physics/KartController').KartController;
+      track: import('../src/game/track/CircuitAlpha').CircuitAlpha;
+      world: import('@dimforge/rapier3d-compat').World;
+      scene: THREE.Scene;
+      respawn: () => void;
+    };
+    vi.spyOn(runtime, 'updateVisuals').mockRestore();
+    const point = requireValue(runtime.track.samples[30]).clone();
+    const forward = requireValue(runtime.track.tangents[30]).clone();
+    point.addScaledVector(new THREE.Vector3(forward.z, 0, -forward.x), 8);
+    point.y = 0.34;
+    runtime.kart.respawn(point, Math.atan2(forward.x, forward.z));
+    runtime.kart.body.setTranslation(point, true);
+    runtime.kart.body.setLinvel(forward.multiplyScalar(16), true);
+    runtime.world.step();
+    const before = runtime.kart.body.linvel();
+    runtime.updateVisuals(0.1);
+    runtime.updateVisuals(0.1);
+    const dust = runtime.scene.getObjectByName('wheel-dust-pool') as THREE.InstancedMesh;
+    expect(dust.count).toBeGreaterThan(0);
+    expect(runtime.kart.body.linvel()).toEqual(before);
+    const matrix = dust.instanceMatrix.array.slice();
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    runtime.updateVisuals(0.1);
+    expect(dust.instanceMatrix.array).toEqual(matrix);
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+    runtime.updateVisuals(0.1);
+    expect(dust.instanceMatrix.array).toEqual(matrix);
+    Object.defineProperty(document, 'hidden', { configurable: true, value: false });
+    runtime.respawn();
+    expect(dust.count).toBe(0);
+    runtime.kart.body.setTranslation(point, true);
+    runtime.kart.body.setLinvel(before, true);
+    runtime.world.step();
+    runtime.updateVisuals(0.1);
+    runtime.updateVisuals(0.1);
+    expect(dust.count).toBeGreaterThan(0);
+    r.phase('finished');
+    runtime.updateVisuals(0.1);
+    expect(dust.count).toBe(0);
+    let released = 0;
+    dust.geometry.addEventListener('dispose', () => {
+      released++;
+    });
+    (dust.material as THREE.MeshBasicMaterial).addEventListener('dispose', () => {
+      released++;
+    });
+    r.game.dispose();
+    expect(released).toBe(2);
+  });
+});
+
+it('keeps normalized modeled wheel emission positions after static batching removes wheel meshes', async () => {
+  harness.modeledDustWheels = true;
+  const r = await setup();
+  const runtime = r.game as unknown as {
+    updateVisuals: (seconds: number) => void;
+    kart: import('../src/game/physics/KartController').KartController;
+    world: import('@dimforge/rapier3d-compat').World;
+    scene: THREE.Scene;
+  };
+  vi.spyOn(runtime, 'updateVisuals').mockRestore();
+  runtime.kart.respawn(new THREE.Vector3(), 0);
+  runtime.kart.body.setTranslation({ x: 0, y: 0.34, z: 0 }, true);
+  runtime.kart.body.setLinvel({ x: 0, y: 0, z: 20 }, true);
+  runtime.world.step();
+  const origin = runtime.kart.position();
+  runtime.updateVisuals(0.1);
+  const dust = runtime.scene.getObjectByName('wheel-dust-pool') as THREE.InstancedMesh;
+  expect(runtime.scene.getObjectByName('Wheel_FL')).toBeUndefined();
+  expect(dust.count).toBe(4);
+  // Parent yaw PI/2, translation (0.3,0,0.4), model yaw PI; 2.9m / 2.4m scale.
+  const expected = [
+    [0.966667, -1.45],
+    [0.966667, 0.483333],
+    [-1.691667, -1.45],
+    [-1.691667, 0.483333],
+  ];
+  const transform = new THREE.Matrix4();
+  expected.forEach(([x, z], index) => {
+    dust.getMatrixAt(index, transform);
+    expect(
+      Math.abs(requireValue(transform.elements[12]) - origin.x - requireValue(x)),
+    ).toBeLessThan(0.041);
+    expect(
+      Math.abs(requireValue(transform.elements[14]) - origin.z - requireValue(z)),
+    ).toBeLessThan(0.041);
+    expect(transform.elements[13]).toBeCloseTo(0.08, 4);
   });
 });

@@ -1,4 +1,5 @@
 import { DriftVisual } from './vfx/DriftVisual';
+import { WheelDustVisual, type DustWheelContact } from './vfx/WheelDustVisual';
 import { batchStaticKartMeshes } from './rendering/batchStaticKartMeshes';
 import type { RaceMusicState } from '../audio/musicCatalog';
 import { RaceSfx } from '../audio/RaceSfx';
@@ -237,6 +238,19 @@ export class KartTimeTrial {
   private readonly kartMesh = new THREE.Group();
   private readonly driftLights: THREE.Mesh[] = [];
   private readonly driftVisual: DriftVisual;
+  private readonly wheelDust: WheelDustVisual;
+  private readonly dustVelocity = new THREE.Vector3();
+  private readonly dustWheelAnchors = [
+    new THREE.Vector3(-1.05, 0, 0.98),
+    new THREE.Vector3(1.05, 0, 0.98),
+    new THREE.Vector3(-1.05, 0, -0.98),
+    new THREE.Vector3(1.05, 0, -0.98),
+  ];
+  private readonly dustContacts: DustWheelContact[] = this.dustWheelAnchors.map(() => ({
+    position: new THREE.Vector3(),
+    surface: 'asphalt',
+    grounded: false,
+  }));
   private readonly kartBatchReleases: (() => void)[] = [];
   private readonly kart: KartController;
   private readonly opponents: AiRacer[] = [];
@@ -363,6 +377,7 @@ export class KartTimeTrial {
     const game = new KartTimeTrial(options);
     await game.createKartVisual();
     game.renderer.compile(game.driftVisual.group, game.camera, game.scene);
+    game.renderer.compile(game.wheelDust.group, game.camera, game.scene);
     return game;
   }
 
@@ -376,6 +391,8 @@ export class KartTimeTrial {
     const graphics = graphicsQualityProfile(options.graphicsQuality);
     this.driftVisual = new DriftVisual(options.graphicsQuality);
     this.scene.add(this.driftVisual.group);
+    this.wheelDust = new WheelDustVisual(options.graphicsQuality);
+    this.scene.add(this.wheelDust.group);
     this.renderer = new THREE.WebGLRenderer({ canvas: options.canvas, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, graphics.pixelRatioCap));
     this.renderer.shadowMap.enabled = graphics.shadows;
@@ -462,6 +479,7 @@ export class KartTimeTrial {
     for (const release of this.kartBatchReleases.splice(0)) release();
     this.racePerformance?.dispose();
     this.driftVisual.dispose();
+    this.wheelDust.dispose();
     this.racePerformance = null;
     this.raceAudioIfPresent()?.dispose();
     this.touchWheel = { held: false, steering: 0 };
@@ -1618,6 +1636,7 @@ export class KartTimeTrial {
 
   private respawn(): void {
     this.driftVisual.clear();
+    this.wheelDust.clear();
     this.raceAudioIfPresent()?.cue('recovery', undefined, 0.5);
     this.arcFixture.cancel(this.projectiles);
     this.arcHammerFixture.cancel(this.projectiles);
@@ -1706,6 +1725,41 @@ export class KartTimeTrial {
       this.paused || document.hidden ? 0 : dt,
       this.raceDirector.phase(this.playerProgress.finished) === 'racing' &&
         this.racerEffects.spinoutState('player') === null,
+    );
+    const dustDt = this.paused || document.hidden ? 0 : dt;
+    const dustEnabled = this.raceDirector.phase(this.playerProgress.finished) === 'racing';
+    if (dustDt > 0 && dustEnabled) {
+      for (let i = 0; i < this.dustContacts.length; i++) {
+        const contact = this.dustContacts[i];
+        const anchor = this.dustWheelAnchors[i];
+        if (contact === undefined || anchor === undefined) continue;
+        contact.position.copy(anchor).applyMatrix4(this.kartMesh.matrixWorld);
+        contact.position.y = position.y;
+        contact.grounded = false;
+        if (feedback.airborne) continue;
+        const ray = new RAPIER.Ray(contact.position, { x: 0, y: -1, z: 0 });
+        const hit = this.world.castRay(
+          ray,
+          0.65,
+          true,
+          RAPIER.QueryFilterFlags.EXCLUDE_DYNAMIC,
+          undefined,
+          undefined,
+          this.kart.body,
+        );
+        if (hit === null) continue;
+        contact.position.y -= hit.timeOfImpact;
+        contact.grounded = true;
+        contact.surface = this.track.project(contact.position).surface;
+      }
+    }
+    this.wheelDust.update(
+      this.dustContacts,
+      this.kart.velocity(this.dustVelocity),
+      forward,
+      this.camera.quaternion,
+      dustDt,
+      dustEnabled,
     );
     if (feedback.driftTier !== this.lastToneTier && feedback.driftTier !== 'none') {
       const context = (Howler as unknown as { ctx?: AudioContext | null }).ctx;
@@ -1937,6 +1991,13 @@ export class KartTimeTrial {
             object.receiveShadow = true;
           }
         });
+        // Read approved wheel centers before static batching retires their mesh nodes.
+        model.updateWorldMatrix(true, true);
+        for (const [index, name] of ['Wheel_FL', 'Wheel_FR', 'Wheel_RL', 'Wheel_RR'].entries()) {
+          const wheel = model.getObjectByName(name);
+          const anchor = this.dustWheelAnchors[index];
+          if (wheel !== undefined && anchor !== undefined) wheel.getWorldPosition(anchor);
+        }
         if (gltf.animations.length === 0) this.kartBatchReleases.push(batchStaticKartMeshes(model));
         this.kartMesh.add(model);
         this.addDriverSprite(model);

@@ -1,3 +1,4 @@
+import { WheelDustVisual } from '../src/game/vfx/WheelDustVisual';
 import { DriftVisual } from '../src/game/vfx/DriftVisual';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import RAPIER from '@dimforge/rapier3d-compat';
@@ -100,6 +101,7 @@ function hammerRuntimeRig(index = 24, elevation = 0.72) {
   const apex = new ApexMissileSystem(track, projectiles);
   const fields = {
     driftVisual: new DriftVisual('medium'),
+    wheelDust: new WheelDustVisual('medium'),
     track,
     kart,
     opponents: [{ id: 'rival', controller: rival, progress: rivalProgress, driverHitSeconds: 0 }],
@@ -181,6 +183,7 @@ function hammerRuntimeRig(index = 24, elevation = 0.72) {
       slickGround.dispose();
       trackScene.clear();
       fields.driftVisual.dispose();
+      fields.wheelDust.dispose();
       world.free();
     },
   };

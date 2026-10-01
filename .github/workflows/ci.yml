@@ -68,7 +68,23 @@ jobs:
           npm ci
           npm run build -- --base /manacondas-minigame-mayhem/previews/race-hud-results/
 
-      - name: Assemble the current game and isolated preview
+      - name: Check out pinned Archer review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v4
+        with:
+          ref: 62583845461098caee5fec3e1334502da671de1d
+          path: archer-preview
+          lfs: true
+
+      - name: Verify and build Archer review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: archer-preview
+        run: |
+          git lfs fsck
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/archer/
+
+      - name: Assemble the current game and isolated previews
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           test -f dist/index.html
@@ -79,6 +95,9 @@ jobs:
           cp -a feature-preview/dist/. site-root/previews/race-hud-results/
           test -f site-root/index.html
           test -f site-root/previews/race-hud-results/index.html
+          mkdir -p site-root/previews/archer
+          cp -a archer-preview/dist/. site-root/previews/archer/
+          test -f site-root/previews/archer/index.html
 
       - name: Configure GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

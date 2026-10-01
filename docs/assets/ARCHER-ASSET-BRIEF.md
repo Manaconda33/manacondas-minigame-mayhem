@@ -51,3 +51,8 @@ Local browser verification is blocked: agent-browser daemon socket bind returns 
 Manny explicitly approved “merging preview only approved. Provide the preview link so I can test.” Workflow-only PR #226 merged at `403d7bb1a8d7fc8002a06853557295fc33eabc39`. CI/Pages run `36899647137` passed validation and deployment. Preview: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/archer/. The preview pins tested runtime `62583845461098caee5fec3e1334502da671de1d`. HTTP 200 and exact SHA-256 matches were verified for preview HTML, both JS bundles, CSS, all fourteen runtime PNGs and all three named kart GLBs; evidence: `preview-delivery.json`.
 
 Root game retains twelve drivers and accepted bloom; no Archer roster production merge is authorized. Actual owner desktop/mobile page controls and chase/rear driver mounting review remain pending. Earlier preview-publication-approval-pending wording is historical.
+
+
+## Production release — 2026-10-01
+
+Archer / The Precision Shot is **LIVE ACCEPTED / DEPLOYED**. Manny approved the published pinned preview and explicitly authorized merge/publication. PR #223 merged at `89fb56e8e8f5f1d45efd45e5cc5fc32c83917f6e`; post-merge CI/Pages `36901993155` passed. Earlier checklist items describing geometry, runtime binding, mounted review, gameplay review or production activation as pending are superseded by this release disposition. Source-master authenticated LFS handoff remains deferred; all production runtime derivatives and GLBs are delivered.

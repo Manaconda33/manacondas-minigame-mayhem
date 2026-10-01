@@ -1,0 +1,53 @@
+{
+  "repository": "Manaconda33/manacondas-minigame-mayhem",
+  "branch": "review/slice6-player-wheel-dust",
+  "pullRequest": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/215",
+  "runtimeCommit": "1cfda76e2585d1a8df02122e39727195abae85ee",
+  "runtimeTree": "a59049ba0df29112d5e0e7db8fa10614888cb7fb",
+  "baseMain": "fa87711c81590c3ebf19b195daa02602db677e3f",
+  "ci": {
+    "id": 36800757799,
+    "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36800757799",
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "1cfda76e2585d1a8df02122e39727195abae85ee"
+  },
+  "privatePreview": {
+    "url": "https://manaconda-race-diagnostics-review.manaconda2433.chatgpt.site",
+    "projectId": "appgprj_6abd8e96a17081919b0934998de64bf8",
+    "versionId": "appgprj_6abd8e96a17081919b0934998de64bf8~appgver_bd5a1422593081919a7acd1196d50562",
+    "versionNumber": 4,
+    "sourceCommit": "47e3d2364382e8cf8d7376b4dd224d035d28eb5e",
+    "deploymentId": "appgdep_6abdb619a7308191987b2861d548478e",
+    "status": "succeeded",
+    "archive": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_00000000f70081f6ba3af092ae69e2c9",
+      "content_hash": "sha256:6f47173db123796c7c7fcd2c04edeca11ba6709a38e7045c368d33bad05d95ba",
+      "size_bytes": 175462400,
+      "file_count": 364
+    }
+  },
+  "acceptance": {
+    "scope": "approved",
+    "ownerDustVisual": "pending",
+    "mergePublication": "pending",
+    "priorAcceptance": "preserved",
+    "hardwarePerformance": "not claimed"
+  },
+  "build": {
+    "repository": "Manaconda33/manacondas-minigame-mayhem",
+    "sourceCommit": "1cfda76e2585d1a8df02122e39727195abae85ee",
+    "sourceTree": "a59049ba0df29112d5e0e7db8fa10614888cb7fb",
+    "pullRequest": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/215",
+    "validation": "88 files / 704 tests; typecheck, lint, asset gates, build, LFS checks and code review passed",
+    "scope": "Player-only off-road wheel dust; owner visual acceptance and merge/publication approval pending",
+    "limitations": "Existing acceptance preserved. No new hardware/full-race performance pass claimed. No bloom, blur or further slice.",
+    "sha256": {
+      "index.html": "8a7faba03b5e3cd6a12823e0db9cb3e1e8bb37b049512850f81e2065014fafa4",
+      "assets/KartTimeTrial-BBz9L1zd.js": "edd94a6d140cb0442fb316359b607430ffaeb490a6ca16bba82ea61598ba4725",
+      "assets/index-B7Jt5ma7.css": "83643d5d85a63ea42c65d3120b1886a66f7ff076caa8b6fb862a3bbfb2a886d2",
+      "assets/index-BZX8yjpd.js": "649fa011ca0e368ec5d8e57ba5a300b67d8ed09907be753d0c32fd6f178e936d"
+    }
+  }
+}

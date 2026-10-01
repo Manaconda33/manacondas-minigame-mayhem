@@ -896,7 +896,7 @@ Manny explicitly reported: **“Good stuff. Integrated listening approved. Ready
 
 ## ADR-096: Bounded player-only off-road wheel dust
 
-- **Date:** 2026-09-30.
+- **Date:** 2026-10-01.
 - **Status:** Scope approved; implementation/review checkpoint; owner runtime acceptance and production publication pending.
 - **Authority:** Manny replied “Approved.” to the player-only dust design after post-drift repository catch-up. PRD 23.6 supplies the speed/slip/surface-driven instanced dust requirement; no material PRD change is introduced.
 - **Decision:** Cache actual normalized approved GLB wheel centers before static mesh batching; use four read-only ground rays and shared Circuit Alpha surface projection. One camera-facing world-space pool with normal alpha blending, a procedural 32×32 radial-alpha map, and quality caps 32/64/96. Emission requires grounded dirt/grass motion above 1.2m/s; rate depends on speed and lateral slip. Pause/hidden freeze, old trails fade after emission stops, recovery/finish/disposal clear. Dispose mesh instance buffers plus owned texture/geometry/material. Use independent visual RNG.

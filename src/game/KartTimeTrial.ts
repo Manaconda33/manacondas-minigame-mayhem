@@ -1,6 +1,7 @@
 import { bloomDisabledFromSearch, markBloomMaterial } from './rendering/bloomEligibility';
 import { RaceBloom } from './rendering/RaceBloom';
 import { RaceMotionBlur } from './rendering/RaceMotionBlur';
+import { RaceShadows } from './rendering/RaceShadows';
 import { ExhaustVisual, type ExhaustEmitter } from './vfx/ExhaustVisual';
 import { AiDrivingVisual } from './vfx/AiDrivingVisual';
 import { DriftVisual } from './vfx/DriftVisual';
@@ -233,6 +234,8 @@ export class KartTimeTrial {
   private readonly renderer: THREE.WebGLRenderer;
   private readonly bloom: RaceBloom;
   private readonly motionBlur: RaceMotionBlur;
+  private readonly shadows: RaceShadows;
+  private readonly shadowAnchor = new THREE.Vector3();
   private motionBlurActive = false;
   private readonly scene = new THREE.Scene();
   private readonly camera: THREE.PerspectiveCamera;
@@ -472,15 +475,7 @@ export class KartTimeTrial {
       this.hyperDriveRocketVisual.group,
     );
     this.scene.add(new THREE.HemisphereLight(0xcbb7ff, 0x263822, 2.1));
-    const sun = new THREE.DirectionalLight(0xffe8c5, 2.4);
-    sun.position.set(-120, 180, -80);
-    sun.castShadow = graphics.shadows;
-    sun.shadow.mapSize.set(graphics.shadowMapSize, graphics.shadowMapSize);
-    sun.shadow.camera.left = -340;
-    sun.shadow.camera.right = 340;
-    sun.shadow.camera.top = 340;
-    sun.shadow.camera.bottom = -340;
-    this.scene.add(sun);
+    this.shadows = new RaceShadows(this.scene, options.graphicsQuality);
 
     this.world = new RAPIER.World({ x: 0, y: -18, z: 0 });
     this.world.timestep = 1 / 60;
@@ -584,6 +579,7 @@ export class KartTimeTrial {
     disposeTrackScene(this.trackScene);
     this.bloom.dispose();
     this.motionBlur.dispose();
+    this.shadows.dispose();
     this.renderer.dispose();
   }
 
@@ -641,6 +637,12 @@ export class KartTimeTrial {
     }
 
     this.updateVisuals(frameSeconds);
+    this.shadows.update(
+      this.kart.position(this.shadowAnchor),
+      this.kartMesh,
+      this.opponents.map((opponent) => opponent.mesh),
+      [...this.projectiles.group.children, ...this.apexPresentation.group.children],
+    );
     this.itemPerformance?.endFrame();
     this.bloom.render(this.scene, this.camera);
     const blurEligible =

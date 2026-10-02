@@ -1,0 +1,44 @@
+{
+  "baseline": "ca7921fe3869687fc6849e126cddc2ccb02dd737",
+  "scope": "Recreation of previously approved Circuit Alpha shadow polish; old local commits unavailable",
+  "authority": "Manny: I am now allowing you to recreate them. Existing review publication authorization retained; runtime remains unmerged pending visual and production gates.",
+  "policy": {
+    "mapSize": 2048,
+    "volumeWidth": 144,
+    "radiusMeters": 55,
+    "dynamicRootCap": 12,
+    "low": "off",
+    "bias": -0.001,
+    "normalBias": 0.2,
+    "stability": "light-space texel snapping",
+    "excluded": "sprites, hidden parts, transparent/additive effects and color-bloom energy cores"
+  },
+  "baselineTests": {
+    "files": 100,
+    "tests": 774
+  },
+  "review": "Independent review found energy-core exclusion gap; regression reproduced and fixed. Render-boundary and delayed-AI policy checks added.",
+  "browser": "No local rendered browser pass claimed: Chromium download returned invalid/truncated zip. Owner gameplay review pending.",
+  "limitations": [
+    "No new hardware-performance result",
+    "No numeric whole-race PRD acceptance",
+    "No production runtime merge approval",
+    "No camera-polish work",
+    "Context-loss recovery remains waived; final diagnostics deferred"
+  ],
+  "validation": {
+    "command": "npm run validate",
+    "result": "PASS",
+    "files": 101,
+    "tests": 780,
+    "statementCoverage": 89.37,
+    "branchCoverage": 80.75,
+    "typecheck": "PASS",
+    "lint": "PASS (zero warnings)",
+    "assetGates": "PASS",
+    "productionBuild": "PASS",
+    "focusedTests": 27,
+    "diff": "PASS",
+    "lfsFsck": "PASS"
+  }
+}

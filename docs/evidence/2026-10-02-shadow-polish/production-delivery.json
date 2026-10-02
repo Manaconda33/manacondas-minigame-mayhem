@@ -63,11 +63,17 @@
   ],
   "prdDeviation": "none",
   "limitations": [
-    "Independent public Pages HTTP/hash refetch was unavailable from the current execution environment; no second browser replay is claimed.",
+    "Independent machine HTTP/hash refetch of the public Pages host was unavailable from the execution environment; owner production-root gameplay replay passed.",
     "No fresh device-performance claim.",
     "Camera polish remains later.",
     "Final diagnostics remain deferred.",
     "Context-loss recovery remains waived."
   ],
-  "next": "Stop. Do not start further work."
+  "next": "Stop. Shadow-polish production release and owner production-root confirmation are closed; do not start further work without a new instruction.",
+  "ownerProductionReplay": {
+    "status": "pass",
+    "authority": "Manny: “production passes.”",
+    "date": "2026-10-02",
+    "scope": "post-deploy production-root gameplay confirmation"
+  }
 }

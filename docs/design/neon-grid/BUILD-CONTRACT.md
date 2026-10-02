@@ -1,8 +1,8 @@
 # Neon Grid — Stage 1 build contract for owner review
 
-**Status:** Refined geometric proposal; owner shape/token review pending. This is a design checkpoint, not playable or production acceptance.
+**Status:** Approved course and product contract; tokens omitted by Manny on 2026-10-02. This is a design checkpoint, not playable or production acceptance.
 
-**Shape correction, 2026-10-02:** Manny rejected the gentle switchbacks and supplied the original guide showing long crosswise alley straights and tight reversing bends. This revision restores that geometry; token rules remain proposed.
+**Shape correction, 2026-10-02:** Manny rejected the gentle switchbacks and supplied the original guide showing long crosswise alley straights and tight reversing bends. This revision restores that geometry; tokens are omitted.
 
 Manny approved native execution of the five-stage plan on 2026-10-02. This checkpoint prepares Task 1's review artifact before the shared track/runtime work. Read `NEON-GRID-SPEC.md`, `layout.svg`, and `layout.json` together. The supplied `track-layout.html` remains the original schematic; `layout.svg` is the refined dimensional course.
 
@@ -14,7 +14,7 @@ Use the reference images for city scale, luminous edge/sign language, dark refle
 
 ## Geometry authority
 
-- Exact proposed control points, sector boundaries, gate positions/tangents, pad centers, and token anchors are in `layout.json`; regenerate with `python build_layout.py` using Python 3, numpy and matplotlib.
+- Exact proposed control points, sector boundaries, gate positions/tangents, pad centers,  are in `layout.json`; regenerate with `python build_layout.py` using Python 3, numpy and matplotlib.
 - The script uses closed centripetal Catmull–Rom interpolation and 4,096 divisions for dense geometric measurement. It also reports a 200-division estimate comparable to Three.js's default arc-length cache. Runtime Three.js verification is still required.
 - Dense main length: **1,450.001 m**. 200-division estimate: **1,448.938 m**. Both satisfy 1,400–1,500 m.
 - Runtime topology remains 384 equally spaced samples, approximately **3.776 m** spacing. Scene/collider tessellation may be denser where narrow corners need it; topology count is not a cap on collision detail.
@@ -46,13 +46,11 @@ Geometry checks pass: ordered distinct gates; higher shortcut rejoin progress; n
 
 All eight shortcut combinations still physically cross gates 1→11→0. No projection or declared exit progress awards a checkpoint. A missed dive recovers on the shared landing approach before gate 9, retains only earned gates, and costs approximately 1.5 race seconds. Preserve paused timers and once-only recovery.
 
-## Boost pads and tokens
+## Boost pads
 
 Four proposed main-route pad centers: **0.035, 0.060, 0.085, 0.730**. Initial windows are center ±0.0075 and lateral distance ≤4.5 m. These replace the earlier oval's progress locations; align rendered pad footprint and physical boost zone in Task 3/4.
 
-**Proposed token rule for Manny's review:** five collectible markers per racer per lap, with race-local collection count only. No speed, stat, item probability, permanent currency, or unlock effect. Each racer has independent availability; another racer cannot steal the human's token. A marker may count once for that racer during a validated lap and returns only when the next lap begins; reverse crossing and respawn do not refresh it. Cap a completed three-lap race at 15; no post-finish pickups.
-
-Locations: main straight at 0.095; Billboard path midpoint; Tunnel path midpoint; pre-dive climb at 0.745; just after the finish crossing at 0.025. The last marker is also available on the opening lap, which gives each of the three laps the same five opportunities. There is no token on the dive landing. This rule fills the spec's undefined economy; current runtime token behavior has not been established and is not assumed.
+Manny directed “Let's omit the tokens.” No pickups, collection counter, token rewards or token audio are included. Original supplied references remain historical and may depict tokens.
 
 ## UI, music and balance
 
@@ -65,7 +63,7 @@ Locations: main straight at 0.095; Billboard path midpoint; Tunnel path midpoint
 
 ## Review gate and next action
 
-Review the refined course shape and proposed token rule. After acceptance, record the second-track PRD/decision amendment and testing scope, reconcile the branch onto current accepted main, then execute Task 2's shared track contract and Alpha regression checks. No further approval is needed for routine reversible engineering within the reviewed contract. The later visual/preview/production gates in the implementation plan remain in force.
+Course shape is approved and the token decision is resolved. Record the second-track PRD/decision amendment and testing scope, reconcile the branch onto current accepted main, then execute Task 2's shared track contract and Alpha regression checks. No further approval is needed for routine reversible engineering within the reviewed contract. The later visual/preview/production gates in the implementation plan remain in force.
 
 Evidence: `layout.json`, `layout.svg`, `build_layout.py`, and the geometry validation output. No gameplay, Rapier trajectory, device performance, or owner acceptance pass is claimed here.
 

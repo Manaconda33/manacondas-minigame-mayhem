@@ -162,15 +162,12 @@ sectors=[dict(id=1,name='Skyline Straight',start=0,end=progress_of_control(7),ha
          dict(id=2,name='The Undercity',start=progress_of_control(7),end=progress_of_control(20),halfWidth=4.5,color='#ff4fd8'),
          dict(id=3,name='Falls Run',start=progress_of_control(20),end=1,halfWidth=6,color='#ffc63f')]
 pads=[.035,.060,.085,.730]
-tokens=[dict(id='skyline-line',mainProgress=.095),dict(id='billboard',pathId='billboard-gap',pathProgress=.5),
-        dict(id='tunnel',pathId='service-tunnel',pathProgress=.5),
-        dict(id='pre-dive',mainProgress=.745),dict(id='finish-reward',mainProgress=.025)]
-data=dict(status='proposed design geometry; owner review pending',
+data=dict(status='approved course geometry; tokens omitted; runtime verification pending',
           mainLengthDense=round(total,3),mainLength200Divisions=round(float(length(points,200)),3),
           sampleCount=384,sampleSpacing=round(total/384,4),controlPoints=points.tolist(),
           checkpointIndices=[0]+[g['sampleIndex'] for g in gates[1:]],
           sectors=sectors,shortcuts=shortcuts,checkpoints=gates,clearance=clearance,
-          boostPadCenters=pads,tokens=tokens,
+          boostPadCenters=pads,
           validation=dict(lengthInRange=1400<total<1500,orderedDistinctGates=True,
                           noGateSkippedByShortcut=True,higherRejoinProgress=True,
                           unintendedMainCurveGateCrossings=extra_crossings,
@@ -205,22 +202,16 @@ for p in [0.05,0.32,0.65,0.91]:
     ax.annotate('',(b[0],b[2]),(a[0],a[2]),arrowprops=dict(arrowstyle='->',color='white',lw=1.3))
 for p in pads:
     pos=at(p);ax.scatter([pos[0]],[pos[2]],s=55,marker='s',color='#37e6ff',edgecolor='#071326',zorder=5)
-for token in tokens:
-    if 'mainProgress' in token:pos=at(token['mainProgress'])
-    else:
-        s=next(s for s in shortcuts if s['id']==token['pathId'])
-        pos=(np.array(s['points'][0])+np.array(s['points'][-1]))/2
-    ax.scatter([pos[0]],[pos[2]],s=60,marker='o',color='#ffe29c',edgecolor='#ad8223',zorder=6)
 for txt,p in [('SKYLINE\n14 m deck',.10),('UNDERCITY\n0 m street',.43),('FALLS RUN\nclimb to 14 m',.70)]:
     pos=at(p)
     ax.text(pos[0]-30,pos[2]-38 if p!=.43 else pos[2]+22,txt,color='#d2e3fa',fontsize=10,ha='center')
 ax.text(0,35,'NEON GRID\nCIRCUIT 02',color='#eaf4ff',ha='center',fontsize=22,fontweight='bold')
-ax.text(0,83,'1,450 m design curve\n12 common-road checkpoints\nDashed: shortcuts / squares: boost / circles: tokens',
+ax.text(0,83,'1,450 m design curve\n12 common-road checkpoints\nDashed: shortcuts / squares: boost',
         color='#abc3de',ha='center',fontsize=11,linespacing=1.5)
 ax.set_aspect('equal');ax.invert_yaxis();ax.set_xlabel('x / meters',color='#91a8c1');ax.set_ylabel('z / meters',color='#91a8c1')
 ax.tick_params(colors='#91a8c1');ax.grid(alpha=.12,color='#91a8c1')
 for spine in ax.spines.values():spine.set_color('#30445d')
-fig.suptitle('NEON GRID — REFINED COURSE SHAPE / STAGE 1 REVIEW',color='#dbeeff',fontsize=15,y=.97)
+fig.suptitle('NEON GRID — APPROVED COURSE SHAPE / TOKENS OMITTED',color='#dbeeff',fontsize=15,y=.97)
 fig.text(.5,.025,'Geometric design only. Road width is exaggerated in this drawing. Driving, colliders, lap gates and jump feasibility remain untested.',
          ha='center',color='#91a8c1',fontsize=9)
 fig.tight_layout(rect=[0,.05,1,.94]);fig.savefig(ROOT/'layout.svg',facecolor=fig.get_facecolor());fig.savefig(ROOT/'layout.png',dpi=150,facecolor=fig.get_facecolor())

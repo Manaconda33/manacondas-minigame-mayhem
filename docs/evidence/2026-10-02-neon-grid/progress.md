@@ -48,3 +48,13 @@ Manny: “OK, approved. Let's load up the branch with our work so far so we don'
 Spec, width-profile/static-surface/shortcut contracts, implementation plan, original visual references and HTML builder guide, generated geometry/diagrams, generator, and validation evidence are saved on design/neon-grid-circuit-02. The supplied original sharp-hairpin layout image is also preserved as original-hairpin-layout-reference.jpg.
 
 Remaining review item: the proposed optional five-per-lap race-local token rule has not been explicitly approved. Course shape approval is complete; runtime implementation and driving/performance verification remain pending. No production merge or deployment is included in this checkpoint.
+
+## Task 1 final owner decision — 2026-10-02
+
+Manny: “Let's omit the tokens.” No token pickups/counter/reward/audio are authorized. Course shape approval remains closed. Unique audio filenames and paired-run timing contracts are resolved by BUILD-CONTRACT. Task 8 is limited to representative scene polish. PRD/ADR-104 and testing scope reflect the reviewed contract.
+
+Pre-flight: Tasks 2–4 share TrackDefinition, local width, route factories and elevation-aware checkpoint crossings. Tasks 5–7 add per-racer path ownership and physical gate crossings without replacing lap authority. Tasks 8–10 consume route scene/lifecycle/audio and exclude tokens. No unresolved interface conflict identified.
+
+Ruling: Work in the fresh, dedicated design-branch clone — it already isolates this session from production and other workspaces — cost if wrong: move the checkout without any shared-history rewrite.
+
+Task 1: complete — owner omitted tokens; regenerated geometry passes; PRD Markdown and Word amendment updated and rendered page 53 inspected. Full validation after shared-contract/main-road scaffolding passed; exact counts in task evidence. Production unchanged.

@@ -1,5 +1,5 @@
 {
-  "status": "proposed design geometry; owner review pending",
+  "status": "approved course geometry; tokens omitted; runtime verification pending",
   "mainLengthDense": 1450.001,
   "mainLength200Divisions": 1448.938,
   "sampleCount": 384,
@@ -510,30 +510,6 @@
     0.06,
     0.085,
     0.73
-  ],
-  "tokens": [
-    {
-      "id": "skyline-line",
-      "mainProgress": 0.095
-    },
-    {
-      "id": "billboard",
-      "pathId": "billboard-gap",
-      "pathProgress": 0.5
-    },
-    {
-      "id": "tunnel",
-      "pathId": "service-tunnel",
-      "pathProgress": 0.5
-    },
-    {
-      "id": "pre-dive",
-      "mainProgress": 0.745
-    },
-    {
-      "id": "finish-reward",
-      "mainProgress": 0.025
-    }
   ],
   "validation": {
     "lengthInRange": true,

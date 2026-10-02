@@ -20,12 +20,12 @@ Design reconciliation against the current PRD and runtime is required before imp
 
 ## Stage 1 — refined course ready for review
 
-Native execution started on 2026-10-02. Review the [build contract](BUILD-CONTRACT.md) and [dimensional course drawing](layout.svg) ([PNG](layout.png)); [numeric layout](layout.json) and [design generator](build_layout.py) contain the proposed control points and gates. Geometry measures 1,450 m and passes the recorded gate/progress checks. Owner shape/token review and runtime physics/lap tests remain pending. Progress/rulings: [execution ledger](../../evidence/2026-10-02-neon-grid/progress.md).
+Native execution started on 2026-10-02. Review the [build contract](BUILD-CONTRACT.md) and [dimensional course drawing](layout.svg) ([PNG](layout.png)); [numeric layout](layout.json) and [design generator](build_layout.py) contain the proposed control points and gates. Geometry measures 1,450 m and passes the recorded gate/progress checks. Course shape is approved; tokens are omitted. Runtime physics/lap tests remain pending. Progress/rulings: [execution ledger](../../evidence/2026-10-02-neon-grid/progress.md).
 
 ### Undercity bend correction
 
-Manny rejected the gentle S-curve. The latest dimensional drawing restores tight reversing bends and crosswise alley straights from the original guide. Main length is 1,450.001 m by dense measurement; the gate/shortcut geometry checks still pass. Tokens remain a proposed optional collectible/count rule, not an existing game system or approved handling effect.
+Manny rejected the gentle S-curve. The latest dimensional drawing restores tight reversing bends and crosswise alley straights from the original guide. Main length is 1,450.001 m by dense measurement; the gate/shortcut geometry checks still pass. Tokens are omitted by Manny’s 2026-10-02 direction.
 
 ### Full-hairpin bypass correction
 
-Manny directed the service tunnel to bypass **all fuchsia hairpins**. Entry/rejoin are now 0.246549→0.461541, bracketing the complete Undercity hairpin sequence; gates 4/5 moved onto shared road before/after it. All eight geometric path traces and gate-footprint checks pass. The earlier 1.0–1.4 s tunnel saving target is superseded; measure the full bypass during blockout. Owner shape/token acceptance and runtime tests remain pending.
+Manny directed the service tunnel to bypass **all fuchsia hairpins**. Entry/rejoin are now 0.246549→0.461541, bracketing the complete Undercity hairpin sequence; gates 4/5 moved onto shared road before/after it. All eight geometric path traces and gate-footprint checks pass. The earlier 1.0–1.4 s tunnel saving target is superseded; measure the full bypass during blockout. Course shape is approved; runtime tests remain pending.

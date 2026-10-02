@@ -1,6 +1,6 @@
 # NEON GRID — Circuit 02 · Build Spec
 
-**Game:** Manaconda's Minigame Mayhem · **Route:** Route Night · **Status:** Design review branch; not an approved PRD amendment
+**Game:** Manaconda's Minigame Mayhem · **Route:** Route Night · **Status:** Approved Neon Grid scope; runtime review branch
 **Author:** Paprika (design) + Manny (direction) · **Date:** 2026-10-02
 
 **2026-10-02 design revision:** Manny directed shortcut-safe checkpoint placement
@@ -9,7 +9,7 @@ and a longer course length appropriate to the 62–68-second target. Sections 2,
 runtime measurement before implementation acceptance.
 
 
-**Stage 1 review prepared:** See `BUILD-CONTRACT.md`, `layout.svg`, and `layout.json` for the refined dimensional course, underground tunnel, ordered gates, and proposed token rule. Owner review is pending; the coordinates below are proposed blockout geometry, not accepted gameplay.
+**Stage 1 review prepared:** See `BUILD-CONTRACT.md`, `layout.svg`, and `layout.json` for the refined dimensional course, underground tunnel, ordered gates, and proposed token rule. Course shape is approved and tokens are omitted. The coordinates are approved blockout geometry, not verified gameplay.
 
 > You don't look at Route Night anymore. You drive through it.
 
@@ -224,18 +224,9 @@ authority: proximity to a downstream sample never grants a checkpoint or lap.
 
 ---
 
-## 4. Tokens
+## 4. Tokens omitted
 
-5 tokens per lap (new collectible behavior; current runtime economy is not assumed).
-The proposed race-local count, reset/ownership rules, and exact anchors are in
-`BUILD-CONTRACT.md` for Manny's review:
-- 1 on the S1 straight (rewards the racing line)
-- 1 in the Billboard Gap (rewards discovery)
-- 1 in the Service Tunnel (rewards discovery)
-- 1 on the S3 climb before the dive (decision point: dive or play safe)
-- 1 past the finish-line sweeper (lap reward)
-
-No token on the dive landing itself — the time save is the reward.
+Manny directed “Let's omit the tokens” on 2026-10-02. No collectible markers, collection count, rewards or token audio are included. Original references that depict tokens are historical; the generated layout omits them.
 
 ---
 
@@ -273,8 +264,8 @@ S1/S3 deck: dark city-base plane with scattered window-light points (cheap).
 ## 7. Audio
 
 Mirror Circuit Alpha's convention (`public/assets/audio/music-v2/`):
-- `04-neon-grid-race-loop.wav` — driving synthwave, 140 BPM target
-- `05-neon-grid-final-lap-loop.wav` — intensified variant
+- `neon-grid-race-loop.wav` — driving synthwave, 140 BPM target
+- `neon-grid-final-lap-loop.wav` — intensified variant
 - SFX hooks: billboard static zap, tunnel drips, waterfall roar (proximity),
   splashdown.
 
@@ -312,7 +303,7 @@ Mirror Circuit Alpha's convention (`public/assets/audio/music-v2/`):
 
 1. `NeonGrid.ts` + `halfWidthAt` + surface zones + `static` surface in kartTuning
 2. Scene: road ribbon → supports/walls → boost pads → billboard → tunnel → dive
-3. Tokens + checkpoints + Route Night UI card
+3. Checkpoints + Route Night UI card
 4. Audio hooks
 5. Tests + balance pass (AI shortcut rate, lap-time targets)
 

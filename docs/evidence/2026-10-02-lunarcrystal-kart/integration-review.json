@@ -1,5 +1,5 @@
 {
-  "status": "local validated integration; publication and live owner review pending",
+  "status": "review publication authorized; direct binary delivery under ADR-102; live owner review pending",
   "geometry_approval": "Manny inspected actual GLB and approved on 2026-10-02",
   "revision": "lunarcrystal-runtime-20261002-1",
   "rear_mount": [
@@ -37,13 +37,13 @@
     "asset_verifier": "14 exact approved PNGs + 3 approved GLB hashes/hierarchy/budgets",
     "independent_review": "no Critical/Important findings; three test precision suggestions addressed",
     "geometry_contract": "passed all three LODs; reproducible",
-    "lfs_publication": "not performed"
+    "lfs_publication": "superseded by owner-authorized exact-path normal-Git exception ADR-102; failed bridge 37018057458 uploaded nothing"
   },
   "gates": {
     "geometry": "approved",
     "live_mounting_and_gameplay": "pending",
-    "review_branch_publication": "pending authorization",
-    "preview_workflow_merge": "pending authorization",
+    "review_branch_publication": "authorized",
+    "preview_workflow_merge": "authorized only after CI",
     "runtime_production_merge": "not authorized"
   }
 }

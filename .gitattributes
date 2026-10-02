@@ -43,3 +43,9 @@ public/assets/audio/music-v2/02-circuit-alpha-final-lap-loop.wav -filter -diff -
 public/assets/audio/music-v2/03-route-night-title-hub-loop.wav -filter -diff -merge -text
 public/assets/audio/music-v2/04-grid-preparation-character-select-loop.wav -filter -diff -merge -text
 public/assets/audio/music-v2/05-finish-celebration-results-podium-loop.wav -filter -diff -merge -text
+
+# Manny explicitly requested direct upload for these exact approved kart files (2026-10-02).
+# Hash inventory: docs/evidence/2026-10-02-lunarcrystal-kart/approved-kart.json; ADR-102.
+public/assets/characters/lunarcrystal/kart.glb -filter -diff -merge -text
+public/assets/characters/lunarcrystal/lod/kart-lod1.glb -filter -diff -merge -text
+public/assets/characters/lunarcrystal/lod/kart-lod2.glb -filter -diff -merge -text

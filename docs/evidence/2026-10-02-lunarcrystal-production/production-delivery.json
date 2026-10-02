@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-02",
+  "character": "Lunarcrystal",
+  "kart": "The Moonlit Carriage",
+  "status": "LIVE ACCEPTED / DEPLOYED",
+  "ownerAcceptance": "All good. Lunarcrystal approved!",
+  "reviewedRuntime": "1051cd9c8c6b1ff7237dc605417b17869f4cea9b",
+  "runtimePr": 238,
+  "productionMerge": "798cbd1aea5c1707e6894d43ddd2d6c11aade1aa",
+  "runtimePrCiRun": 37018571495,
+  "productionCiPagesRun": 37022981830,
+  "validateJob": 110890451370,
+  "deployJob": 110892038258,
+  "pagesUrl": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+  "pagesArtifact": {
+    "id": 11233639717,
+    "digest": "sha256:b11e7f851311391a3bae20340823b81f67a51c7e8a3e87109fd5c346ab414094",
+    "sizeBytes": 969548312
+  },
+  "deliveredProductionAssets": {
+    "png": 14,
+    "glb": 3,
+    "total": 17
+  },
+  "assetOnlyPr": {
+    "number": 237,
+    "head": "9a46bda1cd1c3fcfb1514bd9e5e8c8b10b5d441b",
+    "disposition": "GitHub marked merged because head is an ancestor of PR #238 runtime history; no separate merge action performed."
+  },
+  "prdDeviation": false,
+  "notes": [
+    "Production CI rebuilt and preserved the Race Results, Archer, motion blur, terrain materials, and Lunarcrystal isolated previews.",
+    "No additional owner replay of the production-root URL after deployment is inferred."
+  ]
+}

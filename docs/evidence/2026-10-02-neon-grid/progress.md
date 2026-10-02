@@ -75,3 +75,12 @@ Ruling: Ordinary Neon projectiles follow actual local road support per travel su
 Published design/Task 1 checkpoint: badf0512e2838076c87774cf2768fe06a135e419, tree identical to local documentation checkpoint. Native shell lacks Git push credentials; authenticated connector publishes matching Git blobs/trees and branch refs. No LFS bytes changed.
 
 Next: publish runtime draft PR, require hosted CI, then separate workflow-only pinned Pages preview using the established preview delivery pattern. Production runtime PR remains unmerged. Stop for Manny's main-route visual review before Stage 3.
+
+
+### First pinned delivery and browser label correction
+
+Runtime d6acf3c32e9d60fa4b8fc58a8eab0be3065a7e2e published in draft PR #242; exact-head CI 37076697788 passed. Workflow-only PR #243 (405e88de4a233c65ebe796d57466a0ac2365dfbc) passed CI 37076815912 and merged with expected-head lock at 50ac94d5b0882449f7eec9edb3912d8c5a528f68. Pages 37077018302 passed. First preview source marker and all four preview/four production index/JS/CSS hashes matched locally validated builds; preview-v1-delivery.json preserves evidence. No production runtime files changed.
+
+Live browser reached Hub → DRIVE NEON GRID → driver selection. It exposed one missed hardcoded Alpha header; regression failed with the observed Alpha text, then fixed by a selected-circuit label argument while preserving the Alpha default. Preview is being repinned to that correction. Rendered driving still blocked by cloud WebGL unavailable. AI independent-world timing: 24 laps, 129.517–138.783 s (mean134.265 s); clean-player target remains unverified, balance open. Exact observations in ai-lap-times.txt.
+
+Design branch reconciles the workflow-only main merge without changing runtime geometry/gameplay; branch publication continues through authenticated GitHub tree/commit APIs with local/remote tree identity checked.

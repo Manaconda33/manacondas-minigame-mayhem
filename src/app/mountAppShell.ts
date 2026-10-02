@@ -401,7 +401,12 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     music.route('select');
     characterPreview?.dispose();
     characterPreview = null;
-    root.innerHTML = characterSelectMarkup(characterManifest, selectedCharacter, characterPage);
+    root.innerHTML = characterSelectMarkup(
+      characterManifest,
+      selectedCharacter,
+      characterPage,
+      selectedTrackId === 'neon-grid' ? 'NEON GRID' : 'CIRCUIT ALPHA',
+    );
     root
       .querySelector('[data-screen="character-select"]')
       ?.setAttribute('data-track-id', selectedTrackId);

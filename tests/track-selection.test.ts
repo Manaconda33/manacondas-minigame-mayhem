@@ -21,11 +21,17 @@ describe('kart circuit choice remains separate from minigame index', () => {
     expect(
       root.querySelector('[data-screen="character-select"]')?.getAttribute('data-track-id'),
     ).toBe('neon-grid');
+    expect(root.querySelector('.character-select-header .route-label')?.textContent).toBe(
+      'ROUTE NIGHT / NEON GRID',
+    );
     root.querySelector<HTMLElement>('[data-action="menu"]')?.click();
     root.querySelector<HTMLElement>('[data-action="play"]')?.click();
     expect(
       root.querySelector('[data-screen="character-select"]')?.getAttribute('data-track-id'),
     ).toBe('circuit-alpha');
+    expect(root.querySelector('.character-select-header .route-label')?.textContent).toBe(
+      'ROUTE NIGHT / CIRCUIT ALPHA',
+    );
     dispose();
     root.remove();
   });

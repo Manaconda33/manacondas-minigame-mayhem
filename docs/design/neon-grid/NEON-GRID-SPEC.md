@@ -1,7 +1,12 @@
 # NEON GRID — Circuit 02 · Build Spec
 
-**Game:** Manaconda's Minigame Mayhem · **Route:** Route Night · **Status:** Design spec (not yet in repo)
+**Game:** Manaconda's Minigame Mayhem · **Route:** Route Night · **Status:** Design review branch; not an approved PRD amendment
 **Author:** Paprika (design) + Manny (direction) · **Date:** 2026-10-02
+
+**2026-10-02 design revision:** Manny directed shortcut-safe checkpoint placement
+and a longer course length appropriate to the 62–68-second target. Sections 2,
+3, 8, and 9 incorporate those decisions. Geometry and lap times still require
+runtime measurement before implementation acceptance.
 
 > You don't look at Route Night anymore. You drive through it.
 
@@ -19,6 +24,8 @@ Neon Grid is Circuit 02 of Route Night: a neon-city night race in three sectors.
 Fast and chaotic overall, with a technical middle act. Three hidden shortcuts
 reward discovery; per Manny's direction they are **skill-gated, never luck-gated** —
 every shortcut is always usable, and failure costs time, never the race.
+The main-curve length target is **1.40–1.50 km** so a clean no-shortcut lap can
+land near 62–68 seconds after actual driving and AI balance measurements.
 
 | Sector | Name | Character | Width | Elevation |
 |---|---|---|---|---|
@@ -56,27 +63,64 @@ so `LapTracker`, `createTrackScene`, and tests interoperate unchanged:
   `poseAt` in the scene builder must account for pitch on climbs — check the
   existing crest-ramp pitch handling and reuse it.
 
-### 2.2 Control points (tuned, clockwise from start/finish)
+### 2.2 Control points (initial length target, clockwise from start/finish)
+
+These preserve the supplied plan shape and y elevations while expanding the
+horizontal coordinates by 1.7×. The original control-point polygon was only
+about 0.84 km before curve smoothing, too short for the requested 62–68-second
+fast night race. The new polygon is about 1.43 km; verify the actual sampled
+Catmull–Rom length is within 1.40–1.50 km and tune coordinates, shortcuts, and
+lap times together. This is a build target, not measured gameplay evidence.
 
 ```ts
 const points = [
-  new THREE.Vector3(0, 14, -120),    // start/finish — elevated
-  new THREE.Vector3(70, 14, -118),   // S1 straight (boost pads)
-  new THREE.Vector3(130, 14, -85),   // sweeper
-  new THREE.Vector3(150, 14, -10),   // billboard corner
-  new THREE.Vector3(140, 12, 60),    // descent
-  new THREE.Vector3(100, 4, 105),    // S2 entry
-  new THREE.Vector3(30, 0, 125),     // hairpin 1 — Undercity
-  new THREE.Vector3(-45, 0, 120),    // hairpin 2
-  new THREE.Vector3(-100, 0, 80),    // esses
-  new THREE.Vector3(-130, 0, 20),    // tunnel exit zone
-  new THREE.Vector3(-120, 2, -45),   // climb begins — S3
-  new THREE.Vector3(-70, 8, -90),    // waterfall dive ramp
-  new THREE.Vector3(-20, 12, -112),  // landing / rejoin
+  new THREE.Vector3(0, 14, -204),      // start/finish — elevated
+  new THREE.Vector3(119, 14, -200.6), // S1 straight (boost pads)
+  new THREE.Vector3(221, 14, -144.5), // sweeper
+  new THREE.Vector3(255, 14, -17),    // billboard corner
+  new THREE.Vector3(238, 12, 102),   // descent
+  new THREE.Vector3(170, 4, 178.5),  // S2 entry
+  new THREE.Vector3(51, 0, 212.5),  // hairpin 1 — Undercity
+  new THREE.Vector3(-76.5, 0, 204), // hairpin 2
+  new THREE.Vector3(-170, 0, 136),  // esses
+  new THREE.Vector3(-221, 0, 34),   // tunnel exit zone
+  new THREE.Vector3(-204, 2, -76.5),// climb begins — S3
+  new THREE.Vector3(-119, 8, -153), // waterfall dive ramp
+  new THREE.Vector3(-34, 12, -190.4), // landing / rejoin
 ];
 ```
 
-### 2.3 Surface zones (`project()`)
+### 2.3 Ordered checkpoint placement
+
+Keep **12** physical, forward-facing checkpoints and the existing
+`LapTracker` order. NeonGrid's explicit `checkpointIndices` replace Circuit
+Alpha's uniform `index * sampleCount / 12` spacing. Proposed normalized
+main-curve positions, rounded to distinct sample indices, are:
+
+| Index | Progress | Purpose |
+|---|---:|---|
+| 0 | start/finish (22 m after origin) | Lap gate after checkpoint 11 |
+| 1 | 0.08 | Skyline straight |
+| 2 | 0.15 | Sweeper approach |
+| 3 | 0.20 | **Before** Billboard Gap entry 0.22 |
+| 4 | 0.32 | **After** Billboard Gap rejoin 0.30 |
+| 5 | 0.34 | Undercity approach |
+| 6 | 0.39 | **Before** Service Tunnel entry 0.42 |
+| 7 | 0.60 | **After** Service Tunnel rejoin 0.58 |
+| 8 | 0.68 | **Before** Waterfall Dive entry 0.72 |
+| 9 | 0.81 | **After** Waterfall Dive rejoin 0.79 |
+| 10 | 0.88 | Falls Run |
+| 11 | 0.95 | Finish approach |
+
+The actual gates must be placed on unavoidable common road, clear of each
+shortcut split/rejoin and with enough longitudinal room for the game's
+checkpoint trigger. All three normal routes and all eight shortcut combinations
+must physically cross gates 1→11→0 in order. No checkpoint is awarded from a
+shortcut's declared `exitProgress` alone. A splashdown recovery resumes before
+gate 9 and retains only checkpoints already earned. Test the realized geometry
+and trigger volumes; move a gate within its common-road section if needed.
+
+### 2.4 Surface zones (`project()`)
 
 `SurfaceType` today: `'asphalt' | 'dirt' | 'grass' | 'boost' | 'ramp'`
 (`src/config/kartTuning.ts`). Add **`'static'`** — the billboard slowdown state —
@@ -106,10 +150,15 @@ interface Shortcut {
 }
 ```
 
-`project()` checks shortcut bounds first when the kart is inside an entry window;
-otherwise main curve. **Anti-cheat invariant:** `exitProgress > entry.progress[1]`
-always — shortcuts only ever move you forward along lap progress. LapTracker
-(12 main-curve checkpoints) is untouched.
+The proposed entry/rejoin windows are Billboard Gap 0.22–0.24 → 0.30,
+Service Tunnel 0.42–0.44 → 0.58, and Waterfall Dive 0.72–0.75 → 0.79.
+`project()` recognizes a valid forward entry and follows that shortcut's own
+curve through its rejoin; it must not fall back to main projection immediately
+after leaving the narrow entry window. Its mapped main-curve progress stays
+within the entry-to-exit interval until the kart physically rejoins. **Anti-cheat
+invariants:** `exitProgress > entry.progress[1]`, and none of these intervals
+contains an ordered checkpoint gate. The existing `LapTracker` remains the
+authority: proximity to a downstream sample never grants a checkpoint or lap.
 
 ### 3.1 Billboard Gap (Sector 1, entry ≈ progress 0.22)
 
@@ -200,7 +249,11 @@ Mirror Circuit Alpha's convention (`public/assets/audio/music-v2/`):
 
 ## 8. Balance targets
 
-- Target lap: ~62–68s for a clean no-shortcut lap (Circuit Alpha parity ±10%).
+- Main-curve length: 1.40–1.50 km after sampling the actual spline; tune the
+  initial 1.7× horizontal plan if the sampled length falls outside that range.
+- Target lap: ~62–68s for a clean no-shortcut lap, validated by real driving
+  and representative AI runs. This is a distinct, longer circuit with its own
+  target rather than a Circuit Alpha parity claim.
 - All three shortcuts + clean lines: ~57–60s. No single shortcut should be
   worth more than ~2.2s — discovery matters, mastery matters more.
 - AI rubber-banding: AI should take shortcuts at a tunable rate (suggest 35%)
@@ -209,14 +262,17 @@ Mirror Circuit Alpha's convention (`public/assets/audio/music-v2/`):
 ## 9. Test plan (mirror existing)
 
 - `tests/neon-grid.test.ts` (mirror `circuit-alpha.test.ts`): closed loop,
-  384 samples, 12 checkpoints, width profile monotonic per sector, control-point
-  sanity.
+  384 samples, 12 distinct checkpoints, sampled length 1.40–1.50 km, width
+  profile transitions per sector, control-point/elevation sanity.
 - Shortcut invariants: `exitProgress > entry.progress[1]` for all three;
-  `project()` returns shortcut surface only inside entry windows.
+  valid forward entry persists on the shortcut until physical rejoin; mapped
+  progress never jumps ahead of the kart or awards a checkpoint.
 - `track-scene.test.ts`: assert named groups exist
   (`billboard`, `service-tunnel`, `waterfall-dive`, 4 boost pads).
-- `lap-tracker.test.ts`: unchanged behavior — shortcuts must not break lap
-  counting (rejoin always advances progress).
+- `lap-tracker.test.ts`: unchanged authority — each of the eight shortcut-use
+  combinations and the ordinary route crosses all 12 gates in order; reverse
+  entries, missed gates, premature rejoin, splash recovery, and finish-line
+  bypass cannot grant a lap.
 
 ## 10. Build order (suggested)
 
@@ -228,5 +284,5 @@ Mirror Circuit Alpha's convention (`public/assets/audio/music-v2/`):
 
 ---
 
-*Spec lives outside the repo by request. To build: copy this folder's contents
-into `docs/` or attach to the implementing issue — no repo writes were made.*
+*This spec is on a design review branch. Reconcile it with the approved PRD and
+record the final track contract before implementing or publishing gameplay.*

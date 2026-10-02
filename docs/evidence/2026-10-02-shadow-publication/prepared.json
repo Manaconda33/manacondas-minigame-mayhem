@@ -1,0 +1,28 @@
+{
+  "baseline": "ca7921fe3869687fc6849e126cddc2ccb02dd737",
+  "runtime": "efbcc74f5c8103d2b6411c8bdedd35953b224f3f",
+  "previewBase": "/manacondas-minigame-mayhem/previews/shadow-polish/",
+  "expectedProduction": "Unchanged src/public relative to baseline; all existing pinned previews retained",
+  "stage": "PUBLICATION AUTHORIZED; hosted validation pending",
+  "runtimeValidation": {
+    "files": 101,
+    "tests": 780,
+    "result": "PASS"
+  },
+  "browser": "Local Chromium download failed; no rendered browser pass claimed",
+  "previewOnlyValidation": {
+    "result": "PASS",
+    "files": 100,
+    "tests": 774,
+    "typecheck": "PASS",
+    "lint": "PASS zero warnings",
+    "build": "PASS",
+    "lfs": "PASS",
+    "diff": "PASS",
+    "workflow": "Parsed; exact runtime pin, main-only guards, LFS and isolated assembly checked",
+    "productionPreservation": "src/public unchanged; built HTML/CSS/entry/race hashes exactly match live before bytes"
+  },
+  "originalLocalRuntime": "bc5d035c8d410b10a7b166a16ddf19a4e629bf1c",
+  "authority": "Manny: Approved for merge / deployment in preview",
+  "metadataRecovery": "Shared Git metadata cleared during idle period; validated runtime files survived and were uploaded on the same baseline through the connected API."
+}

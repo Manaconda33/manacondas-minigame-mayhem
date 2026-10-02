@@ -144,6 +144,33 @@ jobs:
           }, null, 2));
           JS
 
+      - name: Check out pinned shadow polish review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v5
+        with:
+          ref: efbcc74f5c8103d2b6411c8bdedd35953b224f3f
+          path: shadow-preview
+          lfs: true
+
+      - name: Verify and build shadow polish review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: shadow-preview
+        env:
+          VITE_SOURCE_COMMIT: efbcc74f5c8103d2b6411c8bdedd35953b224f3f
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/shadow-polish/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            feature: 'Circuit Alpha shadow polish', source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/shadow-polish/',
+            status: 'review only; visual and production acceptance pending'
+          }, null, 2));
+          JS
+
       - name: Assemble the current game and isolated previews
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -168,6 +195,10 @@ jobs:
           cp -a lunarcrystal-preview/dist/. site-root/previews/lunarcrystal/
           test -f site-root/previews/lunarcrystal/index.html
           test -f site-root/previews/lunarcrystal/review-build.json
+          mkdir -p site-root/previews/shadow-polish
+          cp -a shadow-preview/dist/. site-root/previews/shadow-polish/
+          test -f site-root/previews/shadow-polish/index.html
+          test -f site-root/previews/shadow-polish/review-build.json
 
       - name: Configure GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

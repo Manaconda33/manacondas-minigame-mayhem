@@ -4,6 +4,8 @@ This ledger is the source of truth for mapping approved Manaconda's Minigame May
 
 ## Allocation rules
 
+**Lunarcrystal intake, 2026-10-01:** Fourteen 2D images are individually approved and authorized for an asset-only review upload under the delivery namespace `lunarcrystal`. Page-two placement beside Archer is requested. All thirteen existing profiles remain assigned; no new profile is reserved or allocated. Balance, roster-capacity amendment, kart and runtime integration await separate approval. See `docs/avatars/LUNARCRYSTAL.md`.
+
 - Every active production character must use one AA-01 through AA-13 profile.
 - Each profile may be assigned once among active production characters.
 - Each active production character may hold one profile.

@@ -149,6 +149,8 @@ const games: KartTimeTrial[] = [];
 async function setup(
   query = '?testRacePerf=1',
   trackId: 'circuit-alpha' | 'neon-grid' = 'circuit-alpha',
+  characterId = 'aa-02',
+  mobileSession = false,
 ) {
   history.replaceState(null, '', query || '/');
   let phase: 'countdown' | 'racing' | 'finished' = 'racing';
@@ -156,9 +158,9 @@ async function setup(
   const game = await KartTimeTrial.create({
     trackId,
     canvas: document.createElement('canvas'),
-    character: characterById('aa-02'),
+    character: characterById(characterId),
     graphicsQuality: 'medium',
-    mobileSession: false,
+    mobileSession,
     onHud: () => {
       /* External renderer/audio/UI behavior is outside this diagnostic test. */
     },
@@ -1035,4 +1037,52 @@ it('runs the selected Neon route with eight unique bodies and retains earned gat
   game.dispose();
   game.dispose();
   expect(free).toHaveBeenCalledTimes(1);
+});
+
+it.each(['aa-02', 'aa-13', 'aa-14'])(
+  'moves Neon player %s from the real countdown using mobile pointer input',
+  async (characterId) => {
+    const { game, tick, advance } = await setup('', 'neon-grid', characterId, true);
+    const runtime = game as unknown as {
+      raceDirector: { phase: () => string };
+      kart: { position: () => THREE.Vector3; velocity: () => THREE.Vector3 };
+      track: { project: (p: THREE.Vector3) => { point: THREE.Vector3 } };
+    };
+    vi.spyOn(runtime.raceDirector, 'phase').mockRestore();
+    advance.mockRestore();
+    for (let i = 0; i < 210; i++) tick(1000 / 60);
+    const start = runtime.kart.position();
+    const { bindTouchWheel } = await import('../src/app/touchWheel');
+    const wheel = document.createElement('button');
+    Object.defineProperty(wheel, 'setPointerCapture', { value: () => undefined });
+    Object.defineProperty(wheel, 'hasPointerCapture', { value: () => false });
+    const release = bindTouchWheel(wheel, (state) => {
+      game.setTouchWheel(state);
+    });
+    wheel.dispatchEvent(
+      Object.assign(new Event('pointerdown', { cancelable: true }), { pointerId: 1, clientX: 0 }),
+    );
+    for (let i = 0; i < 120; i++) tick(1000 / 60);
+    const end = runtime.kart.position();
+    release();
+    expect(end.y).toBeGreaterThan(13);
+    expect(runtime.kart.velocity().clone().setY(0).length()).toBeGreaterThan(3);
+    expect(end.clone().sub(start).setY(0).length()).toBeGreaterThan(3);
+  },
+);
+
+it('frames the elevated Neon player in portrait through the real camera integration', async () => {
+  const { game } = await setup('', 'neon-grid', 'aa-13', true);
+  const runtime = game as unknown as {
+    camera: THREE.PerspectiveCamera;
+    kart: { position: () => THREE.Vector3 };
+    updateVisuals: (dt: number) => void;
+  };
+  vi.spyOn(runtime, 'updateVisuals').mockRestore();
+  runtime.camera.aspect = 0.5;
+  runtime.camera.updateProjectionMatrix();
+  for (let i = 0; i < 240; i++) runtime.updateVisuals(1 / 60);
+  const screen = runtime.kart.position().project(runtime.camera);
+  expect(Math.abs(screen.x)).toBeLessThan(0.9);
+  expect(Math.abs(screen.y)).toBeLessThan(0.9);
 });

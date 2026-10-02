@@ -1,5 +1,13 @@
 # Implementation Status
 
+## Neon Grid mobile preview repair — 2026-10-02
+
+Manny rejected Stage 2 mobile review: the countdown grid was visible, AI drove away, the player stayed at 0 km/h and the camera lost the kart. The main-route owner gate is **FAIL / awaiting corrected-preview retest**; do not begin Stage 3 or merge runtime PR #242.
+
+Root cause reproduced: ChaseCamera positioned itself relative to the elevated kart but aimed at absolute world Y=0.65/1.15. The portrait integration test projects the player above the viewport after the intro. Neon now supplies local road elevation to the existing intro/chase/rear aim; Alpha retains the zero-base default and accepted settings. No control, camera-distance, physics, track shape, roster, asset or audio redesign.
+
+Real pointer binding → touch wheel → player drive → countdown → eight-body Rapier simulation moves AA-02, Archer and Lunarcrystal from the elevated grid. This does not reproduce a separate mobile input defect or certify device behavior; Manny must retest steering/acceleration/brake/drift/item/rear view on the corrected pinned preview. Evidence: docs/evidence/2026-10-02-neon-grid/mobile-repair.md. Full native and hosted results are recorded there; publication and owner review remain distinct.
+
 **Neon Grid Task 1 — CONTRACT RESOLVED (2026-10-02).** Course shape was approved at saved checkpoint 33e66c5; Manny now explicitly omits tokens. ADR-104 and the working/versioned PRD amendment record the second-circuit scope, width/static-surface/shortcut contracts and review gates. Branch reconciled with current accepted main d88c2d2; no runtime differences were needed for reconciliation. Next: Task 2 shared-track interface and Alpha regressions, then the main-route blockout. No production release authorized.
 
 **Neon Grid full-hairpin bypass correction — 2026-10-02.** Manny directed the service tunnel to bypass **all fuchsia hairpins**. Entry/rejoin are now 0.246549→0.461541, bracketing the complete Undercity hairpin sequence; gates 4/5 moved onto shared road before/after it. All eight geometric path traces and gate-footprint checks pass. The earlier 1.0–1.4 s tunnel saving target is superseded; measure the full bypass during blockout. Course shape is approved and tokens omitted; runtime tests remain pending.

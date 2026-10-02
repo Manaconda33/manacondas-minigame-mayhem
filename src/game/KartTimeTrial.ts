@@ -1777,7 +1777,13 @@ export class KartTimeTrial {
       forward,
       this.racerEffects.spinoutState('player') !== null,
     );
-    this.chaseCamera.update(position, cameraForward, this.rearViewActive, dt);
+    this.chaseCamera.update(
+      position,
+      cameraForward,
+      this.rearViewActive,
+      dt,
+      this.track.id === 'neon-grid' ? this.track.project(position).point.y : 0,
+    );
     this.playerSpeedVisual.update(
       this.kart.velocity(this.playerSpeedVelocity).dot(forward) / this.playerNormalTopSpeed,
       this.paused || document.hidden ? 0 : dt,

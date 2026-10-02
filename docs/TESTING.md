@@ -1580,3 +1580,14 @@ Manny directed the service tunnel to bypass **all fuchsia hairpins**. Entry/rejo
 ## Neon Grid approved execution scope — 2026-10-02
 
 Tokens are omitted. Retain all Alpha regressions. Stage 2 must prove the shared track contract, Three.js geometry/widths, real Rapier deck/street/climb support, elevated gates, selected-route restart/replay, eight-racer race and resource cleanup. Stage 3 verifies persistent racer-owned shortcuts, all eight physical gate sequences, billboard race-time cycle/static tuning, physical dive/miss/recovery and paired timing. Later scene/audio/device acceptance uses the saved plan checkpoints. Numeric design validation is not runtime evidence.
+
+
+## Neon Grid mobile preview repair — 2026-10-02
+
+Manny rejected Stage 2 mobile review: the countdown grid was visible, AI drove away, the player stayed at 0 km/h and the camera lost the kart. The main-route owner gate is **FAIL / awaiting corrected-preview retest**; do not begin Stage 3 or merge runtime PR #242.
+
+Root cause reproduced: ChaseCamera positioned itself relative to the elevated kart but aimed at absolute world Y=0.65/1.15. The portrait integration test projects the player above the viewport after the intro. Neon now supplies local road elevation to the existing intro/chase/rear aim; Alpha retains the zero-base default and accepted settings. No control, camera-distance, physics, track shape, roster, asset or audio redesign.
+
+Real pointer binding → touch wheel → player drive → countdown → eight-body Rapier simulation moves AA-02, Archer and Lunarcrystal from the elevated grid. This does not reproduce a separate mobile input defect or certify device behavior; Manny must retest steering/acceleration/brake/drift/item/rear view on the corrected pinned preview. Evidence: docs/evidence/2026-10-02-neon-grid/mobile-repair.md. Full native and hosted results are recorded there; publication and owner review remain distinct.
+
+Regression: `tests/chase-camera.test.ts` checks elevation-invariant intro/chase/rear framing in desktop/mobile. `tests/race-diagnostics-routing.test.ts` checks portrait player framing through actual camera wiring and mobile pointer-driven movement after real countdown for three driver profiles. Only WebGL/assets/audio boundaries are mocked; physics, race state, input composition and camera math are real. Run full `npm run validate`, `git diff --check` and `git lfs fsck` before publication.

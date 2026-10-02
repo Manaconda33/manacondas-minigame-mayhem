@@ -40,3 +40,11 @@ Ruling: Preserve Manny's sharp-hairpin intent even though the tunnel's larger ge
 Manny directed bypassing all fuchsia hairpins. Tunnel entry now starts at the Undercity boundary before the first hairpin and rejoins after the last on the Falls Run boundary. Gates 4/5 moved to common road around the complete interval. All eight geometric route traces and footprint assertions pass; runtime remains pending.
 
 Ruling: The owner-directed full bypass supersedes the old 1.0–1.4 s tunnel target and fixed aggregate-saving range — keep every fuchsia hairpin bypassed and measure its advantage in blockout — cost if wrong: owner-reviewed balance adjustment, without quietly reducing bypass scope.
+
+## Owner approval and saved checkpoint — 2026-10-02
+
+Manny: “OK, approved. Let's load up the branch with our work so far so we don't lose it.” The corrected sharp-hairpin layout and service tunnel bypass of the entire fuchsia Undercity are approved. This approval follows layout commit 15c6a44dc1db57a507fa739114fac459abdd42b8.
+
+Spec, width-profile/static-surface/shortcut contracts, implementation plan, original visual references and HTML builder guide, generated geometry/diagrams, generator, and validation evidence are saved on design/neon-grid-circuit-02. The supplied original sharp-hairpin layout image is also preserved as original-hairpin-layout-reference.jpg.
+
+Remaining review item: the proposed optional five-per-lap race-local token rule has not been explicitly approved. Course shape approval is complete; runtime implementation and driving/performance verification remain pending. No production merge or deployment is included in this checkpoint.

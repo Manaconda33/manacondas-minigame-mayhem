@@ -84,3 +84,9 @@ Runtime d6acf3c32e9d60fa4b8fc58a8eab0be3065a7e2e published in draft PR #242; exa
 Live browser reached Hub → DRIVE NEON GRID → driver selection. It exposed one missed hardcoded Alpha header; regression failed with the observed Alpha text, then fixed by a selected-circuit label argument while preserving the Alpha default. Preview is being repinned to that correction. Rendered driving still blocked by cloud WebGL unavailable. AI independent-world timing: 24 laps, 129.517–138.783 s (mean134.265 s); clean-player target remains unverified, balance open. Exact observations in ai-lap-times.txt.
 
 Design branch reconciles the workflow-only main merge without changing runtime geometry/gameplay; branch publication continues through authenticated GitHub tree/commit APIs with local/remote tree identity checked.
+
+### Stage 2 owner review handoff
+
+Label correction runtime 1b99df944381827cb927a21cf679b37be849aefb passed exact-head CI 37077662262. Workflow-only repin PR #244 passed CI 37077696838 and merged at 8f1dd9840702842cd04a806a88c9168ea9ce54b0. Pages run 37077846211 validation/deployment succeeded. Live marker and index/JS/CSS hashes match the pinned locally built preview; preview-v2-delivery.json records checks. Production runtime remains unchanged; draft runtime PR #242 stays unmerged.
+
+Playable review: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid/?review=1b99df9 — choose DRIVE NEON GRID, then a driver. Stop here for Manny's Stage 2 visual/driving review. Tasks 5–10 remain pending. Timing/balance and rendered driving evidence remain open as detailed in blockout-review.md; AI independent-world laps are approximately 130–139 seconds and do not validate the 62–68-second clean-player target.

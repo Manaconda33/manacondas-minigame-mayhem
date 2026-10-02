@@ -17,6 +17,7 @@ const harness = vi.hoisted(() => ({
   deferAi: false,
   loaderCalls: 0,
   pendingAi: [] as (() => void)[],
+  shadowCenterAtRender: null as number[] | null,
 }));
 vi.mock('three', async (importOriginal) => {
   const actual = await importOriginal<typeof THREE>();
@@ -53,7 +54,11 @@ vi.mock('three', async (importOriginal) => {
         harness.reads.push('read');
         return target.set(1920, 1080);
       }
-      render() {
+      render(scene?: THREE.Scene) {
+        const sun = scene?.children.find(
+          (object): object is THREE.DirectionalLight => object instanceof actual.DirectionalLight,
+        );
+        if (sun !== undefined) harness.shadowCenterAtRender = sun.target.position.toArray();
         harness.reads.push('render');
         this.info.render.calls = 22;
       }
@@ -201,6 +206,7 @@ beforeEach(() => {
   harness.deferAi = false;
   harness.loaderCalls = 0;
   harness.pendingAi.length = 0;
+  harness.shadowCenterAtRender = null;
   vi.spyOn(performance, 'now').mockReturnValue(0);
   vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
     harness.raf = cb;
@@ -221,6 +227,42 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 describe('real race RAF diagnostics wiring', () => {
+  it('centers the real shadow map on the player and applies caster policy before rendering', async () => {
+    harness.loadedKarts = true;
+    const r = await setup('');
+    const runtime = r.game as unknown as {
+      scene: THREE.Scene;
+      kartMesh: THREE.Group;
+      kart: import('../src/game/physics/KartController').KartController;
+      opponents: { mesh: THREE.Group }[];
+    };
+    const anchor = new THREE.Vector3(250, 0, -120);
+    vi.spyOn(runtime.kart, 'position').mockImplementation((target = new THREE.Vector3()) =>
+      target.copy(anchor),
+    );
+    r.tick();
+    const sun = requireValue(
+      runtime.scene.children.find(
+        (object): object is THREE.DirectionalLight => object instanceof THREE.DirectionalLight,
+      ),
+    );
+    expect(sun.target.position.distanceTo(anchor)).toBeLessThan(0.1);
+    expect(
+      new THREE.Vector3().fromArray(requireValue(harness.shadowCenterAtRender)).distanceTo(anchor),
+    ).toBeLessThan(0.1);
+    let playerCasts = false;
+    runtime.kartMesh.traverse((object) => {
+      playerCasts ||= object.castShadow;
+    });
+    expect(playerCasts).toBe(true);
+    for (const rival of runtime.opponents) {
+      let casts = false;
+      rival.mesh.traverse((object) => {
+        casts ||= object.castShadow;
+      });
+      expect(casts).toBe(false);
+    }
+  });
   it('enforces the blur frame budget in ordinary play with diagnostics disabled', async () => {
     const r = await setup('');
     const runtime = r.game as unknown as {
@@ -338,6 +380,31 @@ describe('real race RAF diagnostics wiring', () => {
 });
 
 describe('loaded kart optimization routing', () => {
+  it('applies shadow policy to AI models that arrive after the first rendered frame', async () => {
+    harness.loadedKarts = true;
+    harness.deferAi = true;
+    const r = await setup('');
+    const runtime = r.game as unknown as {
+      kart: import('../src/game/physics/KartController').KartController;
+      opponents: { mesh: THREE.Group }[];
+    };
+    const anchor = runtime.kart.position();
+    const rival = requireValue(runtime.opponents[0]);
+    rival.mesh.position.copy(anchor).add(new THREE.Vector3(10, 0, 0));
+    for (const resolve of harness.pendingAi.splice(0)) resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+    r.tick();
+    const casters: THREE.Object3D[] = [];
+    rival.mesh.traverse((object) => {
+      if (object.castShadow) casters.push(object);
+    });
+    expect(casters.length).toBeGreaterThan(0);
+    expect(casters.some((object) => object.name === 'batched-static-kart-parts')).toBe(true);
+    rival.mesh.position.copy(anchor).add(new THREE.Vector3(70, 0, 0));
+    r.tick();
+    expect(casters.every((object) => !object.castShadow)).toBe(true);
+  });
   it('retains animated models without batching their moving parts', async () => {
     harness.loadedKarts = true;
     harness.animatedKarts = true;

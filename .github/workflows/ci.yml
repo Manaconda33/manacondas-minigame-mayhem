@@ -171,6 +171,33 @@ jobs:
           }, null, 2));
           JS
 
+      - name: Check out pinned Neon Grid main-route review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v5
+        with:
+          ref: d6acf3c32e9d60fa4b8fc58a8eab0be3065a7e2e
+          path: neon-grid-preview
+          lfs: true
+
+      - name: Verify and build Neon Grid main-route review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: neon-grid-preview
+        env:
+          VITE_SOURCE_COMMIT: d6acf3c32e9d60fa4b8fc58a8eab0be3065a7e2e
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            feature: 'Neon Grid Circuit 02 main-route blockout', source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/neon-grid/',
+            status: 'Stage 2 review only; no tokens or shortcuts; production acceptance pending'
+          }, null, 2));
+          JS
+
       - name: Assemble the current game and isolated previews
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -199,6 +226,11 @@ jobs:
           cp -a shadow-preview/dist/. site-root/previews/shadow-polish/
           test -f site-root/previews/shadow-polish/index.html
           test -f site-root/previews/shadow-polish/review-build.json
+
+          mkdir -p site-root/previews/neon-grid
+          cp -a neon-grid-preview/dist/. site-root/previews/neon-grid/
+          test -f site-root/previews/neon-grid/index.html
+          test -f site-root/previews/neon-grid/review-build.json
 
       - name: Configure GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

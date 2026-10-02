@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 import { guardrailContact } from '../track/GuardrailSystem';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { ItemProjectileConfig } from './itemDefinitions';
 import type { ProjectileTarget } from './ProjectileSystem';
 
@@ -121,7 +121,7 @@ export class ArcBladeFlight {
     dt: number,
     ownerId: string,
     targets: readonly ProjectileTarget[],
-    track: CircuitAlpha,
+    track: TrackDefinition,
     onContact: (target: ProjectileTarget) => void,
     onReturn: () => void,
     onMove: () => void,

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CircuitAlpha } from './CircuitAlpha';
+import type { TrackDefinition } from './TrackDefinition';
 
 export const CIRCUIT_ALPHA_MATERIAL_TILE_METERS = 2;
 
@@ -24,7 +24,7 @@ function finalizeGeometry(
   return geometry;
 }
 
-function loopLongitudinalDistances(track: CircuitAlpha): number[] {
+function loopLongitudinalDistances(track: TrackDefinition): number[] {
   const distances = [0];
   let cumulative = 0;
 
@@ -39,7 +39,7 @@ function loopLongitudinalDistances(track: CircuitAlpha): number[] {
 }
 
 export function createLoopStripGeometry(
-  track: CircuitAlpha,
+  track: TrackDefinition,
   halfWidth: number,
   y: number,
   tileMeters = CIRCUIT_ALPHA_MATERIAL_TILE_METERS,
@@ -80,7 +80,7 @@ export function createLoopStripGeometry(
 }
 
 export function createSegmentStripGeometry(
-  track: CircuitAlpha,
+  track: TrackDefinition,
   startProgress: number,
   endProgress: number,
   centerOffset: number,

@@ -58,3 +58,20 @@ Pre-flight: Tasks 2–4 share TrackDefinition, local width, route factories and 
 Ruling: Work in the fresh, dedicated design-branch clone — it already isolates this session from production and other workspaces — cost if wrong: move the checkout without any shared-history rewrite.
 
 Task 1: complete — owner omitted tokens; regenerated geometry passes; PRD Markdown and Word amendment updated and rendered page 53 inspected. Full validation after shared-contract/main-road scaffolding passed; exact counts in task evidence. Production unchanged.
+
+
+## Tasks 2–4 main-route runtime checkpoint — 2026-10-02
+
+Task 2 shared contract and Alpha adapter implemented; Task 3 approved main ribbon/colliders, local width and elevation-gated crossings implemented. Task 4 selected-route launch, seven unique opponents, minimap, HUD/Results labels, replay/restart state, route-local support/item boxes, recovery and cleanup implemented. Task 4 remains at its owner preview gate; broad rendered/lifecycle acceptance is not closed. No shortcuts/tokens/new audio/city polish implemented.
+
+Final native validation: 108 files / 831 tests pass, TypeScript passes, ESLint zero warnings, 42 GLBs and 163 PNGs validate, production build passes. git diff --check and git lfs fsck pass. Full command transcript: blockout-validation.txt. Review findings/resolution and exact evidence limits: blockout-review.md.
+
+Ruling: Commit Tasks 2–4 as one coherent runtime checkpoint — the catalog consumes Neon factories and route-dependent systems together; avoid publishing a broken intermediate adapter — cost if wrong: reviewers use the focused tests and plan sections to review boundaries.
+
+Ruling: Tight ribbon inside offsets fold at the climbing bend; remove inverted road triangles and internal folded wall faces, then enable Rapier internal-edge correction. This preserves approved centerline/width intent and removes artificial collision obstacles; all eight profiles now drive three laps without recovery. Owner visual inspection of the inside ribbon remains pending.
+
+Ruling: Ordinary Neon projectiles follow actual local road support per travel substep, rather than retaining flat launch Y. Alpha motion and accepted item values/counter authority remain unchanged. Climb/descent tests fail before the fix and pass afterward.
+
+Published design/Task 1 checkpoint: badf0512e2838076c87774cf2768fe06a135e419, tree identical to local documentation checkpoint. Native shell lacks Git push credentials; authenticated connector publishes matching Git blobs/trees and branch refs. No LFS bytes changed.
+
+Next: publish runtime draft PR, require hosted CI, then separate workflow-only pinned Pages preview using the established preview delivery pattern. Production runtime PR remains unmerged. Stop for Manny's main-route visual review before Stage 3.

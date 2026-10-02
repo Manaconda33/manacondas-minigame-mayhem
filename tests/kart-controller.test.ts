@@ -35,7 +35,7 @@ describe('Rapier kart controller', () => {
     );
     return {
       world,
-      kart: new KartController(world, createKartTuning(stats), stats, new Vector3(0, 1.1, 0), 0),
+      kart: new KartController(world, createKartTuning(stats), stats, new Vector3(0, 0, 0), 0),
     };
   }
 

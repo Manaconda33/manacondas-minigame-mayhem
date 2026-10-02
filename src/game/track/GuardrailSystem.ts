@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CircuitAlpha, type TrackProjection } from './CircuitAlpha';
+import type { TrackDefinition, TrackProjection } from './TrackDefinition';
 
 export const GUARDRAIL_OFFSET_METERS = 9.25;
 export const GUARDRAIL_KART_RADIUS_METERS = 1.15;
@@ -14,13 +14,15 @@ export interface GuardrailContact {
 }
 
 export function guardrailContact(
-  track: CircuitAlpha,
+  track: TrackDefinition,
   position: THREE.Vector3,
   radiusMeters: number,
 ): GuardrailContact | null {
   const radius = Math.max(0, radiusMeters);
   const projection = track.project(position);
-  const allowedOffset = GUARDRAIL_OFFSET_METERS - radius;
+  const boundary = track.boundaryHalfWidthAt(projection);
+  if (boundary === null) return null;
+  const allowedOffset = boundary - radius;
   const absoluteOffset = Math.abs(projection.lateralOffset);
   if (absoluteOffset <= allowedOffset) return null;
 
@@ -36,7 +38,7 @@ export function guardrailContact(
   };
 }
 
-function offsetCurve(track: CircuitAlpha, side: -1 | 1, y: number): THREE.CatmullRomCurve3 {
+function offsetCurve(track: TrackDefinition, side: -1 | 1, y: number): THREE.CatmullRomCurve3 {
   const points = track.samples.map((point, index) => {
     const tangent = track.tangents[index] ?? new THREE.Vector3(0, 0, 1);
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
@@ -48,7 +50,7 @@ function offsetCurve(track: CircuitAlpha, side: -1 | 1, y: number): THREE.Catmul
   return new THREE.CatmullRomCurve3(points, true, 'centripetal', 0.5);
 }
 
-export function createGuardrailVisual(track: CircuitAlpha): THREE.Group {
+export function createGuardrailVisual(track: TrackDefinition): THREE.Group {
   const group = new THREE.Group();
   group.name = 'track-guardrails';
 

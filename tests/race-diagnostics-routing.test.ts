@@ -146,11 +146,15 @@ interface Runtime {
   world: { free: () => void };
 }
 const games: KartTimeTrial[] = [];
-async function setup(query = '?testRacePerf=1') {
+async function setup(
+  query = '?testRacePerf=1',
+  trackId: 'circuit-alpha' | 'neon-grid' = 'circuit-alpha',
+) {
   history.replaceState(null, '', query || '/');
   let phase: 'countdown' | 'racing' | 'finished' = 'racing';
   const callback = vi.fn();
   const game = await KartTimeTrial.create({
+    trackId,
     canvas: document.createElement('canvas'),
     character: characterById('aa-02'),
     graphicsQuality: 'medium',
@@ -220,7 +224,6 @@ beforeEach(() => {
 afterEach(() => {
   for (const game of games.splice(0)) {
     game.dispose();
-    (game as unknown as Runtime).world.free();
   }
   history.replaceState(null, '', '/');
   vi.restoreAllMocks();
@@ -1000,4 +1003,36 @@ it('keeps legacy spherical indicators exclusive to charged active drifting, not 
   });
   runtime.updateVisuals(0.1);
   expect(runtime.driftLights.every((light) => !light.visible)).toBe(true);
+});
+
+it('runs the selected Neon route with eight unique bodies and retains earned gates on recovery', async () => {
+  const { game, tick, advance } = await setup('', 'neon-grid');
+  const runtime = game as unknown as {
+    track: { id: string; samples: THREE.Vector3[] };
+    opponents: { id: string; controller: { isFinite: () => boolean } }[];
+    kart: { isFinite: () => boolean };
+    lapTracker: {
+      enterCheckpoint: (index: number, forwardDot: number, time: number) => boolean;
+      snapshot: () => { nextCheckpoint: number };
+    };
+    respawn: () => void;
+    minimapTrack: unknown;
+    world: { free: () => void };
+  };
+  expect(runtime.track.id).toBe('neon-grid');
+  expect(runtime.opponents).toHaveLength(7);
+  expect(new Set(runtime.opponents.map((r) => r.id)).size).toBe(7);
+  expect(runtime.minimapTrack).toBeTruthy();
+  advance.mockRestore();
+  for (let i = 0; i < 300; i++) tick(1000 / 60);
+  expect(runtime.kart.isFinite()).toBe(true);
+  expect(runtime.opponents.every((r) => r.controller.isFinite())).toBe(true);
+  expect(runtime.lapTracker.enterCheckpoint(1, 1, 6)).toBe(true);
+  const earned = runtime.lapTracker.snapshot().nextCheckpoint;
+  runtime.respawn();
+  expect(runtime.lapTracker.snapshot().nextCheckpoint).toBe(earned);
+  const free = vi.spyOn(runtime.world, 'free');
+  game.dispose();
+  game.dispose();
+  expect(free).toHaveBeenCalledTimes(1);
 });

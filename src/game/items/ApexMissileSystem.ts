@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { RacerProgress } from '../race/RaceDirector';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { ProjectileImpact, ProjectileTarget, ProjectileSystem } from './ProjectileSystem';
 import { MAX_ACTIVE_PROJECTILES } from './ProjectileSystem';
 import { APEX_CONFIG as C } from './itemDefinitions';
@@ -42,7 +42,7 @@ export class ApexMissileSystem {
   private blasts: THREE.Vector3[] = [];
 
   public constructor(
-    private readonly track: CircuitAlpha,
+    private readonly track: TrackDefinition,
     private readonly projectiles: ProjectileSystem,
   ) {}
 

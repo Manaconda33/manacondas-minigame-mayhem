@@ -11,7 +11,10 @@ export class SlickGroundSurface {
   private readonly queryMaterial = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
   private readonly ray = new THREE.Raycaster();
 
-  public constructor(trackScene: THREE.Group) {
+  public constructor(
+    trackScene: THREE.Group,
+    private readonly localElevation = false,
+  ) {
     const names = new Set([
       'track-ground',
       'track-shoulder',
@@ -42,7 +45,10 @@ export class SlickGroundSurface {
   }
 
   public at(position: THREE.Vector3): SlickSurface | null {
-    this.ray.set(new THREE.Vector3(position.x, 20, position.z), new THREE.Vector3(0, -1, 0));
+    this.ray.set(
+      new THREE.Vector3(position.x, this.localElevation ? position.y + 2 : 20, position.z),
+      new THREE.Vector3(0, -1, 0),
+    );
     const hit = this.ray.intersectObjects(this.meshes, false)[0];
     if (hit?.face == null) return null;
     const normal = hit.face.normal.clone().transformDirection(hit.object.matrixWorld);

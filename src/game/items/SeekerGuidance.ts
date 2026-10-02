@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import { SEEKER_GUIDANCE } from './itemDefinitions';
 
 export function steerSeeker(
-  track: CircuitAlpha,
+  track: TrackDefinition,
   position: THREE.Vector3,
   velocity: THREE.Vector3,
   targetPosition: THREE.Vector3,

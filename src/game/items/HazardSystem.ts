@@ -1,7 +1,7 @@
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import type { SlickSurface } from './SlickGroundSurface';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import { guardrailContact } from '../track/GuardrailSystem';
 import { ItemPhysicsCapacity, MAX_ITEM_PHYSICS_OBJECTS } from './ItemPhysicsCapacity';
 import { areaEffectVictims, finitePosition } from './AreaEffects';
@@ -65,7 +65,7 @@ export class HazardSystem {
   private readonly blasts: BlastVisual[] = [];
 
   public constructor(
-    private readonly track: CircuitAlpha,
+    private readonly track: TrackDefinition,
     private readonly capacity: ItemPhysicsCapacity,
     private readonly slickSurface?: (position: THREE.Vector3) => SlickSurface | null,
   ) {

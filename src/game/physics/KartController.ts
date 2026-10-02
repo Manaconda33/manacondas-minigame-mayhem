@@ -62,7 +62,7 @@ export class KartController {
     this.yaw = yaw;
     this.body = this.world.createRigidBody(
       RAPIER.RigidBodyDesc.dynamic()
-        .setTranslation(spawn.x, 1.1, spawn.z)
+        .setTranslation(spawn.x, spawn.y + 1.1, spawn.z)
         // Forward deceleration and lateral grip are owned by this controller.
         // Passive Rapier damping would make Acceleration determine terminal speed.
         .setLinearDamping(0)
@@ -299,7 +299,7 @@ export class KartController {
     this.driftCharge = 0;
     this.airborneSeconds = 0;
     this.stuntArmed = false;
-    this.body.setTranslation({ x: position.x, y: 1.2, z: position.z }, true);
+    this.body.setTranslation({ x: position.x, y: position.y + 1.2, z: position.z }, true);
     this.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
     this.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
     this.setYaw(yaw);

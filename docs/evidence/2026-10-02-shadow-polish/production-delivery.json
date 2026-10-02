@@ -1,0 +1,79 @@
+{
+  "release": "Circuit Alpha shadow polish",
+  "date": "2026-10-02",
+  "result": "LIVE ACCEPTED / DEPLOYED",
+  "ownerAcceptance": "Manny visually approved shadows and explicitly authorized merging runtime PR #240 into main and publishing through GitHub Pages.",
+  "approvedRuntime": "efbcc74f5c8103d2b6411c8bdedd35953b224f3f",
+  "approvedPreview": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/?review=efbcc74",
+  "reconciliation": {
+    "head": "297ac6e66b833cf9535fd90b87e32d03f7054539",
+    "reason": "Preview-only PR #241 landed after the runtime branch split.",
+    "runtimeDifferenceFromApproved": "none in src/ or public/; only retained preview workflow and documentation/evidence",
+    "exactHeadCi": 37066044882,
+    "exactHeadCiResult": "success"
+  },
+  "production": {
+    "pr": 240,
+    "merge": "168ba8113d37ad0672345a2326d20d279115c9d8",
+    "mergeLock": "expected-head",
+    "ciPagesRun": 37066390953,
+    "ciPagesResult": "success",
+    "validateJob": 111035091264,
+    "deployJob": 111036876514,
+    "productionUrl": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+    "tests": {
+      "files": 101,
+      "tests": 780,
+      "result": "pass"
+    },
+    "typecheck": "pass",
+    "lint": "pass; zero warnings",
+    "lfsFsck": "pass",
+    "runtimeAssetGate": "pass",
+    "productionBuild": "pass"
+  },
+  "pagesArtifact": {
+    "id": 11253670136,
+    "name": "github-pages",
+    "bytes": 1155634227,
+    "digest": "sha256:7776208b43af0f23303c1e8f35cf9f1da0581956886cba37045831c18d70031f",
+    "deployment": "success",
+    "verifiedContents": [
+      "production Lunarcrystal runtime PNGs and all three Moonlit Carriage GLBs",
+      "production terrain material manifest and JPEGs",
+      "production audio/UI/game assets",
+      "race-hud-results preview",
+      "Archer preview",
+      "motion-blur preview",
+      "terrain-materials preview",
+      "Lunarcrystal preview",
+      "shadow-polish preview and review-build.json"
+    ]
+  },
+  "preserved": [
+    "accepted gameplay",
+    "Archer",
+    "Lunarcrystal",
+    "visuals",
+    "audio",
+    "HUD/Results",
+    "bloom",
+    "motion blur",
+    "terrain materials"
+  ],
+  "prdDeviation": "none",
+  "limitations": [
+    "Independent machine HTTP/hash refetch of the public Pages host was unavailable from the execution environment; owner production-root gameplay replay passed.",
+    "No fresh device-performance claim.",
+    "Camera polish remains later.",
+    "Final diagnostics remain deferred.",
+    "Context-loss recovery remains waived."
+  ],
+  "next": "Stop. Shadow-polish production release and owner production-root confirmation are closed; do not start further work without a new instruction.",
+  "ownerProductionReplay": {
+    "status": "pass",
+    "authority": "Manny: “production passes.”",
+    "date": "2026-10-02",
+    "scope": "post-deploy production-root gameplay confirmation"
+  }
+}

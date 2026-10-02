@@ -1,0 +1,311 @@
+{
+  "mainLengthDense": 1450.0,
+  "mainLength200Divisions": 1449.096,
+  "sampleSpacing": 3.776,
+  "sectors": [
+    {
+      "id": 1,
+      "name": "Skyline Straight",
+      "start": 0,
+      "end": 0.27922965201784405,
+      "halfWidth": 6,
+      "color": "#37e6ff"
+    },
+    {
+      "id": 2,
+      "name": "The Undercity",
+      "start": 0.27922965201784405,
+      "end": 0.46220808820561654,
+      "halfWidth": 4.5,
+      "color": "#ff4fd8"
+    },
+    {
+      "id": 3,
+      "name": "Falls Run",
+      "start": 0.46220808820561654,
+      "end": 1,
+      "halfWidth": 6,
+      "color": "#ffc63f"
+    }
+  ],
+  "clearance": [
+    {
+      "shortcut": "billboard-gap",
+      "before": 2,
+      "after": 3,
+      "entryMeters": 22.95,
+      "rejoinMeters": 19.05
+    },
+    {
+      "shortcut": "service-tunnel",
+      "before": 4,
+      "after": 5,
+      "entryMeters": 23.5,
+      "rejoinMeters": 18.82
+    },
+    {
+      "shortcut": "waterfall-dive",
+      "before": 8,
+      "after": 9,
+      "entryMeters": 23.12,
+      "rejoinMeters": 21.41
+    }
+  ],
+  "validation": {
+    "lengthInRange": true,
+    "orderedDistinctGates": true,
+    "noGateSkippedByShortcut": true,
+    "higherRejoinProgress": true,
+    "unintendedMainCurveGateCrossings": [],
+    "geometricShortcutCombinations": [
+      {
+        "mask": 0,
+        "shortcuts": [],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 1,
+        "shortcuts": [
+          "billboard-gap"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 2,
+        "shortcuts": [
+          "service-tunnel"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 3,
+        "shortcuts": [
+          "billboard-gap",
+          "service-tunnel"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 4,
+        "shortcuts": [
+          "waterfall-dive"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 5,
+        "shortcuts": [
+          "billboard-gap",
+          "waterfall-dive"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 6,
+        "shortcuts": [
+          "service-tunnel",
+          "waterfall-dive"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 7,
+        "shortcuts": [
+          "billboard-gap",
+          "service-tunnel",
+          "waterfall-dive"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      }
+    ],
+    "physicalGateCollisionAndLapTests": "not yet run; runtime stage"
+  }
+}
+[
+  {
+    "id": "billboard-gap",
+    "entryProgress": [
+      0.1199975149024405,
+      0.1249975149024405
+    ],
+    "exitProgress": 0.19259050978484882,
+    "halfWidth": 6,
+    "points": [
+      [
+        173.429,
+        14.0,
+        -131.991
+      ],
+      [
+        214.94,
+        14.002,
+        -45.297
+      ]
+    ],
+    "mainDistance": 105.26,
+    "chordDistance": 96.12,
+    "pathPolylineDistance": 96.12
+  },
+  {
+    "id": "service-tunnel",
+    "entryProgress": [
+      0.27922965201784405,
+      0.28422965201784406
+    ],
+    "exitProgress": 0.36722572576307305,
+    "halfWidth": 3.2,
+    "points": [
+      [
+        131.949,
+        -0.001,
+        18.87
+      ],
+      [
+        131.955,
+        -4.0,
+        37.947
+      ],
+      [
+        131.972,
+        -4.0,
+        86.506
+      ],
+      [
+        131.979,
+        0.0,
+        105.583
+      ]
+    ],
+    "mainDistance": 127.594,
+    "chordDistance": 86.713,
+    "pathPolylineDistance": 87.542
+  },
+  {
+    "id": "waterfall-dive",
+    "entryProgress": [
+      0.768545703832824,
+      0.773545703832824
+    ],
+    "exitProgress": 0.8055491424440357,
+    "halfWidth": 6,
+    "points": [
+      [
+        -169.659,
+        5.994,
+        75.486
+      ],
+      [
+        -169.723,
+        8.998,
+        39.275
+      ]
+    ],
+    "mainDistance": 53.655,
+    "chordDistance": 36.335,
+    "pathPolylineDistance": 36.335
+  }
+]

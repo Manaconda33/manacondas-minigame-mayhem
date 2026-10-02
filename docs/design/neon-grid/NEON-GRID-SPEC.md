@@ -8,6 +8,9 @@ and a longer course length appropriate to the 62–68-second target. Sections 2,
 3, 8, and 9 incorporate those decisions. Geometry and lap times still require
 runtime measurement before implementation acceptance.
 
+
+**Stage 1 review prepared:** See `BUILD-CONTRACT.md`, `layout.svg`, and `layout.json` for the refined dimensional course, underground tunnel, ordered gates, and proposed token rule. Owner review is pending; the coordinates below are proposed blockout geometry, not accepted gameplay.
+
 > You don't look at Route Night anymore. You drive through it.
 
 This spec is written against the existing track architecture as reviewed in
@@ -69,62 +72,75 @@ scene construction selects a route-specific builder:
   `poseAt` in the scene builder must account for pitch on climbs — check the
   existing crest-ramp pitch handling and reuse it.
 
-### 2.2 Control points (initial length target, clockwise from start/finish)
+### 2.2 Refined control points — Stage 1 proposal
 
-These preserve the supplied plan shape and y elevations while expanding the
-horizontal coordinates by 1.7×. The original control-point polygon was only
-about 0.84 km before curve smoothing, too short for the requested 62–68-second
-fast night race. The new polygon is about 1.43 km; verify the actual sampled
-Catmull–Rom length is within 1.40–1.50 km and tune coordinates, shortcuts, and
-lap times together. This is a build target, not measured gameplay evidence.
+The dimensional proposal has genuine Undercity switchbacks and a localized
+waterfall jump. Dense centripetal length is 1,450.000 m; the 200-division
+estimate is 1,449.096 m. Validate with actual Three.js and Rapier in the build.
+`layout.json` is the geometric source and `build_layout.py` reproduces the
+measurements/drawing. Horizontal scaling preserves the 0/14 m sector intent.
 
 ```ts
 const points = [
-  new THREE.Vector3(0, 14, -204),      // start/finish — elevated
-  new THREE.Vector3(119, 14, -200.6), // S1 straight (boost pads)
-  new THREE.Vector3(221, 14, -144.5), // sweeper
-  new THREE.Vector3(255, 14, -17),    // billboard corner
-  new THREE.Vector3(238, 12, 102),   // descent
-  new THREE.Vector3(170, 4, 178.5),  // S2 entry
-  new THREE.Vector3(51, 0, 212.5),  // hairpin 1 — Undercity
-  new THREE.Vector3(-76.5, 0, 204), // hairpin 2
-  new THREE.Vector3(-170, 0, 136),  // esses
-  new THREE.Vector3(-221, 0, 34),   // tunnel exit zone
-  new THREE.Vector3(-204, 2, -76.5),// climb begins — S3
-  new THREE.Vector3(-119, 8, -153), // waterfall dive ramp
-  new THREE.Vector3(-34, 12, -190.4), // landing / rejoin
+  new THREE.Vector3(0.0, 14.0, -135.75),
+  new THREE.Vector3(98.041, 14.0, -135.75),
+  new THREE.Vector3(173.458, 14.0, -131.979),
+  new THREE.Vector3(211.166, 14.0, -98.041),
+  new THREE.Vector3(214.937, 14.0, -45.25),
+  new THREE.Vector3(207.395, 10.0, -7.542),
+  new THREE.Vector3(173.458, 2.0, 18.854),
+  new THREE.Vector3(131.979, 0.0, 18.854),
+  new THREE.Vector3(122.929, 0.0, 32.429),
+  new THREE.Vector3(131.979, 0.0, 45.25),
+  new THREE.Vector3(145.554, 0.0, 49.021),
+  new THREE.Vector3(154.604, 0.0, 62.596),
+  new THREE.Vector3(145.554, 0.0, 75.416),
+  new THREE.Vector3(131.979, 0.0, 79.187),
+  new THREE.Vector3(122.929, 0.0, 92.762),
+  new THREE.Vector3(131.979, 0.0, 105.583),
+  new THREE.Vector3(192.312, 0.0, 113.125),
+  new THREE.Vector3(214.937, 0.0, 143.291),
+  new THREE.Vector3(196.083, 0.0, 173.458),
+  new THREE.Vector3(75.416, 0.0, 173.458),
+  new THREE.Vector3(-60.333, 0.0, 173.458),
+  new THREE.Vector3(-143.291, 1.0, 165.916),
+  new THREE.Vector3(-173.458, 3.0, 128.208),
+  new THREE.Vector3(-169.687, 6.0, 75.416),
+  new THREE.Vector3(-188.541, 8.0, 58.825),
+  new THREE.Vector3(-169.687, 9.0, 39.217),
+  new THREE.Vector3(-158.374, 10.0, 7.542),
+  new THREE.Vector3(-143.291, 12.0, -67.875),
+  new THREE.Vector3(-109.354, 14.0, -113.125),
+  new THREE.Vector3(-52.791, 14.0, -134.241),
 ];
 ```
 
 ### 2.3 Ordered checkpoint placement
 
-Keep **12** physical, forward-facing checkpoints and the existing
-`LapTracker` order. NeonGrid's explicit `checkpointIndices` replace Circuit
-Alpha's uniform `index * sampleCount / 12` spacing. Proposed normalized
-main-curve positions, rounded to distinct sample indices, are:
+Keep 12 physical gates and existing ordered LapTracker authority. Common-road
+pairs are 2/3 around Billboard, 4/5 around Tunnel, and 8/9 around Dive.
 
-| Index | Progress | Purpose |
-|---|---:|---|
-| 0 | start/finish (22 m after origin) | Lap gate after checkpoint 11 |
-| 1 | 0.08 | Skyline straight |
-| 2 | 0.15 | Sweeper approach |
-| 3 | 0.20 | **Before** Billboard Gap entry 0.22 |
-| 4 | 0.32 | **After** Billboard Gap rejoin 0.30 |
-| 5 | 0.34 | Undercity approach |
-| 6 | 0.39 | **Before** Service Tunnel entry 0.42 |
-| 7 | 0.60 | **After** Service Tunnel rejoin 0.58 |
-| 8 | 0.68 | **Before** Waterfall Dive entry 0.72 |
-| 9 | 0.81 | **After** Waterfall Dive rejoin 0.79 |
-| 10 | 0.88 | Falls Run |
-| 11 | 0.95 | Finish approach |
+| Gate | Main progress | checkpointIndices entry |
+|---|---:|---:|
+| 0 | 22 m finish after grid origin | 0 |
+| 1 | 0.072917 | 28 |
+| 2 | 0.104167 | 40 |
+| 3 | 0.205729 | 79 |
+| 4 | 0.263021 | 101 |
+| 5 | 0.380208 | 146 |
+| 6 | 0.588542 | 226 |
+| 7 | 0.658854 | 253 |
+| 8 | 0.752604 | 289 |
+| 9 | 0.820312 | 315 |
+| 10 | 0.898438 | 345 |
+| 11 | 0.958333 | 368 |
 
-The actual gates must be placed on unavoidable common road, clear of each
-shortcut split/rejoin and with enough longitudinal room for the game's
-checkpoint trigger. All three normal routes and all eight shortcut combinations
-must physically cross gates 1→11→0 in order. No checkpoint is awarded from a
-shortcut's declared `exitProgress` alone. A splashdown recovery resumes before
-gate 9 and retains only checkpoints already earned. Test the realized geometry
-and trigger volumes; move a gate within its common-road section if needed.
+Gate 0 uses `lapCheckpointPosition(0)` at 22 m after the origin; the topology
+index 0 still identifies the starting grid. Gate half-width 13 m and vertical
+tolerance 1.5 m are proposed for runtime validation. Geometric main-curve
+crossing checks and skipped-interval checks pass. Physical trigger/lap tests
+remain pending. All paths cross 1→11→0; rejoin progress grants no checkpoint.
+Splash recovery resumes before gate 9 and retains only earned gates.
 
 ### 2.4 Surface zones (`project()`)
 
@@ -135,9 +151,9 @@ penalty (it must never stop a kart, only scrub exit speed).
 
 | Surface | Progress window | Lateral rule |
 |---|---|---|
-| boost | 0.08–0.095, 0.14–0.155, 0.20–0.215 (S1 pads); 0.78–0.795 (S3 pad) | lateralDistance ≤ 4.5 |
-| ramp | 0.72–0.75 (waterfall dive) | lateralDistance ≤ 4.5 |
-| static | 0.22–0.26 (billboard gap) — only while hologram is ON | within shortcut bounds |
+| boost | centers 0.035, 0.060, 0.085 (S1), 0.730 (S3); each ±0.0075 | lateralDistance ≤ 4.5 |
+| ramp | 0.768546–0.773546 at selected waterfall shortcut entry | lateralDistance ≤ 4.5 |
+| static | 0.119998–0.192591 (billboard path) — only while hologram is ON | within shortcut bounds |
 | asphalt / grass | default | ≤ halfWidth / > halfWidth |
 
 ---
@@ -156,8 +172,9 @@ interface Shortcut {
 }
 ```
 
-The proposed entry/rejoin windows are Billboard Gap 0.22–0.24 → 0.30,
-Service Tunnel 0.42–0.44 → 0.58, and Waterfall Dive 0.72–0.75 → 0.79.
+The proposed entry/rejoin windows are Billboard Gap 0.119998–0.124998 → 0.192591,
+Service Tunnel 0.279230–0.284230 → 0.367226, and Waterfall Dive
+0.768546–0.773546 → 0.805549.
 `project()` recognizes a valid forward entry and follows that shortcut's own
 curve through its rejoin; it must not fall back to main projection immediately
 after leaving the narrow entry window. Its mapped main-curve progress stays
@@ -166,7 +183,7 @@ invariants:** `exitProgress > entry.progress[1]`, and none of these intervals
 contains an ordered checkpoint gate. The existing `LapTracker` remains the
 authority: proximity to a downstream sample never grants a checkpoint or lap.
 
-### 3.1 Billboard Gap (Sector 1, entry ≈ progress 0.22)
+### 3.1 Billboard Gap (Sector 1, entry ≈ progress 0.120)
 
 - **What:** holographic billboard spanning the track at the sweeper exit. A chord
   path cuts the corner across the plaza behind it.
@@ -178,17 +195,19 @@ authority: proximity to a downstream sample never grants a checkpoint or lap.
   speed you keep, and the tell makes it a skill read.
 - **Time save:** ~0.6–0.9s vs. the long way around.
 
-### 3.2 Service Tunnel (Sector 2, entry ≈ progress 0.42)
+### 3.2 Service Tunnel (Sector 2, entry ≈ progress 0.279)
 
 - **What:** unmarked maintenance ramp behind a dumpster prop in the Undercity;
-  a straight tunnel chord skipping two hairpins.
+  a tunnel chord skipping the switchback sequence. Entry/exit ramps descend
+  below the street to a y=-4 m straight section, so the paths can cross safely.
+  Verify headroom with actual kart geometry; see `BUILD-CONTRACT.md`.
 - **Behavior:** narrow (`roadHalfWidth` 3.2) but **fully walled** — the test is
   line choice at speed, not survival. Dim magenta work-lights, dripping-pipe SFX.
 - **Fail state:** none beyond losing the advantage — scrub the walls and you exit
   slower than the hairpin line. No falls, no respawns.
 - **Time save:** ~1.0–1.4s when threaded clean.
 
-### 3.3 Waterfall Dive (Sector 3, entry ≈ progress 0.72)
+### 3.3 Waterfall Dive (Sector 3, entry ≈ progress 0.769)
 
 - **What:** broken guardrail section feeding a ramp over the plunge pool at the
   falls — the signature set piece (see dive visual).
@@ -203,7 +222,9 @@ authority: proximity to a downstream sample never grants a checkpoint or lap.
 
 ## 4. Tokens
 
-5 tokens per lap (mirrors Circuit Alpha's token economy):
+5 tokens per lap (new collectible behavior; current runtime economy is not assumed).
+The proposed race-local count, reset/ownership rules, and exact anchors are in
+`BUILD-CONTRACT.md` for Manny's review:
 - 1 on the S1 straight (rewards the racing line)
 - 1 in the Billboard Gap (rewards discovery)
 - 1 in the Service Tunnel (rewards discovery)
@@ -256,12 +277,15 @@ Mirror Circuit Alpha's convention (`public/assets/audio/music-v2/`):
 ## 8. Balance targets
 
 - Main-curve length: 1.40–1.50 km after sampling the actual spline; tune the
-  initial 1.7× horizontal plan if the sampled length falls outside that range.
+  refined dimensional plan if the sampled length falls outside that range.
 - Target lap: ~62–68s for a clean no-shortcut lap, validated by real driving
   and representative AI runs. This is a distinct, longer circuit with its own
   target rather than a Circuit Alpha parity claim.
-- All three shortcuts + clean lines: ~57–60s. No single shortcut should be
-  worth more than ~2.2s — discovery matters, mastery matters more.
+- All-shortcut target: the same driver's measured normal-route time minus
+  paired shortcut savings (approximately 3.4–4.5s improvement). The earlier
+  independent 57–60s range is superseded because it conflicted with the full
+  62–68s normal-route range. No single shortcut target exceeds approximately
+  2.2s; tune realized geometry or review the target if real driving disagrees.
 - AI rubber-banding: AI should take shortcuts at a tunable rate (suggest 35%)
   so they stay competitive without looking scripted.
 

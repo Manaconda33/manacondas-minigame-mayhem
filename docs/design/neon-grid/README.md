@@ -1,4 +1,4 @@
-# Neon Grid — Circuit 02 design intake
+# Neon Grid — Circuit 02 design and build checkpoint
 
 This branch records Manny's supplied design materials and approved five-stage build approach. Manny directed documenting the plan on 2026-10-02. The refined course shape and final product contract are reviewed in Stage 1 before runtime implementation; the branch does not itself amend the approved PRD or activate a route.
 
@@ -17,3 +17,7 @@ The supplied 1920 × 1280 PNG files were not placed in this repository. These 15
 | `image(6).png` → dive reference | `3e60c5260a8e7ce9fb7c4d621104416c6da0f6b84bee7ffc839dfc4b5b146f12` | `b9003b9c342a0cba37e61316d8e908c5dc1804c87df31aabca9d1f65cdfac34b` |
 
 Design reconciliation against the current PRD and runtime is required before implementation. The design revision proposes common-road checkpoint gates around all three shortcuts and a 1.40–1.50 km main curve. The PRD's single Circuit Alpha decision, actual route-selection flow, realized checkpoint and shortcut geometry, elevation and collision boundaries, `static` tuning semantics, AI shortcut behavior, audio identity, and measured lap times still need an approved implementation contract. The supplied spec is design intent, not a claim that its proposed API already satisfies those contracts.
+
+## Stage 1 — refined course ready for review
+
+Native execution started on 2026-10-02. Review the [build contract](BUILD-CONTRACT.md) and [dimensional course drawing](layout.svg) ([PNG](layout.png)); [numeric layout](layout.json) and [design generator](build_layout.py) contain the proposed control points and gates. Geometry measures 1,450 m and passes the recorded gate/progress checks. Owner shape/token review and runtime physics/lap tests remain pending. Progress/rulings: [execution ledger](../../evidence/2026-10-02-neon-grid/progress.md).

@@ -74,44 +74,48 @@ scene construction selects a route-specific builder:
 
 ### 2.2 Refined control points — Stage 1 proposal
 
-The dimensional proposal has genuine Undercity switchbacks and a localized
-waterfall jump. Dense centripetal length is 1,450.000 m; the 200-division
-estimate is 1,449.096 m. Validate with actual Three.js and Rapier in the build.
+The dimensional proposal has tight reversing Undercity hairpins connected by clear alley straights, and a localized
+waterfall jump. Dense centripetal length is 1,450.001 m; the 200-division
+estimate is 1,448.938 m. Validate with actual Three.js and Rapier in the build.
 `layout.json` is the geometric source and `build_layout.py` reproduces the
 measurements/drawing. Horizontal scaling preserves the 0/14 m sector intent.
 
 ```ts
 const points = [
-  new THREE.Vector3(0.0, 14.0, -135.75),
-  new THREE.Vector3(98.041, 14.0, -135.75),
-  new THREE.Vector3(173.458, 14.0, -131.979),
-  new THREE.Vector3(211.166, 14.0, -98.041),
-  new THREE.Vector3(214.937, 14.0, -45.25),
-  new THREE.Vector3(207.395, 10.0, -7.542),
-  new THREE.Vector3(173.458, 2.0, 18.854),
-  new THREE.Vector3(131.979, 0.0, 18.854),
-  new THREE.Vector3(122.929, 0.0, 32.429),
-  new THREE.Vector3(131.979, 0.0, 45.25),
-  new THREE.Vector3(145.554, 0.0, 49.021),
-  new THREE.Vector3(154.604, 0.0, 62.596),
-  new THREE.Vector3(145.554, 0.0, 75.416),
-  new THREE.Vector3(131.979, 0.0, 79.187),
-  new THREE.Vector3(122.929, 0.0, 92.762),
-  new THREE.Vector3(131.979, 0.0, 105.583),
-  new THREE.Vector3(192.312, 0.0, 113.125),
-  new THREE.Vector3(214.937, 0.0, 143.291),
-  new THREE.Vector3(196.083, 0.0, 173.458),
-  new THREE.Vector3(75.416, 0.0, 173.458),
-  new THREE.Vector3(-60.333, 0.0, 173.458),
-  new THREE.Vector3(-143.291, 1.0, 165.916),
-  new THREE.Vector3(-173.458, 3.0, 128.208),
-  new THREE.Vector3(-169.687, 6.0, 75.416),
-  new THREE.Vector3(-188.541, 8.0, 58.825),
-  new THREE.Vector3(-169.687, 9.0, 39.217),
-  new THREE.Vector3(-158.374, 10.0, 7.542),
-  new THREE.Vector3(-143.291, 12.0, -67.875),
-  new THREE.Vector3(-109.354, 14.0, -113.125),
-  new THREE.Vector3(-52.791, 14.0, -134.241),
+  new THREE.Vector3(0.0, 14.0, -125.795),
+  new THREE.Vector3(90.852, 14.0, -125.795),
+  new THREE.Vector3(160.738, 14.0, -122.301),
+  new THREE.Vector3(195.682, 14.0, -90.852),
+  new THREE.Vector3(199.176, 14.0, -41.932),
+  new THREE.Vector3(192.187, 10.0, -6.989),
+  new THREE.Vector3(160.738, 2.0, 17.472),
+  new THREE.Vector3(139.773, 0.0, 17.472),
+  new THREE.Vector3(111.818, 0.0, 17.472),
+  new THREE.Vector3(99.238, 0.0, 30.051),
+  new THREE.Vector3(111.818, 0.0, 42.631),
+  new THREE.Vector3(139.773, 0.0, 42.631),
+  new THREE.Vector3(164.233, 0.0, 42.631),
+  new THREE.Vector3(176.812, 0.0, 55.21),
+  new THREE.Vector3(164.233, 0.0, 67.79),
+  new THREE.Vector3(139.773, 0.0, 67.79),
+  new THREE.Vector3(111.818, 0.0, 67.79),
+  new THREE.Vector3(99.238, 0.0, 80.369),
+  new THREE.Vector3(111.818, 0.0, 92.949),
+  new THREE.Vector3(139.773, 0.0, 92.949),
+  new THREE.Vector3(178.21, 0.0, 97.142),
+  new THREE.Vector3(199.176, 0.0, 123.699),
+  new THREE.Vector3(181.704, 0.0, 150.255),
+  new THREE.Vector3(69.886, 0.0, 150.255),
+  new THREE.Vector3(-55.909, 0.0, 150.255),
+  new THREE.Vector3(-132.784, 1.0, 143.267),
+  new THREE.Vector3(-160.738, 3.0, 108.324),
+  new THREE.Vector3(-157.244, 6.0, 59.403),
+  new THREE.Vector3(-174.716, 8.0, 44.028),
+  new THREE.Vector3(-157.244, 9.0, 25.858),
+  new THREE.Vector3(-146.761, 10.0, -3.494),
+  new THREE.Vector3(-132.784, 12.0, -62.898),
+  new THREE.Vector3(-101.335, 14.0, -104.829),
+  new THREE.Vector3(-48.92, 14.0, -124.398),
 ];
 ```
 
@@ -124,14 +128,14 @@ pairs are 2/3 around Billboard, 4/5 around Tunnel, and 8/9 around Dive.
 |---|---:|---:|
 | 0 | 22 m finish after grid origin | 0 |
 | 1 | 0.072917 | 28 |
-| 2 | 0.104167 | 40 |
-| 3 | 0.205729 | 79 |
-| 4 | 0.263021 | 101 |
-| 5 | 0.380208 | 146 |
+| 2 | 0.093750 | 36 |
+| 3 | 0.192708 | 74 |
+| 4 | 0.312500 | 120 |
+| 5 | 0.447917 | 172 |
 | 6 | 0.588542 | 226 |
 | 7 | 0.658854 | 253 |
-| 8 | 0.752604 | 289 |
-| 9 | 0.820312 | 315 |
+| 8 | 0.776042 | 298 |
+| 9 | 0.841146 | 323 |
 | 10 | 0.898438 | 345 |
 | 11 | 0.958333 | 368 |
 
@@ -152,8 +156,8 @@ penalty (it must never stop a kart, only scrub exit speed).
 | Surface | Progress window | Lateral rule |
 |---|---|---|
 | boost | centers 0.035, 0.060, 0.085 (S1), 0.730 (S3); each ±0.0075 | lateralDistance ≤ 4.5 |
-| ramp | 0.768546–0.773546 at selected waterfall shortcut entry | lateralDistance ≤ 4.5 |
-| static | 0.119998–0.192591 (billboard path) — only while hologram is ON | within shortcut bounds |
+| ramp | 0.792717–0.797717 at selected waterfall shortcut entry | lateralDistance ≤ 4.5 |
+| static | 0.111234–0.178525 (billboard path) — only while hologram is ON | within shortcut bounds |
 | asphalt / grass | default | ≤ halfWidth / > halfWidth |
 
 ---
@@ -172,9 +176,9 @@ interface Shortcut {
 }
 ```
 
-The proposed entry/rejoin windows are Billboard Gap 0.119998–0.124998 → 0.192591,
-Service Tunnel 0.279230–0.284230 → 0.367226, and Waterfall Dive
-0.768546–0.773546 → 0.805549.
+The proposed entry/rejoin windows are Billboard Gap 0.111234–0.116234 → 0.178525,
+Service Tunnel 0.327954–0.332954 → 0.434723, and Waterfall Dive
+0.792717–0.797717 → 0.827030.
 `project()` recognizes a valid forward entry and follows that shortcut's own
 curve through its rejoin; it must not fall back to main projection immediately
 after leaving the narrow entry window. Its mapped main-curve progress stays
@@ -183,7 +187,7 @@ invariants:** `exitProgress > entry.progress[1]`, and none of these intervals
 contains an ordered checkpoint gate. The existing `LapTracker` remains the
 authority: proximity to a downstream sample never grants a checkpoint or lap.
 
-### 3.1 Billboard Gap (Sector 1, entry ≈ progress 0.120)
+### 3.1 Billboard Gap (Sector 1, entry ≈ progress 0.111)
 
 - **What:** holographic billboard spanning the track at the sweeper exit. A chord
   path cuts the corner across the plaza behind it.
@@ -195,7 +199,7 @@ authority: proximity to a downstream sample never grants a checkpoint or lap.
   speed you keep, and the tell makes it a skill read.
 - **Time save:** ~0.6–0.9s vs. the long way around.
 
-### 3.2 Service Tunnel (Sector 2, entry ≈ progress 0.279)
+### 3.2 Service Tunnel (Sector 2, entry ≈ progress 0.328)
 
 - **What:** unmarked maintenance ramp behind a dumpster prop in the Undercity;
   a tunnel chord skipping the switchback sequence. Entry/exit ramps descend
@@ -207,7 +211,7 @@ authority: proximity to a downstream sample never grants a checkpoint or lap.
   slower than the hairpin line. No falls, no respawns.
 - **Time save:** ~1.0–1.4s when threaded clean.
 
-### 3.3 Waterfall Dive (Sector 3, entry ≈ progress 0.769)
+### 3.3 Waterfall Dive (Sector 3, entry ≈ progress 0.793)
 
 - **What:** broken guardrail section feeding a ramp over the plunge pool at the
   falls — the signature set piece (see dive visual).

@@ -13,11 +13,12 @@ ROOT = Path(__file__).resolve().parent
 RAW = np.array([
     [0,14,-180], [130,14,-180], [230,14,-175], [280,14,-130],
     [285,14,-60], [275,10,-10], [230,2,25],
-    [175,0,25], [163,0,43], [175,0,60], [193,0,65],
-    [205,0,83], [193,0,100], [175,0,105], [163,0,123],
-    [175,0,140], [255,0,150], [285,0,190], [260,0,230],
-    [100,0,230], [-80,0,230], [-190,1,220], [-230,3,170],
-    [-225,6,100], [-250,8,78], [-225,9,52], [-210,10,10],
+    [200,0,25], [160,0,25], [142,0,43], [160,0,61],
+    [200,0,61], [235,0,61], [253,0,79], [235,0,97],
+    [200,0,97], [160,0,97], [142,0,115], [160,0,133],
+    [200,0,133], [255,0,139], [285,0,177], [260,0,215],
+    [100,0,215], [-80,0,215], [-190,1,205], [-230,3,155],
+    [-225,6,85], [-250,8,63], [-225,9,37], [-210,10,-5],
     [-190,12,-90], [-145,14,-150],
     [-70,14,-178],
 ], dtype=float)
@@ -69,7 +70,7 @@ def progress_of_control(i):
 
 # Feature anchors are tied to realized geometry, not old oval percentages.
 shortcuts=[]
-for id,a,b,width in [('billboard-gap',2,4,6),('service-tunnel',7,15,3.2),('waterfall-dive',23,25,6)]:
+for id,a,b,width in [('billboard-gap',2,4,6),('service-tunnel',12,19,3.2),('waterfall-dive',27,29,6)]:
     start=progress_of_control(a)
     end=progress_of_control(b)
     route=np.array([at(start),at(end)])
@@ -158,8 +159,8 @@ for s in shortcuts:
         rejoinMeters=round((after['progress']-s['exitProgress'])*total,2)))
 
 sectors=[dict(id=1,name='Skyline Straight',start=0,end=progress_of_control(7),halfWidth=6,color='#37e6ff'),
-         dict(id=2,name='The Undercity',start=progress_of_control(7),end=progress_of_control(18),halfWidth=4.5,color='#ff4fd8'),
-         dict(id=3,name='Falls Run',start=progress_of_control(18),end=1,halfWidth=6,color='#ffc63f')]
+         dict(id=2,name='The Undercity',start=progress_of_control(7),end=progress_of_control(22),halfWidth=4.5,color='#ff4fd8'),
+         dict(id=3,name='Falls Run',start=progress_of_control(22),end=1,halfWidth=6,color='#ffc63f')]
 pads=[.035,.060,.085,.730]
 tokens=[dict(id='skyline-line',mainProgress=.095),dict(id='billboard',pathId='billboard-gap',pathProgress=.5),
         dict(id='tunnel',pathId='service-tunnel',pathProgress=.5),

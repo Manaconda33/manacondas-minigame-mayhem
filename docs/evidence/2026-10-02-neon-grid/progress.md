@@ -28,3 +28,9 @@ Ruling: Tunnel goes below street at y=-4 m between entry/exit ramps — a same-h
 Ruling: All-shortcut timing uses paired same-driver savings rather than an independent 57–60 s range — supplied timing ranges were inconsistent — cost if wrong: revise measured mastery target with Manny after the blockout.
 
 Next: Manny reviews course shape and proposed five-per-lap race-local token rule. Then document approved PRD/decision changes, complete Task 1, and start shared-track Task 2. No runtime files changed.
+
+## Owner shape correction — 2026-10-02
+
+Manny: “The swichback isn't sharp enough at the bends,” with the original layout guide. Replaced gentle S-curves with clear alley straights and tight reversing bends. Tunnel now skips two actual hairpins. Dense length 1,450.001 m / 200-division estimate 1,448.938 m; regenerated all eight geometric path combinations and footprint checks PASS. Repositioned the common-road gates to the revised shortcut intervals. Shape/token acceptance remains pending.
+
+Ruling: Preserve Manny's sharp-hairpin intent even though the tunnel's larger geometric saving may exceed the original time target — measure and revise the shortcut interval/target in blockout instead of silently weakening the bends or adding a speed limit — cost if wrong: bounded shortcut/balance revision after paired driving tests.

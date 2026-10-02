@@ -21,3 +21,7 @@ Design reconciliation against the current PRD and runtime is required before imp
 ## Stage 1 — refined course ready for review
 
 Native execution started on 2026-10-02. Review the [build contract](BUILD-CONTRACT.md) and [dimensional course drawing](layout.svg) ([PNG](layout.png)); [numeric layout](layout.json) and [design generator](build_layout.py) contain the proposed control points and gates. Geometry measures 1,450 m and passes the recorded gate/progress checks. Owner shape/token review and runtime physics/lap tests remain pending. Progress/rulings: [execution ledger](../../evidence/2026-10-02-neon-grid/progress.md).
+
+### Undercity bend correction
+
+Manny rejected the gentle S-curve. The latest dimensional drawing restores tight reversing bends and crosswise alley straights from the original guide. Main length is 1,450.001 m by dense measurement; the gate/shortcut geometry checks still pass. Tokens remain a proposed optional collectible/count rule, not an existing game system or approved handling effect.

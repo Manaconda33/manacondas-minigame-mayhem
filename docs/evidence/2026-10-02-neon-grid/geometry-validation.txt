@@ -1,28 +1,28 @@
 {
-  "mainLengthDense": 1450.0,
-  "mainLength200Divisions": 1449.096,
+  "mainLengthDense": 1450.001,
+  "mainLength200Divisions": 1448.938,
   "sampleSpacing": 3.776,
   "sectors": [
     {
       "id": 1,
       "name": "Skyline Straight",
       "start": 0,
-      "end": 0.27922965201784405,
+      "end": 0.24654910452879084,
       "halfWidth": 6,
       "color": "#37e6ff"
     },
     {
       "id": 2,
       "name": "The Undercity",
-      "start": 0.27922965201784405,
-      "end": 0.46220808820561654,
+      "start": 0.24654910452879084,
+      "end": 0.5085572860873354,
       "halfWidth": 4.5,
       "color": "#ff4fd8"
     },
     {
       "id": 3,
       "name": "Falls Run",
-      "start": 0.46220808820561654,
+      "start": 0.5085572860873354,
       "end": 1,
       "halfWidth": 6,
       "color": "#ffc63f"
@@ -33,22 +33,22 @@
       "shortcut": "billboard-gap",
       "before": 2,
       "after": 3,
-      "entryMeters": 22.95,
-      "rejoinMeters": 19.05
+      "entryMeters": 25.35,
+      "rejoinMeters": 20.57
     },
     {
       "shortcut": "service-tunnel",
       "before": 4,
       "after": 5,
-      "entryMeters": 23.5,
-      "rejoinMeters": 18.82
+      "entryMeters": 22.41,
+      "rejoinMeters": 19.13
     },
     {
       "shortcut": "waterfall-dive",
       "before": 8,
       "after": 9,
-      "entryMeters": 23.12,
-      "rejoinMeters": 21.41
+      "entryMeters": 24.18,
+      "rejoinMeters": 20.47
     }
   ],
   "validation": {
@@ -229,83 +229,83 @@
   {
     "id": "billboard-gap",
     "entryProgress": [
-      0.1199975149024405,
-      0.1249975149024405
+      0.1112341368367766,
+      0.11623413683677661
     ],
-    "exitProgress": 0.19259050978484882,
+    "exitProgress": 0.17852464824355127,
     "halfWidth": 6,
     "points": [
       [
-        173.429,
+        160.76,
         14.0,
-        -131.991
+        -122.292
       ],
       [
-        214.94,
-        14.002,
-        -45.297
+        199.174,
+        13.998,
+        -41.895
       ]
     ],
-    "mainDistance": 105.26,
-    "chordDistance": 96.12,
-    "pathPolylineDistance": 96.12
+    "mainDistance": 97.571,
+    "chordDistance": 89.103,
+    "pathPolylineDistance": 89.103
   },
   {
     "id": "service-tunnel",
     "entryProgress": [
-      0.27922965201784405,
-      0.28422965201784406
+      0.32795420357789185,
+      0.33295420357789185
     ],
-    "exitProgress": 0.36722572576307305,
+    "exitProgress": 0.43472331572002487,
     "halfWidth": 3.2,
     "points": [
       [
-        131.949,
-        -0.001,
-        18.87
-      ],
-      [
-        131.955,
-        -4.0,
-        37.947
-      ],
-      [
-        131.972,
-        -4.0,
-        86.506
-      ],
-      [
-        131.979,
+        164.281,
         0.0,
-        105.583
+        42.651
+      ],
+      [
+        158.893,
+        -4.0,
+        53.717
+      ],
+      [
+        145.178,
+        -4.0,
+        81.884
+      ],
+      [
+        139.79,
+        0.0,
+        92.95
       ]
     ],
-    "mainDistance": 127.594,
-    "chordDistance": 86.713,
-    "pathPolylineDistance": 87.542
+    "mainDistance": 154.815,
+    "chordDistance": 55.944,
+    "pathPolylineDistance": 57.212
   },
   {
     "id": "waterfall-dive",
     "entryProgress": [
-      0.768545703832824,
-      0.773545703832824
+      0.7927174336702608,
+      0.7977174336702608
     ],
-    "exitProgress": 0.8055491424440357,
+    "exitProgress": 0.8270304316386314,
     "halfWidth": 6,
     "points": [
       [
-        -169.659,
-        5.994,
-        75.486
+        -157.267,
+        6.005,
+        59.347
       ],
       [
-        -169.723,
-        8.998,
-        39.275
+        -157.2,
+        9.003,
+        25.786
       ]
     ],
-    "mainDistance": 53.655,
-    "chordDistance": 36.335,
-    "pathPolylineDistance": 36.335
+    "mainDistance": 49.754,
+    "chordDistance": 33.695,
+    "pathPolylineDistance": 33.695
   }
 ]

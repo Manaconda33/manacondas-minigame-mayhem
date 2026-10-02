@@ -118,6 +118,32 @@ jobs:
           npm ci
           npm run build -- --base /manacondas-minigame-mayhem/previews/terrain-materials/
 
+      - name: Check out pinned Lunarcrystal review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v5
+        with:
+          ref: 1051cd9c8c6b1ff7237dc605417b17869f4cea9b
+          path: lunarcrystal-preview
+          lfs: true
+
+      - name: Verify and build Lunarcrystal review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: lunarcrystal-preview
+        env:
+          VITE_SOURCE_COMMIT: 1051cd9c8c6b1ff7237dc605417b17869f4cea9b
+        run: |
+          git lfs fsck
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/lunarcrystal/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            character: 'Lunarcrystal', source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/lunarcrystal/',
+            status: 'review only; production acceptance pending'
+          }, null, 2));
+          JS
+
       - name: Assemble the current game and isolated previews
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -138,6 +164,10 @@ jobs:
           mkdir -p site-root/previews/terrain-materials
           cp -a terrain-preview/dist/. site-root/previews/terrain-materials/
           test -f site-root/previews/terrain-materials/index.html
+          mkdir -p site-root/previews/lunarcrystal
+          cp -a lunarcrystal-preview/dist/. site-root/previews/lunarcrystal/
+          test -f site-root/previews/lunarcrystal/index.html
+          test -f site-root/previews/lunarcrystal/review-build.json
 
       - name: Configure GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

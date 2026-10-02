@@ -231,6 +231,9 @@ const runtimeGlbs = [
 ];
 
 runtimeGlbs.push(
+  'public/assets/characters/lunarcrystal/kart.glb',
+  'public/assets/characters/lunarcrystal/lod/kart-lod1.glb',
+  'public/assets/characters/lunarcrystal/lod/kart-lod2.glb',
   'public/assets/characters/aa-13/kart.glb',
   'public/assets/characters/aa-13/lod/kart-lod1.glb',
   'public/assets/characters/aa-13/lod/kart-lod2.glb',
@@ -701,6 +704,60 @@ for (const asset of archerArtLedger.assets) {
   runtimePngs.push([asset.path, ...asset.dimensions]);
   newTransparentFronts.add(asset.path);
 }
+const lunarArtLedger = JSON.parse(
+  await readFile('docs/evidence/2026-10-01-lunarcrystal/runtime-art-ledger.json', 'utf8'),
+);
+if (lunarArtLedger.assets.length !== 14)
+  throw new Error('Lunarcrystal requires fourteen approved PNGs.');
+for (const asset of lunarArtLedger.assets) {
+  const bytes = await readFile(asset.path);
+  if (createHash('sha256').update(bytes).digest('hex') !== asset.sha256)
+    throw new Error(`${asset.path} differs from approved Lunarcrystal art.`);
+  runtimePngs.push([asset.path, ...asset.dimensions]);
+  newTransparentFronts.add(asset.path);
+}
+const lunarKartLedger = JSON.parse(
+  await readFile('docs/evidence/2026-10-02-lunarcrystal-kart/approved-kart.json', 'utf8'),
+);
+for (const asset of lunarKartLedger.files) {
+  const bytes = await readFile(asset.runtime_path);
+  if (createHash('sha256').update(bytes).digest('hex') !== asset.sha256)
+    throw new Error(`${asset.runtime_path} differs from approved Moonlit Carriage geometry.`);
+  const length = bytes.readUInt32LE(12);
+  const doc = JSON.parse(bytes.subarray(20, 20 + length).toString('utf8'));
+  const triangles = doc.meshes.reduce(
+    (sum, mesh) =>
+      sum +
+      mesh.primitives.reduce((subtotal, p) => subtotal + doc.accessors[p.indices].count / 3, 0),
+    0,
+  );
+  const required = [
+    'KartRoot',
+    'Chassis',
+    'AccentMesh',
+    'SteeringWheel',
+    'Wheel_FL',
+    'Wheel_FR',
+    'Wheel_RL',
+    'Wheel_RR',
+    'Exhaust_L',
+    'Exhaust_R',
+    'DriverMount',
+    'ItemMountRear',
+    'ItemMountForward',
+  ];
+  if (
+    doc.extras.approvedName !== 'The Moonlit Carriage' ||
+    doc.extras.lod !== asset.lod ||
+    doc.nodes.length !== required.length ||
+    required.some((name) => !doc.nodes.some((node) => node.name === name)) ||
+    doc.materials.length !== 4 ||
+    triangles !== asset.triangles ||
+    triangles > asset.budget
+  )
+    throw new Error(`${asset.runtime_path} violates the approved kart contract.`);
+}
+
 const archerKartLedger = JSON.parse(
   await readFile('docs/evidence/2026-10-01-archer/kart-candidate-3.json', 'utf8'),
 );

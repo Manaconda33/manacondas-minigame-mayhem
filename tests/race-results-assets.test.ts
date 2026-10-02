@@ -19,6 +19,6 @@ describe('race Results victory assets', () => {
   it('keeps mapped art limited to podium places', () => {
     expect(raceResultsVictoryUrl('aa-07', 4)).toBeNull();
     expect(raceResultsVictoryUrl('aa-10', 8)).toBeNull();
-    expect(raceResultsVictoryUrl('aa-14', 1)).toBeNull();
+    expect(raceResultsVictoryUrl('aa-99', 1)).toBeNull();
   });
 });

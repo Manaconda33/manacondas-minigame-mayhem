@@ -39,16 +39,16 @@ describe('character manifest', () => {
     expect(Object.keys(archer.driver ?? {})).toHaveLength(10);
     expect(archer.driver?.frontHit).toContain('/aa-13/driver/front-hit.png?v=');
   });
-  it('contains exactly twelve unique, valid profiles', () => {
+  it('contains fourteen unique, valid profiles', () => {
     expect(validateCharacterManifest()).toEqual([]);
-    expect(characterManifest).toHaveLength(13);
-    expect(new Set(characterManifest.map(({ id }) => id)).size).toBe(13);
+    expect(characterManifest).toHaveLength(14);
+    expect(new Set(characterManifest.map(({ id }) => id)).size).toBe(14);
   });
 
   it('maps every active racer to selection-only full-body art', () => {
     for (const character of characterManifest) {
       expect(character.selectionArt).toContain(
-        `/assets/characters/${character.id}/selection/full-body.png?v=${CHARACTER_SELECTION_ART_REVISION}`,
+        `/assets/characters/${character.id === 'aa-14' ? 'lunarcrystal' : character.id}/selection/full-body.png?v=${character.id === 'aa-14' ? 'lunarcrystal-runtime-20261002-1' : CHARACTER_SELECTION_ART_REVISION}`,
       );
       expect(character.selectionArt).not.toContain('/driver/');
       expect(character.selectionArt).not.toBe(character.driver?.front);

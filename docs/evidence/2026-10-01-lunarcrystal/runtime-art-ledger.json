@@ -1,0 +1,246 @@
+{
+  "character": "Lunarcrystal",
+  "id": "lunarcrystal",
+  "revision": "lunarcrystal-art-20261001-1",
+  "status": "asset delivery only; not runtime-active",
+  "assets": [
+    {
+      "asset": "portrait",
+      "path": "public/assets/characters/lunarcrystal/portrait.png",
+      "sha256": "3e62da502fd7539efd682310cc185b02286688d625635b892f8cc4601333bf44",
+      "dimensions": [
+        256,
+        256
+      ],
+      "source_sha256": "51effc4f8782a60752430616dd052c12115e3ea235d19918fcb8bb37d2411fd7",
+      "canvas_inset": 8,
+      "alpha_bounds": [
+        8,
+        8,
+        248,
+        248
+      ]
+    },
+    {
+      "asset": "selection-full-body",
+      "path": "public/assets/characters/lunarcrystal/selection/full-body.png",
+      "sha256": "9682d2f9e9a990cbaab4d0d8d175616cbf1de704bf50c1c8825466e957462f06",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "source_sha256": "9682d2f9e9a990cbaab4d0d8d175616cbf1de704bf50c1c8825466e957462f06",
+      "canvas_inset": 0,
+      "alpha_bounds": [
+        27,
+        27,
+        1012,
+        1536
+      ]
+    },
+    {
+      "asset": "rear",
+      "path": "public/assets/characters/lunarcrystal/driver/rear.png",
+      "sha256": "206d7b76cba22a2329b8a530b00ed674ee2167f859e66529f7bc3836a7b82cfb",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "771c15c484f44e2e00f3f9ea9dbf4b360db3f60e0206678a1d2ef830d66562c6",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        45,
+        35,
+        466,
+        478
+      ]
+    },
+    {
+      "asset": "front",
+      "path": "public/assets/characters/lunarcrystal/driver/front.png",
+      "sha256": "3f0255862394f9a36cfc0805dd946e3e8babcccd8b297846be419342ecfbe024",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "bcf4c369acfa36516a9bc3577915f50cf87e880366cd52e8dd40723cd94a6342",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        39,
+        27,
+        478,
+        487
+      ]
+    },
+    {
+      "asset": "steer-left",
+      "path": "public/assets/characters/lunarcrystal/driver/steer-left.png",
+      "sha256": "a706215a20edca0afd06162f85d311768cd1b9c06600b6499eefaddb7aded812",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "6ec986cfd9d355de534b4c1f197d4c7db16f64cbbc6e18290ac57df720bacce2",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        45,
+        51,
+        482,
+        480
+      ]
+    },
+    {
+      "asset": "steer-right",
+      "path": "public/assets/characters/lunarcrystal/driver/steer-right.png",
+      "sha256": "e7d8f9529ed17b80e35701e3765678693afe3e57b9772d940b514bf5e131d010",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "8d2e5b004432682f75a002eb510db3879f3541cdd1df5ad986ca556388995fdc",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        36,
+        51,
+        484,
+        478
+      ]
+    },
+    {
+      "asset": "hit",
+      "path": "public/assets/characters/lunarcrystal/driver/hit.png",
+      "sha256": "c7662320b34418f050f0cf8ee8d9056f0798323e4c5b5be10e6bd68d80f745dd",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "a1f9d283666acfa64a47d182af847562462106355a90ac57637d48155dd94e19",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        39,
+        19,
+        480,
+        468
+      ]
+    },
+    {
+      "asset": "victory",
+      "path": "public/assets/characters/lunarcrystal/driver/victory.png",
+      "sha256": "d9960a44caecfd66b1374279bf93ed697611a0f29a1ea74685de6a07a1b5c8ae",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "d62e27c0400ebf59bde02a90b38fa6f81f9839608e8b781790e92c6066a775b6",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        48,
+        20,
+        478,
+        486
+      ]
+    },
+    {
+      "asset": "front-steer-left",
+      "path": "public/assets/characters/lunarcrystal/driver/front-steer-left.png",
+      "sha256": "f8284870715e8df8565f08fe6ed501fe7808531a225a3388c483fd5925e5684c",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "7dcf36b40e7df40e004d453267724c4b87afce626e37cec2744e325b2ea1c3b5",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        27,
+        36,
+        489,
+        492
+      ]
+    },
+    {
+      "asset": "front-steer-right",
+      "path": "public/assets/characters/lunarcrystal/driver/front-steer-right.png",
+      "sha256": "6d27889fa498dca099b9651c21c358e1e55ba2318b909d4bb7008bd9789f8211",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "ad619c92b1828e8ee78b894432202fb63c8c7b5551e6494014c17b2521067a75",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        32,
+        33,
+        486,
+        487
+      ]
+    },
+    {
+      "asset": "front-hit",
+      "path": "public/assets/characters/lunarcrystal/driver/front-hit.png",
+      "sha256": "cc76c3be91878259dd2cd48af6b74272aa2ae69b882acc2b6e628061a62aa7e0",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "d17f08f58f97c9eaf241c31ba67771654e13bef89b808eb8f69d08665f69da93",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        26,
+        24,
+        489,
+        480
+      ]
+    },
+    {
+      "asset": "front-victory",
+      "path": "public/assets/characters/lunarcrystal/driver/front-victory.png",
+      "sha256": "dd694b5fd38070bfb892cb49b5e3d17226f056a799747d72eccd500eb71ca04e",
+      "dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "15edbabbccecae9e653eb7d02a92d8a8021db9efc4be6de6c608f73064096d3f",
+      "canvas_inset": 16,
+      "alpha_bounds": [
+        43,
+        27,
+        479,
+        492
+      ]
+    },
+    {
+      "asset": "results-victory-full-body",
+      "path": "public/assets/characters/lunarcrystal/results/victory-full-body.png",
+      "sha256": "dfeed0f933eba8ea9da26fea0f63d3206729b67502a9c8d826c230a91637ebab",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "source_sha256": "dfeed0f933eba8ea9da26fea0f63d3206729b67502a9c8d826c230a91637ebab",
+      "canvas_inset": 0,
+      "alpha_bounds": [
+        41,
+        17,
+        1010,
+        1518
+      ]
+    },
+    {
+      "asset": "results-reaction-full-body",
+      "path": "public/assets/characters/lunarcrystal/results/reaction-full-body.png",
+      "sha256": "637d4a41abeeb61f0b44500e1a4f4257783bb510ca8680027ae3b2f02137842e",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "source_sha256": "637d4a41abeeb61f0b44500e1a4f4257783bb510ca8680027ae3b2f02137842e",
+      "canvas_inset": 0,
+      "alpha_bounds": [
+        0,
+        22,
+        1004,
+        1520
+      ]
+    }
+  ]
+}

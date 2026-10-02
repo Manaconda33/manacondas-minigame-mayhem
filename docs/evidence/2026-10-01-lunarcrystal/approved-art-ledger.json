@@ -1,0 +1,287 @@
+{
+  "character": "Lunarcrystal",
+  "id": "lunarcrystal",
+  "balance_profile": null,
+  "status": "individually approved art; delivery only; source masters retained locally and not published",
+  "assets": [
+    {
+      "asset": "portrait",
+      "source": "public/assets/characters/lunarcrystal/source/portrait-approved-v1.png",
+      "sha256": "51effc4f8782a60752430616dd052c12115e3ea235d19918fcb8bb37d2411fd7",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 405082,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "selection-full-body",
+      "source": "public/assets/characters/lunarcrystal/source/selection-full-body-approved-v1.png",
+      "sha256": "9682d2f9e9a990cbaab4d0d8d175616cbf1de704bf50c1c8825466e957462f06",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 940296,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "rear",
+      "source": "public/assets/characters/lunarcrystal/source/rear-approved-v1.png",
+      "sha256": "771c15c484f44e2e00f3f9ea9dbf4b360db3f60e0206678a1d2ef830d66562c6",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 856581,
+      "corner_alpha": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front",
+      "source": "public/assets/characters/lunarcrystal/source/front-approved-v1.png",
+      "sha256": "bcf4c369acfa36516a9bc3577915f50cf87e880366cd52e8dd40723cd94a6342",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 547513,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "steer-left",
+      "source": "public/assets/characters/lunarcrystal/source/steer-left-approved-v1.png",
+      "sha256": "6ec986cfd9d355de534b4c1f197d4c7db16f64cbbc6e18290ac57df720bacce2",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 832072,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "steer-right",
+      "source": "public/assets/characters/lunarcrystal/source/steer-right-approved-v1.png",
+      "sha256": "8d2e5b004432682f75a002eb510db3879f3541cdd1df5ad986ca556388995fdc",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 818560,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "hit",
+      "source": "public/assets/characters/lunarcrystal/source/hit-approved-v1.png",
+      "sha256": "a1f9d283666acfa64a47d182af847562462106355a90ac57637d48155dd94e19",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 813051,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "victory",
+      "source": "public/assets/characters/lunarcrystal/source/victory-approved-v1.png",
+      "sha256": "d62e27c0400ebf59bde02a90b38fa6f81f9839608e8b781790e92c6066a775b6",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 847024,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front-steer-left",
+      "source": "public/assets/characters/lunarcrystal/source/front-steer-left-approved-v1.png",
+      "sha256": "7dcf36b40e7df40e004d453267724c4b87afce626e37cec2744e325b2ea1c3b5",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 577793,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front-steer-right",
+      "source": "public/assets/characters/lunarcrystal/source/front-steer-right-approved-v1.png",
+      "sha256": "ad619c92b1828e8ee78b894432202fb63c8c7b5551e6494014c17b2521067a75",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 571328,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front-hit",
+      "source": "public/assets/characters/lunarcrystal/source/front-hit-approved-v1.png",
+      "sha256": "d17f08f58f97c9eaf241c31ba67771654e13bef89b808eb8f69d08665f69da93",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 530340,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "front-victory",
+      "source": "public/assets/characters/lunarcrystal/source/front-victory-approved-v1.png",
+      "sha256": "15edbabbccecae9e653eb7d02a92d8a8021db9efc4be6de6c608f73064096d3f",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 627527,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "results-victory-full-body",
+      "source": "public/assets/characters/lunarcrystal/source/results-victory-full-body-approved-v1.png",
+      "sha256": "dfeed0f933eba8ea9da26fea0f63d3206729b67502a9c8d826c230a91637ebab",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 924025,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    },
+    {
+      "asset": "results-reaction-full-body",
+      "source": "public/assets/characters/lunarcrystal/source/results-reaction-full-body-approved-v1.png",
+      "sha256": "637d4a41abeeb61f0b44500e1a4f4257783bb510ca8680027ae3b2f02137842e",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "mode": "RGBA",
+      "fully_transparent_pixels": 921185,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "owner_art_approval": "2026-10-01 America/Chicago",
+      "runtime_normalization": "complete; see runtime-art-ledger.json"
+    }
+  ],
+  "rejected_assets": [
+    {
+      "asset": "steer-left",
+      "generated_filename": "exec-51e4b131-4603-40f5-a097-8e7192b4b7b2.png",
+      "reason": "arm heights reversed; approval withdrawn"
+    },
+    {
+      "asset": "steer-right",
+      "generated_filename": "exec-a69d17de-6c05-44ae-8dd5-bc6fa75eb38f.png",
+      "reason": "arm heights reversed; rejected"
+    }
+  ],
+  "source_alpha_note": "Rear source bottom-left corner has alpha 1/255; original bytes preserved. Runtime shared inset provides fully transparent border."
+}

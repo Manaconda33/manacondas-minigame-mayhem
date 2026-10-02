@@ -1,0 +1,49 @@
+{
+  "status": "review publication authorized; direct binary delivery under ADR-102; live owner review pending",
+  "geometry_approval": "Manny inspected actual GLB and approved on 2026-10-02",
+  "revision": "lunarcrystal-runtime-20261002-1",
+  "rear_mount": [
+    0,
+    0.85,
+    -0.12
+  ],
+  "front_mount": [
+    0,
+    0.78,
+    -0.12
+  ],
+  "billboard_size": 1.45,
+  "visual_yaw": "Math.PI",
+  "offline_mounts": [
+    {
+      "path": "tools/assets/candidates/lunarcrystal-mounted-review-1.png",
+      "sha256": "a1c8afc31c480c70fbb7de833a23ce70de2df621431544eb44d9d924d8a65415"
+    },
+    {
+      "path": "tools/assets/candidates/lunarcrystal-mounted-review-2.png",
+      "sha256": "d7d716ea94ca1303ed84580d306c1d1728bc43429abd1b57a8007e48852e278c"
+    },
+    {
+      "path": "tools/assets/candidates/lunarcrystal-mounted-review-3.png",
+      "sha256": "6be0213282929dbfb54bb7e936919cd1ab76e8e4be91be72901ac569372d6408"
+    }
+  ],
+  "checks": {
+    "suite": "100 files / 774 tests passed",
+    "typecheck": "passed",
+    "lint": "passed zero warnings",
+    "build": "passed",
+    "preview_base": "/manacondas-minigame-mayhem/previews/lunarcrystal/",
+    "asset_verifier": "14 exact approved PNGs + 3 approved GLB hashes/hierarchy/budgets",
+    "independent_review": "no Critical/Important findings; three test precision suggestions addressed",
+    "geometry_contract": "passed all three LODs; reproducible",
+    "lfs_publication": "superseded by owner-authorized exact-path normal-Git exception ADR-102; failed bridge 37018057458 uploaded nothing"
+  },
+  "gates": {
+    "geometry": "approved",
+    "live_mounting_and_gameplay": "pending",
+    "review_branch_publication": "authorized",
+    "preview_workflow_merge": "authorized only after CI",
+    "runtime_production_merge": "not authorized"
+  }
+}

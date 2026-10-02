@@ -1,0 +1,241 @@
+{
+  "runtime": "efbcc74f5c8103d2b6411c8bdedd35953b224f3f",
+  "previewUrl": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/",
+  "marker": {
+    "feature": "Circuit Alpha shadow polish",
+    "source": "efbcc74f5c8103d2b6411c8bdedd35953b224f3f",
+    "base": "/manacondas-minigame-mayhem/previews/shadow-polish/",
+    "status": "review only; visual and production acceptance pending"
+  },
+  "verifiedFiles": [
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/index.html",
+      "bytes": 788,
+      "sha256": "dce83c5982869ef1faaa86198a58ad98bc6c11b3a5a7e357bd1e4394837bd44a",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/index-BkQsYmOm.js",
+      "bytes": 806794,
+      "sha256": "2a094b02ab55d181e39466011a6ff25c9482a48c3a9d9e0928690d19ffcc2db5",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/index-KLiXI-1N.css",
+      "bytes": 85082,
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/KartTimeTrial-DPpA_Jqx.js",
+      "bytes": 3125964,
+      "sha256": "7c41e7dbdc8bb31364f7391b5685bb6d3b3c4879e13fc426fbacf7d3c8810554",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/track/materials/terrain-v1/leafy_grass_arm_1k.jpg",
+      "bytes": 1010081,
+      "sha256": "95432451cb2693794459fe7ea339ea9ffdb5959c40373740f80a4aa1703f089d",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/track/materials/terrain-v1/leafy_grass_nor_gl_1k.jpg",
+      "bytes": 1466049,
+      "sha256": "832328216adc0a7e1f70a31d5ee48c9ab7f2152d83816122736cf42ac4b2ebd6",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/track/materials/terrain-v1/brown_mud_arm_1k.jpg",
+      "bytes": 224431,
+      "sha256": "40a5ac438f23ea454ff45f3f62f0fe4ac5b89c42fd070d10e7d41c51252caf88",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/track/materials/terrain-v1/leafy_grass_diff_1k.jpg",
+      "bytes": 1195394,
+      "sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/track/materials/terrain-v1/gravel_floor_02_nor_gl_1k.jpg",
+      "bytes": 1545680,
+      "sha256": "7db09804733f912bd120a1a3179bb867a01819ab9539a1c80eadfaff7e22509e",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/track/materials/terrain-v1/gravel_floor_02_arm_1k.jpg",
+      "bytes": 1103127,
+      "sha256": "53101410122574a22e3982748bec9edfbd0ba1608b9bff16de76f46fe80a17a9",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/track/materials/terrain-v1/brown_mud_diff_1k.jpg",
+      "bytes": 501955,
+      "sha256": "df3f135c899f10a3b018738343b222cbc67d13e7c76c5d8da834a3d34c984417",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/track/materials/terrain-v1/gravel_floor_02_diff_1k.jpg",
+      "bytes": 1240441,
+      "sha256": "ac9874264762a9e8d337e684259d51dac41a012933f0d8013033fee7076383f3",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/track/materials/terrain-v1/brown_mud_nor_gl_1k.jpg",
+      "bytes": 1011780,
+      "sha256": "ac517ca39eb507ae0f27e2b3db431c60888f9b5c3c52bec49d2c0775da0920cb",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/portrait.png",
+      "bytes": 123035,
+      "sha256": "3e62da502fd7539efd682310cc185b02286688d625635b892f8cc4601333bf44",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/front-victory.png",
+      "bytes": 366758,
+      "sha256": "dd694b5fd38070bfb892cb49b5e3d17226f056a799747d72eccd500eb71ca04e",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/front-steer-left.png",
+      "bytes": 377355,
+      "sha256": "f8284870715e8df8565f08fe6ed501fe7808531a225a3388c483fd5925e5684c",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/front-steer-right.png",
+      "bytes": 373846,
+      "sha256": "6d27889fa498dca099b9651c21c358e1e55ba2318b909d4bb7008bd9789f8211",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/victory.png",
+      "bytes": 278293,
+      "sha256": "d9960a44caecfd66b1374279bf93ed697611a0f29a1ea74685de6a07a1b5c8ae",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/rear.png",
+      "bytes": 263307,
+      "sha256": "206d7b76cba22a2329b8a530b00ed674ee2167f859e66529f7bc3836a7b82cfb",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/hit.png",
+      "bytes": 277026,
+      "sha256": "c7662320b34418f050f0cf8ee8d9056f0798323e4c5b5be10e6bd68d80f745dd",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/steer-left.png",
+      "bytes": 271572,
+      "sha256": "a706215a20edca0afd06162f85d311768cd1b9c06600b6499eefaddb7aded812",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/front-hit.png",
+      "bytes": 385515,
+      "sha256": "cc76c3be91878259dd2cd48af6b74272aa2ae69b882acc2b6e628061a62aa7e0",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/front.png",
+      "bytes": 387227,
+      "sha256": "3f0255862394f9a36cfc0805dd946e3e8babcccd8b297846be419342ecfbe024",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/driver/steer-right.png",
+      "bytes": 273021,
+      "sha256": "e7d8f9529ed17b80e35701e3765678693afe3e57b9772d940b514bf5e131d010",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/results/reaction-full-body.png",
+      "bytes": 2190258,
+      "sha256": "637d4a41abeeb61f0b44500e1a4f4257783bb510ca8680027ae3b2f02137842e",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/results/victory-full-body.png",
+      "bytes": 2185276,
+      "sha256": "dfeed0f933eba8ea9da26fea0f63d3206729b67502a9c8d826c230a91637ebab",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/selection/full-body.png",
+      "bytes": 2113492,
+      "sha256": "9682d2f9e9a990cbaab4d0d8d175616cbf1de704bf50c1c8825466e957462f06",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/kart.glb",
+      "bytes": 1159364,
+      "sha256": "06144c674f9b8100eb95a77069c6df00e7cb3fab6ce6bff4260fbc1b519fc12e",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/lod/kart-lod2.glb",
+      "bytes": 328544,
+      "sha256": "0eba46e8497738e2273708b0a6673d25c8ad603938b9579c28330b1f060fa09e",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/shadow-polish/assets/characters/lunarcrystal/lod/kart-lod1.glb",
+      "bytes": 645032,
+      "sha256": "a1ac756ee8fdf2056c15f9fe2be7eaa88c9046c8a6207c349f03000db9007571",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/index-KLiXI-1N.css",
+      "bytes": 85082,
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/index-CNXGGayR.js",
+      "bytes": 806526,
+      "sha256": "95308202b8828d2cc946e1ebc805c65827beba35d1d1f2230457829077b4004c",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/KartTimeTrial-CAI1OWos.js",
+      "bytes": 3123976,
+      "sha256": "76121778d606497c4c53d664a790a459fa0d9a914d88fc824ac4b36baa10d125",
+      "http": 200
+    },
+    {
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/index.html",
+      "bytes": 719,
+      "sha256": "5db51e903e82583d4c5131f4c3c40b226f533eedde70176b48afea41a5cb9796",
+      "http": 200
+    }
+  ],
+  "unchangedProductionFiles": 4,
+  "retainedPreviews": [
+    "race-hud-results",
+    "archer",
+    "motion-blur",
+    "terrain-materials",
+    "lunarcrystal"
+  ],
+  "result": "PASS",
+  "limitations": [
+    "HTTP/build-byte verification; owner visual acceptance pending",
+    "No fresh device performance claim",
+    "Cloud browser reached hub and driver selection; WebGL unavailable prevented rendered race review"
+  ],
+  "previewMerge": "e421b4bfa95e21cddcadf7e4f2748d67fdd053d5",
+  "previewPR": 241,
+  "runtimePR": 240,
+  "runtimeMergeStatus": "open; unmerged; owner visual acceptance pending",
+  "ci": {
+    "runtime": 37063456087,
+    "previewPR": 37063537020,
+    "mainPages": 37063798902,
+    "result": "success"
+  },
+  "bundleComparison": "Exact local validated bytes after substituting shadow-recreation with published source commit and corresponding generated chunk filenames."
+}

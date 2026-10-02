@@ -165,10 +165,10 @@ describe('static kart batching', () => {
     expect(meshCount(root)).toBe(4);
   });
 
-  for (let id = 1; id <= 13; id += 1) {
+  for (let id = 1; id <= 14; id += 1) {
     it(`preserves approved production kart aa-${String(id).padStart(2, '0')} while reducing submissions`, async () => {
       const encoded = readFileSync(
-        `public/assets/characters/aa-${String(id).padStart(2, '0')}/kart.glb`,
+        `public/assets/characters/${id === 14 ? 'lunarcrystal' : `aa-${String(id).padStart(2, '0')}`}/kart.glb`,
         'base64',
       );
       const bytes = Uint8Array.from(atob(encoded), (c) => c.charCodeAt(0));

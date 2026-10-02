@@ -15,7 +15,7 @@ describe('AI character roster selection', () => {
     expect(opponents).toHaveLength(7);
     expect(new Set(opponents.map(({ id }) => id)).size).toBe(7);
     expect(opponents.some(({ id }) => id === 'aa-13')).toBe(false);
-    expect(selectAiRoster(characterManifest, 'aa-01', 12).some(({ id }) => id === 'aa-13')).toBe(
+    expect(selectAiRoster(characterManifest, 'aa-01', 13).some(({ id }) => id === 'aa-13')).toBe(
       true,
     );
   });
@@ -27,7 +27,7 @@ describe('AI character roster selection', () => {
   });
 
   it('rejects a grid larger than the unique available roster', () => {
-    expect(() => selectAiRoster(characterManifest, 'aa-01', 13)).toThrow(
+    expect(() => selectAiRoster(characterManifest, 'aa-01', 14)).toThrow(
       'AI roster exceeds the available unique racers.',
     );
   });

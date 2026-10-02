@@ -1,0 +1,61 @@
+{
+  "candidate": 1,
+  "name": "The Moonlit Carriage",
+  "status": "local geometry candidate; owner review pending",
+  "profile": {
+    "id": "aa-14",
+    "archetype": "Lunar Navigator",
+    "class": "Medium",
+    "stats": [
+      6,
+      7,
+      4,
+      8,
+      5,
+      6
+    ]
+  },
+  "lods": [
+    {
+      "lod": "LOD0",
+      "triangles": 22236,
+      "limit": 25000,
+      "glb": "tools/assets/candidates/lunarcrystal-kart-candidate-1-lod0.glb",
+      "materials": 4,
+      "nodes": 13,
+      "sha256": "06144c674f9b8100eb95a77069c6df00e7cb3fab6ce6bff4260fbc1b519fc12e",
+      "bytes": 1159364
+    },
+    {
+      "lod": "LOD1",
+      "triangles": 11404,
+      "limit": 12000,
+      "glb": "tools/assets/candidates/lunarcrystal-kart-candidate-1-lod1.glb",
+      "materials": 4,
+      "nodes": 13,
+      "sha256": "a1ac756ee8fdf2056c15f9fe2be7eaa88c9046c8a6207c349f03000db9007571",
+      "bytes": 645032
+    },
+    {
+      "lod": "LOD2",
+      "triangles": 4852,
+      "limit": 5000,
+      "glb": "tools/assets/candidates/lunarcrystal-kart-candidate-1-lod2.glb",
+      "materials": 4,
+      "nodes": 13,
+      "sha256": "0eba46e8497738e2273708b0a6673d25c8ad603938b9579c28330b1f060fa09e",
+      "bytes": 328544
+    }
+  ],
+  "validation": {
+    "artifact_contract": "passed, all three LODs reproducible",
+    "rgba_2d_verifier": "14 passed",
+    "full_suite": "99 files / 768 tests passed; typecheck, lint and production build passed",
+    "diff_check": "passed",
+    "lfs_fsck": "passed"
+  },
+  "limitations": [
+    "Orthographic geometry review only; no live PBR/camera/device or sprite-mount acceptance",
+    "No runtime activation, publication, merge or production release"
+  ]
+}

@@ -1,3 +1,8 @@
+const LUNARCRYSTAL_VICTORY_HASH =
+  'dfeed0f933eba8ea9da26fea0f63d3206729b67502a9c8d826c230a91637ebab';
+const LUNARCRYSTAL_REACTION_HASH =
+  '637d4a41abeeb61f0b44500e1a4f4257783bb510ca8680027ae3b2f02137842e';
+
 const APPROVED_VICTORY_HASH_BY_CHARACTER: Readonly<Record<string, string>> = {
   'aa-01': '9b8751e027a5e62883ec5b1aab280a7dae1bef6d9dfd6e015b034914a1686aaa',
   'aa-02': '704148c27f72300d3f6ff9937b155e71bbeca63a38bb2c0ec9768efa5b5a1af3',
@@ -32,6 +37,8 @@ const APPROVED_REACTION_HASH_BY_CHARACTER: Readonly<Record<string, string>> = {
 
 export function raceResultsVictoryUrl(characterId: string, place: number | null): string | null {
   if (place === null || place < 1 || place > 3) return null;
+  if (characterId === 'aa-14')
+    return `${import.meta.env.BASE_URL}assets/characters/lunarcrystal/results/victory-full-body.png?v=${LUNARCRYSTAL_VICTORY_HASH}`;
   const hash = APPROVED_VICTORY_HASH_BY_CHARACTER[characterId];
   if (hash === undefined) return null;
   return `${import.meta.env.BASE_URL}assets/characters/${characterId}/results/victory.png?v=${hash}`;
@@ -39,6 +46,8 @@ export function raceResultsVictoryUrl(characterId: string, place: number | null)
 
 export function raceResultsReactionUrl(characterId: string, place: number | null): string | null {
   if (place === null || place < 4 || place > 8) return null;
+  if (characterId === 'aa-14')
+    return `${import.meta.env.BASE_URL}assets/characters/lunarcrystal/results/reaction-full-body.png?v=${LUNARCRYSTAL_REACTION_HASH}`;
   const hash = APPROVED_REACTION_HASH_BY_CHARACTER[characterId];
   if (hash === undefined) return null;
   return `${import.meta.env.BASE_URL}assets/characters/${characterId}/results/reaction.png?v=${hash}`;

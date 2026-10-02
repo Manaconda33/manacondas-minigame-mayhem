@@ -1,0 +1,27 @@
+{
+  "approved_name": "The Moonlit Carriage",
+  "status": "Candidate 1 geometry approved by Manny 2026-10-02; mounting/live acceptance pending",
+  "files": [
+    {
+      "runtime_path": "public/assets/characters/lunarcrystal/kart.glb",
+      "sha256": "06144c674f9b8100eb95a77069c6df00e7cb3fab6ce6bff4260fbc1b519fc12e",
+      "lod": "LOD0",
+      "triangles": 22236,
+      "budget": 25000
+    },
+    {
+      "runtime_path": "public/assets/characters/lunarcrystal/lod/kart-lod1.glb",
+      "sha256": "a1ac756ee8fdf2056c15f9fe2be7eaa88c9046c8a6207c349f03000db9007571",
+      "lod": "LOD1",
+      "triangles": 11404,
+      "budget": 12000
+    },
+    {
+      "runtime_path": "public/assets/characters/lunarcrystal/lod/kart-lod2.glb",
+      "sha256": "0eba46e8497738e2273708b0a6673d25c8ad603938b9579c28330b1f060fa09e",
+      "lod": "LOD2",
+      "triangles": 4852,
+      "budget": 5000
+    }
+  ]
+}

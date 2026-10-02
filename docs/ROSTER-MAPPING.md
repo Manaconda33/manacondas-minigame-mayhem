@@ -176,3 +176,11 @@ Manny approved AA-13 Archer / Precision Speedster on 2026-10-01: Speed 8, Accele
 ## Archer runtime review checkpoint
 
 The approved AA-13 allocation extends the roster to thirteen unique profiles. Page one retains the existing twelve drivers in their existing order; page two exposes Archer. The race remains the player plus seven unique AI opponents. The review manifest uses `archer-runtime-20261001-1`; Archer is not deployed or live accepted. Kart name and Candidate 3 geometry are approved. Actual chase/rear mounting and desktop/mobile page controls await rendered owner review.
+
+## Lunarcrystal expansion — approved allocation, not runtime-active
+
+Manny approved AA-14 Lunarcrystal / Lunar Navigator (Medium) with 6 / 7 / 4 / 8 / 5 / 6, 36 total, and The Moonlit Carriage on 2026-10-02. Allocate a new unique profile without remapping AA-01–13; preserve page-one order and place Lunarcrystal beside Archer on page two. Eight unique racers remain unchanged. Handling 8 and Traction 6 emphasize reliable cornering; Speed 6 and Weight 4 preserve tradeoffs. Kart concept/name are locked; candidate geometry, mounting and runtime/live release gates remain open.
+
+## Lunarcrystal local runtime review checkpoint — 2026-10-02
+
+AA-14 is locally active for integration review with the approved 6/7/4/8/5/6 profile and unchanged `lunarcrystal` file namespace. The Moonlit Carriage Candidate 1 geometry is owner-approved; its three exact GLBs are in LFS-governed runtime paths. No remap or production roster change is published. Page-one identities/order and the eight-racer format remain locked. Deployed mounting and selection review remains pending.

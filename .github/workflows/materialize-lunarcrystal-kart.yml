@@ -1,0 +1,57 @@
+name: Materialize approved Lunarcrystal kart
+
+on:
+  push:
+    branches: [review/lunarcrystal-integration]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          lfs: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install pinned deterministic builder dependencies
+        run: python -m pip install numpy==2.3.5 Pillow==12.3.0 matplotlib==3.10.8
+      - name: Reproduce only the three approved kart objects
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess,sys
+          from pathlib import Path
+          ledger=json.loads(Path('docs/evidence/2026-10-02-lunarcrystal-kart/approved-kart.json').read_text())
+          for asset in ledger['files']:
+              env=dict(os.environ,LUNAR_KART_LOD=asset['lod'],
+                       LUNAR_KART_OUT=asset['runtime_path'],LUNAR_KART_SKIP_PREVIEW='1')
+              subprocess.run([sys.executable,'tools/assets/build_lunarcrystal_kart.py'],env=env,check=True)
+              assert hashlib.sha256(Path(asset['runtime_path']).read_bytes()).hexdigest()==asset['sha256']
+          PY
+          git add public/assets/characters/lunarcrystal/kart.glb public/assets/characters/lunarcrystal/lod/kart-lod1.glb public/assets/characters/lunarcrystal/lod/kart-lod2.glb
+          git diff --cached --exit-code
+      - name: Upload exact approved objects and verify clean fetch-back
+        run: |
+          git lfs push --object-id origin 06144c674f9b8100eb95a77069c6df00e7cb3fab6ce6bff4260fbc1b519fc12e a1ac756ee8fdf2056c15f9fe2be7eaa88c9046c8a6207c349f03000db9007571 0eba46e8497738e2273708b0a6673d25c8ad603938b9579c28330b1f060fa09e
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          ledger=json.loads(Path('docs/evidence/2026-10-02-lunarcrystal-kart/approved-kart.json').read_text())
+          for asset in ledger['files']:
+              h=asset['sha256'];p=Path('.git/lfs/objects')/h[:2]/h[2:4]/h
+              p.unlink()
+          PY
+          git lfs fetch origin "$GITHUB_SHA"
+          git lfs checkout
+          git lfs fsck
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          ledger=json.loads(Path('docs/evidence/2026-10-02-lunarcrystal-kart/approved-kart.json').read_text())
+          for asset in ledger['files']:
+              assert hashlib.sha256(Path(asset['runtime_path']).read_bytes()).hexdigest()==asset['sha256']
+          PY

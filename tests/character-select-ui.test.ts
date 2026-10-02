@@ -18,7 +18,7 @@ describe('Route Night Character Select', () => {
     expect(root.querySelectorAll('[data-character]')).toHaveLength(12);
     expect(root.querySelector('[data-character="aa-13"]')).toBeNull();
     root.querySelector<HTMLElement>('[data-action="roster-next"]')?.click();
-    expect(root.querySelectorAll('[data-character]')).toHaveLength(1);
+    expect(root.querySelectorAll('[data-character]')).toHaveLength(2);
     expect(root.querySelector('[data-selected-driver-name]')?.textContent).toBe('Lavi');
     root.querySelector<HTMLElement>('[data-character="aa-13"]')?.click();
     expect(root.querySelector('[data-selected-driver-name]')?.textContent).toBe('Archer');
@@ -72,16 +72,16 @@ describe('Route Night Character Select', () => {
   });
 
   it('provides a distinct full-body selection asset for every active racer', () => {
-    expect(characterManifest).toHaveLength(13);
+    expect(characterManifest).toHaveLength(14);
 
     for (const character of characterManifest) {
       expect(character.selectionArt).toContain(
-        `/assets/characters/${character.id}/selection/full-body.png`,
+        `/assets/characters/${character.id === 'aa-14' ? 'lunarcrystal' : character.id}/selection/full-body.png`,
       );
       expect(character.selectionArt).not.toBe(character.driver?.front);
     }
 
-    expect(characterManifest.filter((entry) => entry.selectionArt !== undefined)).toHaveLength(13);
+    expect(characterManifest.filter((entry) => entry.selectionArt !== undefined)).toHaveLength(14);
   });
 
   it('uses the selection asset in the profile instead of the race driver frame', () => {

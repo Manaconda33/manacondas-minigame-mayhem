@@ -47,6 +47,7 @@ export interface CharacterDefinition {
 }
 
 export const STAT_TOTAL = 36;
+export const LUNARCRYSTAL_ASSET_REVISION = 'lunarcrystal-runtime-20261002-1';
 // Every production kart is authored and validated with glTF metadata
 // `extras.forward: "-Z"`. KartMesh's chase-camera visual convention is the
 // opposite, so the visual root must rotate PI without touching physics.
@@ -634,6 +635,59 @@ const archer: CharacterDefinition = {
   stats: { speed: 8, acceleration: 5, weight: 4, handling: 8, miniTurbo: 7, traction: 4 },
 };
 
+const lunarcrystal: CharacterDefinition = {
+  id: 'aa-14',
+  displayName: 'Lunarcrystal',
+  descriptor: 'Lunar Navigator',
+  initials: 'LC',
+  accent: '#b978ef',
+  assetState: 'production',
+  portrait: assetUrl('assets/characters/lunarcrystal/portrait.png', LUNARCRYSTAL_ASSET_REVISION),
+  selectionArt: assetUrl(
+    'assets/characters/lunarcrystal/selection/full-body.png',
+    LUNARCRYSTAL_ASSET_REVISION,
+  ),
+  kartName: 'The Moonlit Carriage',
+  kart: assetUrl('assets/characters/lunarcrystal/kart.glb', LUNARCRYSTAL_ASSET_REVISION),
+  kartVisualYaw: NEGATIVE_Z_KART_VISUAL_YAW,
+  driverSpritePosition: [0, 0.85, -0.12],
+  frontDriverSpritePosition: [0, 0.78, -0.12],
+  driver: {
+    rear: assetUrl('assets/characters/lunarcrystal/driver/rear.png', LUNARCRYSTAL_ASSET_REVISION),
+    front: assetUrl('assets/characters/lunarcrystal/driver/front.png', LUNARCRYSTAL_ASSET_REVISION),
+    steerLeft: assetUrl(
+      'assets/characters/lunarcrystal/driver/steer-left.png',
+      LUNARCRYSTAL_ASSET_REVISION,
+    ),
+    steerRight: assetUrl(
+      'assets/characters/lunarcrystal/driver/steer-right.png',
+      LUNARCRYSTAL_ASSET_REVISION,
+    ),
+    hit: assetUrl('assets/characters/lunarcrystal/driver/hit.png', LUNARCRYSTAL_ASSET_REVISION),
+    victory: assetUrl(
+      'assets/characters/lunarcrystal/driver/victory.png',
+      LUNARCRYSTAL_ASSET_REVISION,
+    ),
+    frontSteerLeft: assetUrl(
+      'assets/characters/lunarcrystal/driver/front-steer-left.png',
+      LUNARCRYSTAL_ASSET_REVISION,
+    ),
+    frontSteerRight: assetUrl(
+      'assets/characters/lunarcrystal/driver/front-steer-right.png',
+      LUNARCRYSTAL_ASSET_REVISION,
+    ),
+    frontHit: assetUrl(
+      'assets/characters/lunarcrystal/driver/front-hit.png',
+      LUNARCRYSTAL_ASSET_REVISION,
+    ),
+    frontVictory: assetUrl(
+      'assets/characters/lunarcrystal/driver/front-victory.png',
+      LUNARCRYSTAL_ASSET_REVISION,
+    ),
+  },
+  stats: { speed: 6, acceleration: 7, weight: 4, handling: 8, miniTurbo: 5, traction: 6 },
+};
+
 export const characterManifest: readonly CharacterDefinition[] = [
   lavi,
   manaconda,
@@ -648,14 +702,15 @@ export const characterManifest: readonly CharacterDefinition[] = [
   dragonQueen,
   alex,
   archer,
+  lunarcrystal,
 ];
 
 export function validateCharacterManifest(
   manifest: readonly CharacterDefinition[] = characterManifest,
 ): string[] {
   const errors: string[] = [];
-  if (manifest.length !== 13)
-    errors.push(`Expected 13 characters; found ${String(manifest.length)}.`);
+  if (manifest.length !== 14)
+    errors.push(`Expected 14 characters; found ${String(manifest.length)}.`);
   const ids = new Set<string>();
   for (const character of manifest) {
     if (ids.has(character.id)) errors.push(`Duplicate character id: ${character.id}.`);

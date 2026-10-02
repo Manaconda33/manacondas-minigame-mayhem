@@ -25,3 +25,7 @@ Native execution started on 2026-10-02. Review the [build contract](BUILD-CONTRA
 ### Undercity bend correction
 
 Manny rejected the gentle S-curve. The latest dimensional drawing restores tight reversing bends and crosswise alley straights from the original guide. Main length is 1,450.001 m by dense measurement; the gate/shortcut geometry checks still pass. Tokens remain a proposed optional collectible/count rule, not an existing game system or approved handling effect.
+
+### Full-hairpin bypass correction
+
+Manny directed the service tunnel to bypass **all fuchsia hairpins**. Entry/rejoin are now 0.246549→0.461541, bracketing the complete Undercity hairpin sequence; gates 4/5 moved onto shared road before/after it. All eight geometric path traces and gate-footprint checks pass. The earlier 1.0–1.4 s tunnel saving target is superseded; measure the full bypass during blockout. Owner shape/token acceptance and runtime tests remain pending.

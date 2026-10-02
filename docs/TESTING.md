@@ -1571,3 +1571,8 @@ Run `python docs/design/neon-grid/build_layout.py` with Python 3, numpy and matp
 
 
 Manny's sharper-hairpin correction was applied on 2026-10-02: geometry, gate placement, main-curve footprint crossings and all eight shortcut traces were regenerated and passed. This revises the shape; runtime driving/shortcut timing remains untested.
+
+
+### Neon Grid full-hairpin bypass correction — 2026-10-02
+
+Manny directed the service tunnel to bypass **all fuchsia hairpins**. Entry/rejoin are now 0.246549→0.461541, bracketing the complete Undercity hairpin sequence; gates 4/5 moved onto shared road before/after it. All eight geometric path traces and gate-footprint checks pass. The earlier 1.0–1.4 s tunnel saving target is superseded; measure the full bypass during blockout. Owner shape/token acceptance and runtime tests remain pending.

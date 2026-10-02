@@ -130,8 +130,8 @@ pairs are 2/3 around Billboard, 4/5 around Tunnel, and 8/9 around Dive.
 | 1 | 0.072917 | 28 |
 | 2 | 0.093750 | 36 |
 | 3 | 0.192708 | 74 |
-| 4 | 0.312500 | 120 |
-| 5 | 0.447917 | 172 |
+| 4 | 0.229167 | 88 |
+| 5 | 0.473958 | 182 |
 | 6 | 0.588542 | 226 |
 | 7 | 0.658854 | 253 |
 | 8 | 0.776042 | 298 |
@@ -177,7 +177,7 @@ interface Shortcut {
 ```
 
 The proposed entry/rejoin windows are Billboard Gap 0.111234–0.116234 → 0.178525,
-Service Tunnel 0.327954–0.332954 → 0.434723, and Waterfall Dive
+Service Tunnel 0.246549–0.251549 → 0.461541, and Waterfall Dive
 0.792717–0.797717 → 0.827030.
 `project()` recognizes a valid forward entry and follows that shortcut's own
 curve through its rejoin; it must not fall back to main projection immediately
@@ -199,17 +199,17 @@ authority: proximity to a downstream sample never grants a checkpoint or lap.
   speed you keep, and the tell makes it a skill read.
 - **Time save:** ~0.6–0.9s vs. the long way around.
 
-### 3.2 Service Tunnel (Sector 2, entry ≈ progress 0.328)
+### 3.2 Service Tunnel (Sector 2, entry ≈ progress 0.247)
 
 - **What:** unmarked maintenance ramp behind a dumpster prop in the Undercity;
-  a tunnel chord skipping the switchback sequence. Entry/exit ramps descend
+  a tunnel chord bypassing every fuchsia hairpin from the Undercity entry to its exit. Entry/exit ramps descend
   below the street to a y=-4 m straight section, so the paths can cross safely.
   Verify headroom with actual kart geometry; see `BUILD-CONTRACT.md`.
 - **Behavior:** narrow (`roadHalfWidth` 3.2) but **fully walled** — the test is
   line choice at speed, not survival. Dim magenta work-lights, dripping-pipe SFX.
 - **Fail state:** none beyond losing the advantage — scrub the walls and you exit
   slower than the hairpin line. No falls, no respawns.
-- **Time save:** ~1.0–1.4s when threaded clean.
+- **Time save:** measure in the blockout; the earlier 1.0–1.4s target is superseded by Manny's full-hairpin-bypass direction.
 
 ### 3.3 Waterfall Dive (Sector 3, entry ≈ progress 0.793)
 
@@ -286,10 +286,10 @@ Mirror Circuit Alpha's convention (`public/assets/audio/music-v2/`):
   and representative AI runs. This is a distinct, longer circuit with its own
   target rather than a Circuit Alpha parity claim.
 - All-shortcut target: the same driver's measured normal-route time minus
-  paired shortcut savings (approximately 3.4–4.5s improvement). The earlier
+  paired shortcut savings. The full tunnel bypass has no fixed saving target yet. The earlier
   independent 57–60s range is superseded because it conflicted with the full
-  62–68s normal-route range. No single shortcut target exceeds approximately
-  2.2s; tune realized geometry or review the target if real driving disagrees.
+  62–68s normal-route range. The billboard and dive retain their individual targets; measure the full
+  tunnel bypass separately before setting its balance target.
 - AI rubber-banding: AI should take shortcuts at a tunable rate (suggest 35%)
   so they stay competitive without looking scripted.
 

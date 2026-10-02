@@ -70,7 +70,7 @@ def progress_of_control(i):
 
 # Feature anchors are tied to realized geometry, not old oval percentages.
 shortcuts=[]
-for id,a,b,width in [('billboard-gap',2,4,6),('service-tunnel',12,19,3.2),('waterfall-dive',27,29,6)]:
+for id,a,b,width in [('billboard-gap',2,4,6),('service-tunnel',7,20,3.2),('waterfall-dive',27,29,6)]:
     start=progress_of_control(a)
     end=progress_of_control(b)
     route=np.array([at(start),at(end)])
@@ -159,8 +159,8 @@ for s in shortcuts:
         rejoinMeters=round((after['progress']-s['exitProgress'])*total,2)))
 
 sectors=[dict(id=1,name='Skyline Straight',start=0,end=progress_of_control(7),halfWidth=6,color='#37e6ff'),
-         dict(id=2,name='The Undercity',start=progress_of_control(7),end=progress_of_control(22),halfWidth=4.5,color='#ff4fd8'),
-         dict(id=3,name='Falls Run',start=progress_of_control(22),end=1,halfWidth=6,color='#ffc63f')]
+         dict(id=2,name='The Undercity',start=progress_of_control(7),end=progress_of_control(20),halfWidth=4.5,color='#ff4fd8'),
+         dict(id=3,name='Falls Run',start=progress_of_control(20),end=1,halfWidth=6,color='#ffc63f')]
 pads=[.035,.060,.085,.730]
 tokens=[dict(id='skyline-line',mainProgress=.095),dict(id='billboard',pathId='billboard-gap',pathProgress=.5),
         dict(id='tunnel',pathId='service-tunnel',pathProgress=.5),

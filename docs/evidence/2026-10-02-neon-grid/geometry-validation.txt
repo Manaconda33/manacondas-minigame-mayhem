@@ -15,14 +15,14 @@
       "id": 2,
       "name": "The Undercity",
       "start": 0.24654910452879084,
-      "end": 0.5085572860873354,
+      "end": 0.46154128347522666,
       "halfWidth": 4.5,
       "color": "#ff4fd8"
     },
     {
       "id": 3,
       "name": "Falls Run",
-      "start": 0.5085572860873354,
+      "start": 0.46154128347522666,
       "end": 1,
       "halfWidth": 6,
       "color": "#ffc63f"
@@ -40,8 +40,8 @@
       "shortcut": "service-tunnel",
       "before": 4,
       "after": 5,
-      "entryMeters": 22.41,
-      "rejoinMeters": 19.13
+      "entryMeters": 25.2,
+      "rejoinMeters": 18.0
     },
     {
       "shortcut": "waterfall-dive",
@@ -253,36 +253,36 @@
   {
     "id": "service-tunnel",
     "entryProgress": [
-      0.32795420357789185,
-      0.33295420357789185
+      0.24654910452879084,
+      0.2515491045287908
     ],
-    "exitProgress": 0.43472331572002487,
+    "exitProgress": 0.46154128347522666,
     "halfWidth": 3.2,
     "points": [
       [
-        164.281,
-        0.0,
-        42.651
+        139.828,
+        0.003,
+        17.472
       ],
       [
-        158.893,
+        148.249,
         -4.0,
-        53.717
+        34.987
       ],
       [
-        145.178,
+        169.685,
         -4.0,
-        81.884
+        79.57
       ],
       [
-        139.79,
+        178.107,
         0.0,
-        92.95
+        97.085
       ]
     ],
-    "mainDistance": 154.815,
-    "chordDistance": 55.944,
-    "pathPolylineDistance": 57.212
+    "mainDistance": 311.739,
+    "chordDistance": 88.338,
+    "pathPolylineDistance": 89.153
   },
   {
     "id": "waterfall-dive",

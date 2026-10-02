@@ -34,3 +34,9 @@ Next: Manny reviews course shape and proposed five-per-lap race-local token rule
 Manny: “The swichback isn't sharp enough at the bends,” with the original layout guide. Replaced gentle S-curves with clear alley straights and tight reversing bends. Tunnel now skips two actual hairpins. Dense length 1,450.001 m / 200-division estimate 1,448.938 m; regenerated all eight geometric path combinations and footprint checks PASS. Repositioned the common-road gates to the revised shortcut intervals. Shape/token acceptance remains pending.
 
 Ruling: Preserve Manny's sharp-hairpin intent even though the tunnel's larger geometric saving may exceed the original time target — measure and revise the shortcut interval/target in blockout instead of silently weakening the bends or adding a speed limit — cost if wrong: bounded shortcut/balance revision after paired driving tests.
+
+## Full bypass correction — 2026-10-02
+
+Manny directed bypassing all fuchsia hairpins. Tunnel entry now starts at the Undercity boundary before the first hairpin and rejoins after the last on the Falls Run boundary. Gates 4/5 moved to common road around the complete interval. All eight geometric route traces and footprint assertions pass; runtime remains pending.
+
+Ruling: The owner-directed full bypass supersedes the old 1.0–1.4 s tunnel target and fixed aggregate-saving range — keep every fuchsia hairpin bypassed and measure its advantage in blockout — cost if wrong: owner-reviewed balance adjustment, without quietly reducing bypass scope.

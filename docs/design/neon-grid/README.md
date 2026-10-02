@@ -1,6 +1,8 @@
 # Neon Grid — Circuit 02 design intake
 
-This branch records Manny's supplied design materials for review. It does not amend the approved PRD, activate a route, or authorize gameplay implementation or production publication.
+This branch records Manny's supplied design materials and approved five-stage build approach. Manny directed documenting the plan on 2026-10-02. The refined course shape and final product contract are reviewed in Stage 1 before runtime implementation; the branch does not itself amend the approved PRD or activate a route.
+
+- [Five-stage implementation plan](../../superpowers/plans/2026-10-02-neon-grid.md): ten tasks with file/interface boundaries, validation, owner reviews, and publication gates. Recommended execution: native, one stage at a time.
 
 - [Build spec](NEON-GRID-SPEC.md): supplied design text, revised on 2026-10-02 for shortcut-safe checkpoints and a longer course target. Its references to `track-concept-art.webp` and `media-generation-neon-grid-waterfall-dive-*.webp` are historical filenames in the supplied draft; the visual references available in this intake are the JPEGs below.
 - [Top-down builder's guide](track-layout.html): supplied HTML, unchanged; schematic and explicitly not to scale.

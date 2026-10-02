@@ -13,8 +13,13 @@ runtime measurement before implementation acceptance.
 This spec is written against the existing track architecture as reviewed in
 `src/game/track/` (CircuitAlpha, createTrackScene, TrackMaterials,
 TrackSceneResources), `src/game/race/LapTracker.ts`, `src/config/kartTuning.ts`,
-and `src/ui/routeNight.ts`. It mirrors existing interfaces exactly so the build
-is additive — no refactors to current systems.
+and `src/ui/routeNight.ts`. Manny approved the staged build approach on
+2026-10-02. The implementation plan is
+`docs/superpowers/plans/2026-10-02-neon-grid.md`. Introduce the minimal shared
+track contract and route selection needed by current Circuit Alpha consumers;
+retain existing race authorities and use route-specific scene/collision
+builders. The refined course shape and final product contract are reviewed in
+Stage 1 before runtime implementation.
 
 ---
 
@@ -43,7 +48,8 @@ Reference visuals (in this folder):
 ## 2. Track class: `NeonGrid`
 
 New file: `src/game/track/NeonGrid.ts`. **Same public API as `CircuitAlpha`**
-so `LapTracker`, `createTrackScene`, and tests interoperate unchanged:
+through the shared track contract. `LapTracker` retains its existing authority;
+scene construction selects a route-specific builder:
 
 - `curve: THREE.CatmullRomCurve3` (closed, `'centripetal'`, tension 0.5)
 - `samples: THREE.Vector3[]`, `tangents: THREE.Vector3[]`, `sampleCount = 384`

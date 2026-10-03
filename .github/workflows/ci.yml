@@ -175,7 +175,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v5
         with:
-          ref: 52093b35aa6b44440c6ddb112c4de713b109a86d
+          ref: 6edd4fcaeeb1898bc842175976c678f0b6214b90
           path: neon-grid-preview
           lfs: true
 
@@ -183,7 +183,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: neon-grid-preview
         env:
-          VITE_SOURCE_COMMIT: 52093b35aa6b44440c6ddb112c4de713b109a86d
+          VITE_SOURCE_COMMIT: 6edd4fcaeeb1898bc842175976c678f0b6214b90
         run: |
           git lfs fsck
           test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"

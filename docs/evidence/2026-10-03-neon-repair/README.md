@@ -53,3 +53,13 @@ Native validation, hosted checks and pinned delivery are recorded below after th
 Native validation: npm run validate PASS — 110 test files / 848 tests; strict typecheck, zero-warning ESLint, 42 GLB/163 PNG runtime validation, SFX/music/branding gates, production build. git diff --check and git lfs fsck PASS. Validation transcript and red regressions are adjacent. Existing Vite large-chunk and npm proxy-config warnings remain nonblocking; no new acceptance criterion or product requirement.
 
 Independent code review: approved within the authorized repair scope, no Critical/Important findings; four focused suites independently passed 43 tests. Reviewer confirms collision evidence does not imply universal impact-speed or mobile smoothness acceptance.
+
+## Final pinned delivery — LIVE; owner driving gate pending
+
+Validated runtime/source: 6edd4fcaeeb1898bc842175976c678f0b6214b90. Runtime CI 37093926679 PASS (110 files / 848 tests); preview-only PR #246 at a5d3fb9cf8741e52a375604e645aaa3b6e7468a0 passed CI 37093966915, then merged with expected-head lock at 01909ab62d1a92950b38961edc9bcc5a13342a80. Main CI/Pages 37094083446 validate 111120312452 and deploy 111121245638 PASS. Runtime PR #242 independently rechecked draft/open/unmerged. Only the two workflow pin fields changed on main; no src/public difference from prior production main ab2f0c1.
+
+Live HTTP verification: exact review-build.json source; all four validated preview HTML/entry JS/kart JS/CSS hashes; Lavi, Archer and Lunarcrystal GLB/portrait hashes; all four production bundle hashes match the pre-publication capture. delivery.json contains status, byte counts, hashes and UTC verification time. The corrected public link opens the Title page in the cloud browser. Rendered driving remains unverified because WebGL is disabled in that browser; phone acceptance is not inferred.
+
+Gameplay review: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid/?review=6edd4fc — PRESS START → DRIVE NEON GRID → choose a driver → START RACE. Review phone portrait/landscape smoothness and steering/acceleration/brake/drift/item/rear view, tight hairpins/Falls bend, minimap clockwise turns/markers, restart/replay and three-lap progress. Optional testRacePerf=1 uses the existing diagnostics. Stop at this owner main-route gate; no production release, shortcut/Dive or scenery continuation.
+
+Delivery-record reconciliation changes only workflow/documentation/evidence relative to the validated runtime. Runtime src/public/tests match 6edd4fc exactly; local diff and LFS checks pass. The deployed pin remains the independently validated 6edd4fc, rather than moving to an evidence-only commit.

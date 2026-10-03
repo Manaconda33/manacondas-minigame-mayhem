@@ -1,6 +1,6 @@
 # Residual Neon climbing-bend execution progress
 
-Updated: 2026-10-03. Status: DIAGNOSIS COMPLETE / STOPPED AT STEP 4 FOR MANNY REVIEW.
+Updated: 2026-10-03. Status: STEP 4 APPROVED / 5.1 REGRESSION RECORDED; 5.2 NOT STARTED.
 
 Plan: docs/superpowers/plans/2026-10-03-neon-residual-turn-repair.md
 Evidence: residual-owner-feedback.md in this folder.
@@ -11,7 +11,7 @@ Evidence: residual-owner-feedback.md in this folder.
 | 2: Coverage and shape | COMPLETE | 1e676e4 / 47fea1e / aa73288; exact hosted CI PASS | No sampled interior hole; steep retained face and overlapping heights measured |
 | 3: Causal trace | COMPLETE | 0fdac08 / 8262b18 / e24fb0f | Native launch precedes support loss; boundary adds later slowdown; all recovery calls captured |
 | 4: Diagnosis review | COMPLETE / STOPPED FOR MANNY | diagnosis.md; 4.1 a6efc44; final checkpoint is commit containing4.2 entry | NO Step5 until explicit approval |
-| 5: Regression/repair | NOT AUTHORIZED | Geometry-only scope proposed; no runtime patch or red repair regression created | Requires explicit Step-4 approval |
+| 5: Regression/repair | 5.1 COMPLETE; 5.2 NOT STARTED | regression-5.1-red.txt / regression-5.1.json / opt-in fixture | Report pushed5.1 and hosted CI before5.2 |
 | 6: Validation/preview | NOT STARTED | Existing deployed runtime e441ab7 | Separate pinned-preview authorization and device review; no production release |
 
 ## Durable baseline
@@ -115,3 +115,21 @@ Final checks: nine diagnostic JSON records parse; plan boxes1.1–4.1 complete, 
 No PRD deviation or corrective runtime change. Self-review of diagnosis/evidence found no unreported blocker; original-footage exact controls/telemetry and device/full-course acceptance remain limitations. Plan prohibits proactive delegation, so no independent agent review is claimed. Ruling: user-authorized diagnosis tooling precedes the failing repair regression, which remains Step5 owner-gated; no production code was written. Proposed patch construction and any additional runtime-file scope remain subject to Manny review. Next action: await Manny; do not advance autonomously to Step5 or publish a new preview.
 
 Publication SHA/CI reported after remote verification and recorded in next entry.
+
+## 5.1 — independent failing regression, 2026-10-03
+
+Manny approved the Step-4 diagnosis/bounded geometry repair proposal and directed “Approved. Start 5.1.” This checkpoint executes 5.1 only; report before 5.2. Prior checkpoint 606c20f38fc589329bb2aeff14844ec730c5c0c9; hosted CI37131009732 SUCCESS. Fresh isolated clone of runtime branch; main8c29fca and draft/unmerged PR242 reverified, only relevant open PR. PRD v1.1 plus approved amendments; active Slice6/Neon Stage2 main-route acceptance remains unresolved. No production/preview/Stage3 authority.
+
+Opt-in fixture tools/diagnostics/neon-residual-regression.fixture.txt is an independent real Rapier/production controller driving test. It never reads mesh triangle IDs, indices, deletion predicates or production geometry normals. It uses three behavioral assertions: planar displacement deficit under0.05m per1/60s step; upward velocity no more than speed*tan(8degrees)+1m/s; native planar speed loss under2m/s per step. These are deliberately generous regression bounds, not new gameplay tuning or final device acceptance. The grade envelope exceeds measured authored maximum5.666647degrees. Expected values are independent constants/kinematic travel, not copied mesh output.
+
+Scenario: aa09/Manaconda/Wayfinder, production flags/ribbon unchanged, local start0.81, 90settling steps, initial29.7m/s, dt1/60, 18driven steps, existing AiDriver steering with full throttle/no brake/drift; no rivals/items/scripted correction/recovery. Exact pose/step measurements in regression-5.1.json. Initial16steps independently confirm four self-excluding wheel rays and no pre/post boundary contact. This isolates already-confirmed supported road onset; no full-lap/original-input replay claim.
+
+RED observed on unchanged runtime: three behavior assertions fail at0.81, eight controls pass (11tests total). Maximum travel deficit0.492323278m versus0.05m; max upward velocity14.049756050m/s, grade-subtracted excess11.223186808m/s versus1m/s; native planar loss11.778873972m/s versus2m/s. Flat starts0.001/0.48 pass all three bounds, max deficits0.000000940/0.000017636m, no native planar loss. Real gravity/falling and deliberate barrier response control passes, retains vertical velocity and permits legitimate impact slowdown. Support/boundary control passes. No failing import/setup or runtime mock supplies the result.
+
+Initial optional fixture typecheck exposed existing narrow node:fs test shim lacking writeFileSync, with one corresponding lint error. Replaced evidence file write with typed console trace; shell extracts JSON after run. Fixture typecheck and zero-warning lint now PASS, then reran RED with the same3expected failures/8controls PASS. This was fixture typing, not a runtime defect or full-validation failure. Fixture removed and absence asserted before full checks; no intentionally red test in active suite.
+
+Commands: copy fixture to tests/neon-grid-residual-bend.test.ts; npm run typecheck; npx eslint that path --max-warnings0; npx vitest run that path (expected exit1), save regression-5.1-red.txt; delete temporary test; assert absence; extract NEON_REGRESSION_TRACE JSON; npm run validate; git diff --check; git lfs fsck. Baseline fresh active suite111files/850tests PASS. Final full gates PASS:111files/850tests, strict typecheck, zero-warning ESLint, asset/build checks, git diff --check and git lfs fsck; saved in validation-5.1.txt. Existing npm proxy configuration/Rapier initialization/Vite chunk-size notices remain nonblocking; no corrective src/public change. Self-review: meaningful native outcomes, two flat controls, actual falling/barrier control, deterministic recorded onset and narrow scope. No proactive delegation per approved plan.
+
+Ruling: preserve intentionally failing fixture outside active suite until5.2, as5.1 explicitly requires; promote identical behavioral assertions during repair. User request scopes this turn to5.1 and its pushed/report checkpoint;5.2 is not started. Next: report verified checkpoint/CI, then5.2 bounded NeonGridGeometry.ts repair; do not weaken test bounds or change controller/physics/barriers to force green. Runtime PR242 remains draft/unmerged, preview pin/runtimee441ab7 and production8c29fca unchanged. Source/recording/device/full-course limitations continue.
+
+Publication SHA/CI reported after remote verification; exact self identity is the commit containing this entry.

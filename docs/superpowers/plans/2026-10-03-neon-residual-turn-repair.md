@@ -12,6 +12,8 @@
 
 Manny directed saving this agreed plan for a new session, with repository updates and reporting between every step. This session records the plan only. The next session starts with repository catch-up and diagnosis Steps 1–4. Step 4 is a mandatory diagnosis review gate: report measured findings and a concrete bounded repair to Manny, then wait for his approval before Step 5. Do not treat this planning checkpoint as repair authorization. Later pinned-preview publication and production release remain distinct gates; confirm preview authorization from the live session before merging its workflow-only PR. PR #242 must remain draft/unmerged until separate production acceptance/release direction.
 
+**Owner approval — 2026-10-03:** Manny approved the Step-4 diagnosis and proposed bounded geometry scope with “Approved. Start 5.1.” Execute/report5.1 first; correction5.2 follows its verified checkpoint/report. Preview publication and production remain separately gated.
+
 ## Constraints and evidence discipline
 
 - Keep ORIENTED plus FIX_INTERNAL_EDGES on road support.
@@ -77,7 +79,7 @@ Deliverable: causal trace explaining initiator and speed collapse independently.
 ## Step 5 — Regression and approved bounded repair
 
 **Files:** tests/neon-grid-collision.test.ts / tests/neon-grid-road-motion.test.ts or a focused new regression; modify src/game/track/NeonGridGeometry.ts only if geometry is physically implicated. Other repair files require the Step-4 evidence/scope.
-- [ ] 5.1 Create an independent regression that reproduces the confirmed defect. Observe failure on original code, preserve red output in evidence, and checkpoint a passing active suite with any red diagnostic fixture clearly outside it.
+- [x] 5.1 Create an independent regression that reproduces the confirmed defect. Observe failure on original code, preserve red output in evidence, and checkpoint a passing active suite with any red diagnostic fixture clearly outside it.
 - [ ] 5.2 Implement the minimal approved correction; run the same regression green. If geometry is responsible, repair folded topology rather than indiscriminately restoring inverted triangles. Keep visual/collider support aligned and fix other regions demonstrated to share the same defect.
 - [ ] 5.3 Repeat causal traces and geometry checks. Show the targeted unintended lift/slowdown is removed while legitimate impacts/airborne behavior remain. Remove temporary hooks or retain only specifically approved, non-default reproducible diagnostic tooling. Run full required checks before pushing repair.
 

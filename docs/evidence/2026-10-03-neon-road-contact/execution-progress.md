@@ -1,6 +1,6 @@
 # Residual Neon climbing-bend execution progress
 
-Updated: 2026-10-03. Status: DIAGNOSIS RECORDED THROUGH 4.1 / FINAL CHECKPOINT 4.2 NEXT.
+Updated: 2026-10-03. Status: DIAGNOSIS COMPLETE / STOPPED AT STEP 4 FOR MANNY REVIEW.
 
 Plan: docs/superpowers/plans/2026-10-03-neon-residual-turn-repair.md
 Evidence: residual-owner-feedback.md in this folder.
@@ -10,8 +10,8 @@ Evidence: residual-owner-feedback.md in this folder.
 | 1: Catch-up and reproduction | COMPLETE | 927caf0 / 115061a / be9e289; exact hosted CI PASS | Controlled location/launch reproduced; original inputs unknown |
 | 2: Coverage and shape | COMPLETE | 1e676e4 / 47fea1e / aa73288; exact hosted CI PASS | No sampled interior hole; steep retained face and overlapping heights measured |
 | 3: Causal trace | COMPLETE | 0fdac08 / 8262b18 / e24fb0f | Native launch precedes support loss; boundary adds later slowdown; all recovery calls captured |
-| 4: Diagnosis review | 4.1 COMPLETE / 4.2 NEXT | diagnosis.md | Verify final remote/CI then STOP for Manny before repair |
-| 5: Regression/repair | NOT AUTHORIZED YET | None | Requires explicit Step-4 approval |
+| 4: Diagnosis review | COMPLETE / STOPPED FOR MANNY | diagnosis.md; 4.1 a6efc44; final checkpoint is commit containing4.2 entry | NO Step5 until explicit approval |
+| 5: Regression/repair | NOT AUTHORIZED | Geometry-only scope proposed; no runtime patch or red repair regression created | Requires explicit Step-4 approval |
 | 6: Validation/preview | NOT STARTED | Existing deployed runtime e441ab7 | Separate pinned-preview authorization and device review; no production release |
 
 ## Durable baseline
@@ -105,5 +105,13 @@ Publication SHA/CI reported after remote verification and recorded in next entry
 ## 4.1 — diagnosis review and bounded repair proposal recorded, 2026-10-03
 
 Prior checkpoint e24fb0ff6fe438163b5d8b6542f0faafe96e6870. diagnosis.md records native reproduction, exact geometry/coverage, staged event attribution, confirmed controlled cause and original-recording inference/limits. Proposed repair scope is NeonGridGeometry.ts only plus independent regressions/evidence: stitch folded climbing cells into shared visible/collider non-overlapping support while preserving centerline/width/elevations/bend. No physics/controller/barrier changes, no blind restoration of deleted faces; additional regions require independent evidence. Corrective implementation NOT AUTHORIZED; next4.2 verify durable checkpoint/CI and stop for Manny. Self-review confirms no src/public/dependency/workflow/asset changes; documentation diff check passes. Latest runtime gates3.2 remain111 files/850 tests plus full checks; hosted all preceding runtime-tooling checkpoints passed.
+
+Publication SHA/CI reported after remote verification and recorded in next entry.
+
+## 4.2 — diagnosis complete stopped for owner review, 2026-10-03
+
+Diagnosis review parent a6efc4430ec2871237b924d8f34400503efe3014 (CI37130882672 verified in progress at final-checkpoint preparation); source/runtime e441ab73ed0a5c3a2d75663de7a89a57606689b8. All numbered diagnosis substeps1.1–4.2 are recorded; Step5 NOT AUTHORIZED. STOP for Manny to review diagnosis.md and proposed NeonGridGeometry.ts-only scope before any corrective implementation. Exact final checkpoint SHA and final hosted CI result are verified and reported after publication; commit/Actions links supply self-identity without a self-referential SHA in this file.
+Final checks: nine diagnostic JSON records parse; plan boxes1.1–4.1 complete, repair/preview boxes5.1–6.3 untouched; no active temporary fixture; git diff --check PASS; git lfs fsck PASS. Runtime src/public exactly unchanged against e441ab7. Dependencies/workflows/attributes exactly unchanged against planning d0269e0. An initial combined comparison to e441 showed its historical preview pin reconciliation (already present before this session); use correct distinct baselines, no session workflow change. Main reverified8c29fca, PR242 open/draft/unmerged at diagnosis parent; no production release. Last full native validation3.2-clean PASS111files/850tests/typecheck/zero-warning lint/assets/build/diff/LFS. All prior checkpoint hosted runs through3.3 succeeded;4.1 and this final head monitored to completion before final report.
+No PRD deviation or corrective runtime change. Self-review of diagnosis/evidence found no unreported blocker; original-footage exact controls/telemetry and device/full-course acceptance remain limitations. Plan prohibits proactive delegation, so no independent agent review is claimed. Ruling: user-authorized diagnosis tooling precedes the failing repair regression, which remains Step5 owner-gated; no production code was written. Proposed patch construction and any additional runtime-file scope remain subject to Manny review. Next action: await Manny; do not advance autonomously to Step5 or publish a new preview.
 
 Publication SHA/CI reported after remote verification and recorded in next entry.

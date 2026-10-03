@@ -72,7 +72,7 @@ Deliverable: causal trace explaining initiator and speed collapse independently.
 
 **Files:** Evidence diagnosis.md, execution-progress.md, IMPLEMENTATION-STATUS.md, TESTING.md and DECISIONS.md as applicable.
 - [x] 4.1 Record reproduction, coverage map, event trace, confirmed cause(s), alternative explanations, limitations and proposed exact repair file/scope. If no cause is established, propose the next bounded diagnostic action rather than a speculative fix.
-- [ ] 4.2 Push/verify diagnosis checkpoint, report it to Manny and STOP for review. Do not advance to repair without his explicit approval.
+- [x] 4.2 Push/verify diagnosis checkpoint, report it to Manny and STOP for review. Do not advance to repair without his explicit approval.
 
 ## Step 5 — Regression and approved bounded repair
 

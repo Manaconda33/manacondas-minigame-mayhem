@@ -1,35 +1,66 @@
-# Neon Grid residual jump/stall — owner feedback, 2026-10-03
+# Neon Grid residual jump/stall — owner report and recording review, 2026-10-03
 
 ## Scope and owner direction
 
-Documentation and recording review only. Manny explicitly directed: “I don't want you to begin working on a solution.” No corrective implementation, tuning, collider experiment, runtime instrumentation, merge or deployment is authorized by this feedback. Review the recording and document the observed remaining issue when the source becomes accessible.
+Recording review and documentation only. Manny explicitly directed: “I don't want you to begin working on a solution.” No corrective implementation, tuning, collider experiments, runtime instrumentation, merges or deployments were performed for this review. Further solution work requires Manny's direction.
 
-## Owner report
+## Owner report and acceptance
 
-Review follows the delivered road-contact orientation repair pinned to e441ab73ed0a5c3a2d75663de7a89a57606689b8 at:
+Manny reports the road-contact orientation repair “nearly fixed the issue completely,” with one remaining tight turn that combines curvature and elevation changes causing a jump/stall during his three-lap run. Broad sticking is materially improved according to the owner; full main-route acceptance remains unresolved.
+
+This feedback follows the preview pinned to e441ab73ed0a5c3a2d75663de7a89a57606689b8:
 https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid/?review=e441ab7
 
-Manny reports:
-- “That nearly fixed the issue completely!”
-- A remaining point at a tight turn with concurrent track height changes made his kart jump / stall during his three-lap run.
-- He uploaded recordings in MP4 and WebM formats to Google Drive so the remaining occurrence can be located visually.
+Recording-to-build association comes from this session's review context; the captured game viewport itself does not expose a source marker.
 
-The broad sticking complaint has materially improved according to the owner. This is not full main-route acceptance: a localized jump/stall remains. Do not assume three independent events, a precise lap/time, racer identity, orientation, course progress, or root cause from the written report alone.
+## Source recording
 
-## Recording access and review status
+Manny supplied MP4 and WebM and confirmed both contain the same recording. Reviewed the MP4 only; WebM was not separately decoded or counted as another playthrough.
 
-REVIEW PENDING — recordings not yet located through connected Google Drive search.
+- Original filename: Manaconda's Minigame Mayhem.mp4
+- Supplied snapshot file ID: file_0000000065c481f6998a6fc740814d8d
+- Supplied exact Google Drive locator: 1N2AusG20kVdwND6u39eATCA4bbajQYlT
+- Materialized source: 151,324,422 bytes; duration 208.501997 seconds; 1920×910; nominal 60 frames/second.
+- MP4 SHA-256: f85841efe2f5f7ba8343bc11b0147c3ef818dca4d45503e496328d8fe0d25908
+- Recording shows Manaconda / The Wayfinder, Neon Grid, all three laps and Results. Landscape viewport displays keyboard hints and no touch overlay. Device/browser/hardware and portrait behavior are not established by the footage.
+- Search had previously failed to locate the uploads; direct supplied snapshots resolved access. No source-file edits, video upload to GitHub, sharing changes or derivative publication.
+- Review method: sample the entire recording every four seconds; inspect three six-second event windows at four frames/second; inspect targeted full-resolution frames at 69.1, 125.6, 125.85, 126.85, 184.7 and 184.9 seconds. Timestamp precision is approximate (frame selection and capture timing); HUD race-time readings below are transcribed from displayed frames, not simulation telemetry.
 
-Searches for recent MP4/WebM video metadata and related filename/topic terms did not return either uploaded recording. No matching file URL, ID, size, video duration or hash has been established. No video frames were inspected. Do not describe this checkpoint as a recording-confirmed diagnosis or claim an exact timestamp/turn.
+## Located residual issue
 
-Next input needed: direct Google Drive link(s) or exact file names for the uploaded MP4/WebM. Once accessible, inspect the recording and record file identity, timestamps/laps, visible speed/position change, steering/drift/item/contact context, course sector and identifiable landmarks. Establish whether both formats contain the same recording or distinct captures. Distinguish visible observations from owner report and any later technical hypothesis.
+**Gold Falls Run climbing S-bend, after the late cyan boost pad and before the next item-box row.** The player marker is on the left side of the minimap. This is the gold return/climb, not the fuchsia Undercity hairpin sequence. Look for the visible cross-road crease and abrupt inner-rail corner where the gold road changes direction/height, with another road strip crossing the camera's view ahead. The same landmark sequence recurs on each lap.
 
-## Existing evidence and limits
+The recording confirms a repeatable localized hop/impact-like reaction with a substantial displayed speed drop. Severity differs across laps:
 
-Prior delivery notes and native physics comparisons are in README.md and delivery.json in this folder. The orientation repair resolved reproduced flat-road displacement cancellation in native probes; slope and impact effects were explicitly retained as unresolved device observations. Those probes do not identify the newly reported video event or establish its cause. Do not assign the report to the prior 0.8 climbing-bend probe without correlating footage.
+| Lap | Recording seek window (approx.) | HUD race time (approx.) | Observed sequence |
+| --- | --- | --- | --- |
+| 1 | 01:08.8–01:10.4 | 0:49–0:51 | Approaches around 107 km/h; at the crease/inner corner, small lift and raised-arms driver reaction; speed falls through 68 and 45 to roughly 43 km/h, then recovers while exiting the bend. |
+| 2 | 02:05.4–02:08.0 | 1:45.6–1:48.2 | Strongest example: visibly lifts off the road before nearing the outer rail; drops from about 106/107 through 99 to 22 km/h; AIRBORNE is displayed. It lands facing the outside boundary, slows to 1 km/h, briefly shows WRONG WAY, then turns back onto the route. |
+| 3 | 03:04.4–03:05.8 | 2:44.6–2:46.0 | Approaches around 107 km/h; raised-arms reaction and small lift at the same corner, followed by a sharp fall to 37, 15 and 11 km/h. It stays on the road and accelerates away. |
 
-## Repository checkpoint and gate
+### Full-resolution frame anchors
 
-Verified runtime branch head before this note: 9012d0e5585463917e607d867b94e2897d90a97c (delivery documentation); deployed runtime remains e441ab7. Runtime PR #242 is open, draft and unmerged. This checkpoint changes documentation only, preserving the tested runtime, Pages pin and production.
+| Recording time | Lap / displayed race clock | Displayed speed | Visible evidence |
+| --- | --- | ---: | --- |
+| 69.1 s | 1 / 0:49.33 | 68 km/h | Raised-arms reaction beside the jutting inner rail; road crease ahead/across the bend. |
+| 125.6 s | 2 / 1:45.85 | 99 km/h | Kart clearly separated from its road shadow, while approaching the outside of the bend. |
+| 125.85 s | 2 / 1:46.08 | 22 km/h | Large lift, raised-arms reaction and AIRBORNE HUD; outer rail ahead. |
+| 126.85 s | 2 / 1:47.08 | 1 km/h | Landed near outside boundary and almost stopped. |
+| 184.7 s | 3 / 2:44.88 | 37 km/h | Small lift/raised-arms reaction at the bend exit. |
+| 184.9 s | 3 / 2:45.10 | 11 km/h | Low speed near the outer side of the gold road, with reaction frame still visible. |
 
-Next authorized action is recording review and evidence documentation after file access. Solution work must wait for Manny's direction. Main-route acceptance remains unresolved; Stage 3 shortcuts/Dive, scenery and production release remain gated; tokens remain omitted.
+## What the recording does and does not establish
+
+- Three visibly corresponding events establish the location and repeatability within this playthrough. Lap 2 is the primary seek point for future investigation.
+- No rival kart is visibly contacting the player in these event windows; inventory is EMPTY, and there is no visible active drift charge. The lap-2 incoming Apex warning appears after the initial hop/near-stop, so it does not visually coincide with the onset. These observations do not rule out every item or contact mechanism.
+- Wall proximity/contact is part of the visible sequence, particularly lap 2's landing near the outside rail. Driver reaction and AIRBORNE are visual state evidence, not proof of a specific impulse source.
+- The performance HUD remains around 60 FPS / 16.6–16.7 ms in the cited full-resolution frames. This is reported HUD data, not an independent device-performance or frame-pacing measurement.
+- The recording supports a remaining local driving/contact discontinuity. It cannot distinguish road support, seam/grade contact, barrier correction, steering/braking input or another mechanism without later investigation. No root cause or repair is asserted.
+- Do not equate this event with the earlier native 0.8-region probe simply because both concern a climbing bend. Precise main-route progress, body trajectory, contact normals/impulses, inputs and support state were not measured here.
+- Waterfall Dive/shortcuts are not installed in this Stage 2 build; this lift is on the existing main route and is not acceptance of an authored jump.
+
+## Repository state and next gate
+
+Verified branch before this review: design/neon-grid-circuit-02 at 97ae8482960bed61af29b6798854e1547ece10de. Deployed runtime remains e441ab7. Runtime PR #242 is draft/unmerged; production is unchanged.
+
+This recording review supersedes the prior recording-access-pending note. IMPLEMENTATION-STATUS records the remaining issue and restricted scope. Next session should start with the lap-2 video window and this evidence, then await or confirm Manny's explicit direction before solution work. Main-route acceptance remains unresolved; Stage 3 shortcuts/Dive, scenery and production release remain gated; tokens remain omitted.

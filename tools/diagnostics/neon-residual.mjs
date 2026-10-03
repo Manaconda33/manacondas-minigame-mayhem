@@ -17,6 +17,7 @@ try {
   const reports = [];
   const matrix = process.argv.includes('--matrix');
   const facePath = process.argv.find(a=>a.startsWith('--faces='))?.slice(8);
+  const regionMode = process.argv.includes('--regions');
   const faces = facePath ? JSON.parse(readFileSync(facePath,'utf8')).steep : [];
   const trace = process.argv.includes('--trace') || faces.length>0;
   const scenarios = faces.length ? faces.flatMap(face=>[-0.55,0,0.55].flatMap(lane=>[-15,0,15].flatMap(pose=>[false,true].map(boosted=>({start:face.progress,lane,boosted,face,pose}))))) : matrix
@@ -86,7 +87,8 @@ try {
       }
       rows.push({ contactsBefore:trace?contactsBefore:undefined,contactsNative:trace?contactsNative:undefined,mass:trace?kart.mass():undefined, supportBefore:trace?supportBefore:undefined,supportController:trace?supportController:undefined,supportNative:trace?supportNative:undefined,boostBefore:trace?boostBefore:undefined,boostAfter:trace?boostState():undefined,surface:pr.surface, i, time: i / 60, progress: pr.progress, offset: pr.lateralOffset, roadY: pr.point.y, input, before, controller, native, boundary, after: { position: kart.position().toArray(), velocity: kart.velocity().toArray(), speed: kart.speedMetersPerSecond() }, feedback: kart.feedback() });
     }
-    const faceContacts=face?rows.filter(r=>r.contactsNative.some(m=>m.other===0 && (m.flipped?m.subshape1:m.subshape2)===face.triangle)):[];
+    const regionCenter=face?face.positions.reduce((sum,p)=>sum.add(new THREE.Vector3(...p)),new THREE.Vector3()).multiplyScalar(1/3):null;
+    const faceContacts=face?rows.filter(r=>regionMode ? Math.hypot(r.native.position[0]-regionCenter.x,r.native.position[2]-regionCenter.z)<3 && r.contactsNative.some(m=>m.other===0) : r.contactsNative.some(m=>m.other===0 && (m.flipped?m.subshape1:m.subshape2)===face.triangle)):[];
     reports.push({ start, lane, boosted, targetFace:face?.triangle, pose, faceSlope:face?.slopeDegrees, faceContactSteps:faceContacts.map(r=>r.i), faceContactSummary:face?{maxNativeLoss:Math.max(0,...faceContacts.map(r=>r.controller.speed-r.native.speed)),maxVy:Math.max(0,...faceContacts.map(r=>r.native.velocity[1])),airSteps:faceContacts.filter(r=>r.feedback.airborne).length}:undefined, profile: 'aa-09', spawn, timestep: 1 / 60, settleSteps: 90, inputPolicy: matrix ? '7m lookahead lane follower; clamp(2.5*yawError,-1,1); held throttle/no brake/no drift; optional first-step boost surface activates existing 0.8s/1.12 pad state' : 'existing AiDriver steering, held throttle=1, brake=false, drift=false; not original player input', rivals: 0, items: 0, rows,
       summary: { minSpeed: Math.min(...rows.map(r => r.after.speed)), maxVy: Math.max(...rows.map(r => r.native.velocity[1])), airSteps: rows.filter(r => r.feedback.airborne).length, boundarySteps: rows.filter(r => r.boundary).length, maxNativeLoss: Math.max(...rows.map(r => r.controller.speed-r.native.speed)) } });
     cleanup(); world.free();
@@ -106,6 +108,6 @@ try {
   }
   const out = process.argv[2] ?? '/tmp/neon-residual-reproduction.json';
   mkdirSync(out.slice(0, out.lastIndexOf('/')), { recursive: true });
-  writeFileSync(out, JSON.stringify(rounded({ source: 'current working geometry; archive source snapshot with output', faceSummary, reports })));
+  writeFileSync(out, JSON.stringify(rounded({ source: 'current working geometry; archive source snapshot with output', attribution:regionMode?'current native contact within3m of archived face region; old triangle IDs are labels only':'exact face manifold',faceSummary, reports })));
   process.stdout.write(JSON.stringify(faces.length ? faceSummary : reports.map(({ start, lane, boosted, summary }) => ({ start, lane, boosted, summary })), null, 2) + '\n');
 } finally { await server.close(); }

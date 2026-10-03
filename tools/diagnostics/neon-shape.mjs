@@ -15,7 +15,7 @@ try{
  // Identity against all authored triples catches contour ears and faces whose
  // vertices were appended beyond the original 3,074-vertex ribbon.
  for(const triangle of triangles) triangle.patched=!originalFaces.has([...triangle.face].sort((a,b)=>a-b).join(','));
- const local=triangles.filter(t=>t.patched||(t.span>=1220&&t.span<=1270));
+ const local=triangles.filter(t=>t.patched||(t.span>=1218&&t.span<=1272));
  const steep=local.filter(t=>t.slopeDegrees>20).map(t=>({triangle:t.triangle,span:t.span,progress:track.project(t.points[0].clone().add(t.points[1]).add(t.points[2]).multiplyScalar(1/3)).progress,patched:t.patched,face:t.face,positions:t.points.map(p=>p.toArray()),normal:t.normal.toArray(),slopeDegrees:t.slopeDegrees}));
  const raw=JSON.parse(readFileSync('docs/evidence/2026-10-03-neon-road-contact/reproduction-1.2.json','utf8'));
  const run=raw.reports.find(r=>r.start===0.81);

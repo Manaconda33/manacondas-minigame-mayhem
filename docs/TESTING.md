@@ -1640,3 +1640,8 @@ See residual repair-attempt-5.2.md and candidate-matrix-5.2.json. Candidate snap
 ## Residual 5.3 face inventory and physical probes
 
 Shape probe compares each exact mesh triple with the complete original authored face set, including appended vertices and original-only contour ears. `neon-residual.mjs out.json --faces=shape.json` runs18targeted poses/lines/speeds per steep face and records explicit native manifold attribution; whole-run off-road falls are distinct from contact-only metrics. Preserve snapshot and original18-run legal-lane matrix independently; see residual repair-5.3.md.
+
+
+### Residual 5.3 constrained-patch acceptance
+
+Run `neon-patch-audit.mjs out.json` for exact original vertex/face preservation, authored centerline positions/shared edges, local manifold perimeter and area partition. Complete shape inventory must cover all patched triples including appended vertices and original-only ears; compare every patched slope with independent surrounding original entry/exit faces, not just a20degree filter. Preserve the original18-run `--matrix` parameters and require loss≤1.83m/s/zeroair. `--faces=archive.json --regions` retests original world regions after triangle IDs change; old IDs are labels only, current contacts are independently recorded. Keep whole-run off-road falls separate from new airtime on previously supported scenarios. Run unchanged19focused checks, remove temporary tests, then full111/850validate/diff/LFS gates; Paprika review precedes any preview. Evidence/reproduction/source digest: residual repair-5.3.md.

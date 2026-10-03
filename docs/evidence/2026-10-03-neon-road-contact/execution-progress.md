@@ -165,3 +165,8 @@ Restored-source full validation PASS111files/850tests/typecheck/zero-warning ESL
 ## 5.3a — approved continuation, probe corrected
 
 Manny selected local-grade and lifted geometry strategy pause. Complete shape/physical results and source/gates: repair-5.3.md. Twelve steep faces,216targeted runs; restored source full validation111/850PASS. Next5.3b constrained triangulation; publish/report intermediate checkpoint before runtime iteration. Final patch stops for Paprika before preview.
+
+
+## 5.3b — constrained repair validated, STOP for Paprika
+
+Source parent35de0d4, hostedCI37142236915 SUCCESS. Runtime-only change NeonGridGeometry.ts. 193patched faces within11.845520°original surrounding envelope; inside89faces max7.967327°. Focused19/19PASS, native18-run matrix loss0.426449m/s/zeroair,191previouslyzeroair targeted scenarios remainzeroair. Full111files/850tests/typecheck/lint/assets/build/diff/LFS PASS. Evidence/source/limitations: repair-5.3.md, patch-inspection-5.3.json. Paprika verification is the next required gate. STOP; no preview, production release, PR242 merge or Stage3 authority.

@@ -80,8 +80,8 @@ Deliverable: causal trace explaining initiator and speed collapse independently.
 
 **Files:** tests/neon-grid-collision.test.ts / tests/neon-grid-road-motion.test.ts or a focused new regression; modify src/game/track/NeonGridGeometry.ts only if geometry is physically implicated. Other repair files require the Step-4 evidence/scope.
 - [x] 5.1 Create an independent regression that reproduces the confirmed defect. Observe failure on original code, preserve red output in evidence, and checkpoint a passing active suite with any red diagnostic fixture clearly outside it.
-- [ ] 5.2 Implement the minimal approved correction; run the same regression green. If geometry is responsible, repair folded topology rather than indiscriminately restoring inverted triangles. Keep visual/collider support aligned and fix other regions demonstrated to share the same defect.
-- [ ] 5.3 Repeat causal traces and geometry checks. Show the targeted unintended lift/slowdown is removed while legitimate impacts/airborne behavior remain. Remove temporary hooks or retain only specifically approved, non-default reproducible diagnostic tooling. Run full required checks before pushing repair.
+- [x] 5.2 Implement the minimal approved correction; run the same regression green. If geometry is responsible, repair folded topology rather than indiscriminately restoring inverted triangles. Keep visual/collider support aligned and fix other regions demonstrated to share the same defect.
+- [x] 5.3 Repeat causal traces and geometry checks. Show the targeted unintended lift/slowdown is removed while legitimate impacts/airborne behavior remain. Remove temporary hooks or retain only specifically approved, non-default reproducible diagnostic tooling. Run full required checks before pushing repair.
 
 Push/report after each substep. A failing hypothesis returns to diagnosis; do not stack unrelated fixes.
 
@@ -99,3 +99,6 @@ Push/report after every substep. A rejected preview returns to a bounded diagnos
 ## Execution ledger
 
 Canonical per-step state and next action: docs/evidence/2026-10-03-neon-road-contact/execution-progress.md. At this planning checkpoint all execution boxes are unchecked; no reproduction/coverage/trace/repair work has begun.
+
+
+**5.3 continuation and stop gate — 2026-10-03:** Manny selected local-grade and lifted the 5.2 pause. Constrained local triangulation validated: clean slope envelope,19/19focused,18-run matrix0.426449m/s worst loss/zeroair,full111files/850tests/typecheck/lint/build/diff/LFS PASS. See residual repair-5.3.md. Step5 patch is ready for Paprika independent verification; STOP before Step6/preview. No preview/release/Stage3 authorization inferred. Historical pause entries remain as dated evidence.

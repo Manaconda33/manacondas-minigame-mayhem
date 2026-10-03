@@ -95,3 +95,9 @@ All four incident trials have ZERO automatic recovery calls. Every KartTimeTrial
 Validation execution error: overlapped full lint with temporary fixture rerun, causing36 fixture lint errors; failure saved validation-3.2-fixture-overlap-failure.txt. Removed temporary fixture and reran full checks on clean active suite; final results validation-3.2.txt. This is a harness scheduling failure, not a runtime regression. No active exploratory fixture committed, runtime/default behavior unchanged. Next3.3 causal event sequence and attribution; Step4 owner review remains mandatory.
 
 Publication SHA/CI reported after remote verification and recorded in next entry.
+
+## 3.3 — causal sequence and stage attribution complete, 2026-10-03
+
+Prior checkpoint 8262b1819fc53ac2f1a2a1e69a6daa7b9c1964f2. event-sequence-3.3.md and JSON independently assemble support/contact/staged evidence: local native motion deficit, steep face2482 upward impulse and abrupt speed loss, later wheel support loss/AIRBORNE, gradual controller airborne damping, and a distinct later height-independent boundary slowdown. Real production held-right reproduces launch plus near-stop without recovery. Four-second stage-delta sums close to observed endpoint to serialization precision; distinguish net totals from peak event losses. Missing interior hole not demonstrated; road-transition contact is physically established in controlled run. Original video inputs/internal telemetry remain unavailable, so exact lap2 matching is inference. No runtime changes. Doc-only diff/content/source-scope checks; full unchanged-runtime validation from3.2 remains111/850. Next4.1 diagnosis document, exact bounded proposed repair and limitations; no implementation before4.2 owner review.
+
+Publication SHA/CI reported after remote verification and recorded in next entry.

@@ -133,3 +133,8 @@ Commands: copy fixture to tests/neon-grid-residual-bend.test.ts; npm run typeche
 Ruling: preserve intentionally failing fixture outside active suite until5.2, as5.1 explicitly requires; promote identical behavioral assertions during repair. User request scopes this turn to5.1 and its pushed/report checkpoint;5.2 is not started. Next: report verified checkpoint/CI, then5.2 bounded NeonGridGeometry.ts repair; do not weaken test bounds or change controller/physics/barriers to force green. Runtime PR242 remains draft/unmerged, preview pin/runtimee441ab7 and production8c29fca unchanged. Source/recording/device/full-course limitations continue.
 
 Publication SHA/CI reported after remote verification; exact self identity is the commit containing this entry.
+
+
+### 5.1 publication follow-through
+
+Initial connected-API checkpoint95fa77f65ecdf4dbdc5eefd9475c82baff295034 exactly matched the validated local tree; CI37132874811 was started. Direct Git push lacked credentials, so connected GitHub Git-data APIs published the same files (no LFS/binary work). Final committed-range git diff --check caught trailing whitespace/end-of-file blank lines in captured console logs, which earlier working-diff checks missed while logs were untracked. Normalize whitespace only, preserving all numeric/results/trace content, then recheck full606c20f..final range. No runtime/test fixture change, so no redundant native validation run is claimed. Final checkpoint includes this correction and exact-head hostedCI verification/report; do not advance5.2 before reporting5.1.

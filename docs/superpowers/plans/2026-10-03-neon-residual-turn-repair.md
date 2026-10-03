@@ -85,6 +85,8 @@ Deliverable: causal trace explaining initiator and speed collapse independently.
 
 Push/report after each substep. A failing hypothesis returns to diagnosis; do not stack unrelated fixes.
 
+**5.2 execution pause — 2026-10-03:** Approved experiments are preserved in repair-attempt-5.2.md. No candidate accepted; runtime restored. Review topology/elevation strategy before another attempt;5.2/5.3 remain unchecked.
+
 ## Step 6 — Validation and owner preview
 
 **Files:** Relevant regression suites/evidence/docs; separate workflow-only Pages pin branch/PR when authorized.

@@ -1,16 +1,16 @@
 # Residual Neon climbing-bend execution progress
 
-Updated: 2026-10-03. Status: STEP 1.1 COMPLETE / REPRODUCTION NEXT.
+Updated: 2026-10-03. Status: DIAGNOSIS RECORDED THROUGH 4.1 / FINAL CHECKPOINT 4.2 NEXT.
 
 Plan: docs/superpowers/plans/2026-10-03-neon-residual-turn-repair.md
 Evidence: residual-owner-feedback.md in this folder.
 
 | Step | Status | Evidence/checkpoint | Next action/gate |
 | --- | --- | --- | --- |
-| 1: Catch-up and reproduction | NOT STARTED | Baseline 4c981e9; CI 37126486632 PASS | Next session begins 1.1; push/report each substep |
-| 2: Coverage and shape | NOT STARTED | Muse's deletion-cluster hypothesis is not confirmed support loss | Requires Step 1 evidence |
-| 3: Causal trace | NOT STARTED | Video shows repeated local hop/stall | Log driveSupported and every recovery/respawn as well as staged velocity/contact evidence |
-| 4: Diagnosis review | NOT STARTED | None | Push/report diagnosis; STOP for Manny before repair |
+| 1: Catch-up and reproduction | COMPLETE | 927caf0 / 115061a / be9e289; exact hosted CI PASS | Controlled location/launch reproduced; original inputs unknown |
+| 2: Coverage and shape | COMPLETE | 1e676e4 / 47fea1e / aa73288; exact hosted CI PASS | No sampled interior hole; steep retained face and overlapping heights measured |
+| 3: Causal trace | COMPLETE | 0fdac08 / 8262b18 / e24fb0f | Native launch precedes support loss; boundary adds later slowdown; all recovery calls captured |
+| 4: Diagnosis review | 4.1 COMPLETE / 4.2 NEXT | diagnosis.md | Verify final remote/CI then STOP for Manny before repair |
 | 5: Regression/repair | NOT AUTHORIZED YET | None | Requires explicit Step-4 approval |
 | 6: Validation/preview | NOT STARTED | Existing deployed runtime e441ab7 | Separate pinned-preview authorization and device review; no production release |
 
@@ -99,5 +99,11 @@ Publication SHA/CI reported after remote verification and recorded in next entry
 ## 3.3 — causal sequence and stage attribution complete, 2026-10-03
 
 Prior checkpoint 8262b1819fc53ac2f1a2a1e69a6daa7b9c1964f2. event-sequence-3.3.md and JSON independently assemble support/contact/staged evidence: local native motion deficit, steep face2482 upward impulse and abrupt speed loss, later wheel support loss/AIRBORNE, gradual controller airborne damping, and a distinct later height-independent boundary slowdown. Real production held-right reproduces launch plus near-stop without recovery. Four-second stage-delta sums close to observed endpoint to serialization precision; distinguish net totals from peak event losses. Missing interior hole not demonstrated; road-transition contact is physically established in controlled run. Original video inputs/internal telemetry remain unavailable, so exact lap2 matching is inference. No runtime changes. Doc-only diff/content/source-scope checks; full unchanged-runtime validation from3.2 remains111/850. Next4.1 diagnosis document, exact bounded proposed repair and limitations; no implementation before4.2 owner review.
+
+Publication SHA/CI reported after remote verification and recorded in next entry.
+
+## 4.1 — diagnosis review and bounded repair proposal recorded, 2026-10-03
+
+Prior checkpoint e24fb0ff6fe438163b5d8b6542f0faafe96e6870. diagnosis.md records native reproduction, exact geometry/coverage, staged event attribution, confirmed controlled cause and original-recording inference/limits. Proposed repair scope is NeonGridGeometry.ts only plus independent regressions/evidence: stitch folded climbing cells into shared visible/collider non-overlapping support while preserving centerline/width/elevations/bend. No physics/controller/barrier changes, no blind restoration of deleted faces; additional regions require independent evidence. Corrective implementation NOT AUTHORIZED; next4.2 verify durable checkpoint/CI and stop for Manny. Self-review confirms no src/public/dependency/workflow/asset changes; documentation diff check passes. Latest runtime gates3.2 remain111 files/850 tests plus full checks; hosted all preceding runtime-tooling checkpoints passed.
 
 Publication SHA/CI reported after remote verification and recorded in next entry.

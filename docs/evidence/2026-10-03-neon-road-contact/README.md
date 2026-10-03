@@ -1,5 +1,7 @@
 # Neon Grid road-contact motion repair — 2026-10-03
 
+**Latest residual issue diagnosis:** [diagnosis review](diagnosis.md), [execution ledger](execution-progress.md), [causal sequence](event-sequence-3.3.md). Native steep climbing-road contact is established in controlled scenarios; repair requires Manny’s Step-4 approval. The earlier orientation-repair record below is historical and does not establish full main-route acceptance.
+
 Status: validated pinned preview LIVE; owner portrait/landscape driving review remains pending. Manny authorized continuing the track repair after reviewing documentation checkpoint `3d56e74fe64e5306627e006ee56eacb143a7eda8`. Runtime PR #242 remains draft/unmerged. No production release, shortcuts/Dive, scenery, tokens or new audio.
 
 ## Catch-up and intended result

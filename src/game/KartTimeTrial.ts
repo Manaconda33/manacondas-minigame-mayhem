@@ -408,7 +408,12 @@ export class KartTimeTrial {
     this.trackScene = createSelectedTrackScene(this.track);
     this.slickGround = new SlickGroundSurface(this.trackScene, this.track.id === 'neon-grid');
     this.trackLength = this.track.curve.getLength();
-    this.minimapTrack = normalizeMinimapTrack(this.track.samples);
+    this.minimapTrack = normalizeMinimapTrack(
+      this.track.samples,
+      100,
+      8,
+      this.track.id === 'neon-grid' ? 'positive-z-down' : 'positive-z-up',
+    );
     this.hyperDriveRocket = new HyperDriveRocketSystem(this.track, this.racerEffects);
     this.projectiles = new ProjectileSystem(
       this.track,

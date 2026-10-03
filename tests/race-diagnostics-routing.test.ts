@@ -1086,3 +1086,18 @@ it('frames the elevated Neon player in portrait through the real camera integrat
   expect(Math.abs(screen.x)).toBeLessThan(0.9);
   expect(Math.abs(screen.y)).toBeLessThan(0.9);
 });
+
+it('selects the approved Neon map orientation in the real race and keeps Alpha orientation', async () => {
+  for (const route of ['neon-grid', 'circuit-alpha'] as const) {
+    const { game } = await setup('', route);
+    const runtime = game as unknown as {
+      track: { samples: THREE.Vector3[] };
+      minimapTrack: { x: number; y: number }[];
+    };
+    const samples = runtime.track.samples;
+    const lowZ = samples.reduce((best, p, i) => (p.z < (samples[best]?.z ?? 0) ? i : best), 0);
+    const highZ = samples.reduce((best, p, i) => (p.z > (samples[best]?.z ?? 0) ? i : best), 0);
+    const delta = (runtime.minimapTrack[highZ]?.y ?? 0) - (runtime.minimapTrack[lowZ]?.y ?? 0);
+    expect(delta * (route === 'neon-grid' ? 1 : -1)).toBeGreaterThan(0);
+  }
+});

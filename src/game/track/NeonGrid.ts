@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import layout from './neonGridLayout.json';
+import { TrackSegmentIndex } from './TrackSegmentIndex';
 import type { TrackDefinition, TrackProjection } from './TrackDefinition';
 
 /** Approved main-route blockout. Shortcuts are integrated in Stage 3. */
@@ -15,6 +16,9 @@ export class NeonGrid implements TrackDefinition {
   public readonly sampleSpacing: number;
   public readonly checkpointIndices = [...layout.checkpointIndices];
 
+  private readonly segmentIndex: TrackSegmentIndex;
+  private readonly projectionCache = new Map<string, TrackProjection>();
+
   public constructor() {
     this.curve = new THREE.CatmullRomCurve3(
       layout.controlPoints.map(([x = 0, y = 0, z = 0]) => new THREE.Vector3(x, y, z)),
@@ -28,6 +32,7 @@ export class NeonGrid implements TrackDefinition {
     this.tangents = Array.from({ length: this.sampleCount }, (_, i) =>
       this.curve.getTangentAt(i / this.sampleCount).normalize(),
     );
+    this.segmentIndex = new TrackSegmentIndex(this.samples);
     this.sampleSpacing = this.curve.getLength() / this.sampleCount;
   }
 
@@ -47,33 +52,16 @@ export class NeonGrid implements TrackDefinition {
   }
 
   public project(position: THREE.Vector3): TrackProjection {
-    // Continuous 3D segment projection disambiguates stacked roads. Lateral
-    // width remains horizontal so suspension clearance cannot become off-road.
-    let bestDistance = Infinity;
-    let bestIndex = 0;
-    let bestFraction = 0;
-    const nearest = new THREE.Vector3();
-    const edge = new THREE.Vector3();
-    const offset = new THREE.Vector3();
-    const point = new THREE.Vector3();
-    for (let i = 0; i < this.sampleCount; i++) {
-      const a = this.samples[i] ?? new THREE.Vector3();
-      const b = this.samples[(i + 1) % this.sampleCount] ?? new THREE.Vector3();
-      edge.subVectors(b, a);
-      const f = THREE.MathUtils.clamp(
-        offset.subVectors(position, a).dot(edge) / edge.lengthSq(),
-        0,
-        1,
-      );
-      point.copy(a).addScaledVector(edge, f);
-      const distance = position.distanceToSquared(point);
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        bestIndex = i;
-        bestFraction = f;
-        nearest.copy(point);
-      }
-    }
+    // Exact coordinates make repeated queries safe across pre/post physics,
+    // rail correction, respawn and camera phases. Never round moving positions.
+    const key = `${String(position.x)},${String(position.y)},${String(position.z)}`;
+    const cached = this.projectionCache.get(key);
+    if (cached) return this.copyProjection(cached);
+    const {
+      index: bestIndex,
+      fraction: bestFraction,
+      point: nearest,
+    } = this.segmentIndex.nearest(position);
     const progress = ((bestIndex + bestFraction) / this.sampleCount) % 1;
     const tangent = this.curve.getTangentAt(progress).normalize();
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
@@ -86,7 +74,7 @@ export class NeonGrid implements TrackDefinition {
       lateralDistance <= 4.5
     )
       surface = 'boost';
-    return {
+    const result: TrackProjection = {
       index: bestIndex,
       progress,
       point: nearest,
@@ -95,6 +83,16 @@ export class NeonGrid implements TrackDefinition {
       lateralDistance,
       surface,
     };
+    if (this.projectionCache.size >= 64) {
+      const oldest = this.projectionCache.keys().next().value;
+      if (oldest !== undefined) this.projectionCache.delete(oldest);
+    }
+    this.projectionCache.set(key, result);
+    return this.copyProjection(result);
+  }
+
+  private copyProjection(projection: TrackProjection): TrackProjection {
+    return { ...projection, point: projection.point.clone(), tangent: projection.tangent.clone() };
   }
 
   public checkpointPosition(index: number): THREE.Vector3 {

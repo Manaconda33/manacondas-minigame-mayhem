@@ -72,3 +72,52 @@ describe('race minimap', () => {
     expect(minimap.textContent).toContain('YOU');
   });
 });
+
+it('matches Neon drawing orientation and puts eight racer markers on the same oriented road', async () => {
+  const { NeonGrid } = await import('../src/game/track/NeonGrid');
+  const neon = new NeonGrid();
+  const points = normalizeMinimapTrack(neon.samples, 100, 8, 'positive-z-down');
+  const lowZ = neon.samples.reduce((best, p, i, all) => (p.z < (all[best]?.z ?? 0) ? i : best), 0);
+  const highZ = neon.samples.reduce((best, p, i, all) => (p.z > (all[best]?.z ?? 0) ? i : best), 0);
+  expect(points[lowZ]?.y ?? Infinity).toBeLessThan(points[highZ]?.y ?? -Infinity);
+  const host = document.createElement('div');
+  host.innerHTML = raceMinimapMarkup();
+  const element = host.querySelector<HTMLElement>('[data-race-minimap]');
+  if (!element) throw new Error('Missing minimap');
+  const progresses = [0, 0.12, 0.3, 0.36, 0.42, 0.6, 0.8154, 0.98];
+  const racers = progresses.map((progress, i) => ({
+    id: `r${String(i)}`,
+    name: `Racer ${String(i)}`,
+    progress,
+    portrait: '/portrait.png',
+    isPlayer: i === 0,
+  }));
+  updateRaceMinimap(element, { track: points, racers });
+  for (const [i, progress] of progresses.entries()) {
+    const expected = minimapPointAtProgress(points, progress);
+    expect(
+      element.querySelector(`[data-minimap-racer="r${String(i)}"]`)?.getAttribute('transform'),
+    ).toBe(`translate(${String(expected.x)} ${String(expected.y)})`);
+    const world = neon.project(neon.curve.getPointAt(progress)).point;
+    const scale =
+      84 /
+      Math.max(
+        Math.max(...neon.samples.map((p) => p.x)) - Math.min(...neon.samples.map((p) => p.x)),
+        Math.max(...neon.samples.map((p) => p.z)) - Math.min(...neon.samples.map((p) => p.z)),
+      );
+    const x =
+      50 +
+      (world.x -
+        (Math.max(...neon.samples.map((p) => p.x)) + Math.min(...neon.samples.map((p) => p.x))) /
+          2) *
+        scale;
+    const y =
+      50 +
+      (world.z -
+        (Math.max(...neon.samples.map((p) => p.z)) + Math.min(...neon.samples.map((p) => p.z))) /
+          2) *
+        scale;
+    expect(Math.abs(expected.x - x)).toBeLessThan(0.01);
+    expect(Math.abs(expected.y - y)).toBeLessThan(0.01);
+  }
+});

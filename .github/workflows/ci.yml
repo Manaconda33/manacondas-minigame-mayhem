@@ -225,6 +225,33 @@ jobs:
           }, null, 2));
           JS
 
+      - name: Check out pinned Neon Service Tunnel review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v5
+        with:
+          ref: 4367961d5e2471480d09ccee97cceb0223b258e0
+          path: neon-grid-tunnel-preview
+          lfs: true
+
+      - name: Verify and build Neon Service Tunnel review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: neon-grid-tunnel-preview
+        env:
+          VITE_SOURCE_COMMIT: 4367961d5e2471480d09ccee97cceb0223b258e0
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-tunnel/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            feature: 'Neon Grid Stage 3 Task 5 Service Tunnel', source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/neon-grid-tunnel/',
+            status: 'Task 5 owner review only; no production release or further shortcut approval'
+          }, null, 2));
+          JS
+
       - name: Assemble the current game and isolated previews
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -263,6 +290,11 @@ jobs:
           cp -a neon-grid-5-3-preview/dist/. site-root/previews/neon-grid-5-3/
           test -f site-root/previews/neon-grid-5-3/review-build.json
 
+          mkdir -p site-root/previews/neon-grid-tunnel
+          cp -a neon-grid-tunnel-preview/dist/. site-root/previews/neon-grid-tunnel/
+          test -f site-root/previews/neon-grid-tunnel/index.html
+          test -f site-root/previews/neon-grid-tunnel/review-build.json
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -273,6 +305,8 @@ jobs:
           paths = [root/'index.html', *sorted((root/'assets').glob('*.js')), *sorted((root/'assets').glob('*.css'))]
           preview = root/'previews/neon-grid-5-3'
           paths += [preview/'index.html', preview/'review-build.json', *sorted((preview/'assets').glob('*.js')), *sorted((preview/'assets').glob('*.css'))]
+          tunnel = root/'previews/neon-grid-tunnel'
+          paths += [tunnel/'index.html', tunnel/'review-build.json', *sorted((tunnel/'assets').glob('*.js')), *sorted((tunnel/'assets').glob('*.css'))]
           report = []
           for path in paths:
               relative = str(path.relative_to(root))
@@ -292,7 +326,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
-          name: neon-grid-5-3-delivery-hashes
+          name: neon-grid-tunnel-delivery-hashes
           path: delivery-expected.json
 
       - name: Configure GitHub Pages
@@ -321,7 +355,7 @@ jobs:
       - name: Download exact delivery hashes
         uses: actions/download-artifact@v4
         with:
-          name: neon-grid-5-3-delivery-hashes
+          name: neon-grid-tunnel-delivery-hashes
 
       - name: Verify live preview and unchanged production bytes
         run: |
@@ -331,13 +365,14 @@ jobs:
           for attempt in range(12):
               try:
                   for item in report:
-                      request = urllib.request.Request(item['url'] + '?delivery=9459bf0', headers={'Cache-Control': 'no-cache'})
+                      request = urllib.request.Request(item['url'] + '?delivery=4367961', headers={'Cache-Control': 'no-cache'})
                       with urllib.request.urlopen(request, timeout=45) as response:
                           data = response.read()
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              assert json.loads(data)['source'] == '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = '4367961d5e2471480d09ccee97cceb0223b258e0' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break
               except Exception as error:
@@ -352,5 +387,5 @@ jobs:
       - name: Upload verified delivery evidence
         uses: actions/upload-artifact@v4
         with:
-          name: neon-grid-5-3-delivery-verified
+          name: neon-grid-tunnel-delivery-verified
           path: delivery-verified.json

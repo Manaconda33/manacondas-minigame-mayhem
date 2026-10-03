@@ -1037,7 +1037,7 @@ it('runs the selected Neon route with eight unique bodies and retains earned gat
   game.dispose();
   game.dispose();
   expect(free).toHaveBeenCalledTimes(1);
-});
+}, 15000);
 
 it.each(['aa-02', 'aa-13', 'aa-14'])(
   'moves Neon player %s from the real countdown using mobile pointer input',

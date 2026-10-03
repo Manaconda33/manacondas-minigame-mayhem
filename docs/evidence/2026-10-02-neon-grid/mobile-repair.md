@@ -11,3 +11,5 @@ Real pointer binding → touch wheel → player drive → countdown → eight-bo
 Camera regression RED: elevated unit tests fail (direction difference 0.129); actual portrait integration fails with player screen Y=1.099, outside viewport. After road-height aim correction, focused camera/input integration passes. Mobile pointer movement tests pass before changing controls; no input change is justified by this evidence.
 
 Full native validation PASS: 108 files / 837 tests, TypeScript, zero-warning lint, asset gates and production build. git diff --check and git lfs fsck PASS. Hosted publication pending. Rendered device behavior remains owner review.
+
+Hosted runtime CI 37079553318: 836 tests passed; the existing `runs the selected Neon route with eight unique bodies and retains earned gates on recovery` exceeded its default 5000 ms budget on the hosted runner. Give that real eight-body/300-step integration test an explicit 15000 ms budget, retaining all motion, recovery and disposal assertions. This is test-runner scheduling tolerance, not a gameplay/performance acceptance change. Preview-only CI 37079555669 passed. Corrected-head CI remains required before publication.

@@ -15,7 +15,10 @@ export function createNeonGridColliders(world: RAPIER.World, track: NeonGrid): (
       RAPIER.ColliderDesc.trimesh(
         vertices,
         triangles,
-        RAPIER.TriMeshFlags.FIX_INTERNAL_EDGES,
+        // The ribbon has upward-wound top faces and no solid underside. Mark it
+        // oriented so adjacent-edge contact repair uses those outward normals;
+        // otherwise triangle contacts can cancel movement without changing speed.
+        RAPIER.TriMeshFlags.FIX_INTERNAL_EDGES | RAPIER.TriMeshFlags.ORIENTED,
       ).setFriction(1),
     );
     handles.push(collider.handle);

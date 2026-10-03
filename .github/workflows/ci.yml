@@ -229,7 +229,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v5
         with:
-          ref: 4367961d5e2471480d09ccee97cceb0223b258e0
+          ref: 92025b5f241cae7ac208c977f74b24396ce6909b
           path: neon-grid-tunnel-preview
           lfs: true
 
@@ -237,7 +237,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: neon-grid-tunnel-preview
         env:
-          VITE_SOURCE_COMMIT: 4367961d5e2471480d09ccee97cceb0223b258e0
+          VITE_SOURCE_COMMIT: 92025b5f241cae7ac208c977f74b24396ce6909b
         run: |
           git lfs fsck
           test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
@@ -365,13 +365,13 @@ jobs:
           for attempt in range(12):
               try:
                   for item in report:
-                      request = urllib.request.Request(item['url'] + '?delivery=4367961', headers={'Cache-Control': 'no-cache'})
+                      request = urllib.request.Request(item['url'] + '?delivery=92025b5', headers={'Cache-Control': 'no-cache'})
                       with urllib.request.urlopen(request, timeout=45) as response:
                           data = response.read()
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = '4367961d5e2471480d09ccee97cceb0223b258e0' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

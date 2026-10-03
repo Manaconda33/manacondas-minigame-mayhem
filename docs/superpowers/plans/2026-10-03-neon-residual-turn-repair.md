@@ -46,7 +46,7 @@ If interrupted, the next session reads the ledger, verifies GitHub and resumes t
 **Files:** Read residual-owner-feedback.md and relevant current source; create a reproducible diagnostic harness under tools/diagnostics/ plus evidence under docs/evidence/2026-10-03-neon-road-contact/.
 - [x] 1.1 Complete required GitHub catch-up: AGENTS, README, PRD/status/decisions/testing, avatar/roster/LFS contracts, Neon design/plan, recent commits, relevant PRs, CI and Pages pin. Reconcile source with the saved evidence.
 - [x] 1.2 Reproduce Manaconda / The Wayfinder through the gold Falls Run climbing S-bend after the late cyan pad. Use lap-2 recording seek window 02:05.4–02:08.0, race clock approximately 1:45.6–1:48.2, as the reference.
-- [ ] 1.3 Compare center/inside/outside lines at normal and boosted speeds, initially without rivals/items. Save spawn pose, input sequence, timestep and results. Input is controlled, not a claim to recover unseen original key presses. Identify which run matches the location, lift and slowdown; document failure to reproduce honestly.
+- [x] 1.3 Compare center/inside/outside lines at normal and boosted speeds, initially without rivals/items. Save spawn pose, input sequence, timestep and results. Input is controlled, not a claim to recover unseen original key presses. Identify which run matches the location, lift and slowdown; document failure to reproduce honestly.
 
 Deliverable: repeatable native scenario or a clearly bounded reproduction gap. Push/report after 1.1, 1.2 and 1.3.
 

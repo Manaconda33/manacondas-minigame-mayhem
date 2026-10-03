@@ -1,0 +1,354 @@
+name: Neon Grid 5.3 pinned preview
+
+on:
+  push:
+    branches: [preview/neon-grid-5-3-repair]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: neon-grid-5-3-publication
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          ref: 8c29fca14b47e03df83dd0ba8c3f063aaa57e0f8
+          lfs: true
+
+      - name: Verify Git LFS runtime assets
+        run: git lfs fsck
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install from lockfile
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test:ci
+
+      - name: Production build
+        run: npm run build
+
+      - name: Check out pinned Race Results preview
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/checkout@v5
+        with:
+          ref: 9aceba5de4c5d184772d3467f47463b26a633df0
+          path: feature-preview
+          lfs: true
+
+      - name: Verify preview assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        run: git -C feature-preview lfs fsck
+
+      - name: Build Race Results at its preview URL
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        working-directory: feature-preview
+        run: |
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/race-hud-results/
+
+      - name: Check out pinned Archer review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/checkout@v5
+        with:
+          ref: 62583845461098caee5fec3e1334502da671de1d
+          path: archer-preview
+          lfs: true
+
+      - name: Verify and build Archer review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        working-directory: archer-preview
+        run: |
+          git lfs fsck
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/archer/
+
+      - name: Check out pinned motion blur review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/checkout@v5
+        with:
+          ref: 949fd77993b9859bc9ca68da5b8f3bc01bd846d6
+          path: motion-blur-preview
+          lfs: true
+
+      - name: Verify and build motion blur review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        working-directory: motion-blur-preview
+        run: |
+          git lfs fsck
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/motion-blur/
+
+      - name: Check out pinned terrain material review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/checkout@v5
+        with:
+          ref: 375c933766dbc52cead91592cd69d954ab022d38
+          path: terrain-preview
+          lfs: true
+
+      - name: Verify and build terrain material review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        working-directory: terrain-preview
+        env:
+          VITE_SOURCE_COMMIT: 375c933766dbc52cead91592cd69d954ab022d38
+        run: |
+          git lfs fsck
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/terrain-materials/
+
+      - name: Check out pinned Lunarcrystal review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/checkout@v5
+        with:
+          ref: 1051cd9c8c6b1ff7237dc605417b17869f4cea9b
+          path: lunarcrystal-preview
+          lfs: true
+
+      - name: Verify and build Lunarcrystal review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        working-directory: lunarcrystal-preview
+        env:
+          VITE_SOURCE_COMMIT: 1051cd9c8c6b1ff7237dc605417b17869f4cea9b
+        run: |
+          git lfs fsck
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/lunarcrystal/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            character: 'Lunarcrystal', source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/lunarcrystal/',
+            status: 'review only; production acceptance pending'
+          }, null, 2));
+          JS
+
+      - name: Check out pinned shadow polish review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/checkout@v5
+        with:
+          ref: efbcc74f5c8103d2b6411c8bdedd35953b224f3f
+          path: shadow-preview
+          lfs: true
+
+      - name: Verify and build shadow polish review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        working-directory: shadow-preview
+        env:
+          VITE_SOURCE_COMMIT: efbcc74f5c8103d2b6411c8bdedd35953b224f3f
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/shadow-polish/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            feature: 'Circuit Alpha shadow polish', source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/shadow-polish/',
+            status: 'review only; visual and production acceptance pending'
+          }, null, 2));
+          JS
+
+      - name: Check out pinned Neon Grid main-route review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/checkout@v5
+        with:
+          ref: e441ab73ed0a5c3a2d75663de7a89a57606689b8
+          path: neon-grid-preview
+          lfs: true
+
+      - name: Verify and build Neon Grid main-route review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        working-directory: neon-grid-preview
+        env:
+          VITE_SOURCE_COMMIT: e441ab73ed0a5c3a2d75663de7a89a57606689b8
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            feature: 'Neon Grid Circuit 02 main-route blockout', source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/neon-grid/',
+            status: 'Stage 2 review only; no tokens or shortcuts; production acceptance pending'
+          }, null, 2));
+          JS
+
+      - name: Check out pinned Neon Grid 5.3 residual repair review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/checkout@v5
+        with:
+          ref: 9459bf0f64705fb744f7cc1e810be0c0a6f02b3b
+          path: neon-grid-5-3-preview
+          lfs: true
+
+      - name: Verify and build Neon Grid 5.3 residual repair review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        working-directory: neon-grid-5-3-preview
+        env:
+          VITE_SOURCE_COMMIT: 9459bf0f64705fb744f7cc1e810be0c0a6f02b3b
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-5-3/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            feature: 'Neon Grid 5.3 constrained climbing triangulation', source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/neon-grid-5-3/',
+            status: '5.3 owner playtest only; no production release or Stage 3'
+          }, null, 2));
+          JS
+
+      - name: Assemble the current game and isolated previews
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        run: |
+          test -f dist/index.html
+          test -n "$(find dist/assets -maxdepth 1 -type f -name 'index-*.js' -print -quit)"
+          test -n "$(find dist/assets -maxdepth 1 -type f -name 'index-*.css' -print -quit)"
+          mkdir -p site-root/previews/race-hud-results
+          cp -a dist/. site-root/
+          cp -a feature-preview/dist/. site-root/previews/race-hud-results/
+          test -f site-root/index.html
+          test -f site-root/previews/race-hud-results/index.html
+          mkdir -p site-root/previews/archer
+          cp -a archer-preview/dist/. site-root/previews/archer/
+          test -f site-root/previews/archer/index.html
+          mkdir -p site-root/previews/motion-blur
+          cp -a motion-blur-preview/dist/. site-root/previews/motion-blur/
+          test -f site-root/previews/motion-blur/index.html
+          mkdir -p site-root/previews/terrain-materials
+          cp -a terrain-preview/dist/. site-root/previews/terrain-materials/
+          test -f site-root/previews/terrain-materials/index.html
+          mkdir -p site-root/previews/lunarcrystal
+          cp -a lunarcrystal-preview/dist/. site-root/previews/lunarcrystal/
+          test -f site-root/previews/lunarcrystal/index.html
+          test -f site-root/previews/lunarcrystal/review-build.json
+          mkdir -p site-root/previews/shadow-polish
+          cp -a shadow-preview/dist/. site-root/previews/shadow-polish/
+          test -f site-root/previews/shadow-polish/index.html
+          test -f site-root/previews/shadow-polish/review-build.json
+
+          mkdir -p site-root/previews/neon-grid
+          cp -a neon-grid-preview/dist/. site-root/previews/neon-grid/
+          test -f site-root/previews/neon-grid/index.html
+          test -f site-root/previews/neon-grid/review-build.json
+
+          mkdir -p site-root/previews/neon-grid-5-3
+          cp -a neon-grid-5-3-preview/dist/. site-root/previews/neon-grid-5-3/
+          test -f site-root/previews/neon-grid-5-3/review-build.json
+
+      - name: Record exact delivery hashes and verify production preservation before publication
+        run: |
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          import hashlib, json, urllib.request
+          root = Path('site-root')
+          paths = [root/'index.html', *sorted((root/'assets').glob('*.js')), *sorted((root/'assets').glob('*.css'))]
+          preview = root/'previews/neon-grid-5-3'
+          paths += [preview/'index.html', preview/'review-build.json', *sorted((preview/'assets').glob('*.js')), *sorted((preview/'assets').glob('*.css'))]
+          report = []
+          for path in paths:
+              relative = str(path.relative_to(root))
+              data = path.read_bytes()
+              sha = hashlib.sha256(data).hexdigest()
+              url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
+              if not relative.startswith('previews/'):
+                  with urllib.request.urlopen(url, timeout=45) as response:
+                      assert response.status == 200
+                      assert hashlib.sha256(response.read()).hexdigest() == sha, 'Production bytes differ: ' + relative
+              report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))
+          Path('delivery-expected.json').write_text(json.dumps(report, indent=2))
+          print(json.dumps(report, indent=2))
+          PYTHON
+
+      - name: Upload delivery hash evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: neon-grid-5-3-delivery-hashes
+          path: delivery-expected.json
+
+      - name: Configure GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/configure-pages@v6
+        with:
+          enablement: true
+
+      - name: Upload GitHub Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site-root
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/preview/neon-grid-5-3-repair'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+      - name: Download exact delivery hashes
+        uses: actions/download-artifact@v4
+        with:
+          name: neon-grid-5-3-delivery-hashes
+
+      - name: Verify live preview and unchanged production bytes
+        run: |
+          python3 - <<'PYTHON'
+          import hashlib, json, time, urllib.request
+          report = json.load(open('delivery-expected.json'))
+          for attempt in range(12):
+              try:
+                  for item in report:
+                      request = urllib.request.Request(item['url'] + '?delivery=9459bf0', headers={'Cache-Control': 'no-cache'})
+                      with urllib.request.urlopen(request, timeout=45) as response:
+                          data = response.read()
+                          assert response.status == 200
+                          assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
+                          if item['path'].endswith('review-build.json'):
+                              assert json.loads(data)['source'] == '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                          item['httpStatus'] = response.status
+                  break
+              except Exception as error:
+                  print('Delivery attempt', attempt + 1, str(error), flush=True)
+                  if attempt == 11:
+                      raise
+                  time.sleep(10)
+          print(json.dumps(report, indent=2))
+          open('delivery-verified.json', 'w').write(json.dumps(report, indent=2))
+          PYTHON
+
+      - name: Upload verified delivery evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: neon-grid-5-3-delivery-verified
+          path: delivery-verified.json

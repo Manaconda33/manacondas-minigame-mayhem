@@ -1,6 +1,6 @@
 // Opt-in native diagnostic. No runtime file, physics parameter or mesh is modified.
 import { createServer } from 'vite';
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import * as THREE from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
 const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
@@ -16,15 +16,18 @@ try {
   const track = new NeonGrid(), stats = characterById('aa-09').stats, tuning = createKartTuning(stats);
   const reports = [];
   const matrix = process.argv.includes('--matrix');
-  const trace = process.argv.includes('--trace');
-  const scenarios = matrix
+  const facePath = process.argv.find(a=>a.startsWith('--faces='))?.slice(8);
+  const faces = facePath ? JSON.parse(readFileSync(facePath,'utf8')).steep : [];
+  const trace = process.argv.includes('--trace') || faces.length>0;
+  const scenarios = faces.length ? faces.flatMap(face=>[-0.55,0,0.55].flatMap(lane=>[-15,0,15].flatMap(pose=>[false,true].map(boosted=>({start:face.progress,lane,boosted,face,pose}))))) : matrix
     ? [0.80, 0.805, 0.81].flatMap(start => [-3, 0, 3].flatMap(lane => [false, true].map(boosted => ({ start, lane, boosted }))))
     : (trace ? [0.81] : [0.78, 0.80, 0.81]).map(start => ({ start, lane: 0, boosted: false }));
-  for (const { start, lane, boosted } of scenarios) {
+  for (const { start, lane, boosted, face, pose=0 } of scenarios) {
     const world = new RAPIER.World({ x: 0, y: -18, z: 0 });
     world.timestep = 1 / 60;
     const cleanup = createNeonGridColliders(world, track);
-    const p = track.curve.getPointAt(start), t = track.curve.getTangentAt(start).setY(0).normalize();
+    const p = face ? face.positions.reduce((sum,p)=>sum.add(new THREE.Vector3(...p)),new THREE.Vector3()).multiplyScalar(1/3) : track.curve.getPointAt(start), t = track.curve.getTangentAt(start).setY(0).normalize();
+    if(face){t.applyAxisAngle(new THREE.Vector3(0,1,0),pose*Math.PI/180);p.addScaledVector(t,-3);p.y=track.project(p).point.y;}
     p.addScaledVector(new THREE.Vector3(t.z, 0, -t.x), lane);
     const kart = new KartController(world, tuning, stats, p, Math.atan2(t.x, t.z));
     for (let i = 0; i < 90; i++) world.step();
@@ -83,15 +86,17 @@ try {
       }
       rows.push({ contactsBefore:trace?contactsBefore:undefined,contactsNative:trace?contactsNative:undefined,mass:trace?kart.mass():undefined, supportBefore:trace?supportBefore:undefined,supportController:trace?supportController:undefined,supportNative:trace?supportNative:undefined,boostBefore:trace?boostBefore:undefined,boostAfter:trace?boostState():undefined,surface:pr.surface, i, time: i / 60, progress: pr.progress, offset: pr.lateralOffset, roadY: pr.point.y, input, before, controller, native, boundary, after: { position: kart.position().toArray(), velocity: kart.velocity().toArray(), speed: kart.speedMetersPerSecond() }, feedback: kart.feedback() });
     }
-    reports.push({ start, lane, boosted, profile: 'aa-09', spawn, timestep: 1 / 60, settleSteps: 90, inputPolicy: matrix ? '7m lookahead lane follower; clamp(2.5*yawError,-1,1); held throttle/no brake/no drift; optional first-step boost surface activates existing 0.8s/1.12 pad state' : 'existing AiDriver steering, held throttle=1, brake=false, drift=false; not original player input', rivals: 0, items: 0, rows,
+    const faceContacts=face?rows.filter(r=>r.contactsNative.some(m=>m.other===0 && (m.flipped?m.subshape1:m.subshape2)===face.triangle)):[];
+    reports.push({ start, lane, boosted, targetFace:face?.triangle, pose, faceSlope:face?.slopeDegrees, faceContactSteps:faceContacts.map(r=>r.i), faceContactSummary:face?{maxNativeLoss:Math.max(0,...faceContacts.map(r=>r.controller.speed-r.native.speed)),maxVy:Math.max(0,...faceContacts.map(r=>r.native.velocity[1])),airSteps:faceContacts.filter(r=>r.feedback.airborne).length}:undefined, profile: 'aa-09', spawn, timestep: 1 / 60, settleSteps: 90, inputPolicy: matrix ? '7m lookahead lane follower; clamp(2.5*yawError,-1,1); held throttle/no brake/no drift; optional first-step boost surface activates existing 0.8s/1.12 pad state' : 'existing AiDriver steering, held throttle=1, brake=false, drift=false; not original player input', rivals: 0, items: 0, rows,
       summary: { minSpeed: Math.min(...rows.map(r => r.after.speed)), maxVy: Math.max(...rows.map(r => r.native.velocity[1])), airSteps: rows.filter(r => r.feedback.airborne).length, boundarySteps: rows.filter(r => r.boundary).length, maxNativeLoss: Math.max(...rows.map(r => r.controller.speed-r.native.speed)) } });
     cleanup(); world.free();
   }
-  if (matrix) for (const run of reports) {
+  const faceSummary=faces.map(face=>{const runs=reports.filter(r=>r.targetFace===face.triangle);return {triangle:face.triangle,slopeDegrees:face.slopeDegrees,lines:runs.filter(r=>r.faceContactSteps.length).map(r=>({lane:r.lane,pose:r.pose,boosted:r.boosted,steps:r.faceContactSteps,contact:r.faceContactSummary,wholeRun:r.summary})),worstNativeLoss:Math.max(...runs.map(r=>r.summary.maxNativeLoss)),worstVy:Math.max(...runs.map(r=>r.summary.maxVy)),airSteps:Math.max(...runs.map(r=>r.summary.airSteps)),contactRuns:runs.filter(r=>r.faceContactSteps.length).length};});
+  if (matrix || faces.length) for (const run of reports) {
     run.inputs = run.rows.map(r => [r.i, r.input.throttle, r.input.steering, r.input.brake, r.input.drift]);
     const peak = run.rows.reduce((a,b) => a.controller.speed-a.native.speed > b.controller.speed-b.native.speed ? a : b).i;
     run.peakNativeLossStep = peak;
-    run.rows = run.rows.filter(r => r.i % 10 === 0 || Math.abs(r.i-peak) <= 8 || r.boundary);
+    run.rows = run.rows.filter(r => faces.length ? run.faceContactSteps.includes(r.i)||Math.abs(r.i-peak)<=1 : r.i % 10 === 0 || Math.abs(r.i-peak) <= 8 || r.boundary);
   }
   function rounded(x) {
     if (typeof x === 'number') return Math.round(x * 1e6) / 1e6;
@@ -101,6 +106,6 @@ try {
   }
   const out = process.argv[2] ?? '/tmp/neon-residual-reproduction.json';
   mkdirSync(out.slice(0, out.lastIndexOf('/')), { recursive: true });
-  writeFileSync(out, JSON.stringify(rounded({ source: 'e441ab7 runtime bytes, d0269e0 planning baseline', reports })));
-  process.stdout.write(JSON.stringify(reports.map(({ start, lane, boosted, summary }) => ({ start, lane, boosted, summary })), null, 2) + '\n');
+  writeFileSync(out, JSON.stringify(rounded({ source: 'current working geometry; archive source snapshot with output', faceSummary, reports })));
+  process.stdout.write(JSON.stringify(faces.length ? faceSummary : reports.map(({ start, lane, boosted, summary }) => ({ start, lane, boosted, summary })), null, 2) + '\n');
 } finally { await server.close(); }

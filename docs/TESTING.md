@@ -1635,3 +1635,8 @@ Copy tools/diagnostics/neon-residual-regression.fixture.txt to tests/neon-grid-r
 ## Step5.2 interrupted repair evidence — 2026-10-03
 
 See residual repair-attempt-5.2.md and candidate-matrix-5.2.json. Candidate snapshots are opt-in source fixtures, not shipped runtime. New tools/diagnostics/neon-climbing-support.fixture.txt copies temporarily to tests/neon-grid-climbing-support.test.ts alongside unchanged5.1regression. Original source yields5FAIL/8PASS across13checks; tested stitched candidates pass13, but existing boundary tests and native lane/speed safety checks expose failures beyond that suite. Keep assertions unchanged. Restore src/game/track/NeonGridGeometry.ts to754c0ff and delete temporary tests before normal validate; never mistake passing suite for elimination of measured native side-line launches. Existing shape diagnostic original-span/min-index classifier is incomplete for new mesh vertices; update measurement/classification independently before using it as complete repaired-patch coverage. No rendered/owner acceptance inferred.
+
+
+## Residual 5.3 face inventory and physical probes
+
+Shape probe compares each exact mesh triple with the complete original authored face set, including appended vertices and original-only contour ears. `neon-residual.mjs out.json --faces=shape.json` runs18targeted poses/lines/speeds per steep face and records explicit native manifold attribution; whole-run off-road falls are distinct from contact-only metrics. Preserve snapshot and original18-run legal-lane matrix independently; see residual repair-5.3.md.

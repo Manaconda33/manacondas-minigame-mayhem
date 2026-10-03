@@ -160,3 +160,8 @@ Ruling: do not accept a geometry candidate solely because13/19/863 tests pass; k
 Proposed next bounded discussion: choose a constrained local surface triangulation/elevation assignment that preserves authored centerline edges/heights and boundary clearance while eliminating overlapping sheets and harmful steep transitions. Compare against the best local-grade candidate, with explicit physical checks at its steep faces; do not blindly restore deleted faces, weaken assertions, alter controller/rails or broaden runtime-file scope. No corrective runtime patch is published in this evidence checkpoint. Report it to Manny before another repair attempt; preview/release/Stage3 remain gated.
 
 Restored-source full validation PASS111files/850tests/typecheck/zero-warning ESLint/assets/build; saved validation-5.2-restored.txt. Diff/LFS/source scope verified before publication; exact-head hostedCI verified before final report. Existing proxy/Rapier initialization/Vite chunk-size notices remain nonblocking. Publication SHA/CI is reported after readback; this entry's containing commit supplies self identity.
+
+
+## 5.3a — approved continuation, probe corrected
+
+Manny selected local-grade and lifted geometry strategy pause. Complete shape/physical results and source/gates: repair-5.3.md. Twelve steep faces,216targeted runs; restored source full validation111/850PASS. Next5.3b constrained triangulation; publish/report intermediate checkpoint before runtime iteration. Final patch stops for Paprika before preview.

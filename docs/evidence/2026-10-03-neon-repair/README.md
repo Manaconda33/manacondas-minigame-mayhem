@@ -1,6 +1,6 @@
 # Neon Grid approved main-route repair — 2026-10-03
 
-Owner authorization: reduce projection cost, reconcile harsh/conflicting wall response, and correct map orientation. Runtime PR #242 remains draft/unmerged. No production release, tokens, shortcuts, scenery or new audio. Smooth mobile driving remains **OWNER RETEST PENDING**, not an automated acceptance claim.
+Owner authorization: reduce projection cost, reconcile harsh/conflicting wall response, and correct map orientation. Runtime PR #242 remains draft/unmerged. No production release, tokens, shortcuts, scenery or new audio. Smooth mobile driving is **OWNER RETEST FAIL / UNRESOLVED** as of Manny’s 2026-10-03 feedback: driving still stutters while items and effects are smooth. His suspected track/kart interaction is not yet a confirmed root cause. See [mobile-owner-feedback.md](mobile-owner-feedback.md). This feedback turn authorizes documentation only; no corrective work started. Earlier pending-review wording below is historical.
 
 ## Repository catch-up
 

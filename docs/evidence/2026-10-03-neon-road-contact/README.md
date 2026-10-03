@@ -1,6 +1,6 @@
 # Neon Grid road-contact motion repair — 2026-10-03
 
-Status: local repair under validation; pinned preview publication and owner driving review remain pending. Manny authorized continuing the track repair after reviewing documentation checkpoint `3d56e74fe64e5306627e006ee56eacb143a7eda8`. Runtime PR #242 remains draft/unmerged. No production release, shortcuts/Dive, scenery, tokens or new audio.
+Status: validated pinned preview LIVE; owner portrait/landscape driving review remains pending. Manny authorized continuing the track repair after reviewing documentation checkpoint `3d56e74fe64e5306627e006ee56eacb143a7eda8`. Runtime PR #242 remains draft/unmerged. No production release, shortcuts/Dive, scenery, tokens or new audio.
 
 ## Catch-up and intended result
 
@@ -50,3 +50,11 @@ Flat-road errors fall from roughly half a meter to float-precision noise. Descen
 Results and deployment records will be appended after the relevant checks complete. No production merge is authorized. Stage 3/Dive/scenery remain paused until owner main-route acceptance.
 
 Native validation: `npm run validate` PASS (111 test files / 850 tests), strict typecheck, zero-warning lint, asset signatures/provenance and production build; `git diff --check` and `git lfs fsck` PASS. Existing npm proxy-config and Vite chunk-size warnings remain nonblocking. Complete transcript: validation.txt; original-flag failures: regression-red.txt. Independent review and hosted delivery pending.
+
+## Verified preview delivery — resumed session, 2026-10-03
+
+Runtime e441ab73ed0a5c3a2d75663de7a89a57606689b8 passed hosted CI 37124661871. Workflow-only PR #247 (982afb34d4cebc7840c62c6efdd1f1d652b7e997) passed CI 37124689405 and merged at 8c29fca14b47e03df83dd0ba8c3f063aaa57e0f8. Post-merge main CI/Pages 37124865236 passed validate job 111208004815 and deploy job 111208946113. Live marker matches e441ab7; four preview HTML/JS/CSS files and six representative Lavi/Archer/Lunarcrystal GLB/portrait assets match validated bytes. Four production bundle hashes match the verified pre-merge baseline. Exact HTTP/hash evidence: delivery.json.
+
+Resumed-session focused validation: 8 files / 60 tests PASS covering motion, collision, three-lap driving, eight-body runtime, items, boundaries, mobile binding/session and cameras; diff and LFS checks PASS. Full native/hosted runtime validation remains 111 files / 850 tests plus typecheck, zero-warning lint and asset/build gates. No new runtime code was needed after the interruption. The runtime branch workflow is reconciled to the already-merged main preview pin; this delivery-record checkpoint changes no src/public files or deployed runtime bytes.
+
+Owner test: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid/?review=e441ab7 — select Circuit 02 / Neon Grid, drive in phone portrait and landscape, check continuous movement on straights, bends, descent/climb, controls, edge contacts and minimap. Report any remaining sticking with location. Ordinary impacts can still slow the kart. Main-route acceptance remains unresolved until this retest; no rendered/device smoothness or timing pass is inferred. PR #242 stays draft/unmerged. Production release, Stage 3 shortcuts/Dive and scenery remain gated; tokens omitted. Earlier pending-delivery statements describe the pre-publication checkpoint.

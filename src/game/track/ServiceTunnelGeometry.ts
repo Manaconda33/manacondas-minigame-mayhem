@@ -9,8 +9,11 @@ export function serviceTunnelGeometry(
   const rows = 192,
     positions: number[] = [],
     indices: number[] = [];
+  const wallRange = kind.endsWith('wall')
+    ? tunnel.wallRange(kind === 'left-wall' ? -1 : 1)
+    : [0, 1];
   for (let i = 0; i <= rows; i++) {
-    const fraction = i / rows;
+    const fraction = THREE.MathUtils.lerp(wallRange[0] ?? 0, wallRange[1] ?? 1, i / rows);
     const p = tunnel.curve.getPointAt(fraction),
       tangent = tunnel.curve.getTangentAt(fraction);
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
@@ -18,17 +21,14 @@ export function serviceTunnelGeometry(
       const side = kind === 'left-wall' ? -1 : kind === 'right-wall' ? 1 : j === 0 ? -1 : 1;
       const q = p.clone().addScaledVector(right, side * tunnel.roadHalfWidth);
       if (kind === 'roof') q.y += tunnel.headroom;
-      if (kind.endsWith('wall')) q.y += j === 0 ? 0 : tunnel.headroom;
+      if (kind.endsWith('wall')) q.y = tunnel.wallElevationAt(fraction, side, j === 1);
       positions.push(q.x, q.y, q.z);
     }
     if (i === rows) continue;
     const midpoint = tunnel.curve.getPointAt((i + 0.5) / rows);
-    const distance = ((i + 0.5) / rows) * tunnel.curve.getLength();
     // Level junction aprons remain open; the actual underground straight is
     // covered below the crossing street, with 3 m clearance above its floor.
     if (kind === 'roof' && midpoint.y > -3.99) continue;
-    if (kind.endsWith('wall') && (distance < 7 || distance > tunnel.curve.getLength() - 7))
-      continue;
     const a = i * 2,
       b = a + 2;
     if (kind === 'roof') indices.push(a, a + 1, b, a + 1, b + 1, b);

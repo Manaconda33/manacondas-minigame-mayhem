@@ -52,11 +52,11 @@ export class NeonGrid implements TrackDefinition {
   }
 
   public boundaryHalfWidthAt(projection: TrackProjection): number | null {
-    if (projection.pathId === 'service-tunnel')
-      return this.serviceTunnel.fraction(projection) * this.serviceTunnel.curve.getLength() >
-        this.serviceTunnel.curve.getLength() - 9
-        ? null
-        : this.serviceTunnel.roadHalfWidth;
+    if (projection.pathId === 'service-tunnel') {
+      const fraction = this.serviceTunnel.fraction(projection);
+      const [start, end] = this.serviceTunnel.wallRange(projection.lateralOffset < 0 ? -1 : 1);
+      return fraction < start || fraction > end ? null : this.serviceTunnel.roadHalfWidth;
+    }
     const right = new THREE.Vector3(projection.tangent.z, 0, -projection.tangent.x).normalize();
     const position = projection.point.clone().addScaledVector(right, projection.lateralOffset);
     if (this.serviceTunnel.junctionContains(position)) return null;

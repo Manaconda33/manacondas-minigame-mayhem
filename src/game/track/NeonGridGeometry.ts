@@ -185,6 +185,8 @@ export function neonGridRibbon(track: NeonGrid, wallSide: -1 | 1 | 0 = 0): THREE
   const count = RIBBON_ROWS;
   const positions: number[] = [];
   const indices: number[] = [];
+  const junctionPositions: number[] = [];
+  const junctionIndices: number[] = [];
   for (let i = 0; i <= count; i++) {
     const progress = i / count;
     const p = track.curve.getPointAt(progress);
@@ -206,6 +208,44 @@ export function neonGridRibbon(track: NeonGrid, wallSide: -1 | 1 | 0 = 0): THREE
         const direction = track.curve.getTangentAt(middleProgress);
         const right = new THREE.Vector3(direction.z, 0, -direction.x).normalize();
         const edge = center.addScaledVector(right, wallSide * track.halfWidthAt(middleProgress));
+        const edgeAt = (fraction: number) => {
+          const point = track.curve.getPointAt(fraction);
+          const tangent = track.curve.getTangentAt(fraction);
+          return point.addScaledVector(
+            new THREE.Vector3(tangent.z, 0, -tangent.x).normalize(),
+            wallSide * track.halfWidthAt(fraction),
+          );
+        };
+        const start = i / count,
+          end = (i + 1) / count;
+        const startOpen = track.serviceTunnel.junctionContains(edgeAt(start));
+        const endOpen = track.serviceTunnel.junctionContains(edgeAt(end));
+        if (startOpen !== endOpen) {
+          // Terminate at the actual tunnel edge, rather than removing a whole
+          // midpoint-selected cell and leaving a gap or projecting a wall tip.
+          let low = start,
+            high = end;
+          for (let iteration = 0; iteration < 30; iteration++) {
+            const middle = (low + high) / 2;
+            if (track.serviceTunnel.junctionContains(edgeAt(middle)) === startOpen) low = middle;
+            else high = middle;
+          }
+          const first = edgeAt(startOpen ? high : start);
+          const last = edgeAt(endOpen ? low : end);
+          const base = (count + 1) * 2 + junctionPositions.length / 3;
+          for (const point of [first, last]) {
+            junctionPositions.push(
+              point.x,
+              point.y - 0.15,
+              point.z,
+              point.x,
+              point.y + 1.4,
+              point.z,
+            );
+          }
+          junctionIndices.push(base, base + 2, base + 1, base + 1, base + 2, base + 3);
+          continue;
+        }
         if (track.serviceTunnel.junctionContains(edge)) continue;
         const projection = track.projectMain(edge);
         // An offset loop inside another part of the same road is an internal
@@ -216,6 +256,8 @@ export function neonGridRibbon(track: NeonGrid, wallSide: -1 | 1 | 0 = 0): THREE
         indices.push(a, b, a + 1, a + 1, b, b + 1);
     }
   }
+  positions.push(...junctionPositions);
+  indices.push(...junctionIndices);
   const patchStart = indices.length;
   if (wallSide === 0) indices.push(...climbingPatch(track, positions));
   // Tight inside offsets can fold back across another strip at a reversing

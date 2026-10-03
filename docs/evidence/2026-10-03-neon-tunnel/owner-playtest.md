@@ -11,3 +11,7 @@ Read-only source inspection confirms separate junction definitions: tunnel rende
 This checkpoint records feedback only. Runtime src/public, pinned preview and production are unchanged. Latest runtime validation remains116files/876tests plus exact hostedCI37148627462; Pages37148818476 and14-file delivery/refetch pass. No new runtime validation or fixed-wall claim is made. PR242 remains draft/unmerged; production release and Billboard/Dive/Stage4 remain gated.
 
 Next: bounded entrance/exit wall-junction correction, focused regression/native checks, a validated replacement preview and owner retest of the two junctions. Preserve owner's pass for the remainder.
+
+## Authorized bounded correction — 2026-10-03
+
+Manny authorized correction/validation and a replacement pinned preview from ba76bb9. Validated repair and saved evidence: [junction/repair.md](junction/repair.md). Both junctions await focused owner retest; everything else remains fullPASS. This supersedes the feedback-only next-action entry above without claiming new owner acceptance. PR242 stays draft/unmerged; production/Billboard/Dive/Stage4 unchanged/gated.

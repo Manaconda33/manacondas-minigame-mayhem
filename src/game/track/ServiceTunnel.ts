@@ -22,8 +22,9 @@ export class ServiceTunnel implements Shortcut {
   public readonly exitProgress = 0.46154128347522666;
   public readonly curve: THREE.CatmullRomCurve3;
   public readonly mouthDistance = 7;
+  private readonly wallRanges = new Map<-1 | 1, [number, number]>();
 
-  public constructor(track: NeonGrid) {
+  public constructor(private readonly track: NeonGrid) {
     const start = track.curve.getPointAt(this.entry.progress[0]);
     const end = track.curve.getPointAt(this.exitProgress);
     const distance = Math.hypot(end.x - start.x, end.z - start.z);
@@ -87,14 +88,62 @@ export class ServiceTunnel implements Shortcut {
     );
   }
 
+  /** Wall endpoints are the intersections of each tunnel edge with the main road.
+   * The two sides meet an angled road at different distances. */
+  public wallRange(side: -1 | 1): [number, number] {
+    const cached = this.wallRanges.get(side);
+    if (cached) return cached;
+    const inside = (fraction: number) => {
+      const point = this.curve.getPointAt(fraction);
+      const tangent = this.curve.getTangentAt(fraction);
+      const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+      const edge = point.addScaledVector(right, side * this.roadHalfWidth);
+      const main = this.track.projectMain(edge);
+      return main.lateralDistance <= this.track.halfWidthAt(main.progress);
+    };
+    const end = (exit: boolean) => {
+      let low = 0,
+        high = 12 / this.curve.getLength();
+      for (let i = 0; i < 30; i++) {
+        const mid = (low + high) / 2;
+        if (inside(exit ? 1 - mid : mid)) low = mid;
+        else high = mid;
+      }
+      return exit ? 1 - high : high;
+    };
+    const range: [number, number] = [end(false), end(true)];
+    this.wallRanges.set(side, range);
+    return range;
+  }
+
+  /** Match the main wall's lower/upper corners, easing back to tunnel height
+   * within six metres of each join. This is render-only; floor/roof are intact. */
+  public wallElevationAt(fraction: number, side: -1 | 1, upper: boolean): number {
+    const [start, end] = this.wallRange(side);
+    const endpoint = fraction - start < end - fraction ? start : end;
+    const point = this.curve.getPointAt(endpoint);
+    const tangent = this.curve.getTangentAt(endpoint);
+    point.addScaledVector(
+      new THREE.Vector3(tangent.z, 0, -tangent.x).normalize(),
+      side * this.roadHalfWidth,
+    );
+    const roadHeight = this.track.projectMain(point).point.y;
+    const distance = Math.abs(fraction - endpoint) * this.curve.getLength();
+    return THREE.MathUtils.lerp(
+      roadHeight + (upper ? 1.4 : -0.15),
+      this.curve.getPointAt(fraction).y + (upper ? this.headroom : 0),
+      THREE.MathUtils.smoothstep(distance, 0, 6),
+    );
+  }
+
   public junctionContains(position: THREE.Vector3): boolean {
     const start = this.curve.points[0],
       end = this.curve.points.at(-1);
     if (
       !start ||
       !end ||
-      (Math.hypot(position.x - start.x, position.z - start.z) > 12 &&
-        Math.hypot(position.x - end.x, position.z - end.z) > 12)
+      (Math.hypot(position.x - start.x, position.z - start.z) > 16 &&
+        Math.hypot(position.x - end.x, position.z - end.z) > 16)
     )
       return false;
     const chord = end.clone().sub(start).setY(0),
@@ -104,8 +153,8 @@ export class ServiceTunnel implements Shortcut {
     const projection = this.project(position);
     const distance = this.fraction(projection) * this.curve.getLength();
     return (
-      (distance < 9 || distance > this.curve.getLength() - 9) &&
-      projection.lateralDistance <= this.roadHalfWidth &&
+      (distance < 12 || distance > this.curve.getLength() - 12) &&
+      projection.lateralDistance <= this.roadHalfWidth + 1e-5 &&
       Math.abs(position.y - projection.point.y) < 1.5
     );
   }

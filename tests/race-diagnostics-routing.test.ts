@@ -1101,3 +1101,74 @@ it('selects the approved Neon map orientation in the real race and keeps Alpha o
     expect(delta * (route === 'neon-grid' ? 1 : -1)).toBeGreaterThan(0);
   }
 });
+
+it('keeps Neon player and Rocket on racer-local tunnel support through simulation pause and recovery', async () => {
+  const { game, tick, advance, phase } = await setup('', 'neon-grid');
+  const runtime = game as unknown as {
+    track: import('../src/game/track/NeonGrid').NeonGrid;
+    neonRoute: (id: string) => import('../src/game/track/RacerTrack').RacerTrack;
+    kart: import('../src/game/physics/KartController').KartController;
+    hyperDriveRocket: import('../src/game/items/HyperDriveRocket').HyperDriveRocketSystem;
+    lapTracker: import('../src/game/race/LapTracker').LapTracker;
+    respawn: () => void;
+    racerRoutes: Map<string, unknown>;
+  };
+  const tunnel = runtime.track.serviceTunnel,
+    route = runtime.neonRoute('player');
+  const at = (d: number) => tunnel.curve.getPointAt(d / tunnel.curve.getLength());
+  // Fixture placement only: simulate/controller/world movement below are real.
+  route.advance(at(5), at(9));
+  const p = at(38),
+    t = tunnel.curve.getTangentAt(38 / tunnel.curve.getLength());
+  runtime.kart.respawn(p, Math.atan2(t.x, t.z));
+  runtime.kart.body.setLinvel({ x: t.x * 12, y: 0, z: t.z * 12 }, true);
+  expect(runtime.hyperDriveRocket.activate('player', () => true)).toBe(true);
+  advance.mockRestore();
+  const earned = runtime.lapTracker.snapshot().nextCheckpoint;
+  for (let i = 0; i < 30; i++) tick(1000 / 60);
+  expect(route.project(runtime.kart.position()).pathId).toBe('service-tunnel');
+  expect(runtime.kart.position().y).toBeLessThan(-2);
+  expect(runtime.lapTracker.snapshot().nextCheckpoint).toBe(earned);
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+  const paused = runtime.kart.position();
+  tick(500);
+  expect(runtime.kart.position().distanceTo(paused)).toBe(0);
+  window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+  phase('racing');
+  runtime.respawn();
+  expect(route.project(runtime.kart.position()).pathId).toBeUndefined();
+  expect(runtime.lapTracker.snapshot().nextCheckpoint).toBe(earned);
+  game.dispose();
+  expect(runtime.racerRoutes.size).toBe(0);
+}, 15000);
+
+it('does not apply planar kart or Prismatic contacts through the tunnel ceiling', async () => {
+  const { game } = await setup('', 'neon-grid');
+  const runtime = game as unknown as {
+    track: import('../src/game/track/NeonGrid').NeonGrid;
+    kart: import('../src/game/physics/KartController').KartController;
+    opponents: {
+      id: string;
+      controller: import('../src/game/physics/KartController').KartController;
+    }[];
+    resolveKartContacts: (dt: number) => void;
+    prismatic: import('../src/game/items/PrismaticSystem').PrismaticSystem;
+    racerEffects: import('../src/game/items/RacerEffects').RacerEffects;
+  };
+  const p = runtime.track.serviceTunnel.curve.getPointAt(0.5),
+    rival = runtime.opponents[0];
+  if (!rival) throw new Error('Missing rival');
+  runtime.kart.respawn(p, 0);
+  rival.controller.respawn(p.clone().add(new THREE.Vector3(1, 4, 0)), 0);
+  const before = runtime.kart.velocity();
+  runtime.prismatic.activate('player', () => true);
+  runtime.resolveKartContacts(1 / 60);
+  expect(runtime.kart.velocity().distanceTo(before)).toBe(0);
+  expect(
+    runtime.prismatic.contacts([
+      { id: 'player', position: runtime.kart.position(), finished: false },
+      { id: rival.id, position: rival.controller.position(), finished: false },
+    ]),
+  ).toHaveLength(0);
+  game.dispose();
+});

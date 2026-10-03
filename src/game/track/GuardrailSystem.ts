@@ -1,3 +1,4 @@
+import { projectTrackSurface } from './TrackSurface';
 import * as THREE from 'three';
 import type { TrackDefinition, TrackProjection } from './TrackDefinition';
 
@@ -19,7 +20,7 @@ export function guardrailContact(
   radiusMeters: number,
 ): GuardrailContact | null {
   const radius = Math.max(0, radiusMeters);
-  const projection = track.project(position);
+  const projection = projectTrackSurface(track, position);
   const boundary = track.boundaryHalfWidthAt(projection);
   if (boundary === null) return null;
   const allowedOffset = boundary - radius;

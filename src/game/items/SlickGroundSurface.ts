@@ -19,6 +19,7 @@ export class SlickGroundSurface {
       'track-ground',
       'track-shoulder',
       'track-road',
+      'service-tunnel-floor',
       'asphalt-racing-wear',
       'split-bend-dirt-line',
       'crest-ramp-deck',

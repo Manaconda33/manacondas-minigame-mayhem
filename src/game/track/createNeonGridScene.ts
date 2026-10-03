@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { NeonGrid } from './NeonGrid';
 import layout from './neonGridLayout.json';
+import { serviceTunnelGeometry } from './ServiceTunnelGeometry';
 import { neonGridRibbon } from './NeonGridGeometry';
 
 /** Deliberately simple driving blockout, ahead of the separate visual gate. */
@@ -27,6 +28,20 @@ export function createNeonGridScene(track: NeonGrid): THREE.Group {
     walls.add(wall);
   }
   group.add(walls);
+  const tunnelGroup = new THREE.Group();
+  tunnelGroup.name = 'service-tunnel';
+  const tunnelMaterial = new THREE.MeshStandardMaterial({
+    color: 0x733059,
+    roughness: 0.8,
+    side: THREE.DoubleSide,
+  });
+  for (const kind of ['floor', 'left-wall', 'right-wall', 'roof'] as const) {
+    const mesh = new THREE.Mesh(serviceTunnelGeometry(track.serviceTunnel, kind), tunnelMaterial);
+    mesh.name = `service-tunnel-${kind}`;
+    mesh.receiveShadow = true;
+    tunnelGroup.add(mesh);
+  }
+  group.add(tunnelGroup);
   const padMaterial = new THREE.MeshStandardMaterial({
     color: 0x37e6ff,
     emissive: 0x37e6ff,

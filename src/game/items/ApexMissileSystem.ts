@@ -1,3 +1,4 @@
+import { projectTrackSurface, sameTrackLayer } from '../track/TrackSurface';
 import * as THREE from 'three';
 import type { RacerProgress } from '../race/RaceDirector';
 import type { TrackDefinition } from '../track/TrackDefinition';
@@ -198,7 +199,14 @@ export class ApexMissileSystem {
         shot.phaseAge = 0;
         shot.diveStartY = shot.position.y;
       } else {
-        const victims = areaEffectVictims(shot.position, C.blastRadius, targets, 'apex-missile');
+        const victims = areaEffectVictims(
+          shot.position,
+          C.blastRadius,
+          targets,
+          'apex-missile',
+          undefined,
+          { contactFilter: (a, b) => sameTrackLayer(this.track, a, b) },
+        );
         this.blasts = [shot.position.clone()];
         const impacts: ProjectileImpact[] = victims.map((racer) => ({
           projectileId: shot.id,
@@ -215,7 +223,7 @@ export class ApexMissileSystem {
   }
 
   private groundHeight(position: THREE.Vector3): number {
-    return this.track.project(position).point.y;
+    return projectTrackSurface(this.track, position).point.y;
   }
 
   public snapshot(): ApexSnapshot | null {

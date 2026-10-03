@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import layout from './neonGridLayout.json';
+import { ServiceTunnel } from './ServiceTunnel';
 import { TrackSegmentIndex } from './TrackSegmentIndex';
-import type { TrackDefinition, TrackProjection } from './TrackDefinition';
+import type { TrackDefinition, TrackProjection, TrackNavigation } from './TrackDefinition';
 
 /** Approved main-route blockout. Shortcuts are integrated in Stage 3. */
 export class NeonGrid implements TrackDefinition {
@@ -15,6 +16,8 @@ export class NeonGrid implements TrackDefinition {
   public readonly tangents: THREE.Vector3[];
   public readonly sampleSpacing: number;
   public readonly checkpointIndices = [...layout.checkpointIndices];
+
+  public readonly serviceTunnel: ServiceTunnel;
 
   private readonly segmentIndex: TrackSegmentIndex;
   private readonly projectionCache = new Map<string, TrackProjection>();
@@ -34,6 +37,7 @@ export class NeonGrid implements TrackDefinition {
     );
     this.segmentIndex = new TrackSegmentIndex(this.samples);
     this.sampleSpacing = this.curve.getLength() / this.sampleCount;
+    this.serviceTunnel = new ServiceTunnel(this);
   }
 
   public halfWidthAt(progress: number): number {
@@ -47,11 +51,64 @@ export class NeonGrid implements TrackDefinition {
     return 4.5;
   }
 
-  public boundaryHalfWidthAt(projection: TrackProjection): number {
+  public boundaryHalfWidthAt(projection: TrackProjection): number | null {
+    if (projection.pathId === 'service-tunnel')
+      return this.serviceTunnel.fraction(projection) * this.serviceTunnel.curve.getLength() >
+        this.serviceTunnel.curve.getLength() - 9
+        ? null
+        : this.serviceTunnel.roadHalfWidth;
+    const right = new THREE.Vector3(projection.tangent.z, 0, -projection.tangent.x).normalize();
+    const position = projection.point.clone().addScaledVector(right, projection.lateralOffset);
+    if (this.serviceTunnel.junctionContains(position)) return null;
     return this.halfWidthAt(projection.progress);
   }
 
+  public projectSurface(position: THREE.Vector3): TrackProjection {
+    const main = this.projectMain(position);
+    const tunnel = this.serviceTunnel.project(position, this.sampleCount);
+    // Stateless surface queries may inspect underground art/ground. Racer
+    // traversal uses projectMain until a physical forward mouth crossing.
+    if (
+      tunnel.lateralDistance <= this.serviceTunnel.roadHalfWidth &&
+      Math.abs(position.y - tunnel.point.y) < 3 &&
+      tunnel.point.y < -0.5 &&
+      position.distanceToSquared(tunnel.point) < position.distanceToSquared(main.point)
+    )
+      return tunnel;
+    return main;
+  }
+
+  public surfaceNavigationAt(projection: TrackProjection, distance: number): TrackNavigation {
+    const tunnel = this.serviceTunnel;
+    if (projection.pathId === tunnel.id) {
+      const d = tunnel.fraction(projection) * tunnel.curve.getLength() + distance;
+      if (d <= tunnel.curve.getLength())
+        return {
+          point: tunnel.curve.getPointAt(d / tunnel.curve.getLength()),
+          tangent: tunnel.curve.getTangentAt(d / tunnel.curve.getLength()),
+          halfWidth: tunnel.roadHalfWidth,
+          pathId: tunnel.id,
+        };
+      const p = tunnel.exitProgress + (d - tunnel.curve.getLength()) / this.curve.getLength();
+      return {
+        point: this.curve.getPointAt(p),
+        tangent: this.curve.getTangentAt(p),
+        halfWidth: this.halfWidthAt(p),
+      };
+    }
+    const p = (projection.progress + distance / this.curve.getLength()) % 1;
+    return {
+      point: this.curve.getPointAt(p),
+      tangent: this.curve.getTangentAt(p),
+      halfWidth: this.halfWidthAt(p),
+    };
+  }
+
   public project(position: THREE.Vector3): TrackProjection {
+    return this.projectMain(position);
+  }
+
+  public projectMain(position: THREE.Vector3): TrackProjection {
     // Exact coordinates make repeated queries safe across pre/post physics,
     // rail correction, respawn and camera phases. Never round moving positions.
     const key = `${String(position.x)},${String(position.y)},${String(position.z)}`;

@@ -1,3 +1,4 @@
+import { projectTrackSurface } from '../track/TrackSurface';
 import * as THREE from 'three';
 import type { TrackDefinition } from '../track/TrackDefinition';
 import { SEEKER_GUIDANCE } from './itemDefinitions';
@@ -23,8 +24,8 @@ export function steerSeeker(
       -SEEKER_GUIDANCE.acceleration * dt,
       SEEKER_GUIDANCE.acceleration * dt,
     );
-  const projection = track.project(position);
-  const targetProjection = track.project(targetPosition);
+  const projection = projectTrackSurface(track, position);
+  const targetProjection = projectTrackSurface(track, targetPosition);
   const length = track.sampleSpacing * track.sampleCount;
   const forwardGap = ((targetProjection.progress - projection.progress + 1) % 1) * length;
   const lookahead = Math.max(8, nextSpeed * 0.3);
@@ -33,7 +34,8 @@ export function steerSeeker(
   const direct = forwardGap < lookahead && position.distanceTo(targetPosition) < lookahead + 4;
   const aim = direct
     ? targetPosition
-    : track.curve.getPointAt((projection.progress + lookahead / length) % 1);
+    : (track.surfaceNavigationAt?.(projection, lookahead).point ??
+      track.curve.getPointAt((projection.progress + lookahead / length) % 1));
   const desiredYaw = Math.atan2(aim.x - position.x, aim.z - position.z);
   const yaw = Math.atan2(velocity.x, velocity.z);
   const delta = Math.atan2(Math.sin(desiredYaw - yaw), Math.cos(desiredYaw - yaw));

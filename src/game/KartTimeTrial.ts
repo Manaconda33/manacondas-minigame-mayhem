@@ -1,3 +1,6 @@
+import { sameTrackLayer } from './track/TrackSurface';
+import { NeonGrid } from './track/NeonGrid';
+import { RacerTrack } from './track/RacerTrack';
 import { bloomDisabledFromSearch, markBloomMaterial } from './rendering/bloomEligibility';
 import { RaceBloom } from './rendering/RaceBloom';
 import { RaceMotionBlur } from './rendering/RaceMotionBlur';
@@ -70,7 +73,7 @@ import { LapTracker } from './race/LapTracker';
 import { RaceDirector, rankRacers, type RacerProgress } from './race/RaceDirector';
 import { crossesForwardCheckpointGate } from './race/CheckpointGate';
 import { validatedRaceProgressSnapshot } from './race/ValidatedRaceProgress';
-import type { TrackProjection, TrackId } from './track/TrackDefinition';
+import type { TrackProjection, TrackId, TrackDefinition } from './track/TrackDefinition';
 import {
   createTrack,
   createSelectedTrackScene,
@@ -318,13 +321,16 @@ export class KartTimeTrial {
   };
   private finishReported = false;
   private readonly contactCooldowns = new Map<string, number>();
+  private racerRoutes?: Map<string, RacerTrack>;
   private readonly guardrailContactCooldowns = new Map<string, number>();
   private readonly itemBoxes: ItemBoxSystem;
   private readonly itemSystem = new ItemSystem();
   private readonly racerEffects = new RacerEffects();
   private readonly nitroOverdrive = new NitroOverdriveSystem(this.racerEffects);
   private readonly hyperDriveRocket: HyperDriveRocketSystem;
-  private readonly prismatic = new PrismaticSystem(this.racerEffects);
+  private readonly prismatic = new PrismaticSystem(this.racerEffects, (a, b) =>
+    sameTrackLayer(this.track, a, b),
+  );
   private readonly inkSplat = new InkSplatSystem();
   private readonly inkAudio = new InkSplatAudio();
   private readonly nitroOverdriveAudio = new NitroOverdriveAudio();
@@ -414,7 +420,9 @@ export class KartTimeTrial {
       8,
       this.track.id === 'neon-grid' ? 'positive-z-down' : 'positive-z-up',
     );
-    this.hyperDriveRocket = new HyperDriveRocketSystem(this.track, this.racerEffects);
+    this.hyperDriveRocket = new HyperDriveRocketSystem(this.track, this.racerEffects, (id) =>
+      this.racerTrack(id),
+    );
     this.projectiles = new ProjectileSystem(
       this.track,
       this.itemPhysicsCapacity,
@@ -569,6 +577,7 @@ export class KartTimeTrial {
     this.apexPresentation.dispose();
     this.apexWarningAudio.dispose();
     this.aiHazardFixture.reset();
+    this.racerRoutes?.clear();
     for (const opponent of this.opponents) {
       opponent.driver.reset();
       opponent.itemVisuals.dispose();
@@ -710,7 +719,7 @@ export class KartTimeTrial {
       return;
     }
     const playerStepStart = this.kart.position(this.playerStepStartPosition);
-    const playerStepStartProjection = this.track.project(playerStepStart);
+    const playerStepStartProjection = this.racerTrack().project(playerStepStart);
     let itemCpuStart = this.startItemSimulationTiming();
     this.racerEffects.advanceFrost(dt);
     this.inkSplat.advance(dt);
@@ -756,6 +765,14 @@ export class KartTimeTrial {
     this.updateOpponents(dt);
     this.world.step();
     this.resolveKartContacts(dt);
+    if (this.track instanceof NeonGrid) {
+      this.neonRoute('player').advance(playerStepStart, this.kart.position());
+      for (const opponent of this.opponents)
+        this.neonRoute(opponent.id).advance(
+          opponent.stepStartPosition,
+          opponent.controller.position(),
+        );
+    }
     this.resolveGuardrailContacts(dt);
 
     const position = this.kart.position(this.position);
@@ -764,7 +781,7 @@ export class KartTimeTrial {
       this.updateOpponentProgresses();
       return;
     }
-    const projection = this.track.project(position);
+    const projection = this.racerTrack().project(position);
     let playerRespawned = false;
     const forwardDot = this.kart.forward(this.forward).dot(projection.tangent);
     this.wrongWaySeconds = forwardDot < -0.35 ? this.wrongWaySeconds + dt : 0;
@@ -885,7 +902,7 @@ export class KartTimeTrial {
   private updateOpponentProgresses(): void {
     for (const opponent of this.opponents) {
       const position = opponent.controller.position();
-      const projection = this.track.project(position);
+      const projection = this.racerTrack(opponent.id).project(position);
       if (!opponent.controller.isFinite()) {
         this.recoverOpponent(opponent, projection);
         continue;
@@ -928,12 +945,16 @@ export class KartTimeTrial {
   private recoverOpponent(opponent: AiRacer, projection: TrackProjection): void {
     this.aiDrivingVisual?.clearRacer(opponent.id);
     this.exhaustVisual?.clearRacer(opponent.id);
-    const tangent = projection.tangent;
+    this.racerRoutes?.get(opponent.id)?.reset();
+    opponent.driver.reset();
+    const mainProjection =
+      this.track instanceof NeonGrid ? this.track.projectMain(projection.point) : projection;
+    const tangent = mainProjection.tangent;
     this.projectiles.cancelOwnerArcs(opponent.id);
     this.racerEffects.clearFrost(opponent.id);
     this.prismatic.clear(opponent.id);
     opponent.controller.respawn(
-      projection.point.clone().addScaledVector(tangent, 3),
+      mainProjection.point.clone().addScaledVector(tangent, 3),
       Math.atan2(tangent.x, tangent.z),
     );
     opponent.recoveryCooldown = 1.5;
@@ -955,7 +976,7 @@ export class KartTimeTrial {
         id,
         position,
         speed: controller.speedMetersPerSecond(),
-        lateralOffset: this.track.project(position).lateralOffset,
+        lateralOffset: this.racerTrack(id).project(position).lateralOffset,
       };
     };
     const racerAwareness = [
@@ -966,7 +987,7 @@ export class KartTimeTrial {
       opponent.recoveryCooldown = Math.max(0, opponent.recoveryCooldown - dt);
       opponent.driverHitSeconds = Math.max(0, opponent.driverHitSeconds - dt);
       const position = opponent.controller.position(opponent.stepStartPosition);
-      const projection = this.track.project(position);
+      const projection = this.racerTrack(opponent.id).project(position);
       const opponentProgress = targetingRacers.find(({ id }) => id === opponent.id);
       const opponentTotal =
         opponentProgress === undefined
@@ -1008,6 +1029,7 @@ export class KartTimeTrial {
                 hazardAwareness,
                 opponent.id,
                 this.inkSplat.aiSnapshot(opponent.id),
+                !this.hyperDriveRocket.isActive(opponent.id),
               );
       itemCpuStart = this.startItemSimulationTiming();
       input = driveInputWithItemModifiers(input, this.racerEffects.driveModifiers(opponent.id));
@@ -1154,6 +1176,7 @@ export class KartTimeTrial {
         if (a === undefined || b === undefined) continue;
         const key = `${a.id}:${b.id}`;
         if (this.contactCooldowns.has(key)) continue;
+        if (!sameTrackLayer(this.track, a.controller.position(), b.controller.position())) continue;
         const delta = a.controller.position().sub(b.controller.position()).setY(0);
         if (delta.lengthSq() >= 2.35 * 2.35 || delta.lengthSq() < 0.001) continue;
         const direction = delta.normalize();
@@ -1213,7 +1236,7 @@ export class KartTimeTrial {
     ];
     for (const racer of racers) {
       const contact = guardrailContact(
-        this.track,
+        this.racerTrack(racer.id),
         racer.controller.position(),
         GUARDRAIL_KART_RADIUS_METERS,
       );
@@ -1388,7 +1411,9 @@ export class KartTimeTrial {
         projectileSystem: this.projectiles,
         hazardSystem: this.hazards,
         apexSystem: this.apex,
-        targets,
+        targets: targets.filter((target) =>
+          sameTrackLayer(this.track, pulse.center, target.position),
+        ),
       });
       for (const push of pushes) {
         const controller =
@@ -1743,7 +1768,24 @@ export class KartTimeTrial {
     }
   }
 
+  private neonRoute(id: string): RacerTrack {
+    this.racerRoutes ??= new Map();
+    let route = this.racerRoutes.get(id);
+    if (!route) {
+      if (!(this.track instanceof NeonGrid)) throw new Error('Neon route requires Neon Grid');
+      const index = id === 'player' ? 0 : Number(id.slice(3));
+      route = new RacerTrack(this.track, Math.imul(index + 1, 0x9e3779b9) >>> 0);
+      this.racerRoutes.set(id, route);
+    }
+    return route;
+  }
+
+  private racerTrack(id = 'player'): TrackDefinition {
+    return this.track instanceof NeonGrid ? this.neonRoute(id) : this.track;
+  }
+
   private respawn(): void {
+    this.racerRoutes?.get('player')?.reset();
     this.playerSpeedVisual.clear();
     this.motionBlur.clear();
     this.driftVisual.clear();
@@ -1772,6 +1814,20 @@ export class KartTimeTrial {
     this.outOfBoundsSeconds = 0;
   }
 
+  private tunnelCameraCeiling(position: THREE.Vector3): number {
+    if (!(this.track instanceof NeonGrid)) return Number.POSITIVE_INFINITY;
+    const projection = this.racerTrack().project(position);
+    if (projection.pathId !== 'service-tunnel') return Number.POSITIVE_INFINITY;
+    const tunnel = this.track.serviceTunnel;
+    const d = tunnel.fraction(projection) * tunnel.curve.getLength();
+    const blend = THREE.MathUtils.smoothstep(
+      Math.min(d - tunnel.mouthDistance, tunnel.curve.getLength() - d),
+      0,
+      20,
+    );
+    return projection.point.y + tunnel.headroom - 0.35 + (1 - blend) * 2;
+  }
+
   private updateVisuals(dt: number): void {
     const position = this.kart.position(this.position);
     const forward = this.kart.forward(this.forward);
@@ -1787,7 +1843,8 @@ export class KartTimeTrial {
       cameraForward,
       this.rearViewActive,
       dt,
-      this.track.id === 'neon-grid' ? this.track.project(position).point.y : 0,
+      this.track.id === 'neon-grid' ? this.racerTrack().project(position).point.y : 0,
+      this.tunnelCameraCeiling(position),
     );
     this.playerSpeedVisual.update(
       this.kart.velocity(this.playerSpeedVelocity).dot(forward) / this.playerNormalTopSpeed,
@@ -1979,7 +2036,7 @@ export class KartTimeTrial {
       this.fpsFrames = 0;
     }
 
-    const projection = this.track.project(this.kart.position(this.position));
+    const projection = this.racerTrack().project(this.kart.position(this.position));
     const snapshot = this.lapTracker.snapshot();
     const feedback = this.kart.feedback();
     const driveModifiers = this.racerEffects.driveModifiers('player');
@@ -2400,7 +2457,7 @@ export class KartTimeTrial {
         portrait: character.portrait ?? '',
         controller,
         driver: new AiDriver(
-          this.track,
+          this.racerTrack(racerId),
           {
             laneOffset: side * (0.7 + row * 0.35),
             pace: 0.28 + index * 0.09,

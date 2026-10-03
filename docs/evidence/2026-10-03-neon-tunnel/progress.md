@@ -15,3 +15,23 @@ Ruling: retain exact entry/rejoin progress and the straight x/z chord, but use l
 Ruling: scripted Alpha-style boundaries remain the sole kart wall authority; tunnel roof/floor use native support with declared orientation. Do not introduce a second native wall impulse. The underground straight is covered; entry/exit ramps are open approaches. Verify body clearance and junction continuity physically before review.
 
 Next: complete physical gate-order/AI/Rocket/junction/containment checks and paired measurements, full validation and fresh independent review. Push verified runtime checkpoint, then publish authorized pinned preview and stop for owner tunnel feedback. No production release.
+
+## 5.2–5.4 — Implementation and native validation complete
+
+Per-racer traversal retains physical forward entry through pause/partial reversal, releases at physical rejoin, and resets on recovery/disposal. Arc-length progress is monotonic in the authored skipped interval and awards no checkpoint. Main projection remains exact; stateless physical surface queries are a separate item/support concern. AI makes seeded eligible choices (default 35%) before entry and follows its selected path; Rocket follows the selected path and cannot make a new shortcut choice while active. Main geometry and accepted climbing triangulation are retained, with only junction wall apertures.
+
+Shared Float32 render/native tunnel floor and downward-oriented roof pass 89 longitudinal samples × three lanes; three real controller lanes cross entry/exit ramps with clearance >0.2 m, no roof contact and native speed loss <1.83 m/s. Three character profiles complete three physical ordered laps through the tunnel without recovery or unsupported steps. Player/Rocket, pause, earned gates, recovery and disposal use actual runtime integration checks. Independent review findings and the single regression/fix pass are in review.md.
+
+Ruling: preserve the exact main route and Alpha defaults while supplying local underground camera elevation/ceiling and physical-layer contact filtering for tunnel/street overlap. These are path integration requirements, not item radius/probability, vehicle tuning or global collision changes. Native tunnel walls remain absent; scripted kart containment is sole authority. No new assets/audio or further shortcut work.
+
+Full `npm run validate`: PASS, 116 files / 876 tests; statement/branch/function/line coverage 91.47/82.45/92.27/93.60 percent. Typecheck, zero-warning lint, asset inventories and production build PASS. `git diff --check` and `git lfs fsck` PASS. Existing Vite chunk-size warning remains. Software native evidence does not certify whole-frame/GPU/device behavior or owner gameplay.
+
+## Paired measurements and limits
+
+`node tools/diagnostics/neon-tunnel.mjs` uses real Rapier at 1/60 s, eight character/profile pairs, identical per-pair settings/spawn/seed, and only eligible attempt rate 0 vs 1. Physical gates remain 1→11→0; no progress/transform shortcut award or recovery is used. Main length 1448.938445 m; realized tunnel 89.058140 m. Savings range 16.6833–17.9000 s; main AI laps 77.03–79.62 s and tunnel AI laps 59.47–61.90 s. These AI measurements do not certify the human clean-lap duration or gameplay balance. The obsolete 1.0–1.4 s target is not reinstated and the full hairpin bypass is not shortened.
+
+An extra profile-0 wall-scrub run holds throttle=1, steering=1 after physical entry: 852 scripted boundary contacts, 9680 tunnel steps and no finished lap in the 180 s window, losing the time advantage without recovery. This is a controlled penalty illustration, not a distribution of human mistakes. Complete-input SHA256, sampled input traces, physical gate times and reproducible methodology are archived in paired-measurements.json. No rivals/items are included in the paired timing probe.
+
+## Publication and owner gate
+
+Implementation is ready for a validated source checkpoint and preview-only Pages workflow. Exact hosted runtime CI, source pin and public delivery must be recorded before claiming the preview live. PR #242 stays draft/unmerged. Stop after preview delivery for owner's entry, tunnel, exit, reverse/partial reversal, walls, chase/rear camera, items and repeated-lap review on desktop/mobile. Billboard/Dive/Stage 4 and production runtime merge/release await separate approval.

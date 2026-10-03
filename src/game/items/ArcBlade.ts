@@ -1,3 +1,4 @@
+import { sameTrackLayer } from '../track/TrackSurface';
 import { Vector3 } from 'three';
 import { guardrailContact } from '../track/GuardrailSystem';
 import type { TrackDefinition } from '../track/TrackDefinition';
@@ -173,7 +174,13 @@ export class ArcBladeFlight {
       }
       const contacts: { target: ProjectileTarget; fraction: number; catchOwner: boolean }[] = [];
       for (const target of targets) {
-        if (target.finished || !finite(target.position) || !finite(target.forward)) continue;
+        if (
+          target.finished ||
+          !finite(target.position) ||
+          !finite(target.forward) ||
+          !sameTrackLayer(track, start, target.position)
+        )
+          continue;
         const catchOwner = !outbound && target.id === ownerId;
         if (
           !catchOwner &&
@@ -225,6 +232,7 @@ export class ArcBladeFlight {
         for (const target of targets) {
           if (
             target.id !== ownerId &&
+            sameTrackLayer(track, end, target.position) &&
             distanceSq(end, target.position) <= ARC.hitRadius ** 2 + 1e-10
           )
             this.turnaroundOverlap.add(target.id);

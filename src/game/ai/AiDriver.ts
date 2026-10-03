@@ -97,10 +97,13 @@ export class AiDriver {
     hazards: readonly AiHazardAwareness[] = [],
     racerId = '',
     ink: InkAiImpairmentSnapshot | null = null,
+    allowShortcutChoice = true,
   ): DriveInput {
+    this.track.prepareAiRoute?.(position, forward, speed, allowShortcutChoice);
     const now = this.steeringClockSeconds;
     const projection = this.track.project(position);
-    this.localHalfWidth = this.track.halfWidthAt(projection.progress);
+    this.localHalfWidth =
+      this.track.boundaryHalfWidthAt(projection) ?? this.track.halfWidthAt(projection.progress);
     const racersAhead = this.racersAhead(position, projection.tangent, nearbyRacers);
     const threats =
       hazards.length === 0
@@ -116,8 +119,11 @@ export class AiDriver {
 
     const lookahead = Math.max(1, Math.round(aiLookaheadMeters(speed) / this.track.sampleSpacing));
     const targetIndex = (projection.index + lookahead) % this.track.sampleCount;
-    const target = this.track.samples[targetIndex]?.clone() ?? projection.point.clone();
-    const tangent = this.track.tangents[targetIndex]?.clone() ?? projection.tangent.clone();
+    const selected = this.track.navigationAt?.(position, aiLookaheadMeters(speed));
+    const target =
+      selected?.point ?? this.track.samples[targetIndex]?.clone() ?? projection.point.clone();
+    const tangent =
+      selected?.tangent ?? this.track.tangents[targetIndex]?.clone() ?? projection.tangent.clone();
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x);
     const laneWave =
       Math.sin(projection.progress * Math.PI * 8 + this.profile.aggression * 4) * 0.16;
@@ -140,7 +146,14 @@ export class AiDriver {
       }
       if (maximumCurvature > 0.015)
         authoredCornerSpeed = Math.max(8, Math.sqrt(9 / maximumCurvature));
-      this.localHalfWidth = this.track.halfWidthAt(targetIndex / this.track.sampleCount);
+      if (selected?.pathId) {
+        // The pre-split turn is deliberately slower; tunnel motion itself
+        // uses the same controller and straight-path steering.
+        maximumCurvature = projection.pathId ? 0 : 0.13;
+        authoredCornerSpeed = projection.pathId ? Number.POSITIVE_INFINITY : 8;
+      }
+      this.localHalfWidth =
+        selected?.halfWidth ?? this.track.halfWidthAt(targetIndex / this.track.sampleCount);
       target.addScaledVector(
         right,
         this.roadBoundedLane(

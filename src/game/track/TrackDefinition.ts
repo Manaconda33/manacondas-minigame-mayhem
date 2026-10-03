@@ -14,6 +14,13 @@ export interface TrackProjection {
   pathId?: 'billboard-gap' | 'service-tunnel' | 'waterfall-dive';
 }
 
+export interface TrackNavigation {
+  point: THREE.Vector3;
+  tangent: THREE.Vector3;
+  halfWidth: number;
+  pathId?: TrackProjection['pathId'];
+}
+
 /** Shared race topology. Rendering/collision remain owned by each route. */
 export interface TrackDefinition {
   readonly id: TrackId;
@@ -27,6 +34,15 @@ export interface TrackDefinition {
   readonly checkpointIndices: number[];
   readonly checkpointHeightTolerance?: number;
   project(position: THREE.Vector3): TrackProjection;
+  projectSurface?(position: THREE.Vector3): TrackProjection;
+  surfaceNavigationAt?(projection: TrackProjection, distance: number): TrackNavigation;
+  navigationAt?(position: THREE.Vector3, distance: number): TrackNavigation;
+  prepareAiRoute?(
+    position: THREE.Vector3,
+    forward: THREE.Vector3,
+    speed: number,
+    allowChoice?: boolean,
+  ): void;
   halfWidthAt(progress: number): number;
   boundaryHalfWidthAt(projection: TrackProjection): number | null;
   checkpointPosition(index: number): THREE.Vector3;

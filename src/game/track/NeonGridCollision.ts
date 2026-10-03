@@ -1,5 +1,6 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import type { NeonGrid } from './NeonGrid';
+import { serviceTunnelGeometry } from './ServiceTunnelGeometry';
 import { neonGridRibbon } from './NeonGridGeometry';
 
 export function createNeonGridColliders(world: RAPIER.World, track: NeonGrid): () => void {
@@ -18,6 +19,18 @@ export function createNeonGridColliders(world: RAPIER.World, track: NeonGrid): (
         // The ribbon has upward-wound top faces and no solid underside. Mark it
         // oriented so adjacent-edge contact repair uses those outward normals;
         // otherwise triangle contacts can cancel movement without changing speed.
+        RAPIER.TriMeshFlags.FIX_INTERNAL_EDGES | RAPIER.TriMeshFlags.ORIENTED,
+      ).setFriction(1),
+    );
+    handles.push(collider.handle);
+    geometry.dispose();
+  }
+  for (const kind of ['floor', 'roof'] as const) {
+    const geometry = serviceTunnelGeometry(track.serviceTunnel, kind);
+    const collider = world.createCollider(
+      RAPIER.ColliderDesc.trimesh(
+        new Float32Array(geometry.getAttribute('position').array),
+        new Uint32Array(geometry.index?.array ?? []),
         RAPIER.TriMeshFlags.FIX_INTERNAL_EDGES | RAPIER.TriMeshFlags.ORIENTED,
       ).setFriction(1),
     );

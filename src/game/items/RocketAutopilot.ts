@@ -32,14 +32,22 @@ export class RocketAutopilot {
       Math.round(ROCKET_AUTOPILOT_TUNING.lookaheadMeters / this.track.sampleSpacing),
     );
     const targetIndex = (projection.index + lookaheadSamples) % this.track.sampleCount;
-    const targetPosition = this.track.samples[targetIndex]?.clone() ?? projection.point.clone();
+    const selected = this.track.navigationAt?.(position, ROCKET_AUTOPILOT_TUNING.lookaheadMeters);
+    const targetPosition =
+      selected?.point ?? this.track.samples[targetIndex]?.clone() ?? projection.point.clone();
     const targetTangent =
-      this.track.tangents[targetIndex]?.clone() ?? projection.tangent.clone().normalize();
+      selected?.tangent ??
+      this.track.tangents[targetIndex]?.clone() ??
+      projection.tangent.clone().normalize();
     const right = new THREE.Vector3(targetTangent.z, 0, -targetTangent.x).normalize();
+    const maxLane = Math.min(
+      ROCKET_AUTOPILOT_TUNING.maxLaneOffset,
+      (selected?.halfWidth ?? this.track.halfWidthAt(projection.progress)) - 1.4,
+    );
     const laneOffset = THREE.MathUtils.clamp(
       projection.lateralOffset * ROCKET_AUTOPILOT_TUNING.lateralCorrection,
-      -ROCKET_AUTOPILOT_TUNING.maxLaneOffset,
-      ROCKET_AUTOPILOT_TUNING.maxLaneOffset,
+      -maxLane,
+      maxLane,
     );
     targetPosition.addScaledVector(right, laneOffset);
 

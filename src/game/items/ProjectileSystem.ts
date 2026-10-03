@@ -1,3 +1,4 @@
+import { projectTrackSurface, sameTrackLayer } from '../track/TrackSurface';
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import { itemImpactCue } from '../../audio/itemSoundCues';
 import * as THREE from 'three';
@@ -287,7 +288,9 @@ export class ProjectileSystem {
     const spawnPosition = request.launch.position
       .clone()
       .addScaledVector(launchDirection, 1.75 + request.config.radiusMeters);
-    spawnPosition.y = Math.max(0.55, request.launch.position.y);
+    const floor =
+      this.track.id === 'neon-grid' ? projectTrackSurface(this.track, spawnPosition).point.y : 0;
+    spawnPosition.y = Math.max(floor + 0.55, request.launch.position.y);
     if (
       (request.itemId === 'arc-blade' || request.itemId === 'arc-hammers') &&
       guardrailContact(this.track, spawnPosition, request.config.radiusMeters)
@@ -563,7 +566,11 @@ export class ProjectileSystem {
         }
 
         for (const target of targets) {
-          if (target.finished) continue;
+          if (
+            target.finished ||
+            !sameTrackLayer(this.track, projectile.group.position, target.position)
+          )
+            continue;
           if (
             target.id === projectile.ownerId &&
             projectile.ownerArmSeconds > (projectile.itemId === 'frost-orbs' ? 1e-9 : 0)
@@ -940,7 +947,7 @@ export class ProjectileSystem {
       return null;
     }
 
-    const projection = this.track.project(position);
+    const projection = projectTrackSurface(this.track, position);
     return {
       point: projection.point.clone(),
       normal: new THREE.Vector3(0, 1, 0),
@@ -997,7 +1004,12 @@ export class ProjectileSystem {
       }
       if (projectile.ownerArmSeconds > 1e-9) continue;
       for (const racer of targets) {
-        if (racer.finished || !finiteVector(racer.position)) continue;
+        if (
+          racer.finished ||
+          !finiteVector(racer.position) ||
+          !sameTrackLayer(this.track, projectile.group.position, racer.position)
+        )
+          continue;
         if (
           squaredHorizontalDistance(projectile.group.position, racer.position) >
           (RACER_HIT_RADIUS_METERS + projectile.config.radiusMeters) ** 2
@@ -1032,7 +1044,8 @@ export class ProjectileSystem {
       if (
         this.clears.some(
           ({ center, radius }) =>
-            squaredHorizontalDistance(center, projectile.group.position) <= radius * radius,
+            squaredHorizontalDistance(center, projectile.group.position) <= radius * radius &&
+            sameTrackLayer(this.track, center, projectile.group.position),
         )
       )
         this.remove(projectile.id, projectile.itemId === 'arc-hammers', 'cleared');

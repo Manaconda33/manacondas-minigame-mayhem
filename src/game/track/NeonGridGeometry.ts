@@ -206,7 +206,8 @@ export function neonGridRibbon(track: NeonGrid, wallSide: -1 | 1 | 0 = 0): THREE
         const direction = track.curve.getTangentAt(middleProgress);
         const right = new THREE.Vector3(direction.z, 0, -direction.x).normalize();
         const edge = center.addScaledVector(right, wallSide * track.halfWidthAt(middleProgress));
-        const projection = track.project(edge);
+        if (track.serviceTunnel.junctionContains(edge)) continue;
+        const projection = track.projectMain(edge);
         // An offset loop inside another part of the same road is an internal
         // ribbon seam, not a physical wall across the drivable corridor.
         if (projection.lateralDistance < track.halfWidthAt(projection.progress) - 0.15) continue;

@@ -1,3 +1,4 @@
+import { projectTrackSurface, sameTrackLayer } from '../track/TrackSurface';
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
 import type { SlickSurface } from './SlickGroundSurface';
@@ -138,7 +139,7 @@ export class HazardSystem {
       mesh.position.copy(surface.point).addScaledVector(surface.normal, 0.04);
       mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), surface.normal);
     } else {
-      mesh.position.y = this.track.project(mesh.position).point.y + 0.04;
+      mesh.position.y = projectTrackSurface(this.track, mesh.position).point.y + 0.04;
       mesh.rotation.x = -Math.PI / 2;
     }
     ring.position.z = 0.006;
@@ -242,7 +243,8 @@ export class HazardSystem {
       if (
         this.clears.some(
           ({ center, radius }) =>
-            squaredHorizontalDistance(center, orb.mesh.position) <= radius ** 2,
+            squaredHorizontalDistance(center, orb.mesh.position) <= radius ** 2 &&
+            sameTrackLayer(this.track, center, orb.mesh.position),
         )
       )
         this.remove(orb.id);
@@ -261,6 +263,7 @@ export class HazardSystem {
         if (
           !racer.finished &&
           finitePosition(racer.position) &&
+          sameTrackLayer(this.track, racer.position, slick.mesh.position) &&
           !(racer.id === slick.ownerId && slick.age < S.ownerImmunitySeconds - 1e-9) &&
           squaredHorizontalDistance(racer.position, slick.mesh.position) <= S.triggerRadius ** 2 &&
           (racer.itemImmune || racer.groundHazardImmune)
@@ -273,6 +276,7 @@ export class HazardSystem {
           !racer.itemImmune &&
           !racer.groundHazardImmune &&
           finitePosition(racer.position) &&
+          sameTrackLayer(this.track, racer.position, slick.mesh.position) &&
           !(racer.id === slick.ownerId && slick.age < S.ownerImmunitySeconds - 1e-9) &&
           (racer.position.x - slick.mesh.position.x) ** 2 +
             (racer.position.z - slick.mesh.position.z) ** 2 <=
@@ -336,6 +340,7 @@ export class HazardSystem {
       if (
         racer.finished ||
         !finitePosition(racer.position) ||
+        !sameTrackLayer(this.track, racer.position, orb.mesh.position) ||
         (racer.id === orb.ownerId && orb.age < C.ownerImmunitySeconds - 1e-9)
       )
         return false;
@@ -359,7 +364,7 @@ export class HazardSystem {
       const outward = orb.velocity.dot(contact.inwardNormal);
       if (outward < 0) orb.velocity.addScaledVector(contact.inwardNormal, -outward);
     }
-    orb.mesh.position.y = this.track.project(orb.mesh.position).point.y + C.radius;
+    orb.mesh.position.y = projectTrackSurface(this.track, orb.mesh.position).point.y + C.radius;
   }
 
   private detonate(orb: Orb, targets: readonly HazardTarget[]): ProjectileImpact[] {
@@ -374,7 +379,10 @@ export class HazardSystem {
       eligible,
       'blast-orb',
       orb.id,
-      { respectGroundHazardImmunity: true },
+      {
+        respectGroundHazardImmunity: true,
+        contactFilter: (a, b) => sameTrackLayer(this.track, a, b),
+      },
     ).map((racer) => ({
       projectileId: orb.id,
       itemId: 'blast-orb',
@@ -384,12 +392,15 @@ export class HazardSystem {
     }));
     const mesh = new THREE.Mesh(
       new THREE.RingGeometry(0.8, 1, 32),
-      markBloomMaterial(new THREE.MeshBasicMaterial({
-        color: 0xffbe70,
-        side: THREE.DoubleSide,
-        transparent: true,
-        depthWrite: false,
-      }), 'color'),
+      markBloomMaterial(
+        new THREE.MeshBasicMaterial({
+          color: 0xffbe70,
+          side: THREE.DoubleSide,
+          transparent: true,
+          depthWrite: false,
+        }),
+        'color',
+      ),
     );
     mesh.rotation.x = -Math.PI / 2;
     mesh.position.copy(orb.mesh.position).y -= C.radius - 0.12;

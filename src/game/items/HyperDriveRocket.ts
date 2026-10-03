@@ -48,6 +48,7 @@ export class HyperDriveRocketSystem {
   public constructor(
     track: TrackDefinition,
     private readonly effects: RacerEffects,
+    private readonly trackForRacer?: (racerId: string) => TrackDefinition,
   ) {
     this.autopilot = new RocketAutopilot(track);
   }
@@ -86,7 +87,10 @@ export class HyperDriveRocketSystem {
   ): DriveInput {
     const state = this.states.get(racerId);
     if (state === undefined) return { ...normalInput };
-    return this.autopilot.input(
+    const autopilot = this.trackForRacer
+      ? new RocketAutopilot(this.trackForRacer(racerId))
+      : this.autopilot;
+    return autopilot.input(
       position,
       forward,
       speed,

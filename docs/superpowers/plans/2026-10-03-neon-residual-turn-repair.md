@@ -53,7 +53,7 @@ Deliverable: repeatable native scenario or a clearly bounded reproduction gap. P
 ## Step 2 — Measure road coverage and shape
 
 **Files:** Read src/game/track/NeonGridGeometry.ts, NeonGridCollision.ts, NeonGrid.ts and neonGridLayout.json; extend only diagnostic harness/evidence.
-- [ ] 2.1 Independently enumerate removed faces against the current production algorithm; map each cluster to world coordinates/main progress. Preserve the exact mesh indices and test parameters.
+- [x] 2.1 Independently enumerate removed faces against the current production algorithm; map each cluster to world coordinates/main progress. Preserve the exact mesh indices and test parameters.
 - [ ] 2.2 Probe actual collider support with downward rays over legal driving lines and kart footprints in all four suspect regions. Refine sampling around misses, account for overlapping triangles and local deck height, exclude self-collider hits, and distinguish intentional outside-road areas from missing road support.
 - [ ] 2.3 Measure grade/normal transitions and overlapping surfaces/lips at the incident. Report actual uncovered dimensions if present; otherwise state coverage is intact and retain other hypotheses.
 

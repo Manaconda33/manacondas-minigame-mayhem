@@ -54,3 +54,10 @@ Command: node tools/diagnostics/neon-residual.mjs docs/evidence/2026-10-03-neon-
 No runtime source, geometry, tuning, dependencies or default diagnostic UI changes. Full native validation results saved to validation-1.3.txt; diagnostic observations are not a passing main-route milestone. Next 2.1 independently enumerate deleted triangles with exact indices/world coordinates. Step 4 review remains mandatory.
 
 Publication SHA/CI reported after remote verification and recorded in next entry.
+
+## 2.1 — removed faces independently mapped, 2026-10-03
+
+Prior checkpoint be9e289ecfb4e45ff73e9773d4200b2fcbd10110; independent production mesh parity finds exactly 8 removed of 3072 authored faces, 3064 retained. Four clusters: span 428 progress 0.278646–0.279297; 523 0.340495–0.341146; 618 0.402344–0.402995; 1240–1244 0.807292–0.810547. Fourth overlaps controlled hop location; world bounds X -180.717407..-168.719315, Y 7.738028..8.159184, Z 41.625889..50.366856. Its 4.716597 m centerline span is NOT a measured uncovered hole. Earlier Muse approximate progress values are not current exact mesh clusters.
+Command: node tools/diagnostics/neon-coverage.mjs docs/evidence/2026-10-03-neon-road-contact/deletions-2.1.json. Independently reconstruct all 1536 spans and 3072 triangle triples from curve/width, compute double-precision cross product prior to Float32 conversion, compare removed status against exact production index set for EVERY triangle. All match. Saved exact removed triples, pre-Float32 and actual collider coordinates, normals, bounds and parameters. No assumption that negative normal implies missing support. Runtime source remains identical to e441ab7. Full native gates saved validation-2.1.txt; next 2.2 actual downward collider rays with legal driving footprints/overlap handling.
+
+Publication SHA/CI reported after remote verification and recorded in next entry.

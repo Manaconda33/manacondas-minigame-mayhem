@@ -44,6 +44,12 @@ try {
       return {wheels,center:centerHit?{distance:centerHit.timeOfImpact,collider:centerHit.collider.handle,featureId:centerHit.featureId,normal:[centerHit.normal.x,centerHit.normal.y,centerHit.normal.z]}:null,grounded,centerGrounded,driveSupported:grounded||centerGrounded};
     };
     const boostState=()=>({remaining:kart.boostRemaining,multiplier:kart.boostMultiplier,tier:kart.activeBoostTier});
+    const contacts=()=>{
+      const result=[],bodyCollider=kart.body.collider(0);
+      world.contactPairsWith(bodyCollider,other=>world.contactPair(bodyCollider,other,(m,flipped)=>{
+        result.push({other:other.handle,flipped,normal:m.normal(),subshape1:m.subshape1(),subshape2:m.subshape2(),friction:m.friction(),restitution:m.restitution(),contacts:Array.from({length:m.numContacts()},(_,i)=>({distance:m.contactDist(i),point1:m.localContactPoint1(i),point2:m.localContactPoint2(i),feature1:m.contactFid1(i),feature2:m.contactFid2(i),impulse:m.contactImpulse(i),tangentImpulse:[m.contactTangentImpulseX(i),m.contactTangentImpulseY(i)]})),solver:Array.from({length:m.numSolverContacts()},(_,i)=>({point:m.solverContactPoint(i),distance:m.solverContactDist(i)}))});
+      }));return result.filter(m=>m.contacts.length>0||m.solver.length>0);
+    };
     const rows = [];
     for (let i = 0; i < 240; i++) {
       const pr = track.project(kart.position());
@@ -58,12 +64,14 @@ try {
         input.steering = THREE.MathUtils.clamp(angle * 2.5, -1, 1);
       }
       input.throttle = 1; input.brake = false; input.drift = false;
+      const contactsBefore=trace?contacts():null;
       const supportBefore=trace?support():null, boostBefore=trace?boostState():null;
       const before = { rotation:trace?kart.body.rotation():undefined, position: kart.position().toArray(), velocity: kart.velocity().toArray(), speed: kart.speedMetersPerSecond() };
       kart.update(input, boosted && i === 0 ? 'boost' : pr.surface, 1 / 60);
       const supportController=trace?support():null;
       const controller = { rotation:trace?kart.body.rotation():undefined, position: kart.position().toArray(), velocity: kart.velocity().toArray(), speed: kart.speedMetersPerSecond() };
       world.step();
+      const contactsNative=trace?contacts():null;
       const supportNative=trace?support():null;
       const native = { rotation:trace?kart.body.rotation():undefined, position: kart.position().toArray(), velocity: kart.velocity().toArray(), speed: kart.speedMetersPerSecond() };
       cooldown = Math.max(0, cooldown - 1 / 60);
@@ -73,7 +81,7 @@ try {
         kart.resolveStaticBarrierCollision(contact.inwardNormal, contact.penetration + 0.02, cooldown > 0 ? 1 : 0.82, 0.22);
         if (cooldown === 0) cooldown = 0.24;
       }
-      rows.push({ supportBefore:trace?supportBefore:undefined,supportController:trace?supportController:undefined,supportNative:trace?supportNative:undefined,boostBefore:trace?boostBefore:undefined,boostAfter:trace?boostState():undefined,surface:pr.surface, i, time: i / 60, progress: pr.progress, offset: pr.lateralOffset, roadY: pr.point.y, input, before, controller, native, boundary, after: { position: kart.position().toArray(), velocity: kart.velocity().toArray(), speed: kart.speedMetersPerSecond() }, feedback: kart.feedback() });
+      rows.push({ contactsBefore:trace?contactsBefore:undefined,contactsNative:trace?contactsNative:undefined,mass:trace?kart.mass():undefined, supportBefore:trace?supportBefore:undefined,supportController:trace?supportController:undefined,supportNative:trace?supportNative:undefined,boostBefore:trace?boostBefore:undefined,boostAfter:trace?boostState():undefined,surface:pr.surface, i, time: i / 60, progress: pr.progress, offset: pr.lateralOffset, roadY: pr.point.y, input, before, controller, native, boundary, after: { position: kart.position().toArray(), velocity: kart.velocity().toArray(), speed: kart.speedMetersPerSecond() }, feedback: kart.feedback() });
     }
     reports.push({ start, lane, boosted, profile: 'aa-09', spawn, timestep: 1 / 60, settleSteps: 90, inputPolicy: matrix ? '7m lookahead lane follower; clamp(2.5*yawError,-1,1); held throttle/no brake/no drift; optional first-step boost surface activates existing 0.8s/1.12 pad state' : 'existing AiDriver steering, held throttle=1, brake=false, drift=false; not original player input', rivals: 0, items: 0, rows,
       summary: { minSpeed: Math.min(...rows.map(r => r.after.speed)), maxVy: Math.max(...rows.map(r => r.native.velocity[1])), airSteps: rows.filter(r => r.feedback.airborne).length, boundarySteps: rows.filter(r => r.boundary).length, maxNativeLoss: Math.max(...rows.map(r => r.controller.speed-r.native.speed)) } });

@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/fa87fe273c89/neon-diagnosis
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  09:35:41
+   Duration  2.00s (transform 554ms, setup 0ms, import 713ms, tests 670ms, environment 493ms)
+

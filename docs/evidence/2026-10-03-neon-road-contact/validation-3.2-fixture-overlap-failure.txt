@@ -1,0 +1,56 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 validate
+> npm run typecheck && npm run lint && npm run test:ci && npm run build
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 typecheck
+> tsc -b --pretty false
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 lint
+> eslint . --max-warnings 0
+
+
+/workspace/scratch/fa87fe273c89/neon-diagnosis/tests/neon-residual-production-probe.test.ts
+    1:1    error  Do not use "@ts-nocheck" because it alters compilation errors                                                   @typescript-eslint/ban-ts-comment
+    2:10   error  'requireValue' is defined but never used                                                                        @typescript-eslint/no-unused-vars
+    3:15   error  'KartFeedback' is defined but never used                                                                        @typescript-eslint/no-unused-vars
+    4:33   error  'describe' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+  128:7    error  'metadata' is assigned a value but never used                                                                   @typescript-eslint/no-unused-vars
+  259:15   error  Unsafe member access .input on an `any` value                                                                   @typescript-eslint/no-unsafe-member-access
+  259:40   error  Unsafe member access .surface on an `any` value                                                                 @typescript-eslint/no-unsafe-member-access
+  259:64   error  Unsafe member access .before on an `any` value                                                                  @typescript-eslint/no-unsafe-member-access
+  260:44   error  Unsafe member access .controller on an `any` value                                                              @typescript-eslint/no-unsafe-member-access
+  263:96   error  Unsafe member access .native on an `any` value                                                                  @typescript-eslint/no-unsafe-member-access
+  267:15   error  Unsafe member access .boundary on an `any` value                                                                @typescript-eslint/no-unsafe-member-access
+  268:17   error  Unsafe argument of type `any` assigned to a parameter of type `number`                                          @typescript-eslint/no-unsafe-argument
+  268:29   error  Unsafe member access .afterBoundary on an `any` value                                                           @typescript-eslint/no-unsafe-member-access
+  268:59   error  Unsafe member access .cooldownAfter on an `any` value                                                           @typescript-eslint/no-unsafe-member-access
+  273:13   error  Unsafe assignment of an `any` value                                                                             @typescript-eslint/no-unsafe-assignment
+  274:57   error  Unsafe assignment of an `any` value                                                                             @typescript-eslint/no-unsafe-assignment
+  275:40   error  Unsafe member access .after on an `any` value                                                                   @typescript-eslint/no-unsafe-member-access
+  279:58   error  Unsafe assignment of an `any` value                                                                             @typescript-eslint/no-unsafe-assignment
+  280:50   error  Unsafe member access .after on an `any` value                                                                   @typescript-eslint/no-unsafe-member-access
+  289:32   error  Unsafe spread of an `any` value in an array                                                                     @typescript-eslint/no-unsafe-assignment
+  294:160  error  Unsafe spread of an error array type                                                                            @typescript-eslint/no-unsafe-argument
+  294:175  error  Unsafe return of a value of type error                                                                          @typescript-eslint/no-unsafe-return
+  294:183  error  Unsafe member access .speed on a type that cannot be resolved                                                   @typescript-eslint/no-unsafe-member-access
+  294:242  error  Unsafe member access .speed on a type that cannot be resolved                                                   @typescript-eslint/no-unsafe-member-access
+  294:257  error  Unsafe member access .speed on a type that cannot be resolved                                                   @typescript-eslint/no-unsafe-member-access
+  294:314  error  Unsafe member access .speed on a type that cannot be resolved                                                   @typescript-eslint/no-unsafe-member-access
+  294:336  error  Unsafe member access .speed on a type that cannot be resolved                                                   @typescript-eslint/no-unsafe-member-access
+  294:359  error  Unsafe spread of an error array type                                                                            @typescript-eslint/no-unsafe-argument
+  294:374  error  Unsafe return of a value of type error                                                                          @typescript-eslint/no-unsafe-return
+  294:383  error  Unsafe member access .velocity on a type that cannot be resolved                                                @typescript-eslint/no-unsafe-member-access
+  297:18   error  Unsafe return of a value of type `any`                                                                          @typescript-eslint/no-unsafe-return
+  297:147  error  Unsafe argument of type `any` assigned to a parameter of type `ArrayLike<unknown> | { [s: string]: unknown; }`  @typescript-eslint/no-unsafe-argument
+  297:163  error  Unsafe return of a value of type `any[]`                                                                        @typescript-eslint/no-unsafe-return
+  298:3    error  Unsafe call of a type that could not be resolved                                                                @typescript-eslint/no-unsafe-call
+  299:56   error  Unsafe member access .reason on an `any` value                                                                  @typescript-eslint/no-unsafe-member-access
+  300:56   error  Unsafe member access .reason on an `any` value                                                                  @typescript-eslint/no-unsafe-member-access
+
+✖ 36 problems (36 errors, 0 warnings)
+

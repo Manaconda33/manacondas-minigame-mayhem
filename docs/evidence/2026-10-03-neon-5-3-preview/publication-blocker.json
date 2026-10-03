@@ -1,0 +1,20 @@
+{
+  "runtime": "9459bf0f64705fb744f7cc1e810be0c0a6f02b3b",
+  "runtimeCi": 37142917772,
+  "publicationCommit": "447abd53089f501f7d71419e25fe9d3365ec001f",
+  "publicationRun": 37143500826,
+  "validationJob": 111262625557,
+  "validation": "success",
+  "deployJob": 111263643840,
+  "deployment": "blocked",
+  "reason": "Branch \"preview/neon-grid-5-3-repair\" is not allowed to deploy to github-pages due to environment protection rules.",
+  "main": "8c29fca14b47e03df83dd0ba8c3f063aaa57e0f8",
+  "livePreview": false,
+  "postDeploymentChecks": "not run",
+  "productionBefore": {
+    "html": "0805ea2fcb30e514284d344f2381862925a87468e9f87edd0e3197ad4bc5739f",
+    "entry": "6657ae60358211b5fc69831f318eb9396fd62e04bd1c311f1b1f39ea2aa8d377",
+    "race": "de1c85120ba7c442ab009aea93d7a812d27d8d91e47791bd609f688c1979b927",
+    "css": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c"
+  }
+}

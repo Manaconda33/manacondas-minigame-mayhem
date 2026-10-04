@@ -5,7 +5,8 @@ import { triangulateGradeContour } from './GradeTriangulation';
 /** Smooth vertical join for the shortcut's shared exit edge. */
 export function smoothJoinBlend(progress: number): number {
   const t = THREE.MathUtils.clamp(progress, 0, 1);
-  return t * t * (3 - 2 * t);
+  // Ease into the correction and meet the road's outgoing grade at its end.
+  return t * t * (2 - t);
 }
 
 /** Clip the local exit to the unchanged main ribbon's exact Float32 boundary. */

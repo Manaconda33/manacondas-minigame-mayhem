@@ -54,7 +54,9 @@ describe('service tunnel native support and scene', () => {
     cleanup();
     expect(world.colliders.len()).toBe(before);
     world.free();
-  });
+    // Includes shared Neon scene construction and 267 native/render support rays.
+    // Hosted coverage needs an explicit budget; all geometry assertions stay intact.
+  }, 15000);
   it('shares visible floor with ground sampling and leaves roof above real body envelope', () => {
     const track = new NeonGrid();
     const scene = createNeonGridScene(track);

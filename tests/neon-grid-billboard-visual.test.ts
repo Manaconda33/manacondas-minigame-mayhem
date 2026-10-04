@@ -116,3 +116,31 @@ it('faces the ad toward approaching racers so lettering is not mirrored', () => 
     ),
   ).toBeLessThan(-0.99);
 });
+
+it('places entrance and exit portals at grounded main-wall aperture crossings', () => {
+  const track = new NeonGrid(),
+    scene = createNeonGridScene(track),
+    gap = track.billboardGap;
+  const portals = [
+    { name: 'billboard-portal-entrance', end: 'entrance' },
+    { name: 'billboard-portal-exit', end: 'exit' },
+  ] as const;
+  for (const { name, end } of portals) {
+    const portal = requireValue(scene.getObjectByName(name));
+    const position = portal.getWorldPosition(new THREE.Vector3());
+    const projection = track.projectMain(position);
+    expect(
+      Math.abs(projection.lateralDistance - track.halfWidthAt(projection.progress)),
+      end,
+    ).toBeLessThan(0.12);
+    const nearest = gap.project(position);
+    expect(Math.abs(position.y - nearest.point.y), `${end} support grounding`).toBeLessThan(0.02);
+    const adName = end === 'entrance' ? 'billboard-ad-paprika' : 'billboard-exit-ad-paprika';
+    const bounds = new THREE.Box3().setFromObject(requireValue(scene.getObjectByName(adName)));
+    const size = bounds.getSize(new THREE.Vector3());
+    expect(Math.hypot(size.x, size.z) / size.y, `${end} artwork ratio`).toBeCloseTo(16 / 9, 2);
+  }
+  const entrance = requireValue(scene.getObjectByName('billboard-portal-entrance'));
+  const exit = requireValue(scene.getObjectByName('billboard-portal-exit'));
+  expect(entrance.position.distanceTo(exit.position)).toBeGreaterThan(20);
+});

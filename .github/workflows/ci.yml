@@ -252,6 +252,24 @@ jobs:
           }, null, 2));
           JS
 
+      - name: Check out pinned Billboard runtime for PR validation
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v5
+        with:
+          ref: b8cb36cd4a54766f79e2ece95dc58ce27523de48
+          path: neon-grid-billboard-runtime
+          lfs: true
+
+      - name: Validate the exact Billboard runtime before preview publication
+        if: github.event_name == 'pull_request'
+        working-directory: neon-grid-billboard-runtime
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "b8cb36cd4a54766f79e2ece95dc58ce27523de48"
+          npm ci
+          npm run validate
+          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-billboard/
+
       - name: Check out pinned Billboard visual review
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v5

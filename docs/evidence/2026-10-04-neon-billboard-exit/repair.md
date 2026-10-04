@@ -31,3 +31,9 @@ Local full validation PASS: 122 files / 958 tests, strict typecheck, zero-warnin
 Hosted runtime CI37179637987 attempts1/2 each passed957checks and timed out only the existing tunnel support/scene case at its default5000ms limit. No assertion failure was reported. The focused local seven-case tunnel suite passes with coverage/two workers. The fixture includes267native/render support rays plus full shared scene construction; its budget is now15000ms with every support/height/winding/disposal assertion unchanged. Runtime source/geometry/assets remain identical to f05ea67. Full local validation and hosted CI are rerun for this test-harness-only follow-up; preview PR253 is not merged until runtime CI passes.
 
 Test-budget follow-up full local122files/958tests/typecheck/zero-warninglint/assetgates/build/diff PASS; validation-budget-followup.txt records the complete run. HostedCI remains the next publication gate.
+
+## Published focused retest
+
+Runtime45da17c and preview headbb72e52 passed hosted CI. Preview-only PR253 merged mainffc3e01; Pages run37180497965 validation111371934421/deployment111372844381 SUCCESS. All22 independent served files HTTP200 with exact byte counts/SHA256 matching hosted inventory; eight Billboard files also match pinned local build, fourteen preservation files match prior delivery. Served marker is45da17cdab7f7ce5a084f3d60da08e1c676dae1d and owner URL matches index. Publication and full file inventory recorded alongside this report. Workflow reconciliation fe47993 copies the already-published main preview workflow into the design branch, avoiding future pin reversal; no runtime or asset change.
+
+Owner retest: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-billboard/?review=45da17c . Stop for exit/rejoin validation; “Everything else looks good” retained. PR242 remains draft/open/unmerged. Production gameplay and accepted tunnel unchanged; Step4 pending.

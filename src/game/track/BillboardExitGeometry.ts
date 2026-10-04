@@ -6,7 +6,7 @@ import { triangulateGradeContour } from './GradeTriangulation';
 export function smoothJoinBlend(progress: number): number {
   const t = THREE.MathUtils.clamp(progress, 0, 1);
   // Ease into the correction and meet the road's outgoing grade at its end.
-  const ramp = 0.1;
+  const ramp = 0.025;
   const scale = 1 / (1 - ramp);
   const ease = (progress: number) =>
     progress * progress * progress - 0.5 * progress * progress * progress * progress;

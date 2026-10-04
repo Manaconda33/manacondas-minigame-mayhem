@@ -83,7 +83,9 @@ export class NeonGridBillboardVisual {
       const portal = new THREE.Group();
       portal.name = `billboard-portal-${name}`;
       portal.position.copy(crossing.position);
-      portal.rotation.y = Math.atan2(crossing.tangent.x, crossing.tangent.z) + Math.PI;
+      const wallTangent = gap.track.projectMain(crossing.position).tangent;
+      if (wallTangent.dot(crossing.tangent) > 0) wallTangent.negate();
+      portal.rotation.y = Math.atan2(wallTangent.x, wallTangent.z);
       const portalAds: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>[] = [];
       for (const sponsor of SPONSORS) {
         const material = new THREE.ShaderMaterial({

@@ -33,7 +33,7 @@ export function billboardExitPatch(gap: BillboardGap, positions: number[]): numb
   };
   const cross = (a: THREE.Vector3, b: THREE.Vector3) => a.x * b.z - a.z * b.x;
   const intersections = [-4, 4].map((lane, sideIndex) => {
-    const contour = Array.from({ length: 5 }, (_, i) => (396 + i) * 2 + sideIndex);
+    const contour = [800 + sideIndex];
     for (let i = 400; i < 512; i++) {
       const a = edge(i / 512, lane),
         b = edge((i + 1) / 512, lane),

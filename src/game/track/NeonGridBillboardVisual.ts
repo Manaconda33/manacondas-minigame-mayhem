@@ -74,11 +74,13 @@ function apertureCrossing(
     if (run && i === (run.at(-1) ?? -2) + 1) run.push(i);
     else runs.push([i]);
   }
-  const run = runs.sort((a, b) =>
-    Math.abs((a[0]! + a.at(-1)!) / 2 - samples / 2) -
-    Math.abs((b[0]! + b.at(-1)!) / 2 - samples / 2),
+  const runCenter = (run: number[]) => ((run.at(0) ?? samples) + (run.at(-1) ?? samples)) / 2;
+  const run = runs.sort(
+    (a, b) => Math.abs(runCenter(a) - samples / 2) - Math.abs(runCenter(b) - samples / 2),
   )[0];
-  if (!run?.length || run[0] === 0 || run.at(-1) === samples)
+  const runStart = run?.at(0);
+  const runEnd = run?.at(-1);
+  if (runStart === undefined || runEnd === undefined || runStart === 0 || runEnd === samples)
     throw new Error(`Billboard ${end} wall opening endpoints could not be measured`);
   const boundary = (outsideIndex: number, insideIndex: number) => {
     let outside = progressAt(outsideIndex);
@@ -90,8 +92,8 @@ function apertureCrossing(
     }
     return { progress: (outside + inside) / 2, point: wallPointAt((outside + inside) / 2) };
   };
-  const first = boundary(run[0]! - 1, run[0]!);
-  const last = boundary(run.at(-1)! + 1, run.at(-1)!);
+  const first = boundary(runStart - 1, runStart);
+  const last = boundary(runEnd + 1, runEnd);
   const width = Math.hypot(last.point.x - first.point.x, last.point.z - first.point.z);
   if (width < 1) throw new Error(`Billboard ${end} wall opening is too narrow`);
   const middleProgress = (first.progress + last.progress) / 2;

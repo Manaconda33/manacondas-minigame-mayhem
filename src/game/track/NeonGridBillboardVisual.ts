@@ -8,7 +8,13 @@ const CROSSING_SLOTS = 8;
 function apertureCrossing(
   gap: BillboardGap,
   end: 'entrance' | 'exit',
-): { position: THREE.Vector3; tangent: THREE.Vector3; approachTangent: THREE.Vector3; distance: number; width: number } {
+): {
+  position: THREE.Vector3;
+  tangent: THREE.Vector3;
+  approachTangent: THREE.Vector3;
+  distance: number;
+  width: number;
+} {
   const length = gap.curve.getLength();
   const lower = end === 'entrance' ? 0 : Math.max(0, length - 22);
   const upper = end === 'entrance' ? Math.min(length, gap.mouthDistance + 10) : length;

@@ -46,7 +46,8 @@ it('keeps both portal frames out of the main route except at supported wall open
     scene = createNeonGridScene(track);
   scene.updateMatrixWorld(true);
   for (const name of ['billboard-frame', 'billboard-exit-frame']) {
-    const frame = requireValue(scene.getObjectByName(name));
+    const frame = scene.getObjectByName(name);
+    if (!frame) throw new Error(`Missing ${name}`);
     frame.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
       const mesh = object as THREE.Mesh;

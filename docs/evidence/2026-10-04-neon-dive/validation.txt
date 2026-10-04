@@ -25,14 +25,14 @@ npm warn Unknown env config "http-proxy". This will stop working in the next maj
 
  Test Files  124 passed (124)
       Tests  992 passed (992)
-   Start at  01:10:19
-   Duration  71.06s (transform 4.09s, setup 0ms, import 15.68s, tests 251.42s, environment 75.21s)
+   Start at  01:27:52
+   Duration  57.63s (transform 5.24s, setup 0ms, import 17.37s, tests 272.04s, environment 75.09s)
 
  % Coverage report from v8
 -------------------|---------|----------|---------|---------|-------------------
 File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 -------------------|---------|----------|---------|---------|-------------------
-All files          |   91.88 |    83.11 |   92.46 |   93.96 |
+All files          |   91.97 |    83.25 |   92.46 |   94.05 |
  src/app           |   83.09 |    63.76 |    87.5 |   85.46 |
   itemHud.ts       |   94.56 |     87.5 |   85.71 |   96.66 | 39-41
   mountAppShell.ts |   73.31 |    59.64 |   83.33 |   74.81 | ...23,588-604,681
@@ -61,11 +61,11 @@ All files          |   91.88 |    83.11 |   92.46 |   93.96 |
   raceRoster.ts    |     100 |    85.71 |     100 |     100 | 18
  src/config        |   95.16 |    92.85 |     100 |   98.11 |
   gameSettings.ts  |   90.32 |     87.5 |     100 |   96.29 | 67
- src/game          |   83.49 |    70.52 |   76.59 |   85.21 |
-  KartTimeTrial.ts |   83.41 |    70.61 |   76.08 |   85.15 | ...2518,2614,2663
+ src/game          |   84.29 |     71.6 |   76.59 |      86 |
+  KartTimeTrial.ts |   84.22 |     71.7 |   76.08 |   85.93 | ...2518,2614,2663
   raceResults.ts   |     100 |     62.5 |     100 |     100 | 33-37,40
- src/game/ai       |   92.75 |     87.2 |      95 |    95.4 |
-  AiDriver.ts      |     100 |    96.39 |     100 |     100 | 124-126,266,320
+ src/game/ai       |   92.75 |    87.59 |      95 |    95.4 |
+  AiDriver.ts      |     100 |    97.29 |     100 |     100 | 124-126,266
   AiItemPolicy.ts  |    76.4 |    73.87 |    87.5 |      84 | ...18,226-227,260
  src/game/camera   |   98.21 |    95.55 |     100 |     100 |
   ...meraAnchor.ts |   94.11 |    85.71 |     100 |     100 | 10,22
@@ -155,10 +155,10 @@ All files          |   91.88 |    83.11 |   92.46 |   93.96 |
 -------------------|---------|----------|---------|---------|-------------------
 
 =============================== Coverage summary ===============================
-Statements   : 91.88% ( 9913/10789 )
-Branches     : 83.11% ( 5411/6510 )
+Statements   : 91.97% ( 9923/10789 )
+Branches     : 83.25% ( 5420/6510 )
 Functions    : 92.46% ( 1289/1394 )
-Lines        : 93.96% ( 9095/9679 )
+Lines        : 94.05% ( 9104/9679 )
 ================================================================================
 npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
 
@@ -186,9 +186,9 @@ dist/assets/index-KLiXI-1N.css            85.08 kB │ gzip:    17.26 kB
 dist/assets/index-CSdoFuFT.js            807.18 kB │ gzip:   209.11 kB
 dist/assets/KartTimeTrial-DgzCDn6g.js  3,176.86 kB │ gzip: 1,187.23 kB
 
+✓ built in 454ms
 [plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
-✓ built in 473ms

@@ -41,3 +41,11 @@ Final `npm run validate` PASS:124files/992tests with coverage, strict typecheck,
 Task7 engineering is verified; owner acceptance and delivery remain pending. No changes to final AI rates or Task6Step4.
 
 Final fail-state check: undershoots fall to the actual pool (body center<=0.45m) before the1.5s wait; a bounded8-slot procedural splash ring announces a new miss once. Both checks were RED first (pool-red.txt, splash-red.txt) and GREEN in final992-test coverage validation. Actual race fixtures use the existing respawn1.2m body offset; no physics constant changed. Final matrix remains18runs/0air/maxloss0.426449; regenerated paired high-speed miss saving0.0667s.
+
+## Hosted CI follow-up
+
+PR256 exact-source CI37239402192: preserved production and billboard validation passed; dive991/992 assertions completed, with aa-13 mobile countdown fixture timing out at5151ms against5000ms. Other profiles took4593/4285ms; billboard same fixture had4487ms. Set only that parameterized native integration fixture to15000ms, matching its neighboring native race fixture. No assertion, production runtime, geometry, controller or trajectory changed. Final local full992-test/typecheck/zero-warninglint/build PASS again. Runtime repinned tofbff2491076542092de6b30a81646ec7b6ae84a6; exact-source CI37240133047 pending.
+
+## Delivery complete — STOP
+
+Exact-source CI37240133047 PASS. Preview-only PR256 workflow change published main@f4167110; Pages37240788760 validate/deploy PASS. Both hosted and independent fresh30-file HTTP200/length/SHA256 verification pass;8Dive hashes match clean local pinnedfbff249;22production/5.3/tunnel/billboard files preserved. See publication.json and delivery-verification.json/md. No gameplay production merge. PR242 not modified by this task; independent docs-only Stage4 design input advanced it tob89c788 at22:43:35Z; do not overwrite that change. Owner retest pending; STOP.

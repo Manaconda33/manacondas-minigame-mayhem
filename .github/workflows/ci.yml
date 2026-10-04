@@ -18,7 +18,7 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -315,7 +315,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v5
         with:
-          ref: fbff2491076542092de6b30a81646ec7b6ae84a6
+          ref: a60cd3229f20e7ca35ebdfa11e87bed205e27c7f
           path: neon-grid-dive-runtime
           lfs: true
 
@@ -324,23 +324,53 @@ jobs:
         working-directory: neon-grid-dive-runtime
         run: |
           git lfs fsck
-          test "$(git rev-parse HEAD)" = "fbff2491076542092de6b30a81646ec7b6ae84a6"
+          test "$(git rev-parse HEAD)" = "a60cd3229f20e7ca35ebdfa11e87bed205e27c7f"
           npm ci
           npm run validate
           npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-dive/
+
+      - name: Render the pinned waterfall spillway and verify draw-call budget
+        if: github.event_name == 'pull_request'
+        working-directory: neon-grid-dive-runtime
+        env:
+          WATERFALL_PLAYWRIGHT: /tmp/waterfall-webgl
+        run: |
+          npm install --prefix /tmp/waterfall-webgl --no-package-lock playwright@1.58.2
+          export WATERFALL_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/waterfall-vite.log 2>&1 &
+          spillway_server_pid=$!
+          trap 'kill "$spillway_server_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/waterfall-render.mjs /tmp/waterfall-render
+          node tools/diagnostics/neon-residual.mjs /tmp/waterfall-render/repair-matrix.json --matrix
+          node --input-type=module - <<'JS'
+          import { readFileSync } from 'node:fs';
+          const reports = JSON.parse(readFileSync('/tmp/waterfall-render/repair-matrix.json')).reports;
+          if (reports.length !== 18 || reports.some(r => r.summary.airSteps !== 0 || r.summary.maxNativeLoss > 1.83)) throw new Error('Residual repair matrix failed');
+          JS
+
+      - name: Upload waterfall rendered evidence
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: waterfall-spillway-render
+          path: /tmp/waterfall-render/
 
       - name: Check out pinned Dive visual review
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v5
         with:
-          ref: fbff2491076542092de6b30a81646ec7b6ae84a6
+          ref: a60cd3229f20e7ca35ebdfa11e87bed205e27c7f
           path: neon-grid-dive-preview
 
       - name: Build Dive visual review with existing runtime assets
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: neon-grid-dive-preview
         env:
-          VITE_SOURCE_COMMIT: fbff2491076542092de6b30a81646ec7b6ae84a6
+          VITE_SOURCE_COMMIT: a60cd3229f20e7ca35ebdfa11e87bed205e27c7f
         run: |
           test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
           python3 - <<'PYTHON'
@@ -499,13 +529,13 @@ jobs:
           for attempt in range(12):
               try:
                   for item in report:
-                      request = urllib.request.Request(item['url'] + '?delivery=dive-fbff2491076542092de6b30a81646ec7b6ae84a6', headers={'Cache-Control': 'no-cache'})
+                      request = urllib.request.Request(item['url'] + '?delivery=dive-a60cd3229f20e7ca35ebdfa11e87bed205e27c7f', headers={'Cache-Control': 'no-cache'})
                       with urllib.request.urlopen(request, timeout=45) as response:
                           data = response.read()
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = 'fbff2491076542092de6b30a81646ec7b6ae84a6' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = 'a60cd3229f20e7ca35ebdfa11e87bed205e27c7f' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

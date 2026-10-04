@@ -41,37 +41,45 @@ it('joins the early descent without a heading kink and projects the curved drivi
   }
 });
 
-it('keeps the entire billboard frame beyond the main racing corridor', () => {
+it('keeps both portal frames out of the main route except at supported wall openings', () => {
   const track = new NeonGrid(),
     scene = createNeonGridScene(track);
   scene.updateMatrixWorld(true);
-  const frame = scene.getObjectByName('billboard-frame') as THREE.Group;
-  frame.traverse((object) => {
-    if (!(object instanceof THREE.Mesh)) return;
-    const mesh = object as THREE.Mesh;
-    const positions = mesh.geometry.getAttribute('position');
-    const indices = mesh.geometry.getIndex();
-    expect(indices).not.toBeNull();
-    if (!indices) throw new Error('Frame requires indexed geometry');
-    for (let triangle = 0; triangle < indices.count; triangle += 3) {
-      const corners = [0, 1, 2].map((offset) =>
-        new THREE.Vector3()
-          .fromBufferAttribute(positions, indices.getX(triangle + offset))
-          .applyMatrix4(object.matrixWorld),
-      ) as [THREE.Vector3, THREE.Vector3, THREE.Vector3];
-      // Sample the faces, including edges and corners, against the curved corridor.
-      for (let a = 0; a <= 10; a++)
-        for (let b = 0; b <= 10 - a; b++) {
-          const p = corners[0]
-            .clone()
-            .multiplyScalar(a / 10)
-            .addScaledVector(corners[1], b / 10)
-            .addScaledVector(corners[2], 1 - (a + b) / 10);
-          const main = track.projectMain(p.setY(14));
-          expect(main.lateralDistance - track.halfWidthAt(main.progress)).toBeGreaterThan(0.5);
-        }
-    }
-  });
+  for (const name of ['billboard-frame', 'billboard-exit-frame']) {
+    const frame = requireValue(scene.getObjectByName(name));
+    frame.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      const mesh = object as THREE.Mesh;
+      const positions = mesh.geometry.getAttribute('position');
+      const indices = mesh.geometry.getIndex();
+      expect(indices).not.toBeNull();
+      if (!indices) throw new Error('Frame requires indexed geometry');
+      for (let triangle = 0; triangle < indices.count; triangle += 3) {
+        const corners = [0, 1, 2].map((offset) =>
+          new THREE.Vector3()
+            .fromBufferAttribute(positions, indices.getX(triangle + offset))
+            .applyMatrix4(object.matrixWorld),
+        ) as [THREE.Vector3, THREE.Vector3, THREE.Vector3];
+        for (let a = 0; a <= 10; a++)
+          for (let b = 0; b <= 10 - a; b++) {
+            const point = corners[0]
+              .clone()
+              .multiplyScalar(a / 10)
+              .addScaledVector(corners[1], b / 10)
+              .addScaledVector(corners[2], 1 - (a + b) / 10);
+            const main = track.projectMain(point.clone().setY(14));
+            const clearance = main.lateralDistance - track.halfWidthAt(main.progress);
+            if (clearance > 0.5) continue;
+            const support = track.billboardGap.project(point);
+            const grounded = point.clone().setY(support.point.y);
+            expect(
+              track.billboardGap.junctionContains(grounded),
+              `${name} overlaps main route outside its supported aperture`,
+            ).toBe(true);
+          }
+      }
+    });
+  }
 });
 
 it('supports every lane of the descending curved plaza with upward native faces', () => {

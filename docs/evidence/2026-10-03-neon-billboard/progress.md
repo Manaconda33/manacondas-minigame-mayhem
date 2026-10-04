@@ -36,3 +36,7 @@ Focused final:83 tests across3 files PASS before final full validation. Full val
 ## Next
 
 STOP for Manny’s requested visual-execution conversation. Agree the hologram/ad execution and any required character references/prompts before Step3. Later Step4 measures paired savings, normal/boosted entry behavior and representative first-lap phase/joint AI rates; owner readable tell/driving review gets a pinned Pages preview only after visual implementation and validation. No production release authority.
+
+## Saved checkpoint / hosted verification
+
+Runtime/source checkpoint: ee687a5225bf2ef14a2b799958aa7b7011e66f7c; parentbc40809; local/remote treec84b3c1e4bb7a619a00baf2e816bd62ce506e874 matched exactly. All25 source/evidence/governance blobs compared to local Git blob IDs; source-hashes and clean fetched checkout verified. Full validation119files/937tests/typecheck/lint/assets/build PASS; staged diff check and LFS fsck PASS. Hosted exact-runtime CI37168707541 SUCCESS; validate SUCCESS/deploy SKIPPED. Main28889be and pinned tunnel preview unchanged; PR242 stilldraft/open/unmerged. Final record adds docs only, source hashes/runtime unaffected. STOP beforeStep3.

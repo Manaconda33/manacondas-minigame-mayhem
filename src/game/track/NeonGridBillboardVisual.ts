@@ -90,7 +90,7 @@ function apertureCrossing(
     }
     return { progress: (outside + inside) / 2, point: wallPointAt((outside + inside) / 2) };
   };
-  const first = boundary(run[0] - 1, run[0]);
+  const first = boundary(run[0]! - 1, run[0]!);
   const last = boundary(run.at(-1)! + 1, run.at(-1)!);
   const width = Math.hypot(last.point.x - first.point.x, last.point.z - first.point.z);
   if (width < 1) throw new Error(`Billboard ${end} wall opening is too narrow`);

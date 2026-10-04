@@ -253,7 +253,7 @@ it('keeps the supported plaza approach asphalt without selecting a route before 
 });
 
 
-it('eases the shortcut height into the main-track join without a sharp start or stop', async () => {
+it('eases the shortcut height into the main-track join without a sharp start or stop', () => {
   expect(smoothJoinBlend(0)).toBe(0);
   expect(smoothJoinBlend(1)).toBe(1);
   expect(smoothJoinBlend(0.5)).toBeCloseTo(0.5, 6);

@@ -92,7 +92,7 @@ export function billboardFloorGeometry(gap: BillboardGap): THREE.BufferGeometry 
   const segments = 512,
     positions: number[] = [],
     indices: number[] = [];
-  for (let i = 0; i <= 400; i++) {
+  for (let i = 0; i <= 396; i++) {
     const p = gap.curve.getPointAt(i / segments),
       t = gap.curve.getTangentAt(i / segments);
     const right = new THREE.Vector3(t.z, 0, -t.x).normalize();

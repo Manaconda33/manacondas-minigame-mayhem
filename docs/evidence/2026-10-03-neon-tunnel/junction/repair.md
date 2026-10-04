@@ -32,3 +32,7 @@ Runtime92025b5 / CI37152562581 SUCCESS. Preview-onlyPR250 CI37159582801 SUCCESS,
 URL: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-tunnel/?review=92025b5
 
 Final delivery checkpoint synchronizes the preview-only workflow onto the runtime branch and records documentation only; src/public match92025b5 exactly. Owner entrance/exit wall retest remains pending; all other owner-reviewed gameplay remainsPASS. STOP for owner feedback.
+
+## Owner acceptance closed — 2026-10-03 America/Chicago
+
+Manny approved the delivered replacement preview: entrance/exit wall retestPASS. Combined with preserved remainderPASS, Stage3Task5 owner acceptance is COMPLETE/PASS. See ../owner-playtest.md. This supersedes pending-owner entries above. Docs only; runtime/preview/production unchanged, no new tests claimed, PR242 draft/unmerged. Stop for Manny's next session; approved Task6 design input is already saved at84ea856.

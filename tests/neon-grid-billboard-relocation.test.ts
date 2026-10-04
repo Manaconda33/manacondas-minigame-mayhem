@@ -6,7 +6,7 @@ import { RacerTrack } from '../src/game/track/RacerTrack';
 import { createNeonGridScene } from '../src/game/track/createNeonGridScene';
 import { createNeonGridColliders } from '../src/game/track/NeonGridCollision';
 import { billboardFloorGeometry } from '../src/game/track/NeonGridBillboard';
-import { smoothJoinBlend } from '../src/game/track/BillboardExitGeometry';
+import { linearJoinBlend } from '../src/game/track/BillboardExitGeometry';
 import { neonGridRibbon } from '../src/game/track/NeonGridGeometry';
 import { AiDriver } from '../src/game/ai/AiDriver';
 import { KartController } from '../src/game/physics/KartController';
@@ -253,17 +253,17 @@ it('keeps the supported plaza approach asphalt without selecting a route before 
 });
 
 
-it('eases the shortcut height into the main-track join without a sharp start or stop', () => {
-  expect(smoothJoinBlend(0)).toBe(0);
-  expect(smoothJoinBlend(1)).toBe(1);
-  expect(smoothJoinBlend(0.5)).toBeCloseTo(0.5, 6);
-  expect(smoothJoinBlend(0.005)).toBeLessThan(0.001);
-  expect(1 - smoothJoinBlend(0.995)).toBeLessThan(0.001);
+it('keeps a gradual constant grade through the shortcut height join', () => {
+  expect(linearJoinBlend(0)).toBe(0);
+  expect(linearJoinBlend(1)).toBe(1);
+  expect(linearJoinBlend(0.5)).toBeCloseTo(0.5, 6);
+  expect(linearJoinBlend(0.01)).toBeCloseTo(0.01, 6);
+  expect(1 - linearJoinBlend(0.99)).toBeCloseTo(0.01, 6);
   let maximumGradeScale = 0;
   for (let i = 0; i < 1000; i++)
     maximumGradeScale = Math.max(
       maximumGradeScale,
-      (smoothJoinBlend((i + 1) / 1000) - smoothJoinBlend(i / 1000)) * 1000,
+      (linearJoinBlend((i + 1) / 1000) - linearJoinBlend(i / 1000)) * 1000,
     );
-  expect(maximumGradeScale).toBeLessThan(1.03);
+  expect(maximumGradeScale).toBeCloseTo(1, 3);
 });

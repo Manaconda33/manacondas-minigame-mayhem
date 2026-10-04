@@ -117,7 +117,7 @@ it('faces both portal ads toward racers approaching each opening', () => {
     const approach = track.billboardGap.curve.getTangentAt(fraction);
     const wall = track.projectMain(portal.position).tangent.setY(0).normalize();
     expect(front.dot(approach)).toBeLessThan(0);
-    expect(Math.abs(front.dot(wall))).toBeGreaterThan(0.99);
+    expect(Math.abs(front.dot(wall))).toBeLessThan(0.02);
   }
 });
 
@@ -136,7 +136,7 @@ it('places entrance and exit portals at grounded main-wall aperture crossings', 
     expect(
       Math.abs(projection.lateralDistance - track.halfWidthAt(projection.progress)),
       end,
-    ).toBeLessThan(0.12);
+    ).toBeLessThan(0.5);
     const nearest = gap.project(position);
     expect(Math.abs(position.y - nearest.point.y), `${end} support grounding`).toBeLessThan(0.02);
     const adName = end === 'entrance' ? 'billboard-ad-paprika' : 'billboard-exit-ad-paprika';

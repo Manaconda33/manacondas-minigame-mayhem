@@ -6,6 +6,7 @@ import { RacerTrack } from '../src/game/track/RacerTrack';
 import { createNeonGridScene } from '../src/game/track/createNeonGridScene';
 import { createNeonGridColliders } from '../src/game/track/NeonGridCollision';
 import { billboardFloorGeometry } from '../src/game/track/NeonGridBillboard';
+import { smoothJoinBlend } from '../src/game/track/BillboardExitGeometry';
 import { neonGridRibbon } from '../src/game/track/NeonGridGeometry';
 import { AiDriver } from '../src/game/ai/AiDriver';
 import { KartController } from '../src/game/physics/KartController';
@@ -249,4 +250,13 @@ it('keeps the supported plaza approach asphalt without selecting a route before 
     .add(new THREE.Vector3(0, 0.4, 0));
   expect(route.project(p).pathId).toBeUndefined();
   expect(route.project(p).surface).toBe('asphalt');
+});
+
+
+it('eases the shortcut height into the main-track join without a sharp start or stop', async () => {
+  expect(smoothJoinBlend(0)).toBe(0);
+  expect(smoothJoinBlend(1)).toBe(1);
+  expect(smoothJoinBlend(0.5)).toBeCloseTo(0.5, 6);
+  expect(smoothJoinBlend(0.01)).toBeLessThan(0.001);
+  expect(1 - smoothJoinBlend(0.99)).toBeLessThan(0.001);
 });

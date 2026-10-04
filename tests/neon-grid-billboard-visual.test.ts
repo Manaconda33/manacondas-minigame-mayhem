@@ -148,3 +148,64 @@ it('places entrance and exit portals at grounded main-wall aperture crossings', 
   const exit = requireValue(scene.getObjectByName('billboard-portal-exit'));
   expect(entrance.position.distanceTo(exit.position)).toBeGreaterThan(20);
 });
+
+
+it('fits each hologram between the measured wall-opening endpoints', () => {
+  const track = new NeonGrid(), scene = createNeonGridScene(track);
+  scene.updateMatrixWorld(true);
+  for (const [portalName, adName] of [
+    ['billboard-portal-entrance', 'billboard-ad-paprika'],
+    ['billboard-portal-exit', 'billboard-exit-ad-paprika'],
+  ] as const) {
+    const portal = requireValue(scene.getObjectByName(portalName));
+    const ad = requireValue(scene.getObjectByName(adName)) as THREE.Mesh<THREE.PlaneGeometry>;
+    const projected = track.projectMain(portal.position);
+    const side = Math.sign(projected.lateralOffset) || 1;
+    const target = projected.progress;
+    const edgeAt = (progress: number) => {
+      const center = track.curve.getPointAt(progress);
+      const tangent = track.curve.getTangentAt(progress);
+      return center.addScaledVector(
+        new THREE.Vector3(tangent.z, 0, -tangent.x).normalize(),
+        side * track.halfWidthAt(progress),
+      );
+    };
+    const isOpen = (progress: number) => track.billboardGap.junctionContains(edgeAt(progress));
+    const start = Math.max(0, target - 0.025), end = Math.min(1, target + 0.025);
+    const steps = 256;
+    const runs: number[][] = [];
+    for (let i = 0; i <= steps; i++) {
+      const progress = start + ((end - start) * i) / steps;
+      if (!isOpen(progress)) continue;
+      const current = runs.at(-1);
+      if (current && i === (current.at(-1) ?? -2) + 1) current.push(i);
+      else runs.push([i]);
+    }
+    const run = runs.sort((a, b) =>
+      Math.abs((a[0]! + a.at(-1)!) / 2 - steps / 2) -
+      Math.abs((b[0]! + b.at(-1)!) / 2 - steps / 2),
+    )[0];
+    expect(run, `${portalName} must sit at a real wall opening`).toBeDefined();
+    if (!run) throw new Error('Missing measured wall opening');
+    const boundary = (outsideIndex: number, insideIndex: number) => {
+      let outside = start + ((end - start) * outsideIndex) / steps;
+      let inside = start + ((end - start) * insideIndex) / steps;
+      const insideState = isOpen(inside);
+      for (let i = 0; i < 24; i++) {
+        const middle = (outside + inside) / 2;
+        if (isOpen(middle) === insideState) inside = middle;
+        else outside = middle;
+      }
+      return edgeAt((outside + inside) / 2);
+    };
+    const openingStart = boundary(run[0]! - 1, run[0]!);
+    const openingEnd = boundary(run.at(-1)! + 1, run.at(-1)!);
+    const adWidth = ad.geometry.parameters.width;
+    const left = ad.localToWorld(new THREE.Vector3(-adWidth / 2, 0, 0));
+    const right = ad.localToWorld(new THREE.Vector3(adWidth / 2, 0, 0));
+    const distanceXZ = (a: THREE.Vector3, b: THREE.Vector3) => Math.hypot(a.x - b.x, a.z - b.z);
+    const direct = distanceXZ(left, openingStart) + distanceXZ(right, openingEnd);
+    const reverse = distanceXZ(left, openingEnd) + distanceXZ(right, openingStart);
+    expect(Math.min(direct, reverse), `${portalName} must cover the wall gap`).toBeLessThan(0.25);
+  }
+});

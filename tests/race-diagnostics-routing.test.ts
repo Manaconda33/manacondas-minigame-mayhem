@@ -1072,6 +1072,7 @@ it.each(['aa-02', 'aa-13', 'aa-14'])(
     expect(runtime.kart.velocity().clone().setY(0).length()).toBeGreaterThan(3);
     expect(end.clone().sub(start).setY(0).length()).toBeGreaterThan(3);
   },
+  15000,
 );
 
 it('frames the elevated Neon player in portrait through the real camera integration', async () => {

@@ -33,3 +33,15 @@ No binary assets were changed or generated; no LFS operation occurred. Main-road
 
 CI is automated evidence only. The live chase-camera presentation and owner visual acceptance are still pending. Preview publication and byte/hash verification are the next gates; after delivery, stop for Manny's focused entrance/exit visual retest. Production release remains unauthorized.
 
+
+## Owner retest follow-up — 2026-10-04
+
+Manny's retest found both panels still out of line with the wall openings and reported a sharp-looking height ramp near the shortcut exit. The crossing-only placement and linear side-edge grade did not meet the visual request.
+
+Follow-up source changes are committed on `design/neon-grid-circuit-02` through `ca95a3b9f8f3ed6e3849f319c14797e620d2ab87`:
+
+- The hologram center, width and wall direction are now derived from the two sampled ends of the actual open wall span, for both entrance and exit.
+- The exit edge-height adjustment uses an eased transition.
+- Regression checks compare each panel edge with the measured wall opening and check that the height blend eases at both ends.
+
+This execution environment has no local repository checkout; Git clone failed because the network proxy is unavailable. GitHub currently reports no Actions runs or checks for the new head. Therefore none of the added tests, typecheck, lint or production build is claimed as passing. The existing preview remains pinned to `135eec2`; it has not been replaced. Next gate: run repository validation on the exact branch head, fix any failures, then update and verify only the isolated Billboard preview before Manny's focused visual retest. Production and accepted tunnel preview stay unchanged; PR #242 remains draft/open/unmerged.

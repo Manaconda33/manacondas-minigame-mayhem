@@ -56,13 +56,13 @@ describe('Billboard visible route and race-time cues', () => {
       gap = track.billboardGap;
     const at = (distance: number) =>
       gap.curve.getPointAt(distance / gap.curve.getLength()).add(new THREE.Vector3(0, 0.5, 0));
-    route.advance(at(6), at(8), 0);
+    route.advance(at(gap.mouthDistance - 1), at(gap.mouthDistance + 1), 0);
     expect(route.takeBillboardCrossing()).toBe(true);
     expect(route.takeBillboardCrossing()).toBeNull();
-    route.advance(at(8), at(9), 4);
+    route.advance(at(gap.mouthDistance + 1), at(gap.mouthDistance + 2), 4);
     expect(route.takeBillboardCrossing()).toBeNull();
     route.reset();
-    route.advance(at(6), at(8), 4);
+    route.advance(at(gap.mouthDistance - 1), at(gap.mouthDistance + 1), 4);
     expect(route.takeBillboardCrossing()).toBe(false);
     route.reset();
     expect(route.takeBillboardCrossing()).toBeNull();
@@ -108,5 +108,11 @@ it('faces the ad toward approaching racers so lettering is not mirrored', () => 
   const ad = scene.getObjectByName('billboard-ad-paprika') as THREE.Mesh;
   scene.updateMatrixWorld(true);
   const front = new THREE.Vector3(0, 0, 1).transformDirection(ad.matrixWorld);
-  expect(front.dot(track.billboardGap.curve.getTangentAt(0))).toBeLessThan(-0.99);
+  expect(
+    front.dot(
+      track.billboardGap.curve.getTangentAt(
+        track.billboardGap.mouthDistance / track.billboardGap.curve.getLength(),
+      ),
+    ),
+  ).toBeLessThan(-0.99);
 });

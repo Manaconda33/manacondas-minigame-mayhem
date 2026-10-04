@@ -11,3 +11,5 @@ Manny individually approved concepts, reference-guided prompts, and generated ar
 All approved images1672×941; exact2048×1152opaqueWebP runtime derivatives differ in aspect by less than0.06%, no creative recomposition or text/identity changes. Arin’s superseded panoramic firstattempt is not delivered. Original generatedmasters remain separate and untouched. Derivative filenames are revisioned and base-aware; no background/frame/flicker baked in. Source/derivativeSHA256/size inventory: ../evidence/2026-10-03-neon-billboard/visual-assets.json.
 
 NormalGit/directupload for these3exactruntimefiles is explicitly user-directed (ADR106), not an inferred general policy exception. No character-roster/profile/stat changes. Artwork approval does not claim in-game desktop/mobile readability or Task6balance acceptance.
+
+2026-10-04 approved relocation: physical projection8×4.5m (16:9), mouth19m along the curved8mwide bypass, entireframeoutside maincorridor. Approved derivative bytes/hashes and state assignment remain unchanged. In-game wall-side visibility requires replacement preview owner review.

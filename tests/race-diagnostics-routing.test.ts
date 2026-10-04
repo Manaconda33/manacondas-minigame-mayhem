@@ -1194,7 +1194,7 @@ it.each(
     vi.spyOn(runtime.raceDirector, 'raceTime').mockReturnValue(seconds);
     const gap = runtime.track.billboardGap,
       route = runtime.neonRoute('player');
-    const t = gap.curve.getTangentAt(0),
+    const t = gap.curve.getTangentAt(gap.mouthDistance / gap.curve.getLength()),
       at = (d: number) => gap.curve.getPointAt(d / gap.curve.getLength());
     runtime.kart.respawn(at(gap.mouthDistance - 0.2), Math.atan2(t.x, t.z));
     runtime.kart.body.setLinvel({ x: t.x * 28, y: 0, z: t.z * 28 }, true);
@@ -1210,7 +1210,8 @@ it.each(
     expect(runtime.kart.position().distanceTo(paused)).toBe(0);
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
     const end = gap.curve.getPointAt(1),
-      tEnd = gap.curve.getTangentAt(1);
+      tEnd = gap.curve.getTangentAt(1),
+      planarEnd = tEnd.clone().setY(0).normalize();
     runtime.kart.respawn(
       end
         .clone()
@@ -1218,7 +1219,7 @@ it.each(
         .add(new THREE.Vector3(0, -0.6, 0)),
       Math.atan2(tEnd.x, tEnd.z) + yawOffset,
     );
-    runtime.kart.body.setLinvel({ x: tEnd.x * 28, y: 0, z: tEnd.z * 28 }, true);
+    runtime.kart.body.setLinvel({ x: planarEnd.x * 28, y: 0, z: planarEnd.z * 28 }, true);
     tick(34);
     expect(route.project(runtime.kart.position()).pathId).toBeUndefined();
     expect(runtime.kart.speedMetersPerSecond()).toBeCloseTo(

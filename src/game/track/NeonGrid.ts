@@ -189,15 +189,20 @@ export class NeonGrid implements TrackDefinition {
   }
 
   public checkpointPosition(index: number): THREE.Vector3 {
-    return this.samples[this.checkpointIndices[index] ?? 0]?.clone() ?? new THREE.Vector3();
+    return index === 2 || index === 3
+      ? this.curve.getPointAt(this.lapCheckpointProgress(index))
+      : (this.samples[this.checkpointIndices[index] ?? 0]?.clone() ?? new THREE.Vector3());
   }
   public checkpointTangent(index: number): THREE.Vector3 {
-    return this.tangents[this.checkpointIndices[index] ?? 0]?.clone() ?? new THREE.Vector3(0, 0, 1);
+    return index === 2 || index === 3
+      ? this.curve.getTangentAt(this.lapCheckpointProgress(index)).normalize()
+      : (this.tangents[this.checkpointIndices[index] ?? 0]?.clone() ?? new THREE.Vector3(0, 0, 1));
   }
   public lapCheckpointProgress(index: number): number {
     return index === 0
       ? this.startFinishDistance / this.curve.getLength()
-      : (this.checkpointIndices[index] ?? 0) / this.sampleCount;
+      : ((layout.checkpointProgressOverrides as Record<string, number>)[String(index)] ??
+          (this.checkpointIndices[index] ?? 0) / this.sampleCount);
   }
   public lapCheckpointPosition(index: number): THREE.Vector3 {
     return this.curve.getPointAt(this.lapCheckpointProgress(index));

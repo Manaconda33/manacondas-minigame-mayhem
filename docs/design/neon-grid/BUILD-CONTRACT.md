@@ -26,7 +26,7 @@ Use the reference images for city scale, luminous edge/sign language, dark refle
 
 | Shortcut | Forward entry window | Rejoin | Main distance | Proposed alternate path |
 |---|---:|---:|---:|---:|
-| Billboard Gap | 0.111234–0.116234 | 0.178525 | 97.571 m | 89.103 m plaza chord, deck y≈14 m |
+| Billboard Gap | 0.101–0.106 | 0.215 | 165.179 m | 140.803 m curved plaza, 8 m width, y=14→≈6.8 m |
 | Service Tunnel | 0.246549–0.251549 | 0.461541 | 311.739 m | 89.153 m entry ramp / straight underground section / exit ramp |
 | Waterfall Dive | 0.792717–0.797717 | 0.827030 | 49.754 m | 33.695 m geometric ramp-to-landing chord |
 
@@ -40,7 +40,7 @@ Billboard ON/OFF state comes from authoritative race seconds shared by visuals a
 
 ## Checkpoints and recovery
 
-Before/after common-road pairs are **2/3 for Billboard**, **4/5 for Tunnel**, and **8/9 for Dive**. Their entry/rejoin separation along the main curve is approximately 18–25 m. The exact 12 gate locations are in the JSON/drawing.
+Before/after common-road pairs are **2/3 for Billboard**, **4/5 for Tunnel**, and **8/9 for Dive**. Tunnel/Dive retain their authored clearance. The approved Billboard relocation uses gate2=0.087 and gate3=0.222 exactly: about20.3m before entry and10.1m after rejoin, superseding its previous18–25m requirement. The exact 12 gate locations are in the JSON/drawing.
 
 Geometry checks pass: ordered distinct gates; higher shortcut rejoin progress; no gate inside a skipped progress interval; no extra forward main-curve crossing within any proposed 13 m / 1.5 m gate footprint; all eight geometric main/shortcut path combinations trace gates 1→11→0. This does not prove trigger/collision/lap behavior in the runtime.
 
@@ -70,3 +70,5 @@ Evidence: `layout.json`, `layout.svg`, `build_layout.py`, and the geometry valid
 ## Full-hairpin bypass direction — 2026-10-02
 
 Manny directed: “The swichback shortcut should bypass all the hairpin turns in fuchsia.” Tunnel entry is now before the first fuchsia hairpin and exit is on the shared road after the last. The broader return bend belongs to gold Falls Run, matching the original schematic. Checkpoints 4/5 bracket the complete bypass on common road. Geometry and all eight path traces pass again; no runtime timing claim.
+
+Approved2026-10-04 Billboard relocation supersedes its old straight-chord drawing/JSON shortcut entry. Runtime authority: NeonGridBillboard.ts plus neonGridLayout.json checkpointProgressOverrides. Main layout/controlpoints are unchanged. See billboard-gap-design.md §11 and relocation-review.md for native results and unresolved balance gates.

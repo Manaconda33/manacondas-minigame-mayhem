@@ -32,12 +32,12 @@ function distanceSq(bounds: THREE.Box3, p: THREE.Vector3): number {
   return x * x + y * y + z * z;
 }
 
-/** Exact nearest search over closed 3D segments; pruning uses a lower distance bound. */
+/** Exact nearest search over open or closed 3D segments; pruning uses a lower distance bound. */
 export class TrackSegmentIndex {
   private readonly root: Node;
-  public constructor(samples: readonly THREE.Vector3[]) {
+  public constructor(samples: readonly THREE.Vector3[], closed = true) {
     this.root = build(
-      samples.map((a, index) => {
+      (closed ? samples : samples.slice(0, -1)).map((a, index) => {
         const b = samples[(index + 1) % samples.length] ?? a;
         const edge = b.clone().sub(a);
         return {

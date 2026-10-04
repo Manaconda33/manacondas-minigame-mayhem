@@ -33,7 +33,7 @@ export class NeonGridBillboardVisual {
   public constructor(gap: BillboardGap) {
     this.group.name = 'billboard-hologram';
     const mouth = gap.curve.getPointAt(gap.mouthDistance / gap.curve.getLength());
-    const tangent = gap.curve.getTangentAt(0);
+    const tangent = gap.curve.getTangentAt(gap.mouthDistance / gap.curve.getLength());
     const portal = new THREE.Group();
     portal.position.copy(mouth);
     portal.rotation.y = Math.atan2(tangent.x, tangent.z) + Math.PI;
@@ -64,21 +64,21 @@ export class NeonGridBillboardVisual {
             #include <colorspace_fragment>
           }`,
       });
-      const ad = new THREE.Mesh(new THREE.PlaneGeometry(12, 6.75), material);
+      const ad = new THREE.Mesh(new THREE.PlaneGeometry(8, 4.5), material);
       ad.name = `billboard-ad-${sponsor}`;
-      ad.position.y = 3.475;
+      ad.position.y = 2.35;
       portal.add(ad);
       this.ads.push(ad);
     }
     const frame = new THREE.Group();
     frame.name = 'billboard-frame';
-    for (const x of [-6.35, 6.35]) {
-      const post = new THREE.Mesh(new THREE.BoxGeometry(0.18, 7.1, 0.18), this.frameMaterial);
-      post.position.set(x, 3.55, 0);
+    for (const x of [-4.06, 4.06]) {
+      const post = new THREE.Mesh(new THREE.BoxGeometry(0.18, 4.7, 0.18), this.frameMaterial);
+      post.position.set(x, 2.35, 0);
       frame.add(post);
     }
-    const top = new THREE.Mesh(new THREE.BoxGeometry(12.88, 0.18, 0.18), this.frameMaterial);
-    top.position.y = 7.05;
+    const top = new THREE.Mesh(new THREE.BoxGeometry(8.3, 0.18, 0.18), this.frameMaterial);
+    top.position.y = 4.65;
     frame.add(top);
     portal.add(frame);
     this.group.add(portal);

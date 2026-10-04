@@ -65,7 +65,7 @@ describe('authoritative billboard timing and crossing', () => {
       gap = track.billboardGap,
       route = new RacerTrack(track);
     const p = gap.curve.getPointAt(gap.mouthDistance / gap.curve.getLength()),
-      t = gap.curve.getTangentAt(0),
+      t = gap.curve.getTangentAt(gap.mouthDistance / gap.curve.getLength()),
       r = new THREE.Vector3(t.z, 0, -t.x);
     const before = p.clone().addScaledVector(t, -1),
       after = p.clone().addScaledVector(t, 1);
@@ -96,7 +96,7 @@ it.each([-3, 0, 3])(
       gap = track.billboardGap,
       route = new RacerTrack(track);
     const p = gap.curve.getPointAt(gap.mouthDistance / gap.curve.getLength()),
-      t = gap.curve.getTangentAt(0),
+      t = gap.curve.getTangentAt(gap.mouthDistance / gap.curve.getLength()),
       r = new THREE.Vector3(t.z, 0, -t.x).normalize();
     const before = p.clone().addScaledVector(t, -1).addScaledVector(r, lane),
       after = p.clone().addScaledVector(t, 1).addScaledVector(r, lane);
@@ -108,7 +108,7 @@ it.each([-3, 0, 3])(
 it('lets shared surface/navigation queries follow the plaza without selecting a racer path', () => {
   const track = new NeonGrid(),
     gap = track.billboardGap,
-    p = gap.curve.getPointAt(0.5).add(new THREE.Vector3(0, 0.5, 0));
+    p = gap.curve.getPointAt(0.5);
   const surface = track.projectSurface(p);
   expect(surface.pathId).toBe('billboard-gap');
   expect(surface.surface).toBe('asphalt');

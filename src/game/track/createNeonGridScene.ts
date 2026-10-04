@@ -70,23 +70,28 @@ export function createNeonGridScene(track: NeonGrid): NeonGridScene {
   // Subtle inset grid, without moving or changing the shared support surface.
   const gap = track.billboardGap,
     length = gap.curve.getLength();
-  const t = gap.curve.getTangentAt(0),
-    right = new THREE.Vector3(t.z, 0, -t.x).normalize();
   const lines: number[] = [];
   for (let d = 0; d <= length; d += 3) {
-    const p = gap.curve.getPointAt(d / length);
+    const fraction = d / length,
+      p = gap.curve.getPointAt(fraction),
+      t = gap.curve.getTangentAt(fraction);
+    const right = new THREE.Vector3(t.z, 0, -t.x).normalize();
     p.y += 0.012;
     lines.push(
-      ...p.clone().addScaledVector(right, -6).toArray(),
-      ...p.clone().addScaledVector(right, 6).toArray(),
+      ...p.clone().addScaledVector(right, -gap.roadHalfWidth).toArray(),
+      ...p.clone().addScaledVector(right, gap.roadHalfWidth).toArray(),
     );
   }
-  for (const lane of [-3, 0, 3]) {
-    const a = gap.curve.getPointAt(0).addScaledVector(right, lane),
-      b = gap.curve.getPointAt(1).addScaledVector(right, lane);
-    a.y += 0.012;
-    b.y += 0.012;
-    lines.push(...a.toArray(), ...b.toArray());
+  for (const lane of [-2, 0, 2]) {
+    for (let i = 0; i < 128; i++) {
+      for (const fraction of [i / 128, (i + 1) / 128]) {
+        const p = gap.curve.getPointAt(fraction),
+          t = gap.curve.getTangentAt(fraction);
+        p.addScaledVector(new THREE.Vector3(t.z, 0, -t.x).normalize(), lane);
+        p.y += 0.012;
+        lines.push(...p.toArray());
+      }
+    }
   }
   const inlay = new THREE.LineSegments(
     new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(lines, 3)),

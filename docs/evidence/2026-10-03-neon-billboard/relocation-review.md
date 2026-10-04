@@ -1,3 +1,31 @@
+# Approved Billboard relocation — implementation checkpoint
+
+Date: 2026-10-04 UTC. Manny approved the concrete plan with “Yeah, let's go with this plan.” This supersedes the exploratory geometry below and the first preview's obstructive placement. Artwork approval and Task 5 acceptance remain intact.
+
+The main curve, boost pads, sectors, accepted Service Tunnel and gates 4/5 are unchanged. The bypass enters at 0.101–0.106 and rejoins at 0.215, descending from y=14 m to about 6.8 m. It is an 8 m wide cubic curve with 18 m handles aligned to the main tangents. Length is 140.803 m versus 165.179 m on the main road, saving 24.376 m. Gate 2 is exactly 0.087, gate 3 exactly 0.222; downstream gate 4 is unchanged. Gate 2-to-entry is about 20.3 m, rejoin-to-gate 3 about 10.1 m, and gate 3-to-4 about 10.4 m. The approved plan explicitly accepts the shorter rejoin clearance; no mapped progress awards gates.
+
+The physical mouth and billboard are 19 m along the curve. Artwork remains the approved 2048×1152 derivatives, displayed at 8×4.5 m. Full frame mesh vertices are more than 0.5 m outside the main horizontal corridor. It faces the actual upstream mouth tangent, with unchanged translucency, tell and bounded shards. Native and rendered floors share a 512-segment transverse mesh; inlay follows the curve.
+
+## Engineering rulings
+
+- The exploratory 12 m handles folded the inner 4 m offset near rejoin. A failing native edge regression reproduced this. Using 18 m tangent handles prevents the fold and preserves smooth joins, with reduced savings versus the prototype. This is a support correction, not hidden speed tuning.
+- The softened curve requires the mouth at 19 m rather than the prototype's 14.5 m to keep the entire frame outside the main corridor. Mesh footprint regression validates this, while owner camera/readability review remains pending.
+- Seeded AI may choose 5–35 m before entry, but steering begins only within 20 m. Immediate steering at 35 m clipped the unchanged main wall; the delayed approach has zero contacts in the measured cases. Commitment survives the small logical window through the physical mouth, cancels missed/reverse departure, and preserves the separate accepted tunnel RNG stream. Default Billboard attempt rate remains 0 pending joint balance review.
+- Joined plaza support before ownership uses asphalt while retaining exact main progress and undefined pathId. A failing regression caught grass slowdown on physically paved support. Mouth crossing still selects ownership; support does not award shortcut progress or gates.
+- The existing runtime exit-retention fixture assumed a horizontal curve tangent. The descending rejoin tangent's horizontal magnitude is about 0.979, so multiplying its x/z by 28 did not initialize 28 m/s. Normalizing the planar direction restores the known-speed fixture without weakening its six heading/phase assertions or changing controller behavior.
+
+## Verification and measured limits
+
+The real production NeonGrid/RacerTrack/AiDriver/KartController/native-collider diagnostic compares two profiles at 12/22/30 m/s from progress 0.07 to a common downstream plane at 0.236, with fixed OFF/ON entry states and unchanged settings. All 18 runs complete, cross physical gates [1,2,3,4] once in order and have zero wall contacts. Every bypass run enters/exits once. OFF saves 0.483–0.633 s; ON saves 0.450–0.600 s. The ON/OFF difference is only 0.033–0.050 s in these section measurements. See relocation-native.json; reproduce with `node tools/diagnostics/neon-billboard-relocation.mjs output.json`.
+
+These are controlled section results with genuine route entry/choice, not a route adapter. They do not include live cycle arrival, pack/items, human steering, full-lap savings or balance acceptance. The 0.6–0.9 s target is not achieved in every tested condition; no stat/physics/boost/clock changes hide that. First-lap OFF discovery timing, readable ON/OFF advantage, final joint AI rates and desktop/mobile owner feel remain Step 4 work.
+
+Regressions cover curved projection/open indexing, no folded offset edges, native floor support and exact joins, entire frame clearance, preownership paved surface, production AI entry/gates/savings, all four supported main/tunnel/Billboard combinations over three laps, and 18 physical player phase/speed/lane cases. Dive has no runtime implementation and no all-eight-route claim is made. Final full `npm run validate` passes:121files/953tests,typecheck,zero-warninglint,assets/build; `git diff --check` passes. Fresh independent review reports no Critical/Important findings; three Minor evidence issues addressed as recorded in relocation-code-review.md. Final diagnostic rejects incomplete pairs and repeats18successfulcases. No browser/WebGL/device claim. Runtime PR #242 stays draft/unmerged; production gameplay and accepted tunnel preview remain unchanged. No LFS operations are used.
+
+The earlier exploratory review below remains historical evidence only.
+
+---
+
 # Billboard relocation — exploratory candidate, not runtime acceptance
 
 Date: 2026-10-03 America/Chicago. Source runtime: `30af146`; delivery checkpoint: `cc8a800`. New remote checkpoint `30c8ff3` adds only the independent Task 7 design document; it does not change the runtime examined here.
@@ -34,7 +62,7 @@ Keep PR #242 draft/unmerged and production unchanged. The existing preview remai
 From the repository root:
 
 ```bash
-node --input-type=module < docs/evidence/2026-10-03-neon-billboard/relocation-probe.mjs
+node --input-type=module < docs/evidence/2026-10-03-neon-billboard/relocation-probe.fixture.txt
 ```
 
 Writes `/tmp/billboard-relocation-probe.json`. The source probe is throwaway analysis code; do not treat its route adapter as production implementation. Earlier comparison evidence varies only the recorded curve/clearance settings and is retained separately. The complete runtime source and assets remain unchanged.

@@ -1,0 +1,227 @@
+import RAPIER from '@dimforge/rapier3d-compat';
+import * as THREE from 'three';
+import { beforeAll, expect, it } from 'vitest';
+import { NeonGrid } from '../src/game/track/NeonGrid';
+import { RacerTrack } from '../src/game/track/RacerTrack';
+import { createNeonGridScene } from '../src/game/track/createNeonGridScene';
+import { createNeonGridColliders } from '../src/game/track/NeonGridCollision';
+import { AiDriver } from '../src/game/ai/AiDriver';
+import { KartController } from '../src/game/physics/KartController';
+import { createKartTuning } from '../src/config/kartTuning';
+import { characterById } from '../src/characters/manifest';
+import { guardrailContact } from '../src/game/track/GuardrailSystem';
+import { crossesForwardCheckpointGate } from '../src/game/race/CheckpointGate';
+
+beforeAll(async () => {
+  await RAPIER.init();
+});
+
+it('joins the early descent without a heading kink and projects the curved driving line', () => {
+  const track = new NeonGrid(),
+    gap = track.billboardGap;
+  expect(gap.curve.getPointAt(1).y).toBeLessThan(8);
+  for (const fraction of [0, 1]) {
+    const progress = fraction === 0 ? gap.entry.progress[0] : gap.exitProgress;
+    expect(
+      gap.curve.getTangentAt(fraction).dot(track.curve.getTangentAt(progress)),
+    ).toBeGreaterThan(0.999);
+  }
+  for (const fraction of [0.12, 0.35, 0.65, 0.88]) {
+    const p = gap.curve.getPointAt(fraction),
+      t = gap.curve.getTangentAt(fraction);
+    const right = new THREE.Vector3(t.z, 0, -t.x).normalize();
+    for (const lane of [-2, 0, 2]) {
+      const q = gap.project(p.clone().addScaledVector(right, lane));
+      expect(q.point.distanceTo(p)).toBeLessThan(0.12);
+      expect(q.lateralOffset).toBeCloseTo(lane, 1);
+      expect(gap.fraction(q)).toBeCloseTo(fraction, 2);
+    }
+  }
+});
+
+it('keeps the entire billboard frame beyond the main racing corridor', () => {
+  const track = new NeonGrid(),
+    scene = createNeonGridScene(track);
+  scene.updateMatrixWorld(true);
+  const frame = scene.getObjectByName('billboard-frame') as THREE.Group;
+  frame.traverse((object) => {
+    if (!(object instanceof THREE.Mesh)) return;
+    const mesh = object as THREE.Mesh;
+    const positions = mesh.geometry.getAttribute('position');
+    const indices = mesh.geometry.getIndex();
+    expect(indices).not.toBeNull();
+    if (!indices) throw new Error('Frame requires indexed geometry');
+    for (let triangle = 0; triangle < indices.count; triangle += 3) {
+      const corners = [0, 1, 2].map((offset) =>
+        new THREE.Vector3()
+          .fromBufferAttribute(positions, indices.getX(triangle + offset))
+          .applyMatrix4(object.matrixWorld),
+      ) as [THREE.Vector3, THREE.Vector3, THREE.Vector3];
+      // Sample the faces, including edges and corners, against the curved corridor.
+      for (let a = 0; a <= 10; a++)
+        for (let b = 0; b <= 10 - a; b++) {
+          const p = corners[0]
+            .clone()
+            .multiplyScalar(a / 10)
+            .addScaledVector(corners[1], b / 10)
+            .addScaledVector(corners[2], 1 - (a + b) / 10);
+          const main = track.projectMain(p.setY(14));
+          expect(main.lateralDistance - track.halfWidthAt(main.progress)).toBeGreaterThan(0.5);
+        }
+    }
+  });
+});
+
+it('supports every lane of the descending curved plaza with upward native faces', () => {
+  const track = new NeonGrid(),
+    gap = track.billboardGap;
+  const world = new RAPIER.World({ x: 0, y: -18, z: 0 });
+  const cleanup = createNeonGridColliders(world, track);
+  let plazaHandle = -1;
+  world.colliders.forEach((c) => {
+    plazaHandle = c.handle;
+  });
+  world.step();
+  for (let i = 1; i < 40; i++) {
+    const p = gap.curve.getPointAt(i / 40),
+      t = gap.curve.getTangentAt(i / 40);
+    const right = new THREE.Vector3(t.z, 0, -t.x).normalize();
+    for (const lane of [-3, 0, 3]) {
+      const q = p.clone().addScaledVector(right, lane);
+      const hit = world.castRayAndGetNormal(
+        new RAPIER.Ray({ x: q.x, y: q.y + 1, z: q.z }, { x: 0, y: -1, z: 0 }),
+        2,
+        true,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        (c) => c.handle === plazaHandle,
+      );
+      expect(hit, `plaza ${String(i)}/${String(lane)}`).not.toBeNull();
+      expect(q.y + 1 - (hit?.timeOfImpact ?? 99)).toBeCloseTo(p.y, 1);
+      expect(hit?.normal.y).toBeGreaterThan(0.85);
+    }
+  }
+  cleanup();
+  world.free();
+});
+
+function driveSection(shortcut: boolean, speed: number) {
+  const track = new NeonGrid(),
+    route = new RacerTrack(track, 1, 0, shortcut ? 1 : 0);
+  const world = new RAPIER.World({ x: 0, y: -18, z: 0 }),
+    cleanup = createNeonGridColliders(world, track);
+  const stats = characterById('aa-09').stats,
+    tuning = createKartTuning(stats);
+  const p = track.curve.getPointAt(0.07),
+    t = track.curve.getTangentAt(0.07);
+  const kart = new KartController(world, tuning, stats, p, Math.atan2(t.x, t.z));
+  const driver = new AiDriver(
+    route,
+    { laneOffset: 0, pace: 0.6, aggression: 0.6 },
+    tuning.maxSpeed,
+  );
+  for (let i = 0; i < 60; i++) world.step();
+  kart.body.setLinvel({ x: t.x * speed, y: 0, z: t.z * speed }, true);
+  let entered = false,
+    events = 0,
+    contacts = 0,
+    seconds = Infinity;
+  const crossed: number[] = [];
+  for (let i = 0; i < 60 * 30; i++) {
+    const before = kart.position();
+    kart.update(
+      driver.input(before, kart.forward(), kart.speedMetersPerSecond()),
+      route.project(before).surface,
+      1 / 60,
+    );
+    world.step();
+    const event = route.advance(before, kart.position(), 4);
+    entered ||= route.project(kart.position()).pathId === 'billboard-gap';
+    if (event) {
+      events++;
+      kart.retainPlanarVelocity(event.speedRetention);
+    }
+    const contact = guardrailContact(route, kart.position(), 1.15);
+    if (contact) {
+      contacts++;
+      kart.resolveStaticBarrierCollision(contact.inwardNormal, contact.penetration, 0.82, 0.22);
+    }
+    for (const gate of Array.from({ length: 12 }, (_, i) => i))
+      if (
+        crossesForwardCheckpointGate(
+          before,
+          kart.position(),
+          track.lapCheckpointPosition(gate),
+          track.lapCheckpointTangent(gate),
+          13,
+          1.5,
+        )
+      )
+        crossed.push(gate);
+    if (
+      crossesForwardCheckpointGate(
+        before,
+        kart.position(),
+        track.curve.getPointAt(0.236),
+        track.curve.getTangentAt(0.236),
+        6,
+        1.5,
+      )
+    ) {
+      seconds = (i + 1) / 60;
+      break;
+    }
+  }
+  cleanup();
+  world.free();
+  return { seconds, entered, events, contacts, crossed };
+}
+
+it.each([12, 22, 30])(
+  'earns a clean time advantage through real route selection at %s m/s',
+  (speed) => {
+    const main = driveSection(false, speed),
+      gap = driveSection(true, speed);
+    expect(main.crossed).toEqual([1, 2, 3, 4]);
+    expect(gap).toMatchObject({ entered: true, events: 1, contacts: 0, crossed: [1, 2, 3, 4] });
+    expect(main.seconds - gap.seconds).toBeGreaterThan(0.2);
+  },
+  30000,
+);
+
+it('does not project an open shortcut onto a fictitious closing edge', async () => {
+  const { TrackSegmentIndex } = await import('../src/game/track/TrackSegmentIndex');
+  const index = new TrackSegmentIndex(
+    [new THREE.Vector3(0, 0, 0), new THREE.Vector3(10, 0, 0), new THREE.Vector3(10, 0, 10)],
+    false,
+  );
+  expect(index.nearest(new THREE.Vector3(5, 0, 5)).point.toArray()).toEqual([5, 0, 0]);
+});
+
+it('keeps the inside driving edges from folding back at the curved joins', () => {
+  const gap = new NeonGrid().billboardGap;
+  for (const lane of [-4, 4]) {
+    let previous: THREE.Vector3 | undefined;
+    for (let i = 0; i <= 512; i++) {
+      const fraction = i / 512,
+        p = gap.curve.getPointAt(fraction),
+        t = gap.curve.getTangentAt(fraction);
+      const edge = p.addScaledVector(new THREE.Vector3(t.z, 0, -t.x).normalize(), lane);
+      if (previous) expect(edge.clone().sub(previous).dot(t)).toBeGreaterThan(0);
+      previous = edge;
+    }
+  }
+});
+
+it('keeps the supported plaza approach asphalt without selecting a route before the ad', () => {
+  const track = new NeonGrid(),
+    gap = track.billboardGap,
+    route = new RacerTrack(track);
+  const p = gap.curve
+    .getPointAt((gap.mouthDistance - 1) / gap.curve.getLength())
+    .add(new THREE.Vector3(0, 0.4, 0));
+  expect(route.project(p).pathId).toBeUndefined();
+  expect(route.project(p).surface).toBe('asphalt');
+});

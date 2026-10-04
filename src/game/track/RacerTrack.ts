@@ -108,7 +108,15 @@ export class RacerTrack implements TrackDefinition {
   public project(position: THREE.Vector3): TrackProjection {
     const billboard = this.billboardTraversal.project(position);
     if (billboard) return { ...billboard, surface: this.billboardOn ? 'static' : 'asphalt' };
-    return this.traversal.project(position) ?? this.track.projectMain(position);
+    const tunnel = this.traversal.project(position);
+    if (tunnel) return tunnel;
+    const main = this.track.projectMain(position);
+    // The joined plaza is supported asphalt before the physical ad crossing.
+    // Keep main progress/path ownership until that crossing; do not apply a
+    // grass penalty just because the supported side entrance leaves the ribbon.
+    return main.surface === 'grass' && this.track.billboardGap.junctionContains(position)
+      ? { ...main, surface: 'asphalt' }
+      : main;
   }
   public takeBillboardCrossing(): boolean | null {
     const crossing = this.billboardCrossing;
@@ -136,8 +144,14 @@ export class RacerTrack implements TrackDefinition {
     const projection = this.project(position);
     if (projection.pathId) return;
     const gap = this.track.billboardGap;
-    if (this.billboardCommitted && projection.progress > gap.entry.progress[1])
-      this.billboardCommitted = false;
+    if (this.billboardCommitted && projection.progress > gap.entry.progress[1]) {
+      const approach = gap.project(position);
+      if (
+        gap.fraction(approach) * gap.curve.getLength() > gap.mouthDistance + 6 &&
+        approach.lateralDistance > gap.roadHalfWidth
+      )
+        this.billboardCommitted = false;
+    }
     if (
       projection.progress > gap.exitProgress + 0.03 ||
       projection.progress < gap.entry.progress[0] - 0.08
@@ -145,6 +159,7 @@ export class RacerTrack implements TrackDefinition {
       this.billboardConsidered = false;
       this.billboardCommitted = false;
     }
+    if (projection.progress > gap.exitProgress) this.billboardCommitted = false;
     const gapRemaining = (gap.entry.progress[0] - projection.progress) * this.curve.getLength();
     if (!this.billboardConsidered && gapRemaining >= 5 && gapRemaining <= 35 && allowChoice) {
       this.billboardConsidered = true;
@@ -179,12 +194,18 @@ export class RacerTrack implements TrackDefinition {
   }
   public navigationAt(position: THREE.Vector3, distance: number): TrackNavigation {
     const projection = this.project(position);
-    if (projection.pathId === 'billboard-gap' || this.billboardCommitted) {
+    if (
+      projection.pathId === 'billboard-gap' ||
+      (this.billboardCommitted &&
+        (this.track.billboardGap.entry.progress[0] - projection.progress) *
+          this.curve.getLength() <=
+          20)
+    ) {
       const gap = this.track.billboardGap;
       const d =
         projection.pathId === 'billboard-gap'
           ? gap.fraction(projection) * gap.curve.getLength() + distance
-          : Math.max(gap.mouthDistance + 14, distance);
+          : gap.fraction(gap.project(position)) * gap.curve.getLength() + distance;
       if (d <= gap.curve.getLength())
         return {
           point: gap.curve.getPointAt(d / gap.curve.getLength()),

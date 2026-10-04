@@ -61,3 +61,9 @@ Final Step3 local validation:120files/944tests,typecheck,zero-warninglint,allass
 Runtime `30af146` passed hosted CI `37172064015`. Workflow-only preview PR #251 passed CI `37172303453` and merged at `b6fda352`; Pages run `37172445334` passed validation and deploy. All 22 delivered files matched recorded bytes/hashes, including all three normal Git ads and preserved production bundles. The isolated Billboard preview is live at https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-billboard/?review=30af146. The accepted tunnel preview remains pinned to `92025b5`. See `visual-delivery.md` and `visual-delivery.json` for exact provenance.
 
 STOP for owner desktop/mobile visual and driving review. Step 4 first-lap phase, paired savings, AI approach feel and final rates remain pending. PR #242 remains draft/open/unmerged; no production gameplay, Dive or Stage 4 release. This final record reconciles the preview-only workflow without changing runtime source or approved assets.
+
+## Approved relocation integration — 2026-10-04 UTC
+
+Manny approved curved early descent and wall-side frame after the first preview review. Currentgeometry/rulings/nativeevidence are relocation-review.md and relocation-native.json, superseding the12m exploratory prototype and prior7m/12×6.75m placement. OFFsaving0.483–0.633s/ON0.450–0.600s in18real native sectionruns; zero contacts/orderedgates, no hidden tuning. Fresh fullvalidation and review/publication pending. PR242draft, main/tunnel accepted behavior retained; noLFS, Dive runtime or Stage4.
+
+Final relocationlocalvalidation121files/953tests/typecheck/lint/assets/build/diffcheck PASS; frameface samplesandreviewminor fixes included. Fresh review noCritical/Important; allthreeMinor dispositions in relocation-code-review.md. Replacementpinnedpreview publication follows, no productionruntime merge.

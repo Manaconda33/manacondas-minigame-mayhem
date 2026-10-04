@@ -25,11 +25,11 @@ it('supports the entire plaza and owns no solid hologram collider', () => {
     plazaHandle = collider.handle;
   });
   world.step();
-  for (let i = 0; i <= 40; i++) {
+  for (let i = 1; i < 40; i++) {
     const p = gap.curve.getPointAt(i / 40),
       t = gap.curve.getTangentAt(i / 40),
       r = new THREE.Vector3(t.z, 0, -t.x).normalize();
-    for (const lane of [-4, 0, 4]) {
+    for (const lane of [-3, 0, 3]) {
       const q = p.clone().addScaledVector(r, lane);
       // Inspect the authored plaza itself; the common road is higher at some
       // overlapping exit-edge samples and is exercised by the driving tests.
@@ -45,7 +45,24 @@ it('supports the entire plaza and owns no solid hologram collider', () => {
       );
       expect(hit, `support ${String(i)}/${String(lane)}`).not.toBeNull();
       expect(q.y + 1 - (hit?.timeOfImpact ?? 99)).toBeCloseTo(p.y, 2);
-      expect(hit?.normal.y).toBeGreaterThan(0.99);
+      expect(hit?.normal.y).toBeGreaterThan(0.85);
+    }
+  }
+  // The common main road owns support at the exact joined boundary; an
+  // isolated triangle ray at a Float32 end edge is not the support contract.
+  for (const fraction of [0, 1]) {
+    const p = gap.curve.getPointAt(fraction),
+      t = gap.curve.getTangentAt(fraction);
+    const right = new THREE.Vector3(t.z, 0, -t.x).normalize();
+    for (const lane of [-3, 0, 3]) {
+      const q = p.clone().addScaledVector(right, lane);
+      const hit = world.castRay(
+        new RAPIER.Ray({ x: q.x, y: q.y + 1, z: q.z }, { x: 0, y: -1, z: 0 }),
+        2,
+        true,
+      );
+      expect(hit).not.toBeNull();
+      expect(Math.abs(q.y + 1 - (hit?.timeOfImpact ?? 99) - p.y)).toBeLessThan(0.05);
     }
   }
   const t = gap.curve.getTangentAt(0),
@@ -94,10 +111,15 @@ it('allows configured AI entry without changing the existing tunnel choice strea
   yes.prepareAiRoute(p, t, 20);
   no.prepareAiRoute(p, t, 20);
   rocket.prepareAiRoute(p, t, 20, false);
-  expect(yes.navigationAt(p, 10).pathId).toBe('billboard-gap');
+  expect(yes.navigationAt(p, 10).pathId).toBeUndefined();
+  const approachProgress = gap.entry.progress[0] - 19 / track.curve.getLength();
+  const approach = track.curve.getPointAt(approachProgress);
+  const heading = track.curve.getTangentAt(approachProgress);
+  yes.prepareAiRoute(approach, heading, 20);
+  expect(yes.navigationAt(approach, 10).pathId).toBe('billboard-gap');
   const input = new AiDriver(yes, { laneOffset: 0, pace: 0.6, aggression: 0.6 }, 30).input(
-    p,
-    t,
+    approach,
+    heading,
     15,
   );
   expect(input.brake).toBe(false);
@@ -194,10 +216,10 @@ it.each([
 
 it.each(
   [12, 24, 30].flatMap((speed) =>
-    [-3, 0, 3].flatMap((lane) => [0, 4].map((phase) => ({ speed, lane, phase }))),
+    [-2, 0, 2].flatMap((lane) => [0, 4].map((phase) => ({ speed, lane, phase }))),
   ),
 )(
-  'drives an always-passable player chord at $speed m/s, lane $lane, phase $phase',
+  'supports KartController passage with curve-following input at $speed m/s, lane $lane, phase $phase',
   ({ speed, lane, phase }) => {
     const track = new NeonGrid(),
       gap = track.billboardGap,
@@ -206,9 +228,11 @@ it.each(
       cleanup = createNeonGridColliders(world, track);
     const stats = characterById('aa-09').stats,
       tuning = createKartTuning(stats),
-      t = gap.curve.getTangentAt(0),
+      t = gap.curve.getTangentAt((gap.mouthDistance - 2) / gap.curve.getLength()),
       r = new THREE.Vector3(t.z, 0, -t.x).normalize();
-    const p = gap.curve.getPointAt(5 / gap.curve.getLength()).addScaledVector(r, lane);
+    const p = gap.curve
+      .getPointAt((gap.mouthDistance - 2) / gap.curve.getLength())
+      .addScaledVector(r, lane);
     const kart = new KartController(world, tuning, stats, p, Math.atan2(t.x, t.z));
     for (let i = 0; i < 60; i++) world.step();
     kart.body.setLinvel({ x: t.x * speed, y: 0, z: t.z * speed }, true);
@@ -217,8 +241,17 @@ it.each(
       belowFloor = false;
     for (let i = 0; i < 600; i++) {
       const before = kart.position();
+      const distance = gap.fraction(gap.project(before)) * gap.curve.getLength();
+      const target = gap.curve.getPointAt(Math.min(1, (distance + 6) / gap.curve.getLength()));
+      const desired = target.sub(before).setY(0).normalize(),
+        forward = kart.forward();
+      const steering = THREE.MathUtils.clamp(
+        (forward.z * desired.x - forward.x * desired.z) * 2.6,
+        -1,
+        1,
+      );
       kart.update(
-        { throttle: 1, steering: 0, brake: false, drift: false },
+        { throttle: 1, steering, brake: false, drift: false },
         route.project(before).surface,
         1 / 60,
       );

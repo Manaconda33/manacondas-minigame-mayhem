@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+
+ Test Files  2 passed (2)
+      Tests  47 passed (47)
+   Start at  13:33:24
+   Duration  5.87s (transform 950ms, setup 0ms, import 1.23s, tests 5.17s, environment 1.00s)
+

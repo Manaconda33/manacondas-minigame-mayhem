@@ -333,36 +333,6 @@ jobs:
           npm run validate
           npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-dive/
 
-      - name: Render the pinned waterfall spillway and verify draw-call budget
-        if: github.event_name == 'pull_request'
-        working-directory: neon-grid-dive-runtime
-        env:
-          WATERFALL_PLAYWRIGHT: /tmp/waterfall-webgl
-        run: |
-          npm install --prefix /tmp/waterfall-webgl --no-package-lock playwright@1.58.2
-          export WATERFALL_CHROME="$(command -v google-chrome)"
-          npm run dev -- --host 127.0.0.1 > /tmp/waterfall-vite.log 2>&1 &
-          spillway_server_pid=$!
-          trap 'kill "$spillway_server_pid" || true' EXIT
-          for attempt in $(seq 1 30); do
-            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
-            sleep 1
-          done
-          node tools/diagnostics/waterfall-render.mjs /tmp/waterfall-render
-          node tools/diagnostics/neon-residual.mjs /tmp/waterfall-render/repair-matrix.json --matrix
-          node --input-type=module - <<'JS'
-          import { readFileSync } from 'node:fs';
-          const reports = JSON.parse(readFileSync('/tmp/waterfall-render/repair-matrix.json')).reports;
-          if (reports.length !== 18 || reports.some(r => r.summary.airSteps !== 0 || r.summary.maxNativeLoss > 1.83)) throw new Error('Residual repair matrix failed');
-          JS
-
-      - name: Upload waterfall rendered evidence
-        if: always() && github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
-        with:
-          name: waterfall-spillway-render
-          path: /tmp/waterfall-render/
-
       - name: Check out pinned Dive visual review
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v5
@@ -508,6 +478,51 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: site-root
+
+  spillway-render:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact waterfall runtime
+        uses: actions/checkout@v5
+        with:
+          ref: a60cd3229f20e7ca35ebdfa11e87bed205e27c7f
+          lfs: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install exact runtime dependencies
+        run: npm ci
+      - name: Render the pinned waterfall spillway and verify draw-call budget
+        if: github.event_name == 'pull_request'
+        env:
+          WATERFALL_PLAYWRIGHT: /tmp/waterfall-webgl
+        run: |
+          npm install --prefix /tmp/waterfall-webgl --no-package-lock playwright@1.58.2
+          export WATERFALL_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/waterfall-vite.log 2>&1 &
+          spillway_server_pid=$!
+          trap 'kill "$spillway_server_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/waterfall-render.mjs /tmp/waterfall-render
+          node tools/diagnostics/neon-residual.mjs /tmp/waterfall-render/repair-matrix.json --matrix
+          node --input-type=module - <<'JS'
+          import { readFileSync } from 'node:fs';
+          const reports = JSON.parse(readFileSync('/tmp/waterfall-render/repair-matrix.json')).reports;
+          if (reports.length !== 18 || reports.some(r => r.summary.airSteps !== 0 || r.summary.maxNativeLoss > 1.83)) throw new Error('Residual repair matrix failed');
+          JS
+
+      - name: Upload waterfall rendered evidence
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: waterfall-spillway-render
+          path: /tmp/waterfall-render/
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

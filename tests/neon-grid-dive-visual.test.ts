@@ -27,7 +27,7 @@ it('bonds the flowing water to the supported ramp and carries it from a left wat
     return Array.from({ length: p.count }, (_, i) => new THREE.Vector3().fromBufferAttribute(p, i));
   };
   const source = vertices(feed);
-  expect(Math.min(...source.map((p) => dive.lane(p)))).toBeLessThan(-20);
+  expect(Math.max(...source.map((p) => dive.lane(p)))).toBeGreaterThan(20);
   expect(source.some((p) => Math.abs(dive.lane(p)) < 2.8)).toBe(true);
   const sheet = vertices(falls);
   const lip = vertices(flow).filter((p) => Math.abs(dive.distance(p) - 16) < 0.001);

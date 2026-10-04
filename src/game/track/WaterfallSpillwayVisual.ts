@@ -95,22 +95,22 @@ export function leftWaterway(dive: WaterfallDive): {
     new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }),
   );
   const ray = new THREE.Raycaster();
-  const join = dive.pointAtDistance(13).addScaledVector(dive.right, -1.8);
+  const join = dive.pointAtDistance(13).addScaledVector(dive.right, 1.8);
   ray.set(join.clone().setY(30), new THREE.Vector3(0, -1, 0));
   const hit = ray.intersectObject(ramp)[0];
   if (!hit) throw new Error('Waterway must meet actual ramp support');
   join.y = hit.point.y + 0.035;
   const start = join
     .clone()
-    .addScaledVector(dive.right, -27)
+    .addScaledVector(dive.right, 27)
     .addScaledVector(dive.direction, -4)
     .setY(12.3);
   const curve = new THREE.CubicBezierCurve3(
     start,
-    start.clone().addScaledVector(dive.right, 10),
+    start.clone().addScaledVector(dive.right, -10),
     join
       .clone()
-      .addScaledVector(dive.right, -7)
+      .addScaledVector(dive.right, 7)
       .setY(join.y + 1),
     join,
   );

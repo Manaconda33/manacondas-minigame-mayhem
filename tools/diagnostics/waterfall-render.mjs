@@ -14,6 +14,9 @@ try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
   const errors = [],
     frames = [];
+  page.on('response', (response) => {
+    if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`);
+  });
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('console', (message) => {
     if (message.type() === 'error') errors.push(message.text());
@@ -21,7 +24,8 @@ try {
   await page.goto(
     'http://127.0.0.1:5173/manacondas-minigame-mayhem/tools/diagnostics/waterfall-spillway.html',
   );
-  await page.waitForFunction(() => window.ready, { timeout: 90000 });
+  await page.waitForFunction(() => window.ready, undefined, { timeout: 90000 });
+  await page.waitForLoadState('networkidle');
   await page.waitForTimeout(2000);
   for (const view of ['chase', 'overview', 'falls']) {
     const counters = await page.evaluate((view) => window.draw(view, 7), view);

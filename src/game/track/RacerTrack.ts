@@ -1,11 +1,18 @@
 import * as THREE from 'three';
 import type { NeonGrid } from './NeonGrid';
 import { ShortcutTraversal } from './ShortcutTraversal';
+import { billboardStateAt } from './NeonGridBillboard';
+import { surfaceSpeedMultiplier } from '../../config/kartTuning';
 import type { TrackDefinition, TrackProjection, TrackNavigation } from './TrackDefinition';
 
 /** A racer-local view; the shared track remains immutable and reusable. */
 export class RacerTrack implements TrackDefinition {
   private readonly traversal: ShortcutTraversal;
+  private readonly billboardTraversal: ShortcutTraversal;
+  private billboardOn = false;
+  private billboardCommitted = false;
+  private billboardConsidered = false;
+  private billboardRandomState: number;
   private committed = false;
   private considered = false;
   private randomState: number;
@@ -13,9 +20,12 @@ export class RacerTrack implements TrackDefinition {
     private readonly track: NeonGrid,
     seed = 1,
     private readonly attemptRate = 0.35,
+    private readonly billboardAttemptRate = 0,
   ) {
     this.traversal = new ShortcutTraversal(track.serviceTunnel, track);
+    this.billboardTraversal = new ShortcutTraversal(track.billboardGap, track);
     this.randomState = seed >>> 0;
+    this.billboardRandomState = (seed ^ 0x85ebca6b) >>> 0;
   }
   public get id() {
     return this.track.id;
@@ -68,16 +78,40 @@ export class RacerTrack implements TrackDefinition {
   public lapCheckpointTangent(i: number) {
     return this.track.lapCheckpointTangent(i);
   }
-  public advance(previous: THREE.Vector3, current: THREE.Vector3): void {
+  public advance(
+    previous: THREE.Vector3,
+    current: THREE.Vector3,
+    raceSeconds = 0,
+  ): { pathId: 'billboard-gap'; speedRetention: number } | null {
+    const billboardWasActive = this.billboardTraversal.project(previous) !== null;
+    const billboardActive = this.billboardTraversal.update(previous, current);
+    if (!billboardWasActive && billboardActive) this.billboardOn = billboardStateAt(raceSeconds).on;
+    let exit = null;
+    if (billboardWasActive && !billboardActive) {
+      if (this.track.billboardGap.fraction(this.track.billboardGap.project(current)) > 0.9)
+        exit = {
+          pathId: 'billboard-gap' as const,
+          speedRetention: this.billboardOn ? surfaceSpeedMultiplier('static', 1) : 1,
+        };
+      this.billboardOn = false;
+      this.billboardCommitted = false;
+    }
     const wasActive = this.traversal.project(previous) !== null;
     const active = this.traversal.update(previous, current);
     if (wasActive && active === null) this.committed = false;
+    return exit;
   }
   public project(position: THREE.Vector3): TrackProjection {
+    const billboard = this.billboardTraversal.project(position);
+    if (billboard) return { ...billboard, surface: this.billboardOn ? 'static' : 'asphalt' };
     return this.traversal.project(position) ?? this.track.projectMain(position);
   }
   public reset(): void {
     this.traversal.reset();
+    this.billboardTraversal.reset();
+    this.billboardOn = false;
+    this.billboardCommitted = false;
+    this.billboardConsidered = false;
     this.committed = false;
     this.considered = false;
   }
@@ -90,6 +124,29 @@ export class RacerTrack implements TrackDefinition {
     const tunnel = this.track.serviceTunnel;
     const projection = this.project(position);
     if (projection.pathId) return;
+    const gap = this.track.billboardGap;
+    if (this.billboardCommitted && projection.progress > gap.entry.progress[1])
+      this.billboardCommitted = false;
+    if (
+      projection.progress > gap.exitProgress + 0.03 ||
+      projection.progress < gap.entry.progress[0] - 0.08
+    ) {
+      this.billboardConsidered = false;
+      this.billboardCommitted = false;
+    }
+    const gapRemaining = (gap.entry.progress[0] - projection.progress) * this.curve.getLength();
+    if (!this.billboardConsidered && gapRemaining >= 5 && gapRemaining <= 35 && allowChoice) {
+      this.billboardConsidered = true;
+      this.billboardRandomState =
+        (Math.imul(this.billboardRandomState, 1664525) + 1013904223) >>> 0;
+      this.billboardCommitted =
+        speed >= 5 &&
+        speed <= 38 &&
+        projection.lateralDistance < 2.2 &&
+        forward.dot(projection.tangent) > 0.7 &&
+        this.billboardRandomState / 4294967296 <
+          THREE.MathUtils.clamp(this.billboardAttemptRate, 0, 1);
+    }
     if (this.committed && projection.progress > tunnel.entry.progress[1]) this.committed = false;
     if (
       projection.progress > tunnel.exitProgress + 0.03 ||
@@ -111,6 +168,26 @@ export class RacerTrack implements TrackDefinition {
   }
   public navigationAt(position: THREE.Vector3, distance: number): TrackNavigation {
     const projection = this.project(position);
+    if (projection.pathId === 'billboard-gap' || this.billboardCommitted) {
+      const gap = this.track.billboardGap;
+      const d =
+        projection.pathId === 'billboard-gap'
+          ? gap.fraction(projection) * gap.curve.getLength() + distance
+          : Math.max(gap.mouthDistance + 14, distance);
+      if (d <= gap.curve.getLength())
+        return {
+          point: gap.curve.getPointAt(d / gap.curve.getLength()),
+          tangent: gap.curve.getTangentAt(d / gap.curve.getLength()),
+          halfWidth: gap.roadHalfWidth,
+          pathId: gap.id,
+        };
+      const p = gap.exitProgress + (d - gap.curve.getLength()) / this.curve.getLength();
+      return {
+        point: this.curve.getPointAt(p),
+        tangent: this.curve.getTangentAt(p),
+        halfWidth: this.halfWidthAt(p),
+      };
+    }
     const tunnel = this.track.serviceTunnel;
     if (projection.pathId || this.committed) {
       let d = projection.pathId

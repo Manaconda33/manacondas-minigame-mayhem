@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type { BillboardGap } from './NeonGridBillboard';
 import type { ServiceTunnel } from './ServiceTunnel';
 import type { NeonGrid } from './NeonGrid';
 import type { TrackProjection } from './TrackDefinition';
@@ -7,7 +8,7 @@ import type { TrackProjection } from './TrackDefinition';
 export class ShortcutTraversal {
   private active = false;
   public constructor(
-    private readonly shortcut: ServiceTunnel,
+    private readonly shortcut: ServiceTunnel | BillboardGap,
     private readonly track: NeonGrid,
   ) {}
 
@@ -42,6 +43,13 @@ export class ShortcutTraversal {
     const after = current.clone().sub(point).dot(tangent);
     if (direction === 1 ? !(before < 0 && after >= 0) : !(before >= 0 && after < 0)) return false;
     const crossing = previous.clone().lerp(current, before / (before - after));
+    if (this.shortcut.id === 'billboard-gap' && fraction !== 1 && direction === 1) {
+      const main = this.track.projectMain(crossing);
+      const travel = current.clone().sub(previous).setY(0).normalize();
+      // The two surfaces overlap at the plaza mouth. Staying on the main
+      // sweeper is not a shortcut entry; the crossing must choose the chord.
+      if (travel.dot(tangent) <= travel.dot(main.tangent)) return false;
+    }
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x);
     return (
       Math.abs(crossing.clone().sub(point).dot(right)) <=

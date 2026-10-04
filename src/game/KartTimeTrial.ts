@@ -766,12 +766,21 @@ export class KartTimeTrial {
     this.world.step();
     this.resolveKartContacts(dt);
     if (this.track instanceof NeonGrid) {
-      this.neonRoute('player').advance(playerStepStart, this.kart.position());
-      for (const opponent of this.opponents)
-        this.neonRoute(opponent.id).advance(
+      const raceSeconds = this.raceDirector.raceTime();
+      const playerExit = this.neonRoute('player').advance(
+        playerStepStart,
+        this.kart.position(),
+        raceSeconds,
+      );
+      if (playerExit) this.kart.retainPlanarVelocity(playerExit.speedRetention);
+      for (const opponent of this.opponents) {
+        const exit = this.neonRoute(opponent.id).advance(
           opponent.stepStartPosition,
           opponent.controller.position(),
+          raceSeconds,
         );
+        if (exit) opponent.controller.retainPlanarVelocity(exit.speedRetention);
+      }
     }
     this.resolveGuardrailContacts(dt);
 

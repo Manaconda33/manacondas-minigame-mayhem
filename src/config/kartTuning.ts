@@ -1,4 +1,4 @@
-export type SurfaceType = 'asphalt' | 'dirt' | 'grass' | 'boost' | 'ramp';
+export type SurfaceType = 'asphalt' | 'dirt' | 'grass' | 'boost' | 'ramp' | 'static';
 
 export interface DriverStats {
   speed: number;
@@ -57,6 +57,8 @@ export function surfaceSpeedMultiplier(surface: SurfaceType, traction: number): 
   const tractionN = (traction - 1) / 9;
 
   switch (surface) {
+    case 'static':
+      return 0.82;
     case 'dirt':
       return 0.6 + 0.23 * tractionN;
     case 'grass':

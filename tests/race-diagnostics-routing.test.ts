@@ -1172,3 +1172,66 @@ it('does not apply planar kart or Prismatic contacts through the tunnel ceiling'
   ).toHaveLength(0);
   game.dispose();
 });
+
+it.each(
+  [0, 4].flatMap((seconds) =>
+    [0, Math.PI / 2, Math.PI].map((yawOffset) => ({ seconds, yawOffset })),
+  ),
+)(
+  'uses authoritative race time for billboard entry and applies one exit retention, phase=$seconds yaw=$yawOffset',
+  async ({ seconds, yawOffset }) => {
+    const { game, tick, advance } = await setup('', 'neon-grid');
+    const runtime = game as unknown as {
+      track: import('../src/game/track/NeonGrid').NeonGrid;
+      neonRoute: (id: string) => import('../src/game/track/RacerTrack').RacerTrack;
+      kart: import('../src/game/physics/KartController').KartController;
+      raceDirector: { raceTime: () => number };
+      respawn: () => void;
+    };
+    vi.spyOn(runtime.raceDirector, 'raceTime').mockReturnValue(seconds);
+    const gap = runtime.track.billboardGap,
+      route = runtime.neonRoute('player');
+    const t = gap.curve.getTangentAt(0),
+      at = (d: number) => gap.curve.getPointAt(d / gap.curve.getLength());
+    runtime.kart.respawn(at(gap.mouthDistance - 0.2), Math.atan2(t.x, t.z));
+    runtime.kart.body.setLinvel({ x: t.x * 28, y: 0, z: t.z * 28 }, true);
+    advance.mockRestore();
+    tick(1000 / 60);
+    expect(route.project(runtime.kart.position()).pathId).toBe('billboard-gap');
+    expect(route.project(runtime.kart.position()).surface).toBe(
+      seconds === 0 ? 'static' : 'asphalt',
+    );
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    const paused = runtime.kart.position();
+    tick(500);
+    expect(runtime.kart.position().distanceTo(paused)).toBe(0);
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    const end = gap.curve.getPointAt(1),
+      tEnd = gap.curve.getTangentAt(1);
+    runtime.kart.respawn(
+      end
+        .clone()
+        .addScaledVector(tEnd, -0.2)
+        .add(new THREE.Vector3(0, -0.6, 0)),
+      Math.atan2(tEnd.x, tEnd.z) + yawOffset,
+    );
+    runtime.kart.body.setLinvel({ x: tEnd.x * 28, y: 0, z: tEnd.z * 28 }, true);
+    tick(34);
+    expect(route.project(runtime.kart.position()).pathId).toBeUndefined();
+    expect(runtime.kart.speedMetersPerSecond()).toBeCloseTo(
+      28 *
+        Math.exp((-(yawOffset === Math.PI / 2 ? 20 / 3 : 0.65) * 2) / 60) *
+        (seconds === 0 ? 0.82 : 1),
+      1,
+    );
+    const exitedSpeed = runtime.kart.speedMetersPerSecond();
+    tick(1000 / 60);
+    expect(runtime.kart.speedMetersPerSecond()).toBeGreaterThan(
+      exitedSpeed * (yawOffset === Math.PI / 2 ? 0.85 : 0.97),
+    );
+    runtime.respawn();
+    expect(route.project(runtime.kart.position()).pathId).toBeUndefined();
+    game.dispose();
+  },
+  15000,
+);

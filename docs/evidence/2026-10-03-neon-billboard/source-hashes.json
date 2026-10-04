@@ -1,0 +1,15 @@
+{
+  "src/config/kartTuning.ts": "7852b52cb2ca8d667ec9fe3cfe61bbbf666b73c36567c6401b68f16748c7a767",
+  "src/game/KartTimeTrial.ts": "90da72f289a39d365752ec9dc43d7e71781f2ef42cb165af96082087a8dc31d4",
+  "src/game/ai/AiDriver.ts": "7cdaa9029ddcd5b100d109243c2f9804379fcb9e242f2a4b599245494d506841",
+  "src/game/physics/KartController.ts": "7dc6d9b61cd56b98b926c23d7ce258e7360a152faf423d6b5bdaeab1d6d31eb1",
+  "src/game/track/NeonGrid.ts": "1832ba2523614557db9e22715f85e94f4ed2668e4a6c9f67e3d2d07a3420fac4",
+  "src/game/track/NeonGridCollision.ts": "8dba488a4844234ff219189b301ead9fbe492ccc47c5ddf0c8197993c6dc5fb0",
+  "src/game/track/RacerTrack.ts": "0a9cec4bcfba6547fd801095532ac4e192150a692cb412d75ef958a969a903de",
+  "src/game/track/ShortcutTraversal.ts": "13bfbf4f95410c3506426a2640052f35e23cb5464554b469820ae0a39b7b594d",
+  "src/game/track/NeonGridBillboard.ts": "6adc837e6ace0680a11877dc79ec3b13497da3d4e833e6904dd99796e09a7ff3",
+  "tests/neon-grid-billboard.test.ts": "6d4aa7e28e5847b883b8b1690f70fd9578863ec99c076b29d4fa18913af1205a",
+  "tests/neon-grid-billboard-driving.test.ts": "6c7c03d91fb3d08843c99b8fb90c0e11fdfbe3cee150376f3c807de4a8421d3a",
+  "tests/race-diagnostics-routing.test.ts": "5dc8145752dbe88dacd57b2511bfb234829fe825553025cc1805e349729e7e5c",
+  "tools/diagnostics/neon-billboard-arrival.mjs": "b182eafa04400640161eb926ad00a0d4af0e1d00c240a9b44758ad1676acb9c1"
+}

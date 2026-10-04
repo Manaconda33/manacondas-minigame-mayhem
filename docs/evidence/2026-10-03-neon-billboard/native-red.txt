@@ -1,0 +1,174 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+ ❯ tests/neon-grid-billboard-driving.test.ts (7 tests | 7 failed) 2428ms
+   × supports the entire plaza and owns no solid hologram collider 80ms
+   × does not cap or repeatedly reduce a controller while on static; exit is an explicit event 56ms
+   × allows configured AI entry without changing the existing tunnel choice stream 5ms
+   × physically traces all ordered gates for three laps with tunnel=0 billboard=0 660ms
+   × physically traces all ordered gates for three laps with tunnel=0 billboard=1 545ms
+   × physically traces all ordered gates for three laps with tunnel=1 billboard=0 551ms
+   × physically traces all ordered gates for three laps with tunnel=1 billboard=1 511ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-billboard-driving.test.ts > supports the entire plaza and owns no solid hologram collider
+AssertionError: support 3/-4: expected null not to be null
+ ❯ tests/neon-grid-billboard-driving.test.ts:26:47
+     24|       const q = p.clone().addScaledVector(r, lane);
+     25|       const hit = world.castRayAndGetNormal(new RAPIER.Ray({ x: q.x, y…
+     26|       expect(hit, `support ${i}/${lane}`).not.toBeNull();
+       |                                               ^
+     27|       expect(q.y + 1 - (hit?.timeOfImpact ?? 99)).toBeCloseTo(p.y, 2);
+     28|       expect(hit?.normal.y).toBeGreaterThan(0.99);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/neon-grid-billboard-driving.test.ts > does not cap or repeatedly reduce a controller while on static; exit is an explicit event
+AssertionError: expected 25.12519606087345 to be greater than 27
+ ❯ tests/neon-grid-billboard-driving.test.ts:49:39
+     47|     world.step();
+     48|   }
+     49|   expect(kart.speedMetersPerSecond()).toBeGreaterThan(27);
+       |                                       ^
+     50|   const before = kart.speedMetersPerSecond();
+     51|   kart.applyCollisionSpeedRetention(0.82);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/neon-grid-billboard-driving.test.ts > allows configured AI entry without changing the existing tunnel choice stream
+AssertionError: expected undefined to be 'billboard-gap' // Object.is equality
+
+- Expected:
+"billboard-gap"
+
++ Received:
+undefined
+
+ ❯ tests/neon-grid-billboard-driving.test.ts:60:42
+     58|   const progress = gap.entry.progress[0] - 25 / track.curve.getLength(…
+     59|   yes.prepareAiRoute(p, t, 20); no.prepareAiRoute(p, t, 20); rocket.pr…
+     60|   expect(yes.navigationAt(p, 10).pathId).toBe('billboard-gap');
+       |                                          ^
+     61|   expect(no.navigationAt(p, 10).pathId).toBeUndefined();
+     62|   expect(rocket.navigationAt(p, 10).pathId).toBeUndefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/neon-grid-billboard-driving.test.ts > physically traces all ordered gates for three laps with tunnel=0 billboard=0
+ FAIL  tests/neon-grid-billboard-driving.test.ts > physically traces all ordered gates for three laps with tunnel=1 billboard=0
+AssertionError: expected { crossed: [ 1, 2 ], …(3) } to match object { …(2) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "crossed": [
+      1,
+      2,
+-     3,
+-     4,
+-     5,
+-     6,
+-     7,
+-     8,
+-     9,
+-     10,
+-     11,
+-     0,
+-     1,
+-     2,
+-     3,
+-     4,
+-     5,
+-     6,
+-     7,
+-     8,
+-     9,
+-     10,
+-     11,
+-     0,
+-     1,
+-     2,
+-     3,
+-     4,
+-     5,
+-     6,
+-     7,
+-     8,
+-     9,
+-     10,
+-     11,
+-     0,
+    ],
+    "exitEvents": 0,
+  }
+
+ ❯ tests/neon-grid-billboard-driving.test.ts:91:88
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/neon-grid-billboard-driving.test.ts > physically traces all ordered gates for three laps with tunnel=0 billboard=1
+ FAIL  tests/neon-grid-billboard-driving.test.ts > physically traces all ordered gates for three laps with tunnel=1 billboard=1
+AssertionError: expected { crossed: [ 1, 2 ], …(3) } to match object { …(2) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "crossed": [
+      1,
+      2,
+-     3,
+-     4,
+-     5,
+-     6,
+-     7,
+-     8,
+-     9,
+-     10,
+-     11,
+-     0,
+-     1,
+-     2,
+-     3,
+-     4,
+-     5,
+-     6,
+-     7,
+-     8,
+-     9,
+-     10,
+-     11,
+-     0,
+-     1,
+-     2,
+-     3,
+-     4,
+-     5,
+-     6,
+-     7,
+-     8,
+-     9,
+-     10,
+-     11,
+-     0,
+    ],
+-   "exitEvents": 3,
++   "exitEvents": 0,
+  }
+
+ ❯ tests/neon-grid-billboard-driving.test.ts:91:88
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed (7)
+   Start at  18:16:31
+   Duration  3.22s (transform 139ms, setup 0ms, import 206ms, tests 2.43s, environment 457ms)

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import layout from './neonGridLayout.json';
 import { ServiceTunnel } from './ServiceTunnel';
+import { BillboardGap } from './NeonGridBillboard';
 import { TrackSegmentIndex } from './TrackSegmentIndex';
 import type { TrackDefinition, TrackProjection, TrackNavigation } from './TrackDefinition';
 
@@ -18,6 +19,7 @@ export class NeonGrid implements TrackDefinition {
   public readonly checkpointIndices = [...layout.checkpointIndices];
 
   public readonly serviceTunnel: ServiceTunnel;
+  public readonly billboardGap: BillboardGap;
 
   private readonly segmentIndex: TrackSegmentIndex;
   private readonly projectionCache = new Map<string, TrackProjection>();
@@ -38,6 +40,7 @@ export class NeonGrid implements TrackDefinition {
     this.segmentIndex = new TrackSegmentIndex(this.samples);
     this.sampleSpacing = this.curve.getLength() / this.sampleCount;
     this.serviceTunnel = new ServiceTunnel(this);
+    this.billboardGap = new BillboardGap(this);
   }
 
   public halfWidthAt(progress: number): number {
@@ -52,6 +55,14 @@ export class NeonGrid implements TrackDefinition {
   }
 
   public boundaryHalfWidthAt(projection: TrackProjection): number | null {
+    if (projection.pathId === 'billboard-gap') {
+      const right = new THREE.Vector3(projection.tangent.z, 0, -projection.tangent.x).normalize();
+      return this.billboardGap.junctionContains(
+        projection.point.clone().addScaledVector(right, projection.lateralOffset),
+      )
+        ? null
+        : this.billboardGap.roadHalfWidth;
+    }
     if (projection.pathId === 'service-tunnel') {
       const fraction = this.serviceTunnel.fraction(projection);
       const [start, end] = this.serviceTunnel.wallRange(projection.lateralOffset < 0 ? -1 : 1);
@@ -60,11 +71,19 @@ export class NeonGrid implements TrackDefinition {
     const right = new THREE.Vector3(projection.tangent.z, 0, -projection.tangent.x).normalize();
     const position = projection.point.clone().addScaledVector(right, projection.lateralOffset);
     if (this.serviceTunnel.junctionContains(position)) return null;
+    if (this.billboardGap.junctionContains(position)) return null;
     return this.halfWidthAt(projection.progress);
   }
 
   public projectSurface(position: THREE.Vector3): TrackProjection {
     const main = this.projectMain(position);
+    const gap = this.billboardGap.project(position, this.sampleCount);
+    if (
+      gap.lateralDistance <= this.billboardGap.roadHalfWidth &&
+      Math.abs(position.y - gap.point.y) < 1.5 &&
+      position.distanceToSquared(gap.point) < position.distanceToSquared(main.point)
+    )
+      return gap;
     const tunnel = this.serviceTunnel.project(position, this.sampleCount);
     // Stateless surface queries may inspect underground art/ground. Racer
     // traversal uses projectMain until a physical forward mouth crossing.
@@ -79,6 +98,23 @@ export class NeonGrid implements TrackDefinition {
   }
 
   public surfaceNavigationAt(projection: TrackProjection, distance: number): TrackNavigation {
+    if (projection.pathId === this.billboardGap.id) {
+      const gap = this.billboardGap;
+      const d = gap.fraction(projection) * gap.curve.getLength() + distance;
+      if (d <= gap.curve.getLength())
+        return {
+          point: gap.curve.getPointAt(d / gap.curve.getLength()),
+          tangent: gap.curve.getTangentAt(d / gap.curve.getLength()),
+          halfWidth: gap.roadHalfWidth,
+          pathId: gap.id,
+        };
+      const p = gap.exitProgress + (d - gap.curve.getLength()) / this.curve.getLength();
+      return {
+        point: this.curve.getPointAt(p),
+        tangent: this.curve.getTangentAt(p),
+        halfWidth: this.halfWidthAt(p),
+      };
+    }
     const tunnel = this.serviceTunnel;
     if (projection.pathId === tunnel.id) {
       const d = tunnel.fraction(projection) * tunnel.curve.getLength() + distance;

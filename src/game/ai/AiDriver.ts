@@ -146,7 +146,18 @@ export class AiDriver {
       }
       if (maximumCurvature > 0.015)
         authoredCornerSpeed = Math.max(8, Math.sqrt(9 / maximumCurvature));
-      if (selected?.pathId) {
+      if (selected?.pathId === 'billboard-gap') {
+        // Read the plaza approach's actual heading change. It is not the
+        // tunnel's tight split and must not inherit its fixed 8 m/s brake.
+        maximumCurvature = projection.pathId
+          ? 0
+          : projection.tangent.angleTo(selected.tangent) /
+            Math.max(8, position.distanceTo(selected.point));
+        authoredCornerSpeed =
+          maximumCurvature > 0.015
+            ? Math.max(8, Math.sqrt(9 / maximumCurvature))
+            : Number.POSITIVE_INFINITY;
+      } else if (selected?.pathId) {
         // The pre-split turn is deliberately slower; tunnel motion itself
         // uses the same controller and straight-path steering.
         maximumCurvature = projection.pathId ? 0 : 0.13;

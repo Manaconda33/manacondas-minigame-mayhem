@@ -2,6 +2,7 @@ import RAPIER from '@dimforge/rapier3d-compat';
 import type { NeonGrid } from './NeonGrid';
 import { serviceTunnelGeometry } from './ServiceTunnelGeometry';
 import { neonGridRibbon } from './NeonGridGeometry';
+import { billboardFloorGeometry } from './NeonGridBillboard';
 
 export function createNeonGridColliders(world: RAPIER.World, track: NeonGrid): () => void {
   const handles: number[] = [];
@@ -38,6 +39,16 @@ export function createNeonGridColliders(world: RAPIER.World, track: NeonGrid): (
     geometry.dispose();
   }
   let disposed = false;
+  const plaza = billboardFloorGeometry(track.billboardGap);
+  const plazaCollider = world.createCollider(
+    RAPIER.ColliderDesc.trimesh(
+      new Float32Array(plaza.getAttribute('position').array),
+      new Uint32Array(plaza.index?.array ?? []),
+      RAPIER.TriMeshFlags.FIX_INTERNAL_EDGES | RAPIER.TriMeshFlags.ORIENTED,
+    ).setFriction(1),
+  );
+  handles.push(plazaCollider.handle);
+  plaza.dispose();
   return () => {
     if (disposed) return;
     disposed = true;

@@ -141,7 +141,10 @@ export class KartController {
       this.yaw += this.currentSteer * dt * direction * driftYaw;
     }
 
-    const surfaceSpeedFactor = surfaceSpeedMultiplier(surface, this.stats.traction);
+    // Static's retention is applied once by the racer-local exit event. The
+    // plaza retains asphalt acceleration/cap instead of taxing every frame.
+    const surfaceSpeedFactor =
+      surface === 'static' ? 1 : surfaceSpeedMultiplier(surface, this.stats.traction);
     const surfaceAccelerationFactor =
       input.ignoreOffRoadAccelerationPenalty && (surface === 'dirt' || surface === 'grass')
         ? 1

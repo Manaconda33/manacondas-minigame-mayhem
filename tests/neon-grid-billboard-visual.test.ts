@@ -109,7 +109,7 @@ it('faces both portal ads toward racers approaching each opening', () => {
   for (const [portalName, adName] of [
     ['billboard-portal-entrance', 'billboard-ad-paprika'],
     ['billboard-portal-exit', 'billboard-exit-ad-paprika'],
-  ]) {
+  ] as const) {
     const portal = requireValue(scene.getObjectByName(portalName));
     const ad = requireValue(scene.getObjectByName(adName)) as THREE.Mesh;
     const front = new THREE.Vector3(0, 0, 1).transformDirection(ad.matrixWorld);

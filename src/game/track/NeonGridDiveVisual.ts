@@ -1,10 +1,19 @@
 import * as THREE from 'three';
 import type { WaterfallDive } from './NeonGridDive';
+import {
+  flowingWater,
+  rampWater,
+  fallingSheet,
+  leftWaterway,
+  poolWater,
+  softMist,
+} from './WaterfallSpillwayVisual';
 
 /** Shared bounded procedural water; animation follows authoritative race time. */
 export class NeonGridDiveVisual {
   public readonly group = new THREE.Group();
   private readonly water: THREE.InstancedMesh;
+  private readonly flowMaterials: THREE.ShaderMaterial[] = [];
   private readonly mist: THREE.InstancedMesh;
   private readonly splashes: THREE.InstancedMesh;
   private splashCursor = 0;
@@ -29,19 +38,11 @@ export class NeonGridDiveVisual {
       floor.receiveShadow = true;
       this.group.add(floor);
     }
-    const pool = new THREE.Mesh(
-      new THREE.CircleGeometry(11, 32),
-      new THREE.MeshStandardMaterial({
-        color: 0x12677a,
-        emissive: 0x06343d,
-        transparent: true,
-        opacity: 0.8,
-        roughness: 0.2,
-      }),
-    );
+    const pool = new THREE.Mesh(new THREE.CircleGeometry(11, 32), poolWater());
     pool.name = 'dive-pool';
     pool.rotation.x = -Math.PI / 2;
-    pool.position.copy(dive.pointAtDistance(19)).setY(0.05);
+    pool.position.copy(dive.pointAtDistance(18)).setY(0.05);
+    this.flowMaterials.push(pool.material);
     this.group.add(pool);
     const gold = new THREE.MeshBasicMaterial({ color: 0xffc63f });
     const tell = new THREE.Group();
@@ -65,24 +66,40 @@ export class NeonGridDiveVisual {
     landing.position.copy(dive.pointAtDistance(dive.landingDistance)).setY(8.85);
     landing.rotation.y = Math.atan2(dive.direction.x, dive.direction.z);
     this.group.add(landing);
+    const flow = flowingWater(),
+      falls = flowingWater(true);
+    this.flowMaterials.push(flow, falls);
+    const channel = leftWaterway(dive);
+    for (const [name, geometry, material] of [
+      ['dive-ramp-water', rampWater(dive), flow],
+      ['dive-waterway', channel.water, flow],
+      ['dive-water-sheet', fallingSheet(dive), falls],
+      [
+        'dive-waterway-banks',
+        channel.banks,
+        new THREE.MeshStandardMaterial({ color: 0x263d4b, roughness: 0.9, side: THREE.DoubleSide }),
+      ],
+    ] as const) {
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.name = name;
+      this.group.add(mesh);
+    }
     this.water = new THREE.InstancedMesh(
-      new THREE.BoxGeometry(0.16, 2, 0.16),
-      new THREE.MeshBasicMaterial({ color: 0x37e6ff, transparent: true, opacity: 0.5 }),
+      new THREE.PlaneGeometry(0.09, 1.1),
+      new THREE.MeshBasicMaterial({
+        color: 0xa4d8df,
+        transparent: true,
+        opacity: 0.28,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+        forceSinglePass: true,
+      }),
       48,
     );
     this.water.name = 'dive-water';
     this.water.frustumCulled = false;
     this.group.add(this.water);
-    this.mist = new THREE.InstancedMesh(
-      new THREE.IcosahedronGeometry(0.6, 0),
-      new THREE.MeshBasicMaterial({
-        color: 0xb7edf0,
-        transparent: true,
-        opacity: 0.12,
-        depthWrite: false,
-      }),
-      16,
-    );
+    this.mist = new THREE.InstancedMesh(new THREE.PlaneGeometry(3, 3), softMist(), 16);
     this.mist.name = 'dive-mist';
     this.mist.frustumCulled = false;
     this.group.add(this.mist);
@@ -106,12 +123,16 @@ export class NeonGridDiveVisual {
     this.splashCursor = (this.splashCursor + 1) % 8;
   }
   public update(time: number): void {
-    const center = this.dive.pointAtDistance(18).addScaledVector(this.dive.right, -8);
+    for (const material of this.flowMaterials) {
+      const clock = material.uniforms.time;
+      if (clock) clock.value = time;
+    }
+    const center = this.dive.pointAtDistance(this.dive.lipDistance + 0.72).setY(0.08);
     for (let i = 0; i < this.water.count; i++) {
-      this.dummy.position.copy(center).addScaledVector(this.dive.right, ((i % 8) - 3.5) * 0.45);
-      this.dummy.position.y = 1 + THREE.MathUtils.euclideanModulo((i / 48) * 13 - time * 8, 13);
+      this.dummy.position.copy(center).addScaledVector(this.dive.right, ((i % 8) - 3.5) * 0.72);
+      this.dummy.position.y = 0.7 + THREE.MathUtils.euclideanModulo((i / 48) * 9 - time * 6.5, 9);
       this.dummy.scale.set(1, 1, 1);
-      this.dummy.rotation.set(0, 0, 0);
+      this.dummy.rotation.set(0, Math.atan2(this.dive.direction.x, this.dive.direction.z), 0);
       this.dummy.updateMatrix();
       this.water.setMatrixAt(i, this.dummy.matrix);
     }
@@ -122,7 +143,7 @@ export class NeonGridDiveVisual {
         .add(
           new THREE.Vector3(
             Math.sin(phase) * 2,
-            0.8 + Math.sin(phase * 0.3) * 0.4,
+            0.7 + Math.sin(phase * 0.3) * 0.35,
             Math.cos(phase) * 2,
           ),
         );

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import type { NeonGrid } from './NeonGrid';
 import type { TrackProjection } from './TrackDefinition';
 import { TrackSegmentIndex } from './TrackSegmentIndex';
+import { billboardExitPatch } from './BillboardExitGeometry';
 
 /** Pure race-time cycle: never reads wall time or accumulates while paused. */
 export function billboardStateAt(raceSeconds: number): { on: boolean; tellIntensity: number } {
@@ -24,7 +25,7 @@ export class BillboardGap {
   public readonly curve: THREE.CubicBezierCurve3;
   private readonly segmentCount = 128;
   private readonly segmentIndex: TrackSegmentIndex;
-  public constructor(track: NeonGrid) {
+  public constructor(public readonly track: NeonGrid) {
     const start = track.curve.getPointAt(this.entry.progress[0]);
     const end = track.curve.getPointAt(this.exitProgress);
     this.curve = new THREE.CubicBezierCurve3(
@@ -91,17 +92,18 @@ export function billboardFloorGeometry(gap: BillboardGap): THREE.BufferGeometry 
   const segments = 512,
     positions: number[] = [],
     indices: number[] = [];
-  for (let i = 0; i <= segments; i++) {
+  for (let i = 0; i <= 400; i++) {
     const p = gap.curve.getPointAt(i / segments),
       t = gap.curve.getTangentAt(i / segments);
     const right = new THREE.Vector3(t.z, 0, -t.x).normalize();
     for (const lane of [-gap.roadHalfWidth, gap.roadHalfWidth])
       positions.push(...p.clone().addScaledVector(right, lane).toArray());
-    if (i < segments) {
+    if (i < 400) {
       const a = i * 2;
       indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
     }
   }
+  indices.push(...billboardExitPatch(gap, positions));
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   geometry.setIndex(indices);

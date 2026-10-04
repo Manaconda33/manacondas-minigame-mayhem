@@ -4,6 +4,8 @@ import { beforeAll, expect, it } from 'vitest';
 import { NeonGrid } from '../src/game/track/NeonGrid';
 import { RacerTrack } from '../src/game/track/RacerTrack';
 import { createNeonGridColliders } from '../src/game/track/NeonGridCollision';
+import { billboardFloorGeometry } from '../src/game/track/NeonGridBillboard';
+import { neonGridRibbon } from '../src/game/track/NeonGridGeometry';
 import { KartController } from '../src/game/physics/KartController';
 import { AiDriver } from '../src/game/ai/AiDriver';
 import { createKartTuning } from '../src/config/kartTuning';
@@ -21,9 +23,13 @@ it('supports the entire plaza and owns no solid hologram collider', () => {
   const world = new RAPIER.World({ x: 0, y: -18, z: 0 });
   const cleanup = createNeonGridColliders(world, track);
   let plazaHandle = -1;
-  world.colliders.forEach((collider) => {
-    plazaHandle = collider.handle;
+  world.colliders.forEach((c) => {
+    plazaHandle = c.handle;
   });
+  const visible = new THREE.Group();
+  visible.add(new THREE.Mesh(neonGridRibbon(track)), new THREE.Mesh(billboardFloorGeometry(gap)));
+  visible.updateMatrixWorld(true);
+  const ray = new THREE.Raycaster();
   world.step();
   for (let i = 1; i < 40; i++) {
     const p = gap.curve.getPointAt(i / 40),
@@ -31,20 +37,30 @@ it('supports the entire plaza and owns no solid hologram collider', () => {
       r = new THREE.Vector3(t.z, 0, -t.x).normalize();
     for (const lane of [-3, 0, 3]) {
       const q = p.clone().addScaledVector(r, lane);
-      // Inspect the authored plaza itself; the common road is higher at some
-      // overlapping exit-edge samples and is exercised by the driving tests.
+      const lift = i / 40 > 400 / 512 ? 5 : 1;
+      // Before the repaired join inspect the unchanged isolated plaza; at the
+      // join the shared main boundary owns the single native/render surface.
       const hit = world.castRayAndGetNormal(
-        new RAPIER.Ray({ x: q.x, y: q.y + 1, z: q.z }, { x: 0, y: -1, z: 0 }),
-        2,
+        new RAPIER.Ray({ x: q.x, y: q.y + lift, z: q.z }, { x: 0, y: -1, z: 0 }),
+        lift + 1,
         true,
         undefined,
         undefined,
         undefined,
         undefined,
-        (collider) => collider.handle === plazaHandle,
+        (c) => i / 40 > 400 / 512 || c.handle === plazaHandle,
       );
       expect(hit, `support ${String(i)}/${String(lane)}`).not.toBeNull();
-      expect(q.y + 1 - (hit?.timeOfImpact ?? 99)).toBeCloseTo(p.y, 2);
+      if (i / 40 <= 400 / 512) {
+        expect(q.y + lift - (hit?.timeOfImpact ?? 99)).toBeCloseTo(p.y, 2);
+      } else {
+        // The single joined support replaces the old conflicting overlap.
+        // Native support must match the actual rendered floor, including its shared edge.
+        ray.set(new THREE.Vector3(q.x, q.y + lift, q.z), new THREE.Vector3(0, -1, 0));
+        const rendered = ray.intersectObject(visible, true)[0];
+        expect(rendered).toBeDefined();
+        expect(q.y + lift - (hit?.timeOfImpact ?? 99)).toBeCloseTo(rendered?.point.y ?? -99, 3);
+      }
       expect(hit?.normal.y).toBeGreaterThan(0.85);
     }
   }
@@ -71,6 +87,9 @@ it('supports the entire plaza and owns no solid hologram collider', () => {
       .addScaledVector(t, 3)
       .add(new THREE.Vector3(0, 1, 0));
   expect(world.castRay(new RAPIER.Ray(p, t), 25, true)).toBeNull();
+  visible.traverse((object) => {
+    if (object instanceof THREE.Mesh) (object as THREE.Mesh).geometry.dispose();
+  });
   cleanup();
   cleanup();
   expect(world.colliders.len()).toBe(0);

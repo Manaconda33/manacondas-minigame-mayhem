@@ -5,6 +5,8 @@ import { NeonGrid } from '../src/game/track/NeonGrid';
 import { RacerTrack } from '../src/game/track/RacerTrack';
 import { createNeonGridScene } from '../src/game/track/createNeonGridScene';
 import { createNeonGridColliders } from '../src/game/track/NeonGridCollision';
+import { billboardFloorGeometry } from '../src/game/track/NeonGridBillboard';
+import { neonGridRibbon } from '../src/game/track/NeonGridGeometry';
 import { AiDriver } from '../src/game/ai/AiDriver';
 import { KartController } from '../src/game/physics/KartController';
 import { createKartTuning } from '../src/config/kartTuning';
@@ -81,6 +83,10 @@ it('supports every lane of the descending curved plaza with upward native faces'
   world.colliders.forEach((c) => {
     plazaHandle = c.handle;
   });
+  const visible = new THREE.Group();
+  visible.add(new THREE.Mesh(neonGridRibbon(track)), new THREE.Mesh(billboardFloorGeometry(gap)));
+  visible.updateMatrixWorld(true);
+  const ray = new THREE.Raycaster();
   world.step();
   for (let i = 1; i < 40; i++) {
     const p = gap.curve.getPointAt(i / 40),
@@ -88,18 +94,28 @@ it('supports every lane of the descending curved plaza with upward native faces'
     const right = new THREE.Vector3(t.z, 0, -t.x).normalize();
     for (const lane of [-3, 0, 3]) {
       const q = p.clone().addScaledVector(right, lane);
+      const lift = i / 40 > 400 / 512 ? 5 : 1;
       const hit = world.castRayAndGetNormal(
-        new RAPIER.Ray({ x: q.x, y: q.y + 1, z: q.z }, { x: 0, y: -1, z: 0 }),
-        2,
+        new RAPIER.Ray({ x: q.x, y: q.y + lift, z: q.z }, { x: 0, y: -1, z: 0 }),
+        lift + 1,
         true,
         undefined,
         undefined,
         undefined,
         undefined,
-        (c) => c.handle === plazaHandle,
+        (c) => i / 40 > 400 / 512 || c.handle === plazaHandle,
       );
       expect(hit, `plaza ${String(i)}/${String(lane)}`).not.toBeNull();
-      expect(q.y + 1 - (hit?.timeOfImpact ?? 99)).toBeCloseTo(p.y, 1);
+      if (i / 40 <= 400 / 512) {
+        expect(q.y + lift - (hit?.timeOfImpact ?? 99)).toBeCloseTo(p.y, 1);
+      } else {
+        // The single joined support replaces the old conflicting overlap.
+        // Native support must match the actual rendered floor, including its shared edge.
+        ray.set(new THREE.Vector3(q.x, q.y + lift, q.z), new THREE.Vector3(0, -1, 0));
+        const rendered = ray.intersectObject(visible, true)[0];
+        expect(rendered).toBeDefined();
+        expect(q.y + lift - (hit?.timeOfImpact ?? 99)).toBeCloseTo(rendered?.point.y ?? -99, 3);
+      }
       expect(hit?.normal.y).toBeGreaterThan(0.85);
     }
   }

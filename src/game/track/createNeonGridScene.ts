@@ -71,16 +71,36 @@ export function createNeonGridScene(track: NeonGrid): NeonGridScene {
   const gap = track.billboardGap,
     length = gap.curve.getLength();
   const lines: number[] = [];
+  const floorRay = new THREE.Raycaster();
+  const floorPoint = (point: THREE.Vector3) => {
+    if (gap.fraction(gap.project(point)) > 400 / 512) {
+      floorRay.set(new THREE.Vector3(point.x, point.y + 5, point.z), new THREE.Vector3(0, -1, 0));
+      const support = floorRay.intersectObjects([road, plaza], false)[0];
+      if (support) point.y = support.point.y;
+    }
+    point.y += 0.012;
+    return point;
+  };
   for (let d = 0; d <= length; d += 3) {
     const fraction = d / length,
       p = gap.curve.getPointAt(fraction),
       t = gap.curve.getTangentAt(fraction);
     const right = new THREE.Vector3(t.z, 0, -t.x).normalize();
-    p.y += 0.012;
-    lines.push(
-      ...p.clone().addScaledVector(right, -gap.roadHalfWidth).toArray(),
-      ...p.clone().addScaledVector(right, gap.roadHalfWidth).toArray(),
-    );
+    // Subdivide only the repaired join crossbars so the subtle inlay follows
+    // both floor meshes across their exact common boundary.
+    const steps = fraction > 400 / 512 ? 8 : 1;
+    for (let step = 0; step < steps; step++)
+      for (const edge of [step, step + 1])
+        lines.push(
+          ...floorPoint(
+            p
+              .clone()
+              .addScaledVector(
+                right,
+                THREE.MathUtils.lerp(-gap.roadHalfWidth, gap.roadHalfWidth, edge / steps),
+              ),
+          ).toArray(),
+        );
   }
   for (const lane of [-2, 0, 2]) {
     for (let i = 0; i < 128; i++) {
@@ -88,8 +108,7 @@ export function createNeonGridScene(track: NeonGrid): NeonGridScene {
         const p = gap.curve.getPointAt(fraction),
           t = gap.curve.getTangentAt(fraction);
         p.addScaledVector(new THREE.Vector3(t.z, 0, -t.x).normalize(), lane);
-        p.y += 0.012;
-        lines.push(...p.toArray());
+        lines.push(...floorPoint(p).toArray());
       }
     }
   }

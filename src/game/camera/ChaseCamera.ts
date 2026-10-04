@@ -33,6 +33,8 @@ export class ChaseCamera {
     kartForward: THREE.Vector3,
     rearView: boolean,
     dt: number,
+    roadHeight = 0,
+    ceilingHeight = Number.POSITIVE_INFINITY,
   ): void {
     this.introElapsed = Math.min(INTRO_DURATION_SECONDS, this.introElapsed + Math.max(0, dt));
     const introProgress = this.introElapsed / INTRO_DURATION_SECONDS;
@@ -47,6 +49,7 @@ export class ChaseCamera {
         .copy(kartPosition)
         .addScaledVector(behind, this.mobileForward ? MOBILE_CHASE_DISTANCE : CHASE_DISTANCE)
         .add(new THREE.Vector3(0, this.mobileForward ? MOBILE_CHASE_HEIGHT : CHASE_HEIGHT, 0));
+      this.desired.y = Math.min(this.desired.y, ceilingHeight);
       const eased = smoothstep(introProgress);
       this.camera.position.copy(this.introStart).lerp(this.desired, eased);
       this.lookAt
@@ -56,8 +59,14 @@ export class ChaseCamera {
           THREE.MathUtils.lerp(2.2, this.mobileForward ? MOBILE_FORWARD_LOOK_DISTANCE : 5.4, eased),
         )
         .setY(
-          THREE.MathUtils.lerp(0.9, this.mobileForward ? MOBILE_FORWARD_LOOK_HEIGHT : 1.15, eased),
+          roadHeight +
+            THREE.MathUtils.lerp(
+              0.9,
+              this.mobileForward ? MOBILE_FORWARD_LOOK_HEIGHT : 1.15,
+              eased,
+            ),
         );
+      this.camera.position.y = Math.min(this.camera.position.y, ceilingHeight);
       this.camera.lookAt(this.lookAt);
       return;
     }
@@ -76,14 +85,18 @@ export class ChaseCamera {
           0,
         ),
       );
+    this.desired.y = Math.min(this.desired.y, ceilingHeight);
     this.camera.position.lerp(this.desired, 1 - Math.exp(-7 * dt));
+    this.camera.position.y = Math.min(this.camera.position.y, ceilingHeight);
     this.lookAt
       .copy(kartPosition)
       .addScaledVector(
         kartForward,
         rearView ? -5.25 : this.mobileForward ? MOBILE_FORWARD_LOOK_DISTANCE : 5.4,
       )
-      .setY(rearView ? 1.15 : this.mobileForward ? MOBILE_FORWARD_LOOK_HEIGHT : 1.15);
+      .setY(
+        roadHeight + (rearView ? 1.15 : this.mobileForward ? MOBILE_FORWARD_LOOK_HEIGHT : 1.15),
+      );
     this.camera.lookAt(this.lookAt);
   }
 }

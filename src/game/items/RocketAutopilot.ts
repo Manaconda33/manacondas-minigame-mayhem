@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { DriveInput } from '../physics/KartController';
-import type { CircuitAlpha, TrackProjection } from '../track/CircuitAlpha';
+import type { TrackDefinition, TrackProjection } from '../track/TrackDefinition';
 
 export const ROCKET_AUTOPILOT_TUNING = {
   lookaheadMeters: 13,
@@ -19,11 +19,11 @@ export interface RocketRouteTarget {
 }
 
 /**
- * Produces legal controller input from Circuit Alpha geometry. This class never
+ * Produces legal controller input from selected track geometry. This class never
  * owns a kart body, transform, checkpoint, rank, or race-progress state.
  */
 export class RocketAutopilot {
-  public constructor(private readonly track: CircuitAlpha) {}
+  public constructor(private readonly track: TrackDefinition) {}
 
   public routeTarget(position: THREE.Vector3): RocketRouteTarget {
     const projection = this.track.project(position);
@@ -32,14 +32,22 @@ export class RocketAutopilot {
       Math.round(ROCKET_AUTOPILOT_TUNING.lookaheadMeters / this.track.sampleSpacing),
     );
     const targetIndex = (projection.index + lookaheadSamples) % this.track.sampleCount;
-    const targetPosition = this.track.samples[targetIndex]?.clone() ?? projection.point.clone();
+    const selected = this.track.navigationAt?.(position, ROCKET_AUTOPILOT_TUNING.lookaheadMeters);
+    const targetPosition =
+      selected?.point ?? this.track.samples[targetIndex]?.clone() ?? projection.point.clone();
     const targetTangent =
-      this.track.tangents[targetIndex]?.clone() ?? projection.tangent.clone().normalize();
+      selected?.tangent ??
+      this.track.tangents[targetIndex]?.clone() ??
+      projection.tangent.clone().normalize();
     const right = new THREE.Vector3(targetTangent.z, 0, -targetTangent.x).normalize();
+    const maxLane = Math.min(
+      ROCKET_AUTOPILOT_TUNING.maxLaneOffset,
+      (selected?.halfWidth ?? this.track.halfWidthAt(projection.progress)) - 1.4,
+    );
     const laneOffset = THREE.MathUtils.clamp(
       projection.lateralOffset * ROCKET_AUTOPILOT_TUNING.lateralCorrection,
-      -ROCKET_AUTOPILOT_TUNING.maxLaneOffset,
-      ROCKET_AUTOPILOT_TUNING.maxLaneOffset,
+      -maxLane,
+      maxLane,
     );
     targetPosition.addScaledVector(right, laneOffset);
 

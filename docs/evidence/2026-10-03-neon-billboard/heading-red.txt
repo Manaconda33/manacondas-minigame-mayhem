@@ -1,0 +1,39 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+ ❯ tests/race-diagnostics-routing.test.ts (37 tests | 2 failed | 31 skipped) 1064ms
+   × uses authoritative race time for billboard entry and applies one exit retention, phase=+0 yaw=1.5707963267948966 182ms
+   × uses authoritative race time for billboard entry and applies one exit retention, phase=+0 yaw=3.141592653589793 181ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > uses authoritative race time for billboard entry and applies one exit retention, phase=+0 yaw=1.5707963267948966
+AssertionError: expected 22.420647169988808 to be close to 18.384930770969913, received difference is 4.035716399018895, but expected 0.05
+ ❯ tests/race-diagnostics-routing.test.ts:1221:49
+    1219|     tick(34);
+    1220|     expect(route.project(runtime.kart.position()).pathId).toBeUndefine…
+    1221|     expect(runtime.kart.speedMetersPerSecond()).toBeCloseTo(
+       |                                                 ^
+    1222|       28 *
+    1223|         Math.exp((-(yawOffset === Math.PI / 2 ? 20 / 3 : 0.65) * 2) / …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > uses authoritative race time for billboard entry and applies one exit retention, phase=+0 yaw=3.141592653589793
+AssertionError: expected 27.399856111621492 to be close to 22.46788384331313, received difference is 4.931972268308364, but expected 0.05
+ ❯ tests/race-diagnostics-routing.test.ts:1221:49
+    1219|     tick(34);
+    1220|     expect(route.project(runtime.kart.position()).pathId).toBeUndefine…
+    1221|     expect(runtime.kart.speedMetersPerSecond()).toBeCloseTo(
+       |                                                 ^
+    1222|       28 *
+    1223|         Math.exp((-(yawOffset === Math.PI / 2 ? 20 / 3 : 0.65) * 2) / …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 4 passed | 31 skipped (37)
+   Start at  18:37:03
+   Duration  2.66s (transform 660ms, setup 0ms, import 865ms, tests 1.06s, environment 582ms)

@@ -15,6 +15,7 @@ export function crossesForwardCheckpointGate(
   gatePosition: THREE.Vector3,
   gateTangent: THREE.Vector3,
   halfWidthMeters = CHECKPOINT_GATE_HALF_WIDTH_METERS,
+  heightToleranceMeters = Number.POSITIVE_INFINITY,
 ): boolean {
   const tangent = gateTangent.clone().setY(0);
   if (tangent.lengthSq() < Number.EPSILON) return false;
@@ -31,6 +32,8 @@ export function crossesForwardCheckpointGate(
   const advance = afterAlong - beforeAlong;
   if (advance <= Number.EPSILON) return false;
   const crossingFraction = THREE.MathUtils.clamp(-beforeAlong / advance, 0, 1);
+  const crossingHeight = THREE.MathUtils.lerp(previousPosition.y, currentPosition.y, crossingFraction);
+  if (Math.abs(crossingHeight - gatePosition.y) > heightToleranceMeters) return false;
   const crossing = before.lerp(after, crossingFraction);
   const lateral = crossing.addScaledVector(tangent, -crossing.dot(tangent));
   return lateral.lengthSq() <= halfWidthMeters * halfWidthMeters;

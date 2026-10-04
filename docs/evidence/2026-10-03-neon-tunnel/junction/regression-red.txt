@@ -1,0 +1,106 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/cf00191ad825/repo
+
+ ❯ tests/neon-grid-tunnel-junction.test.ts (7 tests | 6 failed) 106ms
+   × keeps exact tunnel edges consistently inside the main aperture, exit=false 16ms
+   × keeps exact tunnel edges consistently inside the main aperture, exit=true 6ms
+   × does not render left-wall across the joined main road 21ms
+   × does not render right-wall across the joined main road 2ms
+   × joins main wall -1 to the tunnel edges without wall tips in the aperture 33ms
+   × joins main wall 1 to the tunnel edges without wall tips in the aperture 21ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-tunnel-junction.test.ts > keeps exact tunnel edges consistently inside the main aperture, exit=false
+AssertionError: 2/-1: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/neon-grid-tunnel-junction.test.ts:22:60
+     20|           .clone()
+     21|           .addScaledVector(new THREE.Vector3(t.z, 0, -t.x).normalize()…
+     22|         expect(tunnel.junctionContains(q), `${d}/${side}`).toBe(true);
+       |                                                            ^
+     23|       }
+     24|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/neon-grid-tunnel-junction.test.ts > keeps exact tunnel edges consistently inside the main aperture, exit=true
+AssertionError: 2/1: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/neon-grid-tunnel-junction.test.ts:22:60
+     20|           .clone()
+     21|           .addScaledVector(new THREE.Vector3(t.z, 0, -t.x).normalize()…
+     22|         expect(tunnel.junctionContains(q), `${d}/${side}`).toBe(true);
+       |                                                            ^
+     23|       }
+     24|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/neon-grid-tunnel-junction.test.ts > does not render left-wall across the joined main road
+AssertionError: d=79.47208618383142: expected -0.030000659221283144 to be greater than or equal to -0.02
+ ❯ tests/neon-grid-tunnel-junction.test.ts:53:9
+     51|         main.lateralDistance - track.halfWidthAt(main.progress),
+     52|         `d=${d}`,
+     53|       ).toBeGreaterThanOrEqual(-0.02);
+       |         ^
+     54|     }
+     55|     geometry.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  tests/neon-grid-tunnel-junction.test.ts > does not render right-wall across the joined main road
+AssertionError: d=7.112278739178617: expected -1.1706388565355974 to be greater than or equal to -0.02
+ ❯ tests/neon-grid-tunnel-junction.test.ts:53:9
+     51|         main.lateralDistance - track.halfWidthAt(main.progress),
+     52|         `d=${d}`,
+     53|       ).toBeGreaterThanOrEqual(-0.02);
+       |         ^
+     54|     }
+     55|     geometry.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  tests/neon-grid-tunnel-junction.test.ts > joins main wall -1 to the tunnel edges without wall tips in the aperture
+AssertionError: join -1/384: expected 2.603076920981318 to be less than 0.08
+ ❯ tests/neon-grid-tunnel-junction.test.ts:121:56
+    119|           nearest = Math.min(nearest, Math.hypot(v.x - endpoint.x, v.z…
+    120|         }
+    121|         expect(nearest, `join ${tunnelSide}/${index}`).toBeLessThan(0.…
+       |                                                        ^
+    122|       }
+    123|       wall.dispose();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  tests/neon-grid-tunnel-junction.test.ts > joins main wall 1 to the tunnel edges without wall tips in the aperture
+AssertionError: wall tip d=79.63306504599532: expected 2.906933636652566 to be greater than or equal to 3.18
+ ❯ tests/neon-grid-tunnel-junction.test.ts:107:56
+    105|       if ((d > 12 && d < tunnel.curve.getLength() - 12) || Math.abs(q.…
+    106|         continue;
+    107|       expect(local.lateralDistance, `wall tip d=${d}`).toBeGreaterThan…
+       |                                                        ^
+    108|     }
+    109|     for (const tunnelSide of [-1, 1] as const) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 1 passed (7)
+   Start at  13:35:19
+   Duration  844ms (transform 72ms, setup 0ms, import 120ms, tests 106ms, environment 480ms)
+

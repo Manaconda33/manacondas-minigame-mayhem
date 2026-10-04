@@ -8,7 +8,7 @@ import {
 } from './AiHazardAwareness';
 import * as THREE from 'three';
 import type { DriveInput } from '../physics/KartController';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { InkAiImpairmentSnapshot } from '../items/InkSplatSystem';
 
 export interface AiDriverProfile {
@@ -72,16 +72,18 @@ function latestSteeringAtOrBefore(
 
 export class AiDriver {
   private laneOffset: number;
+  private localHalfWidth: number;
   private laneHoldSeconds = 0;
   private hazardClearHoldSeconds = 0;
   private steeringClockSeconds = 0;
   private readonly steeringHistory: SteeringSample[] = [];
 
   public constructor(
-    private readonly track: CircuitAlpha,
+    private readonly track: TrackDefinition,
     private readonly profile: AiDriverProfile,
     private readonly characterMaxSpeed: number,
   ) {
+    this.localHalfWidth = this.track.halfWidthAt(0);
     this.laneOffset = this.roadBoundedLane(profile.laneOffset);
   }
 
@@ -95,9 +97,13 @@ export class AiDriver {
     hazards: readonly AiHazardAwareness[] = [],
     racerId = '',
     ink: InkAiImpairmentSnapshot | null = null,
+    allowShortcutChoice = true,
   ): DriveInput {
+    this.track.prepareAiRoute?.(position, forward, speed, allowShortcutChoice);
     const now = this.steeringClockSeconds;
     const projection = this.track.project(position);
+    this.localHalfWidth =
+      this.track.boundaryHalfWidthAt(projection) ?? this.track.halfWidthAt(projection.progress);
     const racersAhead = this.racersAhead(position, projection.tangent, nearbyRacers);
     const threats =
       hazards.length === 0
@@ -113,13 +119,61 @@ export class AiDriver {
 
     const lookahead = Math.max(1, Math.round(aiLookaheadMeters(speed) / this.track.sampleSpacing));
     const targetIndex = (projection.index + lookahead) % this.track.sampleCount;
-    const target = this.track.samples[targetIndex]?.clone() ?? projection.point.clone();
-    const tangent = this.track.tangents[targetIndex]?.clone() ?? projection.tangent.clone();
+    const selected = this.track.navigationAt?.(position, aiLookaheadMeters(speed));
+    const target =
+      selected?.point ?? this.track.samples[targetIndex]?.clone() ?? projection.point.clone();
+    const tangent =
+      selected?.tangent ?? this.track.tangents[targetIndex]?.clone() ?? projection.tangent.clone();
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x);
     const laneWave =
       Math.sin(projection.progress * Math.PI * 8 + this.profile.aggression * 4) * 0.16;
     const inkNoise = ink === null ? 0 : Math.sin(ink.noisePhaseRadians) * ink.noiseAmplitudeMeters;
-    target.addScaledVector(right, this.roadBoundedLane(this.laneOffset + laneWave + inkNoise));
+    let authoredCornerSpeed = Number.POSITIVE_INFINITY;
+    if (this.track.id === 'neon-grid') {
+      const length = this.track.curve.getLength();
+      // Read the next 25 m so braking precedes the narrow reversing bends.
+      let maximumCurvature = 0;
+      for (const distance of [0, 8, 16, 24]) {
+        const a = this.track.curve
+          .getTangentAt((projection.progress + distance / length) % 1)
+          .setY(0)
+          .normalize();
+        const b = this.track.curve
+          .getTangentAt((projection.progress + (distance + 8) / length) % 1)
+          .setY(0)
+          .normalize();
+        maximumCurvature = Math.max(maximumCurvature, a.angleTo(b) / 8);
+      }
+      if (maximumCurvature > 0.015)
+        authoredCornerSpeed = Math.max(8, Math.sqrt(9 / maximumCurvature));
+      if (selected?.pathId === 'billboard-gap') {
+        // Read the plaza approach's actual heading change. It is not the
+        // tunnel's tight split and must not inherit its fixed 8 m/s brake.
+        maximumCurvature = projection.pathId
+          ? 0
+          : projection.tangent.angleTo(selected.tangent) /
+            Math.max(8, position.distanceTo(selected.point));
+        authoredCornerSpeed =
+          maximumCurvature > 0.015
+            ? Math.max(8, Math.sqrt(9 / maximumCurvature))
+            : Number.POSITIVE_INFINITY;
+      } else if (selected?.pathId) {
+        // The pre-split turn is deliberately slower; tunnel motion itself
+        // uses the same controller and straight-path steering.
+        maximumCurvature = projection.pathId ? 0 : 0.13;
+        authoredCornerSpeed = projection.pathId ? Number.POSITIVE_INFINITY : 8;
+      }
+      this.localHalfWidth =
+        selected?.halfWidth ?? this.track.halfWidthAt(targetIndex / this.track.sampleCount);
+      target.addScaledVector(
+        right,
+        this.roadBoundedLane(
+          (this.laneOffset + laneWave + inkNoise) * (maximumCurvature > 0.04 ? 0.2 : 1),
+        ),
+      );
+    } else {
+      target.addScaledVector(right, this.roadBoundedLane(this.laneOffset + laneWave + inkNoise));
+    }
 
     const desired = target.sub(position).setY(0).normalize();
     const cross = forward.z * desired.x - forward.x * desired.z;
@@ -137,10 +191,7 @@ export class AiDriver {
     const steering =
       ink === null
         ? candidateSteering
-        : (latestSteeringAtOrBefore(
-            this.steeringHistory,
-            now - ink.reactionLatencySeconds,
-          ) ?? 0);
+        : (latestSteeringAtOrBefore(this.steeringHistory, now - ink.reactionLatencySeconds) ?? 0);
     if (Number.isFinite(dt) && dt > 0) this.steeringClockSeconds += dt;
     const corner = 1 - Math.max(0, forward.dot(tangent));
     let targetSpeed = aiTargetSpeed(
@@ -149,6 +200,7 @@ export class AiDriver {
       corner,
       playerProgressDelta,
     );
+    targetSpeed = Math.min(targetSpeed, authoredCornerSpeed);
     const blocker = racersAhead.find(
       (racer) => racer.forwardGap < 5.5 && Math.abs(racer.lateralOffset - this.laneOffset) < 1.5,
     );
@@ -158,7 +210,11 @@ export class AiDriver {
       throttle: speed < targetSpeed ? 1 : 0.2,
       steering,
       brake: speed > targetSpeed + 2,
-      drift: Math.abs(steering) > 0.62 && speed > 11 && this.profile.aggression > 0.35,
+      drift:
+        Math.abs(steering) > 0.62 &&
+        speed > 11 &&
+        this.profile.aggression > 0.35 &&
+        authoredCornerSpeed > 20,
       speedLimitMultiplier: rubberBandFactor(playerProgressDelta),
     };
   }
@@ -282,8 +338,8 @@ export class AiDriver {
     const kartMargin = 1.4;
     return THREE.MathUtils.clamp(
       offset,
-      -this.track.roadHalfWidth + kartMargin,
-      this.track.roadHalfWidth - kartMargin,
+      -this.localHalfWidth + kartMargin,
+      this.localHalfWidth - kartMargin,
     );
   }
 }

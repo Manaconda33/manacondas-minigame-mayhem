@@ -1,0 +1,189 @@
+import RAPIER from '@dimforge/rapier3d-compat';
+import { beforeAll, expect, it } from 'vitest';
+import { NeonGrid } from '../src/game/track/NeonGrid';
+import { createNeonGridColliders } from '../src/game/track/NeonGridCollision';
+import { AiDriver } from '../src/game/ai/AiDriver';
+import { KartController } from '../src/game/physics/KartController';
+import { createKartTuning } from '../src/config/kartTuning';
+import { characterById } from '../src/characters/manifest';
+import { guardrailContact } from '../src/game/track/GuardrailSystem';
+
+// Opt-in RED fixture for Step 5.1. Copy into tests/ to execute; remove before
+// normal validation. Promote unchanged into the active suite during repair.
+// Catches a road crease that cancels travel or redirects forward motion upward.
+// No triangle IDs, deletion rules, mesh internals or contact-normal oracle.
+const dt = 1 / 60;
+const track = new NeonGrid();
+const stats = characterById('aa-09').stats;
+const tuning = createKartTuning(stats);
+const starts = [0.001, 0.48, 0.81];
+const runs: {
+  start: number;
+  spawn: number[];
+  rows: {
+    step: number;
+    speedBeforePhysics: number;
+    speedAfterPhysics: number;
+    nativeVy: number;
+    planarDeficit: number;
+    wheelHits: number;
+    boundaryBefore: boolean;
+    boundaryAfter: boolean;
+  }[];
+}[] = [];
+
+beforeAll(async () => {
+  await RAPIER.init();
+  for (const start of starts) {
+    const world = new RAPIER.World({ x: 0, y: -18, z: 0 });
+    world.timestep = dt;
+    const cleanup = createNeonGridColliders(world, track);
+    try {
+      const point = track.curve.getPointAt(start);
+      const tangent = track.curve.getTangentAt(start).setY(0).normalize();
+      const kart = new KartController(
+        world,
+        tuning,
+        stats,
+        point,
+        Math.atan2(tangent.x, tangent.z),
+      );
+      const driver = new AiDriver(
+        track,
+        { laneOffset: 0, pace: 0.55, aggression: 0.3 },
+        tuning.maxSpeed,
+      );
+      for (let step = 0; step < 90; step++) world.step();
+      kart.body.setLinvel({ x: tangent.x * 29.7, y: 0, z: tangent.z * 29.7 }, true);
+      const run: (typeof runs)[number] = { start, spawn: kart.position().toArray(), rows: [] };
+      for (let step = 0; step < 18; step++) {
+        const position = kart.position();
+        const forward = kart.forward();
+        const right = forward.clone().set(forward.z, 0, -forward.x);
+        let wheelHits = 0;
+        for (const [x, z] of [
+          [-0.55, 0.72],
+          [0.55, 0.72],
+          [-0.55, -0.72],
+          [0.55, -0.72],
+        ]) {
+          const origin = position
+            .clone()
+            .addScaledVector(right, x ?? 0)
+            .addScaledVector(forward, z ?? 0);
+          if (
+            world.castRay(
+              new RAPIER.Ray(origin, { x: 0, y: -1, z: 0 }),
+              1.35,
+              true,
+              undefined,
+              undefined,
+              undefined,
+              kart.body,
+            )
+          )
+            wheelHits++;
+        }
+        const input = driver.input(position, forward, kart.speedMetersPerSecond());
+        input.throttle = 1;
+        input.brake = false;
+        input.drift = false;
+        const projection = track.project(position);
+        expect(projection.surface).toBe('asphalt');
+        const boundaryBefore = guardrailContact(track, position, 1.15) !== null;
+        kart.update(input, projection.surface, dt);
+        const before = kart.position();
+        const speedBeforePhysics = kart.speedMetersPerSecond();
+        world.step();
+        const displacement = kart.position().sub(before).setY(0).length();
+        run.rows.push({
+          step,
+          speedBeforePhysics,
+          speedAfterPhysics: kart.speedMetersPerSecond(),
+          nativeVy: kart.velocity().y,
+          planarDeficit: speedBeforePhysics * dt - displacement,
+          wheelHits,
+          boundaryBefore,
+          boundaryAfter: guardrailContact(track, kart.position(), 1.15) !== null,
+        });
+      }
+      runs.push(run);
+    } finally {
+      cleanup();
+      world.free();
+    }
+  }
+  console.log(
+    'NEON_REGRESSION_TRACE',
+    JSON.stringify(
+      {
+        dt,
+        settleSteps: 90,
+        initialSpeed: 29.7,
+        profile: 'aa-09',
+        policy: 'AiDriver steering, full throttle, no brake/drift',
+        scope:
+          'real native road/controller; no rivals/items/scripted correction/recovery; first 18 steps',
+        runs,
+      },
+      null,
+      2,
+    ),
+  );
+});
+
+it.each(starts)('retains supported planar travel at progress %s', (start) => {
+  const run = runs.find((r) => r.start === start);
+  expect(run).toBeDefined();
+  // 5cm tolerance is >25x the existing flat-road 2mm error allowance.
+  expect(Math.max(...(run?.rows ?? []).map((r) => r.planarDeficit))).toBeLessThan(0.05);
+});
+
+it.each(starts)('avoids an uncommanded road launch at progress %s', (start) => {
+  const run = runs.find((r) => r.start === start);
+  expect(run).toBeDefined();
+  // Independent conservative envelope: 8 degree grade at measured planar
+  // speed, plus 1m/s. Authored local centerline grade is under 5.67 degrees.
+  expect(
+    Math.max(
+      ...(run?.rows ?? []).map(
+        (r) => r.nativeVy - r.speedBeforePhysics * Math.tan((8 * Math.PI) / 180),
+      ),
+    ),
+  ).toBeLessThan(1);
+});
+
+it.each(starts)('avoids abrupt native speed collapse at progress %s', (start) => {
+  const run = runs.find((r) => r.start === start);
+  expect(run).toBeDefined();
+  expect(
+    Math.max(...(run?.rows ?? []).map((r) => r.speedBeforePhysics - r.speedAfterPhysics)),
+  ).toBeLessThan(2);
+});
+
+it('observes supported driving without a boundary at the diagnosed onset', () => {
+  const onset = runs.find((r) => r.start === 0.81)?.rows.slice(0, 16) ?? [];
+  expect(onset).toHaveLength(16);
+  expect(onset.every((r) => r.wheelHits === 4 && !r.boundaryBefore && !r.boundaryAfter)).toBe(true);
+});
+
+it('preserves real falling and deliberate barrier speed loss', () => {
+  const world = new RAPIER.World({ x: 0, y: -18, z: 0 });
+  world.timestep = dt;
+  try {
+    const point = track.curve.getPointAt(0.48);
+    point.y += 5;
+    const kart = new KartController(world, tuning, stats, point, 0);
+    kart.body.setLinvel({ x: 0, y: 0, z: 20 }, true);
+    const height = kart.position().y;
+    for (let step = 0; step < 12; step++) world.step();
+    expect(kart.position().y).toBeLessThan(height - 0.3);
+    expect(kart.velocity().y).toBeLessThan(-3);
+    const verticalVelocity = kart.velocity().y;
+    kart.resolveStaticBarrierCollision(kart.forward().negate(), 0.1, 0.82, 0.22);
+    expect(kart.speedMetersPerSecond()).toBeLessThan(18);
+    expect(kart.velocity().y).toBe(verticalVelocity);
+  } finally {
+    world.free();
+  }
+});

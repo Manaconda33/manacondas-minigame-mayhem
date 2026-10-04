@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+ ❯ tests/neon-grid-billboard-visual.test.ts (6 tests | 1 failed) 412ms
+   × faces the ad toward approaching racers so lettering is not mirrored 68ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-billboard-visual.test.ts > faces the ad toward approaching racers so lettering is not mirrored
+AssertionError: expected 0.9999999878097179 to be less than -0.99
+ ❯ tests/neon-grid-billboard-visual.test.ts:109:63
+    107|   scene.updateMatrixWorld(true);
+    108|   const front=new THREE.Vector3(0,0,1).transformDirection(ad.matrixWor…
+    109|   expect(front.dot(track.billboardGap.curve.getTangentAt(0))).toBeLess…
+       |                                                               ^
+    110| });
+    111|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  19:37:59
+   Duration  1.17s (transform 97ms, setup 0ms, import 143ms, tests 412ms, environment 479ms)

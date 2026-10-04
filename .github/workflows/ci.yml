@@ -267,7 +267,11 @@ jobs:
           git lfs fsck
           test "$(git rev-parse HEAD)" = "b942c912510ec86312a9d0cd393d71d2eb478ea8"
           npm ci
-          npm run validate
+          # Retained native mobile fixture needs the same runner allowance as Dive fbff249.
+          npm run typecheck
+          npm run lint
+          npm run test:ci -- --testTimeout=15000
+          npm run build
           npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-billboard/
 
       - name: Check out pinned Billboard visual review

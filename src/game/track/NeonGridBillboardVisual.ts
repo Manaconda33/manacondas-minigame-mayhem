@@ -8,7 +8,7 @@ const CROSSING_SLOTS = 8;
 function apertureCrossing(
   gap: BillboardGap,
   end: 'entrance' | 'exit',
-): { position: THREE.Vector3; tangent: THREE.Vector3; distance: number } {
+): { position: THREE.Vector3; tangent: THREE.Vector3; approachTangent: THREE.Vector3; distance: number; width: number } {
   const length = gap.curve.getLength();
   const lower = end === 'entrance' ? 0 : Math.max(0, length - 22);
   const upper = end === 'entrance' ? Math.min(length, gap.mouthDistance + 10) : length;
@@ -22,6 +22,7 @@ function apertureCrossing(
     throw new Error(`Billboard ${end} search must start inside the main route`);
   const span = upper - lower;
   const steps = Math.max(1, Math.ceil(span / 0.25));
+  let crossingDistance = Number.NaN;
   for (let i = 1; i <= steps; i++) {
     const fraction = i / steps;
     const distance = end === 'entrance' ? lower + span * fraction : upper - span * fraction;
@@ -29,24 +30,72 @@ function apertureCrossing(
       insideDistance = distance;
       continue;
     }
-    const outsideDistance = distance;
-    let low = Math.min(insideDistance, outsideDistance);
-    let high = Math.max(insideDistance, outsideDistance);
+    let low = Math.min(insideDistance, distance);
+    let high = Math.max(insideDistance, distance);
     for (let iteration = 0; iteration < 32; iteration++) {
       const middle = (low + high) / 2;
       const middleInside = clearanceAt(middle) <= 0;
-      if (middleInside === (insideDistance < outsideDistance)) low = middle;
+      if (middleInside === (insideDistance < distance)) low = middle;
       else high = middle;
     }
-    const crossingDistance = (low + high) / 2;
-    const fractionAtCrossing = crossingDistance / length;
-    return {
-      position: gap.curve.getPointAt(fractionAtCrossing),
-      tangent: gap.curve.getTangentAt(fractionAtCrossing).normalize(),
-      distance: crossingDistance,
-    };
+    crossingDistance = (low + high) / 2;
+    break;
   }
-  throw new Error(`Billboard ${end} aperture does not cross the main wall`);
+  if (!Number.isFinite(crossingDistance))
+    throw new Error(`Billboard ${end} aperture does not cross the main wall`);
+
+  const approachTangent = gap.curve.getTangentAt(crossingDistance / length).normalize();
+  const crossingPoint = gap.curve.getPointAt(crossingDistance / length);
+  const crossingProjection = gap.track.projectMain(crossingPoint);
+  const wallSide = Math.sign(crossingProjection.lateralOffset) || 1;
+  const targetProgress = crossingProjection.progress;
+  const halfWindow = 24 / gap.track.curve.getLength();
+  const searchStart = Math.max(0, targetProgress - halfWindow);
+  const searchEnd = Math.min(1, targetProgress + halfWindow);
+  const samples = 512;
+  const progressAt = (index: number) => searchStart + ((searchEnd - searchStart) * index) / samples;
+  const wallPointAt = (progress: number) => {
+    const center = gap.track.curve.getPointAt(progress);
+    const tangent = gap.track.curve.getTangentAt(progress);
+    const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+    return center.addScaledVector(right, wallSide * gap.track.halfWidthAt(progress));
+  };
+  const openAt = (progress: number) => gap.junctionContains(wallPointAt(progress));
+  const runs: number[][] = [];
+  for (let i = 0; i <= samples; i++) {
+    if (!openAt(progressAt(i))) continue;
+    const run = runs.at(-1);
+    if (run && i === (run.at(-1) ?? -2) + 1) run.push(i);
+    else runs.push([i]);
+  }
+  const run = runs.sort((a, b) =>
+    Math.abs((a[0]! + a.at(-1)!) / 2 - samples / 2) -
+    Math.abs((b[0]! + b.at(-1)!) / 2 - samples / 2),
+  )[0];
+  if (!run?.length || run[0] === 0 || run.at(-1) === samples)
+    throw new Error(`Billboard ${end} wall opening endpoints could not be measured`);
+  const boundary = (outsideIndex: number, insideIndex: number) => {
+    let outside = progressAt(outsideIndex);
+    let inside = progressAt(insideIndex);
+    for (let i = 0; i < 28; i++) {
+      const middle = (outside + inside) / 2;
+      if (openAt(middle)) inside = middle;
+      else outside = middle;
+    }
+    return { progress: (outside + inside) / 2, point: wallPointAt((outside + inside) / 2) };
+  };
+  const first = boundary(run[0] - 1, run[0]);
+  const last = boundary(run.at(-1)! + 1, run.at(-1)!);
+  const width = Math.hypot(last.point.x - first.point.x, last.point.z - first.point.z);
+  if (width < 1) throw new Error(`Billboard ${end} wall opening is too narrow`);
+  const middleProgress = (first.progress + last.progress) / 2;
+  return {
+    position: first.point.clone().lerp(last.point, 0.5),
+    tangent: gap.track.curve.getTangentAt(middleProgress).setY(0).normalize(),
+    approachTangent,
+    distance: crossingDistance,
+    width,
+  };
 }
 
 /** Visual-only: same race clock and physical mouth as traversal, no collision. */
@@ -84,9 +133,11 @@ export class NeonGridBillboardVisual {
       portal.name = `billboard-portal-${name}`;
       portal.position.copy(crossing.position);
       const wallTangent = gap.track.projectMain(crossing.position).tangent;
-      if (wallTangent.dot(crossing.tangent) > 0) wallTangent.negate();
+      if (wallTangent.dot(crossing.approachTangent) > 0) wallTangent.negate();
       portal.rotation.y = Math.atan2(wallTangent.x, wallTangent.z);
       const portalAds: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>[] = [];
+      const artWidth = crossing.width;
+      const artHeight = (artWidth * 9) / 16;
       for (const sponsor of SPONSORS) {
         const material = new THREE.ShaderMaterial({
           uniforms: {
@@ -114,21 +165,21 @@ export class NeonGridBillboardVisual {
               #include <colorspace_fragment>
             }`,
         });
-        const ad = new THREE.Mesh(new THREE.PlaneGeometry(8, 4.5), material);
+        const ad = new THREE.Mesh(new THREE.PlaneGeometry(artWidth, artHeight), material);
         ad.name = name === 'entrance' ? `billboard-ad-${sponsor}` : `billboard-exit-ad-${sponsor}`;
-        ad.position.y = 2.35;
+        ad.position.y = artHeight / 2;
         portal.add(ad);
         portalAds.push(ad);
       }
       const frame = new THREE.Group();
       frame.name = name === 'entrance' ? 'billboard-frame' : 'billboard-exit-frame';
-      for (const x of [-4.06, 4.06]) {
-        const post = new THREE.Mesh(new THREE.BoxGeometry(0.18, 4.7, 0.18), this.frameMaterial);
-        post.position.set(x, 2.35, 0);
+      for (const x of [-artWidth / 2 - 0.06, artWidth / 2 + 0.06]) {
+        const post = new THREE.Mesh(new THREE.BoxGeometry(0.18, artHeight + 0.2, 0.18), this.frameMaterial);
+        post.position.set(x, artHeight / 2, 0);
         frame.add(post);
       }
-      const top = new THREE.Mesh(new THREE.BoxGeometry(8.3, 0.18, 0.18), this.frameMaterial);
-      top.position.y = 4.65;
+      const top = new THREE.Mesh(new THREE.BoxGeometry(artWidth + 0.3, 0.18, 0.18), this.frameMaterial);
+      top.position.y = artHeight + 0.1;
       frame.add(top);
       portal.add(frame);
       this.group.add(portal);

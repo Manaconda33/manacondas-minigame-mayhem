@@ -1,3 +1,4 @@
+import { DiveState } from './NeonGridDive';
 import * as THREE from 'three';
 import type { NeonGrid } from './NeonGrid';
 import { ShortcutTraversal } from './ShortcutTraversal';
@@ -7,6 +8,10 @@ import type { TrackDefinition, TrackProjection, TrackNavigation } from './TrackD
 
 /** A racer-local view; the shared track remains immutable and reusable. */
 export class RacerTrack implements TrackDefinition {
+  public readonly diveState: DiveState;
+  private diveCommitted = false;
+  private diveConsidered = false;
+  private diveRandomState: number;
   private readonly traversal: ShortcutTraversal;
   private readonly billboardTraversal: ShortcutTraversal;
   private billboardOn = false;
@@ -22,7 +27,10 @@ export class RacerTrack implements TrackDefinition {
     seed = 1,
     private readonly attemptRate = 0.35,
     private readonly billboardAttemptRate = 0,
+    private readonly diveAttemptRate = 0,
   ) {
+    this.diveState = new DiveState(track.waterfallDive);
+    this.diveRandomState = (seed ^ 0xc2b2ae35) >>> 0;
     this.traversal = new ShortcutTraversal(track.serviceTunnel, track);
     this.billboardTraversal = new ShortcutTraversal(track.billboardGap, track);
     this.randomState = seed >>> 0;
@@ -105,7 +113,26 @@ export class RacerTrack implements TrackDefinition {
     if (wasActive && active === null) this.committed = false;
     return exit;
   }
+  public advanceDive(
+    previous: THREE.Vector3,
+    current: THREE.Vector3,
+    velocity: THREE.Vector3,
+    raceSeconds: number,
+  ) {
+    const recovery = this.diveState.advance(previous, current, velocity, raceSeconds);
+    if (recovery) this.diveCommitted = false;
+    if (!this.diveState.active) {
+      const p = this.track.projectMain(current).progress;
+      if (p < 0.75 || p > 0.87) {
+        this.diveState.reset();
+        this.diveCommitted = false;
+        this.diveConsidered = false;
+      }
+    }
+    return recovery;
+  }
   public project(position: THREE.Vector3): TrackProjection {
+    if (this.diveState.active) return this.track.waterfallDive.project(position, this.sampleCount);
     const billboard = this.billboardTraversal.project(position);
     if (billboard) return { ...billboard, surface: this.billboardOn ? 'static' : 'asphalt' };
     const tunnel = this.traversal.project(position);
@@ -114,7 +141,9 @@ export class RacerTrack implements TrackDefinition {
     // The joined plaza is supported asphalt before the physical ad crossing.
     // Keep main progress/path ownership until that crossing; do not apply a
     // grass penalty just because the supported side entrance leaves the ribbon.
-    return main.surface === 'grass' && this.track.billboardGap.junctionContains(position)
+    return main.surface === 'grass' &&
+      (this.track.billboardGap.junctionContains(position) ||
+        this.track.waterfallDive.junctionContains(position))
       ? { ...main, surface: 'asphalt' }
       : main;
   }
@@ -125,6 +154,9 @@ export class RacerTrack implements TrackDefinition {
   }
 
   public reset(): void {
+    this.diveState.reset();
+    this.diveCommitted = false;
+    this.diveConsidered = false;
     this.billboardCrossing = null;
     this.traversal.reset();
     this.billboardTraversal.reset();
@@ -143,6 +175,21 @@ export class RacerTrack implements TrackDefinition {
     const tunnel = this.track.serviceTunnel;
     const projection = this.project(position);
     if (projection.pathId) return;
+    const dive = this.track.waterfallDive;
+    const diveRemaining = (dive.entryProgress - projection.progress) * this.curve.getLength();
+    if (projection.progress < 0.75 || projection.progress > 0.87) {
+      this.diveCommitted = false;
+      this.diveConsidered = false;
+    }
+    if (!this.diveConsidered && allowChoice && diveRemaining >= 3 && diveRemaining <= 30) {
+      this.diveConsidered = true;
+      this.diveRandomState = (Math.imul(this.diveRandomState, 1664525) + 1013904223) >>> 0;
+      this.diveCommitted =
+        speed >= 8 &&
+        projection.lateralDistance < 2.2 &&
+        forward.dot(projection.tangent) > 0.7 &&
+        this.diveRandomState / 4294967296 < THREE.MathUtils.clamp(this.diveAttemptRate, 0, 1);
+    }
     const gap = this.track.billboardGap;
     if (this.billboardCommitted && projection.progress > gap.entry.progress[1]) {
       const approach = gap.project(position);
@@ -194,6 +241,8 @@ export class RacerTrack implements TrackDefinition {
   }
   public navigationAt(position: THREE.Vector3, distance: number): TrackNavigation {
     const projection = this.project(position);
+    if (this.diveState.active || this.diveCommitted)
+      return this.track.waterfallDive.navigationAt(position, distance);
     if (
       projection.pathId === 'billboard-gap' ||
       (this.billboardCommitted &&

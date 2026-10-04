@@ -681,6 +681,8 @@ export class KartTimeTrial {
 
     if (this.trackScene instanceof NeonGridScene)
       this.trackScene.billboard.update(this.raceDirector.raceTime());
+    if (this.trackScene instanceof NeonGridScene)
+      this.trackScene.dive.update(this.raceDirector.raceTime());
     this.updateVisuals(frameSeconds);
     this.shadows.update(
       this.kart.position(this.shadowAnchor),
@@ -776,10 +778,13 @@ export class KartTimeTrial {
     this.playerSteering = playerSpinout === null ? input.steering : 0;
     this.driverHitSeconds = Math.max(0, this.driverHitSeconds - dt);
 
-    this.kart.update(input, playerStepStartProjection.surface, dt);
+    const playerSplash = this.racerRoutes?.get('player')?.diveState.splashing === true;
+    if (playerSplash) this.kart.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    else this.kart.update(input, playerStepStartProjection.surface, dt);
     this.updateOpponents(dt);
     this.world.step();
     this.resolveKartContacts(dt);
+    let diveRecovered = false;
     if (this.track instanceof NeonGrid) {
       const raceSeconds = this.raceDirector.raceTime();
       const playerExit = this.neonRoute('player').advance(
@@ -788,6 +793,22 @@ export class KartTimeTrial {
         raceSeconds,
       );
       if (playerExit) this.kart.retainPlanarVelocity(playerExit.speedRetention);
+      const playerRecovery = this.neonRoute('player').advanceDive(
+        playerStepStart,
+        this.kart.position(),
+        this.kart.velocity(),
+        raceSeconds,
+      );
+      if (
+        !playerSplash &&
+        this.neonRoute('player').diveState.splashing &&
+        this.trackScene instanceof NeonGridScene
+      )
+        this.trackScene.dive.splash(this.kart.position(), raceSeconds);
+      if (playerRecovery) {
+        this.respawn(playerRecovery);
+        diveRecovered = true;
+      }
       const playerCrossing = this.neonRoute('player').takeBillboardCrossing();
       if (playerCrossing !== null && this.trackScene instanceof NeonGridScene)
         this.trackScene.billboard.smash(this.kart.position(), playerCrossing, raceSeconds);
@@ -798,6 +819,27 @@ export class KartTimeTrial {
           raceSeconds,
         );
         if (exit) opponent.controller.retainPlanarVelocity(exit.speedRetention);
+        const wasSplashing = this.neonRoute(opponent.id).diveState.splashing;
+        const diveRecovery = this.neonRoute(opponent.id).advanceDive(
+          opponent.stepStartPosition,
+          opponent.controller.position(),
+          opponent.controller.velocity(),
+          raceSeconds,
+        );
+        if (
+          !wasSplashing &&
+          this.neonRoute(opponent.id).diveState.splashing &&
+          this.trackScene instanceof NeonGridScene
+        )
+          this.trackScene.dive.splash(opponent.controller.position(), raceSeconds);
+        if (diveRecovery) {
+          this.recoverOpponent(
+            opponent,
+            this.racerTrack(opponent.id).project(opponent.controller.position()),
+            diveRecovery,
+          );
+          opponent.stepStartPosition.copy(opponent.controller.position());
+        }
         const crossing = this.neonRoute(opponent.id).takeBillboardCrossing();
         if (crossing !== null && this.trackScene instanceof NeonGridScene)
           this.trackScene.billboard.smash(opponent.controller.position(), crossing, raceSeconds);
@@ -812,20 +854,22 @@ export class KartTimeTrial {
       return;
     }
     const projection = this.racerTrack().project(position);
-    let playerRespawned = false;
+    let playerRespawned = diveRecovered;
     const forwardDot = this.kart.forward(this.forward).dot(projection.tangent);
     this.wrongWaySeconds = forwardDot < -0.35 ? this.wrongWaySeconds + dt : 0;
     this.outOfBoundsSeconds = projection.lateralDistance > 34 ? this.outOfBoundsSeconds + dt : 0;
 
     if (projection.lateralDistance < 10) this.lastRecoveryIndex = projection.index;
     if (
-      this.outOfBoundsSeconds > 1 ||
-      position.y < (this.track.id === 'neon-grid' ? projection.point.y - 4 : -3)
+      !this.racerRoutes?.get('player')?.diveState.active &&
+      (this.outOfBoundsSeconds > 1 ||
+        position.y < (this.track.id === 'neon-grid' ? projection.point.y - 4 : -3))
     ) {
       this.respawn();
       playerRespawned = true;
     }
-    if (!playerRespawned) this.updatePlayerProgress(playerStepStart, position, projection);
+    if (!playerRespawned && !this.racerRoutes?.get('player')?.diveState.splashing)
+      this.updatePlayerProgress(playerStepStart, position, projection);
     this.updateOpponentProgresses();
     itemCpuStart = this.startItemSimulationTiming();
     this.itemSystem.advance(dt);
@@ -933,6 +977,7 @@ export class KartTimeTrial {
     for (const opponent of this.opponents) {
       const position = opponent.controller.position();
       const projection = this.racerTrack(opponent.id).project(position);
+      if (this.racerRoutes?.get(opponent.id)?.diveState.splashing) continue;
       if (!opponent.controller.isFinite()) {
         this.recoverOpponent(opponent, projection);
         continue;
@@ -940,7 +985,8 @@ export class KartTimeTrial {
       if (
         (projection.lateralDistance > 20 ||
           position.y < (this.track.id === 'neon-grid' ? projection.point.y - 4 : -2)) &&
-        opponent.recoveryCooldown === 0
+        opponent.recoveryCooldown === 0 &&
+        !this.racerRoutes?.get(opponent.id)?.diveState.active
       ) {
         this.recoverOpponent(opponent, projection);
         continue;
@@ -972,7 +1018,11 @@ export class KartTimeTrial {
     if (this.playerProgress.finished) this.options.onStandings?.(this.resultStandings());
   }
 
-  private recoverOpponent(opponent: AiRacer, projection: TrackProjection): void {
+  private recoverOpponent(
+    opponent: AiRacer,
+    projection: TrackProjection,
+    diveRecovery?: { position: THREE.Vector3; yaw: number },
+  ): void {
     this.aiDrivingVisual?.clearRacer(opponent.id);
     this.exhaustVisual?.clearRacer(opponent.id);
     this.racerRoutes?.get(opponent.id)?.reset();
@@ -984,8 +1034,8 @@ export class KartTimeTrial {
     this.racerEffects.clearFrost(opponent.id);
     this.prismatic.clear(opponent.id);
     opponent.controller.respawn(
-      mainProjection.point.clone().addScaledVector(tangent, 3),
-      Math.atan2(tangent.x, tangent.z),
+      diveRecovery?.position ?? mainProjection.point.clone().addScaledVector(tangent, 3),
+      diveRecovery?.yaw ?? Math.atan2(tangent.x, tangent.z),
     );
     opponent.recoveryCooldown = 1.5;
   }
@@ -1083,7 +1133,9 @@ export class KartTimeTrial {
         input.brake = false;
         input.drift = false;
       }
-      opponent.controller.update(input, projection.surface, dt);
+      if (this.racerRoutes?.get(opponent.id)?.diveState.splashing)
+        opponent.controller.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
+      else opponent.controller.update(input, projection.surface, dt);
     }
   }
 
@@ -1814,7 +1866,8 @@ export class KartTimeTrial {
     return this.track instanceof NeonGrid ? this.neonRoute(id) : this.track;
   }
 
-  private respawn(): void {
+  private respawn(diveRecovery?: { position: THREE.Vector3; yaw: number }): void {
+    if (!diveRecovery && this.racerRoutes?.get('player')?.diveState.splashing) return;
     this.racerRoutes?.get('player')?.reset();
     this.playerSpeedVisual.clear();
     this.motionBlur.clear();
@@ -1832,7 +1885,10 @@ export class KartTimeTrial {
     const index = this.lastRecoveryIndex % this.track.sampleCount;
     const point = this.track.samples[index]?.clone() ?? this.track.checkpointPosition(0);
     const tangent = this.track.tangents[index]?.clone() ?? this.track.checkpointTangent(0);
-    this.kart.respawn(point.addScaledVector(tangent, 4), Math.atan2(tangent.x, tangent.z));
+    this.kart.respawn(
+      diveRecovery?.position ?? point.addScaledVector(tangent, 4),
+      diveRecovery?.yaw ?? Math.atan2(tangent.x, tangent.z),
+    );
     this.racerEffects.clearSpinout('player');
     this.racerEffects.clearFrost('player');
     this.frostVisual.dispose();

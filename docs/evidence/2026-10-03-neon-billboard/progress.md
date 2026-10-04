@@ -67,3 +67,7 @@ STOP for owner desktop/mobile visual and driving review. Step 4 first-lap phase,
 Manny approved curved early descent and wall-side frame after the first preview review. Currentgeometry/rulings/nativeevidence are relocation-review.md and relocation-native.json, superseding the12m exploratory prototype and prior7m/12×6.75m placement. OFFsaving0.483–0.633s/ON0.450–0.600s in18real native sectionruns; zero contacts/orderedgates, no hidden tuning. Fresh fullvalidation and review/publication pending. PR242draft, main/tunnel accepted behavior retained; noLFS, Dive runtime or Stage4.
 
 Final relocationlocalvalidation121files/953tests/typecheck/lint/assets/build/diffcheck PASS; frameface samplesandreviewminor fixes included. Fresh review noCritical/Important; allthreeMinor dispositions in relocation-code-review.md. Replacementpinnedpreview publication follows, no productionruntime merge.
+
+## Relocation replacement preview delivered
+
+Runtime1a1e3ad hostedCI37177729369 PASS; preview-onlyPR252 CI37177762356 PASS/merged19f617e; Pages37177890409 PASS. All22livefilesverified;8Billboard/local and14preserved/prior matched. Finaldocs/workflowreconciliation changes no runtime source or assets. Current ownerreviewlink: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-billboard/?review=1a1e3ad . Relocation-delivery.md/json records exactprovenance. STOP forowner desktop/mobileplacement/entryfeelreview; Task6Step4stillpending. PR242draft/unmerged; no productionrelease/Dive runtime/Stage4.

@@ -6,7 +6,7 @@ Strengths: open-index exclusion of closing chord; consistent curved render/nativ
 
 Minor findings and dispositions:
 
-1. Nullable diagnostic completion times could coerce tozero in savings. Fixed: reject incomplete pairs before arithmetic; supplied successful runs unaffected.
+1. Nullable diagnostic completion times could coerce tozero in savings. Fixed: reject incomplete pairs before arithmetic; supplied successful runs unaffected. Forced incomplete native runs reject without writing a savings artifact (relocation-incomplete-rejected.txt).
 2. Player passage test starts2m beforemouth with curve-following input. Renamed to describe KartController passage, not human common-road entry acceptance. Owner entryfeel remains open.
 3. Frame test checked vertices only. Extended to barycentric samples across every triangle at0.1increments, including edges/corners. This is sampled corridor clearance; continuous camera visibility remains owner review.
 

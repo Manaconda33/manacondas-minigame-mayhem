@@ -66,3 +66,7 @@ node --input-type=module < docs/evidence/2026-10-03-neon-billboard/relocation-pr
 ```
 
 Writes `/tmp/billboard-relocation-probe.json`. The source probe is throwaway analysis code; do not treat its route adapter as production implementation. Earlier comparison evidence varies only the recorded curve/clearance settings and is retained separately. The complete runtime source and assets remain unchanged.
+
+## Replacement preview publication — verified
+
+Exact runtime1a1e3ad passed hostedCI37177729369. Workflow-onlyPR252/CI37177762356 merged19f617e; Pages37177890409 validation/deploy PASS. All22livefiles HTTP200/hash/bytes PASS;8Billboardfiles matchlocalbuild and14preservedfiles matchpreviousdelivery. Review: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-billboard/?review=1a1e3ad . Full delivery provenance: relocation-delivery.md/json. Ownerreadability/drivingfeel and remainingTask6Step4gates arepending; PR242draft/unmerged andproductiongameplay unchanged.

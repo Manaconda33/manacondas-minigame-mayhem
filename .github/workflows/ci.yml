@@ -311,6 +311,65 @@ jobs:
           }, null, 2));
           JS
 
+      - name: Check out pinned Dive runtime for PR validation
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v5
+        with:
+          ref: fbff2491076542092de6b30a81646ec7b6ae84a6
+          path: neon-grid-dive-runtime
+          lfs: true
+
+      - name: Validate the exact Dive runtime before preview publication
+        if: github.event_name == 'pull_request'
+        working-directory: neon-grid-dive-runtime
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "fbff2491076542092de6b30a81646ec7b6ae84a6"
+          npm ci
+          npm run validate
+          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-dive/
+
+      - name: Check out pinned Dive visual review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v5
+        with:
+          ref: fbff2491076542092de6b30a81646ec7b6ae84a6
+          path: neon-grid-dive-preview
+
+      - name: Build Dive visual review with existing runtime assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: neon-grid-dive-preview
+        env:
+          VITE_SOURCE_COMMIT: fbff2491076542092de6b30a81646ec7b6ae84a6
+        run: |
+          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          import hashlib, shutil
+          for path in Path('public').rglob('*'):
+              if not path.is_file() or path.stat().st_size > 1024:
+                  continue
+              data = path.read_bytes()
+              if not data.startswith(b'version https://git-lfs.github.com/spec/v1\n'):
+                  continue
+              fields = dict(line.split(' ', 1) for line in data.decode().splitlines())
+              source = Path('..')/path
+              asset = source.read_bytes()
+              assert len(asset) == int(fields['size']), str(path)
+              assert hashlib.sha256(asset).hexdigest() == fields['oid'].split(':', 1)[1], str(path)
+              shutil.copyfile(source, path)
+          PYTHON
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-dive/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            feature: 'Neon Grid Stage 3 Task 7 Waterfall Dive', source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/neon-grid-dive/',
+            status: 'Task 7 owner dive feel/fairness review; accepted tunnel/billboard and production preserved; no balance or production release'
+          }, null, 2));
+          JS
+
       - name: Assemble the current game and isolated previews
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -359,6 +418,11 @@ jobs:
           test -f site-root/previews/neon-grid-billboard/index.html
           test -f site-root/previews/neon-grid-billboard/review-build.json
 
+          mkdir -p site-root/previews/neon-grid-dive
+          cp -a neon-grid-dive-preview/dist/. site-root/previews/neon-grid-dive/
+          test -f site-root/previews/neon-grid-dive/index.html
+          test -f site-root/previews/neon-grid-dive/review-build.json
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -374,13 +438,16 @@ jobs:
           billboard = root/'previews/neon-grid-billboard'
           paths += [billboard/'index.html', billboard/'review-build.json', *sorted((billboard/'assets').glob('*.js')), *sorted((billboard/'assets').glob('*.css'))]
           paths += [billboard/'assets/track/neon-grid/billboard'/name for name in ['paprika-v1.webp', 'arin-v1.webp', 'raven-v1.webp']]
+          dive = root/'previews/neon-grid-dive'
+          paths += [dive/'index.html', dive/'review-build.json', *sorted((dive/'assets').glob('*.js')), *sorted((dive/'assets').glob('*.css'))]
+          paths += [dive/'assets/track/neon-grid/billboard'/name for name in ['paprika-v1.webp', 'arin-v1.webp', 'raven-v1.webp']]
           report = []
           for path in paths:
               relative = str(path.relative_to(root))
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith('previews/'):
+              if not relative.startswith('previews/neon-grid-dive/'):
                   with urllib.request.urlopen(url, timeout=45) as response:
                       assert response.status == 200
                       assert hashlib.sha256(response.read()).hexdigest() == sha, 'Production bytes differ: ' + relative
@@ -393,7 +460,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v4
         with:
-          name: neon-grid-billboard-delivery-hashes
+          name: neon-grid-dive-delivery-hashes
           path: delivery-expected.json
 
       - name: Configure GitHub Pages
@@ -422,7 +489,7 @@ jobs:
       - name: Download exact delivery hashes
         uses: actions/download-artifact@v4
         with:
-          name: neon-grid-billboard-delivery-hashes
+          name: neon-grid-dive-delivery-hashes
 
       - name: Verify live preview and unchanged production bytes
         run: |
@@ -432,13 +499,13 @@ jobs:
           for attempt in range(12):
               try:
                   for item in report:
-                      request = urllib.request.Request(item['url'] + '?delivery=135eec2', headers={'Cache-Control': 'no-cache'})
+                      request = urllib.request.Request(item['url'] + '?delivery=dive-fbff2491076542092de6b30a81646ec7b6ae84a6', headers={'Cache-Control': 'no-cache'})
                       with urllib.request.urlopen(request, timeout=45) as response:
                           data = response.read()
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = 'fbff2491076542092de6b30a81646ec7b6ae84a6' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break
@@ -454,5 +521,5 @@ jobs:
       - name: Upload verified delivery evidence
         uses: actions/upload-artifact@v4
         with:
-          name: neon-grid-billboard-delivery-verified
+          name: neon-grid-dive-delivery-verified
           path: delivery-verified.json

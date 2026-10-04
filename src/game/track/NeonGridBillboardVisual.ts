@@ -185,7 +185,7 @@ export class NeonGridBillboardVisual {
     const state = billboardStateAt(raceSeconds);
     const phase = THREE.MathUtils.euclideanModulo(Math.max(0, raceSeconds), 6);
     const active = state.on ? (phase < 2 ? 0 : 1) : 2;
-    this.ads.forEach((portalAds) =>
+    this.ads.forEach((portalAds) => {
       portalAds.forEach((ad, i) => {
         const uniforms = ad.material.uniforms;
         if (!uniforms.time || !uniforms.tell || !uniforms.on || !uniforms.opacity) return;
@@ -194,8 +194,8 @@ export class NeonGridBillboardVisual {
         uniforms.tell.value = state.tellIntensity;
         uniforms.on.value = state.on ? 1 : 0;
         uniforms.opacity.value = state.on ? 0.72 : 0.48;
-      }),
-    );
+      });
+    });
     // ON ad rotation is distinct from the stronger 0.8s state-change tell.
     this.frameMaterial.color.setHex(state.on ? 0x58dbff : 0xffcf76);
     this.frameMaterial.color.multiplyScalar(

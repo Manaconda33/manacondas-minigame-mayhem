@@ -256,7 +256,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v5
         with:
-          ref: a2e74fb063e4249ed07de1f84e1e5a2ed13cc8c5
+          ref: 6c57e456135019e564423d2d14949b4b9ba4e05a
           path: neon-grid-billboard-runtime
           lfs: true
 
@@ -265,7 +265,7 @@ jobs:
         working-directory: neon-grid-billboard-runtime
         run: |
           git lfs fsck
-          test "$(git rev-parse HEAD)" = "a2e74fb063e4249ed07de1f84e1e5a2ed13cc8c5"
+          test "$(git rev-parse HEAD)" = "6c57e456135019e564423d2d14949b4b9ba4e05a"
           npm ci
           npm run validate
           npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-billboard/
@@ -274,14 +274,14 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v5
         with:
-          ref: a2e74fb063e4249ed07de1f84e1e5a2ed13cc8c5
+          ref: 6c57e456135019e564423d2d14949b4b9ba4e05a
           path: neon-grid-billboard-preview
 
       - name: Build Billboard visual review with existing runtime assets
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: neon-grid-billboard-preview
         env:
-          VITE_SOURCE_COMMIT: a2e74fb063e4249ed07de1f84e1e5a2ed13cc8c5
+          VITE_SOURCE_COMMIT: 6c57e456135019e564423d2d14949b4b9ba4e05a
         run: |
           test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
           python3 - <<'PYTHON'
@@ -438,7 +438,7 @@ jobs:
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = 'a2e74fb063e4249ed07de1f84e1e5a2ed13cc8c5' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = '6c57e456135019e564423d2d14949b4b9ba4e05a' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

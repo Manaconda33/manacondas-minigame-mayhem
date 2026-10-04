@@ -67,7 +67,7 @@ export function billboardExitPatch(gap: BillboardGap, positions: number[]): numb
             positions[(contour[j] ?? 0) * 3 + 1] = THREE.MathUtils.lerp(
               startY,
               join.y,
-              (distances[j] ?? 0) / total,
+              smoothJoinBlend((distances[j] ?? 0) / total),
             );
           return { contour, row: row + u, side };
         }

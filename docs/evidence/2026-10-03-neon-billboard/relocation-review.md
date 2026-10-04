@@ -1,3 +1,5 @@
+> **Owner review update — 2026-10-04 America/Chicago:** Exit/rejoin causes owner-reported stutter/wonky kart behavior; everything else looks good. Full Billboard acceptance is blocked by the exit issue. Same root cause as earlier track stutter is not established. See owner-playtest.md. No repair or Step 4 work begins in this feedback-only checkpoint.
+
 # Approved Billboard relocation — implementation checkpoint
 
 Date: 2026-10-04 UTC. Manny approved the concrete plan with “Yeah, let's go with this plan.” This supersedes the exploratory geometry below and the first preview's obstructive placement. Artwork approval and Task 5 acceptance remain intact.

@@ -19,3 +19,7 @@ Read-only placement check: visual uses gap.curve at mouthDistance19m, facing opp
 Proposed bounded visual design, pending owner agreement: fit entrance panel/frame to the actual wall opening; add a matching passable exit panel at the rejoin opening, facing approaching shortcut racers. Reuse approved16:9 art and current race-clock cues. No physical blockage or second slowdown; keep traversal/ON tax once-only, floor geometry, controller, production and tunnel unchanged. Verify both openings in chase camera, wall/frame fit, grounding, approved art/cycle and unchanged native exit motion before replacement pinned Pages delivery. No runtime implementation has begun.
 
 This feedback-only docs checkpoint changes no source, assets, workflows or served preview. PR242 remains draft/unmerged; Step4 and production release remain pending.
+
+## Design approval and handoff
+
+2026-10-04 07:00 America/Chicago: Manny approved the proposed entrance wall-opening alignment and matching passable exit billboard, then requested repository logging and implementation in a new session. See portal-design.md for the approved scope, preservation constraints and validation/delivery requirements. Visual placement remains open until the corrected preview is owner-reviewed. Smooth exit driving remains owner PASS. No implementation or deployment occurred in this approval checkpoint.

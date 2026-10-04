@@ -58,7 +58,7 @@ The tunnel's owner playtest caught entrance/exit wall-junction mismatches (7 m v
 
 ## 7. Open questions for Manny — answered 2026-10-03
 
-1. **Hologram content:** **A — in-world neon ad.** Brand: three cycling character ads from Manny's universe — **Paprika, Arin, and Raven** as in-world sponsors. [Proposal:] the ad shown correlates with flicker state — **Paprika's ad displays during the OFF window (the clean pass)**, Arin/Raven cycle during the 4 s ON window. The 0.8 s glitch tell precedes each ad switch, making the state change a readable character moment rather than an abstract flicker. Deterministic and skill-gated: see Paprika → clean pass. (Manny can reassign which character marks OFF.)
+1. **Hologram content:** **A — in-world neon ad.** Brand: three cycling character ads from Manny's universe — **Paprika, Arin, and Raven** as in-world sponsors. Confirmed by Manny during visual review 2026-10-03: the ad shown correlates with flicker state — **Paprika's ad displays during the OFF window (the clean pass)**, Arin/Raven cycle during the 4 s ON window. The 0.8 s glitch tell precedes each ad switch, making the state change a readable character moment rather than an abstract flicker. Deterministic and skill-gated: see Paprika → clean pass. Paprika OFF assignment is approved.
 2. **Initial cycle phase:** **A — tune to OFF.** Lap-1 arrival reads as a clean discovery; the tax comes later.
 3. **Plaza chord surface:** **B — subtle plaza pavers/inlay**, no gameplay effect.
 4. **AI shortcut rate:** **B — measure the tunnel's AI behavior first**, set both together.
@@ -82,3 +82,11 @@ The tunnel's owner playtest caught entrance/exit wall-junction mismatches (7 m v
 ---
 
 *Approved by Manny 2026-10-03; verified against BUILD-CONTRACT.md, the Task 6 plan, kartTuning.ts, and IMPLEMENTATION-STATUS.md; placed in the repo 2026-10-03. ChatGPT implements Task 6 against it; Paprika verifies. Then the same loop for Waterfall Dive (Task 7).*
+
+## 10. Approved visual execution — 2026-10-03 America/Chicago
+
+Manny approved individual concepts, prompts and images, then authorized exact16:9 preparation and integration. Paprika’s Pathfinder / FOLLOW YOUR CURIOSITY. is inviting OFF imagery: small upright orange fox, gray hooded cloak, white muzzle/chest/tailtip, based on supplied references. Second Life Cybernetics / STILL GOT MORE. features Arin’s weathered white-haired/bearded cybernetic identity and prominent mechanical arm. Raven’s Afterglow / BOTTLED TROUBLE. features Raven’s black hair, tattoos/jewelry, violet drink and controlled magic. These are sponsors, not playable roster additions or remaps.
+
+Final runtime derivatives2048×1152,12×6.75m passable projection at the physical7m mouth, posts outside±6m driving corridor. OFF artwork opacity0.48, ON0.72, keeping subtle road visibility. Paprika occupies2sOFF; Arin/Raven occupy2seachON. Sponsor rotation atONmidpoint is distinct from the0.8s gameplay-state glitch; strong state tells precede4s/6sboundaries. Deterministic scan/glitch and short bounded shards use race time; no audio added. Plaza uses shared exact support with subtle nonphysical inlay. Local render-wall apertures expose the existing passable joins; mainfloor/tunnel support/tuning unchanged.
+
+Manny explicitly directed normalGit/directupload for these three approved ads, superseding defaultLFS for their exact paths only. ADR106 and visual-assets.json record exceptions/hashes. Owner gameplay readability remains pending despite artwork approval. First-lapOFF tuning, savings, AIapproachfeel and finaljoint rates remain pending Step4.

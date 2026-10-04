@@ -79,6 +79,7 @@ import {
   createSelectedTrackScene,
   createSelectedTrackColliders,
 } from './track/trackCatalog';
+import { NeonGridScene } from './track/createNeonGridScene';
 import { disposeTrackScene } from './track/TrackSceneResources';
 import {
   GUARDRAIL_KART_RADIUS_METERS,
@@ -397,7 +398,13 @@ export class KartTimeTrial {
   public static async create(options: TimeTrialOptions): Promise<KartTimeTrial> {
     await RAPIER.init();
     const game = new KartTimeTrial(options);
-    await game.createKartVisual();
+    try {
+      if (game.trackScene instanceof NeonGridScene) await game.trackScene.billboard.load();
+      await game.createKartVisual();
+    } catch (error) {
+      game.dispose();
+      throw error;
+    }
     game.renderer.compile(game.playerSpeedVisual.group, game.camera, game.scene);
     game.renderer.compile(game.driftVisual.group, game.camera, game.scene);
     if (game.exhaustVisual !== undefined)
@@ -604,6 +611,7 @@ export class KartTimeTrial {
     this.nitroSurgeVisual.dispose();
     this.nitroOverdriveVisual.dispose();
     this.hyperDriveRocketVisual.dispose();
+    if (this.trackScene instanceof NeonGridScene) this.trackScene.billboard.stop();
     disposeTrackScene(this.trackScene);
     this.bloom.dispose();
     this.motionBlur.dispose();
@@ -653,6 +661,8 @@ export class KartTimeTrial {
     this.itemPerformance?.stopVfx(start);
   }
 
+  private neonVisibilityBoundary = false;
+
   private readonly frame = (now: number): void => {
     if (this.diagnosticsDisposed) return;
     const rawFrameMs = now - this.lastFrame;
@@ -661,11 +671,16 @@ export class KartTimeTrial {
     this.itemPerformance?.beginFrame(
       !this.paused && this.raceDirector.phase(this.playerProgress.finished) === 'racing',
     );
-    if (!this.paused) {
+    const hiddenNeon =
+      this.track.id === 'neon-grid' && (document.hidden || this.neonVisibilityBoundary);
+    this.neonVisibilityBoundary = false;
+    if (!this.paused && !hiddenNeon) {
       this.fixedStep.advance(frameSeconds, this.simulate);
       this.elapsed = this.raceDirector.raceTime();
     }
 
+    if (this.trackScene instanceof NeonGridScene)
+      this.trackScene.billboard.update(this.raceDirector.raceTime());
     this.updateVisuals(frameSeconds);
     this.shadows.update(
       this.kart.position(this.shadowAnchor),
@@ -773,6 +788,9 @@ export class KartTimeTrial {
         raceSeconds,
       );
       if (playerExit) this.kart.retainPlanarVelocity(playerExit.speedRetention);
+      const playerCrossing = this.neonRoute('player').takeBillboardCrossing();
+      if (playerCrossing !== null && this.trackScene instanceof NeonGridScene)
+        this.trackScene.billboard.smash(this.kart.position(), playerCrossing, raceSeconds);
       for (const opponent of this.opponents) {
         const exit = this.neonRoute(opponent.id).advance(
           opponent.stepStartPosition,
@@ -780,6 +798,9 @@ export class KartTimeTrial {
           raceSeconds,
         );
         if (exit) opponent.controller.retainPlanarVelocity(exit.speedRetention);
+        const crossing = this.neonRoute(opponent.id).takeBillboardCrossing();
+        if (crossing !== null && this.trackScene instanceof NeonGridScene)
+          this.trackScene.billboard.smash(opponent.controller.position(), crossing, raceSeconds);
       }
     }
     this.resolveGuardrailContacts(dt);
@@ -2567,6 +2588,7 @@ export class KartTimeTrial {
   }
 
   private readonly onAudioVisibilityChange = (): void => {
+    if (this.track.id === 'neon-grid') this.neonVisibilityBoundary = true;
     if (this.racePerformance) this.diagnosticsBoundary = true;
     this.raceAudio.bank.setPaused(this.paused || document.hidden);
     if (document.hidden) this.prismaticMusic.update(0, 0, 0, true);

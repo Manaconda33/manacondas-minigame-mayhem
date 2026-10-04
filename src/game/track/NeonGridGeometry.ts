@@ -181,7 +181,11 @@ function climbingPatch(track: NeonGrid, positions: number[]): number[] {
 }
 
 /** Dense shared ribbon, including wall joins; no separate approximate floor. */
-export function neonGridRibbon(track: NeonGrid, wallSide: -1 | 1 | 0 = 0): THREE.BufferGeometry {
+export function neonGridRibbon(
+  track: NeonGrid,
+  wallSide: -1 | 1 | 0 = 0,
+  billboardOpen = false,
+): THREE.BufferGeometry {
   const count = RIBBON_ROWS;
   const positions: number[] = [];
   const indices: number[] = [];
@@ -218,8 +222,11 @@ export function neonGridRibbon(track: NeonGrid, wallSide: -1 | 1 | 0 = 0): THREE
         };
         const start = i / count,
           end = (i + 1) / count;
-        const startOpen = track.serviceTunnel.junctionContains(edgeAt(start));
-        const endOpen = track.serviceTunnel.junctionContains(edgeAt(end));
+        const open = (point: THREE.Vector3) =>
+          track.serviceTunnel.junctionContains(point) ||
+          (billboardOpen && track.billboardGap.junctionContains(point));
+        const startOpen = open(edgeAt(start));
+        const endOpen = open(edgeAt(end));
         if (startOpen !== endOpen) {
           // Terminate at the actual tunnel edge, rather than removing a whole
           // midpoint-selected cell and leaving a gap or projecting a wall tip.
@@ -227,7 +234,7 @@ export function neonGridRibbon(track: NeonGrid, wallSide: -1 | 1 | 0 = 0): THREE
             high = end;
           for (let iteration = 0; iteration < 30; iteration++) {
             const middle = (low + high) / 2;
-            if (track.serviceTunnel.junctionContains(edgeAt(middle)) === startOpen) low = middle;
+            if (open(edgeAt(middle)) === startOpen) low = middle;
             else high = middle;
           }
           const first = edgeAt(startOpen ? high : start);
@@ -246,7 +253,7 @@ export function neonGridRibbon(track: NeonGrid, wallSide: -1 | 1 | 0 = 0): THREE
           junctionIndices.push(base, base + 2, base + 1, base + 1, base + 2, base + 3);
           continue;
         }
-        if (track.serviceTunnel.junctionContains(edge)) continue;
+        if (open(edge)) continue;
         const projection = track.projectMain(edge);
         // An offset loop inside another part of the same road is an internal
         // ribbon seam, not a physical wall across the drivable corridor.

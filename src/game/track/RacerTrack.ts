@@ -10,6 +10,7 @@ export class RacerTrack implements TrackDefinition {
   private readonly traversal: ShortcutTraversal;
   private readonly billboardTraversal: ShortcutTraversal;
   private billboardOn = false;
+  private billboardCrossing: boolean | null = null;
   private billboardCommitted = false;
   private billboardConsidered = false;
   private billboardRandomState: number;
@@ -85,7 +86,10 @@ export class RacerTrack implements TrackDefinition {
   ): { pathId: 'billboard-gap'; speedRetention: number } | null {
     const billboardWasActive = this.billboardTraversal.project(previous) !== null;
     const billboardActive = this.billboardTraversal.update(previous, current);
-    if (!billboardWasActive && billboardActive) this.billboardOn = billboardStateAt(raceSeconds).on;
+    if (!billboardWasActive && billboardActive) {
+      this.billboardOn = billboardStateAt(raceSeconds).on;
+      this.billboardCrossing = this.billboardOn;
+    }
     let exit = null;
     if (billboardWasActive && !billboardActive) {
       if (this.track.billboardGap.fraction(this.track.billboardGap.project(current)) > 0.9)
@@ -106,7 +110,14 @@ export class RacerTrack implements TrackDefinition {
     if (billboard) return { ...billboard, surface: this.billboardOn ? 'static' : 'asphalt' };
     return this.traversal.project(position) ?? this.track.projectMain(position);
   }
+  public takeBillboardCrossing(): boolean | null {
+    const crossing = this.billboardCrossing;
+    this.billboardCrossing = null;
+    return crossing;
+  }
+
   public reset(): void {
+    this.billboardCrossing = null;
     this.traversal.reset();
     this.billboardTraversal.reset();
     this.billboardOn = false;

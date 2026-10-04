@@ -67,6 +67,9 @@ vi.mock('three', async (importOriginal) => {
       }
     },
     TextureLoader: class {
+      loadAsync() {
+        return Promise.resolve(new actual.Texture());
+      }
       load() {
         return new actual.Texture();
       }
@@ -1235,3 +1238,26 @@ it.each(
   },
   15000,
 );
+
+it('freezes Neon race time and billboard visuals while hidden and drops the resumed wall-time interval', async () => {
+  const { game, tick, advance } = await setup('', 'neon-grid');
+  const runtime = game as unknown as {
+    raceDirector: { raceTime: () => number; advance: (seconds: number) => void };
+    trackScene: import('../src/game/track/createNeonGridScene').NeonGridScene;
+  };
+  runtime.raceDirector.advance(4);
+  advance.mockRestore();
+  tick(34);
+  const before = runtime.raceDirector.raceTime();
+  Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+  document.dispatchEvent(new Event('visibilitychange'));
+  tick(500);
+  expect(runtime.raceDirector.raceTime()).toBe(before);
+  Object.defineProperty(document, 'hidden', { configurable: true, value: false });
+  document.dispatchEvent(new Event('visibilitychange'));
+  tick(500);
+  expect(runtime.raceDirector.raceTime()).toBe(before);
+  tick(34);
+  expect(runtime.raceDirector.raceTime()).toBeGreaterThan(before);
+  game.dispose();
+});

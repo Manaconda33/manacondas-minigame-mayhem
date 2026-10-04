@@ -2,11 +2,22 @@ import * as THREE from 'three';
 import type { NeonGrid } from './NeonGrid';
 import layout from './neonGridLayout.json';
 import { serviceTunnelGeometry } from './ServiceTunnelGeometry';
+import { billboardFloorGeometry } from './NeonGridBillboard';
+import { NeonGridBillboardVisual } from './NeonGridBillboardVisual';
 import { neonGridRibbon } from './NeonGridGeometry';
 
-/** Deliberately simple driving blockout, ahead of the separate visual gate. */
-export function createNeonGridScene(track: NeonGrid): THREE.Group {
-  const group = new THREE.Group();
+export class NeonGridScene extends THREE.Group {
+  public readonly billboard: NeonGridBillboardVisual;
+  public constructor(track: NeonGrid) {
+    super();
+    this.billboard = new NeonGridBillboardVisual(track.billboardGap);
+    this.add(this.billboard.group);
+  }
+}
+
+/** Main blockout with the approved Task 6 local visual pass. */
+export function createNeonGridScene(track: NeonGrid): NeonGridScene {
+  const group = new NeonGridScene(track);
   group.name = 'neon-grid-blockout';
   const materials = [0x236b7c, 0x733059, 0x78602d].map(
     (color) => new THREE.MeshStandardMaterial({ color, roughness: 0.8, side: THREE.DoubleSide }),
@@ -23,7 +34,7 @@ export function createNeonGridScene(track: NeonGrid): THREE.Group {
   const walls = new THREE.Group();
   walls.name = 'neon-grid-walls';
   for (const side of [-1, 1] as const) {
-    const wall = new THREE.Mesh(neonGridRibbon(track, side), wallMaterial);
+    const wall = new THREE.Mesh(neonGridRibbon(track, side, true), wallMaterial);
     wall.name = `neon-grid-wall-${String(side)}`;
     walls.add(wall);
   }
@@ -42,6 +53,47 @@ export function createNeonGridScene(track: NeonGrid): THREE.Group {
     tunnelGroup.add(mesh);
   }
   group.add(tunnelGroup);
+  const plaza = new THREE.Mesh(
+    billboardFloorGeometry(track.billboardGap),
+    new THREE.MeshStandardMaterial({
+      color: 0x34485e,
+      roughness: 0.75,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+    }),
+  );
+  plaza.name = 'billboard-plaza';
+  plaza.receiveShadow = true;
+  group.add(plaza);
+  // Subtle inset grid, without moving or changing the shared support surface.
+  const gap = track.billboardGap,
+    length = gap.curve.getLength();
+  const t = gap.curve.getTangentAt(0),
+    right = new THREE.Vector3(t.z, 0, -t.x).normalize();
+  const lines: number[] = [];
+  for (let d = 0; d <= length; d += 3) {
+    const p = gap.curve.getPointAt(d / length);
+    p.y += 0.012;
+    lines.push(
+      ...p.clone().addScaledVector(right, -6).toArray(),
+      ...p.clone().addScaledVector(right, 6).toArray(),
+    );
+  }
+  for (const lane of [-3, 0, 3]) {
+    const a = gap.curve.getPointAt(0).addScaledVector(right, lane),
+      b = gap.curve.getPointAt(1).addScaledVector(right, lane);
+    a.y += 0.012;
+    b.y += 0.012;
+    lines.push(...a.toArray(), ...b.toArray());
+  }
+  const inlay = new THREE.LineSegments(
+    new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(lines, 3)),
+    new THREE.LineBasicMaterial({ color: 0x7893a8, transparent: true, opacity: 0.35 }),
+  );
+  inlay.name = 'billboard-plaza-inlay';
+  group.add(inlay);
   const padMaterial = new THREE.MeshStandardMaterial({
     color: 0x37e6ff,
     emissive: 0x37e6ff,

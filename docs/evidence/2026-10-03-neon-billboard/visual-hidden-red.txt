@@ -1,0 +1,33 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+ ❯ tests/race-diagnostics-routing.test.ts (38 tests | 1 failed | 37 skipped) 335ms
+   × freezes Neon race time and billboard visuals while hidden and drops the resumed wall-time interval 334ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > freezes Neon race time and billboard visuals while hidden and drops the resumed wall-time interval
+AssertionError: expected 1.1333333333333329 to be 1.0333333333333332 // Object.is equality
+
+- Expected
++ Received
+
+- 1.0333333333333332
++ 1.1333333333333329
+
+ ❯ tests/race-diagnostics-routing.test.ts:1255:43
+    1253|   document.dispatchEvent(new Event('visibilitychange'));
+    1254|   tick(500);
+    1255|   expect(runtime.raceDirector.raceTime()).toBe(before);
+       |                                           ^
+    1256|   Object.defineProperty(document, 'hidden', { configurable: true, valu…
+    1257|   document.dispatchEvent(new Event('visibilitychange'));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 37 skipped (38)
+   Start at  19:40:11
+   Duration  1.80s (transform 633ms, setup 0ms, import 827ms, tests 335ms, environment 513ms)

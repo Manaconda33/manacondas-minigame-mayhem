@@ -40,3 +40,17 @@ STOP for Manny’s requested visual-execution conversation. Agree the hologram/a
 ## Saved checkpoint / hosted verification
 
 Runtime/source checkpoint: ee687a5225bf2ef14a2b799958aa7b7011e66f7c; parentbc40809; local/remote treec84b3c1e4bb7a619a00baf2e816bd62ce506e874 matched exactly. All25 source/evidence/governance blobs compared to local Git blob IDs; source-hashes and clean fetched checkout verified. Full validation119files/937tests/typecheck/lint/assets/build PASS; staged diff check and LFS fsck PASS. Hosted exact-runtime CI37168707541 SUCCESS; validate SUCCESS/deploy SKIPPED. Main28889be and pinned tunnel preview unchanged; PR242 stilldraft/open/unmerged. Final record adds docs only, source hashes/runtime unaffected. STOP beforeStep3.
+
+## Step3 — visual approval and integration
+
+Manny completed the requested discussion, individually approved three reference-guided sponsor artworks, confirmed PaprikaOFF and common16:9, then approved preparation/integration. Explicit subsequent normalGit/directupload instruction overrides LFS for the3exactpaths (ADR106). No reuse of earlier unapproved Paprika unclothedprompt or panoramicArin.
+
+Ruling: Arin→Raven midpoint rotation is a normal ad switch, not a strong state-glitch warning — avoids teaching a falseOFFtransition; cost if wrong is adtransitionpolish. Ruling: instantiate billboard at the existingphysical7mmouth,12×6.75m — aligns visualandownership whilekeepingpostsoutsidecorridor; cost if wrong is sceneplacementreview.
+
+Plaza shares exactnativefloor; inlay has no gameplayeffect. Render-wallopenings are opt-in forvisiblewalls only; floor/sharednativegeometry and acceptedtunnel unchanged. Three hidden/visiblematerials ownallads so standardresourcecleanup disposesalltextures. Preloading allthreeawaitssettlement, failurescleanupruntime rather than silentlyshowingblankads. Same race-timecycle ownsstate/tells/shards; crossing queueconsumedonceindependentlyofexitretention. Poolcaps8×12shards,0.55slifetime, noaudioscope.
+
+Independent review found Important upstreammirroredcopy and hiddenclockgap; both reproducedRED→GREEN. Facingtest verifiesupstreamnormal; actualruntimehidden/resumetest dropshiddenintervalwithoutAlpha-timingchanges. Inactiveparticlefinite-matrixdefect caughtandfixedRED→GREEN. Evidence visual-facing-red.txt/visual-hidden-red.txt, visual-red.txt. No other Critical/Important/Minor findings reported.
+
+Step4firstlapOFFphase, pack/playerarrival, pairedsaving/AIfeel/finaljoint rates remainPENDING. Dive/all8routes and Stage4 remaingated. Task5acceptedgameplay and PR242draft/unmerged preserved. Ownerpreviewreadability/device review remainsseparatefromartapproval.
+
+Final Step3 local validation:120files/944tests,typecheck,zero-warninglint,allassetgates,build,diffcheck,LFSfsck PASS. Existing npmproxy and Vitelargechunk notices only. Assetnegativeprobe rejectsone-bitcorruption. Localbrowserrender unavailable: Chromiummissing anddownloadfailed; noWebGL/device/readabilityacceptance claimed. PinnedPagesdelivery andownerreview are next.

@@ -256,14 +256,14 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v5
         with:
-          ref: 1a1e3ad9d0c5825130d392681c89f1f6ad521a51
+          ref: f05ea6787e8eff760b23a31adab6e31a1214a167
           path: neon-grid-billboard-preview
 
       - name: Build Billboard visual review with existing runtime assets
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: neon-grid-billboard-preview
         env:
-          VITE_SOURCE_COMMIT: 1a1e3ad9d0c5825130d392681c89f1f6ad521a51
+          VITE_SOURCE_COMMIT: f05ea6787e8eff760b23a31adab6e31a1214a167
         run: |
           test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
           python3 - <<'PYTHON'
@@ -287,9 +287,9 @@ jobs:
           node --input-type=module - <<'JS'
           import { writeFileSync } from 'node:fs';
           writeFileSync('dist/review-build.json', JSON.stringify({
-            feature: 'Neon Grid Stage 3 Task 6 Billboard relocation', source: process.env.VITE_SOURCE_COMMIT,
+            feature: 'Neon Grid Stage 3 Task 6 Billboard exit support repair', source: process.env.VITE_SOURCE_COMMIT,
             base: '/manacondas-minigame-mayhem/previews/neon-grid-billboard/',
-            status: 'Task 6 wall-side relocation owner review; Step 4 balance pending; no production release'
+            status: 'Task 6 focused exit retest; remainder review preserved; Step 4 pending; no production release'
           }, null, 2));
           JS
 
@@ -414,13 +414,13 @@ jobs:
           for attempt in range(12):
               try:
                   for item in report:
-                      request = urllib.request.Request(item['url'] + '?delivery=1a1e3ad', headers={'Cache-Control': 'no-cache'})
+                      request = urllib.request.Request(item['url'] + '?delivery=f05ea67', headers={'Cache-Control': 'no-cache'})
                       with urllib.request.urlopen(request, timeout=45) as response:
                           data = response.read()
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = '1a1e3ad9d0c5825130d392681c89f1f6ad521a51' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = 'f05ea6787e8eff760b23a31adab6e31a1214a167' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

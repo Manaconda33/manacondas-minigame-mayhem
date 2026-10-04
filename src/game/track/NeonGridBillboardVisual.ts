@@ -96,12 +96,12 @@ function apertureCrossing(
   const last = boundary(runEnd + 1, runEnd);
   const width = Math.hypot(last.point.x - first.point.x, last.point.z - first.point.z);
   if (width < 1) throw new Error(`Billboard ${end} wall opening is too narrow`);
-  const middleProgress = (first.progress + last.progress) / 2;
-  const position = wallPointAt(middleProgress);
+  const tangent = last.point.clone().sub(first.point).setY(0).normalize();
+  const position = first.point.clone().lerp(last.point, 0.5);
   position.y = gap.project(position).point.y;
   return {
     position,
-    tangent: gap.track.curve.getTangentAt(middleProgress).setY(0).normalize(),
+    tangent,
     approachTangent,
     distance: crossingDistance,
     width,
@@ -187,12 +187,12 @@ export class NeonGridBillboardVisual {
       }
       const frame = new THREE.Group();
       frame.name = name === 'entrance' ? 'billboard-frame' : 'billboard-exit-frame';
-      for (const x of [-artWidth / 2 + 0.09, artWidth / 2 - 0.09]) {
+      for (const x of [-artWidth / 2 + 0.45, artWidth / 2 - 0.45]) {
         const post = new THREE.Mesh(new THREE.BoxGeometry(0.18, artHeight + 0.2, 0.18), this.frameMaterial);
         post.position.set(x, artHeight / 2, 0);
         frame.add(post);
       }
-      const top = new THREE.Mesh(new THREE.BoxGeometry(artWidth, 0.18, 0.18), this.frameMaterial);
+      const top = new THREE.Mesh(new THREE.BoxGeometry(Math.max(0.1, artWidth - 0.72), 0.18, 0.18), this.frameMaterial);
       top.position.y = artHeight + 0.1;
       frame.add(top);
       portal.add(frame);

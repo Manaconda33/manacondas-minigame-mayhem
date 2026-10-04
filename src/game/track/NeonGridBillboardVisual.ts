@@ -97,8 +97,10 @@ function apertureCrossing(
   const width = Math.hypot(last.point.x - first.point.x, last.point.z - first.point.z);
   if (width < 1) throw new Error(`Billboard ${end} wall opening is too narrow`);
   const middleProgress = (first.progress + last.progress) / 2;
+  const position = wallPointAt(middleProgress);
+  position.y = gap.project(position).point.y;
   return {
-    position: first.point.clone().lerp(last.point, 0.5),
+    position,
     tangent: gap.track.curve.getTangentAt(middleProgress).setY(0).normalize(),
     approachTangent,
     distance: crossingDistance,
@@ -141,8 +143,12 @@ export class NeonGridBillboardVisual {
       portal.name = `billboard-portal-${name}`;
       portal.position.copy(crossing.position);
       const wallTangent = crossing.tangent.clone();
-      if (wallTangent.dot(crossing.approachTangent) > 0) wallTangent.negate();
-      portal.rotation.y = Math.atan2(wallTangent.x, wallTangent.z);
+      portal.rotation.y = Math.atan2(-wallTangent.z, wallTangent.x);
+      const front = new THREE.Vector3(0, 0, 1).applyAxisAngle(
+        new THREE.Vector3(0, 1, 0),
+        portal.rotation.y,
+      );
+      if (front.dot(crossing.approachTangent) > 0) portal.rotation.y += Math.PI;
       const portalAds: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>[] = [];
       const artWidth = crossing.width;
       const artHeight = (artWidth * 9) / 16;
@@ -181,12 +187,12 @@ export class NeonGridBillboardVisual {
       }
       const frame = new THREE.Group();
       frame.name = name === 'entrance' ? 'billboard-frame' : 'billboard-exit-frame';
-      for (const x of [-artWidth / 2 - 0.06, artWidth / 2 + 0.06]) {
+      for (const x of [-artWidth / 2 + 0.09, artWidth / 2 - 0.09]) {
         const post = new THREE.Mesh(new THREE.BoxGeometry(0.18, artHeight + 0.2, 0.18), this.frameMaterial);
         post.position.set(x, artHeight / 2, 0);
         frame.add(post);
       }
-      const top = new THREE.Mesh(new THREE.BoxGeometry(artWidth + 0.3, 0.18, 0.18), this.frameMaterial);
+      const top = new THREE.Mesh(new THREE.BoxGeometry(artWidth, 0.18, 0.18), this.frameMaterial);
       top.position.y = artHeight + 0.1;
       frame.add(top);
       portal.add(frame);

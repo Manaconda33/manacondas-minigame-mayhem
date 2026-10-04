@@ -181,12 +181,15 @@ it('fits each hologram between the measured wall-opening endpoints', () => {
       if (current && i === (current.at(-1) ?? -2) + 1) current.push(i);
       else runs.push([i]);
     }
-    const run = runs.sort((a, b) =>
-      Math.abs((a[0]! + a.at(-1)!) / 2 - steps / 2) -
-      Math.abs((b[0]! + b.at(-1)!) / 2 - steps / 2),
+    const runCenter = (run: number[]) => ((run.at(0) ?? steps) + (run.at(-1) ?? steps)) / 2;
+    const run = runs.sort(
+      (a, b) => Math.abs(runCenter(a) - steps / 2) - Math.abs(runCenter(b) - steps / 2),
     )[0];
+    const runStart = run?.at(0);
+    const runEnd = run?.at(-1);
     expect(run, `${portalName} must sit at a real wall opening`).toBeDefined();
-    if (!run) throw new Error('Missing measured wall opening');
+    if (runStart === undefined || runEnd === undefined)
+      throw new Error('Missing measured wall opening');
     const boundary = (outsideIndex: number, insideIndex: number) => {
       let outside = start + ((end - start) * outsideIndex) / steps;
       let inside = start + ((end - start) * insideIndex) / steps;
@@ -198,8 +201,8 @@ it('fits each hologram between the measured wall-opening endpoints', () => {
       }
       return edgeAt((outside + inside) / 2);
     };
-    const openingStart = boundary(run[0]! - 1, run[0]!);
-    const openingEnd = boundary(run.at(-1)! + 1, run.at(-1)!);
+    const openingStart = boundary(runStart - 1, runStart);
+    const openingEnd = boundary(runEnd + 1, runEnd);
     const adWidth = ad.geometry.parameters.width;
     const left = ad.localToWorld(new THREE.Vector3(-adWidth / 2, 0, 0));
     const right = ad.localToWorld(new THREE.Vector3(adWidth / 2, 0, 0));

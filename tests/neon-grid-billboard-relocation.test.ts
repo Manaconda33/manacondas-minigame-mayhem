@@ -256,14 +256,14 @@ it('keeps the supported plaza approach asphalt without selecting a route before 
 it('eases the shortcut height into the main-track join without a sharp start or stop', () => {
   expect(smoothJoinBlend(0)).toBe(0);
   expect(smoothJoinBlend(1)).toBe(1);
-  expect(smoothJoinBlend(0.5)).toBeCloseTo(0.375, 6);
-  expect(smoothJoinBlend(0.01)).toBeLessThan(0.001);
-  expect(1 - smoothJoinBlend(0.99)).toBeLessThan(0.001);
+  expect(smoothJoinBlend(0.5)).toBeCloseTo(0.5, 6);
+  expect(smoothJoinBlend(0.005)).toBeLessThan(0.001);
+  expect(1 - smoothJoinBlend(0.995)).toBeLessThan(0.001);
   let maximumGradeScale = 0;
   for (let i = 0; i < 1000; i++)
     maximumGradeScale = Math.max(
       maximumGradeScale,
       (smoothJoinBlend((i + 1) / 1000) - smoothJoinBlend(i / 1000)) * 1000,
     );
-  expect(maximumGradeScale).toBeLessThan(1.12);
+  expect(maximumGradeScale).toBeLessThan(1.03);
 });

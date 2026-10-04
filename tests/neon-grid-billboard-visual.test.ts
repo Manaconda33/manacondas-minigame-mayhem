@@ -114,7 +114,10 @@ it('faces both portal ads toward racers approaching each opening', () => {
     const ad = requireValue(scene.getObjectByName(adName)) as THREE.Mesh;
     const front = new THREE.Vector3(0, 0, 1).transformDirection(ad.matrixWorld);
     const fraction = track.billboardGap.fraction(track.billboardGap.project(portal.position));
-    expect(front.dot(track.billboardGap.curve.getTangentAt(fraction))).toBeLessThan(-0.99);
+    const approach = track.billboardGap.curve.getTangentAt(fraction);
+    const wall = track.projectMain(portal.position).tangent;
+    expect(front.dot(approach)).toBeLessThan(0);
+    expect(Math.abs(front.dot(wall))).toBeGreaterThan(0.99);
   }
 });
 

@@ -23,31 +23,33 @@ describe('Billboard visible route and race-time cues', () => {
     expect(visual).toBeDefined();
     visual.update(0);
     expect(scene.getObjectByName('billboard-ad-arin')?.visible).toBe(true);
-    visual.update(2);
+    visual.update(1);
+    expect(scene.getObjectByName('billboard-ad-paprika')?.visible).toBe(true);
+    visual.update(2.4);
     expect(scene.getObjectByName('billboard-ad-raven')?.visible).toBe(true);
-    visual.update(4);
+    visual.update(1);
     expect(scene.getObjectByName('billboard-ad-paprika')?.visible).toBe(true);
     const mesh = scene.getObjectByName('billboard-ad-paprika') as THREE.Mesh<
       THREE.PlaneGeometry,
       THREE.ShaderMaterial
     >;
     expect(mesh.material.uniforms.opacity?.value).toBeLessThan(0.6);
-    visual.smash(new THREE.Vector3(), false, 4);
-    visual.update(4.3);
+    visual.smash(new THREE.Vector3(), false, 1);
+    visual.update(1.3);
     const shards = scene.getObjectByName('billboard-shards') as THREE.InstancedMesh;
     const frozen = new THREE.Matrix4();
     shards.getMatrixAt(0, frozen);
-    visual.update(4.3);
+    visual.update(1.3);
     const next = new THREE.Matrix4();
     shards.getMatrixAt(0, next);
     expect(next.equals(frozen)).toBe(true);
-    visual.update(5);
+    visual.update(2);
     expect(shards.visible).toBe(false);
-    expect(mesh.material.uniforms.time?.value).toBe(5);
-    visual.update(5.6);
+    expect(mesh.material.uniforms.time?.value).toBe(2);
+    visual.update(2);
     expect(mesh.material.uniforms.tell?.value).toBeCloseTo(0.5);
-    for (let i = 0; i < 100; i++) visual.smash(new THREE.Vector3(), true, 6);
-    visual.update(6.1);
+    for (let i = 0; i < 100; i++) visual.smash(new THREE.Vector3(), true, 2.4);
+    visual.update(2.5);
     expect(shards.count).toBeLessThanOrEqual(96);
   });
   it('announces a crossing once at the physical mouth, independently of the exit penalty', () => {
@@ -59,10 +61,10 @@ describe('Billboard visible route and race-time cues', () => {
     route.advance(at(gap.mouthDistance - 1), at(gap.mouthDistance + 1), 0);
     expect(route.takeBillboardCrossing()).toBe(true);
     expect(route.takeBillboardCrossing()).toBeNull();
-    route.advance(at(gap.mouthDistance + 1), at(gap.mouthDistance + 2), 4);
+    route.advance(at(gap.mouthDistance + 1), at(gap.mouthDistance + 2), 1);
     expect(route.takeBillboardCrossing()).toBeNull();
     route.reset();
-    route.advance(at(gap.mouthDistance - 1), at(gap.mouthDistance + 1), 4);
+    route.advance(at(gap.mouthDistance - 1), at(gap.mouthDistance + 1), 1);
     expect(route.takeBillboardCrossing()).toBe(false);
     route.reset();
     expect(route.takeBillboardCrossing()).toBeNull();

@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.20; approved governance amendment 2.21
+Version 1.1 - Final approved baseline; approved implementation amendment 2.23
 
 August 16, 2026
 
@@ -3142,3 +3142,11 @@ The reviewed contract and coordinate authority are docs/design/neon-grid/BUILD-C
 Normal-route lap target is 62–68 seconds, subject to actual driving evidence. Full-hairpin tunnel savings must be measured and supersede the former 1.0–1.4-second target. Compare paired same-driver shortcut runs; do not weaken the approved hairpins or add a hidden speed cap to fit old targets. Tokens and collection counters are excluded. Use unique Neon Grid race/final-lap audio filenames without replacing accepted music. Route identity persists through selection, restart, replay, minimap and Results. Assets/audio retain separate approval gates. Publish pinned GitHub Pages previews at the plan’s owner review checkpoints. No production merge/deployment is authorized until visual acceptance and explicit release direction.
 
 This is a reviewed design contract, not evidence of runtime collision, physics, race, timing or device performance acceptance. Slice 6 remains active; diagnostics remain deferred and context-loss recovery remains waived.
+
+## Approved implementation amendment 2.23 - Neon Grid shortcut balance candidate
+
+Approved October 5, 2026. Neon Grid Circuit 02 uses seeded default AI shortcut attempt rates of **5% Service Tunnel / 45% Billboard / 12% Waterfall Dive**. The Billboard six-second race-time cycle receives a **+3.6 second phase offset**, placing the measured first-lap OFF discovery window at approximately **30.4–32.4 race seconds** for the existing reference approaches. The Billboard retains its once-only **0.82 ON/static exit retention**.
+
+The approved Billboard balance candidate adds exactly one modest standard boost pad inside the shortcut after physical commitment and before rejoin. Use the existing track boost behavior rather than changing kart statistics or global physics. Paired same-driver measurements target approximately **0.8–1.0 s OFF savings**, **0.5–0.6 s ON savings**, and **0.25–0.4 s real ON/OFF tell value**. If the boost pad alone does not establish that separation, report the miss and stop for owner decision; do not change 0.82 unilaterally.
+
+Waterfall Dive miss recovery remains forgiving and unchanged: the approximately **1.5 race-second** splash/recovery forfeits the shortcut reward but is not required to cost position versus the main line. No Tunnel/Dive geometry, repaired 5.3 faces, items, racer statistics, or Stage 4 scope is authorized by this amendment.

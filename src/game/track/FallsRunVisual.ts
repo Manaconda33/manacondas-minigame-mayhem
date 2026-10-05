@@ -377,7 +377,7 @@ function createCity(track: NeonGrid, quality: GraphicsQuality): THREE.Group {
     const vertical = 0.14 + repeatable(index, 7) * 0.72;
     const facadeCenter = tower.point
       .clone()
-      .addScaledVector(tower.right, tower.side * (tower.lateral - tower.depth * 0.5 - 0.04));
+      .addScaledVector(tower.right, tower.side * (tower.lateral - tower.width * 0.5 - 0.04));
     facadeCenter.y = -4 + tower.height * vertical;
     facadeCenter.addScaledVector(tower.tangent, across * tower.width * 0.72);
     dummy.position.copy(facadeCenter);
@@ -452,7 +452,7 @@ function createAmbientWaterfalls(track: NeonGrid): {
         .clone()
         .addScaledVector(pose.right, side * (track.halfWidthAt(progress) + 0.42));
       point.y -= height / 2 + 0.02;
-      placements.push({ point, yaw: pose.yaw, width, height });
+      placements.push({ point, yaw: pose.yaw + Math.PI / 2, width, height });
     }
   }
 

@@ -64,7 +64,7 @@
     };
     window.renderFrame();
     window.ready = true;
-    window.measureFrames = async (count = 360, warmup = 60, task8Visible = true) => {
+    window.measureFrames = async (count = 360, warmup = 60, task8Visible = true, bloomEnabled = true) => {
       const samples = [];
       g.trackScene.fallsRun.group.visible = task8Visible;
       let previous = performance.now();
@@ -78,7 +78,8 @@
           g.trackScene.dive.update(i / 60);
           g.updateVisuals(1 / 60);
           g.renderer.info.reset();
-          g.bloom.render(g.scene, g.camera);
+          if (bloomEnabled) g.bloom.render(g.scene, g.camera);
+          else g.renderer.render(g.scene, g.camera);
           g.motionBlur.render(false);
           if (i >= warmup && Number.isFinite(frameMs) && frameMs > 0) samples.push(frameMs);
         }

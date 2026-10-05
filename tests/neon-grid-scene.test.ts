@@ -2,6 +2,10 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { NeonGrid } from '../src/game/track/NeonGrid';
 import { createNeonGridScene } from '../src/game/track/createNeonGridScene';
+import {
+  fallsRunEdgeGeometry,
+  fallsRunWallCladdingGeometry,
+} from '../src/game/track/FallsRunVisual';
 import { disposeTrackScene } from '../src/game/track/TrackSceneResources';
 
 function requireInstanced(root: THREE.Object3D, name: string): THREE.InstancedMesh {
@@ -10,21 +14,17 @@ function requireInstanced(root: THREE.Object3D, name: string): THREE.InstancedMe
   return object as THREE.InstancedMesh;
 }
 
-function expectFiniteInstances(object: THREE.Object3D): void {
-  expect(object).toBeInstanceOf(THREE.InstancedMesh);
-  if (!(object instanceof THREE.InstancedMesh)) return;
+function expectFiniteInstances(mesh: THREE.InstancedMesh): void {
   const matrix = new THREE.Matrix4();
-  for (let i = 0; i < object.count; i++) {
-    object.getMatrixAt(i, matrix);
+  for (let i = 0; i < mesh.count; i++) {
+    mesh.getMatrixAt(i, matrix);
     for (const value of matrix.elements) expect(Number.isFinite(value)).toBe(true);
   }
 }
 
-function expectTrianglesAvoidDiveJunction(object: THREE.Object3D | undefined, track: NeonGrid): void {
-  expect(object).toBeInstanceOf(THREE.Mesh);
-  if (!(object instanceof THREE.Mesh)) return;
-  const position = object.geometry.getAttribute('position');
-  const index = object.geometry.index;
+function expectGeometryAvoidDiveJunction(geometry: THREE.BufferGeometry, track: NeonGrid): void {
+  const position = geometry.getAttribute('position');
+  const index = geometry.index;
   expect(index).not.toBeNull();
   if (!index) return;
 
@@ -67,6 +67,7 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     expect(requireInstanced(scene, 'falls-run-cross-braces').count).toBe(22);
     expect(requireInstanced(scene, 'falls-run-city-towers').count).toBe(24);
     expect(requireInstanced(scene, 'falls-run-city-windows').count).toBe(320);
+    expect(requireInstanced(scene, 'falls-run-city-roof-lights').count).toBe(24);
     expect(requireInstanced(scene, 'falls-run-ambient-waterfalls').count).toBe(12);
     expect(requireInstanced(scene, 'falls-run-waterfall-lips').count).toBe(12);
     expect(requireInstanced(scene, 'falls-run-ambient-mist').count).toBe(32);
@@ -79,17 +80,10 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
 
   it('keeps the accepted Waterfall Dive wall opening clear of Task 8 cladding and neon rails', () => {
     const track = new NeonGrid();
-    const scene = createNeonGridScene(track, 'medium');
+    const geometries = [fallsRunWallCladdingGeometry(track), fallsRunEdgeGeometry(track)];
 
-    for (const name of [
-      'falls-run-wall-cladding',
-      'falls-run-luminous-edges',
-      'falls-run-luminous-top-rails',
-    ]) {
-      expectTrianglesAvoidDiveJunction(scene.getObjectByName(name), track);
-    }
-
-    disposeTrackScene(scene);
+    for (const geometry of geometries) expectGeometryAvoidDiveJunction(geometry, track);
+    for (const geometry of geometries) geometry.dispose();
   });
 
   it('quality-scales only the approved expensive dressing and skips wet streaks on Low', () => {
@@ -119,11 +113,26 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     const task8 = scene.getObjectByName('falls-run-visual');
     expect(task8).toBeDefined();
 
+    for (const name of [
+      'falls-run-pylons',
+      'falls-run-cross-braces',
+      'falls-run-city-towers',
+      'falls-run-city-windows',
+      'falls-run-city-roof-lights',
+      'falls-run-ambient-waterfalls',
+      'falls-run-waterfall-lips',
+      'falls-run-ambient-mist',
+      'falls-run-plunge-spray',
+      'falls-run-neon-signage',
+      'falls-run-dive-rail-debris',
+    ]) {
+      expectFiniteInstances(requireInstanced(scene, name));
+    }
+
     let textures = 0;
     let lights = 0;
     task8?.traverse((object) => {
       if (object instanceof THREE.Light) lights += 1;
-      if (object instanceof THREE.InstancedMesh) expectFiniteInstances(object);
       if (!(object instanceof THREE.Mesh || object instanceof THREE.Line)) return;
       const materials = Array.isArray(object.material) ? object.material : [object.material];
       for (const material of materials) {

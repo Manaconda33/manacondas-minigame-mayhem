@@ -74,7 +74,7 @@ function segmentCrossesDiveOpening(
   );
 }
 
-function edgeGeometry(track: NeonGrid): THREE.BufferGeometry {
+export function fallsRunEdgeGeometry(track: NeonGrid): THREE.BufferGeometry {
   const positions: number[] = [];
   const indices: number[] = [];
   const thickness = 0.09;
@@ -105,7 +105,7 @@ function edgeGeometry(track: NeonGrid): THREE.BufferGeometry {
     .setIndex(indices);
 }
 
-function wallCladdingGeometry(track: NeonGrid): THREE.BufferGeometry {
+export function fallsRunWallCladdingGeometry(track: NeonGrid): THREE.BufferGeometry {
   const positions: number[] = [];
   const indices: number[] = [];
   for (const side of [-1, 1]) {
@@ -642,7 +642,7 @@ export class FallsRunVisual {
     }
 
     const wallCladding = new THREE.Mesh(
-      wallCladdingGeometry(track),
+      fallsRunWallCladdingGeometry(track),
       new THREE.MeshStandardMaterial({
         color: 0x08131d,
         roughness: 0.48,
@@ -655,11 +655,11 @@ export class FallsRunVisual {
 
     const edgeMaterial = new THREE.MeshBasicMaterial({ color: CYAN });
     markBloomMaterial(edgeMaterial, 'color');
-    const edges = new THREE.Mesh(edgeGeometry(track), edgeMaterial);
+    const edges = new THREE.Mesh(fallsRunEdgeGeometry(track), edgeMaterial);
     edges.name = 'falls-run-luminous-edges';
     this.group.add(edges);
 
-    const topRailGeometry = edgeGeometry(track);
+    const topRailGeometry = fallsRunEdgeGeometry(track);
     topRailGeometry.translate(0, 1.34, 0);
     const topRails = new THREE.Mesh(topRailGeometry, edgeMaterial);
     topRails.name = 'falls-run-luminous-top-rails';

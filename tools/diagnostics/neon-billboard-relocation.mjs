@@ -52,7 +52,7 @@ try {
           );
           world.step();
           // Isolate fixed ON/OFF outcomes. This does not establish first-lap cycle timing.
-          const event = route.advance(before, kart.position(), mode === 'on' ? 0 : 4);
+          const event = route.advance(before, kart.position(), mode === 'on' ? 0 : 1);
           if (event) {
             exits++;
             kart.retainPlanarVelocity(event.speedRetention);

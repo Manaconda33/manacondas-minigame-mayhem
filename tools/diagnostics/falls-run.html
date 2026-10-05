@@ -64,21 +64,26 @@
     };
     window.renderFrame();
     window.ready = true;
-    window.measureFrames = async (count = 360, warmup = 60) => {
+    window.measureFrames = async (count = 360, warmup = 60, task8Visible = true) => {
       const samples = [];
+      g.trackScene.fallsRun.group.visible = task8Visible;
       let previous = performance.now();
-      for (let i = 0; i < count + warmup; i++) {
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        const now = performance.now();
-        const frameMs = now - previous;
-        previous = now;
-        g.trackScene.fallsRun.update(i / 60);
-        g.trackScene.dive.update(i / 60);
-        g.updateVisuals(1 / 60);
-        g.renderer.info.reset();
-        g.bloom.render(g.scene, g.camera);
-        g.motionBlur.render(false);
-        if (i >= warmup && Number.isFinite(frameMs) && frameMs > 0) samples.push(frameMs);
+      try {
+        for (let i = 0; i < count + warmup; i++) {
+          await new Promise((resolve) => requestAnimationFrame(resolve));
+          const now = performance.now();
+          const frameMs = now - previous;
+          previous = now;
+          if (task8Visible) g.trackScene.fallsRun.update(i / 60);
+          g.trackScene.dive.update(i / 60);
+          g.updateVisuals(1 / 60);
+          g.renderer.info.reset();
+          g.bloom.render(g.scene, g.camera);
+          g.motionBlur.render(false);
+          if (i >= warmup && Number.isFinite(frameMs) && frameMs > 0) samples.push(frameMs);
+        }
+      } finally {
+        g.trackScene.fallsRun.group.visible = true;
       }
       const sorted = [...samples].sort((a, b) => a - b);
       const fps = sorted.map((ms) => 1000 / ms).sort((a, b) => a - b);

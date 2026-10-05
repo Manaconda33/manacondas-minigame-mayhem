@@ -1,0 +1,119 @@
+{
+  "date": "2026-10-05",
+  "runtime": "c71b2287b463f6a17645d664d3307d6b591561bf",
+  "ci_run": 37352477495,
+  "method": "Production NeonGrid/RacerTrack/AiDriver/KartController/native colliders; paired main/OFF/ON sections from progress 0.07 to common downstream plane 0.236; same character, initial speed and settings; one standard boost surface inside Billboard at gap fraction 0.93; ON retains existing once-only 0.82 exit retention.",
+  "approved": {
+    "aiAttemptRates": {
+      "tunnel": 0.05,
+      "billboard": 0.45,
+      "dive": 0.12
+    },
+    "billboardPhaseOffsetSeconds": 3.6,
+    "billboardFirstOffWindowSeconds": [
+      30.4,
+      32.4
+    ],
+    "diveRecoverySeconds": 1.5,
+    "staticExitRetention": 0.82
+  },
+  "targets": {
+    "offSavingSeconds": [
+      0.8,
+      1
+    ],
+    "onSavingSeconds": [
+      0.5,
+      0.6
+    ],
+    "tellSeparationSeconds": [
+      0.25,
+      0.4
+    ]
+  },
+  "measured": {
+    "offSavingSeconds": {
+      "min": 0.516667,
+      "max": 0.65,
+      "mean": 0.569444
+    },
+    "onSavingSeconds": {
+      "min": 0.5,
+      "max": 0.633333,
+      "mean": 0.536111
+    },
+    "tellSeparationSeconds": {
+      "min": 0.016667,
+      "max": 0.05,
+      "mean": 0.033333
+    }
+  },
+  "assessment": {
+    "offSavingTargetMet": false,
+    "onSavingTargetMet": "partial; five of six at or within the requested band except aa-09/30 at 0.633333",
+    "tellSeparationTargetMet": false,
+    "action": "Do not change 0.82 multiplier. Publish measured candidate for owner playtest and stop."
+  },
+  "rows": [
+    {
+      "character": "aa-01",
+      "speed": 12,
+      "main": 11.8,
+      "off": 11.25,
+      "on": 11.3,
+      "offSaving": 0.55,
+      "onSaving": 0.5,
+      "tellSeparation": 0.05
+    },
+    {
+      "character": "aa-01",
+      "speed": 22,
+      "main": 11.383333,
+      "on": 10.866667,
+      "off": 10.833333,
+      "offSaving": 0.55,
+      "onSaving": 0.516667,
+      "tellSeparation": 0.033333
+    },
+    {
+      "character": "aa-01",
+      "speed": 30,
+      "main": 11.316667,
+      "off": 10.716667,
+      "on": 10.766667,
+      "offSaving": 0.6,
+      "onSaving": 0.55,
+      "tellSeparation": 0.05
+    },
+    {
+      "character": "aa-09",
+      "speed": 12,
+      "main": 11.95,
+      "off": 11.433333,
+      "on": 11.45,
+      "offSaving": 0.516667,
+      "onSaving": 0.5,
+      "tellSeparation": 0.016667
+    },
+    {
+      "character": "aa-09",
+      "speed": 22,
+      "main": 11.566667,
+      "off": 11.016667,
+      "on": 11.05,
+      "offSaving": 0.55,
+      "onSaving": 0.516667,
+      "tellSeparation": 0.033333
+    },
+    {
+      "character": "aa-09",
+      "speed": 30,
+      "main": 11.416667,
+      "off": 10.766667,
+      "on": 10.783333,
+      "offSaving": 0.65,
+      "onSaving": 0.633333,
+      "tellSeparation": 0.016667
+    }
+  ]
+}

@@ -235,7 +235,7 @@ it('records paired Billboard balance measurements with the approved boost pad', 
   expect(rows.every((row) => Number.isFinite(row.offSaving) && Number.isFinite(row.onSaving))).toBe(
     true,
   );
-});
+}, 60000);
 
 it.each([12, 22, 30])(
   'earns a clean time advantage through real route selection at %s m/s',

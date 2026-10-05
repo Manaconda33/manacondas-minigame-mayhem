@@ -35,15 +35,12 @@ try {
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(1000);
 
-  const scene = await page.evaluate(() => {
-    const size = window.game.renderer.getDrawingBufferSize({ x: 0, y: 0 });
-    return {
-      width: size.x,
-      height: size.y,
-      pixelRatio: window.game.renderer.getPixelRatio(),
-      racers: window.game.opponents.length + 1,
-    };
-  });
+  const scene = await page.evaluate(() => ({
+    width: window.game.renderer.domElement.width,
+    height: window.game.renderer.domElement.height,
+    pixelRatio: window.game.renderer.getPixelRatio(),
+    racers: window.game.opponents.length + 1,
+  }));
 
   const task8OffBloomOff = await page.evaluate(() =>
     window.measureFrames(360, 60, false, false),

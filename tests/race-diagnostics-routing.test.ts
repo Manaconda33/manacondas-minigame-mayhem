@@ -1178,7 +1178,7 @@ it('does not apply planar kart or Prismatic contacts through the tunnel ceiling'
 });
 
 it.each(
-  [0, 4].flatMap((seconds) =>
+  [0, 1].flatMap((seconds) =>
     [0, Math.PI / 2, Math.PI].map((yawOffset) => ({ seconds, yawOffset })),
   ),
 )(

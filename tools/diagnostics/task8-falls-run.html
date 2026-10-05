@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="data:," />
+    <style>
+      html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #020712; }
+      canvas { display: block; width: 100vw; height: 100vh; }
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+    <script type="module">
+      import * as THREE from 'three';
+      import { KartTimeTrial } from '../../src/game/KartTimeTrial.ts';
+      import { characterById } from '../../src/characters/manifest.ts';
+
+      const params = new URLSearchParams(location.search);
+      const quality = params.get('quality') || 'medium';
+      const canvas = document.querySelector('canvas');
+      const game = await KartTimeTrial.create({
+        canvas,
+        character: characterById('aa-09'),
+        trackId: 'neon-grid',
+        graphicsQuality: quality,
+        motionBlur: true,
+        mobileSession: innerWidth < 600,
+        onHud() {},
+        onFinish() {},
+      });
+      window.game = game;
+
+      const v1 = new THREE.Vector3();
+      const v2 = new THREE.Vector3();
+      const placeRacers = (progress) => {
+        const p = game.track.curve.getPointAt(progress);
+        const t = game.track.curve.getTangentAt(progress).normalize();
+        game.kart.respawn(p, Math.atan2(t.x, t.z));
+        game.opponents.forEach((opponent, index) => {
+          const qProgress = Math.max(0.695, progress - 0.0045 * (index + 1));
+          const q = game.track.curve.getPointAt(qProgress);
+          const qt = game.track.curve.getTangentAt(qProgress).normalize();
+          const qr = new THREE.Vector3(qt.z, 0, -qt.x).normalize();
+          q.addScaledVector(qr, ((index % 3) - 1) * 1.35);
+          opponent.controller.respawn(q, Math.atan2(qt.x, qt.z));
+        });
+      };
+
+      window.drawAt = (progress = 0.805, time = 7) => {
+        placeRacers(progress);
+        for (let i = 0; i < 90; i += 1) game.updateVisuals(1 / 60);
+        game.trackScene.billboard.update(time);
+        game.trackScene.dive.update(time);
+        game.trackScene.falls.update(time);
+        game.renderer.info.autoReset = false;
+        game.renderer.info.reset();
+        game.bloom.render(game.scene, game.camera);
+        game.motionBlur.render(false);
+        const size = game.renderer.getDrawingBufferSize(new THREE.Vector2());
+        return {
+          calls: game.renderer.info.render.calls,
+          triangles: game.renderer.info.render.triangles,
+          geometries: game.renderer.info.memory.geometries,
+          textures: game.renderer.info.memory.textures,
+          width: size.x,
+          height: size.y,
+          racers: game.opponents.length + 1,
+          quality,
+        };
+      };
+
+      const percentile = (values, p) => {
+        const sorted = [...values].sort((a, b) => a - b);
+        return sorted[Math.max(0, Math.ceil(sorted.length * p) - 1)];
+      };
+      const median = (values) => {
+        const sorted = [...values].sort((a, b) => a - b);
+        const mid = Math.floor(sorted.length / 2);
+        return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+      };
+
+      window.sampleSection = async () => {
+        if (quality !== 'medium') throw new Error('Performance sampling requires Medium');
+        game.resize();
+        placeRacers(0.702);
+        game.setTouchControl('accelerate', true);
+        game.renderer.info.autoReset = false;
+        game.lastFrame = performance.now();
+        const rawFrameMs = [];
+        const calls = [];
+        const triangles = [];
+        const progressSamples = [];
+        let previousStamp = performance.now();
+        let resets = 0;
+        let frameIndex = 0;
+        const warmup = 240;
+        const measured = 420;
+
+        await new Promise((resolve, reject) => {
+          const step = (stamp) => {
+            try {
+              const position = game.kart.position(v1);
+              const projection = game.track.projectMain(position);
+              const forward = game.kart.forward(v2);
+              const target = projection.tangent;
+              const cross = forward.x * target.z - forward.z * target.x;
+              const dot = Math.max(-1, Math.min(1, forward.x * target.x + forward.z * target.z));
+              const angle = Math.atan2(cross, dot);
+              game.setTouchControl('left', angle > 0.035);
+              game.setTouchControl('right', angle < -0.035);
+
+              if (
+                frameIndex > warmup &&
+                (projection.progress < 0.69 ||
+                  projection.progress > 0.86 ||
+                  projection.lateralDistance > 5.4 ||
+                  position.y < projection.point.y - 2.5)
+              ) {
+                placeRacers(0.702);
+                resets += 1;
+              }
+
+              game.renderer.info.reset();
+              game.frame(stamp);
+              cancelAnimationFrame(game.animationFrame);
+
+              if (frameIndex >= warmup) {
+                rawFrameMs.push(stamp - previousStamp);
+                calls.push(game.renderer.info.render.calls);
+                triangles.push(game.renderer.info.render.triangles);
+                progressSamples.push(game.track.projectMain(game.kart.position(v1)).progress);
+              }
+              previousStamp = stamp;
+              frameIndex += 1;
+              if (frameIndex >= warmup + measured) resolve();
+              else requestAnimationFrame(step);
+            } catch (error) {
+              reject(error);
+            }
+          };
+          requestAnimationFrame(step);
+        });
+
+        game.setTouchControl('accelerate', false);
+        game.setTouchControl('left', false);
+        game.setTouchControl('right', false);
+        const size = game.renderer.getDrawingBufferSize(new THREE.Vector2());
+        return {
+          environment: 'real KartTimeTrial Medium/eight-racer physics+AI+render RAF section run',
+          sampleCount: rawFrameMs.length,
+          medianFrameMs: median(rawFrameMs),
+          p95FrameMs: percentile(rawFrameMs, 0.95),
+          maxFrameMs: Math.max(...rawFrameMs),
+          maxDrawCalls: Math.max(...calls),
+          medianDrawCalls: median(calls),
+          maxTriangles: Math.max(...triangles),
+          width: size.x,
+          height: size.y,
+          racers: game.opponents.length + 1,
+          resets,
+          minProgress: Math.min(...progressSamples),
+          maxProgress: Math.max(...progressSamples),
+        };
+      };
+
+      window.drawAt();
+      window.ready = true;
+    </script>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { NeonGrid } from '../src/game/track/NeonGrid';
-import { RacerTrack } from '../src/game/track/RacerTrack';
+import { NEON_GRID_AI_SHORTCUT_RATES, RacerTrack } from '../src/game/track/RacerTrack';
 import * as billboard from '../src/game/track/NeonGridBillboard';
 import {
   surfaceSpeedMultiplier,
@@ -11,15 +11,13 @@ import {
 
 describe('authoritative billboard timing and crossing', () => {
   it.each([
-    [0, true, 0],
-    [3.2, true, 0],
-    [3.6, true, 0.5],
-    [4, false, 0],
-    [5.2, false, 0],
-    [5.6, false, 0.5],
-    [6, true, 0],
-    [10, false, 0],
-  ])('resolves phase %s without wall-clock state', (time, on, tell) => {
+    [29.6, true, 0],
+    [30, true, 0.5],
+    [30.4, false, 0],
+    [31.6, false, 0],
+    [32, false, 0.5],
+    [32.4, true, 0],
+  ])('resolves shifted phase %s without wall-clock state', (time, on, tell) => {
     const state = billboard.billboardStateAt(time);
     expect(state.on).toBe(on);
     expect(state.tellIntensity).toBeCloseTo(tell, 6);
@@ -29,7 +27,25 @@ describe('authoritative billboard timing and crossing', () => {
     expect(surfaceAccelerationMultiplier('static', 5)).toBe(1);
     expect(surfaceMinimumPlayableSpeed('static')).toBe(0);
   });
-  it.each([0, 4])(
+  it('uses the approved joint AI attempt rates', () => {
+    expect(NEON_GRID_AI_SHORTCUT_RATES).toEqual({
+      tunnel: 0.05,
+      billboard: 0.45,
+      dive: 0.12,
+    });
+  });
+  it('places one boost surface after commitment and before the Billboard rejoin', () => {
+    const track = new NeonGrid(),
+      gap = track.billboardGap,
+      center = gap.curve.getPointAt(gap.boostPad.centerFraction);
+    expect(gap.boostPad.centerFraction).toBeGreaterThan(gap.mouthDistance / gap.curve.getLength());
+    expect(gap.boostPad.centerFraction).toBeLessThan(1);
+    expect(gap.project(center).surface).toBe('boost');
+    expect(gap.project(gap.curve.getPointAt(gap.boostPad.centerFraction - 0.08)).surface).toBe(
+      'asphalt',
+    );
+  });
+  it.each([0, 1])(
     'owns physical entry until rejoin and emits a once-only exit at phase %s',
     (time) => {
       const track = new NeonGrid(),
@@ -55,9 +71,9 @@ describe('authoritative billboard timing and crossing', () => {
         route.advance(after, after.clone().addScaledVector(gap.curve.getTangentAt(1), 1), time + 4),
       ).toBeNull();
       route.reset();
-      route.advance(at(mouth - 1), at(mouth + 1), 4);
+      route.advance(at(mouth - 1), at(mouth + 1), 1);
       expect(route.project(at(40)).surface).toBe('asphalt');
-      expect(route.advance(at(gap.curve.getLength() - 1), after, 5)?.speedRetention).toBe(1);
+      expect(route.advance(at(gap.curve.getLength() - 1), after, 2)?.speedRetention).toBe(1);
     },
   );
   it('rejects sideways, reverse and elevated entries and resets a reversed traversal', () => {
@@ -82,7 +98,7 @@ describe('authoritative billboard timing and crossing', () => {
     route.advance(before, after, 0);
     route.advance(after, before, 0);
     expect(route.project(before).pathId).toBeUndefined();
-    route.advance(before, after, 4);
+    route.advance(before, after, 1);
     expect(route.project(after).surface).toBe('asphalt');
     route.reset();
     expect(route.project(after).pathId).toBeUndefined();
@@ -100,7 +116,7 @@ it.each([-3, 0, 3])(
       r = new THREE.Vector3(t.z, 0, -t.x).normalize();
     const before = p.clone().addScaledVector(t, -1).addScaledVector(r, lane),
       after = p.clone().addScaledVector(t, 1).addScaledVector(r, lane);
-    route.advance(before, after, 4);
+    route.advance(before, after, 1);
     expect(route.project(after).pathId).toBe('billboard-gap');
   },
 );

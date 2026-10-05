@@ -133,12 +133,12 @@ it('supports every lane of the descending curved plaza with upward native faces'
   world.free();
 });
 
-function driveSection(shortcut: boolean, speed: number) {
+function driveSection(shortcut: boolean, speed: number, phase = 1, character = 'aa-09') {
   const track = new NeonGrid(),
     route = new RacerTrack(track, 1, 0, shortcut ? 1 : 0);
   const world = new RAPIER.World({ x: 0, y: -18, z: 0 }),
     cleanup = createNeonGridColliders(world, track);
-  const stats = characterById('aa-09').stats,
+  const stats = characterById(character).stats,
     tuning = createKartTuning(stats);
   const p = track.curve.getPointAt(0.07),
     t = track.curve.getTangentAt(0.07);
@@ -153,17 +153,21 @@ function driveSection(shortcut: boolean, speed: number) {
   let entered = false,
     events = 0,
     contacts = 0,
-    seconds = Infinity;
+    seconds = Infinity,
+    billboardBoostSteps = 0;
   const crossed: number[] = [];
   for (let i = 0; i < 60 * 30; i++) {
     const before = kart.position();
+    const beforeProjection = route.project(before);
+    if (beforeProjection.pathId === 'billboard-gap' && beforeProjection.surface === 'boost')
+      billboardBoostSteps++;
     kart.update(
       driver.input(before, kart.forward(), kart.speedMetersPerSecond()),
-      route.project(before).surface,
+      beforeProjection.surface,
       1 / 60,
     );
     world.step();
-    const event = route.advance(before, kart.position(), 4);
+    const event = route.advance(before, kart.position(), phase);
     entered ||= route.project(kart.position()).pathId === 'billboard-gap';
     if (event) {
       events++;
@@ -202,8 +206,36 @@ function driveSection(shortcut: boolean, speed: number) {
   }
   cleanup();
   world.free();
-  return { seconds, entered, events, contacts, crossed };
+  return { seconds, entered, events, contacts, crossed, billboardBoostSteps };
 }
+
+it('records paired Billboard balance measurements with the approved boost pad', () => {
+  const rows = ['aa-01', 'aa-09'].flatMap((character) =>
+    [12, 22, 30].map((speed) => {
+      const main = driveSection(false, speed, 1, character),
+        off = driveSection(true, speed, 1, character),
+        on = driveSection(true, speed, 0, character);
+      expect(off).toMatchObject({ entered: true, events: 1, contacts: 0 });
+      expect(on).toMatchObject({ entered: true, events: 1, contacts: 0 });
+      expect(off.billboardBoostSteps).toBeGreaterThan(0);
+      expect(on.billboardBoostSteps).toBeGreaterThan(0);
+      return {
+        character,
+        speed,
+        main: main.seconds,
+        off: off.seconds,
+        on: on.seconds,
+        offSaving: main.seconds - off.seconds,
+        onSaving: main.seconds - on.seconds,
+        tellSeparation: on.seconds - off.seconds,
+      };
+    }),
+  );
+  console.info('BILLBOARD_BALANCE_MEASUREMENTS ' + JSON.stringify(rows));
+  expect(rows.every((row) => Number.isFinite(row.offSaving) && Number.isFinite(row.onSaving))).toBe(
+    true,
+  );
+});
 
 it.each([12, 22, 30])(
   'earns a clean time advantage through real route selection at %s m/s',

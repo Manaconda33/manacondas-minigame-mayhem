@@ -1,8 +1,19 @@
 {
   "date": "2026-10-05",
-  "runtime": "c71b2287b463f6a17645d664d3307d6b591561bf",
-  "ci_run": 37352477495,
-  "method": "Production NeonGrid/RacerTrack/AiDriver/KartController/native colliders; paired main/OFF/ON sections from progress 0.07 to common downstream plane 0.236; same character, initial speed and settings; one standard boost surface inside Billboard at gap fraction 0.93; ON retains existing once-only 0.82 exit retention.",
+  "runtime": "2aab14a8a129513ebd31e093c91a680631280294",
+  "sourceCommitForPadMove": "4aea9cbff0c0203e3110d427f86227cff6cc9e75",
+  "testLockCommit": "2aab14a8a129513ebd31e093c91a680631280294",
+  "ci_run": 37355905543,
+  "ci_tree": "cd5e8a9ecb819a4c792e0c23cede0884d38c9671",
+  "validation": {
+    "result": "PASS",
+    "treeIdentity": "GitHub compare reports zero file differences between runtime 2aab14a and PR merge tree cd5e8a9 used by CI.",
+    "lfs": "actions/checkout@v5 with lfs:true materialized LFS objects; git lfs fsck PASS",
+    "install": "npm ci PASS",
+    "validate": "Equivalent npm run validate gates PASS: typecheck, zero-warning lint, Vitest coverage, production build",
+    "tests": "125 test files / 996 tests passed on the runtime tree"
+  },
+  "method": "Production NeonGrid/RacerTrack/AiDriver/KartController/native colliders through the existing recorded paired-balance test; paired main/OFF/ON sections from progress 0.07 to common downstream plane 0.236; same character, initial speed and settings; one standard boost surface inside Billboard at gap fraction 0.55; ON retains existing once-only 0.82 exit retention.",
   "approved": {
     "aiAttemptRates": {
       "tunnel": 0.05,
@@ -15,7 +26,12 @@
       32.4
     ],
     "diveRecoverySeconds": 1.5,
-    "staticExitRetention": 0.82
+    "staticExitRetention": 0.82,
+    "boostPadCenterFraction": 0.55,
+    "boostPadCenterFractionTestWindow": [
+      0.5,
+      0.6
+    ]
   },
   "targets": {
     "offSavingSeconds": [
@@ -34,25 +50,52 @@
   "measured": {
     "offSavingSeconds": {
       "min": 0.516667,
-      "max": 0.65,
-      "mean": 0.569444
+      "max": 0.666667,
+      "mean": 0.575
     },
     "onSavingSeconds": {
       "min": 0.5,
       "max": 0.633333,
-      "mean": 0.536111
+      "mean": 0.55
     },
     "tellSeparationSeconds": {
       "min": 0.016667,
-      "max": 0.05,
-      "mean": 0.033333
+      "max": 0.033333,
+      "mean": 0.025
     }
+  },
+  "priorPosition093": {
+    "runtime": "c71b2287b463f6a17645d664d3307d6b591561bf",
+    "boostPadCenterFraction": 0.93,
+    "measured": {
+      "offSavingSeconds": {
+        "min": 0.516667,
+        "max": 0.65,
+        "mean": 0.569444
+      },
+      "onSavingSeconds": {
+        "min": 0.5,
+        "max": 0.633333,
+        "mean": 0.536111
+      },
+      "tellSeparationSeconds": {
+        "min": 0.016667,
+        "max": 0.05,
+        "mean": 0.033333
+      }
+    }
+  },
+  "deltaMeanVs093Seconds": {
+    "offSaving": 0.005556,
+    "onSaving": 0.013889,
+    "tellSeparation": -0.008333
   },
   "assessment": {
     "offSavingTargetMet": false,
-    "onSavingTargetMet": "partial; five of six at or within the requested band except aa-09/30 at 0.633333",
+    "onSavingTargetMet": "partial; five of six rows are at or within the requested band, aa-09/30 is 0.633333 s; mean 0.550 s is in band",
     "tellSeparationTargetMet": false,
-    "action": "Do not change 0.82 multiplier. Publish measured candidate for owner playtest and stop."
+    "positionHypothesis": "DEAD. Moving the same booster earlier increased both shortcut variants only marginally and reduced mean ON/OFF separation from 0.033333 s to 0.025 s.",
+    "action": "STOP for owner playtest/decision. Do not change 0.82 retention, boost-pad strength, AI rates, phase, Dive recovery, or Stage 4 scope without a new owner decision."
   },
   "rows": [
     {
@@ -60,19 +103,19 @@
       "speed": 12,
       "main": 11.8,
       "off": 11.25,
-      "on": 11.3,
+      "on": 11.266667,
       "offSaving": 0.55,
-      "onSaving": 0.5,
-      "tellSeparation": 0.05
+      "onSaving": 0.533333,
+      "tellSeparation": 0.016667
     },
     {
       "character": "aa-01",
       "speed": 22,
       "main": 11.383333,
-      "on": 10.866667,
-      "off": 10.833333,
-      "offSaving": 0.55,
-      "onSaving": 0.516667,
+      "off": 10.816667,
+      "on": 10.85,
+      "offSaving": 0.566667,
+      "onSaving": 0.533333,
       "tellSeparation": 0.033333
     },
     {
@@ -80,10 +123,10 @@
       "speed": 30,
       "main": 11.316667,
       "off": 10.716667,
-      "on": 10.766667,
+      "on": 10.75,
       "offSaving": 0.6,
-      "onSaving": 0.55,
-      "tellSeparation": 0.05
+      "onSaving": 0.566667,
+      "tellSeparation": 0.033333
     },
     {
       "character": "aa-09",
@@ -100,20 +143,20 @@
       "speed": 22,
       "main": 11.566667,
       "off": 11.016667,
-      "on": 11.05,
+      "on": 11.033333,
       "offSaving": 0.55,
-      "onSaving": 0.516667,
-      "tellSeparation": 0.033333
+      "onSaving": 0.533333,
+      "tellSeparation": 0.016667
     },
     {
       "character": "aa-09",
       "speed": 30,
       "main": 11.416667,
-      "off": 10.766667,
+      "off": 10.75,
       "on": 10.783333,
-      "offSaving": 0.65,
+      "offSaving": 0.666667,
       "onSaving": 0.633333,
-      "tellSeparation": 0.016667
+      "tellSeparation": 0.033333
     }
   ]
 }

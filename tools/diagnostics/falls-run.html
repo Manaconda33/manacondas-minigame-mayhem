@@ -64,20 +64,38 @@
     };
     window.renderFrame();
     window.ready = true;
-    window.startPerf = () => g.start();
-    window.exportPerf = () => g.exportPerformanceCapture({
-      schemaVersion: 1,
-      sourceCommit: import.meta.env.VITE_SOURCE_COMMIT || null,
-      capturedAt: new Date().toISOString(),
-      quality,
-      userAgent: navigator.userAgent,
-      hardwareDescription: 'GitHub Actions Chromium software WebGL',
-      scenario: 'Task 8 Falls Run representative stretch, eight racers staged in view',
-      racerCount: g.opponents.length + 1,
-      nominalViewport: { width: innerWidth, height: innerHeight },
-      gpuFrameMs: null,
-      jsHeapBytes: null,
-      estimatedTextureBytes: null,
-    });
+    window.measureFrames = async (count = 360, warmup = 60) => {
+      const samples = [];
+      let previous = performance.now();
+      for (let i = 0; i < count + warmup; i++) {
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        const now = performance.now();
+        const frameMs = now - previous;
+        previous = now;
+        g.trackScene.fallsRun.update(i / 60);
+        g.trackScene.dive.update(i / 60);
+        g.updateVisuals(1 / 60);
+        g.renderer.info.reset();
+        g.bloom.render(g.scene, g.camera);
+        g.motionBlur.render(false);
+        if (i >= warmup && Number.isFinite(frameMs) && frameMs > 0) samples.push(frameMs);
+      }
+      const sorted = [...samples].sort((a, b) => a - b);
+      const fps = sorted.map((ms) => 1000 / ms).sort((a, b) => a - b);
+      const median = (values) => {
+        const center = Math.floor(values.length / 2);
+        return values.length % 2
+          ? values[center]
+          : (values[center - 1] + values[center]) / 2;
+      };
+      return {
+        scoredFrames: sorted.length,
+        medianFrameMs: median(sorted),
+        p95FrameMs: sorted[Math.ceil(sorted.length * 0.95) - 1],
+        maxFrameMs: sorted.at(-1),
+        medianFps: median(fps),
+        over50msFrames: sorted.filter((ms) => ms > 50).length,
+      };
+    };
   </script>
 </html>

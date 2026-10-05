@@ -122,7 +122,8 @@ describe('authoritative billboard timing and crossing', () => {
     route.advance(after, before, 0);
     expect(route.project(before).pathId).toBeUndefined();
     route.advance(before, after, 1);
-    expect(route.project(after).surface).toBe('asphalt');
+    expect(gap.project(after).surface).toBe('boost');
+    expect(route.project(after).surface).toBe('boost');
     route.reset();
     expect(route.project(after).pathId).toBeUndefined();
   });

@@ -1,21 +1,27 @@
-# Neon Grid Billboard balance candidate
+# Neon Grid Billboard booster reposition measurement
 
 Date: 2026-10-05  
-Runtime: `c71b2287b463f6a17645d664d3307d6b591561bf`  
-CI: `37352477495` PASS
+Runtime: `2aab14a8a129513ebd31e093c91a680631280294`  
+Pad move: `4aea9cbff0c0203e3110d427f86227cff6cc9e75`  
+Position test lock: `2aab14a8a129513ebd31e093c91a680631280294`  
+CI: `37355905543` PASS
 
-Manny approved one modest standard boost pad inside the Billboard shortcut, AI attempt rates Tunnel 5% / Billboard 45% / Dive 12%, a +3.6 s Billboard cycle offset, and retaining the forgiving 1.5 s Dive splash recovery. The existing once-only Billboard ON/static retention remains 0.82.
+The single approved standard Billboard boost pad remains at gap fraction **0.55**, after commitment and before rejoin. `tests/neon-grid-billboard.test.ts` locks the center to the approved **0.5–0.6** window. No 0.82 retention, pad strength, AI rate, +3.6 s phase, Dive recovery, kart statistic, global physics, item, Tunnel/Dive geometry, repaired 5.3 face, or Stage 4 change was made.
 
-The candidate uses one standard boost surface at Billboard path fraction 0.93, after the physical commitment mouth and before rejoin. No kart tuning, global physics, items, Tunnel/Dive geometry, repaired 5.3 faces, or Dive recovery behavior changed.
+Hosted validation used the PR merge tree `cd5e8a9ecb819a4c792e0c23cede0884d38c9671`; GitHub compare reports **zero file differences** from runtime `2aab14a8a129513ebd31e093c91a680631280294`. LFS materialization/checks, clean `npm ci`, typecheck, zero-warning lint, Vitest coverage and production build all passed. The runtime-tree suite passed **125 test files / 996 tests**.
 
-Paired production-native measurements use the same driver/settings and initial speed for main/OFF/ON sections from main progress 0.07 to the common downstream plane at 0.236.
+The existing paired native measurement test uses production NeonGrid/RacerTrack/AiDriver/KartController/native colliders, AA-01 and AA-09 at 12/22/30 m/s, and matched main/OFF/ON sections from main progress 0.07 to the common downstream plane at 0.236.
 
-| Metric | Target | Measured range | Mean | Result |
-|---|---:|---:|---:|---|
-| OFF saving | 0.8–1.0 s | 0.517–0.650 s | 0.569 s | MISS |
-| ON saving | 0.5–0.6 s | 0.500–0.633 s | 0.536 s | Mostly in band |
-| ON/OFF tell value | 0.25–0.4 s | 0.017–0.050 s | 0.033 s | MISS |
+| Metric | Target | 0.55 measured range | 0.55 mean | 0.93 prior mean | Result |
+|---|---:|---:|---:|---:|---|
+| OFF saving | 0.8–1.0 s | 0.517–0.667 s | 0.575 s | 0.569 s | **MISS** |
+| ON saving | 0.5–0.6 s | 0.500–0.633 s | 0.550 s | 0.536 s | Mostly in band |
+| ON/OFF tell value | 0.25–0.4 s | 0.017–0.033 s | 0.025 s | 0.033 s | **MISS** |
 
-The booster alone does not create the requested ON/OFF separation and does not raise OFF savings to target. Per owner direction, do not alter the 0.82 multiplier unilaterally. The exact measured candidate may be published as an isolated owner-playtest preview, then work stops for owner decision. No Stage 4 authority.
+Moving the booster earlier changed the mean OFF saving by only **+0.006 s** and mean ON saving by **+0.014 s**. Mean tell separation moved the wrong direction, **-0.008 s**, from about 0.033 s to 0.025 s.
 
-Full branch validation at the exact runtime passed: typecheck, zero-warning lint, full tests, production build, pinned Billboard runtime validation, pinned Dive runtime validation, and spillway render preservation. Measurement rows are in `paired-measurements.json`.
+**Conclusion: the position hypothesis is dead.** The lack of runway at 0.93 was not the cause of the missing ON/OFF race value. The earlier pad helps both variants nearly equally, so it does not create the requested 0.25–0.4 s tell separation.
+
+Per PRD amendment 2.23 and Manny's instruction, stop here for owner playtest/decision. Do **not** change the 0.82 multiplier or pad strength without a new decision. No Stage 4 work.
+
+Exact rows are recorded in `paired-measurements.json`.

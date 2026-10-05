@@ -1,6 +1,8 @@
 # Billboard Gap — design draft (Task 6)
 
 **Status: APPROVED by Manny 2026-10-03 — Task 6 design input.** Placed in the repo 2026-10-03; ChatGPT implements Task 6 against this document.
+
+> **Superseding note (2026-10-05):** the geometry in §2 below (plaza chord, entry 0.111234–0.116234, rejoin 0.178525) was superseded by Manny's approved wall-side relocation: curved 8 m wall-side bypass, entry 0.101–0.106, rejoin 0.215, descending y=14 m to ~6.8 m, gates 2/3 at 0.087/0.222. See `docs/evidence/2026-10-03-neon-billboard/relocation-review.md`. The behavior contract (§3), skill-gating analysis (§5), acceptance criteria (§6), and Manny's answers (§7) still stand.
 **Author:** Paprika (draft) · **Date:** 2026-10-03
 **Authoritative sources:** `docs/design/neon-grid/BUILD-CONTRACT.md` (geometry, surfaces), `docs/superpowers/plans/2026-10-02-neon-grid.md` Task 6 (interfaces, tests), `NEON-GRID-SPEC.md` §3.1 (original intent). Numbers below are copied from the build contract unless marked [proposal].
 

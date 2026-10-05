@@ -14,9 +14,9 @@ const browser = await chromium.launch({
 
 const errors = [];
 const visualFrames = [];
-let baselinePerformanceSummary = null;
+let performanceMatrix = null;
 let performanceSummary = null;
-let pairedDelta = null;
+let diagnosticDeltas = null;
 
 async function renderCase({ quality, width, height, scale, label, performance = false }) {
   const context = await browser.newContext({
@@ -42,25 +42,30 @@ async function renderCase({ quality, width, height, scale, label, performance = 
   visualFrames.push({ label, ...counters });
 
   if (performance) {
-    baselinePerformanceSummary = await page.evaluate(() => window.measureFrames(360, 60, false));
-    performanceSummary = await page.evaluate(() => window.measureFrames(360, 60, true));
-    const percent = (on, off) => ((on - off) / off) * 100;
-    pairedDelta = {
-      medianFrameMs: performanceSummary.medianFrameMs - baselinePerformanceSummary.medianFrameMs,
-      medianFramePercent: percent(
-        performanceSummary.medianFrameMs,
-        baselinePerformanceSummary.medianFrameMs,
-      ),
-      p95FrameMs: performanceSummary.p95FrameMs - baselinePerformanceSummary.p95FrameMs,
-      p95FramePercent: percent(
-        performanceSummary.p95FrameMs,
-        baselinePerformanceSummary.p95FrameMs,
-      ),
-      medianFps: performanceSummary.medianFps - baselinePerformanceSummary.medianFps,
-      medianFpsPercent: percent(
-        performanceSummary.medianFps,
-        baselinePerformanceSummary.medianFps,
-      ),
+    const task8OffBloomOff = await page.evaluate(() => window.measureFrames(360, 60, false, false));
+    const task8OnBloomOff = await page.evaluate(() => window.measureFrames(360, 60, true, false));
+    const task8OffBloomOn = await page.evaluate(() => window.measureFrames(360, 60, false, true));
+    const task8OnBloomOn = await page.evaluate(() => window.measureFrames(360, 60, true, true));
+    performanceMatrix = {
+      task8OffBloomOff,
+      task8OnBloomOff,
+      task8OffBloomOn,
+      task8OnBloomOn,
+    };
+    performanceSummary = task8OnBloomOn;
+    const delta = (on, off) => ({
+      medianFrameMs: on.medianFrameMs - off.medianFrameMs,
+      medianFramePercent: ((on.medianFrameMs - off.medianFrameMs) / off.medianFrameMs) * 100,
+      p95FrameMs: on.p95FrameMs - off.p95FrameMs,
+      p95FramePercent: ((on.p95FrameMs - off.p95FrameMs) / off.p95FrameMs) * 100,
+      medianFps: on.medianFps - off.medianFps,
+      medianFpsPercent: ((on.medianFps - off.medianFps) / off.medianFps) * 100,
+    });
+    diagnosticDeltas = {
+      task8CostBloomOff: delta(task8OnBloomOff, task8OffBloomOff),
+      task8CostBloomOn: delta(task8OnBloomOn, task8OffBloomOn),
+      bloomCostTask8Off: delta(task8OffBloomOn, task8OffBloomOff),
+      bloomCostTask8On: delta(task8OnBloomOn, task8OnBloomOff),
     };
   }
   await page.evaluate(() => window.game.dispose());
@@ -88,9 +93,9 @@ try {
       'GitHub Actions Chromium software WebGL. Actual KartTimeTrial Medium render with eight racers staged in Falls Run. Frame-time evidence is browser/runner specific and is not a physical owner-device certification.',
     errors,
     visualFrames,
-    baselinePerformanceSummary,
+    performanceMatrix,
     performanceSummary,
-    pairedDelta,
+    diagnosticDeltas,
     maximumDrawCalls: Math.max(...visualFrames.map((frame) => frame.calls)),
     maximumTriangles: Math.max(...visualFrames.map((frame) => frame.triangles)),
   };
@@ -99,9 +104,9 @@ try {
     environment: report.environment,
     errors,
     visualFrames,
-    baseline: baselinePerformanceSummary,
+    performanceMatrix,
     summary,
-    pairedDelta,
+    diagnosticDeltas,
     maximumDrawCalls: report.maximumDrawCalls,
     maximumTriangles: report.maximumTriangles,
   }, null, 2));

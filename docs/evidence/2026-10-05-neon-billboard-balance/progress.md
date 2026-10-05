@@ -1,4 +1,30 @@
-# Neon Grid Billboard booster reposition measurement
+# Neon Grid Billboard balance evidence
+
+## Entrance boost placement — validated sanity check
+
+Date: 2026-10-05  
+Runtime: `406bb5c2f606c2db4d1f2fa9ee7e36e1d6217308`  
+CI: `37361803233` PASS
+
+Manny accepted the ON/OFF tell as flavor and retired further separation chasing. The once-only 0.82 ON/static exit retention remains unchanged. The single existing standard boost pad moved from gap fraction 0.55 to **0.16**, with the existing 3 m half-length and 3.5 m half-width unchanged. On the 140.803377 m shortcut, its leading edge is approximately **19.529 m**, just beyond the **19 m** physical commitment point. Regression coverage locks the center to 0.1–0.2, requires the full pad to begin after commitment, and confirms representative main-line lanes cannot trigger boost.
+
+Hosted CI validated PR merge tree `abb5096ed104f05bb976e62a3998b4d994d13000`; GitHub compare reports zero file differences from runtime `406bb5c2f606c2db4d1f2fa9ee7e36e1d6217308`. LFS objects were materialized by `actions/checkout@v5` with `lfs:true`; `git lfs fsck`, clean `npm ci`, typecheck, zero-warning lint, **125 test files / 997 tests**, coverage and production build passed. The workflow executes the same package.json validation constituents rather than invoking the wrapper line literally.
+
+The established paired production-native AA-01/AA-09 × 12/22/30 m/s sanity method produced:
+
+| Metric | 0.16 entrance placement | 0.55 prior round | Mean change |
+|---|---:|---:|---:|
+| OFF saving | 0.633–0.767 s; mean 0.678 s | 0.517–0.667 s; mean 0.575 s | +0.103 s |
+| ON saving | 0.600–0.750 s; mean 0.644 s | 0.500–0.633 s; mean 0.550 s | +0.094 s |
+| ON/OFF tell | 0.017–0.050 s; mean 0.033 s | 0.017–0.033 s; mean 0.025 s | +0.008 s |
+
+This is a placement/function sanity check, not a balance experiment, so no numeric target threshold is applied. Every shortcut run entered, exited once, traversed the boost surface and completed with zero guardrail contacts. Savings remain in the same general ballpark as the 0.55 round, with a modest increase consistent with receiving the unchanged boost earlier.
+
+An initial CI attempt `37361040864` exposed one stale test that still expected the first valid post-commit meter to be asphalt. Runtime paired measurements already passed in that run. The assertion was corrected to the newly approved entrance-boost behavior without changing runtime code; final CI `37361803233` is green.
+
+Exact final rows are recorded in `entrance-paired-measurements.json`. The prior 0.55 evidence remains preserved below and in `paired-measurements.json`.
+
+## Prior 0.55 reposition round
 
 Date: 2026-10-05  
 Runtime: `2aab14a8a129513ebd31e093c91a680631280294`  

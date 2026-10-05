@@ -147,7 +147,8 @@ export function neonGridRibbon(
           end = (i + 1) / count;
         const open = (point: THREE.Vector3) =>
           track.serviceTunnel.junctionContains(point) ||
-          (billboardOpen && track.billboardGap.junctionContains(point));
+          (billboardOpen && track.billboardGap.junctionContains(point)) ||
+          (billboardOpen && track.waterfallDive.junctionContains(point));
         const startOpen = open(edgeAt(start));
         const endOpen = open(edgeAt(end));
         if (startOpen !== endOpen) {

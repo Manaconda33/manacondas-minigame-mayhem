@@ -1,3 +1,4 @@
+import { NeonGridDiveVisual } from './NeonGridDiveVisual';
 import * as THREE from 'three';
 import type { NeonGrid } from './NeonGrid';
 import layout from './neonGridLayout.json';
@@ -8,10 +9,13 @@ import { neonGridRibbon } from './NeonGridGeometry';
 
 export class NeonGridScene extends THREE.Group {
   public readonly billboard: NeonGridBillboardVisual;
+  public readonly dive: NeonGridDiveVisual;
   public constructor(track: NeonGrid) {
     super();
     this.billboard = new NeonGridBillboardVisual(track.billboardGap);
     this.add(this.billboard.group);
+    this.dive = new NeonGridDiveVisual(track.waterfallDive);
+    this.add(this.dive.group);
   }
 }
 

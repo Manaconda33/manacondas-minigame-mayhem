@@ -1,0 +1,61 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 validate
+> npm run typecheck && npm run lint && npm run test:ci && npm run build
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 typecheck
+> tsc -b --pretty false
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 lint
+> eslint . --max-warnings 0
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 test:ci
+> vitest run --coverage
+
+
+ RUN  v4.1.10 /workspace/scratch/be55d24ec46a/manacondas-minigame-mayhem
+      Coverage enabled with v8
+
+ ❯ tests/neon-grid-billboard-relocation.test.ts (10 tests | 1 failed) 9508ms
+   × supports every lane of the descending curved plaza with upward native faces 1364ms
+ ❯ tests/neon-grid-billboard-driving.test.ts (25 tests | 1 failed) 25054ms
+   × supports the entire plaza and owns no solid hologram collider 1483ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-billboard-driving.test.ts > supports the entire plaza and owns no solid hologram collider
+AssertionError: support 1/-3: expected null not to be null
+ ❯ tests/neon-grid-billboard-driving.test.ts:53:63
+     51|         (c) => i / 40 > 400 / 512 || c.handle === plazaHandle,
+     52|       );
+     53|       expect(hit, `support ${String(i)}/${String(lane)}`).not.toBeNull…
+       |                                                               ^
+     54|       if (i / 40 <= 400 / 512) {
+     55|         expect(q.y + lift - (hit?.timeOfImpact ?? 99)).toBeCloseTo(p.y…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/neon-grid-billboard-relocation.test.ts > supports every lane of the descending curved plaza with upward native faces
+AssertionError: plaza 1/-3: expected null not to be null
+ ❯ tests/neon-grid-billboard-relocation.test.ts:118:61
+    116|         (c) => i / 40 > 400 / 512 || c.handle === plazaHandle,
+    117|       );
+    118|       expect(hit, `plaza ${String(i)}/${String(lane)}`).not.toBeNull();
+       |                                                             ^
+    119|       if (i / 40 <= 400 / 512) {
+    120|         expect(q.y + lift - (hit?.timeOfImpact ?? 99)).toBeCloseTo(p.y…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 122 passed (124)
+      Tests  2 failed | 988 passed (990)
+   Start at  00:57:46
+   Duration  66.83s (transform 6.04s, setup 0ms, import 18.16s, tests 255.09s, environment 75.24s)
+

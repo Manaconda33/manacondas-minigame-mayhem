@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { WaterfallDive } from './NeonGridDive';
 import layout from './neonGridLayout.json';
 import { ServiceTunnel } from './ServiceTunnel';
 import { BillboardGap } from './NeonGridBillboard';
@@ -20,6 +21,7 @@ export class NeonGrid implements TrackDefinition {
 
   public readonly serviceTunnel: ServiceTunnel;
   public readonly billboardGap: BillboardGap;
+  public readonly waterfallDive: WaterfallDive;
 
   private readonly segmentIndex: TrackSegmentIndex;
   private readonly projectionCache = new Map<string, TrackProjection>();
@@ -41,6 +43,7 @@ export class NeonGrid implements TrackDefinition {
     this.sampleSpacing = this.curve.getLength() / this.sampleCount;
     this.serviceTunnel = new ServiceTunnel(this);
     this.billboardGap = new BillboardGap(this);
+    this.waterfallDive = new WaterfallDive(this);
   }
 
   public halfWidthAt(progress: number): number {
@@ -55,6 +58,7 @@ export class NeonGrid implements TrackDefinition {
   }
 
   public boundaryHalfWidthAt(projection: TrackProjection): number | null {
+    if (projection.pathId === 'waterfall-dive') return null;
     if (projection.pathId === 'billboard-gap') {
       const right = new THREE.Vector3(projection.tangent.z, 0, -projection.tangent.x).normalize();
       return this.billboardGap.junctionContains(
@@ -70,6 +74,7 @@ export class NeonGrid implements TrackDefinition {
     }
     const right = new THREE.Vector3(projection.tangent.z, 0, -projection.tangent.x).normalize();
     const position = projection.point.clone().addScaledVector(right, projection.lateralOffset);
+    if (this.waterfallDive.junctionContains(position)) return null;
     if (this.serviceTunnel.junctionContains(position)) return null;
     if (this.billboardGap.junctionContains(position)) return null;
     return this.halfWidthAt(projection.progress);

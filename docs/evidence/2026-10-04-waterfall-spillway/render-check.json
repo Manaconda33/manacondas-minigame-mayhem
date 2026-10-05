@@ -1,0 +1,150 @@
+{
+  "environment": "GitHub Actions Chromium software WebGL; actual KartTimeTrial Medium, eight racers, bloom pipeline; bounded view matrix, not full-race hardware performance",
+  "errors": [],
+  "frames": [
+    {
+      "view": "chase",
+      "calls": 57,
+      "triangles": 26170,
+      "geometries": 53,
+      "textures": 4,
+      "racers": 8
+    },
+    {
+      "view": "overview",
+      "calls": 73,
+      "triangles": 128576,
+      "geometries": 87,
+      "textures": 16,
+      "racers": 8
+    },
+    {
+      "view": "falls",
+      "calls": 142,
+      "triangles": 136398,
+      "geometries": 146,
+      "textures": 17,
+      "racers": 8
+    },
+    {
+      "view": "portrait",
+      "calls": 51,
+      "triangles": 26098,
+      "geometries": 146,
+      "textures": 17,
+      "racers": 8
+    },
+    {
+      "view": "landscape",
+      "calls": 59,
+      "triangles": 26194,
+      "geometries": 147,
+      "textures": 17,
+      "racers": 8
+    },
+    {
+      "view": "approach-3",
+      "calls": 85,
+      "triangles": 109590,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-5",
+      "calls": 73,
+      "triangles": 77242,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-7",
+      "calls": 59,
+      "triangles": 26194,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-9",
+      "calls": 59,
+      "triangles": 26194,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-11",
+      "calls": 58,
+      "triangles": 26188,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-13",
+      "calls": 55,
+      "triangles": 26158,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-15",
+      "calls": 24,
+      "triangles": 23360,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-16",
+      "calls": 54,
+      "triangles": 26152,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-18",
+      "calls": 54,
+      "triangles": 26152,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-21",
+      "calls": 52,
+      "triangles": 24616,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-24",
+      "calls": 51,
+      "triangles": 23464,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    },
+    {
+      "view": "approach-28",
+      "calls": 47,
+      "triangles": 23164,
+      "geometries": 148,
+      "textures": 19,
+      "racers": 8
+    }
+  ],
+  "withoutAddedSpillwayMeshes": {
+    "calls": 69,
+    "triangles": 126400,
+    "geometries": 147,
+    "textures": 17,
+    "racers": 8
+  },
+  "maximumDrawCalls": 142
+}

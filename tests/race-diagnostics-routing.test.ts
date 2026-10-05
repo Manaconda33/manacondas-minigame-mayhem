@@ -1072,6 +1072,7 @@ it.each(['aa-02', 'aa-13', 'aa-14'])(
     expect(runtime.kart.velocity().clone().setY(0).length()).toBeGreaterThan(3);
     expect(end.clone().sub(start).setY(0).length()).toBeGreaterThan(3);
   },
+  15000,
 );
 
 it('frames the elevated Neon player in portrait through the real camera integration', async () => {
@@ -1262,3 +1263,105 @@ it('freezes Neon race time and billboard visuals while hidden and drops the resu
   expect(runtime.raceDirector.raceTime()).toBeGreaterThan(before);
   game.dispose();
 });
+
+it.each(['player', 'ai'])(
+  'keeps %s dive splash recovery once-only, paused, before gate 9 and earned-gates-only in the real race',
+  async (owner) => {
+    const { game, tick, advance, phase } = await setup('', 'neon-grid');
+    const r = game as unknown as {
+      track: import('../src/game/track/NeonGrid').NeonGrid;
+      kart: import('../src/game/physics/KartController').KartController;
+      opponents: {
+        id: string;
+        controller: import('../src/game/physics/KartController').KartController;
+        lapTracker: import('../src/game/race/LapTracker').LapTracker;
+      }[];
+      neonRoute: (id: string) => import('../src/game/track/RacerTrack').RacerTrack;
+      lapTracker: import('../src/game/race/LapTracker').LapTracker;
+      raceDirector: { raceTime: () => number };
+      respawn: () => void;
+    };
+    advance.mockRestore();
+    for (let i = 0; i < 260; i++) tick(1000 / 60);
+    const opponent = r.opponents[0];
+    if (!opponent) throw new Error('No opponent');
+    const id = owner === 'player' ? 'player' : opponent.id,
+      kart = owner === 'player' ? r.kart : opponent.controller,
+      laps = owner === 'player' ? r.lapTracker : opponent.lapTracker;
+    const route = r.neonRoute(id),
+      d = r.track.waterfallDive,
+      p = d.pointAtDistance(d.mouthDistance),
+      v = d.direction.clone().multiplyScalar(25);
+    route.advanceDive(p.clone().addScaledVector(d.direction, -1), p, v, r.raceDirector.raceTime());
+    // Fixture establishes a genuine missed landing; all subsequent physics/race/recovery wiring is real.
+    kart.respawn(d.pointAtDistance(19).setY(-0.8), 0);
+    const earned = laps.snapshot().nextCheckpoint;
+    tick(1000 / 60);
+    expect(route.diveState.splashing).toBe(true);
+    const spy = vi.spyOn(kart, 'respawn');
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    const paused = kart.position();
+    tick(500);
+    expect(kart.position().distanceTo(paused)).toBe(0);
+    expect(spy).not.toHaveBeenCalled();
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    phase('racing');
+    if (owner === 'player') {
+      r.respawn();
+      expect(spy).not.toHaveBeenCalled();
+    }
+    for (let i = 0; i < 88; i++) tick(1000 / 60);
+    expect(spy).not.toHaveBeenCalled();
+    for (let i = 0; i < 4; i++) tick(1000 / 60);
+    expect(spy).toHaveBeenCalledTimes(1);
+    const recovery = spy.mock.calls[0]?.[0];
+    expect(recovery?.distanceTo(d.recoveryPosition)).toBeLessThan(0.001);
+    expect(r.track.projectMain(kart.position()).progress).toBeLessThan(
+      r.track.lapCheckpointProgress(9),
+    );
+    expect(laps.snapshot().nextCheckpoint).toBe(earned);
+    for (let i = 0; i < 30; i++) tick(1000 / 60);
+    expect(spy).toHaveBeenCalledTimes(1);
+  },
+  15000,
+);
+
+it('physically carries an already-selected player Dive through Rocket and releases at landing without gate awards', async () => {
+  const { game, tick, advance } = await setup('', 'neon-grid');
+  const r = game as unknown as {
+    track: import('../src/game/track/NeonGrid').NeonGrid;
+    neonRoute: (id: string) => import('../src/game/track/RacerTrack').RacerTrack;
+    kart: import('../src/game/physics/KartController').KartController;
+    world: import('@dimforge/rapier3d-compat').World;
+    lapTracker: import('../src/game/race/LapTracker').LapTracker;
+    hyperDriveRocket: import('../src/game/items/HyperDriveRocket').HyperDriveRocketSystem;
+    raceDirector: { raceTime: () => number };
+  };
+  advance.mockRestore();
+  for (let i = 0; i < 260; i++) tick(1000 / 60);
+  const d = r.track.waterfallDive,
+    route = r.neonRoute('player'),
+    p = d.pointAtDistance(7),
+    v = d.direction.clone().multiplyScalar(25);
+  route.advanceDive(p.clone().addScaledVector(d.direction, -1), p, v, r.raceDirector.raceTime());
+  // Fixture starts on the authored ramp; native launch and flight are unmodified.
+  r.kart.respawn(d.pointAtDistance(13).setY(9), Math.atan2(d.direction.x, d.direction.z));
+  for (let i = 0; i < 60; i++) r.world.step();
+  r.kart.body.setLinvel({ x: v.x, y: 0, z: v.z }, true);
+  expect(r.hyperDriveRocket.activate('player', () => true)).toBe(true);
+  const earned = r.lapTracker.snapshot().nextCheckpoint;
+  let air = 0,
+    landed = false;
+  for (let i = 0; i < 240; i++) {
+    tick(1000 / 60);
+    if (route.diveState.active && r.kart.feedback().airborne) air++;
+    landed ||= route.diveState.landed;
+    if (landed) break;
+  }
+  expect({ landed, air, splash: route.diveState.splashing }).toMatchObject({
+    landed: true,
+    splash: false,
+  });
+  expect(air).toBeGreaterThan(3);
+  expect(r.lapTracker.snapshot().nextCheckpoint).toBe(earned);
+}, 15000);

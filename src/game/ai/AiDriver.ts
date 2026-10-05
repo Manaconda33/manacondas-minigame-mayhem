@@ -146,7 +146,10 @@ export class AiDriver {
       }
       if (maximumCurvature > 0.015)
         authoredCornerSpeed = Math.max(8, Math.sqrt(9 / maximumCurvature));
-      if (selected?.pathId === 'billboard-gap') {
+      if (selected?.pathId === 'waterfall-dive') {
+        authoredCornerSpeed = Number.POSITIVE_INFINITY;
+        maximumCurvature = 0;
+      } else if (selected?.pathId === 'billboard-gap') {
         // Read the plaza approach's actual heading change. It is not the
         // tunnel's tight split and must not inherit its fixed 8 m/s brake.
         maximumCurvature = projection.pathId

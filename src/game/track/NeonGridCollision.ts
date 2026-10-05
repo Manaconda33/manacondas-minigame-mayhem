@@ -38,6 +38,16 @@ export function createNeonGridColliders(world: RAPIER.World, track: NeonGrid): (
     handles.push(collider.handle);
     geometry.dispose();
   }
+  for (const geometry of [track.waterfallDive.rampGeometry, track.waterfallDive.landingGeometry]) {
+    const collider = world.createCollider(
+      RAPIER.ColliderDesc.trimesh(
+        new Float32Array(geometry.getAttribute('position').array),
+        new Uint32Array(geometry.index?.array ?? []),
+        RAPIER.TriMeshFlags.FIX_INTERNAL_EDGES | RAPIER.TriMeshFlags.ORIENTED,
+      ).setFriction(1),
+    );
+    handles.push(collider.handle);
+  }
   let disposed = false;
   const plaza = billboardFloorGeometry(track.billboardGap);
   const plazaCollider = world.createCollider(

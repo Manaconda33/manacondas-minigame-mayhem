@@ -14,7 +14,7 @@ const browser = await chromium.launch({
 
 const errors = [];
 const visualFrames = [];
-let performanceCapture = null;
+let performanceSummary = null;
 
 async function renderCase({ quality, width, height, scale, label, performance = false }) {
   const context = await browser.newContext({
@@ -40,9 +40,7 @@ async function renderCase({ quality, width, height, scale, label, performance = 
   visualFrames.push({ label, ...counters });
 
   if (performance) {
-    await page.evaluate(() => window.startPerf());
-    await page.waitForTimeout(10000);
-    performanceCapture = await page.evaluate(() => window.exportPerf());
+    performanceSummary = await page.evaluate(() => window.measureFrames(360, 60));
   }
   await page.evaluate(() => window.game.dispose());
   await context.close();
@@ -63,13 +61,13 @@ try {
   await renderCase({ quality: 'medium', width: 844, height: 390, scale: 1, label: 'mobile-medium' });
   await renderCase({ quality: 'high', width: 844, height: 390, scale: 1, label: 'mobile-high' });
 
-  const summary = performanceCapture?.summary ?? null;
+  const summary = performanceSummary;
   const report = {
     environment:
       'GitHub Actions Chromium software WebGL. Actual KartTimeTrial Medium render with eight racers staged in Falls Run. Frame-time evidence is browser/runner specific and is not a physical owner-device certification.',
     errors,
     visualFrames,
-    performanceCapture,
+    performanceSummary,
     maximumDrawCalls: Math.max(...visualFrames.map((frame) => frame.calls)),
     maximumTriangles: Math.max(...visualFrames.map((frame) => frame.triangles)),
   };
@@ -93,7 +91,7 @@ try {
     report.maximumDrawCalls > 250 ||
     report.maximumTriangles > 750000 ||
     !summary ||
-    summary.scoredFrames < 120 ||
+    summary.scoredFrames < 300 ||
     summary.p95FrameMs === null ||
     summary.p95FrameMs > 18.3 ||
     summary.medianFps === null ||

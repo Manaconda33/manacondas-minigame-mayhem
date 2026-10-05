@@ -1,3 +1,5 @@
+import type { GraphicsQuality } from '../../config/graphicsQuality';
+import { FallsRunVisual } from './FallsRunVisual';
 import { NeonGridDiveVisual } from './NeonGridDiveVisual';
 import * as THREE from 'three';
 import type { NeonGrid } from './NeonGrid';
@@ -10,18 +12,24 @@ import { neonGridRibbon } from './NeonGridGeometry';
 export class NeonGridScene extends THREE.Group {
   public readonly billboard: NeonGridBillboardVisual;
   public readonly dive: NeonGridDiveVisual;
-  public constructor(track: NeonGrid) {
+  public readonly fallsRun: FallsRunVisual;
+  public constructor(track: NeonGrid, quality: GraphicsQuality = 'medium') {
     super();
     this.billboard = new NeonGridBillboardVisual(track.billboardGap);
     this.add(this.billboard.group);
     this.dive = new NeonGridDiveVisual(track.waterfallDive);
     this.add(this.dive.group);
+    this.fallsRun = new FallsRunVisual(track, quality);
+    this.add(this.fallsRun.group);
   }
 }
 
 /** Main blockout with the approved Task 6 local visual pass. */
-export function createNeonGridScene(track: NeonGrid): NeonGridScene {
-  const group = new NeonGridScene(track);
+export function createNeonGridScene(
+  track: NeonGrid,
+  quality: GraphicsQuality = 'medium',
+): NeonGridScene {
+  const group = new NeonGridScene(track, quality);
   group.name = 'neon-grid-blockout';
   const materials = [0x236b7c, 0x733059, 0x78602d].map(
     (color) => new THREE.MeshStandardMaterial({ color, roughness: 0.8, side: THREE.DoubleSide }),

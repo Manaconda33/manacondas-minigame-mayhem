@@ -418,7 +418,7 @@ export class KartTimeTrial {
 
   private constructor(private readonly options: TimeTrialOptions) {
     this.track = createTrack(this.options.trackId ?? 'circuit-alpha');
-    this.trackScene = createSelectedTrackScene(this.track);
+    this.trackScene = createSelectedTrackScene(this.track, this.options.graphicsQuality);
     this.slickGround = new SlickGroundSurface(this.trackScene, this.track.id === 'neon-grid');
     this.trackLength = this.track.curve.getLength();
     this.minimapTrack = normalizeMinimapTrack(
@@ -679,10 +679,12 @@ export class KartTimeTrial {
       this.elapsed = this.raceDirector.raceTime();
     }
 
-    if (this.trackScene instanceof NeonGridScene)
-      this.trackScene.billboard.update(this.raceDirector.raceTime());
-    if (this.trackScene instanceof NeonGridScene)
-      this.trackScene.dive.update(this.raceDirector.raceTime());
+    if (this.trackScene instanceof NeonGridScene) {
+      const neonTime = this.raceDirector.raceTime();
+      this.trackScene.billboard.update(neonTime);
+      this.trackScene.dive.update(neonTime);
+      this.trackScene.falls.update(neonTime);
+    }
     this.updateVisuals(frameSeconds);
     this.shadows.update(
       this.kart.position(this.shadowAnchor),

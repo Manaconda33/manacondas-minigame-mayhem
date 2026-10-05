@@ -83,7 +83,8 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     let lights = 0;
     task8?.traverse((object) => {
       if (object instanceof THREE.Light) lights += 1;
-      if (object instanceof THREE.InstancedMesh) expectFiniteInstances(object);
+      if (object instanceof THREE.InstancedMesh)
+        expectFiniteInstances(object as unknown as THREE.InstancedMesh);
       if (!(object instanceof THREE.Mesh || object instanceof THREE.Line)) return;
       const materials = Array.isArray(object.material) ? object.material : [object.material];
       for (const material of materials) {

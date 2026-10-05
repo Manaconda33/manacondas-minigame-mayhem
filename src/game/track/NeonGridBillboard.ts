@@ -28,7 +28,7 @@ export class BillboardGap {
   };
   public readonly exitProgress = 0.215;
   public readonly boostPad = {
-    centerFraction: 0.93,
+    centerFraction: 0.55,
     halfLength: 3,
     halfWidth: 3.5,
   } as const;

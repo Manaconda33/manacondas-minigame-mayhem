@@ -27,7 +27,7 @@
     });
     window.game = g;
 
-    const progress = 0.765;
+    const progress = 0.787;
     const p = g.track.curve.getPointAt(progress);
     const tangent = g.track.curve.getTangentAt(progress).setY(0).normalize();
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
@@ -41,8 +41,8 @@
     for (let i = 0; i < 120; i++) g.updateVisuals(1 / 60);
     g.trackScene.dive.update(4);
     g.trackScene.fallsRun.update(4);
-    g.camera.position.copy(p).addScaledVector(tangent, -12).add(new THREE.Vector3(0, 5.6, 0));
-    g.camera.lookAt(p.clone().addScaledVector(tangent, 24).add(new THREE.Vector3(0, 1.2, 0)));
+    g.camera.position.copy(p).addScaledVector(tangent, -10).add(new THREE.Vector3(0, 3.8, 0));
+    g.camera.lookAt(p.clone().addScaledVector(tangent, 28).add(new THREE.Vector3(0, 0.9, 0)));
     g.renderer.info.autoReset = false;
 
     window.renderFrame = () => {

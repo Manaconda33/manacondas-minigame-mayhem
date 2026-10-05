@@ -39,7 +39,7 @@ describe('Neon Grid Stage 4 Task 8 Falls Run presentation', () => {
     expect(scene.getObjectByName('falls-run-city')).toBeDefined();
     expect(scene.getObjectByName('falls-run-ambient-waterfalls')).toBeDefined();
 
-    expect(scene.getObjectByName('neon-grid-billboard')).toBeDefined();
+    expect(scene.getObjectByName('billboard-hologram')).toBeDefined();
     expect(scene.getObjectByName('service-tunnel')).toBeDefined();
     expect(scene.getObjectByName('waterfall-dive')).toBeDefined();
 

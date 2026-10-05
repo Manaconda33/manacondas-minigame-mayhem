@@ -179,13 +179,13 @@ function nightSky(): THREE.Mesh {
       }
       void main() {
         float h = normalize(vDirection).y;
-        vec3 zenith = vec3(0.008, 0.018, 0.052);
-        vec3 upper = vec3(0.018, 0.055, 0.11);
-        vec3 horizon = vec3(0.16, 0.12, 0.16);
+        vec3 zenith = vec3(0.002, 0.006, 0.018);
+        vec3 upper = vec3(0.005, 0.018, 0.040);
+        vec3 horizon = vec3(0.045, 0.028, 0.032);
         vec3 color = mix(horizon, upper, smoothstep(-0.02, 0.28, h));
         color = mix(color, zenith, smoothstep(0.28, 0.88, h));
         float cityGlow = exp(-abs(h) * 17.0) * (0.45 + 0.25 * sin(atan(vDirection.z, vDirection.x) * 4.0));
-        color += vec3(0.18, 0.10, 0.04) * max(cityGlow, 0.0);
+        color += vec3(0.42, 0.16, 0.035) * max(cityGlow, 0.0);
         float cyanGlow = exp(-abs(h + 0.02) * 24.0) * max(0.0, sin(atan(vDirection.z, vDirection.x) * 3.0 + 1.7));
         color += vec3(0.01, 0.12, 0.18) * cyanGlow * 0.35;
         vec3 cell = floor(normalize(vDirection) * 520.0);
@@ -223,10 +223,10 @@ function waterMaterial(): THREE.ShaderMaterial {
         float edge = smoothstep(0.0, 0.09, vUv.x) * smoothstep(0.0, 0.09, 1.0 - vUv.x);
         float ribbon = pow(0.5 + 0.5 * sin(vUv.x * 58.0 + travel * 10.0), 9.0);
         float foam = clamp(ribbon * 0.35 + (1.0 - edge) * 0.45, 0.0, 1.0);
-        vec3 deep = vec3(0.025, 0.24, 0.34);
-        vec3 bright = vec3(0.45, 0.88, 0.96);
+        vec3 deep = vec3(0.018, 0.30, 0.44);
+        vec3 bright = vec3(0.58, 0.95, 1.0);
         vec3 color = mix(deep, bright, foam);
-        float alpha = edge * clamp(torn, 0.35, 1.0) * 0.78;
+        float alpha = edge * clamp(torn, 0.35, 1.0) * 0.90;
         gl_FragColor = vec4(color, alpha);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
@@ -261,7 +261,7 @@ function mistMaterial(): THREE.ShaderMaterial {
         float r = length(vUv - 0.5) * 2.0;
         if (r > 1.0) discard;
         float a = exp(-r * r * 4.8) * (1.0 - smoothstep(0.58, 1.0, r));
-        gl_FragColor = vec4(0.42, 0.75, 0.82, a * 0.13);
+        gl_FragColor = vec4(0.50, 0.84, 0.92, a * 0.18);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,
@@ -350,17 +350,17 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
     const center = track.curve.getPointAt(progress);
     const right = rightAt(track, progress);
     const side = i % 2 === 0 ? -1 : 1;
-    const lateral = 20 + ((i * 7) % 22);
+    const lateral = 24 + ((i * 7) % 25);
     const width = 7 + ((i * 5) % 8);
     const depth = 7 + ((i * 11) % 10);
-    const height = 26 + ((i * 13) % 42);
+    const height = 34 + ((i * 13) % 46);
     const position = center
       .clone()
       .addScaledVector(right, side * lateral)
       .add(new THREE.Vector3(0, -11 + height * 0.5, 0));
     towerData.push({ position, width, depth, height });
     towerDummy.position.copy(position);
-    towerDummy.rotation.set(0, i * 0.29, 0);
+    towerDummy.rotation.set(0, 0, 0);
     towerDummy.scale.set(width, height, depth);
     towerDummy.updateMatrix();
     towers.setMatrixAt(i, towerDummy.matrix);
@@ -388,17 +388,45 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
     const column = (i * 11) % 9;
     dummy.position.copy(tower.position);
     dummy.position.y += -tower.height * 0.38 + (row / 14) * tower.height * 0.76;
-    dummy.position.x += ((column / 8) - 0.5) * tower.width * 0.74;
-    dummy.position.z += tower.depth * 0.505;
-    dummy.rotation.set(0, 0, 0);
-    dummy.scale.set(0.7 + (i % 3) * 0.12, 0.75, 1);
+    const columnOffset = ((column / 8) - 0.5) * 0.74;
+    if (i % 2 === 0) {
+      dummy.position.x += columnOffset * tower.width;
+      dummy.position.z += tower.depth * 0.505;
+      dummy.rotation.set(0, 0, 0);
+    } else {
+      dummy.position.z += columnOffset * tower.depth;
+      dummy.position.x += tower.width * 0.505;
+      dummy.rotation.set(0, Math.PI / 2, 0);
+    }
+    dummy.scale.set(1.05 + (i % 3) * 0.16, 0.95, 1);
     dummy.updateMatrix();
     windows.setMatrixAt(i, dummy.matrix);
     windows.setColorAt(i, i % 13 === 0 ? magenta : i % 4 === 0 ? gold : cyan);
   }
   windows.instanceMatrix.needsUpdate = true;
   if (windows.instanceColor) windows.instanceColor.needsUpdate = true;
-  group.add(towers, windows);
+
+  const roofLights = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 0.16, 0.18),
+    new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true }),
+    towerData.length,
+  );
+  roofLights.name = 'falls-run-city-roof-lights';
+  for (let i = 0; i < towerData.length; i++) {
+    const tower = towerData[i];
+    if (tower === undefined) continue;
+    dummy.position.copy(tower.position);
+    dummy.position.y += tower.height * 0.5 + 0.12;
+    dummy.position.z += tower.depth * 0.505;
+    dummy.rotation.set(0, 0, 0);
+    dummy.scale.set(tower.width * 0.72, 1, 1);
+    dummy.updateMatrix();
+    roofLights.setMatrixAt(i, dummy.matrix);
+    roofLights.setColorAt(i, i % 5 === 0 ? magenta : i % 3 === 0 ? gold : cyan);
+  }
+  roofLights.instanceMatrix.needsUpdate = true;
+  if (roofLights.instanceColor) roofLights.instanceColor.needsUpdate = true;
+  group.add(towers, windows, roofLights);
 }
 
 function addWaterfallDistrict(
@@ -435,9 +463,9 @@ function addWaterfallDistrict(
     const side = i % 2 === 0 ? -1 : 1;
     const center = track.curve.getPointAt(progress);
     const right = rightAt(track, progress);
-    const width = 3.1 + ((i * 7) % 5) * 0.65;
+    const width = 4.2 + ((i * 7) % 5) * 0.85;
     const height = 12 + ((i * 11) % 6) * 1.6;
-    const position = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 0.75));
+    const position = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 1.8));
     placements.push({ progress, side, width, height, position });
 
     dummy.position.copy(position).add(new THREE.Vector3(0, -height * 0.5 - 0.05, 0));
@@ -540,6 +568,19 @@ export class FallsRunVisual {
     this.group.userData.progressRange = [START, END];
     this.group.userData.quality = quality;
     this.group.add(nightSky());
+
+    const asphaltBase = new THREE.Mesh(
+      ribbonGeometry(track, 5.96, 0.012),
+      new THREE.MeshStandardMaterial({
+        color: 0x07121b,
+        roughness: 0.38,
+        metalness: 0.28,
+        side: THREE.DoubleSide,
+      }),
+    );
+    asphaltBase.name = 'falls-run-asphalt-base';
+    asphaltBase.receiveShadow = true;
+    this.group.add(asphaltBase);
 
     if (quality !== 'low') {
       const wetMaterial = wetAsphaltMaterial();

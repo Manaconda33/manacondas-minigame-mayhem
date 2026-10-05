@@ -235,7 +235,7 @@ it.each([
 
 it.each(
   [12, 24, 30].flatMap((speed) =>
-    [-2, 0, 2].flatMap((lane) => [0, 4].map((phase) => ({ speed, lane, phase }))),
+    [-2, 0, 2].flatMap((lane) => [0, 1].map((phase) => ({ speed, lane, phase }))),
   ),
 )(
   'supports KartController passage with curve-following input at $speed m/s, lane $lane, phase $phase',

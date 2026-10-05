@@ -1,0 +1,79 @@
+name: Neon Grid Task 8 Review
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/neon-grid-task8-review.yml"
+      - "tools/diagnostics/task8-falls-run.html"
+      - "tools/diagnostics/task8-render.mjs"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: task8-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  rendered-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out preview infrastructure
+        uses: actions/checkout@v5
+
+      - name: Check out exact Task 8 runtime
+        uses: actions/checkout@v5
+        with:
+          ref: 89602cd3ceaf4e2b557a2e3b8263aa8a1550a83c
+          path: task8-runtime
+          lfs: true
+
+      - name: Verify exact Task 8 source and LFS
+        working-directory: task8-runtime
+        run: |
+          test "$(git rev-parse HEAD)" = "89602cd3ceaf4e2b557a2e3b8263aa8a1550a83c"
+          git lfs fsck
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: task8-runtime/package-lock.json
+
+      - name: Install and validate Task 8 runtime
+        working-directory: task8-runtime
+        run: |
+          npm ci
+          npm run validate
+          git diff --check
+
+      - name: Install isolated rendered-review harness
+        run: |
+          cp tools/diagnostics/task8-falls-run.html task8-runtime/tools/diagnostics/
+          cp tools/diagnostics/task8-render.mjs task8-runtime/tools/diagnostics/
+          npm install --prefix /tmp/task8-webgl --no-package-lock playwright@1.58.2
+
+      - name: Measure 1920x1080 Medium and capture Low/Medium/High
+        working-directory: task8-runtime
+        env:
+          TASK8_PLAYWRIGHT: /tmp/task8-webgl
+        run: |
+          export TASK8_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/task8-vite.log 2>&1 &
+          task8_server_pid=$!
+          trap 'kill "$task8_server_pid" || true' EXIT
+          for attempt in $(seq 1 45); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/task8-render.mjs /tmp/task8-review
+
+      - name: Upload Task 8 rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: neon-grid-task8-rendered-review
+          path: /tmp/task8-review/

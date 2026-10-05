@@ -378,7 +378,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v5
         with:
-          ref: 4935cbd97c92ea4acb391f71b5bbaef65591b4d3
+          ref: 72cbfa29a8ca9334d1bebbb4adc671995ecf40e7
           path: neon-grid-task8-runtime
           lfs: true
 
@@ -387,7 +387,7 @@ jobs:
         working-directory: neon-grid-task8-runtime
         run: |
           git lfs fsck
-          test "$(git rev-parse HEAD)" = "4935cbd97c92ea4acb391f71b5bbaef65591b4d3"
+          test "$(git rev-parse HEAD)" = "72cbfa29a8ca9334d1bebbb4adc671995ecf40e7"
           npm ci
           npm run validate
           git diff --check
@@ -397,14 +397,14 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v5
         with:
-          ref: 4935cbd97c92ea4acb391f71b5bbaef65591b4d3
+          ref: 72cbfa29a8ca9334d1bebbb4adc671995ecf40e7
           path: neon-grid-task8-preview
 
       - name: Build Task 8 visual review with existing runtime assets
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: neon-grid-task8-preview
         env:
-          VITE_SOURCE_COMMIT: 4935cbd97c92ea4acb391f71b5bbaef65591b4d3
+          VITE_SOURCE_COMMIT: 72cbfa29a8ca9334d1bebbb4adc671995ecf40e7
         run: |
           test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
           python3 - <<'PYTHON'
@@ -617,13 +617,13 @@ jobs:
           for attempt in range(12):
               try:
                   for item in report:
-                      request = urllib.request.Request(item['url'] + '?delivery=task8-4935cbd97c92ea4acb391f71b5bbaef65591b4d3', headers={'Cache-Control': 'no-cache'})
+                      request = urllib.request.Request(item['url'] + '?delivery=task8-72cbfa29a8ca9334d1bebbb4adc671995ecf40e7', headers={'Cache-Control': 'no-cache'})
                       with urllib.request.urlopen(request, timeout=45) as response:
                           data = response.read()
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = '4935cbd97c92ea4acb391f71b5bbaef65591b4d3' if item['path'].startswith('previews/neon-grid-task8/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = '72cbfa29a8ca9334d1bebbb4adc671995ecf40e7' if item['path'].startswith('previews/neon-grid-task8/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

@@ -14,7 +14,9 @@ const browser = await chromium.launch({
 
 const errors = [];
 const visualFrames = [];
+let baselinePerformanceSummary = null;
 let performanceSummary = null;
+let pairedDelta = null;
 
 async function renderCase({ quality, width, height, scale, label, performance = false }) {
   const context = await browser.newContext({
@@ -40,7 +42,26 @@ async function renderCase({ quality, width, height, scale, label, performance = 
   visualFrames.push({ label, ...counters });
 
   if (performance) {
-    performanceSummary = await page.evaluate(() => window.measureFrames(360, 60));
+    baselinePerformanceSummary = await page.evaluate(() => window.measureFrames(360, 60, false));
+    performanceSummary = await page.evaluate(() => window.measureFrames(360, 60, true));
+    const percent = (on, off) => ((on - off) / off) * 100;
+    pairedDelta = {
+      medianFrameMs: performanceSummary.medianFrameMs - baselinePerformanceSummary.medianFrameMs,
+      medianFramePercent: percent(
+        performanceSummary.medianFrameMs,
+        baselinePerformanceSummary.medianFrameMs,
+      ),
+      p95FrameMs: performanceSummary.p95FrameMs - baselinePerformanceSummary.p95FrameMs,
+      p95FramePercent: percent(
+        performanceSummary.p95FrameMs,
+        baselinePerformanceSummary.p95FrameMs,
+      ),
+      medianFps: performanceSummary.medianFps - baselinePerformanceSummary.medianFps,
+      medianFpsPercent: percent(
+        performanceSummary.medianFps,
+        baselinePerformanceSummary.medianFps,
+      ),
+    };
   }
   await page.evaluate(() => window.game.dispose());
   await context.close();
@@ -67,7 +88,9 @@ try {
       'GitHub Actions Chromium software WebGL. Actual KartTimeTrial Medium render with eight racers staged in Falls Run. Frame-time evidence is browser/runner specific and is not a physical owner-device certification.',
     errors,
     visualFrames,
+    baselinePerformanceSummary,
     performanceSummary,
+    pairedDelta,
     maximumDrawCalls: Math.max(...visualFrames.map((frame) => frame.calls)),
     maximumTriangles: Math.max(...visualFrames.map((frame) => frame.triangles)),
   };
@@ -76,7 +99,9 @@ try {
     environment: report.environment,
     errors,
     visualFrames,
+    baseline: baselinePerformanceSummary,
     summary,
+    pairedDelta,
     maximumDrawCalls: report.maximumDrawCalls,
     maximumTriangles: report.maximumTriangles,
   }, null, 2));

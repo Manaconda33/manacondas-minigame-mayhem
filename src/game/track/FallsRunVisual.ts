@@ -154,8 +154,10 @@ function createWetAsphalt(track: NeonGrid, quality: GraphicsQuality): THREE.Mesh
         vec3 cyan = vec3(0.216, 0.902, 1.0);
         vec3 gold = vec3(1.0, 0.776, 0.247);
         vec3 reflection = mix(cyan, gold, diveGold * 0.38);
-        float alpha = 0.018 + edgeGlow * 0.035 + streak * 0.17;
-        gl_FragColor = vec4(reflection * (0.20 + streak * 0.82), alpha);
+        vec3 wetBase = vec3(0.008, 0.018, 0.032);
+        vec3 color = wetBase + reflection * (edgeGlow * 0.10 + streak * 0.52);
+        float alpha = 0.72 + edgeGlow * 0.04 + streak * 0.14;
+        gl_FragColor = vec4(color, alpha);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,

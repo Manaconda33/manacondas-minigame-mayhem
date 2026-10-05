@@ -84,7 +84,7 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     ]) {
       const mesh = scene.getObjectByName(name);
       expect(mesh).toBeInstanceOf(THREE.Mesh);
-      expectTrianglesAvoidDiveJunction(mesh as THREE.Mesh, track);
+      expectTrianglesAvoidDiveJunction(mesh, track);
     }
 
     disposeTrackScene(scene);

@@ -141,6 +141,26 @@ export function createNeonGridScene(track: NeonGrid): NeonGridScene {
     pad.add(deck);
     group.add(pad);
   }
+  const billboardBoost = new THREE.Group();
+  billboardBoost.name = 'billboard-boost-pad';
+  const billboardBoostDeck = new THREE.Mesh(
+    new THREE.BoxGeometry(
+      track.billboardGap.boostPad.halfWidth * 2,
+      0.025,
+      track.billboardGap.boostPad.halfLength * 2,
+    ),
+    padMaterial,
+  );
+  billboardBoost.position.copy(
+    track.billboardGap.curve.getPointAt(track.billboardGap.boostPad.centerFraction),
+  );
+  billboardBoost.position.y += 0.025;
+  billboardBoost.quaternion.setFromUnitVectors(
+    new THREE.Vector3(0, 0, 1),
+    track.billboardGap.curve.getTangentAt(track.billboardGap.boostPad.centerFraction),
+  );
+  billboardBoost.add(billboardBoostDeck);
+  group.add(billboardBoost);
   const gateMaterial = new THREE.MeshStandardMaterial({ color: 0xffe4a0, emissive: 0x705a12 });
   const postGeometry = new THREE.BoxGeometry(0.3, 2.8, 0.3);
   for (let i = 0; i < 12; i++) {

@@ -55,6 +55,25 @@ function ribbonGeometry(
   return geometry;
 }
 
+function diveWallOpen(track: NeonGrid, side: number, progress: number): boolean {
+  const center = track.curve.getPointAt(progress);
+  const right = rightAt(track, progress);
+  const edge = center.addScaledVector(right, side * track.halfWidthAt(progress));
+  return track.waterfallDive.junctionContains(edge);
+}
+
+function segmentCrossesDiveOpening(
+  track: NeonGrid,
+  side: number,
+  startProgress: number,
+  endProgress: number,
+): boolean {
+  const middleProgress = (startProgress + endProgress) * 0.5;
+  return [startProgress, middleProgress, endProgress].some((progress) =>
+    diveWallOpen(track, side, progress),
+  );
+}
+
 function edgeGeometry(track: NeonGrid): THREE.BufferGeometry {
   const positions: number[] = [];
   const indices: number[] = [];
@@ -74,6 +93,8 @@ function edgeGeometry(track: NeonGrid): THREE.BufferGeometry {
         positions.push(...point.toArray());
       }
       if (i < SEGMENTS) {
+        const nextProgress = THREE.MathUtils.lerp(START, END, (i + 1) / SEGMENTS);
+        if (segmentCrossesDiveOpening(track, side, progress, nextProgress)) continue;
         const a = base + i * 2;
         indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
       }
@@ -100,6 +121,8 @@ function wallCladdingGeometry(track: NeonGrid): THREE.BufferGeometry {
       const upper = lower.clone().add(new THREE.Vector3(0, 1.38, 0));
       positions.push(...lower.toArray(), ...upper.toArray());
       if (i < SEGMENTS) {
+        const nextProgress = THREE.MathUtils.lerp(START, END, (i + 1) / SEGMENTS);
+        if (segmentCrossesDiveOpening(track, side, progress, nextProgress)) continue;
         const a = base + i * 2;
         indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
       }

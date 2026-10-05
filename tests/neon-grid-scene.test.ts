@@ -18,6 +18,25 @@ function expectFiniteInstances(mesh: THREE.InstancedMesh): void {
   }
 }
 
+function expectTrianglesAvoidDiveJunction(mesh: THREE.Mesh, track: NeonGrid): void {
+  const position = mesh.geometry.getAttribute('position');
+  const index = mesh.geometry.index;
+  expect(index).not.toBeNull();
+  if (!index) return;
+
+  const a = new THREE.Vector3();
+  const b = new THREE.Vector3();
+  const c = new THREE.Vector3();
+  const centroid = new THREE.Vector3();
+  for (let i = 0; i < index.count; i += 3) {
+    a.fromBufferAttribute(position, index.getX(i));
+    b.fromBufferAttribute(position, index.getX(i + 1));
+    c.fromBufferAttribute(position, index.getX(i + 2));
+    centroid.copy(a).add(b).add(c).multiplyScalar(1 / 3);
+    expect(track.waterfallDive.junctionContains(centroid)).toBe(false);
+  }
+}
+
 describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
   it('adds the approved Falls Run groups while preserving existing named route systems', () => {
     const track = new NeonGrid();
@@ -37,6 +56,8 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     expect(scene.getObjectByName('falls-run-night-sky')).toBeInstanceOf(THREE.Mesh);
     expect(scene.getObjectByName('falls-run-wet-asphalt')).toBeInstanceOf(THREE.Mesh);
     expect(scene.getObjectByName('falls-run-luminous-edges')).toBeInstanceOf(THREE.Mesh);
+    expect(scene.getObjectByName('falls-run-wall-cladding')).toBeInstanceOf(THREE.Mesh);
+    expect(scene.getObjectByName('falls-run-luminous-top-rails')).toBeInstanceOf(THREE.Mesh);
     expect(scene.getObjectByName('falls-run-deck-fascia')).toBeInstanceOf(THREE.Mesh);
     expect(requireInstanced(scene, 'falls-run-pylons').count).toBe(12);
     expect(requireInstanced(scene, 'falls-run-cross-braces').count).toBe(22);
@@ -48,6 +69,23 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     expect(requireInstanced(scene, 'falls-run-plunge-spray').count).toBe(12);
     expect(requireInstanced(scene, 'falls-run-neon-signage').count).toBe(18);
     expect(requireInstanced(scene, 'falls-run-dive-rail-debris').count).toBe(10);
+
+    disposeTrackScene(scene);
+  });
+
+  it('keeps the accepted Waterfall Dive wall opening clear of Task 8 cladding and neon rails', () => {
+    const track = new NeonGrid();
+    const scene = createNeonGridScene(track, 'medium');
+
+    for (const name of [
+      'falls-run-wall-cladding',
+      'falls-run-luminous-edges',
+      'falls-run-luminous-top-rails',
+    ]) {
+      const mesh = scene.getObjectByName(name);
+      expect(mesh).toBeInstanceOf(THREE.Mesh);
+      expectTrianglesAvoidDiveJunction(mesh as THREE.Mesh, track);
+    }
 
     disposeTrackScene(scene);
   });

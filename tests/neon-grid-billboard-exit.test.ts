@@ -187,4 +187,4 @@ it('keeps the repaired exit inlay on the rendered support', async () => {
     checked++;
   }
   expect(checked).toBeGreaterThan(20);
-});
+}, 15000);

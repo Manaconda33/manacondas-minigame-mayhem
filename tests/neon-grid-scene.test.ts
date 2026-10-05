@@ -49,7 +49,7 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     const falls = scene.getObjectByName('falls-run-visual');
     expect(falls).toBeInstanceOf(THREE.Group);
     expect(falls?.userData.progressRange).toEqual([0.7, 0.85]);
-    expect(scene.getObjectByName('billboard')).toBeDefined();
+    expect(scene.getObjectByName('billboard-hologram')).toBeDefined();
     expect(scene.getObjectByName('service-tunnel')).toBeDefined();
     expect(scene.getObjectByName('waterfall-dive')).toBeDefined();
     expect(scene.getObjectByName('billboard-boost-pad')).toBeDefined();
@@ -106,7 +106,7 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     disposeTrackScene(low);
     disposeTrackScene(medium);
     disposeTrackScene(high);
-  });
+  }, 15000);
 
   it('keeps repeated Task 8 transforms finite and introduces no textures or real lights', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'high');

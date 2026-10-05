@@ -7,8 +7,6 @@ const START = 0.7;
 const END = 0.85;
 const WATERFALL_PROGRESS = [0.706, 0.724, 0.744, 0.765, 0.835, 0.848] as const;
 const CYAN = 0x37e6ff;
-const DEEP_CYAN = 0x163c52;
-const NIGHT = 0x020712;
 
 interface TrackPose {
   readonly point: THREE.Vector3;
@@ -372,7 +370,7 @@ function createCity(track: NeonGrid, quality: GraphicsQuality): THREE.Group {
   const cyan = new THREE.Color(CYAN);
   const amber = new THREE.Color(0xffb65c);
   for (let index = 0; index < windowCount; index += 1) {
-    const tower = towersData[index % towersData.length];
+    const tower = towersData[index % towersData.length]!;
     const row = Math.floor(index / towersData.length);
     const across = ((row * 3 + index) % 7) / 6 - 0.5;
     const vertical = 0.14 + repeatable(index, 7) * 0.72;
@@ -518,7 +516,7 @@ function createMist(
   mist.name = 'falls-run-mist';
   const dummy = new THREE.Object3D();
   for (let index = 0; index < count; index += 1) {
-    const placement = placements[index % placements.length];
+    const placement = placements[index % placements.length]!;
     dummy.position.copy(placement.point);
     dummy.position.y -= placement.height / 2 - 0.4 + repeatable(index, 21) * 1.4;
     dummy.position.x += (repeatable(index, 22) - 0.5) * 5.5;

@@ -35,12 +35,17 @@ try {
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(1000);
 
-  const scene = await page.evaluate(() => ({
-    width: window.game.renderer.domElement.width,
-    height: window.game.renderer.domElement.height,
-    pixelRatio: window.game.renderer.getPixelRatio(),
-    racers: window.game.opponents.length + 1,
-  }));
+  const scene = await page.evaluate(() => {
+    window.game.camera.far = 300;
+    window.game.camera.updateProjectionMatrix();
+    return {
+      width: window.game.renderer.domElement.width,
+      height: window.game.renderer.domElement.height,
+      pixelRatio: window.game.renderer.getPixelRatio(),
+      racers: window.game.opponents.length + 1,
+      cameraFar: window.game.camera.far,
+    };
+  });
 
   const task8OffBloomOff = await page.evaluate(() =>
     window.measureFrames(360, 60, false, false),
@@ -49,7 +54,7 @@ try {
   const report = {
     environment:
       'GitHub Actions Chromium software WebGL. Actual KartTimeTrial Medium render with eight racers staged in Falls Run. Single-case diagnostic only; browser/runner-specific and not owner-device certification.',
-    case: 'task8OffBloomOff',
+    case: 'task8OffBloomOffFar300',
     task8Visible: false,
     bloomEnabled: false,
     sampleFrames: 360,

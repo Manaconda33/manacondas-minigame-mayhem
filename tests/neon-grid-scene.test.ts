@@ -10,17 +10,21 @@ function requireInstanced(root: THREE.Object3D, name: string): THREE.InstancedMe
   return object as THREE.InstancedMesh;
 }
 
-function expectFiniteInstances(mesh: THREE.InstancedMesh): void {
+function expectFiniteInstances(object: THREE.Object3D): void {
+  expect(object).toBeInstanceOf(THREE.InstancedMesh);
+  if (!(object instanceof THREE.InstancedMesh)) return;
   const matrix = new THREE.Matrix4();
-  for (let i = 0; i < mesh.count; i++) {
-    mesh.getMatrixAt(i, matrix);
+  for (let i = 0; i < object.count; i++) {
+    object.getMatrixAt(i, matrix);
     for (const value of matrix.elements) expect(Number.isFinite(value)).toBe(true);
   }
 }
 
-function expectTrianglesAvoidDiveJunction(mesh: THREE.Mesh, track: NeonGrid): void {
-  const position = mesh.geometry.getAttribute('position');
-  const index = mesh.geometry.index;
+function expectTrianglesAvoidDiveJunction(object: THREE.Object3D | undefined, track: NeonGrid): void {
+  expect(object).toBeInstanceOf(THREE.Mesh);
+  if (!(object instanceof THREE.Mesh)) return;
+  const position = object.geometry.getAttribute('position');
+  const index = object.geometry.index;
   expect(index).not.toBeNull();
   if (!index) return;
 
@@ -82,10 +86,7 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
       'falls-run-luminous-edges',
       'falls-run-luminous-top-rails',
     ]) {
-      const mesh = scene.getObjectByName(name);
-      expect(mesh).toBeInstanceOf(THREE.Mesh);
-      if (!(mesh instanceof THREE.Mesh)) throw new Error(`Missing Task 8 mesh: ${name}`);
-      expectTrianglesAvoidDiveJunction(mesh, track);
+      expectTrianglesAvoidDiveJunction(scene.getObjectByName(name), track);
     }
 
     disposeTrackScene(scene);
@@ -122,8 +123,7 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     let lights = 0;
     task8?.traverse((object) => {
       if (object instanceof THREE.Light) lights += 1;
-      if (object instanceof THREE.InstancedMesh)
-        expectFiniteInstances(object as unknown as THREE.InstancedMesh);
+      if (object instanceof THREE.InstancedMesh) expectFiniteInstances(object);
       if (!(object instanceof THREE.Mesh || object instanceof THREE.Line)) return;
       const materials = Array.isArray(object.material) ? object.material : [object.material];
       for (const material of materials) {

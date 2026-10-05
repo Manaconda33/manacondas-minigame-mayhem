@@ -134,7 +134,6 @@ function createWetAsphalt(track: NeonGrid, quality: GraphicsQuality): THREE.Mesh
         gl_Position = projectionMatrix * viewMatrix * world;
       }`,
     fragmentShader: `uniform float streakDensity;
-      uniform vec3 cameraPosition;
       varying vec2 vUv;
       varying vec3 vWorldPosition;
       varying vec3 vWorldNormal;

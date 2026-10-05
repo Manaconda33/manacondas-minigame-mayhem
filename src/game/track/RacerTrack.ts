@@ -31,9 +31,9 @@ export class RacerTrack implements TrackDefinition {
   public constructor(
     private readonly track: NeonGrid,
     seed = 1,
-    private readonly attemptRate = NEON_GRID_AI_SHORTCUT_RATES.tunnel,
-    private readonly billboardAttemptRate = NEON_GRID_AI_SHORTCUT_RATES.billboard,
-    private readonly diveAttemptRate = NEON_GRID_AI_SHORTCUT_RATES.dive,
+    private readonly attemptRate: number = NEON_GRID_AI_SHORTCUT_RATES.tunnel,
+    private readonly billboardAttemptRate: number = NEON_GRID_AI_SHORTCUT_RATES.billboard,
+    private readonly diveAttemptRate: number = NEON_GRID_AI_SHORTCUT_RATES.dive,
   ) {
     this.diveState = new DiveState(track.waterfallDive);
     this.diveRandomState = (seed ^ 0xc2b2ae35) >>> 0;

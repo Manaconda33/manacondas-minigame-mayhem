@@ -344,7 +344,7 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   const cool = new THREE.Color(0x0b1b2a);
   const warm = new THREE.Color(0x1c1515);
 
-  const towerData: Array<{ position: THREE.Vector3; width: number; depth: number; height: number }> = [];
+  const towerData: { position: THREE.Vector3; width: number; depth: number; height: number }[] = [];
   for (let i = 0; i < towers.count; i++) {
     const progress = THREE.MathUtils.lerp(START - 0.015, END + 0.015, i / (towers.count - 1));
     const center = track.curve.getPointAt(progress);
@@ -382,7 +382,8 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   const gold = new THREE.Color(0xffb65c);
   const magenta = new THREE.Color(MAGENTA);
   for (let i = 0; i < windowCount; i++) {
-    const tower = towerData[(i * 7) % towerData.length]!;
+    const tower = towerData[(i * 7) % towerData.length];
+    if (tower === undefined) continue;
     const row = (i * 5) % 15;
     const column = (i * 11) % 9;
     dummy.position.copy(tower.position);
@@ -428,7 +429,7 @@ function addWaterfallDistrict(
   spray.name = 'falls-run-plunge-spray';
 
   const dummy = new THREE.Object3D();
-  const placements: Array<{ progress: number; side: number; width: number; height: number; position: THREE.Vector3 }> = [];
+  const placements: { progress: number; side: number; width: number; height: number; position: THREE.Vector3 }[] = [];
   for (let i = 0; i < fallCount; i++) {
     const progress = THREE.MathUtils.lerp(START + 0.012, END - 0.012, i / (fallCount - 1));
     const side = i % 2 === 0 ? -1 : 1;
@@ -460,7 +461,8 @@ function addWaterfallDistrict(
   spray.instanceMatrix.needsUpdate = true;
 
   for (let i = 0; i < mistCount; i++) {
-    const fall = placements[(i * 5) % placements.length]!;
+    const fall = placements[(i * 5) % placements.length];
+    if (fall === undefined) continue;
     const right = rightAt(track, fall.progress);
     dummy.position
       .copy(fall.position)

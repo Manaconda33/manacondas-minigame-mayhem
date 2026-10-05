@@ -84,6 +84,34 @@ function edgeGeometry(track: NeonGrid): THREE.BufferGeometry {
     .setIndex(indices);
 }
 
+function wallCladdingGeometry(track: NeonGrid): THREE.BufferGeometry {
+  const positions: number[] = [];
+  const indices: number[] = [];
+  for (const side of [-1, 1]) {
+    const base = positions.length / 3;
+    for (let i = 0; i <= SEGMENTS; i++) {
+      const progress = THREE.MathUtils.lerp(START, END, i / SEGMENTS);
+      const center = track.curve.getPointAt(progress);
+      const right = rightAt(track, progress);
+      const lower = center
+        .clone()
+        .addScaledVector(right, side * (track.halfWidthAt(progress) + 0.24))
+        .add(new THREE.Vector3(0, 0.03, 0));
+      const upper = lower.clone().add(new THREE.Vector3(0, 1.38, 0));
+      positions.push(...lower.toArray(), ...upper.toArray());
+      if (i < SEGMENTS) {
+        const a = base + i * 2;
+        indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
+      }
+    }
+  }
+  const geometry = new THREE.BufferGeometry()
+    .setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+    .setIndex(indices);
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
 function fasciaGeometry(track: NeonGrid): THREE.BufferGeometry {
   const positions: number[] = [];
   const indices: number[] = [];
@@ -590,11 +618,29 @@ export class FallsRunVisual {
       this.group.add(wet);
     }
 
+    const wallCladding = new THREE.Mesh(
+      wallCladdingGeometry(track),
+      new THREE.MeshStandardMaterial({
+        color: 0x08131d,
+        roughness: 0.48,
+        metalness: 0.52,
+        side: THREE.DoubleSide,
+      }),
+    );
+    wallCladding.name = 'falls-run-wall-cladding';
+    this.group.add(wallCladding);
+
     const edgeMaterial = new THREE.MeshBasicMaterial({ color: CYAN });
     markBloomMaterial(edgeMaterial, 'color');
     const edges = new THREE.Mesh(edgeGeometry(track), edgeMaterial);
     edges.name = 'falls-run-luminous-edges';
     this.group.add(edges);
+
+    const topRailGeometry = edgeGeometry(track);
+    topRailGeometry.translate(0, 1.34, 0);
+    const topRails = new THREE.Mesh(topRailGeometry, edgeMaterial);
+    topRails.name = 'falls-run-luminous-top-rails';
+    this.group.add(topRails);
 
     addStructure(this.group, track);
     addCity(this.group, track, quality);

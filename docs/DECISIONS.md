@@ -1138,3 +1138,9 @@ Manny approved the supported waterway entering from the driver's left and flowin
 Manny approved the published waterfall spillway preview on 2026-10-04 at 20:05 America/Chicago with “Approved”. Approval applies to the revised waterfall presentation at runtime b49d9876f8c6ce87956f8b91675c3c8180e56b55: the left waterway, water flowing over the ramp, and cascade from its launch lip into the pool. This closes the visual retest gate for this bounded Task 7 revision. It does not independently establish gameplay balance, final AI rates, device performance or authorize production integration or Stage 4.
 
 The earlier pending-owner-retest statements are historical and superseded for this visual revision only. Engineering and delivery evidence remains unchanged. Approval recorded on feature/neon-grid-waterfall-dive; production unchanged.
+
+## Neon Grid joint shortcut balance decision — 2026-10-05
+
+Manny approved the joint defaults Tunnel 5% / Billboard 45% / Dive 12%, Billboard race-time phase offset +3.6 s, one modest standard boost pad after Billboard commitment and before rejoin, and unchanged forgiving 1.5 s Dive splash recovery. Billboard ON/static remains a once-only 0.82 exit retention.
+
+Runtime candidate `c71b2287b463f6a17645d664d3307d6b591561bf` places the pad at Billboard path fraction 0.93 and passed hosted full validation in CI `37352477495`. Real paired native sections measured OFF saving 0.517–0.650 s (mean 0.569), ON saving 0.500–0.633 s (mean 0.536), and ON/OFF separation 0.017–0.050 s (mean 0.033). The approved 0.8–1.0 s OFF and 0.25–0.4 s tell-separation targets are not met. Per owner direction, do not alter 0.82 without a new decision. Publish only the measured isolated candidate and stop for owner playtest.

@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; approved implementation amendment 2.23
+Version 1.1 - Final approved baseline; approved implementation amendment 2.24
 
 August 16, 2026
 
@@ -3150,3 +3150,11 @@ Approved October 5, 2026. Neon Grid Circuit 02 uses seeded default AI shortcut a
 The approved Billboard balance candidate adds exactly one modest standard boost pad inside the shortcut after physical commitment and before rejoin. Use the existing track boost behavior rather than changing kart statistics or global physics. Paired same-driver measurements target approximately **0.8–1.0 s OFF savings**, **0.5–0.6 s ON savings**, and **0.25–0.4 s real ON/OFF tell value**. If the boost pad alone does not establish that separation, report the miss and stop for owner decision; do not change 0.82 unilaterally.
 
 Waterfall Dive miss recovery remains forgiving and unchanged: the approximately **1.5 race-second** splash/recovery forfeits the shortcut reward but is not required to cost position versus the main line. No Tunnel/Dive geometry, repaired 5.3 faces, items, racer statistics, or Stage 4 scope is authorized by this amendment.
+
+## Approved implementation amendment 2.24 - Billboard tell acceptance and entrance boost placement
+
+Approved October 5, 2026. The Billboard ON/OFF timing difference is accepted as **flavor**; the numeric ON/OFF tell-separation target from amendment 2.23 is retired and no further separation tuning is authorized. The once-only **0.82 ON/static exit retention** remains unchanged.
+
+The single existing standard Billboard boost pad moves from the prior 0.55 checkpoint to just inside the physically committed shortcut entrance, within approximately **gap fraction 0.1–0.2**. Its full trigger footprint must begin after commitment so a kart remaining on the main line cannot trigger it. Pad strength and size remain unchanged. Validation of this placement is a functional sanity check using the established paired native method, not a new balance experiment and carries no numeric savings threshold.
+
+The seeded AI shortcut rates remain **5% Service Tunnel / 45% Billboard / 12% Waterfall Dive**; the Billboard phase offset remains **+3.6 seconds**; Dive recovery remains approximately **1.5 race seconds**. No kart statistics, global physics, items, Tunnel/Dive geometry, repaired 5.3 faces, or Stage 4 work is authorized by this amendment.

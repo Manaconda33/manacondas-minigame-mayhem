@@ -4,9 +4,14 @@ import type { TrackProjection } from './TrackDefinition';
 import { TrackSegmentIndex } from './TrackSegmentIndex';
 import { billboardExitPatch } from './BillboardExitGeometry';
 
+export const BILLBOARD_PHASE_OFFSET_SECONDS = 3.6;
+
 /** Pure race-time cycle: never reads wall time or accumulates while paused. */
 export function billboardStateAt(raceSeconds: number): { on: boolean; tellIntensity: number } {
-  const phase = THREE.MathUtils.euclideanModulo(Math.max(0, raceSeconds), 6);
+  const phase = THREE.MathUtils.euclideanModulo(
+    Math.max(0, raceSeconds) + BILLBOARD_PHASE_OFFSET_SECONDS,
+    6,
+  );
   const on = phase < 4;
   const remaining = (on ? 4 : 6) - phase;
   return { on, tellIntensity: THREE.MathUtils.clamp(1 - remaining / 0.8, 0, 1) };
@@ -22,6 +27,11 @@ export class BillboardGap {
     lateral: [-4, 4] as [number, number],
   };
   public readonly exitProgress = 0.215;
+  public readonly boostPad = {
+    centerFraction: 0.82,
+    halfLength: 3,
+    halfWidth: 3.5,
+  } as const;
   public readonly curve: THREE.CubicBezierCurve3;
   private readonly segmentCount = 128;
   private readonly segmentIndex: TrackSegmentIndex;
@@ -58,6 +68,11 @@ export class BillboardGap {
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
     const lateralOffset = position.clone().sub(point).dot(right);
     const progress = THREE.MathUtils.lerp(this.entry.progress[0], this.exitProgress, fraction);
+    const distance = fraction * this.curve.getLength();
+    const boostCenter = this.boostPad.centerFraction * this.curve.getLength();
+    const onBoostPad =
+      Math.abs(distance - boostCenter) <= this.boostPad.halfLength &&
+      Math.abs(lateralOffset) <= this.boostPad.halfWidth;
     return {
       index: Math.floor(progress * mainSampleCount),
       progress,
@@ -65,7 +80,7 @@ export class BillboardGap {
       tangent,
       lateralOffset,
       lateralDistance: Math.abs(lateralOffset),
-      surface: 'asphalt',
+      surface: onBoostPad ? 'boost' : 'asphalt',
       pathId: this.id,
     };
   }

@@ -34,13 +34,15 @@ describe('authoritative billboard timing and crossing', () => {
       dive: 0.12,
     });
   });
-  it('keeps one boost surface committed to the Billboard shortcut during entrance repositioning', () => {
+  it('places the boost surface just inside the committed Billboard entrance', () => {
     const track = new NeonGrid(),
       gap = track.billboardGap,
-      center = gap.curve.getPointAt(gap.boostPad.centerFraction);
+      length = gap.curve.getLength(),
+      center = gap.curve.getPointAt(gap.boostPad.centerFraction),
+      boostStartDistance = gap.boostPad.centerFraction * length - gap.boostPad.halfLength;
     expect(gap.boostPad.centerFraction).toBeGreaterThanOrEqual(0.1);
-    expect(gap.boostPad.centerFraction).toBeLessThanOrEqual(0.6);
-    expect(gap.boostPad.centerFraction).toBeGreaterThan(gap.mouthDistance / gap.curve.getLength());
+    expect(gap.boostPad.centerFraction).toBeLessThanOrEqual(0.2);
+    expect(boostStartDistance).toBeGreaterThan(gap.mouthDistance);
     expect(gap.boostPad.centerFraction).toBeLessThan(1);
     expect(gap.project(center).surface).toBe('boost');
     expect(gap.project(gap.curve.getPointAt(gap.boostPad.centerFraction - 0.08)).surface).toBe(

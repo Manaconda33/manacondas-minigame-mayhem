@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 import { guardrailContact } from '../track/GuardrailSystem';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import { ARC_BLADE_CONFIG, arcCoordinates, type ArcEvent } from './ArcBlade';
 import type { ProjectileSystem, ProjectileTarget } from './ProjectileSystem';
 
@@ -47,7 +47,7 @@ export class ArcBladeCounterFixture {
   public update(
     dt: number,
     c: {
-      track: CircuitAlpha;
+      track: TrackDefinition;
       projectiles: ProjectileSystem;
       targets: readonly ProjectileTarget[];
       held: string | null;

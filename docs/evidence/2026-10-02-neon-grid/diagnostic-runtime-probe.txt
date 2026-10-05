@@ -1,0 +1,37 @@
+it('DIAGNOSTIC route CPU and correction comparison', async () => {
+  const clock = { now: () => Number(process.hrtime.bigint()) / 1e6 }; 
+  const { writeFileSync } = await import('node:fs');
+  const reports = [];
+  for (const route of ['circuit-alpha', 'neon-grid'] as const) {
+    const { game, advance } = await setup('', route, 'aa-13', true);
+    const r = game as unknown as {
+      track: { project: (...args: unknown[]) => unknown };
+      world: { step: () => void };
+      simulate: (dt: number) => void;
+      kart: { resolveStaticBarrierCollision: (...args: unknown[]) => void };
+      updateOpponents: (dt: number) => void;
+      resolveGuardrailContacts: (dt: number) => void;
+    };
+    advance.mockRestore();
+    const totals: Record<string, { calls: number; ms: number }> = {};
+    const wrap = (object: object, key: string, name: string) => {
+      const target = object as Record<string, (...args: unknown[]) => unknown>;
+      const original = target[key]!.bind(object);
+      const total = totals[name] = { calls: 0, ms: 0 };
+      target[key] = (...args: unknown[]) => { const start = clock.now(); const result = original(...args); total.calls++; total.ms += clock.now()-start; return result; };
+    };
+    wrap(r.track, 'project', 'projection');
+    wrap(r.world, 'step', 'physics');
+    wrap(r, 'updateOpponents', 'opponents');
+    wrap(r, 'resolveGuardrailContacts', 'rails');
+    const frames = [];
+    for (let i = 0; i < 1800; i++) {
+      game.setTouchWheel({ held: true, steering: Math.sin(i / 100) * 0.15 });
+      const start = clock.now(); r.simulate(1/60); frames.push(clock.now()-start);
+    }
+    frames.sort((a,b)=>a-b);
+    reports.push({route, steps:frames.length, meanMs: frames.reduce((a,b)=>a+b,0)/frames.length, p50Ms:frames[900], p95Ms:frames[1710], maxMs:frames.at(-1), totals});
+    game.dispose();
+  }
+  writeFileSync('/tmp/neon-route-cpu.json', JSON.stringify(reports,null,2));
+}, 120000);

@@ -1,0 +1,12 @@
+{
+  "originalVerticesExact": 3074,
+  "unchangedOutsideFaces": 2965,
+  "centerlineEdges": 50,
+  "maxCenterlineError": 0.000007317383683974863,
+  "insideFaces": 89,
+  "boundaryVertices": 91,
+  "polygonArea": 260.7133855468419,
+  "triangleArea": 260.7133855468419,
+  "maxInsideSlope": 7.967327256385294,
+  "allChecksPassed": true
+}

@@ -1,0 +1,136 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+ ❯ tests/neon-grid-billboard-relocation.test.ts (6 tests | 5 failed) 972ms
+   × joins the early descent without a heading kink and projects the curved driving line 13ms
+   × keeps the entire billboard frame beyond the main racing corridor 133ms
+   × earns a clean time advantage through real route selection at 12 m/s 289ms
+   × earns a clean time advantage through real route selection at 22 m/s 235ms
+   × earns a clean time advantage through real route selection at 30 m/s 207ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-billboard-relocation.test.ts > joins the early descent without a heading kink and projects the curved driving line
+AssertionError: expected 13.986085767361484 to be less than 8
+ ❯ tests/neon-grid-billboard-relocation.test.ts:19:37
+     17| it('joins the early descent without a heading kink and projects the cu…
+     18|   const track = new NeonGrid(), gap = track.billboardGap;
+     19|   expect(gap.curve.getPointAt(1).y).toBeLessThan(8);
+       |                                     ^
+     20|   for (const fraction of [0, 1]) {
+     21|     const progress = fraction === 0 ? gap.entry.progress[0] : gap.exit…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/neon-grid-billboard-relocation.test.ts > keeps the entire billboard frame beyond the main racing corridor
+AssertionError: expected -5.319156748703016 to be greater than 0.5
+ ❯ tests/neon-grid-billboard-relocation.test.ts:46:71
+     44|       const p = new THREE.Vector3().fromBufferAttribute(positions, i).…
+     45|       const main = track.projectMain(p.clone().setY(14));
+     46|       expect(main.lateralDistance - track.halfWidthAt(main.progress)).…
+       |                                                                       ^
+     47|     }
+     48|   });
+ ❯ Mesh.traverse node_modules/three/build/three.core.js:12807:3
+ ❯ Group.traverse node_modules/three/build/three.core.js:12813:18
+ ❯ tests/neon-grid-billboard-relocation.test.ts:40:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/neon-grid-billboard-relocation.test.ts > earns a clean time advantage through real route selection at 12 m/s
+AssertionError: expected { seconds: Infinity, …(4) } to match object { entered: true, events: 1, …(2) }
+(1 matching property omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "contacts": 0,
++   "contacts": 1487,
+    "crossed": [
+      2,
+-     3,
+-     4,
+    ],
+    "entered": true,
+-   "events": 1,
++   "events": 0,
+  }
+
+ ❯ tests/neon-grid-billboard-relocation.test.ts:101:15
+     99|   const main=driveSection(false,speed), gap=driveSection(true,speed);
+    100|   expect(main.crossed).toEqual([2,3,4]);
+    101|   expect(gap).toMatchObject({entered:true,events:1,contacts:0,crossed:…
+       |               ^
+    102|   expect(main.seconds-gap.seconds).toBeGreaterThan(0.2);
+    103| }, 30000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  tests/neon-grid-billboard-relocation.test.ts > earns a clean time advantage through real route selection at 22 m/s
+AssertionError: expected { seconds: Infinity, …(4) } to match object { entered: true, events: 1, …(2) }
+(1 matching property omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "contacts": 0,
++   "contacts": 1445,
+    "crossed": [
+      2,
+-     3,
+-     4,
+    ],
+    "entered": true,
+-   "events": 1,
++   "events": 0,
+  }
+
+ ❯ tests/neon-grid-billboard-relocation.test.ts:101:15
+     99|   const main=driveSection(false,speed), gap=driveSection(true,speed);
+    100|   expect(main.crossed).toEqual([2,3,4]);
+    101|   expect(gap).toMatchObject({entered:true,events:1,contacts:0,crossed:…
+       |               ^
+    102|   expect(main.seconds-gap.seconds).toBeGreaterThan(0.2);
+    103| }, 30000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  tests/neon-grid-billboard-relocation.test.ts > earns a clean time advantage through real route selection at 30 m/s
+AssertionError: expected { seconds: Infinity, …(4) } to match object { entered: true, events: 1, …(2) }
+(1 matching property omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "contacts": 0,
++   "contacts": 1464,
+    "crossed": [
+      2,
+-     3,
+-     4,
+    ],
+    "entered": true,
+-   "events": 1,
++   "events": 0,
+  }
+
+ ❯ tests/neon-grid-billboard-relocation.test.ts:101:15
+     99|   const main=driveSection(false,speed), gap=driveSection(true,speed);
+    100|   expect(main.crossed).toEqual([2,3,4]);
+    101|   expect(gap).toMatchObject({entered:true,events:1,contacts:0,crossed:…
+       |               ^
+    102|   expect(main.seconds-gap.seconds).toBeGreaterThan(0.2);
+    103| }, 30000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 1 passed (6)
+   Start at  13:13:57
+   Duration  1.83s (transform 181ms, setup 0ms, import 248ms, tests 972ms, environment 470ms)
+

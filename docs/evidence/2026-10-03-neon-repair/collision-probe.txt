@@ -1,0 +1,34 @@
+import * as THREE from 'three';
+import RAPIER from '@dimforge/rapier3d-compat';
+import { it } from 'vitest';
+import { writeFileSync } from 'node:fs';
+import { NeonGrid } from '../src/game/track/NeonGrid';
+import { createNeonGridColliders } from '../src/game/track/NeonGridCollision';
+import { KartController } from '../src/game/physics/KartController';
+import { AiDriver } from '../src/game/ai/AiDriver';
+import { createKartTuning } from '../src/config/kartTuning';
+import { characterById } from '../src/characters/manifest';
+import { guardrailContact } from '../src/game/track/GuardrailSystem';
+it('DIAGNOSTIC isolate Neon collision corrections', async () => {
+ await RAPIER.init(); const reports=[];
+ for(const mode of ['both','physical-only','arcade-only']) {
+  const track=new NeonGrid(); const world=new RAPIER.World({x:0,y:-18,z:0}); createNeonGridColliders(world,track);
+  if(mode==='arcade-only') {const colliders=[] as RAPIER.Collider[];world.colliders.forEach(c=>colliders.push(c));for(const c of colliders.slice(1))world.removeCollider(c,true);}
+  const stats=characterById('aa-13').stats;const tuning=createKartTuning(stats);const p=track.curve.getPointAt(.001);const t=track.curve.getTangentAt(.001);const kart=new KartController(world,tuning,stats,p,Math.atan2(t.x,t.z));const driver=new AiDriver(track,{laneOffset:0,pace:.55,aggression:.3},tuning.maxSpeed);
+  let cooldown=0;let corrections=0,maxCorrection=0,unsupported=0,maxScriptedLoss=0,maxBoundaryExcess=0,backwardSteps=0;const losses=[];const jumps=[];let minimumSpeed=Infinity;let previousProgress=0;
+  for(let i=0;i<9000;i++){
+   cooldown=Math.max(0,cooldown-1/60);const before=kart.position();const speed=kart.speedMetersPerSecond();const projection=track.project(before);const input=driver.input(before,kart.forward(),speed);input.throttle=1;input.brake=false;kart.update(input,projection.surface,1/60); const beforePhysicsVelocity=kart.velocity(); const beforePhysicsPosition=kart.position(); world.step();
+   const afterPhysics=kart.position();const physicalSpeed=kart.speedMetersPerSecond();const contact=guardrailContact(track,afterPhysics,1.15);
+   if(contact && mode!=='physical-only'){corrections++;maxCorrection=Math.max(maxCorrection,contact.penetration);kart.resolveStaticBarrierCollision(contact.inwardNormal,contact.penetration+0.02,cooldown>0?1:.82,.22); if(cooldown===0)cooldown=.24; maxScriptedLoss=Math.max(maxScriptedLoss,physicalSpeed-kart.speedMetersPerSecond());}
+   const after=kart.position(); const next=track.project(after);
+   if(Math.abs(next.progress-previousProgress)>.02&&Math.abs(next.progress-previousProgress)<.95)jumps.push({step:i,from:previousProgress,to:next.progress,meters:after.distanceTo(before)});
+   const nativeContacts: unknown[]=[]; if(speed-physicalSpeed>1) world.colliders.forEach(c=>{if(c.parent()===null)world.contactPair(kart.body.collider(0),c,(m)=>{nativeContacts.push({wall:c.handle,normal:m.normal(),points:Array.from({length:m.numSolverContacts()},(_,j)=>m.solverContactPoint(j))});});});
+   if(Math.hypot(beforePhysicsVelocity.x,beforePhysicsVelocity.z)-physicalSpeed>1&&input.throttle>0&&!input.brake)losses.push({forward:kart.forward().toArray(),nativeContacts,step:i,progress:projection.progress,speed:Math.hypot(beforePhysicsVelocity.x,beforePhysicsVelocity.z),after:physicalSpeed,vy:kart.velocity().y,wall:contact?.penetration??0,lateral:projection.lateralOffset,position:beforePhysicsPosition.toArray(),beforePhysicsVelocity:beforePhysicsVelocity.toArray(),afterPhysicsVelocity:kart.velocity().toArray()});
+   if(after.y<next.point.y-1)unsupported++; maxBoundaryExcess=Math.max(maxBoundaryExcess,next.lateralDistance-(track.halfWidthAt(next.progress)-1.15));if(after.clone().sub(before).dot(kart.forward()) < -0.01)backwardSteps++;
+   if(i>180)minimumSpeed=Math.min(minimumSpeed,kart.speedMetersPerSecond());
+   previousProgress=next.progress;
+  }
+  reports.push({mode,corrections,maxCorrection,unsupported,maxScriptedLoss,maxBoundaryExcess,backwardSteps,minimumSpeed,progress:track.project(kart.position()).progress,uncommandedSpeedLosses:losses.length,worstLosses:losses.sort((a,b)=>(b.speed-b.after)-(a.speed-a.after)).slice(0,12),projectionJumps:jumps.slice(0,12)});world.free();
+ }
+ writeFileSync('/tmp/neon-full-throttle-detail.json',JSON.stringify(reports,null,2));
+},120000);

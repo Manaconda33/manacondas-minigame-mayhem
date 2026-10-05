@@ -2,6 +2,7 @@ import { open, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { inflateSync } from 'node:zlib';
 import './verify-terrain-assets.mjs';
+import './verify-billboard-assets.mjs';
 
 const archivedCleoHashes = new Map([
   [

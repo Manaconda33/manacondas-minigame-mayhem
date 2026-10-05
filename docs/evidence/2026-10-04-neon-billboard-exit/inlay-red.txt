@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/8b6efdc2d535/repo
+
+ ❯ tests/neon-grid-billboard-exit.test.ts (5 tests | 1 failed) 865ms
+   × keeps the repaired exit inlay on the rendered support 197ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-billboard-exit.test.ts > keeps the repaired exit inlay on the rendered support
+AssertionError: expected 0.04932469428862518 to be close to 0.012, received difference is 0.037324694288625185, but expected 0.0005
+ ❯ tests/neon-grid-billboard-exit.test.ts:186:45
+    184|     const support = ray.intersectObjects([road, plaza], false)[0];
+    185|     expect(support).toBeDefined();
+    186|     expect(p.y - (support?.point.y ?? -99)).toBeCloseTo(0.012, 3);
+       |                                             ^
+    187|     checked++;
+    188|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  14:17:04
+   Duration  1.21s (transform 162ms, setup 0ms, import 213ms, tests 865ms, environment 0ms)
+

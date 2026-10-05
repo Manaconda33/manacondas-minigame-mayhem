@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NEON GRID — Track Layout Guide (Circuit 02)</title>
+<style>
+  body { background:#070b16; color:#cfe6ff; font-family:'Segoe UI',system-ui,sans-serif; margin:0; padding:24px; }
+  h1 { color:#37e6ff; letter-spacing:2px; margin:0 0 4px; font-size:28px; }
+  .sub { color:#ff4fd8; letter-spacing:1px; margin-bottom:16px; font-size:14px; }
+  .wrap { max-width:1180px; margin:0 auto; }
+  svg { width:100%; height:auto; background:#0a0e1c; border:1px solid #1d2b4d; border-radius:8px; }
+  .legend { display:flex; gap:24px; flex-wrap:wrap; margin-top:14px; font-size:13px; }
+  .legend span { display:flex; align-items:center; gap:8px; }
+  .sw { width:34px; height:10px; border-radius:5px; display:inline-block; }
+  .notes { margin-top:18px; font-size:14px; line-height:1.65; color:#9fb4d8; max-width:900px; }
+  .notes b { color:#e8f4ff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>NEON GRID</h1>
+<div class="sub">CIRCUIT 02 · ROUTE NIGHT · TOP-DOWN LAYOUT GUIDE — NOT TO SCALE, FLOW OVER PRECISION</div>
+
+<svg viewBox="0 0 1100 760" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- track base (asphalt) -->
+  <path d="M 550,90 L 800,90 C 880,90 910,140 910,210 L 910,260
+           C 910,320 870,340 810,340 L 700,340
+           C 640,340 630,400 690,410 L 800,420
+           C 860,425 860,485 800,490 L 690,500
+           C 620,505 620,565 690,570 L 850,580
+           C 920,585 930,640 870,660 L 250,660
+           C 170,660 150,600 160,540 L 168,505
+           M 172,445 L 178,380 C 182,300 190,220 210,160
+           C 225,110 280,95 350,90 L 550,90"
+        fill="none" stroke="#232c4e" stroke-width="46" stroke-linecap="round"/>
+
+  <!-- sector overlays -->
+  <path d="M 550,90 L 800,90 C 880,90 910,140 910,210 L 910,260"
+        fill="none" stroke="#37e6ff" stroke-width="46" stroke-linecap="round" opacity="0.9" filter="url(#glow)"/>
+  <path d="M 910,260 C 910,320 870,340 810,340 L 700,340
+           C 640,340 630,400 690,410 L 800,420
+           C 860,425 860,485 800,490 L 690,500
+           C 620,505 620,565 690,570"
+        fill="none" stroke="#ff4fd8" stroke-width="46" stroke-linecap="round" opacity="0.9" filter="url(#glow)"/>
+  <path d="M 690,570 L 850,580 C 920,585 930,640 870,660 L 250,660
+           C 170,660 150,600 160,540 L 168,505
+           M 172,445 L 178,380 C 182,300 190,220 210,160
+           C 225,110 280,95 350,90 L 550,90"
+        fill="none" stroke="#ffc63f" stroke-width="46" stroke-linecap="round" opacity="0.9" filter="url(#glow)"/>
+
+  <!-- center dashes -->
+  <path d="M 550,90 L 800,90 C 880,90 910,140 910,210 L 910,260
+           C 910,320 870,340 810,340 L 700,340
+           C 640,340 630,400 690,410 L 800,420
+           C 860,425 860,485 800,490 L 690,500
+           C 620,505 620,565 690,570 L 850,580
+           C 920,585 930,640 870,660 L 250,660
+           C 170,660 150,600 160,540 L 168,505"
+        fill="none" stroke="#0a0e1c" stroke-width="3" stroke-dasharray="14 12"/>
+  <path d="M 172,445 L 178,380 C 182,300 190,220 210,160
+           C 225,110 280,95 350,90 L 550,90"
+        fill="none" stroke="#0a0e1c" stroke-width="3" stroke-dasharray="14 12"/>
+
+  <!-- shortcuts -->
+  <path d="M 700,90 L 895,235" fill="none" stroke="#ffd94d" stroke-width="7"
+        stroke-dasharray="12 9" filter="url(#glow)"/>
+  <path d="M 845,352 C 810,430 775,495 735,555" fill="none" stroke="#ffd94d" stroke-width="7"
+        stroke-dasharray="12 9" filter="url(#glow)"/>
+  <path d="M 168,505 Q 120,475 172,445" fill="none" stroke="#ffd94d" stroke-width="7"
+        stroke-dasharray="12 9" filter="url(#glow)"/>
+
+  <!-- boost pads -->
+  <g fill="#37e6ff" filter="url(#glow)">
+    <polygon points="600,68 622,68 614,90 592,90"/>
+    <polygon points="660,68 682,68 674,90 652,90"/>
+    <polygon points="720,68 742,68 734,90 712,90"/>
+    <polygon points="420,638 442,638 434,660 412,660"/>
+  </g>
+
+  <!-- tokens -->
+  <g fill="#ffe9a3" stroke="#b98a1d" stroke-width="2" filter="url(#glow)">
+    <circle cx="800" cy="165" r="9"/>
+    <circle cx="745" cy="430" r="9"/>
+    <circle cx="120" cy="475" r="9"/>
+    <circle cx="500" cy="660" r="9"/>
+    <circle cx="300" cy="130" r="9"/>
+  </g>
+
+  <!-- start/finish -->
+  <g>
+    <rect x="528" y="62" width="44" height="56" fill="#f2f5ff"/>
+    <g fill="#11162a">
+      <rect x="528" y="62" width="11" height="14"/><rect x="550" y="62" width="11" height="14"/>
+      <rect x="539" y="76" width="11" height="14"/><rect x="561" y="76" width="11" height="14"/>
+      <rect x="528" y="90" width="11" height="14"/><rect x="550" y="90" width="11" height="14"/>
+      <rect x="539" y="104" width="11" height="14"/><rect x="561" y="104" width="11" height="14"/>
+    </g>
+    <text x="550" y="48" text-anchor="middle" fill="#f2f5ff" font-size="15" letter-spacing="2">START / FINISH</text>
+  </g>
+
+  <!-- labels -->
+  <g font-size="15" letter-spacing="1.5">
+    <text x="985" y="150" fill="#37e6ff" text-anchor="end">SECTOR 1 · SKYLINE STRAIGHT</text>
+    <line x1="980" y1="158" x2="915" y2="180" stroke="#37e6ff" stroke-width="1.5"/>
+    <text x="985" y="470" fill="#ff4fd8" text-anchor="end">SECTOR 2 · THE UNDERCITY</text>
+    <line x1="980" y1="478" x2="800" y2="455" stroke="#ff4fd8" stroke-width="1.5"/>
+    <text x="120" y="700" fill="#ffc63f">SECTOR 3 · FALLS RUN</text>
+    <line x1="180" y1="692" x2="300" y2="662" stroke="#ffc63f" stroke-width="1.5"/>
+  </g>
+  <g font-size="14" letter-spacing="1">
+    <text x="700" y="60" fill="#ffd94d" text-anchor="middle">1 · BILLBOARD GAP</text>
+    <text x="880" y="470" fill="#ffd94d" text-anchor="middle">2 · SERVICE TUNNEL</text>
+    <text x="60" y="440" fill="#ffd94d">3 · WATERFALL DIVE</text>
+  </g>
+
+  <!-- waterfall icon -->
+  <g transform="translate(105,540)">
+    <path d="M0,-18 C 6,-8  -6,2  0,12 C 6,22  -6,30  0,40" stroke="#37e6ff" stroke-width="4" fill="none" filter="url(#glow)"/>
+    <path d="M12,-18 C 18,-8  6,2  12,12 C 18,22  6,30  12,40" stroke="#37e6ff" stroke-width="4" fill="none" opacity="0.6"/>
+  </g>
+  <text x="105" y="600" fill="#9fb4d8" font-size="12" text-anchor="middle">falls</text>
+</svg>
+
+<div class="legend">
+  <span><i class="sw" style="background:#37e6ff"></i> Sector 1 — fast, boost pads</span>
+  <span><i class="sw" style="background:#ff4fd8"></i> Sector 2 — technical, hairpins</span>
+  <span><i class="sw" style="background:#ffc63f"></i> Sector 3 — falls, jump finish</span>
+  <span><i class="sw" style="background:repeating-linear-gradient(90deg,#ffd94d 0 8px,transparent 8px 14px)"></i> Hidden shortcut</span>
+  <span><i class="sw" style="background:#ffe9a3;border-radius:50%;width:14px;height:14px"></i> Token</span>
+</div>
+
+<div class="notes">
+  <b>Build notes:</b> Direction is clockwise from START/FINISH. Sector 1 is wide expressway (room for 4-wide racing);
+  Sector 2 narrows to alley width (2-wide, walls both sides); Sector 3 re-widens with the waterfall jump gap on the
+  west climb. Shortcuts are <b>skill-gated, never luck-gated</b>: (1) billboard always smashable, flicker-off = clean exit
+  speed, flicker-on = static slowdown; (2) tunnel is narrow but walled — the test is line choice, not survival;
+  (3) dive is a real ramp jump — land it or splash down and respawn on-track with a modest penalty.
+  One token inside each shortcut rewards discovery before mastery.
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/be55d24ec46a/manacondas-minigame-mayhem
+
+stdout | tests/neon-grid-dive.test.ts > uses native ramp flight and landing at 8 m/s angle +0 lane +0
+{
+  speed: 8,
+  angle: 0,
+  active: true,
+  d: 8.02742750840235,
+  landed: false,
+  missed: false,
+  air: 0,
+  position: [ -158.27090454101562, 6.923547744750977, 51.128990173339844 ]
+}
+
+stdout | tests/neon-grid-dive.test.ts > uses native ramp flight and landing at 25 m/s angle 12 lane 1
+{
+  speed: 25,
+  angle: 12,
+  active: true,
+  d: 31.986682840082956,
+  landed: false,
+  missed: false,
+  air: 62,
+  position: [ -164.7601776123047, 9.173588752746582, 27.135974884033203 ]
+}
+
+ ❯ tests/neon-grid-dive.test.ts (9 tests | 4 failed) 3322ms
+   × uses native ramp flight and landing at 8 m/s angle +0 lane +0 359ms
+   × uses native ramp flight and landing at 25 m/s angle 12 lane 1 322ms
+   × owns dive projection per racer, freezes splash at paused race time, and never moves the body or awards gates 250ms
+   × shows bounded animated water, mist, launch tell and native support; pause freezes water 539ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-dive.test.ts > uses native ramp flight and landing at 8 m/s angle +0 lane +0
+ FAIL  tests/neon-grid-dive.test.ts > uses native ramp flight and landing at 25 m/s angle 12 lane 1
+AssertionError: expected { landed: false, missed: false, …(2) } to match object { landed: false, missed: true }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "landed": false,
+-   "missed": true,
++   "missed": false,
+  }
+
+ ❯ tests/neon-grid-dive.test.ts:52:68
+     50|     }
+     51|     console.log({speed,angle,active:state.active,d:dive.distance(kart.…
+     52|     expect({landed,missed,air,position:kart.position().toArray()}).toM…
+       |                                                                    ^
+     53|     if(landed) expect(air).toBeGreaterThan(3);
+     54|     cleanup();world.free();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/neon-grid-dive.test.ts > owns dive projection per racer, freezes splash at paused race time, and never moves the body or awards gates
+TypeError: a.advanceDive is not a function
+ ❯ tests/neon-grid-dive.test.ts:61:5
+     59|   const track=new NeonGrid(), a=new RacerTrack(track), b=new RacerTrac…
+     60|   const p=d.pointAtDistance(d.mouthDistance),v=d.direction.clone().mul…
+     61|   a.advanceDive(p.clone().addScaledVector(d.direction,-1),p,v,1);
+       |     ^
+     62|   expect(a.project(p).pathId).toBe('waterfall-dive');expect(b.project(…
+     63|   const miss=d.pointAtDistance(19).setY(-1),frozen=miss.clone();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/neon-grid-dive.test.ts > shows bounded animated water, mist, launch tell and native support; pause freezes water
+AssertionError: expected undefined to be defined
+ ❯ tests/neon-grid-dive.test.ts:73:135
+     71|   const {createNeonGridScene}=await import('../src/game/track/createNe…
+     72|   const scene=createNeonGridScene(new NeonGrid());
+     73|   for(const name of ['waterfall-dive','dive-ramp','dive-landing','dive…
+       |                                                                                                                                       ^
+     74|   scene.dive.update(2);const water=scene.getObjectByName('dive-water')…
+     75|   const a=new THREE.Matrix4(),b=new THREE.Matrix4();water.getMatrixAt(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 5 passed (9)
+   Start at  00:43:45
+   Duration  4.13s (transform 164ms, setup 0ms, import 185ms, tests 3.32s, environment 490ms)
+

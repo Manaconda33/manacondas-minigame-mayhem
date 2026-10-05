@@ -1,0 +1,18 @@
+# Neon Grid mobile repair
+
+## Neon Grid mobile preview repair — 2026-10-02
+
+Manny rejected Stage 2 mobile review: the countdown grid was visible, AI drove away, the player stayed at 0 km/h and the camera lost the kart. The main-route owner gate is **FAIL / awaiting corrected-preview retest**; do not begin Stage 3 or merge runtime PR #242.
+
+Root cause reproduced: ChaseCamera positioned itself relative to the elevated kart but aimed at absolute world Y=0.65/1.15. The portrait integration test projects the player above the viewport after the intro. Neon now supplies local road elevation to the existing intro/chase/rear aim; Alpha retains the zero-base default and accepted settings. No control, camera-distance, physics, track shape, roster, asset or audio redesign.
+
+Real pointer binding → touch wheel → player drive → countdown → eight-body Rapier simulation moves AA-02, Archer and Lunarcrystal from the elevated grid. This does not reproduce a separate mobile input defect or certify device behavior; Manny must retest steering/acceleration/brake/drift/item/rear view on the corrected pinned preview. Evidence: docs/evidence/2026-10-02-neon-grid/mobile-repair.md. Full native and hosted results are recorded there; publication and owner review remain distinct.
+
+Camera regression RED: elevated unit tests fail (direction difference 0.129); actual portrait integration fails with player screen Y=1.099, outside viewport. After road-height aim correction, focused camera/input integration passes. Mobile pointer movement tests pass before changing controls; no input change is justified by this evidence.
+
+Full native validation PASS: 108 files / 837 tests, TypeScript, zero-warning lint, asset gates and production build. git diff --check and git lfs fsck PASS. Hosted publication pending. Rendered device behavior remains owner review.
+
+Hosted runtime CI 37079553318: 836 tests passed; the existing `runs the selected Neon route with eight unique bodies and retains earned gates on recovery` exceeded its default 5000 ms budget on the hosted runner. Give that real eight-body/300-step integration test an explicit 15000 ms budget, retaining all motion, recovery and disposal assertions. This is test-runner scheduling tolerance, not a gameplay/performance acceptance change. Preview-only CI 37079555669 passed. Corrected-head CI remains required before publication.
+
+
+**Neon Grid corrected mobile preview — LIVE / OWNER RETEST PENDING (2026-10-02).** Camera repair runtime `52093b35aa6b44440c6ddb112c4de713b109a86d` is deployed only at `/previews/neon-grid/`. Runtime CI `37090765229` and preview-only CI `37090768372` passed; preview-only PR #245 merged at `ab2f0c1fdfa213d66083d982f3f593c376a4bac9`; main CI/Pages `37090970443` passed validation/deployment. Live source marker is exact, all four preview HTML/JS/CSS bundles match the validated build, and all four production bundles retain their pre-deploy hashes. Runtime PR #242 stays draft/unmerged. Native and hosted runtime validation: 108 files / 837 tests, typecheck, zero-warning lint, asset gates/build. Initial hosted timeout was resolved with an explicit 15-second budget for the unchanged eight-body test assertions. Camera intro/chase/rear now use Neon road elevation; Alpha defaults are preserved. Mobile pointer-driven player movement passes automated checks, but Manny’s separate device input complaint remains unconfirmed until retest. Stop for mobile acceleration/steering/brake/drift/item/rear-camera and main-route visual review; Stage 3 and production release remain gated. Evidence: `docs/evidence/2026-10-02-neon-grid/mobile-repair-delivery.json`.

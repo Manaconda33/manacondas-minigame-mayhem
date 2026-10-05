@@ -1,0 +1,46 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 validate
+> npm run typecheck && npm run lint && npm run test:ci && npm run build
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 typecheck
+> tsc -b --pretty false
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 lint
+> eslint . --max-warnings 0
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> manacondas-minigame-mayhem@0.0.0 test:ci
+> vitest run --coverage
+
+
+ RUN  v4.1.10 /workspace/scratch/61d51c8ba221/neon-grid
+      Coverage enabled with v8
+
+ ❯ tests/neon-grid-boundary-response.test.ts (6 tests | 1 failed) 469ms
+   × contains both edges at 0.8154 with one bounded inward response and road support 42ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-boundary-response.test.ts > contains both edges at 0.8154 with one bounded inward response and road support
+AssertionError: expected 8.094996452331543 to be greater than 8.400664740494523
+ ❯ tests/neon-grid-boundary-response.test.ts:81:35
+     79|           track.halfWidthAt(projection.progress) - 1.1,
+     80|         );
+     81|         expect(kart.position().y).toBeGreaterThan(projection.point.y -…
+       |                                   ^
+     82|       }
+     83|       expect(impacts).toBeGreaterThan(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 112 passed (113)
+      Tests  1 failed | 862 passed (863)
+   Start at  10:42:46
+   Duration  25.69s (transform 4.88s, setup 0ms, import 14.59s, tests 57.37s, environment 72.47s)

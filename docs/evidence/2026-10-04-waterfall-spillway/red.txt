@@ -1,0 +1,40 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/cf841ec4cf2f/repo
+
+ ❯ tests/neon-grid-dive-visual.test.ts (2 tests | 2 failed) 119ms
+   × bonds the flowing water to the supported ramp and carries it from a left waterway to the pool 73ms
+   × freezes procedural flow with race time and keeps spray below the flight sightline 45ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-dive-visual.test.ts > bonds the flowing water to the supported ramp and carries it from a left waterway to the pool
+AssertionError: expected undefined to be defined
+ ❯ tests/neon-grid-dive-visual.test.ts:14:16
+     12|   const feed = visual.group.getObjectByName('dive-waterway') as THREE.…
+     13|   const falls = visual.group.getObjectByName('dive-water-sheet') as TH…
+     14|   expect(flow).toBeDefined();
+       |                ^
+     15|   expect(feed).toBeDefined();
+     16|   expect(falls).toBeDefined();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/neon-grid-dive-visual.test.ts > freezes procedural flow with race time and keeps spray below the flight sightline
+AssertionError: expected undefined to be defined
+ ❯ tests/neon-grid-dive-visual.test.ts:43:17
+     41|   const visual = new NeonGridDiveVisual(new NeonGrid().waterfallDive);
+     42|   const water = visual.group.getObjectByName('dive-water-sheet') as TH…
+     43|   expect(water).toBeDefined();
+       |                 ^
+     44|   const material = water.material as THREE.ShaderMaterial;
+     45|   visual.update(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  16:22:53
+   Duration  844ms (transform 86ms, setup 0ms, import 127ms, tests 119ms, environment 470ms)
+

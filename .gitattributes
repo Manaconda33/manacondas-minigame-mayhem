@@ -49,3 +49,9 @@ public/assets/audio/music-v2/05-finish-celebration-results-podium-loop.wav -filt
 public/assets/characters/lunarcrystal/kart.glb -filter -diff -merge -text
 public/assets/characters/lunarcrystal/lod/kart-lod1.glb -filter -diff -merge -text
 public/assets/characters/lunarcrystal/lod/kart-lod2.glb -filter -diff -merge -text
+
+# Manny explicitly directed direct upload for these three approved sponsor ads (2026-10-03).
+# Exact fixed-size runtime derivatives; hash inventory visual-assets.json; ADR-106.
+public/assets/track/neon-grid/billboard/paprika-v1.webp -filter -diff -merge -text
+public/assets/track/neon-grid/billboard/arin-v1.webp -filter -diff -merge -text
+public/assets/track/neon-grid/billboard/raven-v1.webp -filter -diff -merge -text

@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.20; approved governance amendment 2.21
+Version 1.1 - Final approved baseline; approved implementation amendment 2.24
 
 August 16, 2026
 
@@ -3132,3 +3132,29 @@ Manny approved adding Archer as AA-13 Precision Speedster, a new thirteenth prof
 ## Approved roster extension — Lunarcrystal, 2026-10-02
 
 Manny approved Lunarcrystal as new AA-14 Lunar Navigator, Medium class, Speed 6 / Acceleration 7 / Weight 4 / Handling 8 / Mini-Turbo 5 / Traction 6 (36 points). The fourteen-driver roster retains AA-01–13 assignments; page one remains the original twelve, page two adds Lunarcrystal beside Archer. Selection/page restoration behavior and eight unique racers remain unchanged. The Moonlit Carriage name and supplied-reference celestial concept are approved. All fourteen 2D images are approved and staged in asset-only PR #237 at `9a46bda1cd1c3fcfb1514bd9e5e8c8b10b5d441b`; hosted CI `37010681712` passed. Kart candidate geometry, actual cockpit mounting, runtime integration, deployed visual acceptance and production publication remain separately gated.
+
+## Approved implementation amendment Neon Grid Circuit 02 — 2026-10-02
+
+Manny approved the approximately 1,450 m Neon Grid course, sharp reversing Undercity hairpins, and a service tunnel bypassing all fuchsia hairpins. He authorized native implementation of the saved five-stage plan and explicitly omitted tokens on 2026-10-02. This amendment supersedes D-009’s single-circuit scope only: Circuit Alpha remains unchanged and selectable as circuit 01; Neon Grid is circuit 02. Retain eight unique racers, three validated laps, all accepted roster/stat/item tuning, visuals, audio, HUD and Results contracts.
+
+The reviewed contract and coordinate authority are docs/design/neon-grid/BUILD-CONTRACT.md and layout.json. Main-road half-widths are 6/4.5/6 m with interpolated transitions; the underground service tunnel has its own 3.2 m half-width. Every shortcut rejoins at strictly higher main-route progress and physically crosses all common-road gates; mapped progress awards no checkpoint. Gate elevation tolerance is 1.5 m for Neon Grid while legacy Alpha defaults remain unchanged. Billboard adds a static surface at 0.82 speed with asphalt acceleration and no off-road speed floor; its 6-second cycle freezes with race time. Dive landing/miss behavior remains physical, with approximately 1.5-second recovery penalty before the downstream gate.
+
+Normal-route lap target is 62–68 seconds, subject to actual driving evidence. Full-hairpin tunnel savings must be measured and supersede the former 1.0–1.4-second target. Compare paired same-driver shortcut runs; do not weaken the approved hairpins or add a hidden speed cap to fit old targets. Tokens and collection counters are excluded. Use unique Neon Grid race/final-lap audio filenames without replacing accepted music. Route identity persists through selection, restart, replay, minimap and Results. Assets/audio retain separate approval gates. Publish pinned GitHub Pages previews at the plan’s owner review checkpoints. No production merge/deployment is authorized until visual acceptance and explicit release direction.
+
+This is a reviewed design contract, not evidence of runtime collision, physics, race, timing or device performance acceptance. Slice 6 remains active; diagnostics remain deferred and context-loss recovery remains waived.
+
+## Approved implementation amendment 2.23 - Neon Grid shortcut balance candidate
+
+Approved October 5, 2026. Neon Grid Circuit 02 uses seeded default AI shortcut attempt rates of **5% Service Tunnel / 45% Billboard / 12% Waterfall Dive**. The Billboard six-second race-time cycle receives a **+3.6 second phase offset**, placing the measured first-lap OFF discovery window at approximately **30.4–32.4 race seconds** for the existing reference approaches. The Billboard retains its once-only **0.82 ON/static exit retention**.
+
+The approved Billboard balance candidate adds exactly one modest standard boost pad inside the shortcut after physical commitment and before rejoin. Use the existing track boost behavior rather than changing kart statistics or global physics. Paired same-driver measurements target approximately **0.8–1.0 s OFF savings**, **0.5–0.6 s ON savings**, and **0.25–0.4 s real ON/OFF tell value**. If the boost pad alone does not establish that separation, report the miss and stop for owner decision; do not change 0.82 unilaterally.
+
+Waterfall Dive miss recovery remains forgiving and unchanged: the approximately **1.5 race-second** splash/recovery forfeits the shortcut reward but is not required to cost position versus the main line. No Tunnel/Dive geometry, repaired 5.3 faces, items, racer statistics, or Stage 4 scope is authorized by this amendment.
+
+## Approved implementation amendment 2.24 - Billboard tell acceptance and entrance boost placement
+
+Approved October 5, 2026. The Billboard ON/OFF timing difference is accepted as **flavor**; the numeric ON/OFF tell-separation target from amendment 2.23 is retired and no further separation tuning is authorized. The once-only **0.82 ON/static exit retention** remains unchanged.
+
+The single existing standard Billboard boost pad moves from the prior 0.55 checkpoint to just inside the physically committed shortcut entrance, within approximately **gap fraction 0.1–0.2**. Its full trigger footprint must begin after commitment so a kart remaining on the main line cannot trigger it. Pad strength and size remain unchanged. Validation of this placement is a functional sanity check using the established paired native method, not a new balance experiment and carries no numeric savings threshold.
+
+The seeded AI shortcut rates remain **5% Service Tunnel / 45% Billboard / 12% Waterfall Dive**; the Billboard phase offset remains **+3.6 seconds**; Dive recovery remains approximately **1.5 race seconds**. No kart statistics, global physics, items, Tunnel/Dive geometry, repaired 5.3 faces, or Stage 4 work is authorized by this amendment.

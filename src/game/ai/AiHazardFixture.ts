@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { HazardSystem } from '../items/HazardSystem';
 import { hazardRoutePosition } from './AiHazardAwareness';
 
@@ -24,7 +24,7 @@ export class AiHazardFixture {
   public update(
     elapsed: number,
     targets: readonly AiHazardFixtureTarget[],
-    track: CircuitAlpha,
+    track: TrackDefinition,
     hazards: HazardSystem,
   ): void {
     if (this.kind === null || this.targetName !== null || !Number.isFinite(elapsed) || elapsed < 5)

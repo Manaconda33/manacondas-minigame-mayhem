@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+  <link rel="icon" href="data:," />
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #080f1d; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+  </style>
+  <canvas></canvas>
+  <script type="module">
+    import * as THREE from 'three';
+    import { KartTimeTrial } from '../../src/game/KartTimeTrial.ts';
+    import { characterById } from '../../src/characters/manifest.ts';
+
+    const params = new URLSearchParams(location.search);
+    const quality = ['low', 'medium', 'high'].includes(params.get('quality'))
+      ? params.get('quality')
+      : 'medium';
+    const g = await KartTimeTrial.create({
+      canvas: document.querySelector('canvas'),
+      character: characterById('aa-09'),
+      trackId: 'neon-grid',
+      graphicsQuality: quality,
+      motionBlur: false,
+      mobileSession: false,
+      onHud() {},
+      onFinish() {},
+    });
+    window.game = g;
+
+    const progress = 0.765;
+    const p = g.track.curve.getPointAt(progress);
+    const tangent = g.track.curve.getTangentAt(progress).setY(0).normalize();
+    const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+    g.kart.respawn(p.clone().add(new THREE.Vector3(0, 1.1, 0)), Math.atan2(tangent.x, tangent.z));
+    g.opponents.forEach((o, i) => {
+      const q = g.track.curve.getPointAt(progress - 0.004 - i * 0.0015);
+      q.addScaledVector(right, ((i % 3) - 1) * 1.6);
+      q.y += 1.1;
+      o.controller.respawn(q, Math.atan2(tangent.x, tangent.z));
+    });
+    for (let i = 0; i < 120; i++) g.updateVisuals(1 / 60);
+    g.trackScene.dive.update(4);
+    g.trackScene.fallsRun.update(4);
+    g.camera.position.copy(p).addScaledVector(tangent, -12).add(new THREE.Vector3(0, 5.6, 0));
+    g.camera.lookAt(p.clone().addScaledVector(tangent, 24).add(new THREE.Vector3(0, 1.2, 0)));
+    g.renderer.info.autoReset = false;
+
+    window.renderFrame = () => {
+      g.renderer.info.reset();
+      g.bloom.render(g.scene, g.camera);
+      g.motionBlur.render(false);
+      const size = g.renderer.getDrawingBufferSize(new THREE.Vector2());
+      return {
+        calls: g.renderer.info.render.calls,
+        triangles: g.renderer.info.render.triangles,
+        geometries: g.renderer.info.memory.geometries,
+        textures: g.renderer.info.memory.textures,
+        width: size.x,
+        height: size.y,
+        pixelRatio: g.renderer.getPixelRatio(),
+        racers: g.opponents.length + 1,
+        quality,
+      };
+    };
+    window.renderFrame();
+    window.ready = true;
+    window.startPerf = () => g.start();
+    window.exportPerf = () => g.exportPerformanceCapture({
+      schemaVersion: 1,
+      sourceCommit: import.meta.env.VITE_SOURCE_COMMIT || null,
+      capturedAt: new Date().toISOString(),
+      quality,
+      userAgent: navigator.userAgent,
+      hardwareDescription: 'GitHub Actions Chromium software WebGL',
+      scenario: 'Task 8 Falls Run representative stretch, eight racers staged in view',
+      racerCount: g.opponents.length + 1,
+      nominalViewport: { width: innerWidth, height: innerHeight },
+      gpuFrameMs: null,
+      jsHeapBytes: null,
+      estimatedTextureBytes: null,
+    });
+  </script>
+</html>

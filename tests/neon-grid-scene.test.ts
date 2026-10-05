@@ -84,6 +84,7 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     ]) {
       const mesh = scene.getObjectByName(name);
       expect(mesh).toBeInstanceOf(THREE.Mesh);
+      if (!(mesh instanceof THREE.Mesh)) throw new Error(`Missing Task 8 mesh: ${name}`);
       expectTrianglesAvoidDiveJunction(mesh, track);
     }
 

@@ -1144,3 +1144,13 @@ The earlier pending-owner-retest statements are historical and superseded for th
 Manny approved the joint defaults Tunnel 5% / Billboard 45% / Dive 12%, Billboard race-time phase offset +3.6 s, one modest standard boost pad after Billboard commitment and before rejoin, and unchanged forgiving 1.5 s Dive splash recovery. Billboard ON/static remains a once-only 0.82 exit retention.
 
 Runtime candidate `c71b2287b463f6a17645d664d3307d6b591561bf` places the pad at Billboard path fraction 0.93 and passed hosted full validation in CI `37352477495`. Real paired native sections measured OFF saving 0.517–0.650 s (mean 0.569), ON saving 0.500–0.633 s (mean 0.536), and ON/OFF separation 0.017–0.050 s (mean 0.033). The approved 0.8–1.0 s OFF and 0.25–0.4 s tell-separation targets are not met. Per owner direction, do not alter 0.82 without a new decision. Publish only the measured isolated candidate and stop for owner playtest.
+
+## ADR-108 — Accept Billboard ON/OFF tell as flavor and move the boost to the committed entrance
+
+- **Date:** 2026-10-05 (America/Chicago).
+- **Status:** **APPROVED / IMPLEMENTED / VALIDATED.**
+- **Authority:** Manny explicitly accepted the Billboard ON/OFF tell as flavor, directed no further separation chasing, kept the 0.82 ON multiplier unchanged, and directed the single existing boost pad to move from gap fraction 0.55 to just inside the shortcut entrance.
+- **Decision:** Place the unchanged standard Billboard boost pad at gap fraction **0.16**, inside the approved 0.1–0.2 entrance band. Keep the existing pad half-length 3 m and half-width 3.5 m. The pad's leading edge must remain beyond the physical commitment distance so a main-line racer cannot trigger it. Treat paired timing only as a placement/function sanity check; no savings or tell-separation threshold governs this placement.
+- **Preserved balance:** Keep the once-only **0.82 ON/static exit retention**, AI shortcut rates **5% / 45% / 12%** for Tunnel/Billboard/Dive, **+3.6 s** Billboard phase offset, and the forgiving approximately **1.5 s** Dive recovery unchanged.
+- **Preserved boundaries:** No kart statistics, global physics, item behavior, Tunnel/Dive geometry, repaired 5.3 faces, or Stage 4 work is authorized. This decision supersedes only amendment 2.23's active tell-separation target and prior boost-pad placement checkpoint.
+- **Validation:** Runtime `406bb5c2f606c2db4d1f2fa9ee7e36e1d6217308`; CI `37361803233` passed. Evidence: `docs/evidence/2026-10-05-neon-billboard-balance/`.

@@ -38,6 +38,8 @@ describe('authoritative billboard timing and crossing', () => {
     const track = new NeonGrid(),
       gap = track.billboardGap,
       center = gap.curve.getPointAt(gap.boostPad.centerFraction);
+    expect(gap.boostPad.centerFraction).toBeGreaterThanOrEqual(0.5);
+    expect(gap.boostPad.centerFraction).toBeLessThanOrEqual(0.6);
     expect(gap.boostPad.centerFraction).toBeGreaterThan(gap.mouthDistance / gap.curve.getLength());
     expect(gap.boostPad.centerFraction).toBeLessThan(1);
     expect(gap.project(center).surface).toBe('boost');

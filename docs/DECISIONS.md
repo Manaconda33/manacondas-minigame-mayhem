@@ -1131,3 +1131,10 @@ Manny rejects fbff249's detached cyan column and approves the ramp itself as the
 ## Task 7 approved ramp-as-waterfall visual revision — 2026-10-04 America/Chicago
 
 Manny approved the supported waterway entering from the driver's left and flowing across the unchanged ramp into a continuous cascade bonded to the actual launch lip. Use procedural water, foam, low mist and pool ripples with no new binary runtime assets. Preserve gameplay/physics/stats/items, repaired 5.3 faces, gold launch tell, landing marker and the <=250 draw-call budget. This is a bounded Task 7 visual revision. Published isolated runtime b49d987 replaces rejected fbff249; no production gameplay integration or Stage 4 acceptance. Automated validation, residual matrix and bounded hosted rendering passed; owner visual retest remains pending. Delivery and limitations are recorded in docs/evidence/2026-10-04-waterfall-spillway/publication.md.
+
+
+## Owner visual approval — 2026-10-04 America/Chicago
+
+Manny approved the published waterfall spillway preview on 2026-10-04 at 20:05 America/Chicago with “Approved”. Approval applies to the revised waterfall presentation at runtime b49d9876f8c6ce87956f8b91675c3c8180e56b55: the left waterway, water flowing over the ramp, and cascade from its launch lip into the pool. This closes the visual retest gate for this bounded Task 7 revision. It does not independently establish gameplay balance, final AI rates, device performance or authorize production integration or Stage 4.
+
+The earlier pending-owner-retest statements are historical and superseded for this visual revision only. Engineering and delivery evidence remains unchanged. Approval recorded on feature/neon-grid-waterfall-dive; production unchanged.

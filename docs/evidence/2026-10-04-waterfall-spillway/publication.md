@@ -5,3 +5,10 @@ Pages publication: https://github.com/Manaconda33/manacondas-minigame-mayhem/act
 Render artifact: 11319066186. Hosted verified delivery artifact: 11319007561.
 
 The retained Billboard coverage fixture uses the already established 15-second hosted runner allowance; assertions and accepted runtime pin are unchanged. Local browser launch was blocked by Unix socket restrictions, so the actual eight-racer renderer was checked in hosted Chromium. Screenshots remain Actions evidence, not committed runtime assets.
+
+
+## Owner visual approval — 2026-10-04 America/Chicago
+
+Manny approved the published waterfall spillway preview on 2026-10-04 at 20:05 America/Chicago with “Approved”. Approval applies to the revised waterfall presentation at runtime b49d9876f8c6ce87956f8b91675c3c8180e56b55: the left waterway, water flowing over the ramp, and cascade from its launch lip into the pool. This closes the visual retest gate for this bounded Task 7 revision. It does not independently establish gameplay balance, final AI rates, device performance or authorize production integration or Stage 4.
+
+The earlier pending-owner-retest statements are historical and superseded for this visual revision only. Engineering and delivery evidence remains unchanged. Approval recorded on feature/neon-grid-waterfall-dive; production unchanged.

@@ -34,11 +34,11 @@ describe('authoritative billboard timing and crossing', () => {
       dive: 0.12,
     });
   });
-  it('places one boost surface after commitment and before the Billboard rejoin', () => {
+  it('keeps one boost surface committed to the Billboard shortcut during entrance repositioning', () => {
     const track = new NeonGrid(),
       gap = track.billboardGap,
       center = gap.curve.getPointAt(gap.boostPad.centerFraction);
-    expect(gap.boostPad.centerFraction).toBeGreaterThanOrEqual(0.5);
+    expect(gap.boostPad.centerFraction).toBeGreaterThanOrEqual(0.1);
     expect(gap.boostPad.centerFraction).toBeLessThanOrEqual(0.6);
     expect(gap.boostPad.centerFraction).toBeGreaterThan(gap.mouthDistance / gap.curve.getLength());
     expect(gap.boostPad.centerFraction).toBeLessThan(1);
@@ -46,6 +46,25 @@ describe('authoritative billboard timing and crossing', () => {
     expect(gap.project(gap.curve.getPointAt(gap.boostPad.centerFraction - 0.08)).surface).toBe(
       'asphalt',
     );
+  });
+  it('keeps the Billboard boost unreachable from a main-line kart', () => {
+    const track = new NeonGrid(),
+      gap = track.billboardGap,
+      route = new RacerTrack(track),
+      center = gap.curve.getPointAt(gap.boostPad.centerFraction),
+      main = track.projectMain(center),
+      tangent = track.curve.getTangentAt(main.progress),
+      right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+    expect(gap.project(center).surface).toBe('boost');
+    for (const lane of [-4, 0, 4]) {
+      const point = track.curve
+        .getPointAt(main.progress)
+        .addScaledVector(right, lane)
+        .add(new THREE.Vector3(0, 0.5, 0));
+      const projection = route.project(point);
+      expect(projection.pathId).toBeUndefined();
+      expect(projection.surface).not.toBe('boost');
+    }
   });
   it.each([0, 1])(
     'owns physical entry until rejoin and emits a once-only exit at phase %s',

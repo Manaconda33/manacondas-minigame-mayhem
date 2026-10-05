@@ -6,6 +6,12 @@ import { billboardStateAt } from './NeonGridBillboard';
 import { surfaceSpeedMultiplier } from '../../config/kartTuning';
 import type { TrackDefinition, TrackProjection, TrackNavigation } from './TrackDefinition';
 
+export const NEON_GRID_AI_SHORTCUT_RATES = {
+  tunnel: 0.05,
+  billboard: 0.45,
+  dive: 0.12,
+} as const;
+
 /** A racer-local view; the shared track remains immutable and reusable. */
 export class RacerTrack implements TrackDefinition {
   public readonly diveState: DiveState;
@@ -25,9 +31,9 @@ export class RacerTrack implements TrackDefinition {
   public constructor(
     private readonly track: NeonGrid,
     seed = 1,
-    private readonly attemptRate = 0.35,
-    private readonly billboardAttemptRate = 0,
-    private readonly diveAttemptRate = 0,
+    private readonly attemptRate = NEON_GRID_AI_SHORTCUT_RATES.tunnel,
+    private readonly billboardAttemptRate = NEON_GRID_AI_SHORTCUT_RATES.billboard,
+    private readonly diveAttemptRate = NEON_GRID_AI_SHORTCUT_RATES.dive,
   ) {
     this.diveState = new DiveState(track.waterfallDive);
     this.diveRandomState = (seed ^ 0xc2b2ae35) >>> 0;
@@ -134,7 +140,12 @@ export class RacerTrack implements TrackDefinition {
   public project(position: THREE.Vector3): TrackProjection {
     if (this.diveState.active) return this.track.waterfallDive.project(position, this.sampleCount);
     const billboard = this.billboardTraversal.project(position);
-    if (billboard) return { ...billboard, surface: this.billboardOn ? 'static' : 'asphalt' };
+    if (billboard)
+      return {
+        ...billboard,
+        surface:
+          billboard.surface === 'boost' ? 'boost' : this.billboardOn ? 'static' : 'asphalt',
+      };
     const tunnel = this.traversal.project(position);
     if (tunnel) return tunnel;
     const main = this.track.projectMain(position);

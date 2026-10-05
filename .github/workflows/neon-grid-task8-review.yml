@@ -26,14 +26,14 @@ jobs:
       - name: Check out exact Task 8 runtime
         uses: actions/checkout@v5
         with:
-          ref: 89602cd3ceaf4e2b557a2e3b8263aa8a1550a83c
+          ref: 4935cbd97c92ea4acb391f71b5bbaef65591b4d3
           path: task8-runtime
           lfs: true
 
       - name: Verify exact Task 8 source and LFS
         working-directory: task8-runtime
         run: |
-          test "$(git rev-parse HEAD)" = "89602cd3ceaf4e2b557a2e3b8263aa8a1550a83c"
+          test "$(git rev-parse HEAD)" = "4935cbd97c92ea4acb391f71b5bbaef65591b4d3"
           git lfs fsck
 
       - name: Set up Node.js

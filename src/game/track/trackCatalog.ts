@@ -1,5 +1,6 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import type * as THREE from 'three';
+import type { GraphicsQuality } from '../../config/graphicsQuality';
 import { CircuitAlpha } from './CircuitAlpha';
 import { NeonGrid } from './NeonGrid';
 import { createTrackScene } from './createTrackScene';
@@ -11,8 +12,11 @@ export function createTrack(id: TrackId): TrackDefinition {
   return id === 'neon-grid' ? new NeonGrid() : new CircuitAlpha();
 }
 
-export function createSelectedTrackScene(track: TrackDefinition): THREE.Group {
-  return track instanceof NeonGrid ? createNeonGridScene(track) : createTrackScene(track);
+export function createSelectedTrackScene(
+  track: TrackDefinition,
+  quality: GraphicsQuality = 'medium',
+): THREE.Group {
+  return track instanceof NeonGrid ? createNeonGridScene(track, quality) : createTrackScene(track);
 }
 
 export function createSelectedTrackColliders(

@@ -48,7 +48,9 @@ describe('Neon Grid Stage 4 Task 8 Falls Run presentation', () => {
     expect(scene.getObjectByName('billboard-boost-pad')).toBeDefined();
   });
 
-  it('keeps camouflage systems batched and quality-bounded', () => {
+  // This test builds the full Task 8 scene at three quality levels; it needs
+  // headroom beyond vitest's 5s default on CI runners.
+  it('keeps camouflage systems batched and quality-bounded', { timeout: 30000 }, () => {
     const low = task8Scene('low');
     const medium = task8Scene('medium');
     const high = task8Scene('high');

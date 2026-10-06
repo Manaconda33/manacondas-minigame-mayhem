@@ -36,36 +36,56 @@ try {
   await page.waitForTimeout(1000);
 
   const scene = await page.evaluate(() => {
-    window.game.camera.far = 300;
-    window.game.camera.updateProjectionMatrix();
+    const gl = window.game.renderer.getContext();
+    const debug = gl.getExtension('WEBGL_debug_renderer_info');
     return {
       width: window.game.renderer.domElement.width,
       height: window.game.renderer.domElement.height,
       pixelRatio: window.game.renderer.getPixelRatio(),
       racers: window.game.opponents.length + 1,
       cameraFar: window.game.camera.far,
+      vendor: debug ? gl.getParameter(debug.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR),
+      renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER),
     };
   });
 
-  const task8OffBloomOff = await page.evaluate(() =>
-    window.measureFrames(360, 60, false, false),
-  );
+  const cases = [];
+  for (const spec of [
+    { id: 'task8OffBloomOff', task8Visible: false, bloomEnabled: false },
+    { id: 'task8OnBloomOff', task8Visible: true, bloomEnabled: false },
+    { id: 'task8OffBloomOn', task8Visible: false, bloomEnabled: true },
+    { id: 'task8OnBloomOn', task8Visible: true, bloomEnabled: true },
+  ]) {
+    const result = await page.evaluate(
+      ({ task8Visible, bloomEnabled }) =>
+        window.measureFrames(90, 30, task8Visible, bloomEnabled),
+      spec,
+    );
+    cases.push({ ...spec, result });
+  }
 
+  const baseline = cases.find((entry) => entry.id === 'task8OffBloomOff')?.result;
   const report = {
     environment:
-      'GitHub Actions Chromium software WebGL. Actual KartTimeTrial Medium render with eight racers staged in Falls Run. Single-case diagnostic only; browser/runner-specific and not owner-device certification.',
-    case: 'task8OffBloomOffFar300',
-    task8Visible: false,
-    bloomEnabled: false,
-    sampleFrames: 360,
-    warmupFrames: 60,
+      'GitHub Actions Chromium software WebGL. Paired diagnostic only: identical Medium 1920x1080 eight-racer Falls Run fixture, camera far unchanged, Task 8 visibility and bloom toggled independently.',
+    sampleFrames: 90,
+    warmupFrames: 30,
     errors,
     scene,
-    result: task8OffBloomOff,
+    cases,
+    deltas: baseline
+      ? cases.map((entry) => ({
+          id: entry.id,
+          medianFrameMs: entry.result.medianFrameMs,
+          medianDeltaMs: entry.result.medianFrameMs - baseline.medianFrameMs,
+          p95FrameMs: entry.result.p95FrameMs,
+          medianFps: entry.result.medianFps,
+        }))
+      : [],
   };
 
   writeFileSync(
-    `${directory}/task8-single-case.json`,
+    `${directory}/task8-four-case-matrix.json`,
     JSON.stringify(report, null, 2),
   );
   console.log(JSON.stringify(report, null, 2));
@@ -75,9 +95,10 @@ try {
     scene.width !== 1920 ||
     scene.height !== 1080 ||
     scene.racers !== 8 ||
-    task8OffBloomOff.scoredFrames < 300
+    scene.cameraFar !== 900 ||
+    cases.some((entry) => entry.result.scoredFrames < 80)
   ) {
-    throw new Error('Task 8 single-case diagnostic validity check failed');
+    throw new Error('Task 8 four-case diagnostic validity check failed');
   }
 
   await page.evaluate(() => window.game.dispose());

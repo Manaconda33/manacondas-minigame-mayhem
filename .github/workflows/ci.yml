@@ -89,48 +89,6 @@ jobs:
       max-parallel: 8
       matrix:
         include:
-          - id: race-hud-results
-            embed_source: false
-            sha: 9aceba5de4c5d184772d3467f47463b26a633df0
-            base: /manacondas-minigame-mayhem/previews/race-hud-results/
-            marker_type: ''
-            marker_name: ''
-            status: ''
-          - id: archer
-            embed_source: false
-            sha: 62583845461098caee5fec3e1334502da671de1d
-            base: /manacondas-minigame-mayhem/previews/archer/
-            marker_type: ''
-            marker_name: ''
-            status: ''
-          - id: motion-blur
-            embed_source: false
-            sha: 949fd77993b9859bc9ca68da5b8f3bc01bd846d6
-            base: /manacondas-minigame-mayhem/previews/motion-blur/
-            marker_type: ''
-            marker_name: ''
-            status: ''
-          - id: terrain-materials
-            embed_source: true
-            sha: 375c933766dbc52cead91592cd69d954ab022d38
-            base: /manacondas-minigame-mayhem/previews/terrain-materials/
-            marker_type: ''
-            marker_name: ''
-            status: ''
-          - id: lunarcrystal
-            embed_source: true
-            sha: 1051cd9c8c6b1ff7237dc605417b17869f4cea9b
-            base: /manacondas-minigame-mayhem/previews/lunarcrystal/
-            marker_type: character
-            marker_name: Lunarcrystal
-            status: 'review only; production acceptance pending'
-          - id: shadow-polish
-            embed_source: true
-            sha: efbcc74f5c8103d2b6411c8bdedd35953b224f3f
-            base: /manacondas-minigame-mayhem/previews/shadow-polish/
-            marker_type: feature
-            marker_name: 'Circuit Alpha shadow polish'
-            status: 'review only; visual and production acceptance pending'
           - id: neon-grid
             embed_source: true
             sha: e441ab73ed0a5c3a2d75663de7a89a57606689b8
@@ -381,48 +339,6 @@ jobs:
           name: production-dist
           path: dist
 
-      - name: Restore Race Results preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/race-hud-results
-          key: preview-dist-v1-race-hud-results-9aceba5de4c5d184772d3467f47463b26a633df0-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Archer preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/archer
-          key: preview-dist-v1-archer-62583845461098caee5fec3e1334502da671de1d-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore motion blur preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/motion-blur
-          key: preview-dist-v1-motion-blur-949fd77993b9859bc9ca68da5b8f3bc01bd846d6-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore terrain materials preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/terrain-materials
-          key: preview-dist-v1-terrain-materials-375c933766dbc52cead91592cd69d954ab022d38-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Lunarcrystal preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/lunarcrystal
-          key: preview-dist-v1-lunarcrystal-1051cd9c8c6b1ff7237dc605417b17869f4cea9b-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore shadow polish preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/shadow-polish
-          key: preview-dist-v1-shadow-polish-efbcc74f5c8103d2b6411c8bdedd35953b224f3f-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
       - name: Restore Neon Grid preview
         uses: actions/cache/restore@v4
         with:
@@ -472,31 +388,6 @@ jobs:
           test -n "$(find dist/assets -maxdepth 1 -type f -name 'index-*.css' -print -quit)"
           cp -a dist/. site-root/
 
-          mkdir -p site-root/previews/race-hud-results
-          cp -a preview-output/race-hud-results/. site-root/previews/race-hud-results/
-          test -f site-root/previews/race-hud-results/index.html
-
-          mkdir -p site-root/previews/archer
-          cp -a preview-output/archer/. site-root/previews/archer/
-          test -f site-root/previews/archer/index.html
-
-          mkdir -p site-root/previews/motion-blur
-          cp -a preview-output/motion-blur/. site-root/previews/motion-blur/
-          test -f site-root/previews/motion-blur/index.html
-
-          mkdir -p site-root/previews/terrain-materials
-          cp -a preview-output/terrain-materials/. site-root/previews/terrain-materials/
-          test -f site-root/previews/terrain-materials/index.html
-
-          mkdir -p site-root/previews/lunarcrystal
-          cp -a preview-output/lunarcrystal/. site-root/previews/lunarcrystal/
-          test -f site-root/previews/lunarcrystal/index.html
-          test -f site-root/previews/lunarcrystal/review-build.json
-
-          mkdir -p site-root/previews/shadow-polish
-          cp -a preview-output/shadow-polish/. site-root/previews/shadow-polish/
-          test -f site-root/previews/shadow-polish/index.html
-          test -f site-root/previews/shadow-polish/review-build.json
 
           mkdir -p site-root/previews/neon-grid
           cp -a preview-output/neon-grid/. site-root/previews/neon-grid/

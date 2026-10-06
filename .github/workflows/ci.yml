@@ -378,7 +378,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: actions/checkout@v5
         with:
-          ref: b01dd20734bcb8bb6eef20d277f5470b669e0e5b
+          ref: 01fb6c26d1b25f536d46323ebfc71fc30239d125
           path: neon-grid-far300-runtime
           lfs: true
 
@@ -387,7 +387,7 @@ jobs:
         working-directory: neon-grid-far300-runtime
         run: |
           git lfs fsck
-          test "$(git rev-parse HEAD)" = "b01dd20734bcb8bb6eef20d277f5470b669e0e5b"
+          test "$(git rev-parse HEAD)" = "01fb6c26d1b25f536d46323ebfc71fc30239d125"
           npm ci
           npm run validate
           git diff --check
@@ -397,7 +397,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/checkout@v5
         with:
-          ref: b01dd20734bcb8bb6eef20d277f5470b669e0e5b
+          ref: 01fb6c26d1b25f536d46323ebfc71fc30239d125
           path: neon-grid-far300-preview
           lfs: true
 
@@ -405,7 +405,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: neon-grid-far300-preview
         env:
-          VITE_SOURCE_COMMIT: b01dd20734bcb8bb6eef20d277f5470b669e0e5b
+          VITE_SOURCE_COMMIT: 01fb6c26d1b25f536d46323ebfc71fc30239d125
         run: |
           git lfs fsck
           test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"

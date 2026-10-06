@@ -49,29 +49,59 @@ try {
     };
   });
 
-  const cases = [];
-  for (const spec of [
-    { id: 'task8OffBloomOff', task8Visible: false, bloomEnabled: false },
-    { id: 'task8OnBloomOff', task8Visible: true, bloomEnabled: false },
-    { id: 'task8OffBloomOn', task8Visible: false, bloomEnabled: true },
-    { id: 'task8OnBloomOn', task8Visible: true, bloomEnabled: true },
-  ]) {
-    const result = await page.evaluate(
-      ({ task8Visible, bloomEnabled }) =>
-        window.measureFrames(90, 30, task8Visible, bloomEnabled),
-      spec,
-    );
-    cases.push({ ...spec, result });
+  const directChildren = await page.evaluate(() =>
+    window.game.trackScene.fallsRun.group.children.map((child) => child.name),
+  );
+  const categories = {
+    sky: ['falls-run-night-sky'],
+    road: [
+      'falls-run-asphalt-base',
+      'falls-run-wet-asphalt',
+      'falls-run-wall-cladding',
+      'falls-run-luminous-edges',
+      'falls-run-luminous-top-rails',
+    ],
+    structure: ['falls-run-deck-fascia', 'falls-run-pylons', 'falls-run-cross-braces'],
+    city: ['falls-run-city-towers', 'falls-run-city-windows', 'falls-run-city-roof-lights'],
+    water: [
+      'falls-run-ambient-waterfalls',
+      'falls-run-waterfall-lips',
+      'falls-run-ambient-mist',
+      'falls-run-plunge-spray',
+    ],
+    signage: ['falls-run-neon-signage', 'falls-run-dive-rail-debris'],
+  };
+
+  async function setVisible(names) {
+    await page.evaluate((visibleNames) => {
+      const allowed = new Set(visibleNames);
+      for (const child of window.game.trackScene.fallsRun.group.children)
+        child.visible = allowed.has(child.name);
+    }, names);
   }
 
-  const baseline = cases.find((entry) => entry.id === 'task8OffBloomOff')?.result;
+  const cases = [];
+  const specs = [
+    { id: 'task8Off', names: [] },
+    ...Object.entries(categories).map(([id, names]) => ({ id, names })),
+    { id: 'task8All', names: directChildren },
+  ];
+  for (const spec of specs) {
+    await setVisible(spec.names);
+    const result = await page.evaluate(() => window.measureFrames(45, 15, true, false));
+    cases.push({ id: spec.id, names: spec.names, result });
+  }
+  await setVisible(directChildren);
+
+  const baseline = cases.find((entry) => entry.id === 'task8Off')?.result;
   const report = {
     environment:
-      'GitHub Actions Chromium software WebGL. Paired diagnostic only: identical Medium 1920x1080 eight-racer Falls Run fixture, camera far unchanged, Task 8 visibility and bloom toggled independently.',
-    sampleFrames: 90,
-    warmupFrames: 30,
+      'GitHub Actions Chromium software WebGL. Task 8 child-category isolation at identical Medium 1920x1080, eight racers, far=900, bloom off.',
+    sampleFrames: 45,
+    warmupFrames: 15,
     errors,
     scene,
+    directChildren,
     cases,
     deltas: baseline
       ? cases.map((entry) => ({
@@ -85,7 +115,7 @@ try {
   };
 
   writeFileSync(
-    `${directory}/task8-four-case-matrix.json`,
+    `${directory}/task8-category-matrix.json`,
     JSON.stringify(report, null, 2),
   );
   console.log(JSON.stringify(report, null, 2));
@@ -96,9 +126,9 @@ try {
     scene.height !== 1080 ||
     scene.racers !== 8 ||
     scene.cameraFar !== 900 ||
-    cases.some((entry) => entry.result.scoredFrames < 80)
+    cases.some((entry) => entry.result.scoredFrames < 40)
   ) {
-    throw new Error('Task 8 four-case diagnostic validity check failed');
+    throw new Error('Task 8 category diagnostic validity check failed');
   }
 
   await page.evaluate(() => window.game.dispose());

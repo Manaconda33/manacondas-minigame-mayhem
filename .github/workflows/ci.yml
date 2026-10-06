@@ -89,72 +89,84 @@ jobs:
       matrix:
         include:
           - id: race-hud-results
+            embed_source: false
             sha: 9aceba5de4c5d184772d3467f47463b26a633df0
             base: /manacondas-minigame-mayhem/previews/race-hud-results/
             marker_type: ''
             marker_name: ''
             status: ''
           - id: archer
+            embed_source: false
             sha: 62583845461098caee5fec3e1334502da671de1d
             base: /manacondas-minigame-mayhem/previews/archer/
             marker_type: ''
             marker_name: ''
             status: ''
           - id: motion-blur
+            embed_source: false
             sha: 949fd77993b9859bc9ca68da5b8f3bc01bd846d6
             base: /manacondas-minigame-mayhem/previews/motion-blur/
             marker_type: ''
             marker_name: ''
             status: ''
           - id: terrain-materials
+            embed_source: true
             sha: 375c933766dbc52cead91592cd69d954ab022d38
             base: /manacondas-minigame-mayhem/previews/terrain-materials/
             marker_type: ''
             marker_name: ''
             status: ''
           - id: lunarcrystal
+            embed_source: true
             sha: 1051cd9c8c6b1ff7237dc605417b17869f4cea9b
             base: /manacondas-minigame-mayhem/previews/lunarcrystal/
             marker_type: character
             marker_name: Lunarcrystal
             status: 'review only; production acceptance pending'
           - id: shadow-polish
+            embed_source: true
             sha: efbcc74f5c8103d2b6411c8bdedd35953b224f3f
             base: /manacondas-minigame-mayhem/previews/shadow-polish/
             marker_type: feature
             marker_name: 'Circuit Alpha shadow polish'
             status: 'review only; visual and production acceptance pending'
           - id: neon-grid
+            embed_source: true
             sha: e441ab73ed0a5c3a2d75663de7a89a57606689b8
             base: /manacondas-minigame-mayhem/previews/neon-grid/
             marker_type: feature
             marker_name: 'Neon Grid Circuit 02 main-route blockout'
             status: 'Stage 2 review only; no tokens or shortcuts; production acceptance pending'
           - id: neon-grid-5-3
+            embed_source: true
             sha: 9459bf0f64705fb744f7cc1e810be0c0a6f02b3b
             base: /manacondas-minigame-mayhem/previews/neon-grid-5-3/
             marker_type: feature
             marker_name: 'Neon Grid 5.3 constrained climbing triangulation'
             status: '5.3 owner playtest only; no production release or Stage 3'
           - id: neon-grid-tunnel
+            embed_source: true
             sha: 92025b5f241cae7ac208c977f74b24396ce6909b
             base: /manacondas-minigame-mayhem/previews/neon-grid-tunnel/
             marker_type: feature
             marker_name: 'Neon Grid Stage 3 Task 5 Service Tunnel'
             status: 'Task 5 owner review only; no production release or further shortcut approval'
           - id: neon-grid-billboard
+            embed_source: true
             sha: b942c912510ec86312a9d0cd393d71d2eb478ea8
             base: /manacondas-minigame-mayhem/previews/neon-grid-billboard/
             marker_type: feature
             marker_name: 'Neon Grid Stage 3 Task 6 Billboard entrance/exit aperture visuals'
             status: 'Entrance/exit aperture visual retest; smooth exit and remainder review preserved; owner visual acceptance pending; no production release'
           - id: neon-grid-dive
+            embed_source: true
             sha: b49d9876f8c6ce87956f8b91675c3c8180e56b55
             base: /manacondas-minigame-mayhem/previews/neon-grid-dive/
             marker_type: feature
             marker_name: 'Neon Grid Stage 3 Task 7 Waterfall Dive'
             status: 'Task 7 owner dive feel/fairness review; accepted tunnel/billboard and production preserved; no balance or production release'
           - id: neon-grid-far300
+            embed_source: true
             sha: 01fb6c26d1b25f536d46323ebfc71fc30239d125
             base: /manacondas-minigame-mayhem/previews/neon-grid-far300/
             marker_type: feature
@@ -207,11 +219,19 @@ jobs:
         working-directory: preview-src
         run: npm ci
 
-      - name: Build pinned preview
-        if: steps.preview-cache.outputs.cache-hit != 'true'
+      - name: Build pinned preview without source marker
+        if: steps.preview-cache.outputs.cache-hit != 'true' && matrix.embed_source == false
         working-directory: preview-src
         env:
           PREVIEW_BASE: ${{ matrix.base }}
+        run: npm run build -- --base "$PREVIEW_BASE"
+
+      - name: Build pinned preview with source marker
+        if: steps.preview-cache.outputs.cache-hit != 'true' && matrix.embed_source == true
+        working-directory: preview-src
+        env:
+          PREVIEW_BASE: ${{ matrix.base }}
+          VITE_SOURCE_COMMIT: ${{ matrix.sha }}
         run: npm run build -- --base "$PREVIEW_BASE"
 
       - name: Write preview review marker

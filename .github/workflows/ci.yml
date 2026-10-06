@@ -374,6 +374,53 @@ jobs:
           }, null, 2));
           JS
 
+      - name: Check out pinned Neon Grid 300m stopgap runtime for PR validation
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v5
+        with:
+          ref: 01fb6c26d1b25f536d46323ebfc71fc30239d125
+          path: neon-grid-far300-runtime
+          lfs: true
+
+      - name: Validate exact Neon Grid 300m stopgap before preview publication
+        if: github.event_name == 'pull_request'
+        working-directory: neon-grid-far300-runtime
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "01fb6c26d1b25f536d46323ebfc71fc30239d125"
+          npm ci
+          npm run validate
+          git diff --check
+          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-far300/
+
+      - name: Check out pinned Neon Grid 300m stopgap visual review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/checkout@v5
+        with:
+          ref: 01fb6c26d1b25f536d46323ebfc71fc30239d125
+          path: neon-grid-far300-preview
+          lfs: true
+
+      - name: Build Neon Grid 300m stopgap visual review
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: neon-grid-far300-preview
+        env:
+          VITE_SOURCE_COMMIT: 01fb6c26d1b25f536d46323ebfc71fc30239d125
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
+          npm ci
+          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-far300/
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            feature: 'Neon Grid temporary 300m camera far-plane stopgap',
+            source: process.env.VITE_SOURCE_COMMIT,
+            base: '/manacondas-minigame-mayhem/previews/neon-grid-far300/',
+            status: 'Owner visual/playability review only; Task 8 preserved; no production/runtime adoption authority'
+          }, null, 2));
+          JS
+
       - name: Assemble the current game and isolated previews
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -427,6 +474,11 @@ jobs:
           test -f site-root/previews/neon-grid-dive/index.html
           test -f site-root/previews/neon-grid-dive/review-build.json
 
+          mkdir -p site-root/previews/neon-grid-far300
+          cp -a neon-grid-far300-preview/dist/. site-root/previews/neon-grid-far300/
+          test -f site-root/previews/neon-grid-far300/index.html
+          test -f site-root/previews/neon-grid-far300/review-build.json
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -445,13 +497,15 @@ jobs:
           dive = root/'previews/neon-grid-dive'
           paths += [dive/'index.html', dive/'review-build.json', *sorted((dive/'assets').glob('*.js')), *sorted((dive/'assets').glob('*.css'))]
           paths += [dive/'assets/track/neon-grid/billboard'/name for name in ['paprika-v1.webp', 'arin-v1.webp', 'raven-v1.webp']]
+          far300 = root/'previews/neon-grid-far300'
+          paths += [far300/'index.html', far300/'review-build.json', *sorted((far300/'assets').glob('*.js')), *sorted((far300/'assets').glob('*.css'))]
           report = []
           for path in paths:
               relative = str(path.relative_to(root))
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith('previews/neon-grid-dive/'):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/')):
                   with urllib.request.urlopen(url, timeout=45) as response:
                       assert response.status == 200
                       assert hashlib.sha256(response.read()).hexdigest() == sha, 'Production bytes differ: ' + relative

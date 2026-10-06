@@ -86,6 +86,7 @@ jobs:
     timeout-minutes: 15
     strategy:
       fail-fast: false
+      max-parallel: 8
       matrix:
         include:
           - id: race-hud-results

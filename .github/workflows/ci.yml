@@ -271,12 +271,7 @@ jobs:
           test -f "$OUTPUT/index.html"
           if [ -n "$MARKER_TYPE" ]; then
             test -f "$OUTPUT/review-build.json"
-            node --input-type=module - <<'JS'
-            import { readFileSync } from 'node:fs';
-            const body = JSON.parse(readFileSync(process.env.OUTPUT + '/review-build.json', 'utf8'));
-            if (body.source !== process.env.EXPECTED_SOURCE) throw new Error('preview source marker mismatch');
-            if (body.base !== process.env.EXPECTED_BASE) throw new Error('preview base marker mismatch');
-            JS
+            node --input-type=module -e "import { readFileSync } from 'node:fs'; const body = JSON.parse(readFileSync(process.env.OUTPUT + '/review-build.json', 'utf8')); if (body.source !== process.env.EXPECTED_SOURCE) throw new Error('preview source marker mismatch'); if (body.base !== process.env.EXPECTED_BASE) throw new Error('preview base marker mismatch');"
           fi
 
   pinned-runtime-validation:

@@ -40,9 +40,9 @@ No SuperTuxKart source code or assets are authorized for direct incorporation. T
 | STK-005 | AI bounded decision commitment / hysteresis | P1 | Candidate | Future kart AI quality pass | Plan/ADR as needed |
 | STK-006 | Presentation-only kart dynamics layer | P1 | Candidate | Future feel/polish pass | Owner visual approval; no physics change |
 | STK-007 | Authored steering-response curves | P2 | Candidate experiment | Future handling experiment | PRD amendment if adopted |
-| STK-008 | Environment distance/perceptual LOD | P1 | Candidate | High priority for future track visual expansion | ADR + testing contract |
-| STK-009 | Explicit race render-pipeline ownership | P1 | Candidate | Alongside rendering optimization | ADR |
-| STK-010 | Feature/pass-level render budgets and diagnostics | P1 | Candidate | Near-term performance tooling | Testing contract |
+| STK-008 | Environment distance/perceptual LOD | P1 | Selected for docs review | Unified render-workload governance initiative | Proposed ADR + testing contract; implementation not authorized |
+| STK-009 | Explicit race render-pipeline ownership | P1 | Selected for docs review | Unified render-workload governance initiative | Proposed ADR; implementation not authorized |
+| STK-010 | Feature/pass-level render budgets and diagnostics | P1 | Selected for docs review | First phase of unified render-workload governance | Proposed testing contract; instrumentation must precede optimization |
 | STK-011 | Shared cosmetic VFX budget coordinator | P2 | Candidate | When simultaneous VFX load justifies it | ADR/testing contract |
 | STK-012 | Surface feedback profiles | P2 | Candidate | Future audio/VFX refinement | Plan; PRD only if physics changes |
 | STK-013 | Split global race HUD from player HUD | P1 | Candidate | Before local multiplayer or major HUD expansion | ADR |
@@ -51,6 +51,10 @@ No SuperTuxKart source code or assets are authorized for direct incorporation. T
 | STK-016 | Modularize game-specific CSS and lazy-loaded presentation | P0 | Candidate | Before Minigame 2 | ADR/build validation |
 
 ---
+
+## Render-workload governance selection — 2026-10-05
+
+Manny approved a documentation-only design phase that unifies STK-008, STK-009 and STK-010, conditional on two hard requirements: **instrumentation-first sequencing** and a specified **executable enforcement mechanism**. The draft is `docs/superpowers/plans/2026-10-05-render-workload-governance.md`. This selection does not authorize runtime implementation, does not change the PRD, and does not make the proposed ADR/testing contract active. Those governance changes remain subject to owner document review.
 
 ## Architecture and multi-minigame modularity
 

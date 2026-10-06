@@ -87,16 +87,19 @@ describe('Neon Grid Stage 4 Task 8 Falls Run presentation', () => {
     const textures = new Set<THREE.Texture>();
     task8.traverse((object) => {
       if (object instanceof THREE.Light) lights += 1;
-      if (object instanceof THREE.InstancedMesh) assertFiniteInstances(object);
+      if (object instanceof THREE.InstancedMesh)
+        assertFiniteInstances(object as THREE.InstancedMesh);
       if (!(object instanceof THREE.Mesh)) return;
       const materials = Array.isArray(object.material) ? object.material : [object.material];
       for (const material of materials) {
-        for (const value of Object.values(material)) {
-          if (value instanceof THREE.Texture) textures.add(value);
+        for (const value of Object.values(material as unknown as Record<string, unknown>)) {
+          if (value instanceof THREE.Texture) textures.add(value as THREE.Texture);
         }
         if (material instanceof THREE.ShaderMaterial) {
-          for (const uniform of Object.values(material.uniforms)) {
-            if (uniform.value instanceof THREE.Texture) textures.add(uniform.value as THREE.Texture);
+          const uniforms = material.uniforms as Record<string, { value: unknown }>;
+          for (const uniform of Object.values(uniforms)) {
+            if (uniform.value instanceof THREE.Texture)
+              textures.add(uniform.value as THREE.Texture);
           }
         }
       }

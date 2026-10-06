@@ -1,4 +1,4 @@
-# Cross-Minigename Render Workload Governance Plan
+# Cross-Minigame Render Workload Governance Plan
 
 **Status:** DRAFT FOR OWNER REVIEW — documentation phase only  
 **Date:** 2026-10-05 America/Chicago  
@@ -58,6 +58,46 @@ The final architecture may not depend on contributors remembering a style guide.
 It must include executable enforcement capable of failing CI when governed world-space content bypasses the contract or exceeds deterministic workload rules.
 
 Enforcement is staged so existing debt can be migrated without opening a loophole for new debt.
+
+## 3A. Temporary playability stopgap — proposed, not adopted
+
+The architectural program above is intentionally broader than one track and may span multiple implementation checkpoints. That does not require Neon Grid to remain unnecessarily difficult to play while the durable system is built.
+
+A **separate, explicitly temporary Neon Grid far-plane clamp** is therefore proposed as a stopgap candidate.
+
+### Candidate shape
+
+- Scope: Neon Grid only. Do not change Circuit Alpha or establish a global platform default.
+- Variable: reduce the Neon Grid race-camera far plane from the current 900 m to **300 m**, because 300 m is the only reduced distance currently backed by controlled paired evidence.
+- Preserve: physics, AI, collision, checkpoints, shortcuts, Task 8 visuals, shadows, bloom, materials, quality settings, fog values and gameplay state.
+- Do not combine the stopgap with spatial chunking, LOD, shadow-distance changes, post-processing changes or Task 8 optimization. It must remain a one-variable mitigation.
+- Publication: no production adoption is implied by this document. A stopgap runtime change requires its own explicit authorization and owner visual/playability gate.
+
+### Why 300 m is the candidate
+
+The controlled software-WebGL diagnostic changed only the camera far plane from 900 m to 300 m and improved median frame time from 286.3 ms to 170.5 ms (-40.45%), with median FPS increasing from 3.49284 to 5.86510 (+67.92%). The absolute software-renderer FPS is not hardware certification, but the delta is large enough to justify testing the clamp as a temporary mitigation.
+
+### Required acceptance before adoption
+
+A stopgap clamp may be adopted only if a locked Neon Grid preview confirms:
+
+1. no gameplay-critical tell, checkpoint, shortcut entrance/exit, hazard cue or required landmark disappears at legal race positions;
+2. chase and rear-view cameras do not show unacceptable hard clipping or horizon collapse;
+3. the existing fog/sky presentation remains visually acceptable without being retuned as part of the same change;
+4. the same one-variable diagnostic still shows a material workload reduction;
+5. no accepted 5.3 road-contact, tunnel, billboard or dive behavior changes;
+6. Manny explicitly approves the preview.
+
+If 300 m fails visual/playability review, do not silently choose another value. Measure the next candidate as another one-variable diagnostic and repeat the gate.
+
+### Expiry / removal rule
+
+This clamp is a **temporary mitigation, not the architecture**. If adopted, it must carry a tracked removal condition and be reconsidered when Neon Grid completes Phase V2 under the shared visibility system. At that checkpoint:
+
+- the clamp is removed if region-based visibility/LOD provides acceptable workload at the intended authored view distance; or
+- any retained far-plane value is re-justified as an intentional visual policy through the shared render-world contract rather than inherited from the stopgap.
+
+The stopgap may not be copied into future minigames as a default solution.
 
 ## 4. Core architectural principle
 
@@ -471,7 +511,7 @@ Required evidence:
 Approval of this design should cause these durable updates:
 
 1. **PRD:** add an implementation amendment establishing cross-minigame render-workload governance and instrumentation-first sequencing. Existing performance targets remain unchanged.
-2. **DECISIONS:** add ADR-104 covering shared visibility/render-workload ownership, separation from gameplay authority, staged enforcement and renderer ownership.
+2. **DECISIONS:** add ADR-110 covering shared visibility/render-workload ownership, separation from gameplay authority, staged enforcement and renderer ownership.
 3. **TESTING:** add the I0 workload-capture schema, evidence interpretation rules and CI failure cases.
 4. **STK backlog:** mark STK-008/009/010 as adopted into this governed initiative rather than separate candidates.
 5. **IMPLEMENTATION-STATUS:** identify I0 as the next authorized action only after owner implementation approval.

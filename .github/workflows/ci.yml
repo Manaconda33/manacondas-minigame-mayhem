@@ -80,7 +80,7 @@ jobs:
           echo "value=$value" >> "$GITHUB_OUTPUT"
 
   preview-build:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     needs: preview-plan
     runs-on: ubuntu-latest
     timeout-minutes: 15

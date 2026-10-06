@@ -34,7 +34,15 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Restore installed dependencies
+        id: validate-deps
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-v1-${{ runner.os }}-node22-${{ hashFiles('package-lock.json') }}
+
       - name: Install from lockfile
+        if: steps.validate-deps.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Typecheck
@@ -49,433 +57,473 @@ jobs:
       - name: Production build
         run: npm run build
 
-      - name: Check out pinned Race Results preview
+      - name: Upload production build for Pages assembly
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
+        uses: actions/upload-artifact@v4
         with:
-          ref: 9aceba5de4c5d184772d3467f47463b26a633df0
-          path: feature-preview
-          lfs: true
+          name: production-dist
+          path: dist
+          retention-days: 1
 
-      - name: Verify preview assets
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: git -C feature-preview lfs fsck
-
-      - name: Build Race Results at its preview URL
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: feature-preview
-        run: |
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/race-hud-results/
-
-      - name: Check out pinned Archer review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  preview-plan:
+    runs-on: ubuntu-latest
+    outputs:
+      toolchain: ${{ steps.toolchain.outputs.value }}
+    steps:
+      - name: Check out current tree for toolchain fingerprint
         uses: actions/checkout@v5
-        with:
-          ref: 62583845461098caee5fec3e1334502da671de1d
-          path: archer-preview
-          lfs: true
 
-      - name: Verify and build Archer review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: archer-preview
+      - name: Fingerprint preview build toolchain
+        id: toolchain
         run: |
-          git lfs fsck
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/archer/
+          value="$(sha256sum package.json package-lock.json vite.config.ts | sha256sum | cut -d' ' -f1)"
+          echo "value=$value" >> "$GITHUB_OUTPUT"
 
-      - name: Check out pinned motion blur review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: 949fd77993b9859bc9ca68da5b8f3bc01bd846d6
-          path: motion-blur-preview
-          lfs: true
-
-      - name: Verify and build motion blur review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: motion-blur-preview
-        run: |
-          git lfs fsck
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/motion-blur/
-
-      - name: Check out pinned terrain material review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: 375c933766dbc52cead91592cd69d954ab022d38
-          path: terrain-preview
-          lfs: true
-
-      - name: Verify and build terrain material review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: terrain-preview
-        env:
-          VITE_SOURCE_COMMIT: 375c933766dbc52cead91592cd69d954ab022d38
-        run: |
-          git lfs fsck
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/terrain-materials/
-
-      - name: Check out pinned Lunarcrystal review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: 1051cd9c8c6b1ff7237dc605417b17869f4cea9b
-          path: lunarcrystal-preview
-          lfs: true
-
-      - name: Verify and build Lunarcrystal review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: lunarcrystal-preview
-        env:
-          VITE_SOURCE_COMMIT: 1051cd9c8c6b1ff7237dc605417b17869f4cea9b
-        run: |
-          git lfs fsck
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/lunarcrystal/
-          node --input-type=module - <<'JS'
-          import { writeFileSync } from 'node:fs';
-          writeFileSync('dist/review-build.json', JSON.stringify({
-            character: 'Lunarcrystal', source: process.env.VITE_SOURCE_COMMIT,
-            base: '/manacondas-minigame-mayhem/previews/lunarcrystal/',
+  preview-build:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    needs: preview-plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - id: race-hud-results
+            embed_source: false
+            sha: 9aceba5de4c5d184772d3467f47463b26a633df0
+            base: /manacondas-minigame-mayhem/previews/race-hud-results/
+            marker_type: ''
+            marker_name: ''
+            status: ''
+          - id: archer
+            embed_source: false
+            sha: 62583845461098caee5fec3e1334502da671de1d
+            base: /manacondas-minigame-mayhem/previews/archer/
+            marker_type: ''
+            marker_name: ''
+            status: ''
+          - id: motion-blur
+            embed_source: false
+            sha: 949fd77993b9859bc9ca68da5b8f3bc01bd846d6
+            base: /manacondas-minigame-mayhem/previews/motion-blur/
+            marker_type: ''
+            marker_name: ''
+            status: ''
+          - id: terrain-materials
+            embed_source: true
+            sha: 375c933766dbc52cead91592cd69d954ab022d38
+            base: /manacondas-minigame-mayhem/previews/terrain-materials/
+            marker_type: ''
+            marker_name: ''
+            status: ''
+          - id: lunarcrystal
+            embed_source: true
+            sha: 1051cd9c8c6b1ff7237dc605417b17869f4cea9b
+            base: /manacondas-minigame-mayhem/previews/lunarcrystal/
+            marker_type: character
+            marker_name: Lunarcrystal
             status: 'review only; production acceptance pending'
-          }, null, 2));
-          JS
-
-      - name: Check out pinned shadow polish review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: efbcc74f5c8103d2b6411c8bdedd35953b224f3f
-          path: shadow-preview
-          lfs: true
-
-      - name: Verify and build shadow polish review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: shadow-preview
-        env:
-          VITE_SOURCE_COMMIT: efbcc74f5c8103d2b6411c8bdedd35953b224f3f
-        run: |
-          git lfs fsck
-          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/shadow-polish/
-          node --input-type=module - <<'JS'
-          import { writeFileSync } from 'node:fs';
-          writeFileSync('dist/review-build.json', JSON.stringify({
-            feature: 'Circuit Alpha shadow polish', source: process.env.VITE_SOURCE_COMMIT,
-            base: '/manacondas-minigame-mayhem/previews/shadow-polish/',
+          - id: shadow-polish
+            embed_source: true
+            sha: efbcc74f5c8103d2b6411c8bdedd35953b224f3f
+            base: /manacondas-minigame-mayhem/previews/shadow-polish/
+            marker_type: feature
+            marker_name: 'Circuit Alpha shadow polish'
             status: 'review only; visual and production acceptance pending'
-          }, null, 2));
-          JS
-
-      - name: Check out pinned Neon Grid main-route review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: e441ab73ed0a5c3a2d75663de7a89a57606689b8
-          path: neon-grid-preview
-          lfs: true
-
-      - name: Verify and build Neon Grid main-route review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: neon-grid-preview
-        env:
-          VITE_SOURCE_COMMIT: e441ab73ed0a5c3a2d75663de7a89a57606689b8
-        run: |
-          git lfs fsck
-          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid/
-          node --input-type=module - <<'JS'
-          import { writeFileSync } from 'node:fs';
-          writeFileSync('dist/review-build.json', JSON.stringify({
-            feature: 'Neon Grid Circuit 02 main-route blockout', source: process.env.VITE_SOURCE_COMMIT,
-            base: '/manacondas-minigame-mayhem/previews/neon-grid/',
+          - id: neon-grid
+            embed_source: true
+            sha: e441ab73ed0a5c3a2d75663de7a89a57606689b8
+            base: /manacondas-minigame-mayhem/previews/neon-grid/
+            marker_type: feature
+            marker_name: 'Neon Grid Circuit 02 main-route blockout'
             status: 'Stage 2 review only; no tokens or shortcuts; production acceptance pending'
-          }, null, 2));
-          JS
-
-      - name: Check out pinned Neon Grid 5.3 residual repair review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: 9459bf0f64705fb744f7cc1e810be0c0a6f02b3b
-          path: neon-grid-5-3-preview
-          lfs: true
-
-      - name: Verify and build Neon Grid 5.3 residual repair review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: neon-grid-5-3-preview
-        env:
-          VITE_SOURCE_COMMIT: 9459bf0f64705fb744f7cc1e810be0c0a6f02b3b
-        run: |
-          git lfs fsck
-          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-5-3/
-          node --input-type=module - <<'JS'
-          import { writeFileSync } from 'node:fs';
-          writeFileSync('dist/review-build.json', JSON.stringify({
-            feature: 'Neon Grid 5.3 constrained climbing triangulation', source: process.env.VITE_SOURCE_COMMIT,
-            base: '/manacondas-minigame-mayhem/previews/neon-grid-5-3/',
+          - id: neon-grid-5-3
+            embed_source: true
+            sha: 9459bf0f64705fb744f7cc1e810be0c0a6f02b3b
+            base: /manacondas-minigame-mayhem/previews/neon-grid-5-3/
+            marker_type: feature
+            marker_name: 'Neon Grid 5.3 constrained climbing triangulation'
             status: '5.3 owner playtest only; no production release or Stage 3'
-          }, null, 2));
-          JS
-
-      - name: Check out pinned Neon Service Tunnel review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: 92025b5f241cae7ac208c977f74b24396ce6909b
-          path: neon-grid-tunnel-preview
-          lfs: true
-
-      - name: Verify and build Neon Service Tunnel review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: neon-grid-tunnel-preview
-        env:
-          VITE_SOURCE_COMMIT: 92025b5f241cae7ac208c977f74b24396ce6909b
-        run: |
-          git lfs fsck
-          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-tunnel/
-          node --input-type=module - <<'JS'
-          import { writeFileSync } from 'node:fs';
-          writeFileSync('dist/review-build.json', JSON.stringify({
-            feature: 'Neon Grid Stage 3 Task 5 Service Tunnel', source: process.env.VITE_SOURCE_COMMIT,
-            base: '/manacondas-minigame-mayhem/previews/neon-grid-tunnel/',
+          - id: neon-grid-tunnel
+            embed_source: true
+            sha: 92025b5f241cae7ac208c977f74b24396ce6909b
+            base: /manacondas-minigame-mayhem/previews/neon-grid-tunnel/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 3 Task 5 Service Tunnel'
             status: 'Task 5 owner review only; no production release or further shortcut approval'
-          }, null, 2));
-          JS
-
-      - name: Check out pinned Billboard runtime for PR validation
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@v5
-        with:
-          ref: b942c912510ec86312a9d0cd393d71d2eb478ea8
-          path: neon-grid-billboard-runtime
-          lfs: true
-
-      - name: Validate the exact Billboard runtime before preview publication
-        if: github.event_name == 'pull_request'
-        working-directory: neon-grid-billboard-runtime
-        run: |
-          git lfs fsck
-          test "$(git rev-parse HEAD)" = "b942c912510ec86312a9d0cd393d71d2eb478ea8"
-          npm ci
-          # Retained native mobile fixture needs the same runner allowance as Dive fbff249.
-          npm run typecheck
-          npm run lint
-          npm run test:ci -- --testTimeout=15000
-          npm run build
-          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-billboard/
-
-      - name: Check out pinned Billboard visual review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: b942c912510ec86312a9d0cd393d71d2eb478ea8
-          path: neon-grid-billboard-preview
-
-      - name: Build Billboard visual review with existing runtime assets
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: neon-grid-billboard-preview
-        env:
-          VITE_SOURCE_COMMIT: b942c912510ec86312a9d0cd393d71d2eb478ea8
-        run: |
-          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
-          python3 - <<'PYTHON'
-          from pathlib import Path
-          import hashlib, shutil
-          for path in Path('public').rglob('*'):
-              if not path.is_file() or path.stat().st_size > 1024:
-                  continue
-              data = path.read_bytes()
-              if not data.startswith(b'version https://git-lfs.github.com/spec/v1\n'):
-                  continue
-              fields = dict(line.split(' ', 1) for line in data.decode().splitlines())
-              source = Path('..')/path
-              asset = source.read_bytes()
-              assert len(asset) == int(fields['size']), str(path)
-              assert hashlib.sha256(asset).hexdigest() == fields['oid'].split(':', 1)[1], str(path)
-              shutil.copyfile(source, path)
-          PYTHON
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-billboard/
-          node --input-type=module - <<'JS'
-          import { writeFileSync } from 'node:fs';
-          writeFileSync('dist/review-build.json', JSON.stringify({
-            feature: 'Neon Grid Stage 3 Task 6 Billboard entrance/exit aperture visuals', source: process.env.VITE_SOURCE_COMMIT,
-            base: '/manacondas-minigame-mayhem/previews/neon-grid-billboard/',
+          - id: neon-grid-billboard
+            embed_source: true
+            sha: b942c912510ec86312a9d0cd393d71d2eb478ea8
+            base: /manacondas-minigame-mayhem/previews/neon-grid-billboard/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 3 Task 6 Billboard entrance/exit aperture visuals'
             status: 'Entrance/exit aperture visual retest; smooth exit and remainder review preserved; owner visual acceptance pending; no production release'
-          }, null, 2));
-          JS
-
-      - name: Check out pinned Dive runtime for PR validation
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@v5
-        with:
-          ref: b49d9876f8c6ce87956f8b91675c3c8180e56b55
-          path: neon-grid-dive-runtime
-          lfs: true
-
-      - name: Validate the exact Dive runtime before preview publication
-        if: github.event_name == 'pull_request'
-        working-directory: neon-grid-dive-runtime
-        run: |
-          git lfs fsck
-          test "$(git rev-parse HEAD)" = "b49d9876f8c6ce87956f8b91675c3c8180e56b55"
-          npm ci
-          npm run validate
-          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-dive/
-
-      - name: Check out pinned Dive visual review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: b49d9876f8c6ce87956f8b91675c3c8180e56b55
-          path: neon-grid-dive-preview
-
-      - name: Build Dive visual review with existing runtime assets
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: neon-grid-dive-preview
-        env:
-          VITE_SOURCE_COMMIT: b49d9876f8c6ce87956f8b91675c3c8180e56b55
-        run: |
-          test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
-          python3 - <<'PYTHON'
-          from pathlib import Path
-          import hashlib, shutil
-          for path in Path('public').rglob('*'):
-              if not path.is_file() or path.stat().st_size > 1024:
-                  continue
-              data = path.read_bytes()
-              if not data.startswith(b'version https://git-lfs.github.com/spec/v1\n'):
-                  continue
-              fields = dict(line.split(' ', 1) for line in data.decode().splitlines())
-              source = Path('..')/path
-              asset = source.read_bytes()
-              assert len(asset) == int(fields['size']), str(path)
-              assert hashlib.sha256(asset).hexdigest() == fields['oid'].split(':', 1)[1], str(path)
-              shutil.copyfile(source, path)
-          PYTHON
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-dive/
-          node --input-type=module - <<'JS'
-          import { writeFileSync } from 'node:fs';
-          writeFileSync('dist/review-build.json', JSON.stringify({
-            feature: 'Neon Grid Stage 3 Task 7 Waterfall Dive', source: process.env.VITE_SOURCE_COMMIT,
-            base: '/manacondas-minigame-mayhem/previews/neon-grid-dive/',
+          - id: neon-grid-dive
+            embed_source: true
+            sha: b49d9876f8c6ce87956f8b91675c3c8180e56b55
+            base: /manacondas-minigame-mayhem/previews/neon-grid-dive/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 3 Task 7 Waterfall Dive'
             status: 'Task 7 owner dive feel/fairness review; accepted tunnel/billboard and production preserved; no balance or production release'
-          }, null, 2));
-          JS
+          - id: neon-grid-far300
+            embed_source: true
+            sha: 01fb6c26d1b25f536d46323ebfc71fc30239d125
+            base: /manacondas-minigame-mayhem/previews/neon-grid-far300/
+            marker_type: feature
+            marker_name: 'Neon Grid temporary 300m camera far-plane stopgap'
+            status: 'Owner visual/playability review only; Task 8 preserved; no production/runtime adoption authority'
 
-      - name: Check out pinned Neon Grid 300m stopgap runtime for PR validation
-        if: github.event_name == 'pull_request'
+    steps:
+      - name: Restore immutable preview build
+        id: preview-cache
+        uses: actions/cache@v4
+        with:
+          path: preview-output/${{ matrix.id }}
+          key: preview-dist-v1-${{ matrix.id }}-${{ matrix.sha }}-${{ needs.preview-plan.outputs.toolchain }}
+
+      - name: Check out pinned preview source
+        if: steps.preview-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v5
         with:
-          ref: 01fb6c26d1b25f536d46323ebfc71fc30239d125
-          path: neon-grid-far300-runtime
+          ref: ${{ matrix.sha }}
+          path: preview-src
           lfs: true
 
-      - name: Validate exact Neon Grid 300m stopgap before preview publication
-        if: github.event_name == 'pull_request'
-        working-directory: neon-grid-far300-runtime
-        run: |
-          git lfs fsck
-          test "$(git rev-parse HEAD)" = "01fb6c26d1b25f536d46323ebfc71fc30239d125"
-          npm ci
-          npm run validate
-          git diff --check
-          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-far300/
-
-      - name: Check out pinned Neon Grid 300m stopgap visual review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v5
-        with:
-          ref: 01fb6c26d1b25f536d46323ebfc71fc30239d125
-          path: neon-grid-far300-preview
-          lfs: true
-
-      - name: Build Neon Grid 300m stopgap visual review
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        working-directory: neon-grid-far300-preview
+      - name: Verify pinned preview source
+        if: steps.preview-cache.outputs.cache-hit != 'true'
+        working-directory: preview-src
         env:
-          VITE_SOURCE_COMMIT: 01fb6c26d1b25f536d46323ebfc71fc30239d125
+          VITE_SOURCE_COMMIT: ${{ matrix.sha }}
         run: |
           git lfs fsck
           test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
-          npm ci
-          npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-far300/
+
+      - name: Set up Node.js
+        if: steps.preview-cache.outputs.cache-hit != 'true'
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: preview-src/package-lock.json
+
+      - name: Restore installed preview dependencies
+        if: steps.preview-cache.outputs.cache-hit != 'true'
+        id: preview-deps
+        uses: actions/cache@v4
+        with:
+          path: preview-src/node_modules
+          key: node-modules-v1-${{ runner.os }}-node22-${{ hashFiles('preview-src/package-lock.json') }}
+
+      - name: Install preview dependencies
+        if: steps.preview-cache.outputs.cache-hit != 'true' && steps.preview-deps.outputs.cache-hit != 'true'
+        working-directory: preview-src
+        run: npm ci
+
+      - name: Build pinned preview without source marker
+        if: steps.preview-cache.outputs.cache-hit != 'true' && matrix.embed_source == false
+        working-directory: preview-src
+        env:
+          PREVIEW_BASE: ${{ matrix.base }}
+        run: npm run build -- --base "$PREVIEW_BASE"
+
+      - name: Build pinned preview with source marker
+        if: steps.preview-cache.outputs.cache-hit != 'true' && matrix.embed_source == true
+        working-directory: preview-src
+        env:
+          PREVIEW_BASE: ${{ matrix.base }}
+          VITE_SOURCE_COMMIT: ${{ matrix.sha }}
+        run: npm run build -- --base "$PREVIEW_BASE"
+
+      - name: Write preview review marker
+        if: steps.preview-cache.outputs.cache-hit != 'true' && matrix.marker_type != ''
+        working-directory: preview-src
+        env:
+          MARKER_TYPE: ${{ matrix.marker_type }}
+          MARKER_NAME: ${{ matrix.marker_name }}
+          VITE_SOURCE_COMMIT: ${{ matrix.sha }}
+          PREVIEW_BASE: ${{ matrix.base }}
+          REVIEW_STATUS: ${{ matrix.status }}
+        run: |
           node --input-type=module - <<'JS'
           import { writeFileSync } from 'node:fs';
           writeFileSync('dist/review-build.json', JSON.stringify({
-            feature: 'Neon Grid temporary 300m camera far-plane stopgap',
+            [process.env.MARKER_TYPE]: process.env.MARKER_NAME,
             source: process.env.VITE_SOURCE_COMMIT,
-            base: '/manacondas-minigame-mayhem/previews/neon-grid-far300/',
-            status: 'Owner visual/playability review only; Task 8 preserved; no production/runtime adoption authority'
+            base: process.env.PREVIEW_BASE,
+            status: process.env.REVIEW_STATUS
           }, null, 2));
           JS
+
+      - name: Stage immutable preview output
+        if: steps.preview-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p "preview-output/${{ matrix.id }}"
+          cp -a preview-src/dist/. "preview-output/${{ matrix.id }}/"
+
+      - name: Verify preview output contract
+        env:
+          OUTPUT: preview-output/${{ matrix.id }}
+          EXPECTED_SOURCE: ${{ matrix.sha }}
+          EXPECTED_BASE: ${{ matrix.base }}
+          MARKER_TYPE: ${{ matrix.marker_type }}
+        run: |
+          test -f "$OUTPUT/index.html"
+          if [ -n "$MARKER_TYPE" ]; then
+            test -f "$OUTPUT/review-build.json"
+            node --input-type=module -e "import { readFileSync } from 'node:fs'; const body = JSON.parse(readFileSync(process.env.OUTPUT + '/review-build.json', 'utf8')); if (body.source !== process.env.EXPECTED_SOURCE) throw new Error('preview source marker mismatch'); if (body.base !== process.env.EXPECTED_BASE) throw new Error('preview base marker mismatch');"
+          fi
+
+  pinned-runtime-validation:
+    if: github.event_name == 'pull_request'
+    needs: preview-plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: billboard
+            sha: b942c912510ec86312a9d0cd393d71d2eb478ea8
+            base: /manacondas-minigame-mayhem/previews/neon-grid-billboard/
+          - id: dive
+            sha: b49d9876f8c6ce87956f8b91675c3c8180e56b55
+            base: /manacondas-minigame-mayhem/previews/neon-grid-dive/
+          - id: far300
+            sha: 01fb6c26d1b25f536d46323ebfc71fc30239d125
+            base: /manacondas-minigame-mayhem/previews/neon-grid-far300/
+
+    steps:
+      - name: Restore successful pinned-runtime validation
+        id: validation-cache
+        uses: actions/cache@v4
+        with:
+          path: validation-cache/${{ matrix.id }}
+          key: pinned-runtime-validation-v1-${{ matrix.id }}-${{ matrix.sha }}-${{ needs.preview-plan.outputs.toolchain }}
+
+      - name: Check out pinned runtime
+        if: steps.validation-cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ matrix.sha }}
+          path: runtime-src
+          lfs: true
+
+      - name: Set up Node.js
+        if: steps.validation-cache.outputs.cache-hit != 'true'
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: runtime-src/package-lock.json
+
+      - name: Restore installed pinned-runtime dependencies
+        if: steps.validation-cache.outputs.cache-hit != 'true'
+        id: runtime-deps
+        uses: actions/cache@v4
+        with:
+          path: runtime-src/node_modules
+          key: node-modules-v1-${{ runner.os }}-node22-${{ hashFiles('runtime-src/package-lock.json') }}
+
+      - name: Install pinned-runtime dependencies
+        if: steps.validation-cache.outputs.cache-hit != 'true' && steps.runtime-deps.outputs.cache-hit != 'true'
+        working-directory: runtime-src
+        run: npm ci
+
+      - name: Validate exact pinned runtime
+        if: steps.validation-cache.outputs.cache-hit != 'true'
+        working-directory: runtime-src
+        env:
+          PIN_ID: ${{ matrix.id }}
+          PIN_SHA: ${{ matrix.sha }}
+          PREVIEW_BASE: ${{ matrix.base }}
+        run: |
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "$PIN_SHA"
+          case "$PIN_ID" in
+            billboard)
+              # Retained native mobile fixture needs the same runner allowance as Dive fbff249.
+              npm run typecheck
+              npm run lint
+              npm run test:ci -- --testTimeout=15000
+              npm run build
+              npm run build -- --base "$PREVIEW_BASE"
+              ;;
+            dive)
+              npm run validate
+              npm run build -- --base "$PREVIEW_BASE"
+              ;;
+            far300)
+              npm run validate
+              git diff --check
+              npm run build -- --base "$PREVIEW_BASE"
+              ;;
+            *)
+              echo "Unknown pinned runtime: $PIN_ID" >&2
+              exit 1
+              ;;
+          esac
+          mkdir -p "../validation-cache/$PIN_ID"
+          printf '%s\n' "$PIN_SHA" > "../validation-cache/$PIN_ID/passed"
+
+      - name: Verify pinned-runtime validation marker
+        run: test -f "validation-cache/${{ matrix.id }}/passed"
+
+  assemble:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [validate, preview-plan, preview-build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download validated production build
+        uses: actions/download-artifact@v4
+        with:
+          name: production-dist
+          path: dist
+
+      - name: Restore Race Results preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/race-hud-results
+          key: preview-dist-v1-race-hud-results-9aceba5de4c5d184772d3467f47463b26a633df0-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore Archer preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/archer
+          key: preview-dist-v1-archer-62583845461098caee5fec3e1334502da671de1d-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore motion blur preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/motion-blur
+          key: preview-dist-v1-motion-blur-949fd77993b9859bc9ca68da5b8f3bc01bd846d6-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore terrain materials preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/terrain-materials
+          key: preview-dist-v1-terrain-materials-375c933766dbc52cead91592cd69d954ab022d38-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore Lunarcrystal preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/lunarcrystal
+          key: preview-dist-v1-lunarcrystal-1051cd9c8c6b1ff7237dc605417b17869f4cea9b-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore shadow polish preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/shadow-polish
+          key: preview-dist-v1-shadow-polish-efbcc74f5c8103d2b6411c8bdedd35953b224f3f-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore Neon Grid preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid
+          key: preview-dist-v1-neon-grid-e441ab73ed0a5c3a2d75663de7a89a57606689b8-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore Neon Grid 5.3 preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-5-3
+          key: preview-dist-v1-neon-grid-5-3-9459bf0f64705fb744f7cc1e810be0c0a6f02b3b-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore Neon Service Tunnel preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-tunnel
+          key: preview-dist-v1-neon-grid-tunnel-92025b5f241cae7ac208c977f74b24396ce6909b-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore Billboard preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-billboard
+          key: preview-dist-v1-neon-grid-billboard-b942c912510ec86312a9d0cd393d71d2eb478ea8-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore Dive preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-dive
+          key: preview-dist-v1-neon-grid-dive-b49d9876f8c6ce87956f8b91675c3c8180e56b55-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore Neon Grid 300m stopgap preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-far300
+          key: preview-dist-v1-neon-grid-far300-01fb6c26d1b25f536d46323ebfc71fc30239d125-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           test -f dist/index.html
           test -n "$(find dist/assets -maxdepth 1 -type f -name 'index-*.js' -print -quit)"
           test -n "$(find dist/assets -maxdepth 1 -type f -name 'index-*.css' -print -quit)"
-          mkdir -p site-root/previews/race-hud-results
           cp -a dist/. site-root/
-          cp -a feature-preview/dist/. site-root/previews/race-hud-results/
-          test -f site-root/index.html
+
+          mkdir -p site-root/previews/race-hud-results
+          cp -a preview-output/race-hud-results/. site-root/previews/race-hud-results/
           test -f site-root/previews/race-hud-results/index.html
+
           mkdir -p site-root/previews/archer
-          cp -a archer-preview/dist/. site-root/previews/archer/
+          cp -a preview-output/archer/. site-root/previews/archer/
           test -f site-root/previews/archer/index.html
+
           mkdir -p site-root/previews/motion-blur
-          cp -a motion-blur-preview/dist/. site-root/previews/motion-blur/
+          cp -a preview-output/motion-blur/. site-root/previews/motion-blur/
           test -f site-root/previews/motion-blur/index.html
+
           mkdir -p site-root/previews/terrain-materials
-          cp -a terrain-preview/dist/. site-root/previews/terrain-materials/
+          cp -a preview-output/terrain-materials/. site-root/previews/terrain-materials/
           test -f site-root/previews/terrain-materials/index.html
+
           mkdir -p site-root/previews/lunarcrystal
-          cp -a lunarcrystal-preview/dist/. site-root/previews/lunarcrystal/
+          cp -a preview-output/lunarcrystal/. site-root/previews/lunarcrystal/
           test -f site-root/previews/lunarcrystal/index.html
           test -f site-root/previews/lunarcrystal/review-build.json
+
           mkdir -p site-root/previews/shadow-polish
-          cp -a shadow-preview/dist/. site-root/previews/shadow-polish/
+          cp -a preview-output/shadow-polish/. site-root/previews/shadow-polish/
           test -f site-root/previews/shadow-polish/index.html
           test -f site-root/previews/shadow-polish/review-build.json
 
           mkdir -p site-root/previews/neon-grid
-          cp -a neon-grid-preview/dist/. site-root/previews/neon-grid/
+          cp -a preview-output/neon-grid/. site-root/previews/neon-grid/
           test -f site-root/previews/neon-grid/index.html
           test -f site-root/previews/neon-grid/review-build.json
 
           mkdir -p site-root/previews/neon-grid-5-3
-          cp -a neon-grid-5-3-preview/dist/. site-root/previews/neon-grid-5-3/
+          cp -a preview-output/neon-grid-5-3/. site-root/previews/neon-grid-5-3/
           test -f site-root/previews/neon-grid-5-3/review-build.json
 
           mkdir -p site-root/previews/neon-grid-tunnel
-          cp -a neon-grid-tunnel-preview/dist/. site-root/previews/neon-grid-tunnel/
+          cp -a preview-output/neon-grid-tunnel/. site-root/previews/neon-grid-tunnel/
           test -f site-root/previews/neon-grid-tunnel/index.html
           test -f site-root/previews/neon-grid-tunnel/review-build.json
 
           mkdir -p site-root/previews/neon-grid-billboard
-          cp -a neon-grid-billboard-preview/dist/. site-root/previews/neon-grid-billboard/
+          cp -a preview-output/neon-grid-billboard/. site-root/previews/neon-grid-billboard/
           test -f site-root/previews/neon-grid-billboard/index.html
           test -f site-root/previews/neon-grid-billboard/review-build.json
 
           mkdir -p site-root/previews/neon-grid-dive
-          cp -a neon-grid-dive-preview/dist/. site-root/previews/neon-grid-dive/
+          cp -a preview-output/neon-grid-dive/. site-root/previews/neon-grid-dive/
           test -f site-root/previews/neon-grid-dive/index.html
           test -f site-root/previews/neon-grid-dive/review-build.json
 
           mkdir -p site-root/previews/neon-grid-far300
-          cp -a neon-grid-far300-preview/dist/. site-root/previews/neon-grid-far300/
+          cp -a preview-output/neon-grid-far300/. site-root/previews/neon-grid-far300/
           test -f site-root/previews/neon-grid-far300/index.html
           test -f site-root/previews/neon-grid-far300/review-build.json
 
@@ -547,7 +595,17 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 22
+          cache: npm
+
+      - name: Restore installed spillway dependencies
+        id: spillway-deps
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-v1-${{ runner.os }}-node22-${{ hashFiles('package-lock.json') }}
+
       - name: Install exact runtime dependencies
+        if: steps.spillway-deps.outputs.cache-hit != 'true'
         run: npm ci
       - name: Render the pinned waterfall spillway and verify draw-call budget
         if: github.event_name == 'pull_request'
@@ -580,7 +638,7 @@ jobs:
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: validate
+    needs: assemble
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -608,7 +666,7 @@ jobs:
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = '01fb6c26d1b25f536d46323ebfc71fc30239d125' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

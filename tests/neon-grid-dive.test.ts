@@ -31,6 +31,27 @@ it('retains flight ownership and delays a missed recovery once by 1.5 race secon
   state.advance(p, before, dive.direction.clone().multiplyScalar(-25), 21);
   expect(state.active).toBe(false);
 });
+it('allows reverse physical entry from the landing side without forcing splash recovery', () => {
+  const d = new NeonGrid().waterfallDive;
+  const state = new DiveState(d);
+  const reverseMouth = d.length - d.mouthDistance;
+  const before = d.pointAtDistance(reverseMouth + 1);
+  const after = d.pointAtDistance(reverseMouth - 1);
+  const reverseVelocity = d.direction.clone().multiplyScalar(-12);
+  expect(state.advance(before, after, reverseVelocity, 1)).toBeNull();
+  expect(state.active).toBe(true);
+  expect(state.splashing).toBe(false);
+  expect(
+    state.advance(
+      after,
+      d.pointAtDistance(d.mouthDistance - 2),
+      reverseVelocity,
+      2,
+    ),
+  ).toBeNull();
+  expect(state.active).toBe(false);
+});
+
 it.each([
   { speed: 24, angle: 0, lane: 0 },
   { speed: 30, angle: 0, lane: 0 },

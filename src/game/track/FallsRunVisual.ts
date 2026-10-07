@@ -499,7 +499,7 @@ function addWaterfallDistrict(
   for (let i = 0; i < mistCount; i++) {
     const fall = placements[(i * 5) % placements.length];
     if (fall === undefined) continue;
-    const right = rightAt(track, fall.progress);
+    const right = neonGridRightAt(track, fall.progress);
     dummy.position
       .copy(fall.position)
       .addScaledVector(right, ((i % 5) - 2) * 0.65)

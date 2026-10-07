@@ -4,7 +4,6 @@ import { markBloomMaterial } from '../rendering/bloomEligibility';
 import type { NeonGrid } from './NeonGrid';
 import {
   NeonGridVisualClock,
-  neonGridRibbonGeometry,
   neonGridRightAt,
   neonGridSurfaceSliceGeometry,
 } from './NeonGridVisualCommon';

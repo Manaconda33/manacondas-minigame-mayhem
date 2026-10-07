@@ -1712,3 +1712,23 @@ The earlier pending-owner-retest statements are historical and superseded for th
 For the approved balance candidate, retain all prior Billboard, Tunnel, Dive and repaired-5.3 regressions. `tests/neon-grid-billboard.test.ts` verifies the +3.6 s race-clock offset, the first OFF boundary at 30.4 s, the approved 5% / 45% / 12% default rates, and a single Billboard boost surface after commitment/before rejoin. `tests/neon-grid-billboard-relocation.test.ts` runs production-native paired main/OFF/ON sections for AA-01 and AA-09 at 12/22/30 m/s, requires physical shortcut entry/exit with zero contacts, confirms the boost is traversed, and logs measured savings without converting product targets into pass-by-construction assertions.
 
 Run full CI validation before publishing the isolated preview. The balance target itself remains an owner decision gate: expected OFF saving 0.8–1.0 s, ON saving 0.5–0.6 s, tell separation 0.25–0.4 s. If the standard boost pad fails the separation target, preserve 0.82 and report the measured miss rather than weakening tests or tuning global physics. Runtime `c71b2287b463f6a17645d664d3307d6b591561bf` / CI `37352477495` passed all validation while measuring a 0.033 s mean tell separation, so the numeric balance target remains open pending owner playtest/decision.
+
+
+## Neon Grid Stage 4 Task 8 CI render-readiness classification — 2026-10-06
+
+The hosted `task8-falls-run-render` job uses Chromium software WebGL / SwiftShader. It is an authoritative blocking gate for deterministic rendered-scene readiness, not for representative-hardware frame-rate certification.
+
+Blocking CI checks:
+- no page, console or HTTP render errors;
+- rendered Medium evidence is 1920×1080 with eight racers;
+- frame instrumentation produces at least 300 scored frames and finite timing statistics;
+- draw calls remain at or below the PRD cap of 250;
+- visible triangles remain at or below the PRD target of 750,000.
+
+Diagnostic-only hosted values:
+- Medium 1920×1080 median FPS;
+- Medium 1920×1080 p95 frame time.
+
+The PRD performance targets remain unchanged: Medium 1920×1080 median ≥60 FPS and p95 ≤18.3 ms on representative hardware. SwiftShader values are retained in uploaded evidence for regression context but cannot independently pass or fail those hardware targets.
+
+Reason for classification: repeated hosted captures before and after main reconciliation were effectively identical at about 1.3 FPS / 777–780 ms p95 while scene budgets remained approximately 123–124 draw calls and 84.6k–86.3k triangles. That stability indicates the hosted software renderer is measuring the runner/rendering environment rather than certifying owner-device performance. This change does not waive, lower or rewrite the PRD thresholds.

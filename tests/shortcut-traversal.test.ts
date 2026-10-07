@@ -38,6 +38,30 @@ describe('racer-owned tunnel traversal', () => {
     expect(traversal.update(at(tunnel.curve.getLength() - 8), at(30))?.pathId).toBe('service-tunnel');
     expect(traversal.update(at(9), at(5))).toBeNull();
   });
+  it('allows reverse Billboard chord entry without misclassifying reverse main-road travel', () => {
+    const track = new NeonGrid();
+    const gap = track.billboardGap;
+    const chord = new ShortcutTraversal(gap, track);
+    const end = gap.curve.getPointAt(1).add(new THREE.Vector3(0, 0.5, 0));
+    const gapTangent = gap.curve.getTangentAt(1).setY(0).normalize();
+
+    expect(
+      chord.update(
+        end.clone().addScaledVector(gapTangent, 1),
+        end.clone().addScaledVector(gapTangent, -1),
+      )?.pathId,
+    ).toBe('billboard-gap');
+
+    const mainOnly = new ShortcutTraversal(gap, track);
+    const epsilon = 0.001;
+    const previous = track.curve
+      .getPointAt(gap.exitProgress + epsilon)
+      .add(new THREE.Vector3(0, 0.5, 0));
+    const current = track.curve
+      .getPointAt(gap.exitProgress - epsilon)
+      .add(new THREE.Vector3(0, 0.5, 0));
+    expect(mainOnly.update(previous, current)).toBeNull();
+  });
   it('retains projection through pause, leaving entry window and partial reversal', () => {
     const { traversal, at, tunnel } = setup();
     traversal.update(at(5), at(9));

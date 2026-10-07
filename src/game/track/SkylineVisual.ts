@@ -354,6 +354,10 @@ function addCity(
   });
   roofs.instanceMatrix.needsUpdate = true;
 
+  const cyan = new THREE.Color(CYAN);
+  const pale = new THREE.Color(0xa9f4ff);
+  const magenta = new THREE.Color(MAGENTA);
+
   const cornerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true });
   markBloomMaterial(cornerMaterial, 'color');
   const cornerLights = new THREE.InstancedMesh(
@@ -395,9 +399,6 @@ function addCity(
     windowCount,
   );
   windows.name = 'skyline-city-windows';
-  const cyan = new THREE.Color(CYAN);
-  const pale = new THREE.Color(0xa9f4ff);
-  const magenta = new THREE.Color(MAGENTA);
   for (let i = 0; i < windowCount; i++) {
     const tower = towerData[(i * 7) % towerData.length];
     if (!tower) continue;

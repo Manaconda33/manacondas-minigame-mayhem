@@ -99,7 +99,7 @@ describe('Neon Grid Stage 4 Task 9 T9.0 frozen baseline', () => {
 });
 
 describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
-  it('requires presentation owners to expose explicit owned-resource disposal', () => {
+  it.fails('requires presentation owners to expose explicit owned-resource disposal', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
     try {
       const visual = scene.fallsRun as unknown as { dispose?: () => void };
@@ -109,7 +109,7 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
     }
   });
 
-  it('freezes animated presentation when its visual owner is hidden', () => {
+  it.fails('freezes animated presentation when its visual owner is hidden', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
     try {
       const wet = scene.getObjectByName('falls-run-wet-asphalt') as THREE.Mesh<
@@ -126,7 +126,7 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
     }
   });
 
-  it('requires bounded finite Task 9 sector owners on every quality tier', () => {
+  it.fails('requires bounded finite Task 9 sector owners on every quality tier', () => {
     for (const quality of ['low', 'medium', 'high'] as const) {
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
@@ -150,7 +150,7 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
     }
   }, 20000);
 
-  it('requires Low wet-road bypass and safe avatar compositing for every new sector pass', () => {
+  it.fails('requires Low wet-road bypass and safe avatar compositing for every new sector pass', () => {
     const low = createNeonGridScene(new NeonGrid(), 'low');
     const medium = createNeonGridScene(new NeonGrid(), 'medium');
     const high = createNeonGridScene(new NeonGrid(), 'high');

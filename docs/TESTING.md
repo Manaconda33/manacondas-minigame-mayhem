@@ -1,3 +1,22 @@
+## Neon Grid Stage 4 Task 9 T9.0 RED-contract procedure — 2026-10-07
+
+Task 9 uses a bounded RED-first gate before course-wide visual expansion. The canonical contract file is `tests/neon-grid-stage4-task9.test.ts`.
+
+T9.0 first ran the four new contract cases as ordinary failing tests on exact branch source `da16aa42cec7808c8e1e855621e02eba5f622b3c`. Hosted CI run `37639361779`, validate job `112854508315`, passed typecheck and zero-warning lint, then produced exactly **4 intended failures / 1004 passes**:
+
+- explicit presentation-owner resource disposal is not implemented;
+- hidden presentation owners do not yet freeze animation time;
+- Skyline / Undercity / Falls-extension Task 9 owners do not yet exist with bounded finite instance contracts;
+- the future sector wet-road passes do not yet exist, so Low bypass and avatar-safe transparent compositing are not yet satisfied.
+
+After that RED proof, the same four cases are encoded with Vitest `it.fails`. This is intentional: CI stays green only while each contract still fails for the expected pre-implementation reason. When a later Task 9 increment implements a contract, that test must be promoted from `it.fails` to ordinary `it` in the same checkpoint. A newly passing body left under `it.fails` is itself a CI failure, preventing silent contract completion.
+
+The same file contains ordinary passing assertions that freeze the accepted Task 8 representative stretch: progress range 0.70–0.85, named shortcut systems, four main boost pads plus Billboard boost, Medium instance counts, quality-scaled window/mist counts, and the accepted wet-road transparent compositing settings.
+
+T9.0 render-baseline evidence comes from the independent Task 8 render job on the same runtime tree: run `37639361779`, job `112854508990`, artifact `11491920972` (ZIP SHA-256 `b2be62b89d5c2aadac749abafa53787d40984a95a48644f7aba2d8094817eb91`). Maximum observed structural budget was **125 draw calls / 88,912 visible triangles**. Desktop Medium 1920×1080 was **91 calls / 66,520 triangles**. SwiftShader frame timing remains diagnostic-only and is not representative-hardware PRD certification.
+
+Evidence: `docs/evidence/2026-10-07-neon-task9-t9-0/`.
+
 > **Task5 final owner acceptance PASS (2026-10-03 America/Chicago):** Manny approved the delivered92025b5 replacement wall preview. Entrance/exit gatePASS plus preserved prior remainderPASS closes Stage3Task5 Service Tunnel owner acceptance. Pending entries below are historical/superseded. Existing117files/885tests/full gates and exact hosted/delivery results remain unchanged; no new runtime/device/balance evidence inferred. Documentation-only approval record; PR242 stays draft/unmerged and production unchanged. Evidence: docs/evidence/2026-10-03-neon-tunnel/owner-playtest.md. Next session resumes from approved Task6 design input after repository catch-up.
 
 > **Tunnel wall replacement preview LIVE / owner junction retest PENDING (2026-10-03):** Runtime92025b5, hostedCI37152562581, previewPR250/CI37159582801 and Pages37159670060 PASS. Local117files/885tests/full gates, independent wall review, and14file hosted/fresh HTTP/hash/source checksPASS. Production and accepted5.3 unchanged. Retest entrance/exit only at https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-tunnel/?review=92025b5; preserve owner's fullPASS for all other Task5 gameplay. No new device/WebGL/owner wall pass inferred. Evidence: docs/evidence/2026-10-03-neon-tunnel/junction/. PR242 remains draft/unmerged; stop for owner.

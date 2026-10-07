@@ -638,6 +638,9 @@ export class FallsRunVisual {
       this.animatedMaterials.push(wetMaterial);
       const wet = new THREE.Mesh(ribbonGeometry(track, 5.86, 0.018), wetMaterial);
       wet.name = 'falls-run-wet-asphalt';
+      // Draw the transparent road-reflection pass before kart-mounted driver
+      // sprites so the road cannot blend back over 2D avatar art.
+      wet.renderOrder = -10;
       this.group.add(wet);
     }
 

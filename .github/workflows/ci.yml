@@ -145,6 +145,13 @@ jobs:
             marker_type: feature
             marker_name: 'Neon Grid Stage 4 Task 9 T9.3 The Undercity'
             status: 'T9.3 owner visual/playability review only; T9.4/T9.7/production not authorized'
+          - id: neon-grid-t9-3-correction
+            embed_source: true
+            sha: 38d62ec53442653363ac3c9bbcb795f67710fdc2
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-3-correction/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 Task 9 T9.3 Undercity owner correction'
+            status: 'T9.3 owner visual/playability review only; T9.4/T9.7/production not authorized'
 
     steps:
       - name: Restore immutable preview build
@@ -408,6 +415,12 @@ jobs:
           path: preview-output/neon-grid-t9-3
           key: preview-dist-v1-neon-grid-t9-3-722d9db1c1867f2a1516843679bb30a4ca37a2ea-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
+      - name: Restore Neon Grid T9.3 corrected Undercity preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-3-correction
+          key: preview-dist-v1-neon-grid-t9-3-correction-38d62ec53442653363ac3c9bbcb795f67710fdc2-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
         run: |
@@ -459,6 +472,12 @@ jobs:
           test -f site-root/previews/neon-grid-t9-3/review-build.json
           test -f site-root/previews/neon-grid-t9-3/assets/track/neon-grid/signage/nightshift-noodles-v1.webp
           test -f site-root/previews/neon-grid-t9-3/assets/track/neon-grid/signage/voltline-industrial-v1.webp
+          mkdir -p site-root/previews/neon-grid-t9-3-correction
+          cp -a preview-output/neon-grid-t9-3-correction/. site-root/previews/neon-grid-t9-3-correction/
+          test -f site-root/previews/neon-grid-t9-3-correction/index.html
+          test -f site-root/previews/neon-grid-t9-3-correction/review-build.json
+          test -f site-root/previews/neon-grid-t9-3-correction/assets/track/neon-grid/signage/nightshift-noodles-v1.webp
+          test -f site-root/previews/neon-grid-t9-3-correction/assets/track/neon-grid/signage/voltline-industrial-v1.webp
 
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -486,13 +505,16 @@ jobs:
           t93 = root/'previews/neon-grid-t9-3'
           paths += [t93/'index.html', t93/'review-build.json', *sorted((t93/'assets').glob('*.js')), *sorted((t93/'assets').glob('*.css'))]
           paths += [t93/'assets/track/neon-grid/signage'/name for name in ['nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
+          t93cor = root/'previews/neon-grid-t9-3-correction'
+          paths += [t93cor/'index.html', t93cor/'review-build.json', *sorted((t93cor/'assets').glob('*.js')), *sorted((t93cor/'assets').glob('*.css'))]
+          paths += [t93cor/'assets/track/neon-grid/signage'/name for name in ['nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
           report = []
           for path in paths:
               relative = str(path.relative_to(root))
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/')):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/')):
                   with urllib.request.urlopen(url, timeout=45) as response:
                       assert response.status == 200
                       assert hashlib.sha256(response.read()).hexdigest() == sha, 'Production bytes differ: ' + relative
@@ -605,7 +627,7 @@ jobs:
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = '38d62ec53442653363ac3c9bbcb795f67710fdc2' if item['path'].startswith('previews/neon-grid-t9-3-correction/') else '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

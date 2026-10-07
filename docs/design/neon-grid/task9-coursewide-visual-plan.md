@@ -392,6 +392,11 @@ No Task 9 change is planned for `NeonGrid.ts`, shortcut physics modules, kart tu
 - owner drives the full course on the pinned preview;
 - resolve only Task 9 visual/readability defects.
 
+**Deferred Skyline polish from the owner-approved corrected T9.2 preview (2026-10-07):**
+- bring the remaining previously generated Skyline building masses that still read as elongated rectangular prisms into the same stepped / roof-capped / multi-face architectural geometry language used by the improved buildings around Billboard Gap; preserve instancing/batching, all drivable-route and shortcut clearances, and the Task 9 structural budget;
+- add a presentation-only city ground/base treatment beneath the Skyline building field so the city reads as physically grounded rather than as towers floating in open space; this must not add gameplay collision, alter track/shortcut geometry, or compromise road/driver readability;
+- these are **deferred T9.7 visual-polish requirements, not a rejection or reopening of T9.2**. The corrected T9.2 owner preview is accepted. Do not implement these items earlier unless Manny explicitly reprioritizes them.
+
 ### T9.8 — Stage 4 stop
 After owner full-course approval, record evidence and STOP. PR #242 production merge/release remains a separate explicit owner gate.
 

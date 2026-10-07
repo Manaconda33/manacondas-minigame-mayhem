@@ -974,3 +974,25 @@ Manny approved the Task 9 course-wide visual completion plan for execution and s
 **Owner review:** APPROVED by Manny.  
 **Integration state:** NOT YET INTEGRATED. The approved image is design authority; a clean production derivative must preserve the approved composition/style and be prepared before runtime integration.  
 **Gate:** this approval permits integration of Asset 1 only. Asset 2 must be presented separately with intended use and explicitly approved before integration.
+
+
+### Task 9 Asset 1 repository preservation — VERIFIED
+
+The owner-approved standalone “Manaconda Racing” billboard is now durably stored in the repository before runtime integration.
+
+- Approved source: `docs/design/neon-grid/assets/task9/billboards/manaconda-racing-v1-source.png`
+  - dimensions: 1774×887
+  - bytes: 2,545,992
+  - SHA-256: `2f8cacacb6c2cefc4f4ef28fcb2cf0a36fd27a10f4cb6650e5cad014b5fc007f`
+  - Git blob: `ac976b9d25949ac849a6c47ffd5eeac8bcffe881`
+- Deterministic review/runtime derivative: `docs/design/neon-grid/assets/task9/billboards/manaconda-racing-v1.webp`
+  - dimensions: 1024×512
+  - bytes: 192,220
+  - SHA-256: `481feb4ff34635abad29dd4f65b39975e73c227eb0a53901a51028c5e9fe7d22`
+  - Git blob: `fc26f60fd33899a9da36db42882bb139a200eedb`
+- Preservation commit: `16b25c83fe9b81471f1a9b17b8c7bd6a02a0393f`.
+- Verification: source Git blob SHA exactly matches the Git object SHA computed from the approved local PNG bytes; the WebP derivative was fetched back from GitHub and matched its source base64 byte-for-byte.
+- The temporary base64 staging file was removed from the committed tree.
+- **Integration state:** still NOT integrated into gameplay/runtime. This preservation checkpoint only makes the approved asset durable.
+
+Owner also requires at least one future Task 9 masking billboard to be **Taco Bell-related**. That asset remains ungenerated/unapproved and is still subject to the one-at-a-time 2D review gate before any integration.

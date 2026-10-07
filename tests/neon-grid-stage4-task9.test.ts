@@ -144,8 +144,12 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
           expect(owner?.userData.quality, name).toBe(quality);
           owner?.traverse((object) => {
             if (!(object instanceof THREE.InstancedMesh)) return;
-            expect(object.count, object.name).toBeLessThanOrEqual(object.instanceMatrix.count);
-            expectFiniteInstances(object);
+            const mesh = object as THREE.InstancedMesh<
+              THREE.BufferGeometry,
+              THREE.Material | THREE.Material[]
+            >;
+            expect(mesh.count, mesh.name).toBeLessThanOrEqual(mesh.instanceMatrix.count);
+            expectFiniteInstances(mesh);
           });
         }
       } finally {

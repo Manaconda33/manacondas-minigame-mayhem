@@ -915,3 +915,22 @@ Owner approved correcting the gate classification rather than optimizing game ru
 The unrelated pinned `far300` validation failure in run `37487156750` was rerun unchanged. Job `112606724371` completed successfully, including the exact pinned-runtime validation and marker verification. Therefore the prior single 5-second `neon-grid-billboard-exit.test.ts` timeout is classified as transient runner noise; no pinned runtime, test assertion, timeout or CI policy was changed.
 
 Fresh PR CI run `37564154681` on checkpoint `c9ef1b9c2d5ae621771c590769a58d8f8f23fb20` PASSED. `validate`, spillway render, Task 8 render-readiness, every active preview build and all pinned-runtime validations were green together. The Task 8 hosted evidence contained zero errors, 360 scored frames, 124 maximum draw calls and 80,772 maximum triangles. SwiftShader timing was 2.275 FPS median / 452.3 ms p95 and is explicitly recorded as `diagnostic-only`; the unchanged PRD 60 FPS / 18.3 ms hardware targets remain pending representative-hardware certification. The render-gate repair is therefore complete. Task 9 remains unauthorized. PR #242 remains draft/unmerged.
+
+
+## Neon Grid far300 owner review / 2D-driver compositing repair — 2026-10-06
+
+Owner tested the locked 300 m Neon Grid far-plane preview and explicitly reported **“Clipping passes.”** This passes the stopgap's clipping/horizon concern for the reviewed mobile run; it does not by itself authorize production adoption.
+
+The same owner review exposed a separate Task 8 rendering defect: the kart-mounted 2D driver became visibly translucent/ghosted over the newly textured Falls Run road. Diagnosis found the wet-asphalt overlay and driver sprite are both transparent with depth writes disabled. The far300 candidate additionally forced the wet overlay to `renderOrder = 2`, allowing the large road overlay to composite after the driver sprite.
+
+Owner approved the bounded repair. The fix leaves avatar material, gameplay, far-plane value, physics, AI, balance, track geometry and Task 8 visual content unchanged. It renders the Falls Run wet-road reflection pass before kart-mounted driver sprites with `renderOrder = -10` and adds regression coverage requiring a negative road-overlay render order while preserving transparent=true, depthWrite=false and depthTest=true.
+
+- Fixed far300 review runtime: `ce6a64cf36b1f110af028536d3ff9c7a306ccbdb`.
+- Canonical Neon Grid equivalent fix: `40c2636baf9f5440d138d13a8ef2f78a95fc5b78`.
+- Canonical PR #242 CI run `37566461183`: validate, spillway render and Task 8 render-readiness PASSED.
+- Preview repin PR #271 merged to main at `8cc990c967f3a6d2768759bf537079c94bace3b9`.
+- PR #271 exact pinned far300 validation and preview build PASSED in CI run `37566511525`.
+- Main publication run `37566927943`: validation, preview build, assembly, Pages deploy and live delivery/hash verification PASSED; production bytes were verified unchanged.
+- Corrected owner-review URL remains `/previews/neon-grid-far300/`.
+
+**Current gate:** owner visual confirmation that the translucency/ghosting is gone is still PENDING. Do not treat the compositing repair or 300 m stopgap as finally accepted for production until that review. Task 9 remains unauthorized.

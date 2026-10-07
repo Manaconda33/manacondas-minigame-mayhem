@@ -12,9 +12,8 @@ function setup() {
   return { track, tunnel, traversal, at };
 }
 describe('racer-owned tunnel traversal', () => {
-  it('requires a physical forward mouth crossing, rejects reverse and wrong-height entry', () => {
-    const { traversal, at } = setup();
-    expect(traversal.update(at(9), at(5))).toBeNull();
+  it('allows physical entry from either end while rejecting wrong-height crossings', () => {
+    const { traversal, at, tunnel } = setup();
     expect(
       traversal.update(
         at(5).add(new THREE.Vector3(0, 5, 0)),
@@ -22,6 +21,22 @@ describe('racer-owned tunnel traversal', () => {
       ),
     ).toBeNull();
     expect(traversal.update(at(5), at(9))?.pathId).toBe('service-tunnel');
+    traversal.reset();
+
+    const end = tunnel.curve.getPointAt(1).add(new THREE.Vector3(0, 0.5, 0));
+    const tangent = tunnel.curve.getTangentAt(1).setY(0).normalize();
+    const outside = end.clone().addScaledVector(tangent, 1);
+    const inside = end.clone().addScaledVector(tangent, -1);
+    expect(traversal.update(outside, inside)?.pathId).toBe('service-tunnel');
+    expect(traversal.update(inside, outside)).toBeNull();
+  });
+  it('lets a reverse traveler own the tunnel until the opposite mouth without granting main-route state', () => {
+    const { traversal, at, tunnel } = setup();
+    const end = tunnel.curve.getPointAt(1).add(new THREE.Vector3(0, 0.5, 0));
+    const tangent = tunnel.curve.getTangentAt(1).setY(0).normalize();
+    traversal.update(end.clone().addScaledVector(tangent, 1), end.clone().addScaledVector(tangent, -1));
+    expect(traversal.update(at(tunnel.curve.getLength() - 8), at(30))?.pathId).toBe('service-tunnel');
+    expect(traversal.update(at(9), at(5))).toBeNull();
   });
   it('retains projection through pause, leaving entry window and partial reversal', () => {
     const { traversal, at, tunnel } = setup();

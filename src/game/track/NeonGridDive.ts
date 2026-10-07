@@ -186,11 +186,11 @@ export class WaterfallDive {
 }
 
 export class DiveState {
-  private phase: 'idle' | 'active' | 'landed' | 'splash' | 'recovered' = 'idle';
+  private phase: 'idle' | 'active' | 'reverse' | 'landed' | 'splash' | 'recovered' = 'idle';
   private splashAt = 0;
   public constructor(private readonly dive: WaterfallDive) {}
   public get active(): boolean {
-    return this.phase === 'active' || this.phase === 'splash';
+    return this.phase === 'active' || this.phase === 'reverse' || this.phase === 'splash';
   }
   public get landed(): boolean {
     return this.phase === 'landed';
@@ -226,6 +226,17 @@ export class DiveState {
       const mainHeading = previous.clone().sub(p).negate().setY(0).normalize();
       if (mainHeading.dot(this.dive.direction) > 0.95) this.phase = 'active';
     }
+    const reverseMouth = this.dive.length - this.dive.mouthDistance;
+    if (
+      this.phase === 'idle' &&
+      before > reverseMouth &&
+      after <= reverseMouth &&
+      Math.abs(this.dive.lane(p)) <= 5 &&
+      Math.abs(p.y - this.dive.pointAtDistance(after).y) < 2.5 &&
+      v.dot(this.dive.direction) < 0
+    ) {
+      this.phase = 'reverse';
+    }
     if (this.phase === 'active') {
       if (after < this.dive.mouthDistance - 1) this.reset();
       else {
@@ -237,6 +248,11 @@ export class DiveState {
         }
       }
     }
+    if (
+      this.phase === 'reverse' &&
+      (after < this.dive.mouthDistance - 1 || after > this.dive.length + 1)
+    )
+      this.reset();
     if (this.phase === 'splash' && time - this.splashAt >= 1.5 - 1e-9) {
       this.phase = 'recovered';
       const tangent = this.dive.navigationAt(this.dive.end, 3).tangent;

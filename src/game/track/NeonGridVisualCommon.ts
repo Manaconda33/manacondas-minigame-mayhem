@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { NeonGrid } from './NeonGrid';
+import { neonGridRibbon } from './NeonGridGeometry';
 
 export function neonGridRightAt(track: NeonGrid, progress: number): THREE.Vector3 {
   const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
@@ -48,6 +49,64 @@ export function neonGridRibbonGeometry(
   return geometry;
 }
 
+
+
+/**
+ * Presentation overlay cut directly from the accepted dense native/render road ribbon.
+ * This avoids coarse independent ribbons crossing the authored surface on curves/grades.
+ */
+export function neonGridSurfaceSliceGeometry(
+  track: NeonGrid,
+  start: number,
+  end: number,
+): THREE.BufferGeometry {
+  const source = neonGridRibbon(track);
+  const positions = source.getAttribute('position');
+  const sourceIndex = source.index?.array;
+  if (!sourceIndex) {
+    source.dispose();
+    throw new Error('Neon Grid presentation slice requires indexed road geometry');
+  }
+
+  const indices: number[] = [];
+  const centroid = new THREE.Vector3();
+  const a = new THREE.Vector3();
+  const b = new THREE.Vector3();
+  const d = new THREE.Vector3();
+  for (let i = 0; i < sourceIndex.length; i += 3) {
+    const ia = Number(sourceIndex[i]);
+    const ib = Number(sourceIndex[i + 1]);
+    const ic = Number(sourceIndex[i + 2]);
+    a.fromBufferAttribute(positions, ia);
+    b.fromBufferAttribute(positions, ib);
+    d.fromBufferAttribute(positions, ic);
+    centroid.copy(a).add(b).add(d).multiplyScalar(1 / 3);
+    const progress = track.projectMain(centroid).progress;
+    if (progress >= start - 1e-6 && progress <= end + 1e-6) indices.push(ia, ib, ic);
+  }
+
+  const uv: number[] = [];
+  const point = new THREE.Vector3();
+  for (let i = 0; i < positions.count; i++) {
+    point.fromBufferAttribute(positions, i);
+    const projection = track.projectMain(point);
+    const halfWidth = Math.max(0.001, track.halfWidthAt(projection.progress));
+    uv.push(
+      THREE.MathUtils.clamp(0.5 + projection.lateralOffset / (halfWidth * 2), 0, 1),
+      projection.progress * track.curve.getLength(),
+    );
+  }
+
+  const geometry = new THREE.BufferGeometry()
+    .setAttribute('position', positions.clone())
+    .setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2))
+    .setIndex(indices);
+  geometry.computeVertexNormals();
+  geometry.userData.progressRange = [start, end];
+  geometry.userData.conformsToMainRibbon = true;
+  source.dispose();
+  return geometry;
+}
 
 export class NeonGridVisualClock {
   private lastSourceTime: number | null = null;

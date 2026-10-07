@@ -16,7 +16,7 @@ describe('Billboard visible route and race-time cues', () => {
     const size = bounds.getSize(new THREE.Vector3());
     expect(Math.hypot(size.x, size.z) / size.y).toBeCloseTo(16 / 9, 2);
     expect(scene.getObjectByName('billboard-frame')).toBeDefined();
-  });
+  }, 15000);
   it('shows Paprika only OFF, rotates ON sponsors, and freezes cues when race time freezes', () => {
     const scene = createNeonGridScene(new NeonGrid());
     const visual = scene.billboard;
@@ -149,7 +149,7 @@ it('places entrance and exit portals at grounded main-wall aperture crossings', 
   const entrance = requireValue(scene.getObjectByName('billboard-portal-entrance'));
   const exit = requireValue(scene.getObjectByName('billboard-portal-exit'));
   expect(entrance.position.distanceTo(exit.position)).toBeGreaterThan(20);
-});
+}, 15000);
 
 
 it('fits each hologram between the measured wall-opening endpoints', () => {

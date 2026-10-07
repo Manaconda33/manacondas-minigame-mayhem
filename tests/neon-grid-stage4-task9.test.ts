@@ -101,6 +101,11 @@ describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
         expect(owner?.userData.progressRange).toEqual([0.24654910452879084, 0.46154128347522666]);
         expect(owner?.userData.quality).toBe(quality);
         expect(requireInstanced(scene, 'undercity-city-buildings').count).toBe(16);
+        expect(requireInstanced(scene, 'undercity-building-foundations').count).toBe(16);
+        expect(requireInstanced(scene, 'undercity-roof-plants').count).toBe(32);
+        expect(requireInstanced(scene, 'undercity-facade-ribs').count).toBe(32);
+        expect(requireInstanced(scene, 'undercity-utility-pads').count).toBe(20);
+        expect(requireInstanced(scene, 'undercity-service-bay-backs').count).toBe(10);
         expect(requireInstanced(scene, 'undercity-city-windows').count).toBe(expectedWindows[quality]);
         expect(requireInstanced(scene, 'undercity-utility-boxes').count).toBe(20);
         expect(requireInstanced(scene, 'undercity-pipes').count).toBe(26);
@@ -124,6 +129,49 @@ describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
       }
     }
   }, 20000);
+
+  it('anchors industrial scenery and uses track-derived road-edge vertices', () => {
+    const track = new NeonGrid();
+    const scene = createNeonGridScene(track, 'medium');
+    try {
+      const edge = scene.getObjectByName('undercity-magenta-edges') as THREE.Mesh;
+      expect(edge).toBeInstanceOf(THREE.Mesh);
+      expect((edge.geometry as THREE.BufferGeometry).getAttribute('position').count).toBeGreaterThan(120);
+      expect((edge.material as THREE.Material).depthWrite).toBe(false);
+      expect((edge.material as THREE.Material).polygonOffset).toBe(true);
+
+      const buildings = requireInstanced(scene, 'undercity-city-buildings');
+      const foundations = requireInstanced(scene, 'undercity-building-foundations');
+      const roofs = requireInstanced(scene, 'undercity-roof-plants');
+      const pipes = requireInstanced(scene, 'undercity-pipes');
+      const frame = new THREE.Matrix4();
+      const scale = new THREE.Vector3(), p = new THREE.Vector3(), q = new THREE.Quaternion();
+      for (let i = 0; i < buildings.count; i++) {
+        buildings.getMatrixAt(i, frame); frame.decompose(p, q, scale);
+        const ground = p.y;
+        foundations.getMatrixAt(i, frame); frame.decompose(p, q, scale);
+        expect(p.y + scale.y * 0.5).toBeGreaterThanOrEqual(ground);
+        for (const roof of [i * 2, i * 2 + 1]) {
+          roofs.getMatrixAt(roof, frame); frame.decompose(p, q, scale);
+          expect(p.y - scale.y * 0.5).toBeGreaterThan(ground);
+        }
+      }
+      for (let i = 0; i < pipes.count; i++) {
+        pipes.getMatrixAt(i, frame); frame.decompose(p, q, scale);
+        expect(scale.y).toBeGreaterThan(5);
+      }
+      for (const name of ['undercity-ad-nightshift-noodles','undercity-ad-voltline-industrial']) {
+        const ads = requireInstanced(scene, name);
+        for (let i = 0; i < ads.count; i++) {
+          ads.getMatrixAt(i, frame); frame.decompose(p, q, scale);
+          expect(p.toArray().every(Number.isFinite)).toBe(true);
+          expect((ads.geometry as THREE.PlaneGeometry).parameters.width).toBeGreaterThan(8);
+        }
+      }
+    } finally {
+      disposeTrackScene(scene);
+    }
+  });
 
   it('keeps the wet-road pass avatar-safe and freezes hidden Undercity animation', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');

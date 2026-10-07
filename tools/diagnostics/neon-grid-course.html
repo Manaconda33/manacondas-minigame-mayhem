@@ -28,7 +28,11 @@
     window.game = g;
 
     const sector = params.get('sector') === 'undercity' ? 'undercity' : 'skyline';
-    const progress = sector === 'undercity' ? 0.355 : 0.16;
+    const requestedProgress = Number(params.get('progress'));
+    const progress = sector === 'undercity'
+      ? (Number.isFinite(requestedProgress) && requestedProgress >= 0.247 && requestedProgress <= 0.46
+        ? requestedProgress : 0.355)
+      : 0.16;
     const p = g.track.curve.getPointAt(progress);
     const tangent = g.track.curve.getTangentAt(progress).setY(0).normalize();
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();

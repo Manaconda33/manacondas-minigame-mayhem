@@ -32,6 +32,7 @@ async function renderCase({
   view = 'chase',
   measureDelta = false,
   performance = false,
+  progress = null,
 }) {
   const context = await browser.newContext({
     viewport: { width, height },
@@ -49,7 +50,7 @@ async function renderCase({
   await page.goto(
     'http://127.0.0.1:5173/manacondas-minigame-mayhem/tools/diagnostics/neon-grid-course.html?quality=' +
       quality +
-      '&sector=undercity&testRacePerf=1',
+      '&sector=undercity&testRacePerf=1' + (progress === null ? '' : '&progress=' + progress),
   );
   await page.waitForFunction(() => window.ready, undefined, { timeout: 90000 });
   await page.waitForLoadState('networkidle');
@@ -129,6 +130,26 @@ try {
     scale: 1,
     label: 'undercity-desktop-rear-medium',
     view: 'rear',
+  });
+  // Multiple stations and portrait/landscape perspectives prevent a single
+  // central camera from masking floating props or unreadable corridor ads.
+  for (const [progress, label] of [
+    [0.285, 'undercity-approach'],
+    [0.335, 'undercity-mid'],
+    [0.415, 'undercity-exit'],
+  ]) {
+    await renderCase({
+      quality: 'medium', width: 1280, height: 720, scale: 1,
+      label, progress,
+    });
+  }
+  await renderCase({
+    quality: 'medium', width: 390, height: 844, scale: 1,
+    label: 'undercity-mobile-portrait-entry', progress: 0.29,
+  });
+  await renderCase({
+    quality: 'medium', width: 390, height: 844, scale: 1,
+    label: 'undercity-mobile-portrait-exit', progress: 0.42,
   });
 
   const medium = visualFrames.find(

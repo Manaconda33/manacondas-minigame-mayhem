@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { neonGridRibbon } from './NeonGridGeometry';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import type { NeonGrid } from './NeonGrid';
@@ -25,6 +26,7 @@ interface UndercityBuilding {
   readonly depth: number;
   readonly height: number;
   readonly baseY: number;
+  readonly progress: number;
 }
 
 interface AdMaterial {
@@ -52,33 +54,41 @@ function segmentCrossesTunnelOpening(
 }
 
 function edgeGeometry(track: NeonGrid): THREE.BufferGeometry {
-  const positions: number[] = [];
+  // Sample the accepted dense native road *edge vertices* instead of drawing a coarse
+  // 72-chord ribbon across the switchbacks. The latter cut through the driving mesh.
+  const native = neonGridRibbon(track);
+  const positions = native.getAttribute('position');
+  const rows = Number(native.userData.ribbonRows);
+  const vertices: number[] = [];
   const indices: number[] = [];
-  const thickness = 0.075;
+  const edge = new THREE.Vector3();
   for (const side of [-1, 1] as const) {
-    const base = positions.length / 3;
-    for (let i = 0; i <= SEGMENTS; i++) {
-      const progress = THREE.MathUtils.lerp(START, END, i / SEGMENTS);
-      const center = track.curve.getPointAt(progress);
-      const right = neonGridRightAt(track, progress);
-      const offset = track.halfWidthAt(progress) - 0.15;
-      for (const delta of [-thickness, thickness]) {
-        const point = center
-          .clone()
-          .addScaledVector(right, side * (offset + delta))
-          .add(new THREE.Vector3(0, 0.048, 0));
-        positions.push(...point.toArray());
+    const samples: { progress: number; index: number }[] = [];
+    for (let row = 0; row <= rows; row++) {
+      const progress = row / rows;
+      if (progress < START || progress > END) continue;
+      const start = vertices.length / 3;
+      edge.fromBufferAttribute(positions, row * 2 + (side === -1 ? 0 : 1));
+      const inward = neonGridRightAt(track, progress).multiplyScalar(-side);
+      for (const lateral of [0.13, 0.28]) {
+        const point = edge.clone().addScaledVector(inward, lateral);
+        point.y += 0.055;
+        vertices.push(...point.toArray());
       }
-      if (i < SEGMENTS) {
-        const next = THREE.MathUtils.lerp(START, END, (i + 1) / SEGMENTS);
-        if (segmentCrossesTunnelOpening(track, side, progress, next)) continue;
-        const a = base + i * 2;
-        indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
-      }
+      samples.push({ progress, index: start });
+    }
+    for (let i = 1; i < samples.length; i++) {
+      const previous = samples[i - 1];
+      const current = samples[i];
+      if (!previous || !current) continue;
+      if (segmentCrossesTunnelOpening(track, side, previous.progress, current.progress)) continue;
+      indices.push(previous.index, current.index, previous.index + 1);
+      indices.push(previous.index + 1, current.index, current.index + 1);
     }
   }
+  native.dispose();
   return new THREE.BufferGeometry()
-    .setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+    .setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
     .setIndex(indices);
 }
 
@@ -152,16 +162,22 @@ function tunnelClearance(track: NeonGrid, point: THREE.Vector3, radius: number):
 }
 
 function buildingGeometry(): THREE.BufferGeometry {
-  const lower = new THREE.BoxGeometry(1, 0.58, 1);
-  lower.translate(0, 0.29, 0);
-  const middle = new THREE.BoxGeometry(0.84, 0.3, 0.82);
-  middle.translate(0.08, 0.73, 0);
-  const upper = new THREE.BoxGeometry(0.64, 0.12, 0.68);
-  upper.translate(-0.08, 0.94, 0);
-  const merged = mergeGeometries([lower, middle, upper], false);
-  lower.dispose();
-  middle.dispose();
-  upper.dispose();
+  // Single merged silhouette keeps the original one-draw-call building family.
+  const parts: THREE.BoxGeometry[] = [];
+  function tier(x: number, y: number, z: number, sx: number, sy: number, sz: number): void {
+    const box = new THREE.BoxGeometry(sx, sy, sz);
+    box.translate(x, y, z);
+    parts.push(box);
+  }
+  tier(0, 0.29, 0, 1, 0.58, 1);          // load-bearing main floor block
+  tier(0.08, 0.73, 0.01, 0.84, 0.3, 0.82); // recessed warehouse upper floor
+  tier(-0.08, 0.94, 0, 0.64, 0.12, 0.68); // roof plant level
+  tier(0.08, 0.89, 0.01, 0.91, 0.035, 0.9); // projecting cornice
+  tier(-0.08, 0.998, 0, 0.71, 0.025, 0.76); // roof parapet
+  tier(0.39, 0.17, -0.29, 0.2, 0.34, 0.28); // service annexes
+  tier(-0.36, 0.22, 0.27, 0.24, 0.44, 0.31);
+  const merged = mergeGeometries(parts, false);
+  for (const part of parts) part.dispose();
   merged.computeVertexNormals();
   return merged;
 }
@@ -175,7 +191,7 @@ function placeBuildings(track: NeonGrid): UndercityBuilding[] {
     const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
     const right = neonGridRightAt(track, progress);
     const side: -1 | 1 = attempt % 2 === 0 ? -1 : 1;
-    const width = 7 + ((attempt * 5) % 5);
+    const width = 7 + ((attempt * 3) % 5);
     const depth = 8 + ((attempt * 7) % 6);
     const height = 12 + ((attempt * 11) % 13);
     const lateral = 17 + ((attempt * 13) % 11);
@@ -200,6 +216,7 @@ function placeBuildings(track: NeonGrid): UndercityBuilding[] {
       depth,
       height,
       baseY: center.y - 0.12,
+      progress,
     });
   }
   if (buildings.length !== 16)
@@ -237,6 +254,49 @@ function addBuildings(
   buildings.instanceMatrix.needsUpdate = true;
   if (buildings.instanceColor) buildings.instanceColor.needsUpdate = true;
 
+  // Every tower sits on a deep service-block foundation rather than hovering
+  // over the unsupported void beside the track. These props never carry collision.
+  const foundationMaterial = new THREE.MeshStandardMaterial({
+    color: 0x111923, roughness: 0.83, metalness: 0.2,
+  });
+  const foundations = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 1, 1), foundationMaterial, data.length,
+  );
+  foundations.name = 'undercity-building-foundations';
+  const roofMaterial = new THREE.MeshStandardMaterial({
+    color: 0x344452, roughness: 0.67, metalness: 0.52,
+  });
+  const roofPlants = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), roofMaterial, data.length * 2);
+  roofPlants.name = 'undercity-roof-plants';
+  const ribs = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 1, 1), roofMaterial.clone(), data.length * 2,
+  );
+  ribs.name = 'undercity-facade-ribs';
+  data.forEach((building, i) => {
+    dummy.position.set(building.position.x, building.baseY - 4.25, building.position.z);
+    dummy.rotation.set(0, Math.atan2(building.tangent.x, building.tangent.z), 0);
+    dummy.scale.set(building.width + 1.4, 8.6, building.depth + 1.4);
+    dummy.updateMatrix();
+    foundations.setMatrixAt(i, dummy.matrix);
+    const inward = building.right.clone().multiplyScalar(-building.side);
+    for (let index = 0; index < 2; index++) {
+      dummy.position.copy(building.position)
+        .addScaledVector(inward, building.width * 0.5 + 0.07)
+        .addScaledVector(building.tangent, (index === 0 ? -1 : 1) * building.depth * 0.34)
+        .setY(building.baseY + building.height * 0.29);
+      dummy.scale.set(0.32, building.height * 0.58, 0.34);
+      dummy.updateMatrix();
+      ribs.setMatrixAt(i * 2 + index, dummy.matrix);
+      dummy.position.copy(building.position)
+        .addScaledVector(building.tangent, (index === 0 ? -1 : 1) * building.depth * 0.2)
+        .setY(building.baseY + building.height + 0.64);
+      dummy.scale.set(index === 0 ? 2.5 : 1.8, 1.28, index === 0 ? 2 : 1.6);
+      dummy.updateMatrix();
+      roofPlants.setMatrixAt(i * 2 + index, dummy.matrix);
+    }
+  });
+  for (const mesh of [foundations, roofPlants, ribs]) mesh.instanceMatrix.needsUpdate = true;
+
   const windowCount = quality === 'low' ? 80 : quality === 'high' ? 240 : 160;
   const windowMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
@@ -265,7 +325,7 @@ function addBuildings(
     const span = useInwardFace ? building.depth : building.width;
     dummy.position
       .copy(building.position)
-      .setY(building.baseY + building.height * (0.16 + (((i * 5) % 13) / 12) * 0.62));
+      .setY(building.baseY + building.height * (0.12 + (((i * 5) % 13) / 12) * 0.4));
     dummy.position.addScaledVector(
       normal,
       (useInwardFace ? building.width : building.depth) * 0.5 + 0.08,
@@ -280,69 +340,77 @@ function addBuildings(
   windows.instanceMatrix.needsUpdate = true;
   if (windows.instanceColor) windows.instanceColor.needsUpdate = true;
 
-  group.add(buildings, windows);
+  group.add(buildings, foundations, roofPlants, ribs, windows);
   group.userData.undercityLogicalBuildingCount = data.length;
   return data;
 }
 
-function addUtilityClutter(group: THREE.Group, track: NeonGrid): void {
+function addUtilityClutter(
+  group: THREE.Group, track: NeonGrid, buildings: UndercityBuilding[],
+): void {
   const utilityMaterial = new THREE.MeshStandardMaterial({
-    color: 0x171b28,
-    roughness: 0.66,
-    metalness: 0.46,
+    color: 0x171b28, roughness: 0.66, metalness: 0.46,
   });
   const boxes = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), utilityMaterial, 20);
   boxes.name = 'undercity-utility-boxes';
+  const pads = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshStandardMaterial({ color: 0x222432, roughness: 0.8 }),
+    boxes.count,
+  );
+  pads.name = 'undercity-utility-pads';
   const dummy = new THREE.Object3D();
-
   for (let i = 0; i < boxes.count; i++) {
     const progress = THREE.MathUtils.lerp(START + 0.008, END - 0.008, i / (boxes.count - 1));
     const center = track.curve.getPointAt(progress);
     const right = neonGridRightAt(track, progress);
     const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
     const side = i % 2 === 0 ? -1 : 1;
-    dummy.position
-      .copy(center)
-      .addScaledVector(right, side * (track.halfWidthAt(progress) + 3.0 + (i % 3) * 0.8))
-      .add(new THREE.Vector3(0, 0.7 + (i % 2) * 0.18, 0));
+    const x = 1.2 + (i % 3) * 0.28;
+    const y = 1.4 + (i % 4) * 0.25;
+    const z = 1 + (i % 2) * 0.3;
+    const foot = center.clone()
+      .addScaledVector(right, side * (track.halfWidthAt(progress) + 3.8 + (i % 3) * 0.8));
     dummy.rotation.set(0, Math.atan2(tangent.x, tangent.z) + (i % 3 - 1) * 0.22, 0);
-    dummy.scale.set(1.2 + (i % 3) * 0.28, 1.4 + (i % 4) * 0.25, 1 + (i % 2) * 0.3);
+    dummy.position.copy(foot).add(new THREE.Vector3(0, y * 0.5, 0));
+    dummy.scale.set(x, y, z);
     dummy.updateMatrix();
     boxes.setMatrixAt(i, dummy.matrix);
+    dummy.position.copy(foot).add(new THREE.Vector3(0, -0.32, 0));
+    dummy.scale.set(x + 0.7, 0.7, z + 0.7);
+    dummy.updateMatrix();
+    pads.setMatrixAt(i, dummy.matrix);
   }
   boxes.instanceMatrix.needsUpdate = true;
+  pads.instanceMatrix.needsUpdate = true;
 
+  // Pipes terminate at the foundation and roof of actual buildings. Former
+  // road-relative horizontal cylinders had no architectural anchors.
   const pipeMaterial = new THREE.MeshStandardMaterial({
-    color: 0x4b3752,
-    roughness: 0.52,
-    metalness: 0.58,
+    color: 0x4b3752, roughness: 0.52, metalness: 0.58,
   });
   const pipes = new THREE.InstancedMesh(
-    new THREE.CylinderGeometry(0.14, 0.14, 1, 8),
-    pipeMaterial,
-    26,
+    new THREE.CylinderGeometry(0.14, 0.14, 1, 8), pipeMaterial, 26,
   );
   pipes.name = 'undercity-pipes';
-  const up = new THREE.Vector3(0, 1, 0);
   for (let i = 0; i < pipes.count; i++) {
-    const progress = THREE.MathUtils.lerp(START + 0.004, END - 0.004, i / (pipes.count - 1));
-    const center = track.curve.getPointAt(progress);
-    const right = neonGridRightAt(track, progress);
-    const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
-    const side = i % 2 === 0 ? -1 : 1;
-    const vertical = i % 3 === 0;
-    dummy.position
-      .copy(center)
-      .addScaledVector(right, side * (track.halfWidthAt(progress) + 4.6 + (i % 4) * 0.45))
-      .add(new THREE.Vector3(0, vertical ? 2.7 : 3.4 + (i % 2) * 0.45, 0));
-    dummy.quaternion.identity();
-    if (!vertical) dummy.quaternion.setFromUnitVectors(up, tangent);
-    dummy.scale.set(1, vertical ? 5.2 + (i % 4) * 0.6 : 5.5 + (i % 3) * 1.0, 1);
+    const building = buildings[i % buildings.length];
+    if (!building) continue;
+    const inward = building.right.clone().multiplyScalar(-building.side);
+    const lane = i % 2 === 0 ? -0.35 : 0.35;
+    const height = building.height * (i % 4 === 0 ? 0.93 : 0.6);
+    dummy.position.copy(building.position)
+      .addScaledVector(inward, building.width * 0.5 + 0.2)
+      .addScaledVector(building.tangent, lane * building.depth)
+      .setY(building.baseY + height * 0.5);
+    dummy.rotation.set(0, 0, 0);
+    dummy.scale.set(1, height, 1);
     dummy.updateMatrix();
     pipes.setMatrixAt(i, dummy.matrix);
   }
   pipes.instanceMatrix.needsUpdate = true;
 
+  // Facade-mounted lamps no longer hang in open air beside the corridor.
   const lightMaterial = new THREE.MeshBasicMaterial({ color: MAGENTA, vertexColors: true });
   markBloomMaterial(lightMaterial, 'color');
   const lights = new THREE.InstancedMesh(new THREE.BoxGeometry(0.7, 0.12, 0.16), lightMaterial, 24);
@@ -350,126 +418,114 @@ function addUtilityClutter(group: THREE.Group, track: NeonGrid): void {
   const magenta = new THREE.Color(MAGENTA);
   const cyan = new THREE.Color(CYAN);
   for (let i = 0; i < lights.count; i++) {
-    const progress = THREE.MathUtils.lerp(START + 0.006, END - 0.006, i / (lights.count - 1));
-    const center = track.curve.getPointAt(progress);
-    const right = neonGridRightAt(track, progress);
-    const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
-    const side = i % 2 === 0 ? -1 : 1;
-    dummy.position
-      .copy(center)
-      .addScaledVector(right, side * (track.halfWidthAt(progress) + 2.25))
-      .add(new THREE.Vector3(0, 2.0 + (i % 4) * 0.55, 0));
-    dummy.rotation.set(0, Math.atan2(tangent.x, tangent.z), 0);
-    dummy.scale.set(1, 1, 1);
+    const building = buildings[i % buildings.length];
+    if (!building) continue;
+    const inward = building.right.clone().multiplyScalar(-building.side);
+    dummy.position.copy(building.position)
+      .addScaledVector(inward, building.width * 0.5 + 0.21)
+      .addScaledVector(building.tangent, ((i % 3) - 1) * building.depth * 0.22)
+      .setY(building.baseY + building.height * 0.34);
+    dummy.rotation.set(0, Math.atan2(inward.x, inward.z), 0);
+    dummy.scale.set(1.5, 1.2, 1);
     dummy.updateMatrix();
     lights.setMatrixAt(i, dummy.matrix);
     lights.setColorAt(i, i % 8 === 0 ? cyan : magenta);
   }
   lights.instanceMatrix.needsUpdate = true;
   if (lights.instanceColor) lights.instanceColor.needsUpdate = true;
-
-  group.add(boxes, pipes, lights);
+  group.add(boxes, pads, pipes, lights);
 }
 
 function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
   const material = new THREE.MeshStandardMaterial({
-    color: 0x121523,
-    emissive: 0x5f1a65,
-    emissiveIntensity: 0.34,
-    roughness: 0.57,
-    metalness: 0.5,
+    color: 0x121523, emissive: 0x5f1a65, emissiveIntensity: 0.34,
+    roughness: 0.57, metalness: 0.5,
   });
   const bays = new THREE.InstancedMesh(new THREE.BoxGeometry(2.8, 3.7, 0.22), material, 10);
   bays.name = 'undercity-service-bays';
+  const backing = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(3.5, 8.5, 1.3),
+    new THREE.MeshStandardMaterial({ color: 0x1a1d2a, roughness: 0.88 }),
+    bays.count,
+  );
+  backing.name = 'undercity-service-bay-backs';
   const authoredProgress = [
-    START + 0.01,
-    START + 0.021,
-    START + 0.034,
-    START + 0.049,
-    START + 0.064,
-    END - 0.064,
-    END - 0.049,
-    END - 0.034,
-    END - 0.021,
-    END - 0.01,
+    START + 0.01, START + 0.021, START + 0.034, START + 0.049, START + 0.064,
+    END - 0.064, END - 0.049, END - 0.034, END - 0.021, END - 0.01,
   ];
   const dummy = new THREE.Object3D();
   authoredProgress.forEach((progress, i) => {
     const center = track.curve.getPointAt(progress);
     const right = neonGridRightAt(track, progress);
     const side = i % 2 === 0 ? -1 : 1;
-    dummy.position
-      .copy(center)
-      .addScaledVector(right, side * (track.halfWidthAt(progress) + 4.9))
+    const outward = side * (track.halfWidthAt(progress) + 5.1);
+    dummy.position.copy(center).addScaledVector(right, outward)
       .add(new THREE.Vector3(0, 1.85, 0));
     dummy.rotation.set(0, Math.atan2(-side * right.x, -side * right.z), 0);
     dummy.scale.set(0.9 + (i % 3) * 0.12, 1, 1);
     dummy.updateMatrix();
     bays.setMatrixAt(i, dummy.matrix);
+    dummy.position.copy(center).addScaledVector(right, outward + side * 0.52)
+      .add(new THREE.Vector3(0, -0.25, 0));
+    dummy.scale.set(1, 1, 1);
+    dummy.updateMatrix();
+    backing.setMatrixAt(i, dummy.matrix);
   });
   bays.instanceMatrix.needsUpdate = true;
-  group.add(bays);
+  backing.instanceMatrix.needsUpdate = true;
+  group.add(backing, bays);
 }
 
 function addApprovedAds(
-  group: THREE.Group,
-  buildings: UndercityBuilding[],
-  materials: AdMaterial[],
+  group: THREE.Group, buildings: UndercityBuilding[], materials: AdMaterial[],
 ): void {
+  // Spread the approved masks along the actual driving corridor instead of
+  // assigning them to arbitrary generation indices that may be behind bends.
   const definitions = [
-    {
-      name: 'undercity-ad-nightshift-noodles',
+    { name: 'undercity-ad-nightshift-noodles',
       path: 'assets/track/neon-grid/signage/nightshift-noodles-v1.webp',
-      buildingIndices: [2, 10],
-    },
-    {
-      name: 'undercity-ad-voltline-industrial',
+      targets: [0.29, 0.39] },
+    { name: 'undercity-ad-voltline-industrial',
       path: 'assets/track/neon-grid/signage/voltline-industrial-v1.webp',
-      buildingIndices: [5, 13],
-    },
+      targets: [0.34, 0.43] },
   ] as const;
-
+  const used = new Set<number>();
   const frameMaterial = new THREE.MeshStandardMaterial({
-    color: 0x24172b,
-    emissive: MAGENTA,
-    emissiveIntensity: 0.2,
-    roughness: 0.48,
-    metalness: 0.46,
+    color: 0x24172b, emissive: MAGENTA, emissiveIntensity: 0.28,
+    roughness: 0.48, metalness: 0.46,
   });
-  const frames = new THREE.InstancedMesh(new THREE.BoxGeometry(7.45, 3.95, 0.12), frameMaterial, 4);
+  const frames = new THREE.InstancedMesh(new THREE.BoxGeometry(8.95, 4.55, 0.22), frameMaterial, 4);
   frames.name = 'undercity-ad-supports';
   const dummy = new THREE.Object3D();
   let frameIndex = 0;
-
   for (const definition of definitions) {
     const material = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      map: new THREE.Texture(),
-      side: THREE.DoubleSide,
-      toneMapped: false,
+      color: 0xffffff, map: new THREE.Texture(),
+      side: THREE.DoubleSide, toneMapped: false,
     });
     materials.push({ path: definition.path, material });
-    const ads = new THREE.InstancedMesh(new THREE.PlaneGeometry(7, 3.5), material, 2);
+    const ads = new THREE.InstancedMesh(new THREE.PlaneGeometry(8.55, 4.15), material, 2);
     ads.name = definition.name;
-    definition.buildingIndices.forEach((buildingIndex, i) => {
-      const building = buildings[buildingIndex];
-      if (!building) throw new Error('Undercity ad requires an authored building mount');
+    definition.targets.forEach((target, i) => {
+      const candidate = buildings.map((building, index) => ({ building, index }))
+        .filter(({ index }) => !used.has(index))
+        .sort((a, b) => Math.abs(a.building.progress - target) - Math.abs(b.building.progress - target))[0];
+      if (!candidate) throw new Error('Undercity ad requires an available building mount');
+      const { building, index } = candidate;
+      used.add(index);
       const inward = building.right.clone().multiplyScalar(-building.side);
-      const y = building.baseY + Math.min(building.height * 0.48, building.height - 4.2);
-      const facade = building.position
-        .clone()
-        .addScaledVector(inward, building.width * 0.5 + 0.08)
-        .setY(y);
+      // Both the backing and face are supported against the LOWER facade.
+      const y = building.baseY + Math.min(building.height * 0.32, building.height - 3.5);
+      const facade = building.position.clone()
+        .addScaledVector(inward, building.width * 0.5 + 0.26).setY(y);
       dummy.position.copy(facade);
       dummy.rotation.set(0, Math.atan2(inward.x, inward.z), 0);
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
       ads.setMatrixAt(i, dummy.matrix);
-
-      dummy.position.copy(facade).addScaledVector(inward, -0.075);
+      dummy.position.copy(facade).addScaledVector(inward, -0.15);
       dummy.updateMatrix();
-      frames.setMatrixAt(frameIndex, dummy.matrix);
-      frameIndex++;
+      frames.setMatrixAt(frameIndex++, dummy.matrix);
     });
     ads.instanceMatrix.needsUpdate = true;
     group.add(ads);
@@ -518,12 +574,17 @@ export class UndercityVisual {
 
     const edgeMaterial = new THREE.MeshBasicMaterial({ color: MAGENTA });
     markBloomMaterial(edgeMaterial, 'color');
+    edgeMaterial.depthWrite = false;
+    edgeMaterial.polygonOffset = true;
+    edgeMaterial.polygonOffsetFactor = -3;
+    edgeMaterial.polygonOffsetUnits = -3;
     const edges = new THREE.Mesh(edgeGeometry(track), edgeMaterial);
+    edges.renderOrder = -9;
     edges.name = 'undercity-magenta-edges';
     this.group.add(edges);
 
     const buildings = addBuildings(this.group, track, quality);
-    addUtilityClutter(this.group, track);
+    addUtilityClutter(this.group, track, buildings);
     addServiceBayMask(this.group, track);
     addApprovedAds(this.group, buildings, this.adMaterials);
   }

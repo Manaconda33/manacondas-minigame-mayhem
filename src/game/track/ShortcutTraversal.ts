@@ -14,15 +14,17 @@ export class ShortcutTraversal {
 
   public update(previous: THREE.Vector3, current: THREE.Vector3): TrackProjection | null {
     const mouth = this.shortcut.mouthDistance / this.shortcut.curve.getLength();
+    const reverseMouth = 1 - mouth;
     if (this.activeDirection === null) {
       if (this.crosses(previous, current, mouth, 1, true)) this.activeDirection = 1;
-      else if (this.crosses(previous, current, 1, -1, true)) this.activeDirection = -1;
+      else if (this.crosses(previous, current, reverseMouth, -1, true))
+        this.activeDirection = -1;
     } else if (this.activeDirection === 1) {
       if (this.crosses(previous, current, 1, 1) || this.crosses(previous, current, mouth, -1))
         this.activeDirection = null;
     } else if (
       this.crosses(previous, current, mouth, -1) ||
-      this.crosses(previous, current, 1, 1)
+      this.crosses(previous, current, reverseMouth, 1)
     ) {
       this.activeDirection = null;
     }

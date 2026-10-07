@@ -23,32 +23,31 @@ describe('racer-owned tunnel traversal', () => {
     expect(traversal.update(at(5), at(9))?.pathId).toBe('service-tunnel');
     traversal.reset();
 
-    const end = tunnel.curve.getPointAt(1).add(new THREE.Vector3(0, 0.5, 0));
-    const tangent = tunnel.curve.getTangentAt(1).setY(0).normalize();
-    const outside = end.clone().addScaledVector(tangent, 1);
-    const inside = end.clone().addScaledVector(tangent, -1);
-    expect(traversal.update(outside, inside)?.pathId).toBe('service-tunnel');
-    expect(traversal.update(inside, outside)).toBeNull();
+    const reverseMouth = tunnel.curve.getLength() - tunnel.mouthDistance;
+    expect(traversal.update(at(reverseMouth + 1), at(reverseMouth - 1))?.pathId).toBe(
+      'service-tunnel',
+    );
+    expect(traversal.update(at(reverseMouth - 1), at(reverseMouth + 1))).toBeNull();
   });
   it('lets a reverse traveler own the tunnel until the opposite mouth without granting main-route state', () => {
     const { traversal, at, tunnel } = setup();
-    const end = tunnel.curve.getPointAt(1).add(new THREE.Vector3(0, 0.5, 0));
-    const tangent = tunnel.curve.getTangentAt(1).setY(0).normalize();
-    traversal.update(end.clone().addScaledVector(tangent, 1), end.clone().addScaledVector(tangent, -1));
-    expect(traversal.update(at(tunnel.curve.getLength() - 8), at(30))?.pathId).toBe('service-tunnel');
+    const reverseMouth = tunnel.curve.getLength() - tunnel.mouthDistance;
+    traversal.update(at(reverseMouth + 1), at(reverseMouth - 1));
+    expect(traversal.update(at(reverseMouth - 2), at(30))?.pathId).toBe('service-tunnel');
     expect(traversal.update(at(9), at(5))).toBeNull();
   });
   it('allows reverse Billboard chord entry without misclassifying reverse main-road travel', () => {
     const track = new NeonGrid();
     const gap = track.billboardGap;
     const chord = new ShortcutTraversal(gap, track);
-    const end = gap.curve.getPointAt(1).add(new THREE.Vector3(0, 0.5, 0));
-    const gapTangent = gap.curve.getTangentAt(1).setY(0).normalize();
+    const reverseMouthFraction = 1 - gap.mouthDistance / gap.curve.getLength();
+    const reverseMouth = gap.curve.getPointAt(reverseMouthFraction).add(new THREE.Vector3(0, 0.5, 0));
+    const gapTangent = gap.curve.getTangentAt(reverseMouthFraction).setY(0).normalize();
 
     expect(
       chord.update(
-        end.clone().addScaledVector(gapTangent, 1),
-        end.clone().addScaledVector(gapTangent, -1),
+        reverseMouth.clone().addScaledVector(gapTangent, 1),
+        reverseMouth.clone().addScaledVector(gapTangent, -1),
       )?.pathId,
     ).toBe('billboard-gap');
 

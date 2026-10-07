@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import type { GraphicsQuality } from '../src/config/graphicsQuality';
 import { NeonGrid } from '../src/game/track/NeonGrid';
 import { createNeonGridScene, type NeonGridScene } from '../src/game/track/createNeonGridScene';
@@ -99,17 +99,37 @@ describe('Neon Grid Stage 4 Task 9 T9.0 frozen baseline', () => {
 });
 
 describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
-  it.fails('requires presentation owners to expose explicit owned-resource disposal', () => {
+  it('requires presentation owners to expose explicit owned-resource disposal', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    const asphalt = scene.getObjectByName('falls-run-asphalt-base');
+    expect(asphalt).toBeInstanceOf(THREE.Mesh);
+    if (!(asphalt instanceof THREE.Mesh)) throw new Error('Missing Falls Run asphalt');
+
+    const material = asphalt.material as THREE.MeshStandardMaterial;
+    const ownedTexture = new THREE.Texture();
+    material.map = ownedTexture;
+    const geometryDispose = vi.spyOn(asphalt.geometry, 'dispose');
+    const materialDispose = vi.spyOn(material, 'dispose');
+    const textureDispose = vi.spyOn(ownedTexture, 'dispose');
+
     try {
-      const visual = scene.fallsRun as unknown as { dispose?: () => void };
-      expect(visual.dispose).toBeTypeOf('function');
+      expect(scene.fallsRun.dispose).toBeTypeOf('function');
+      scene.fallsRun.dispose();
+      scene.fallsRun.dispose();
+      expect(scene.fallsRun.group.children).toHaveLength(0);
+      expect(geometryDispose).toHaveBeenCalledTimes(1);
+      expect(materialDispose).toHaveBeenCalledTimes(1);
+      expect(textureDispose).toHaveBeenCalledTimes(1);
     } finally {
       disposeTrackScene(scene);
     }
+
+    expect(geometryDispose).toHaveBeenCalledTimes(1);
+    expect(materialDispose).toHaveBeenCalledTimes(1);
+    expect(textureDispose).toHaveBeenCalledTimes(1);
   });
 
-  it.fails('freezes animated presentation when its visual owner is hidden', () => {
+  it('freezes animated presentation when its visual owner is hidden', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
     try {
       const wet = scene.getObjectByName('falls-run-wet-asphalt') as THREE.Mesh<
@@ -121,6 +141,9 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
       scene.fallsRun.group.visible = false;
       scene.fallsRun.update(3);
       expect(wet.material.uniforms.time?.value).toBe(2);
+      scene.fallsRun.group.visible = true;
+      scene.fallsRun.update(4);
+      expect(wet.material.uniforms.time?.value).toBe(3);
     } finally {
       disposeTrackScene(scene);
     }

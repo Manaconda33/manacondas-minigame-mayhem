@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import type { NeonGrid } from './NeonGrid';
+import { neonGridRibbonGeometry, neonGridRightAt } from './NeonGridVisualCommon';
+import { disposeTrackScene } from './TrackSceneResources';
 
 const START = 0.7;
 const END = 0.85;
@@ -10,54 +12,9 @@ const CYAN = 0x37e6ff;
 const GOLD = 0xffc63f;
 const MAGENTA = 0xff4fd8;
 
-function rightAt(track: NeonGrid, progress: number): THREE.Vector3 {
-  const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
-  return new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
-}
-
-function ribbonGeometry(
-  track: NeonGrid,
-  halfWidth: number,
-  yOffset: number,
-): THREE.BufferGeometry {
-  const positions: number[] = [];
-  const uvs: number[] = [];
-  const indices: number[] = [];
-  let distance = 0;
-  let previous: THREE.Vector3 | null = null;
-
-  for (let i = 0; i <= SEGMENTS; i++) {
-    const f = i / SEGMENTS;
-    const progress = THREE.MathUtils.lerp(START, END, f);
-    const center = track.curve.getPointAt(progress);
-    if (previous) distance += previous.distanceTo(center);
-    previous = center.clone();
-    const right = rightAt(track, progress);
-    const width = Math.min(halfWidth, track.halfWidthAt(progress));
-    const left = center.clone().addScaledVector(right, -width);
-    const rightPoint = center.clone().addScaledVector(right, width);
-    left.y += yOffset;
-    rightPoint.y += yOffset;
-    positions.push(...left.toArray(), ...rightPoint.toArray());
-    uvs.push(0, distance, 1, distance);
-    if (i < SEGMENTS) {
-      const a = i * 2;
-      indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
-    }
-  }
-
-  const geometry = new THREE.BufferGeometry()
-    .setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
-    .setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2))
-    .setIndex(indices);
-  geometry.computeVertexNormals();
-  geometry.userData.progressRange = [START, END];
-  return geometry;
-}
-
 function diveWallOpen(track: NeonGrid, side: number, progress: number): boolean {
   const center = track.curve.getPointAt(progress);
-  const right = rightAt(track, progress);
+  const right = neonGridRightAt(track, progress);
   const edge = center.addScaledVector(right, side * track.halfWidthAt(progress));
   return track.waterfallDive.junctionContains(edge);
 }
@@ -83,7 +40,7 @@ export function fallsRunEdgeGeometry(track: NeonGrid): THREE.BufferGeometry {
     for (let i = 0; i <= SEGMENTS; i++) {
       const progress = THREE.MathUtils.lerp(START, END, i / SEGMENTS);
       const center = track.curve.getPointAt(progress);
-      const right = rightAt(track, progress);
+      const right = neonGridRightAt(track, progress);
       const offset = track.halfWidthAt(progress) - 0.16;
       for (const delta of [-thickness, thickness]) {
         const point = center
@@ -113,7 +70,7 @@ export function fallsRunWallCladdingGeometry(track: NeonGrid): THREE.BufferGeome
     for (let i = 0; i <= SEGMENTS; i++) {
       const progress = THREE.MathUtils.lerp(START, END, i / SEGMENTS);
       const center = track.curve.getPointAt(progress);
-      const right = rightAt(track, progress);
+      const right = neonGridRightAt(track, progress);
       const lower = center
         .clone()
         .addScaledVector(right, side * (track.halfWidthAt(progress) + 0.24))
@@ -143,7 +100,7 @@ function fasciaGeometry(track: NeonGrid): THREE.BufferGeometry {
     for (let i = 0; i <= SEGMENTS; i++) {
       const progress = THREE.MathUtils.lerp(START, END, i / SEGMENTS);
       const center = track.curve.getPointAt(progress);
-      const right = rightAt(track, progress);
+      const right = neonGridRightAt(track, progress);
       const top = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 0.28));
       const bottom = top.clone().add(new THREE.Vector3(0, -8.5, 0));
       positions.push(...top.toArray(), ...bottom.toArray());
@@ -355,7 +312,7 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
   for (let i = 0; i < pylons.count; i++) {
     const progress = THREE.MathUtils.lerp(START + 0.008, END - 0.008, i / (pylons.count - 1));
     const center = track.curve.getPointAt(progress);
-    const right = rightAt(track, progress);
+    const right = neonGridRightAt(track, progress);
     const side = i % 2 === 0 ? -1 : 1;
     const point = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 2.4));
     dummy.position.copy(point).add(new THREE.Vector3(0, -6.0, 0));
@@ -399,7 +356,7 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   for (let i = 0; i < towers.count; i++) {
     const progress = THREE.MathUtils.lerp(START - 0.015, END + 0.015, i / (towers.count - 1));
     const center = track.curve.getPointAt(progress);
-    const right = rightAt(track, progress);
+    const right = neonGridRightAt(track, progress);
     const side = i % 2 === 0 ? -1 : 1;
     const lateral = 24 + ((i * 7) % 25);
     const width = 7 + ((i * 5) % 8);
@@ -513,7 +470,7 @@ function addWaterfallDistrict(
     const progress = THREE.MathUtils.lerp(START + 0.012, END - 0.012, i / (fallCount - 1));
     const side = i % 2 === 0 ? -1 : 1;
     const center = track.curve.getPointAt(progress);
-    const right = rightAt(track, progress);
+    const right = neonGridRightAt(track, progress);
     const width = 4.2 + ((i * 7) % 5) * 0.85;
     const height = 12 + ((i * 11) % 6) * 1.6;
     const position = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 1.8));
@@ -574,7 +531,7 @@ function addSignageAndDebris(group: THREE.Group, track: NeonGrid): void {
   for (let i = 0; i < signs.count; i++) {
     const progress = THREE.MathUtils.lerp(START + 0.01, END - 0.01, i / (signs.count - 1));
     const center = track.curve.getPointAt(progress);
-    const right = rightAt(track, progress);
+    const right = neonGridRightAt(track, progress);
     const side = i % 2 === 0 ? -1 : 1;
     dummy.position.copy(center).addScaledVector(right, side * (track.halfWidthAt(progress) + 1.2));
     dummy.position.y += 0.35 + (i % 3) * 0.35;
@@ -613,6 +570,9 @@ function addSignageAndDebris(group: THREE.Group, track: NeonGrid): void {
 export class FallsRunVisual {
   public readonly group = new THREE.Group();
   private readonly animatedMaterials: THREE.ShaderMaterial[] = [];
+  private lastSourceTime: number | null = null;
+  private visualTime = 0;
+  private disposed = false;
 
   public constructor(track: NeonGrid, quality: GraphicsQuality) {
     this.group.name = 'falls-run-visual';
@@ -621,7 +581,7 @@ export class FallsRunVisual {
     this.group.add(nightSky());
 
     const asphaltBase = new THREE.Mesh(
-      ribbonGeometry(track, 5.96, 0.012),
+      neonGridRibbonGeometry(track, START, END, SEGMENTS, 5.96, 0.012),
       new THREE.MeshStandardMaterial({
         color: 0x07121b,
         roughness: 0.38,
@@ -636,7 +596,7 @@ export class FallsRunVisual {
     if (quality !== 'low') {
       const wetMaterial = wetAsphaltMaterial();
       this.animatedMaterials.push(wetMaterial);
-      const wet = new THREE.Mesh(ribbonGeometry(track, 5.86, 0.018), wetMaterial);
+      const wet = new THREE.Mesh(neonGridRibbonGeometry(track, START, END, SEGMENTS, 5.86, 0.018), wetMaterial);
       wet.name = 'falls-run-wet-asphalt';
       // Draw the transparent road-reflection pass before kart-mounted driver
       // sprites so the road cannot blend back over 2D avatar art.
@@ -678,9 +638,29 @@ export class FallsRunVisual {
   }
 
   public update(time: number): void {
+    if (this.disposed) return;
+
+    if (this.lastSourceTime === null) {
+      this.lastSourceTime = time;
+      if (!this.group.visible) return;
+      this.visualTime = time;
+    } else {
+      const delta = time - this.lastSourceTime;
+      this.lastSourceTime = time;
+      if (!this.group.visible) return;
+      this.visualTime = delta >= 0 ? this.visualTime + delta : time;
+    }
+
     for (const material of this.animatedMaterials) {
       const clock = material.uniforms.time;
-      if (clock) clock.value = time;
+      if (clock) clock.value = this.visualTime;
     }
+  }
+
+  public dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.animatedMaterials.length = 0;
+    disposeTrackScene(this.group);
   }
 }

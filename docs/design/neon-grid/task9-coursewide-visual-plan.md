@@ -501,3 +501,29 @@ Remote Git blob verification matched the local objects exactly: source `6917d3a5
 Repository preservation does not itself equal runtime integration.
 
 - **Next asset:** must be presented separately with intended use before integration.
+
+### Asset 4 — Undercity masking billboard “Voltline Industrial”
+
+- **Status:** OWNER APPROVED, 2026-10-07 America/Chicago.
+- **Use:** static Sector 2 Undercity industrial-services billboard in the ordinary utility-signage field near, but not directly marking, the Service Tunnel.
+- **Role:** deepen the sector's infrastructure identity while keeping the tunnel mouth visually camouflaged among ordinary industrial advertising.
+- **Creative:** fictional utility-company campaign featuring the owner-supplied cyberpunk character as spokesperson; exact brand “VOLTLINE INDUSTRIAL,” service line “POWER • AIR • WATER,” and tagline “KEEP THE GRID ALIVE.”
+- **Restrictions:** no racing imagery, karts, racetrack cues, snakes/mascots, checkered flags, Manaconda branding, arrows, chevrons, route guidance, shortcut hints, ON/OFF language, flicker-state semantics or gold/yellow directional treatment.
+- **Integration:** repository preservation is approved. Runtime placement remains part of Task 9 execution and must preserve Service Tunnel tell readability and corridor clarity.
+
+### Asset 4 repository preservation
+
+Asset 4 is durably preserved at:
+
+- normalized 1024×512 source PNG: `docs/design/neon-grid/assets/task9/billboards/voltline-industrial-v1-source.png`
+- 1024×512 WebP derivative: `docs/design/neon-grid/assets/task9/billboards/voltline-industrial-v1.webp`
+- preservation commit: `68d5fcadd8b9602d9288cf0c7f8bdef7c46380de`
+
+The source PNG SHA-256 is `87dc1584b0c38eb459eb81086fa26721130439022cfb79826901cd9799fde95f`; the WebP SHA-256 is `19b32b71ee59a0f52860c4a6003057b46e4fde890c4e2d4d390b78ed2ea67863`.
+
+Remote Git blob verification matched the local objects exactly: source `226f92afaad0177bc554d30617e35857f9c7f39e`, WebP `962906f50a55fafbc5a2d5b8a6e1d229fb620316`.
+
+Repository preservation does not itself equal runtime integration.
+
+This completes the currently planned four-billboard Task 9 masking set: two Skyline assets and two Undercity assets. Any additional new 2D artwork still requires the same one-at-a-time owner review gate before integration.
+

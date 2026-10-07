@@ -933,4 +933,4 @@ Owner approved the bounded repair. The fix leaves avatar material, gameplay, far
 - Main publication run `37566927943`: validation, preview build, assembly, Pages deploy and live delivery/hash verification PASSED; production bytes were verified unchanged.
 - Corrected owner-review URL remains `/previews/neon-grid-far300/`.
 
-**Current gate:** owner visual confirmation that the translucency/ghosting is gone is still PENDING. Do not treat the compositing repair or 300 m stopgap as finally accepted for production until that review. Task 9 remains unauthorized.
+**Owner visual confirmation:** PASSED on 2026-10-06. Manny explicitly reported, “This fix is passed.” This closes the 2D-driver/wet-road translucency repair gate. Combined with the earlier “Clipping passes” verdict, the locked 300 m preview has now passed the requested owner visual/playability review for clipping and compositing. This does **not** by itself authorize production adoption of the 300 m clamp; production adoption remains a separate owner decision. Task 9 planning may begin, but Task 9 implementation remains separately gated.

@@ -133,7 +133,7 @@ jobs:
             status: 'Owner visual/playability review only; Task 8 preserved; no production/runtime adoption authority'
           - id: neon-grid-t9-2
             embed_source: true
-            sha: bef603649eeb7a5bd1c767aa4b53da0ac3583f9e
+            sha: fe3e7129c58b22d69cf2ba7aa90c11c9764007f0
             base: /manacondas-minigame-mayhem/previews/neon-grid-t9-2/
             marker_type: feature
             marker_name: 'Neon Grid Stage 4 Task 9 T9.2 Skyline Straight'
@@ -392,7 +392,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: preview-output/neon-grid-t9-2
-          key: preview-dist-v1-neon-grid-t9-2-bef603649eeb7a5bd1c767aa4b53da0ac3583f9e-${{ needs.preview-plan.outputs.toolchain }}
+          key: preview-dist-v1-neon-grid-t9-2-fe3e7129c58b22d69cf2ba7aa90c11c9764007f0-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
@@ -581,7 +581,7 @@ jobs:
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = 'bef603649eeb7a5bd1c767aa4b53da0ac3583f9e' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

@@ -58,7 +58,13 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     expect(mainBoostPads).toHaveLength(4);
 
     expect(scene.getObjectByName('falls-run-night-sky')).toBeInstanceOf(THREE.Mesh);
-    expect(scene.getObjectByName('falls-run-wet-asphalt')).toBeInstanceOf(THREE.Mesh);
+    const wetAsphalt = scene.getObjectByName('falls-run-wet-asphalt');
+    expect(wetAsphalt).toBeInstanceOf(THREE.Mesh);
+    expect(wetAsphalt?.renderOrder).toBeLessThan(0);
+    const wetMaterial = (wetAsphalt as THREE.Mesh).material as THREE.Material;
+    expect(wetMaterial.transparent).toBe(true);
+    expect(wetMaterial.depthWrite).toBe(false);
+    expect(wetMaterial.depthTest).toBe(true);
     expect(scene.getObjectByName('falls-run-luminous-edges')).toBeInstanceOf(THREE.Mesh);
     expect(scene.getObjectByName('falls-run-wall-cladding')).toBeInstanceOf(THREE.Mesh);
     expect(scene.getObjectByName('falls-run-luminous-top-rails')).toBeInstanceOf(THREE.Mesh);

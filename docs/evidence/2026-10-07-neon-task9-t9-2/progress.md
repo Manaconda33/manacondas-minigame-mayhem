@@ -117,3 +117,16 @@ No Undercity presentation, no Falls Run extension, no Nightshift Noodles or Volt
 ## Stop gate
 
 T9.2 is complete on the verified runtime. T9.3 The Undercity is next in the approved Task 9 plan. Stop here until explicit continuation.
+
+
+## Owner review of corrected T9.2 preview — 2026-10-07
+
+Manny reviewed the corrected T9.2 owner preview pinned to `fe3e7129c58b22d69cf2ba7aa90c11c9764007f0` and replied **“Looks good -- approved!”** The approval accepts the corrected T9.2 Skyline presentation and does not authorize T9.3 implementation by itself.
+
+Two non-blocking visual observations are intentionally deferred rather than corrected in T9.2:
+- some previously generated Skyline buildings still read as elongated rectangular prisms rather than matching the stepped / roof-capped / multi-face building geometry around Billboard Gap;
+- the broader Skyline building field lacks a convincing city ground/base presentation, causing portions of the skyline to read as floating.
+
+Both items are assigned to **T9.7 — Pinned owner preview**, whose existing purpose is to resolve Task 9 visual/readability defects before T9.8 Stage 4 stop. They must preserve instancing/batching, drivable-route and shortcut clearance, structural budgets, road/driver readability, and remain presentation-only with no added gameplay collision or track/shortcut geometry changes.
+
+This owner review does **not** reopen T9.2. No corrective runtime work is performed as part of this record.

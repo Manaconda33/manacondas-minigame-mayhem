@@ -475,3 +475,29 @@ Remote Git blob verification matched the local objects exactly: source `5a5dca06
 Repository preservation does not itself equal runtime integration.
 
 - **Next asset:** must be presented separately with intended use before integration.
+
+
+### Asset 3 — Undercity masking billboard “Nightshift Noodles”
+
+- **Status:** OWNER APPROVED, 2026-10-07 America/Chicago.
+- **Use:** static Sector 2 Undercity city-advertising mask near the Service Tunnel, embedded in the ordinary magenta utility-signage field.
+- **Role:** make the tunnel entrance read as one ordinary service opening among many while adding dense late-night commercial texture.
+- **Creative:** fictional late-night ramen brand, exact headline “NIGHTSHIFT NOODLES” with “OPEN AFTER DARK,” hero ramen bowl, magenta/violet/deep-indigo palette with restrained cyan.
+- **Restrictions:** no racing imagery, cars/karts, snakes/mascots, checkered flags, crowns, Manaconda branding, arrows, chevrons, route guidance, shortcut hints, ON/OFF language, flicker-state semantics or gold/yellow directional treatment.
+- **Integration:** repository preservation is approved. Runtime placement remains part of Task 9 execution and must preserve Service Tunnel tell readability and corridor clarity.
+
+### Asset 3 repository preservation
+
+Asset 3 is durably preserved at:
+
+- normalized 1024×512 source PNG: `docs/design/neon-grid/assets/task9/billboards/nightshift-noodles-v1-source.png`
+- 1024×512 WebP derivative: `docs/design/neon-grid/assets/task9/billboards/nightshift-noodles-v1.webp`
+- preservation commit: `57cde78ca29ce3aecbc274fdc8bf16eff69016a5`
+
+The source PNG SHA-256 is `cff2b17cdae290746564689e63351f01bd7eef0cdda25b5ade0ebc3560e7e2f7`; the WebP SHA-256 is `76fc1f75778c757cd979ff78641844cbf1d3955ec6dff7cc8145289dda45373a`.
+
+Remote Git blob verification matched the local objects exactly: source `6917d3a5446ac3956373e8bbce8c91e6f85fa8c3`, WebP `ec4239fb58c0c1d81e961f49ee9d6bbf446700bb`.
+
+Repository preservation does not itself equal runtime integration.
+
+- **Next asset:** must be presented separately with intended use before integration.

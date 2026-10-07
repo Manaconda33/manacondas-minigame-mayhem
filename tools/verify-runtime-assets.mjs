@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { inflateSync } from 'node:zlib';
 import './verify-terrain-assets.mjs';
 import './verify-billboard-assets.mjs';
+import './verify-task9-skyline-assets.mjs';
 
 const archivedCleoHashes = new Map([
   [

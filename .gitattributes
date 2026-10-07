@@ -55,3 +55,9 @@ public/assets/characters/lunarcrystal/lod/kart-lod2.glb -filter -diff -merge -te
 public/assets/track/neon-grid/billboard/paprika-v1.webp -filter -diff -merge -text
 public/assets/track/neon-grid/billboard/arin-v1.webp -filter -diff -merge -text
 public/assets/track/neon-grid/billboard/raven-v1.webp -filter -diff -merge -text
+
+
+# Manny approved direct normal-Git runtime delivery for the two Task 9 Skyline mask ads (2026-10-07).
+# Fixed 1024x512 derivatives; ADR-106 Task 9 addendum and ASSET-PROVENANCE.md.
+public/assets/track/neon-grid/signage/manaconda-racing-v1.webp -filter -diff -merge -text
+public/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp -filter -diff -merge -text

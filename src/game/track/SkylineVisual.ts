@@ -204,7 +204,6 @@ function steppedTowerGeometry(): THREE.BufferGeometry {
   lower.dispose();
   upper.dispose();
   crown.dispose();
-  if (!merged) throw new Error('Skyline stepped tower geometry must merge');
   merged.computeVertexNormals();
   return merged;
 }

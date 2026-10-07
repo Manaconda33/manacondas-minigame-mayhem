@@ -106,8 +106,8 @@ describe('Neon Grid T9.2 owner-review corrections', () => {
         const indices = geometry.index?.array;
         expect(indices?.length ?? 0, name).toBeGreaterThan(0);
         for (const index of Array.from(indices ?? []).slice(0, 18)) {
-          const p = new THREE.Vector3().fromBufferAttribute(geometry.getAttribute('position'), Number(index));
-          const expected = new THREE.Vector3().fromBufferAttribute(nativePosition, Number(index));
+          const p = new THREE.Vector3().fromBufferAttribute(geometry.getAttribute('position'), index);
+          const expected = new THREE.Vector3().fromBufferAttribute(nativePosition, index);
           expect(p.distanceTo(expected), name).toBeLessThan(1e-7);
         }
       }

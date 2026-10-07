@@ -136,7 +136,7 @@ describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
     try {
       const edge = scene.getObjectByName('undercity-magenta-edges') as THREE.Mesh;
       expect(edge).toBeInstanceOf(THREE.Mesh);
-      expect((edge.geometry as THREE.BufferGeometry).getAttribute('position').count).toBeGreaterThan(120);
+      expect(edge.geometry.getAttribute('position').count).toBeGreaterThan(120);
       expect((edge.material as THREE.Material).depthWrite).toBe(false);
       expect((edge.material as THREE.Material).polygonOffset).toBe(true);
 

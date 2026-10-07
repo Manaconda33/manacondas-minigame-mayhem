@@ -965,3 +965,12 @@ Manny approved the Task 9 course-wide visual completion plan for execution and s
 - Approval does not authorize PR #242 merge or final Neon Grid production publication.
 
 **Current next action:** create/review Task 9 visual assets and begin T9.0 engineering in bounded checkpoints. For 2D assets, stop after each generated candidate for owner approval before any integration.
+
+
+## Task 9 2D asset review — Asset 1 approved — 2026-10-06
+
+**Asset:** Skyline Straight masking billboard #1 — “Manaconda Racing”.  
+**Intended use:** ordinary static city advertising in Sector 1 near the Billboard Gap, increasing signage saturation so the shortcut hologram reads as one sign among many. It is not a shortcut tell and must not carry gameplay information, flicker-state semantics, or Waterfall Dive gold-tell language.  
+**Owner review:** APPROVED by Manny.  
+**Integration state:** NOT YET INTEGRATED. The approved image is design authority; a clean production derivative must preserve the approved composition/style and be prepared before runtime integration.  
+**Gate:** this approval permits integration of Asset 1 only. Asset 2 must be presented separately with intended use and explicitly approved before integration.

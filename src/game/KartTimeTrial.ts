@@ -484,7 +484,7 @@ export class KartTimeTrial {
     this.scene.background = new THREE.Color(this.track.id === 'neon-grid' ? 0x080f1d : 0x8f718f);
     this.scene.fog = new THREE.Fog(this.track.id === 'neon-grid' ? 0x10192b : 0x9b7d97, 180, 650);
 
-    this.camera = new THREE.PerspectiveCamera(62, 1, 0.1, 900);
+    this.camera = new THREE.PerspectiveCamera(62, 1, 0.1, this.track.id === 'neon-grid' ? 300 : 900);
     this.chaseCamera = new ChaseCamera(this.camera, options.mobileSession);
     this.playerNormalTopSpeed = createKartTuning(options.character.stats).maxSpeed;
     this.playerSpeedVisual = new PlayerSpeedVisual(this.camera, options.graphicsQuality);

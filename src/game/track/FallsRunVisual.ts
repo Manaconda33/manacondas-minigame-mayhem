@@ -165,7 +165,10 @@ function createWetAsphalt(track: NeonGrid, quality: GraphicsQuality): THREE.Mesh
   material.forceSinglePass = true;
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = 'falls-run-wet-asphalt';
-  mesh.renderOrder = 2;
+  // Render the transparent wet-road pass before kart-mounted driver sprites.
+  // Both intentionally keep depthWrite disabled; a positive/default transparent
+  // order can otherwise composite the road reflection over the 2D driver art.
+  mesh.renderOrder = -10;
   return mesh;
 }
 
@@ -370,7 +373,8 @@ function createCity(track: NeonGrid, quality: GraphicsQuality): THREE.Group {
   const cyan = new THREE.Color(CYAN);
   const amber = new THREE.Color(0xffb65c);
   for (let index = 0; index < windowCount; index += 1) {
-    const tower = towersData[index % towersData.length]!;
+    const tower = towersData[index % towersData.length];
+    if (tower === undefined) throw new Error('Missing Falls Run tower placement');
     const row = Math.floor(index / towersData.length);
     const across = ((row * 3 + index) % 7) / 6 - 0.5;
     const vertical = 0.14 + repeatable(index, 7) * 0.72;
@@ -438,9 +442,9 @@ function waterfallMaterial(): THREE.ShaderMaterial {
 function createAmbientWaterfalls(track: NeonGrid): {
   readonly falls: THREE.InstancedMesh;
   readonly lips: THREE.InstancedMesh;
-  readonly placements: Array<{ point: THREE.Vector3; yaw: number; width: number; height: number }>;
+  readonly placements: { point: THREE.Vector3; yaw: number; width: number; height: number }[];
 } {
-  const placements: Array<{ point: THREE.Vector3; yaw: number; width: number; height: number }> = [];
+  const placements: { point: THREE.Vector3; yaw: number; width: number; height: number }[] = [];
   for (const [slot, progress] of WATERFALL_PROGRESS.entries()) {
     const pose = poseAt(track, progress);
     for (const side of [-1, 1] as const) {
@@ -509,14 +513,15 @@ function mistMaterial(): THREE.ShaderMaterial {
 
 function createMist(
   quality: GraphicsQuality,
-  placements: Array<{ point: THREE.Vector3; height: number }>,
+  placements: { point: THREE.Vector3; height: number }[],
 ): THREE.InstancedMesh {
   const count = quality === 'low' ? 16 : quality === 'high' ? 48 : 32;
   const mist = new THREE.InstancedMesh(new THREE.PlaneGeometry(3, 3), mistMaterial(), count);
   mist.name = 'falls-run-mist';
   const dummy = new THREE.Object3D();
   for (let index = 0; index < count; index += 1) {
-    const placement = placements[index % placements.length]!;
+    const placement = placements[index % placements.length];
+    if (placement === undefined) throw new Error('Missing Falls Run mist placement');
     dummy.position.copy(placement.point);
     dummy.position.y -= placement.height / 2 - 0.4 + repeatable(index, 21) * 1.4;
     dummy.position.x += (repeatable(index, 22) - 0.5) * 5.5;
@@ -531,7 +536,7 @@ function createMist(
 }
 
 function createSpray(
-  placements: Array<{ point: THREE.Vector3; height: number; width: number; yaw: number }>,
+  placements: { point: THREE.Vector3; height: number; width: number; yaw: number }[],
 ): THREE.InstancedMesh {
   const material = new THREE.MeshBasicMaterial({
     color: 0x83eaff,

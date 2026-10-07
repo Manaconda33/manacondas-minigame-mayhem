@@ -33,7 +33,13 @@ describe('Neon Grid Stage 4 Task 8 Falls Run presentation', () => {
     expect(fallsRun?.userData.progressEnd).toBe(0.85);
 
     expect(scene.getObjectByName('neon-grid-night-sky')).toBeDefined();
-    expect(scene.getObjectByName('falls-run-wet-asphalt')).toBeDefined();
+    const wetAsphalt = scene.getObjectByName('falls-run-wet-asphalt');
+    expect(wetAsphalt).toBeInstanceOf(THREE.Mesh);
+    expect(wetAsphalt?.renderOrder).toBeLessThan(0);
+    const wetMaterial = (wetAsphalt as THREE.Mesh).material as THREE.Material;
+    expect(wetMaterial.transparent).toBe(true);
+    expect(wetMaterial.depthWrite).toBe(false);
+    expect(wetMaterial.depthTest).toBe(true);
     expect(scene.getObjectByName('falls-run-edge-lights')).toBeDefined();
     expect(scene.getObjectByName('falls-run-deck-fascia')).toBeDefined();
     expect(scene.getObjectByName('falls-run-city')).toBeDefined();
@@ -48,7 +54,9 @@ describe('Neon Grid Stage 4 Task 8 Falls Run presentation', () => {
     expect(scene.getObjectByName('billboard-boost-pad')).toBeDefined();
   });
 
-  it('keeps camouflage systems batched and quality-bounded', () => {
+  // This test builds the full Task 8 scene at three quality levels; it needs
+  // headroom beyond vitest's 5s default on CI runners.
+  it('keeps camouflage systems batched and quality-bounded', { timeout: 30000 }, () => {
     const low = task8Scene('low');
     const medium = task8Scene('medium');
     const high = task8Scene('high');
@@ -87,16 +95,19 @@ describe('Neon Grid Stage 4 Task 8 Falls Run presentation', () => {
     const textures = new Set<THREE.Texture>();
     task8.traverse((object) => {
       if (object instanceof THREE.Light) lights += 1;
-      if (object instanceof THREE.InstancedMesh) assertFiniteInstances(object);
+      if (object instanceof THREE.InstancedMesh)
+        assertFiniteInstances(object as THREE.InstancedMesh);
       if (!(object instanceof THREE.Mesh)) return;
       const materials = Array.isArray(object.material) ? object.material : [object.material];
       for (const material of materials) {
-        for (const value of Object.values(material)) {
-          if (value instanceof THREE.Texture) textures.add(value);
+        for (const value of Object.values(material as unknown as Record<string, unknown>)) {
+          if (value instanceof THREE.Texture) textures.add(value as THREE.Texture);
         }
         if (material instanceof THREE.ShaderMaterial) {
-          for (const uniform of Object.values(material.uniforms)) {
-            if (uniform.value instanceof THREE.Texture) textures.add(uniform.value as THREE.Texture);
+          const uniforms = material.uniforms as Record<string, { value: unknown }>;
+          for (const uniform of Object.values(uniforms)) {
+            if (uniform.value instanceof THREE.Texture)
+              textures.add(uniform.value as THREE.Texture);
           }
         }
       }

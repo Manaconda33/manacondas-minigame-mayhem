@@ -1,3 +1,12 @@
+## Neon Grid Stage 4 Task 9 T9.3 corrected Undercity — owner acceptance, 2026-10-07
+
+**OWNER APPROVED / T9.3 COMPLETE.** Manny reviewed and explicitly approved exact corrected runtime `42781fb5367a146473c49012e0442e953197e480` in the pinned [corrected T9.3 preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-3-correction/?review=42781fb). This approval supersedes the initial rejected `722d9db` presentation without erasing the four original owner findings or correction history. Owner acceptance covers the corrected T9.3 visuals/playability, **not** PR #242 merge, production Neon Grid gameplay, T9.4 implementation, or T9.7 Skyline polish.
+
+- Implementation run [37703010562](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37703010562) **SUCCESS**: 129 files, 1022 passing tests, 2 intentional future T9.4 `it.fails`, typecheck, zero-warning lint, asset and LFS checks, production build, Task 8/Waterfall/Skyline/Undercity render gates.
+- Workflow-only publication PR #275 **MERGED**; Pages [run 37703541469](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37703541469) **SUCCESS**, including successful `Record exact delivery hashes and verify production preservation before publication` and `Verify live preview and unchanged production bytes` steps. Existing previews preserved.
+- Corrected render captures: 12 desktop, landscape, portrait, chase/rear and sector-sweep cases, zero rendering errors; canonical T9.3 A/B +18 draw calls/+7,324 triangles; maximum 161 calls/130,486 triangles, below Task 9 200/300k and PRD 250/750k. SwiftShader FPS/p95 remain diagnostic only, not representative-device certification.
+- Next: propose T9.4 Falls Run Extension execution plan for explicit approval, preserving Task 8 progress 0.70–0.85, accepted Skyline/Undercity, Waterfall Dive and Service Tunnel gameplay, and the two T9.7-deferred Skyline polish items. See [T9.3 evidence](evidence/2026-10-07-neon-task9-t9-3/progress.md).
+
 ## Neon Grid Stage 4 Task 9 T9.3 owner correction pass — 2026-10-07
 
 Owner-reported original T9.3 runtime `722d9db` is **NOT APPROVED**. Exact correction runtime `42781fb5367a146473c49012e0442e953197e480`; PR #242 remains draft/unmerged. The correction fixes four review categories without widening the original T9.3 visual-owner boundary:

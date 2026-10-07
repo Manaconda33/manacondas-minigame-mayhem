@@ -95,3 +95,14 @@ Automated implementation/readiness is passed. Next action is a distinct pinned T
 ### Approval gate
 
 Staged isolated corrected Pages review path: `/previews/neon-grid-t9-3-correction/` pinned to `42781fb5367a146473c49012e0442e953197e480`, workflow-only PR #275; production and original T9.3 preview remain preserved. STOP after Pages deployment/hash checks and provide URL. **T9.3 owner APPROVAL PENDING; no T9.4, no #242 merge, no production adoption.**
+
+## Corrected T9.3 preview publication and explicit owner approval — 2026-10-07 America/Chicago
+
+**Final owner verdict: OWNER APPROVED / T9.3 COMPLETE.** Manny explicitly approved the corrected T9.3 Undercity preview. This **supersedes** the original `722d9db` CORRECTIONS REQUIRED / NOT APPROVED verdict and the intervening corrected-preview OWNER APPROVAL PENDING notes above. These remain intact as historical evidence.
+
+- **Approved exact runtime:** `42781fb5367a146473c49012e0442e953197e480`.
+- **Pinned visual/playability preview:** https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-3-correction/?review=42781fb
+- **Preview publication:** PR #275 merged, GitHub Pages run [37703541469](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37703541469) SUCCESS. Deploy workflow completed the exact delivery-hash verification and unchanged-production-bytes check; original T9.3 and other previews remain preserved.
+- **Implementation CI:** [37703010562](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37703010562) SUCCESS, 129 files / 1022 passing tests + 2 intentional future T9.4 `it.fails`, strict typecheck, zero-warning lint, asset/LFS checks, build and four regression render gates. Rendering artifact `11518123864`, SHA-256 `d39b43c939ab1e066cb03d01d3279b89a20464e5d758234e92b7a58055d73ee3`.
+- **Accepted corrections:** all previously rejected floating/disconnected geometry, roadway clipping, insufficient industrial building definition, and Nightshift Noodles/Voltline Industrial billboard visibility were addressed. T9.3 canonical Medium incremental +18 draw calls/+7,324 visible triangles and maximum 161 calls/130,486 triangles remain inside both engineering/PRD caps. Software WebGL timing is diagnostic only.
+- **Governance:** T9.3 is closed; no T9.4 implementation until Manny approves the proposed T9.4 execution plan. Skyline residual boxy building masses and missing grounded city bases are deferred to T9.7. PR #242 stays draft/unmerged, Neon Grid gameplay is not production-authorized, and T9.5+ and T9.8 remain gated. Pre-record branch checkpoint `722d7ee8c0bd49b848dec35c6f1a2dcac68d579d`; subsequent commit contains documentation only.

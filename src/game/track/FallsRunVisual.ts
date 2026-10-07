@@ -6,6 +6,7 @@ import {
   NeonGridVisualClock,
   neonGridRibbonGeometry,
   neonGridRightAt,
+  neonGridSurfaceSliceGeometry,
 } from './NeonGridVisualCommon';
 import { disposeTrackScene } from './TrackSceneResources';
 
@@ -168,6 +169,9 @@ function wetAsphaltMaterial(): THREE.ShaderMaterial {
     transparent: true,
     depthWrite: false,
     side: THREE.DoubleSide,
+    polygonOffset: true,
+    polygonOffsetFactor: -2,
+    polygonOffsetUnits: -2,
   });
   material.forceSinglePass = true;
   material.userData.bloomBlackAdapter = true;
@@ -181,7 +185,9 @@ function nightSky(): THREE.Mesh {
     vertexShader: `varying vec3 vDirection;
       void main() {
         vDirection = normalize(position);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        mat4 rotationOnlyView = mat4(mat3(viewMatrix));
+        vec4 clip = projectionMatrix * rotationOnlyView * vec4(position, 1.0);
+        gl_Position = clip.xyww;
       }`,
     fragmentShader: `varying vec3 vDirection;
       float hash(vec3 p) {
@@ -212,6 +218,7 @@ function nightSky(): THREE.Mesh {
   const sky = new THREE.Mesh(new THREE.SphereGeometry(820, 36, 20), material);
   sky.name = 'falls-run-night-sky';
   sky.frustumCulled = false;
+  sky.userData.cameraRelative = true;
   return sky;
 }
 
@@ -583,13 +590,17 @@ export class FallsRunVisual {
     this.group.userData.quality = quality;
     this.group.add(nightSky());
 
+    const roadGeometry = neonGridSurfaceSliceGeometry(track, START, END);
     const asphaltBase = new THREE.Mesh(
-      neonGridRibbonGeometry(track, START, END, SEGMENTS, 5.96, 0.012),
+      roadGeometry,
       new THREE.MeshStandardMaterial({
         color: 0x07121b,
         roughness: 0.38,
         metalness: 0.28,
         side: THREE.DoubleSide,
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+        polygonOffsetUnits: -1,
       }),
     );
     asphaltBase.name = 'falls-run-asphalt-base';
@@ -599,7 +610,7 @@ export class FallsRunVisual {
     if (quality !== 'low') {
       const wetMaterial = wetAsphaltMaterial();
       this.animatedMaterials.push(wetMaterial);
-      const wet = new THREE.Mesh(neonGridRibbonGeometry(track, START, END, SEGMENTS, 5.86, 0.018), wetMaterial);
+      const wet = new THREE.Mesh(roadGeometry.clone(), wetMaterial);
       wet.name = 'falls-run-wet-asphalt';
       // Draw the transparent road-reflection pass before kart-mounted driver
       // sprites so the road cannot blend back over 2D avatar art.

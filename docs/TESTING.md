@@ -1,3 +1,15 @@
+## Neon Grid Stage 4 Task 9 T9.1 lifecycle/helper checkpoint — 2026-10-07
+
+T9.1 consumes only the first two T9.0 RED contracts. `FallsRunVisual` must expose idempotent owned-resource disposal and hidden presentation animation must freeze without catching up the hidden interval when visibility resumes. The canonical contract remains `tests/neon-grid-stage4-task9.test.ts`.
+
+The disposal test attaches an owned texture to the accepted Falls Run asphalt material, spies on that texture plus the owned material and geometry, calls the presentation owner's `dispose()` twice, then runs whole-scene cleanup. Each resource must dispose exactly once and the presentation group must be empty after owner disposal. The hidden-freeze test advances visible animation to race time 2, hides the owner through source time 3, then resumes at source time 4; shader time must read 2 while hidden and 3 after resume, proving the hidden interval did not accumulate.
+
+The accepted Task 8 baseline assertions remain ordinary passing tests. The two future course-extension contracts remain `it.fails`: bounded finite `skyline-visual` / `undercity-visual` / `falls-run-extension-visual` owners, and Low-bypass/avatar-safe compositing for the three future wet-road passes. Any later increment that satisfies one of those contracts must promote it to ordinary `it` in the same checkpoint.
+
+Verified source `876d90cc5d284885f9a5ef041fe87fab9fb00590`, hosted CI run `37643865611`: validate `112870109150` PASS with **127 files / 1006 passes + 2 expected failures**, typecheck, zero-warning lint and production build; spillway render `112870109653` PASS; Task 8 Falls Run render `112870109575` PASS. Render artifact `11494291072` has ZIP SHA-256 `c1fde3d3e4d95ebaeef7b314390527cef0440e6a19200e62189b80dbf1795d54`. Maximum observed load was **123 draw calls / 78,604 visible triangles**; desktop Medium 1920×1080 was **93 / 78,604**. SwiftShader timing remains diagnostic-only and is not representative-hardware PRD certification.
+
+Evidence: `docs/evidence/2026-10-07-neon-task9-t9-1/'progress.md`.
+
 ## Neon Grid Stage 4 Task 9 T9.0 RED-contract procedure — 2026-10-07
 
 Task 9 uses a bounded RED-first gate before course-wide visual expansion. The canonical contract file is `tests/neon-grid-stage4-task9.test.ts`.

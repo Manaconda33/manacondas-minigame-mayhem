@@ -951,3 +951,17 @@ The plan explicitly does not:
 - authorize PR #242 merge or production release.
 
 **Next gate:** Manny reviews/approves or revises the Task 9 plan. If approved, T9.0 (baseline freeze + failing lifecycle tests) is the first authorized implementation checkpoint. No Task 9 runtime work should begin before that approval.
+
+
+## Neon Grid Task 9 owner approval + production far-plane decision — 2026-10-06
+
+Manny approved the Task 9 course-wide visual completion plan for execution and separately approved the Neon Grid-only 300 m race-camera far-plane clamp for production adoption.
+
+- Approved Task 9 plan: `docs/design/neon-grid/task9-coursewide-visual-plan.md`.
+- Plan approval permits the bounded sequence beginning with T9.0 plus pre-integration asset creation/review.
+- New 2D billboard/ad/sign assets are approval-sensitive: present them to Manny **one at a time with intended use**, and do not integrate any candidate before explicit owner approval.
+- The 300 m clamp is approved for production adoption after owner clipping and corrected compositing review. Circuit Alpha remains unchanged.
+- The 300 m clamp remains a temporary mitigation under the render-workload governance plan and must be re-evaluated at Neon Grid Phase V2 rather than copied into future minigames as a default.
+- Approval does not authorize PR #242 merge or final Neon Grid production publication.
+
+**Current next action:** create/review Task 9 visual assets and begin T9.0 engineering in bounded checkpoints. For 2D assets, stop after each generated candidate for owner approval before any integration.

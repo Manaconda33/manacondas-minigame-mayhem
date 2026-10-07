@@ -4,6 +4,7 @@ import { inflateSync } from 'node:zlib';
 import './verify-terrain-assets.mjs';
 import './verify-billboard-assets.mjs';
 import './verify-task9-skyline-assets.mjs';
+import './verify-task9-undercity-assets.mjs';
 
 const archivedCleoHashes = new Map([
   [

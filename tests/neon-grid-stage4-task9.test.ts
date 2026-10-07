@@ -19,12 +19,9 @@ const TASK8_MEDIUM_INSTANCES = {
   'falls-run-dive-rail-debris': 10,
 } as const;
 
-const FUTURE_OWNER_NAMES = ['undercity-visual', 'falls-run-extension-visual'] as const;
+const FUTURE_OWNER_NAMES = ['falls-run-extension-visual'] as const;
 
-const FUTURE_WET_ROAD_NAMES = [
-  'undercity-wet-asphalt',
-  'falls-run-extension-wet-asphalt',
-] as const;
+const FUTURE_WET_ROAD_NAMES = ['falls-run-extension-wet-asphalt'] as const;
 
 function requireInstanced(scene: THREE.Object3D, name: string): THREE.InstancedMesh {
   const object = scene.getObjectByName(name);
@@ -91,6 +88,91 @@ describe('Neon Grid Stage 4 Task 9 T9.0 frozen baseline', () => {
       }
     }
   }, 20000);
+});
+
+describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
+  it('mounts bounded Undercity presentation and approved utility-mask assets', () => {
+    const expectedWindows: Record<GraphicsQuality, number> = { low: 80, medium: 160, high: 240 };
+    for (const quality of ['low', 'medium', 'high'] as const) {
+      const scene = createNeonGridScene(new NeonGrid(), quality);
+      try {
+        const owner = scene.getObjectByName('undercity-visual');
+        expect(owner).toBeInstanceOf(THREE.Group);
+        expect(owner?.userData.progressRange).toEqual([0.24654910452879084, 0.46154128347522666]);
+        expect(owner?.userData.quality).toBe(quality);
+        expect(requireInstanced(scene, 'undercity-city-buildings').count).toBe(16);
+        expect(requireInstanced(scene, 'undercity-city-windows').count).toBe(expectedWindows[quality]);
+        expect(requireInstanced(scene, 'undercity-utility-boxes').count).toBe(20);
+        expect(requireInstanced(scene, 'undercity-pipes').count).toBe(26);
+        expect(requireInstanced(scene, 'undercity-work-lights').count).toBe(24);
+        expect(requireInstanced(scene, 'undercity-service-bays').count).toBe(10);
+        expect(requireInstanced(scene, 'undercity-ad-nightshift-noodles').count).toBe(2);
+        expect(requireInstanced(scene, 'undercity-ad-voltline-industrial').count).toBe(2);
+        expect(Boolean(scene.getObjectByName('undercity-wet-asphalt'))).toBe(quality !== 'low');
+
+        owner?.traverse((object) => {
+          if (!(object instanceof THREE.InstancedMesh)) return;
+          expect(object.count, object.name).toBeLessThanOrEqual(object.instanceMatrix.count);
+          const matrix = new THREE.Matrix4();
+          for (let i = 0; i < object.count; i++) {
+            object.getMatrixAt(i, matrix);
+            for (const value of matrix.elements) expect(Number.isFinite(value)).toBe(true);
+          }
+        });
+      } finally {
+        disposeTrackScene(scene);
+      }
+    }
+  }, 20000);
+
+  it('keeps the wet-road pass avatar-safe and freezes hidden Undercity animation', () => {
+    const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    try {
+      const wet = scene.getObjectByName('undercity-wet-asphalt') as THREE.Mesh<
+        THREE.BufferGeometry,
+        THREE.ShaderMaterial
+      >;
+      expect(wet).toBeInstanceOf(THREE.Mesh);
+      expect(wet.renderOrder).toBe(-10);
+      expect(wet.material.transparent).toBe(true);
+      expect(wet.material.depthWrite).toBe(false);
+      expect(wet.material.depthTest).toBe(true);
+
+      scene.undercity.update(2);
+      expect(wet.material.uniforms.time?.value).toBe(2);
+      scene.undercity.group.visible = false;
+      scene.undercity.update(4);
+      expect(wet.material.uniforms.time?.value).toBe(2);
+      scene.undercity.group.visible = true;
+      scene.undercity.update(5);
+      expect(wet.material.uniforms.time?.value).toBe(3);
+    } finally {
+      disposeTrackScene(scene);
+    }
+  });
+
+  it('disposes Undercity-owned resources exactly once while preserving the shared race scene contract', () => {
+    const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    const asphalt = scene.getObjectByName('undercity-asphalt-base');
+    expect(asphalt).toBeInstanceOf(THREE.Mesh);
+    if (!(asphalt instanceof THREE.Mesh)) throw new Error('Missing Undercity asphalt');
+    const geometryDispose = vi.spyOn(asphalt.geometry, 'dispose');
+    const material = asphalt.material as THREE.Material;
+    const materialDispose = vi.spyOn(material, 'dispose');
+    try {
+      expect(scene.getObjectByName('service-tunnel')).toBeDefined();
+      scene.undercity.dispose();
+      scene.undercity.dispose();
+      expect(scene.undercity.group.children).toHaveLength(0);
+      expect(geometryDispose).toHaveBeenCalledTimes(1);
+      expect(materialDispose).toHaveBeenCalledTimes(1);
+      expect(scene.getObjectByName('service-tunnel')).toBeDefined();
+    } finally {
+      disposeTrackScene(scene);
+    }
+    expect(geometryDispose).toHaveBeenCalledTimes(1);
+    expect(materialDispose).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {

@@ -629,6 +629,45 @@ jobs:
           path: /tmp/neon-grid-course-render/
 
 
+  task9-undercity-render:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out T9.3 Undercity candidate
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Render Undercity and verify T9.3 budget/readability gates
+        env:
+          NEON_GRID_COURSE_PLAYWRIGHT: /tmp/neon-grid-course-webgl
+          VITE_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git lfs fsck
+          npm install --prefix /tmp/neon-grid-course-webgl --no-package-lock playwright@1.58.2
+          export NEON_GRID_COURSE_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/neon-grid-course-vite.log 2>&1 &
+          course_server_pid=$!
+          trap 'kill "$course_server_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/neon-grid-undercity-render.mjs /tmp/neon-grid-undercity-render
+      - name: Upload T9.3 Undercity rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task9-undercity-render
+          path: /tmp/neon-grid-undercity-render/
+
+
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: assemble

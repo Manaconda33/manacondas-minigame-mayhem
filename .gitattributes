@@ -61,3 +61,9 @@ public/assets/track/neon-grid/billboard/raven-v1.webp -filter -diff -merge -text
 # Fixed 1024x512 derivatives; ADR-106 Task 9 addendum and ASSET-PROVENANCE.md.
 public/assets/track/neon-grid/signage/manaconda-racing-v1.webp -filter -diff -merge -text
 public/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp -filter -diff -merge -text
+
+
+# Manny approved direct normal-Git runtime delivery for the two Task 9 Undercity mask ads (2026-10-07).
+# Fixed 1024x512 derivatives; Task 9 owner-review gate and ASSET-PROVENANCE.md.
+public/assets/track/neon-grid/signage/nightshift-noodles-v1.webp -filter -diff -merge -text
+public/assets/track/neon-grid/signage/voltline-industrial-v1.webp -filter -diff -merge -text

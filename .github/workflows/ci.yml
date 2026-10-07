@@ -542,7 +542,7 @@ jobs:
           node-version: 22
       - name: Install exact dependencies
         run: npm ci
-      - name: Render Falls Run and verify Task 8 performance gates
+      - name: Render Falls Run and verify Task 8 render-readiness gates
         env:
           FALLS_RUN_PLAYWRIGHT: /tmp/falls-run-webgl
           VITE_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}

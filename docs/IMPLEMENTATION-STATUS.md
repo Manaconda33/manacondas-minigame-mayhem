@@ -902,3 +902,16 @@ Production: https://manaconda33.github.io/manacondas-minigame-mayhem/. Diagnosti
 ### Neon Grid main-route runtime blockout — 2026-10-02
 
 Tasks 2–3 implemented and Task 4 launch/race integration prepared on design/neon-grid-circuit-02, without tokens or shortcuts. Full native validation: 108 files / 831 tests pass, zero-warning lint/typecheck/asset gates/build; LFS fsck and diff check pass. Native physics covers eight independent driver profiles × three laps, plus five seconds of eight-body production race integration and recovery/cleanup checks. See docs/evidence/2026-10-02-neon-grid/blockout-review.md for evidence limits. Pinned Pages publication and owner visual acceptance are the next checkpoint. Production runtime remains unchanged.
+
+
+## Neon Grid Stage 4 Task 8 render-gate reconciliation — 2026-10-06
+
+Branch `design/neon-grid-circuit-02` was reconciled with current `main` at merge commit `7caef6f3fcb2e7e271af4ff023ddd9c4c86f7e5f`; the branch was 0 commits behind main afterward. Post-reconciliation CI run `37487156750` reproduced the hosted Task 8 software-render timing at 1.299 FPS median / 780.1 ms p95 while remaining well inside scene budgets at 123 maximum draw calls and 86,292 maximum triangles. The pre-reconciliation run `37376363632` was effectively identical at 1.303 FPS / 776.6 ms p95, 124 calls and 84,608 triangles.
+
+Owner approved correcting the gate classification rather than optimizing game runtime against SwiftShader. Commits `0fa14d30336a76968f90450fec2b1997e4f06c9d` and `5314699961a84f18024865fb6df8ce45e56dad1f` make hosted Chromium software WebGL authoritative for deterministic render-readiness only: zero render/runtime errors, exact Medium 1920×1080 evidence, eight racers, at least 300 scored frames with valid timing instrumentation, ≤250 draw calls and ≤750,000 visible triangles. Hosted FPS/p95 remain captured but are diagnostic-only. PRD hardware targets remain unchanged at Medium 1920×1080 median ≥60 FPS and p95 ≤18.3 ms and still require representative-hardware evidence.
+
+`docs/TESTING.md` records the durable methodology at `df8dc366156ac7f837bbe97fc109b119471fa71a`.
+
+The unrelated pinned `far300` validation failure in run `37487156750` was rerun unchanged. Job `112606724371` completed successfully, including the exact pinned-runtime validation and marker verification. Therefore the prior single 5-second `neon-grid-billboard-exit.test.ts` timeout is classified as transient runner noise; no pinned runtime, test assertion, timeout or CI policy was changed.
+
+Next required evidence: a fresh PR CI run on the current Task 8 head must pass validate, spillway render, Task 8 render-readiness, active preview builds and all pinned-runtime validations before this repair is considered complete. Task 9 remains unauthorized. PR #242 remains draft/unmerged.

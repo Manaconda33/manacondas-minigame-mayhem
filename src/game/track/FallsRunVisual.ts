@@ -165,7 +165,10 @@ function createWetAsphalt(track: NeonGrid, quality: GraphicsQuality): THREE.Mesh
   material.forceSinglePass = true;
   const mesh = new THREE.Mesh(geometry, material);
   mesh.name = 'falls-run-wet-asphalt';
-  mesh.renderOrder = 2;
+  // Render the transparent wet-road pass before kart-mounted driver sprites.
+  // Both intentionally keep depthWrite disabled; a positive/default transparent
+  // order can otherwise composite the road reflection over the 2D driver art.
+  mesh.renderOrder = -10;
   return mesh;
 }
 

@@ -426,3 +426,15 @@ PR #242 merge and final Neon Grid production publication remain separate explici
 ---
 
 **Planning note:** the production-approved 300 m Neon Grid clamp is a temporary mitigation, not the long-term render-workload architecture.
+
+
+## Appendix A — 2D asset approvals
+
+### Asset 1 — Skyline masking billboard “Manaconda Racing”
+
+- **Status:** OWNER APPROVED, 2026-10-06 America/Chicago.
+- **Use:** static Sector 1 Skyline Straight city-advertising mask near Billboard Gap.
+- **Role:** increase signage saturation without becoming a shortcut tell.
+- **Restrictions:** no gameplay information; no state/flicker semantics; no reuse as the Paprika/Arin/Raven tell; no gold directional/tell treatment.
+- **Integration:** approved only after creating a faithful clean runtime derivative from the accepted artwork.
+- **Next asset:** must be presented separately with intended use before integration.

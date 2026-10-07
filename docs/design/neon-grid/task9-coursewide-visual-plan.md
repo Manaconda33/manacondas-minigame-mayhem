@@ -452,6 +452,26 @@ The source PNG SHA-256 is `2f8cacacb6c2cefc4f4ef28fcb2cf0a36fd27a10f4cb6650e5cad
 
 Repository preservation does not itself equal runtime integration.
 
-### Future billboard requirement — Taco Bell
+### Asset 2 — Skyline masking billboard “Taco Bell / Live Más”
 
-Per owner direction, the Task 9 masking-signage set must include at least one **Taco Bell-related** billboard. It remains subject to the same approval gate as every other new 2D asset: present exactly one standalone candidate with its intended use, obtain explicit approval, then and only then integrate it.
+- **Status:** OWNER APPROVED, 2026-10-07 America/Chicago.
+- **Use:** static Sector 1 Skyline Straight city-advertising mask in the ordinary signage field near Billboard Gap.
+- **Role:** satisfy the approved Taco Bell-related signage requirement and increase neon sponsor saturation without becoming a shortcut tell.
+- **Restrictions:** static only; no gameplay information; no ON/OFF or flicker semantics; no reuse of the Paprika/Arin/Raven tell cadence; no gold directional/tell treatment.
+- **Integration:** repository preservation is approved. Runtime placement remains part of Task 9 execution and must preserve Billboard tell readability and all accepted balance/behavior.
+
+### Asset 2 repository preservation
+
+Asset 2 is durably preserved at:
+
+- normalized 1024×512 source PNG: `docs/design/neon-grid/assets/task9/billboards/taco-bell-live-mas-v1-source.png`
+- 1024×512 WebP derivative: `docs/design/neon-grid/assets/task9/billboards/taco-bell-live-mas-v1.webp`
+- preservation commit: `db8e83c87c7e021ec83e12b21e3d6caf0a294de9`
+
+The source PNG SHA-256 is `7e66ea3fda8d8db1fdc5dc33d7f7a734eb63fbe22a69641a2b5aec6c5e849b14`; the WebP SHA-256 is `d289bc4dbc10872d6c75aa4ae650aaf716bf83a9ea36da12ce0cdc021e7bea7e`.
+
+Remote Git blob verification matched the local objects exactly: source `5a5dca06d0ea3e917cd14564123619e9ee8b0ef7`, WebP `e958b04842ff4f98d252b0abf0ba7c7d26834bcc`.
+
+Repository preservation does not itself equal runtime integration.
+
+- **Next asset:** must be presented separately with intended use before integration.

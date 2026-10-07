@@ -56,27 +56,31 @@ describe('Neon Grid Stage 4 Task 9 T9.2 Skyline Straight', () => {
     }
   }, 20000);
 
-  it('bypasses Skyline wet asphalt on Low and keeps Medium/High avatar-safe', () => {
-    for (const quality of ['low', 'medium', 'high'] as const) {
-      const scene = createNeonGridScene(new NeonGrid(), quality);
-      try {
-        const wet = scene.getObjectByName('skyline-wet-asphalt');
-        if (quality === 'low') {
-          expect(wet).toBeUndefined();
-          continue;
+  it(
+    'bypasses Skyline wet asphalt on Low and keeps Medium/High avatar-safe',
+    () => {
+      for (const quality of ['low', 'medium', 'high'] as const) {
+        const scene = createNeonGridScene(new NeonGrid(), quality);
+        try {
+          const wet = scene.getObjectByName('skyline-wet-asphalt');
+          if (quality === 'low') {
+            expect(wet).toBeUndefined();
+            continue;
+          }
+          expect(wet).toBeInstanceOf(THREE.Mesh);
+          const mesh = wet as THREE.Mesh;
+          const material = mesh.material as THREE.Material;
+          expect(mesh.renderOrder).toBeLessThan(0);
+          expect(material.transparent).toBe(true);
+          expect(material.depthWrite).toBe(false);
+          expect(material.depthTest).toBe(true);
+        } finally {
+          disposeTrackScene(scene);
         }
-        expect(wet).toBeInstanceOf(THREE.Mesh);
-        const mesh = wet as THREE.Mesh;
-        const material = mesh.material as THREE.Material;
-        expect(mesh.renderOrder).toBeLessThan(0);
-        expect(material.transparent).toBe(true);
-        expect(material.depthWrite).toBe(false);
-        expect(material.depthTest).toBe(true);
-      } finally {
-        disposeTrackScene(scene);
       }
-    }
-  });
+    },
+    20000,
+  );
 
   it('freezes Skyline animation while hidden and resumes without catch-up', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');

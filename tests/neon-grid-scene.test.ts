@@ -33,7 +33,13 @@ describe('Neon Grid Stage 4 Task 8 Falls Run presentation', () => {
     expect(fallsRun?.userData.progressEnd).toBe(0.85);
 
     expect(scene.getObjectByName('neon-grid-night-sky')).toBeDefined();
-    expect(scene.getObjectByName('falls-run-wet-asphalt')).toBeDefined();
+    const wetAsphalt = scene.getObjectByName('falls-run-wet-asphalt');
+    expect(wetAsphalt).toBeInstanceOf(THREE.Mesh);
+    expect(wetAsphalt?.renderOrder).toBeLessThan(0);
+    const wetMaterial = (wetAsphalt as THREE.Mesh).material as THREE.Material;
+    expect(wetMaterial.transparent).toBe(true);
+    expect(wetMaterial.depthWrite).toBe(false);
+    expect(wetMaterial.depthTest).toBe(true);
     expect(scene.getObjectByName('falls-run-edge-lights')).toBeDefined();
     expect(scene.getObjectByName('falls-run-deck-fascia')).toBeDefined();
     expect(scene.getObjectByName('falls-run-city')).toBeDefined();

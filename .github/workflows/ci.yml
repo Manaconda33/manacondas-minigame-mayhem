@@ -126,7 +126,7 @@ jobs:
             status: 'Task 7 owner dive feel/fairness review; accepted tunnel/billboard and production preserved; no balance or production release'
           - id: neon-grid-far300
             embed_source: true
-            sha: 01fb6c26d1b25f536d46323ebfc71fc30239d125
+            sha: ce6a64cf36b1f110af028536d3ff9c7a306ccbdb
             base: /manacondas-minigame-mayhem/previews/neon-grid-far300/
             marker_type: feature
             marker_name: 'Neon Grid temporary 300m camera far-plane stopgap'
@@ -248,7 +248,7 @@ jobs:
             sha: b49d9876f8c6ce87956f8b91675c3c8180e56b55
             base: /manacondas-minigame-mayhem/previews/neon-grid-dive/
           - id: far300
-            sha: 01fb6c26d1b25f536d46323ebfc71fc30239d125
+            sha: ce6a64cf36b1f110af028536d3ff9c7a306ccbdb
             base: /manacondas-minigame-mayhem/previews/neon-grid-far300/
 
     steps:
@@ -378,7 +378,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: preview-output/neon-grid-far300
-          key: preview-dist-v1-neon-grid-far300-01fb6c26d1b25f536d46323ebfc71fc30239d125-${{ needs.preview-plan.outputs.toolchain }}
+          key: preview-dist-v1-neon-grid-far300-ce6a64cf36b1f110af028536d3ff9c7a306ccbdb-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
@@ -596,7 +596,7 @@ jobs:
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = '01fb6c26d1b25f536d46323ebfc71fc30239d125' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

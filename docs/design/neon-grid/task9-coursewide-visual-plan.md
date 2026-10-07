@@ -438,3 +438,20 @@ PR #242 merge and final Neon Grid production publication remain separate explici
 - **Restrictions:** no gameplay information; no state/flicker semantics; no reuse as the Paprika/Arin/Raven tell; no gold directional/tell treatment.
 - **Integration:** approved only after creating a faithful clean runtime derivative from the accepted artwork.
 - **Next asset:** must be presented separately with intended use before integration.
+
+
+### Asset repository preservation
+
+Asset 1 is durably preserved at:
+
+- source PNG: `docs/design/neon-grid/assets/task9/billboards/manaconda-racing-v1-source.png`
+- 1024×512 WebP derivative: `docs/design/neon-grid/assets/task9/billboards/manaconda-racing-v1.webp`
+- preservation commit: `16b25c83fe9b81471f1a9b17b8c7bd6a02a0393f`
+
+The source PNG SHA-256 is `2f8cacacb6c2cefc4f4ef28fcb2cf0a36fd27a10f4cb6650e5cad014b5fc007f`; the WebP SHA-256 is `481feb4ff34635abad29dd4f65b39975e73c227eb0a53901a51028c5e9fe7d22`.
+
+Repository preservation does not itself equal runtime integration.
+
+### Future billboard requirement — Taco Bell
+
+Per owner direction, the Task 9 masking-signage set must include at least one **Taco Bell-related** billboard. It remains subject to the same approval gate as every other new 2D asset: present exactly one standalone candidate with its intended use, obtain explicit approval, then and only then integrate it.

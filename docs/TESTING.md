@@ -1806,3 +1806,22 @@ Manual owner review of the locked Neon Grid 300 m far-plane preview is complete 
 - Main publication checkpoint: `8cc990c967f3a6d2768759bf537079c94bace3b9`; Pages delivery run `37566927943` passed live hash verification and confirmed unchanged production bytes.
 
 This closes the requested owner visual/playability review for the 300 m test slice. It does not authorize production adoption of the 300 m clamp, which remains a separate product decision.
+
+
+## Neon Grid Stage 4 Task 9 T9.3 Undercity — 2026-10-07
+
+Run `npx vitest run tests/neon-grid-stage4-task9.test.ts tests/neon-grid-stage4-task9-skyline.test.ts tests/neon-grid-stage4-t9-2-corrections.test.ts tests/neon-grid-tunnel.test.ts tests/neon-grid-tunnel-driving.test.ts`, then full `npm run validate`, `git diff --check`, and the hosted `task9-undercity-render` job.
+
+T9.3 structural coverage requires:
+- `undercity-visual` at exact progress `0.24654910452879084–0.46154128347522666` on Low/Medium/High;
+- exactly 16 building masses; 80/160/240 Low/Medium/High emissive windows; 20 utility boxes; 26 pipe instances; 24 work lights; 10 ordinary service-bay masks;
+- exactly two Nightshift Noodles and two Voltline Industrial architecture-mounted ad placements;
+- finite instance transforms and bounded instance counts;
+- Low omits `undercity-wet-asphalt`; Medium/High provide transparent, depth-tested, depth-write-disabled wet overlays with negative render order so kart-mounted 2D drivers composite afterward;
+- hidden visual-owner time freezes without catch-up; owned disposal is idempotent;
+- Service Tunnel remains present and gameplay-owned, with no T9.3 collision or route-authority ownership;
+- the T9.0 aggregate future contracts retain only the T9.4 Falls Run extension expectations as intentional `it.fails`.
+
+Hosted rendered readiness uses the actual eight-racer Medium runtime staged in The Undercity plus Low/High, mobile and rear-view captures. Blocking gates: zero page/console/shader/HTTP errors; Medium drawing buffer 1920×1080; eight racers; exact quality counts above; Medium A/B incremental draw-call delta >0 and <=20; total max <=200 calls / <=300k visible triangles; finite frame instrumentation with at least 180 scored frames. SwiftShader FPS/p95 are diagnostic-only and cannot satisfy the PRD representative-hardware performance target.
+
+Verified run `37691248131`: validate passed **129 files / 1021 tests + 2 intentional future failures**. T9.3 render artifact `11513701620`, ZIP SHA-256 `da5118b083f27ba3c30197e67eb570bfd9b0ec7a2a40580b835d22ea4dadcdcd`; Medium A/B **+12 calls / +4,028 triangles**; maximum **153 calls / 138,490 triangles**; software-render diagnostic median 3.9448 FPS / p95 310 ms. T9.2 Skyline, Task 8 Falls Run and spillway render jobs all re-passed.

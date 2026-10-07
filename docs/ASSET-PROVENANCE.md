@@ -479,3 +479,15 @@ Manny separately approved both review assets before runtime integration. T9.2 co
 | `public/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/taco-bell-live-mas-v1.webp` | `7e66ea3fda8d8db1fdc5dc33d7f7a734eb63fbe22a69641a2b5aec6c5e849b14` | `d289bc4dbc10872d6c75aa4ae650aaf716bf83a9ea36da12ce0cdc021e7bea7e` |
 
 `tools/verify-task9-skyline-assets.mjs` enforces exact hashes, byte counts, RIFF/WebP signatures and 1024 × 512 dimensions. These two runtime derivatives use the narrow normal-Git exception approved in the 2026-10-07 ADR-106 Task 9 addendum; other track PNG/WebP assets retain the repository's LFS policy.
+
+
+## Neon Grid Task 9 Undercity masking billboards — runtime integration, 2026-10-07
+
+Manny reviewed and approved both standalone Undercity billboard candidates one at a time before runtime integration. T9.3 copies the already-approved 1024 × 512 WebP derivatives byte-for-byte into the runtime signage path. They are static environmental advertising only and carry no gameplay information, shortcut state, route arrows, ON/OFF semantics, flicker cadence or gold directional treatment.
+
+| Runtime file | Preserved review derivative | Source PNG SHA-256 | Runtime WebP SHA-256 | Bytes |
+| --- | --- | --- | --- | ---: |
+| `public/assets/track/neon-grid/signage/nightshift-noodles-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/nightshift-noodles-v1.webp` | `cff2b17cdae290746564689e63351f01bd7eef0cdda25b5ade0ebc3560e7e2f7` | `76fc1f75778c757cd979ff78641844cbf1d3955ec6dff7cc8145289dda45373a` | 220,026 |
+| `public/assets/track/neon-grid/signage/voltline-industrial-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/voltline-industrial-v1.webp` | `87dc1584b0c38eb459eb81086fa26721130439022cfb79826901cd9799fde95f` | `19b32b71ee59a0f52860c4a6003057b46e4fde890c4e2d4d390b78ed2ea67863` | 238,228 |
+
+`tools/verify-task9-undercity-assets.mjs` enforces RIFF/WebP signatures, 1024 × 512 dimensions, exact byte counts and SHA-256 hashes through the existing runtime-asset validation chain. These two files use the same narrow owner-approved normal-Git delivery treatment as the already-integrated Task 9 Skyline masking derivatives; other track PNG/WebP policy remains unchanged.

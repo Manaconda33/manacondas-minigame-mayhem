@@ -467,3 +467,15 @@ Runtime root: `public/assets/track/materials/terrain-v1/`; revision `slice6-terr
 | `gravel_floor_02_arm_1k.jpg` | `53101410122574a22e3982748bec9edfbd0ba1608b9bff16de76f46fe80a17a9` |
 
 Payload: 9,298,938 bytes; conservative nine-texture decoded RGBA+mip estimate 48 MiB. Runtime JPGs follow existing normal-Git track-JPG policy; LFS-governed formats retain their policy. Build validation checks every reviewed JPEG signature/hash/size. Accepted asphalt maps and hashes are untouched.
+
+
+## Neon Grid Task 9 Skyline masking billboards — approved runtime integration, 2026-10-07
+
+Manny separately approved both review assets before runtime integration. T9.2 copies the already-approved 1024 × 512 WebP derivatives byte-for-byte into the Skyline Straight runtime signage path. They are static city-advertising masks only: no gameplay information, shortcut state, route arrows, tell cadence or gold directional treatment. The existing Paprika/Arin/Raven Billboard Gap hologram remains the gameplay-readable tell.
+
+| Runtime file | Preserved review derivative | Source PNG SHA-256 | Runtime WebP SHA-256 |
+| --- | --- | --- | --- |
+| `public/assets/track/neon-grid/signage/manaconda-racing-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/manaconda-racing-v1.webp` | `2f8cacacb6c2cefc4f4ef28fcb2cf0a36fd27a10f4cb6650e5cad014b5fc007f` | `481feb4ff34635abad29dd4f65b39975e73c227eb0a53901a51028c5e9fe7d22` |
+| `public/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/taco-bell-live-mas-v1.webp` | `7e66ea3fda8d8db1fdc5dc33d7f7a734eb63fbe22a69641a2b5aec6c5e849b14` | `d289bc4dbc10872d6c75aa4ae650aaf716bf83a9ea36da12ce0cdc021e7bea7e` |
+
+`tools/verify-task9-skyline-assets.mjs` enforces exact hashes, byte counts, RIFF/WebP signatures and 1024 × 512 dimensions. These two runtime derivatives use the narrow normal-Git exception approved in the 2026-10-07 ADR-106 Task 9 addendum; other track PNG/WebP assets retain the repository's LFS policy.

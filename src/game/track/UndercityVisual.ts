@@ -13,7 +13,6 @@ import { disposeTrackScene } from './TrackSceneResources';
 
 const START = 0.24654910452879084;
 const END = 0.46154128347522666;
-const SEGMENTS = 72;
 const MAGENTA = 0xff4fd8;
 const CYAN = 0x37e6ff;
 

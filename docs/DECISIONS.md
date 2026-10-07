@@ -1177,3 +1177,14 @@ Runtime candidate `c71b2287b463f6a17645d664d3307d6b591561bf` places the pad at B
 Manny approved `docs/design/neon-grid/task9-coursewide-visual-plan.md` for execution. Task 9 remains presentation-only under the recorded scope boundaries.
 
 Any new 2D billboard/ad/sign asset is owner-gated individually: generate and present **one asset at a time**, state its intended in-game use, and obtain explicit approval before runtime integration or asset-manifest registration. Unapproved candidates stay review-only.
+
+
+## ADR-111 — Bidirectional shortcut access and rejected T9.2 visual correction — 2026-10-07
+
+- **Status:** APPROVED / correction in progress.
+- **Authority:** Manny's owner review of the pinned T9.2 preview rejected the first Skyline presentation as final and explicitly directed removal of shortcut wrong-direction blockades.
+- **Traversal decision:** Billboard Gap, Service Tunnel and Waterfall Dive are physically approachable from either end. Reverse travel remains wrong-way and cannot award reverse/skipped checkpoints or laps. AI keeps its accepted forward-only shortcut choice policy and existing 5% / 45% / 12% rates. Billboard ON/OFF timing, +3.6 s phase, committed entrance boost and once-only 0.82 forward exit retention remain unchanged. Waterfall Dive reverse entry must not trigger the forward splash/recovery state merely because the kart entered from the landing side.
+- **T9.2 visual correction:** replace the amateur box-slab Skyline treatment with bounded stepped procedural masses and multi-face emissive detail; mount the approved Manaconda Racing and Taco Bell / Live Más ads and ordinary masking signage on architecture; enforce drivable-route clearance for city/signage placement; conform Skyline/Falls presentation road passes to the accepted dense main ribbon; make the Falls night sky camera-relative so no world-space sphere boundary can enter the course view.
+- **Preserved contracts:** no main-curve, checkpoint-order, kart-stat, global-physics, item, audio, AI-rate, Billboard balance, Tunnel support, Dive support, repaired 5.3 face, culling/LOD or T9.3 Undercity presentation change.
+- **Delivery gate:** preserve rejected pinned preview source `bef603649eeb7a5bd1c767aa4b53da0ac3583f9e` as historical evidence; publish a distinct replacement T9.2 preview after full validation and stop for owner review.
+- **Numbering:** ADR-110 remains reserved for the separately approved cross-minigame render-workload governance decision.

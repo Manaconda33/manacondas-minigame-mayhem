@@ -179,10 +179,10 @@ interface Shortcut {
 The proposed entry/rejoin windows are Billboard Gap 0.111234–0.116234 → 0.178525,
 Service Tunnel 0.246549–0.251549 → 0.461541, and Waterfall Dive
 0.792717–0.797717 → 0.827030.
-`project()` recognizes a valid forward entry and follows that shortcut's own
+`project()` recognizes a physical entry from either end and follows that shortcut's own
 curve through its rejoin; it must not fall back to main projection immediately
 after leaving the narrow entry window. Its mapped main-curve progress stays
-within the entry-to-exit interval until the kart physically rejoins. **Anti-cheat
+within the entry-to-exit interval until the kart physically rejoins. Reverse traversal is ordinary wrong-way driving: no reverse/skipped checkpoint or lap credit, and AI shortcut selection remains forward-only. **Anti-cheat
 invariants:** `exitProgress > entry.progress[1]`, and none of these intervals
 contains an ordered checkpoint gate. The existing `LapTracker` remains the
 authority: proximity to a downstream sample never grants a checkpoint or lap.
@@ -290,7 +290,7 @@ Mirror Circuit Alpha's convention (`public/assets/audio/music-v2/`):
   384 samples, 12 distinct checkpoints, sampled length 1.40–1.50 km, width
   profile transitions per sector, control-point/elevation sanity.
 - Shortcut invariants: `exitProgress > entry.progress[1]` for all three;
-  valid forward entry persists on the shortcut until physical rejoin; mapped
+  physical route ownership persists on the shortcut until the opposite rejoin or the racer backs out the same mouth; mapped
   progress never jumps ahead of the kart or awards a checkpoint.
 - `track-scene.test.ts`: assert named groups exist
   (`billboard`, `service-tunnel`, `waterfall-dive`, 4 boost pads).

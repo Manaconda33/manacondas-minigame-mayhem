@@ -47,3 +47,23 @@ export function neonGridRibbonGeometry(
   geometry.userData.progressRange = [start, end];
   return geometry;
 }
+
+
+export class NeonGridVisualClock {
+  private lastSourceTime: number | null = null;
+  private visualTime = 0;
+
+  public update(sourceTime: number, visible: boolean): number {
+    if (this.lastSourceTime === null) {
+      this.lastSourceTime = sourceTime;
+      if (visible) this.visualTime = sourceTime;
+      return this.visualTime;
+    }
+
+    const delta = sourceTime - this.lastSourceTime;
+    this.lastSourceTime = sourceTime;
+    if (!visible) return this.visualTime;
+    this.visualTime = delta >= 0 ? this.visualTime + delta : sourceTime;
+    return this.visualTime;
+  }
+}

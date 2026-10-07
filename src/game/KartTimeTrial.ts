@@ -399,7 +399,8 @@ export class KartTimeTrial {
     await RAPIER.init();
     const game = new KartTimeTrial(options);
     try {
-      if (game.trackScene instanceof NeonGridScene) await game.trackScene.billboard.load();
+      if (game.trackScene instanceof NeonGridScene)
+        await Promise.all([game.trackScene.billboard.load(), game.trackScene.skyline.load()]);
       await game.createKartVisual();
     } catch (error) {
       game.dispose();
@@ -685,6 +686,7 @@ export class KartTimeTrial {
       const raceTime = this.raceDirector.raceTime();
       this.trackScene.dive.update(raceTime);
       this.trackScene.fallsRun.update(raceTime);
+      this.trackScene.skyline.update(raceTime);
     }
     this.updateVisuals(frameSeconds);
     this.shadows.update(

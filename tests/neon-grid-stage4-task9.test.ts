@@ -19,14 +19,9 @@ const TASK8_MEDIUM_INSTANCES = {
   'falls-run-dive-rail-debris': 10,
 } as const;
 
-const FUTURE_OWNER_NAMES = [
-  'skyline-visual',
-  'undercity-visual',
-  'falls-run-extension-visual',
-] as const;
+const FUTURE_OWNER_NAMES = ['undercity-visual', 'falls-run-extension-visual'] as const;
 
 const FUTURE_WET_ROAD_NAMES = [
-  'skyline-wet-asphalt',
   'undercity-wet-asphalt',
   'falls-run-extension-wet-asphalt',
 ] as const;

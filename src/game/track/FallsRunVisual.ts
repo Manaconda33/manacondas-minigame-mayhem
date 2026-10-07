@@ -2,7 +2,11 @@ import * as THREE from 'three';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import type { NeonGrid } from './NeonGrid';
-import { neonGridRibbonGeometry, neonGridRightAt } from './NeonGridVisualCommon';
+import {
+  NeonGridVisualClock,
+  neonGridRibbonGeometry,
+  neonGridRightAt,
+} from './NeonGridVisualCommon';
 import { disposeTrackScene } from './TrackSceneResources';
 
 const START = 0.7;
@@ -570,8 +574,7 @@ function addSignageAndDebris(group: THREE.Group, track: NeonGrid): void {
 export class FallsRunVisual {
   public readonly group = new THREE.Group();
   private readonly animatedMaterials: THREE.ShaderMaterial[] = [];
-  private lastSourceTime: number | null = null;
-  private visualTime = 0;
+  private readonly clock = new NeonGridVisualClock();
   private disposed = false;
 
   public constructor(track: NeonGrid, quality: GraphicsQuality) {
@@ -639,21 +642,12 @@ export class FallsRunVisual {
 
   public update(time: number): void {
     if (this.disposed) return;
-
-    if (this.lastSourceTime === null) {
-      this.lastSourceTime = time;
-      if (!this.group.visible) return;
-      this.visualTime = time;
-    } else {
-      const delta = time - this.lastSourceTime;
-      this.lastSourceTime = time;
-      if (!this.group.visible) return;
-      this.visualTime = delta >= 0 ? this.visualTime + delta : time;
-    }
+    const visualTime = this.clock.update(time, this.group.visible);
+    if (!this.group.visible) return;
 
     for (const material of this.animatedMaterials) {
       const clock = material.uniforms.time;
-      if (clock) clock.value = this.visualTime;
+      if (clock) clock.value = visualTime;
     }
   }
 

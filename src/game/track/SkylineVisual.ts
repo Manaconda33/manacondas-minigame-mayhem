@@ -318,18 +318,19 @@ function addCity(
   quality: GraphicsQuality,
 ): SkylineTower[] {
   const towerData = placeTowers(track);
-  const towerMaterial = new THREE.MeshStandardMaterial({
+  const towerMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
-    roughness: 0.72,
-    metalness: 0.28,
     vertexColors: true,
-    emissive: 0x0b1b29,
-    emissiveIntensity: 0.48,
   });
   const towers = new THREE.InstancedMesh(steppedTowerGeometry(), towerMaterial, towerData.length);
   towers.name = 'skyline-city-towers';
   const dummy = new THREE.Object3D();
-  const colors = [new THREE.Color(0x24445c), new THREE.Color(0x293852), new THREE.Color(0x3a3157)];
+  const colors = [
+    new THREE.Color(0x17354a),
+    new THREE.Color(0x1c2f49),
+    new THREE.Color(0x30294b),
+    new THREE.Color(0x203d46),
+  ];
   towerData.forEach((tower, i) => {
     dummy.position.set(tower.position.x, tower.baseY, tower.position.z);
     dummy.rotation.set(0, Math.atan2(tower.tangent.x, tower.tangent.z), 0);
@@ -340,6 +341,49 @@ function addCity(
   });
   towers.instanceMatrix.needsUpdate = true;
   if (towers.instanceColor) towers.instanceColor.needsUpdate = true;
+
+  const rooftopMaterial = new THREE.MeshBasicMaterial({ color: 0x243e52, vertexColors: true });
+  const rooftopGeometry = mergeGeometries(
+    [
+      new THREE.BoxGeometry(0.52, 0.24, 0.58).translate(0, 0.12, 0),
+      new THREE.BoxGeometry(0.18, 0.28, 0.18).translate(0.18, 0.38, -0.12),
+    ],
+    false,
+  );
+  const rooftops = new THREE.InstancedMesh(rooftopGeometry, rooftopMaterial, towerData.length);
+  rooftops.name = 'skyline-city-rooftops';
+  towerData.forEach((tower, i) => {
+    dummy.position.copy(tower.position).setY(tower.baseY + tower.height);
+    dummy.rotation.set(0, Math.atan2(tower.tangent.x, tower.tangent.z) + (i % 3) * 0.16, 0);
+    dummy.scale.set(
+      tower.width * (0.38 + (i % 3) * 0.06),
+      3.2 + (i % 4) * 1.15,
+      tower.depth * (0.34 + ((i + 1) % 3) * 0.05),
+    );
+    dummy.updateMatrix();
+    rooftops.setMatrixAt(i, dummy.matrix);
+    rooftops.setColorAt(i, colors[(i + 1) % colors.length] ?? colors[0] ?? new THREE.Color(0x243e52));
+  });
+  rooftops.instanceMatrix.needsUpdate = true;
+  if (rooftops.instanceColor) rooftops.instanceColor.needsUpdate = true;
+
+  const spireMaterial = new THREE.MeshBasicMaterial({ color: 0x65ecff });
+  markBloomMaterial(spireMaterial, 'color');
+  const spires = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.08, 0.14, 1, 6), spireMaterial, 9);
+  spires.name = 'skyline-city-spires';
+  let spireIndex = 0;
+  for (let i = 0; i < towerData.length && spireIndex < spires.count; i += 2 + (i % 2)) {
+    const tower = towerData[i];
+    if (!tower) continue;
+    dummy.position.copy(tower.position).setY(tower.baseY + tower.height + 3.8 + (i % 4));
+    dummy.rotation.set(0, 0, 0);
+    dummy.scale.set(1, 7 + (i % 4) * 1.8, 1);
+    dummy.updateMatrix();
+    spires.setMatrixAt(spireIndex, dummy.matrix);
+    spireIndex++;
+  }
+  spires.count = spireIndex;
+  spires.instanceMatrix.needsUpdate = true;
 
   const roofMaterial = new THREE.MeshBasicMaterial({ color: CYAN });
   markBloomMaterial(roofMaterial, 'color');
@@ -361,7 +405,7 @@ function addCity(
   const cornerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true });
   markBloomMaterial(cornerMaterial, 'color');
   const cornerLights = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(0.1, 1, 0.1),
+    new THREE.BoxGeometry(0.18, 1, 0.18),
     cornerMaterial,
     towerData.length * 2,
   );
@@ -376,7 +420,7 @@ function addCity(
         .addScaledVector(tower.tangent, along * tower.depth * 0.39)
         .setY(tower.baseY + tower.height * 0.43);
       dummy.rotation.set(0, 0, 0);
-      dummy.scale.set(1, tower.height * 0.56, 1);
+      dummy.scale.set(1, tower.height * 0.68, 1);
       dummy.updateMatrix();
       cornerLights.setMatrixAt(cornerIndex, dummy.matrix);
       cornerLights.setColorAt(cornerIndex, towerIndex % 4 === 0 ? magenta : cyan);
@@ -394,7 +438,7 @@ function addCity(
   });
   markBloomMaterial(windowMaterial, 'color');
   const windows = new THREE.InstancedMesh(
-    new THREE.PlaneGeometry(0.72, 0.38),
+    new THREE.PlaneGeometry(1.6, 0.5),
     windowMaterial,
     windowCount,
   );
@@ -413,15 +457,15 @@ function addCity(
       : tower.tangent.clone().multiplyScalar(i % 8 === 0 ? 1 : -1);
     const horizontal = useInwardFace ? tower.tangent : tower.right;
     const span = useInwardFace ? stageDepth : stageWidth;
-    const column = ((i * 11) % 9) / 8 - 0.5;
+    const column = ((i * 11) % 7) / 6 - 0.5;
     dummy.position.copy(tower.position).setY(tower.baseY + tower.height * rowFraction);
     dummy.position.addScaledVector(
       normal,
       (useInwardFace ? stageWidth : stageDepth) * 0.5 + 0.12,
     );
-    dummy.position.addScaledVector(horizontal, column * span * 0.68);
+    dummy.position.addScaledVector(horizontal, column * span * 0.72);
     dummy.rotation.set(0, Math.atan2(normal.x, normal.z), 0);
-    dummy.scale.set(0.9 + (i % 3) * 0.16, 1, 1);
+    dummy.scale.set(1.25 + (i % 4) * 0.42, 1 + (i % 2) * 0.22, 1);
     dummy.updateMatrix();
     windows.setMatrixAt(i, dummy.matrix);
     windows.setColorAt(i, i % 19 === 0 ? magenta : i % 5 === 0 ? pale : cyan);
@@ -429,7 +473,7 @@ function addCity(
   windows.instanceMatrix.needsUpdate = true;
   if (windows.instanceColor) windows.instanceColor.needsUpdate = true;
 
-  group.add(towers, roofs, cornerLights, windows);
+  group.add(towers, rooftops, spires, roofs, cornerLights, windows);
   group.userData.skylineLogicalTowerCount = towerData.length;
   return towerData;
 }

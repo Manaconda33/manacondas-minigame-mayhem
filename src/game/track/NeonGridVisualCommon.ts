@@ -63,9 +63,17 @@ export function neonGridSurfaceSliceGeometry(
   const source = neonGridRibbon(track);
   const positions = source.getAttribute('position');
   const sourceIndex = source.index?.array;
-  if (!sourceIndex) {
+  const rows = Number(source.userData.ribbonRows);
+  const baseVertexCount = Number(source.userData.baseVertexCount);
+  if (
+    !sourceIndex ||
+    !Number.isInteger(rows) ||
+    rows <= 0 ||
+    !Number.isInteger(baseVertexCount) ||
+    baseVertexCount <= 0
+  ) {
     source.dispose();
-    throw new Error('Neon Grid presentation slice requires indexed road geometry');
+    throw new Error('Neon Grid presentation slice requires dense ribbon metadata');
   }
 
   const indices: number[] = [];
@@ -77,17 +85,28 @@ export function neonGridSurfaceSliceGeometry(
     const ia = Number(sourceIndex[i]);
     const ib = Number(sourceIndex[i + 1]);
     const ic = Number(sourceIndex[i + 2]);
-    a.fromBufferAttribute(positions, ia);
-    b.fromBufferAttribute(positions, ib);
-    d.fromBufferAttribute(positions, ic);
-    centroid.copy(a).add(b).add(d).multiplyScalar(1 / 3);
-    const progress = track.projectMain(centroid).progress;
+    let progress: number;
+    if (ia < baseVertexCount && ib < baseVertexCount && ic < baseVertexCount) {
+      progress =
+        (Math.floor(ia / 2) + Math.floor(ib / 2) + Math.floor(ic / 2)) / (3 * rows);
+    } else {
+      a.fromBufferAttribute(positions, ia);
+      b.fromBufferAttribute(positions, ib);
+      d.fromBufferAttribute(positions, ic);
+      centroid.copy(a).add(b).add(d).multiplyScalar(1 / 3);
+      progress = track.projectMain(centroid).progress;
+    }
     if (progress >= start - 1e-6 && progress <= end + 1e-6) indices.push(ia, ib, ic);
   }
 
   const uv: number[] = [];
   const point = new THREE.Vector3();
   for (let i = 0; i < positions.count; i++) {
+    if (i < baseVertexCount) {
+      const row = Math.floor(i / 2);
+      uv.push(i % 2 === 0 ? 0 : 1, (row / rows) * track.curve.getLength());
+      continue;
+    }
     point.fromBufferAttribute(positions, i);
     const projection = track.projectMain(point);
     const halfWidth = Math.max(0.001, track.halfWidthAt(projection.progress));

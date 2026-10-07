@@ -221,6 +221,10 @@ export function neonGridRibbon(
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   geometry.setIndex(filtered);
   geometry.computeVertexNormals();
-  if (wallSide === 0) for (const g of groups) geometry.addGroup(g.start, g.count, g.materialIndex);
+  if (wallSide === 0) {
+    for (const g of groups) geometry.addGroup(g.start, g.count, g.materialIndex);
+    geometry.userData.ribbonRows = RIBBON_ROWS;
+    geometry.userData.baseVertexCount = (RIBBON_ROWS + 1) * 2;
+  }
   return geometry;
 }

@@ -1732,3 +1732,16 @@ Diagnostic-only hosted values:
 The PRD performance targets remain unchanged: Medium 1920×1080 median ≥60 FPS and p95 ≤18.3 ms on representative hardware. SwiftShader values are retained in uploaded evidence for regression context but cannot independently pass or fail those hardware targets.
 
 Reason for classification: repeated hosted captures before and after main reconciliation were effectively identical at about 1.3 FPS / 777–780 ms p95 while scene budgets remained approximately 123–124 draw calls and 84.6k–86.3k triangles. That stability indicates the hosted software renderer is measuring the runner/rendering environment rather than certifying owner-device performance. This change does not waive, lower or rewrite the PRD thresholds.
+
+
+## Neon Grid far300 owner visual/playability acceptance — 2026-10-06
+
+Manual owner review of the locked Neon Grid 300 m far-plane preview is complete for the two issues under review.
+
+- Clipping/horizon review: PASSED. Owner reported, “Clipping passes.”
+- 2D-driver/wet-road compositing repair: PASSED. Owner reported, “This fix is passed.”
+- Corrected preview runtime: `ce6a64cf36b1f110af028536d3ff9c7a306ccbdb`.
+- Canonical equivalent repair: `40c2636baf9f5440d138d13a8ef2f78a95fc5b78`.
+- Main publication checkpoint: `8cc990c967f3a6d2768759bf537079c94bace3b9`; Pages delivery run `37566927943` passed live hash verification and confirmed unchanged production bytes.
+
+This closes the requested owner visual/playability review for the 300 m test slice. It does not authorize production adoption of the 300 m clamp, which remains a separate product decision.

@@ -1,11 +1,12 @@
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import type { NeonGrid } from './NeonGrid';
 import {
   NeonGridVisualClock,
-  neonGridRibbonGeometry,
   neonGridRightAt,
+  neonGridSurfaceSliceGeometry,
 } from './NeonGridVisualCommon';
 import { disposeTrackScene } from './TrackSceneResources';
 
@@ -14,6 +15,26 @@ const END = 0.24654910452879084;
 const SEGMENTS = 80;
 const CYAN = 0x37e6ff;
 const MAGENTA = 0xff4fd8;
+
+interface SkylineTower {
+  readonly position: THREE.Vector3;
+  readonly right: THREE.Vector3;
+  readonly tangent: THREE.Vector3;
+  readonly side: -1 | 1;
+  readonly width: number;
+  readonly depth: number;
+  readonly height: number;
+  readonly baseY: number;
+}
+
+interface AdMaterial {
+  readonly path: string;
+  readonly material: THREE.MeshBasicMaterial;
+}
+
+function planarDistance(a: THREE.Vector3, b: THREE.Vector3): number {
+  return Math.hypot(a.x - b.x, a.z - b.z);
+}
 
 function billboardSide(track: NeonGrid): number {
   const middle = track.billboardGap.curve.getPointAt(0.5);
@@ -149,10 +170,82 @@ function wetAsphaltMaterial(): THREE.ShaderMaterial {
     depthWrite: false,
     depthTest: true,
     side: THREE.DoubleSide,
+    polygonOffset: true,
+    polygonOffsetFactor: -2,
+    polygonOffsetUnits: -2,
   });
   material.forceSinglePass = true;
   material.userData.bloomBlackAdapter = true;
   return material;
+}
+
+function gapClearance(track: NeonGrid, point: THREE.Vector3, radius: number): number {
+  const projection = track.billboardGap.project(point);
+  return planarDistance(point, projection.point) - track.billboardGap.roadHalfWidth - radius;
+}
+
+function mainClearance(track: NeonGrid, point: THREE.Vector3, radius: number): number {
+  const projection = track.projectMain(point);
+  return projection.lateralDistance - track.halfWidthAt(projection.progress) - radius;
+}
+
+function towerFootprintClear(track: NeonGrid, point: THREE.Vector3, radius: number): boolean {
+  return mainClearance(track, point, radius) >= 5 && gapClearance(track, point, radius) >= 6;
+}
+
+function steppedTowerGeometry(): THREE.BufferGeometry {
+  const lower = new THREE.BoxGeometry(1, 0.62, 1);
+  lower.translate(0, 0.31, 0);
+  const upper = new THREE.BoxGeometry(0.74, 0.27, 0.74);
+  upper.translate(0, 0.755, 0);
+  const crown = new THREE.BoxGeometry(0.48, 0.11, 0.48);
+  crown.translate(0, 0.945, 0);
+  const merged = mergeGeometries([lower, upper, crown], false);
+  lower.dispose();
+  upper.dispose();
+  crown.dispose();
+  if (!merged) throw new Error('Skyline stepped tower geometry must merge');
+  merged.computeVertexNormals();
+  return merged;
+}
+
+function placeTowers(track: NeonGrid): SkylineTower[] {
+  const towers: SkylineTower[] = [];
+  for (let attempt = 0; attempt < 180 && towers.length < 22; attempt++) {
+    const fraction = ((attempt * 37) % 179) / 178;
+    const progress = THREE.MathUtils.lerp(START + 0.008, END - 0.008, fraction);
+    const center = track.curve.getPointAt(progress);
+    const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
+    const right = neonGridRightAt(track, progress);
+    const side: -1 | 1 = attempt % 2 === 0 ? -1 : 1;
+    const lateral = 38 + ((attempt * 17) % 31);
+    const width = 11 + ((attempt * 5) % 7);
+    const depth = 12 + ((attempt * 11) % 9);
+    const height = 30 + ((attempt * 13) % 35);
+    const position = center.clone().addScaledVector(right, side * lateral);
+    const radius = Math.hypot(width, depth) * 0.52;
+    if (!towerFootprintClear(track, position, radius)) continue;
+    if (
+      towers.some(
+        (tower) =>
+          planarDistance(tower.position, position) <
+          (Math.hypot(tower.width, tower.depth) * 0.5 + radius) * 0.72,
+      )
+    )
+      continue;
+    towers.push({
+      position,
+      right,
+      tangent,
+      side,
+      width,
+      depth,
+      height,
+      baseY: Math.min(0, center.y - 12),
+    });
+  }
+  if (towers.length !== 22) throw new Error(`Skyline requires 22 clear towers; got ${String(towers.length)}`);
+  return towers;
 }
 
 function addStructure(group: THREE.Group, track: NeonGrid): void {
@@ -169,7 +262,7 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
   group.add(fascia);
 
   const material = new THREE.MeshStandardMaterial({
-    color: 0x0c1b28,
+    color: 0x102536,
     roughness: 0.72,
     metalness: 0.42,
   });
@@ -183,7 +276,15 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
     const progress = THREE.MathUtils.lerp(START + 0.008, END - 0.008, i / (pylons.count - 1));
     const center = track.curve.getPointAt(progress);
     const right = neonGridRightAt(track, progress);
-    const side = i % 2 === 0 ? -1 : 1;
+    const preferred: -1 | 1 = i % 2 === 0 ? -1 : 1;
+    const candidates = [preferred, (preferred * -1) as -1 | 1];
+    const side =
+      candidates.find((candidate) => {
+        const point = center
+          .clone()
+          .addScaledVector(right, candidate * (track.halfWidthAt(progress) + 2.6));
+        return gapClearance(track, point, 0.9) > 1.2;
+      }) ?? preferred;
     dummy.position
       .copy(center)
       .addScaledVector(right, side * (track.halfWidthAt(progress) + 2.6))
@@ -212,84 +313,94 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
   group.add(pylons, braces);
 }
 
-function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality): void {
+function addCity(
+  group: THREE.Group,
+  track: NeonGrid,
+  quality: GraphicsQuality,
+): SkylineTower[] {
+  const towerData = placeTowers(track);
   const towerMaterial = new THREE.MeshStandardMaterial({
-    color: 0x07111d,
-    roughness: 0.9,
-    metalness: 0.16,
+    color: 0xffffff,
+    roughness: 0.76,
+    metalness: 0.24,
     vertexColors: true,
+    emissive: 0x07111d,
+    emissiveIntensity: 0.22,
   });
-  const towers = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), towerMaterial, 22);
+  const towers = new THREE.InstancedMesh(steppedTowerGeometry(), towerMaterial, towerData.length);
   towers.name = 'skyline-city-towers';
-  const towerDummy = new THREE.Object3D();
-  const cool = new THREE.Color(0x0b1a28);
-  const violet = new THREE.Color(0x171327);
-  const towerData: { position: THREE.Vector3; width: number; depth: number; height: number }[] = [];
-
-  for (let i = 0; i < towers.count; i++) {
-    const progress = THREE.MathUtils.lerp(START + 0.005, END - 0.005, i / (towers.count - 1));
-    const center = track.curve.getPointAt(progress);
-    const right = neonGridRightAt(track, progress);
-    const side = i % 2 === 0 ? -1 : 1;
-    const lateral = 27 + ((i * 9) % 24);
-    const width = 7 + ((i * 5) % 9);
-    const depth = 7 + ((i * 11) % 10);
-    const height = 32 + ((i * 13) % 42);
-    const baseY = Math.min(0, center.y - 11);
-    const position = center
-      .clone()
-      .addScaledVector(right, side * lateral)
-      .setY(baseY + height * 0.5);
-    towerData.push({ position, width, depth, height });
-    towerDummy.position.copy(position);
-    towerDummy.rotation.set(0, 0, 0);
-    towerDummy.scale.set(width, height, depth);
-    towerDummy.updateMatrix();
-    towers.setMatrixAt(i, towerDummy.matrix);
-    towers.setColorAt(i, i % 5 === 0 ? violet : cool);
-  }
+  const dummy = new THREE.Object3D();
+  const colors = [new THREE.Color(0x142a3d), new THREE.Color(0x172337), new THREE.Color(0x211c36)];
+  towerData.forEach((tower, i) => {
+    dummy.position.set(tower.position.x, tower.baseY, tower.position.z);
+    dummy.rotation.set(0, Math.atan2(tower.tangent.x, tower.tangent.z), 0);
+    dummy.scale.set(tower.width, tower.height, tower.depth);
+    dummy.updateMatrix();
+    towers.setMatrixAt(i, dummy.matrix);
+    towers.setColorAt(i, colors[i % colors.length] ?? colors[0] ?? new THREE.Color(0x142a3d));
+  });
   towers.instanceMatrix.needsUpdate = true;
   if (towers.instanceColor) towers.instanceColor.needsUpdate = true;
 
+  const roofMaterial = new THREE.MeshBasicMaterial({ color: CYAN });
+  markBloomMaterial(roofMaterial, 'color');
+  const roofs = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 0.08, 0.16), roofMaterial, towerData.length);
+  roofs.name = 'skyline-city-roof-accents';
+  towerData.forEach((tower, i) => {
+    dummy.position.copy(tower.position).setY(tower.baseY + tower.height + 0.08);
+    dummy.rotation.set(0, Math.atan2(tower.tangent.x, tower.tangent.z), 0);
+    dummy.scale.set(tower.depth * 0.34, 1, 1);
+    dummy.updateMatrix();
+    roofs.setMatrixAt(i, dummy.matrix);
+  });
+  roofs.instanceMatrix.needsUpdate = true;
+
   const windowCount = quality === 'low' ? 120 : quality === 'high' ? 360 : 240;
   const windows = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(0.72, 0.42, 0.04),
+    new THREE.BoxGeometry(0.7, 0.36, 0.035),
     new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true }),
     windowCount,
   );
   windows.name = 'skyline-city-windows';
-  const dummy = new THREE.Object3D();
   const cyan = new THREE.Color(CYAN);
-  const pale = new THREE.Color(0x9cefff);
+  const pale = new THREE.Color(0xa9f4ff);
   const magenta = new THREE.Color(MAGENTA);
   for (let i = 0; i < windowCount; i++) {
     const tower = towerData[(i * 7) % towerData.length];
-    if (tower === undefined) continue;
-    const row = (i * 5) % 15;
-    const column = (i * 11) % 9;
-    const columnOffset = (column / 8 - 0.5) * 0.74;
-    dummy.position.copy(tower.position);
-    dummy.position.y += -tower.height * 0.38 + (row / 14) * tower.height * 0.76;
-    if (i % 2 === 0) {
-      dummy.position.x += columnOffset * tower.width;
-      dummy.position.z += tower.depth * 0.505;
-      dummy.rotation.set(0, 0, 0);
-    } else {
-      dummy.position.z += columnOffset * tower.depth;
-      dummy.position.x += tower.width * 0.505;
-      dummy.rotation.set(0, Math.PI / 2, 0);
-    }
-    dummy.scale.set(1.05 + (i % 3) * 0.14, 0.95, 1);
+    if (!tower) continue;
+    const rowFraction = 0.12 + (((i * 5) % 17) / 16) * 0.7;
+    const upper = rowFraction > 0.62;
+    const stageWidth = tower.width * (upper ? 0.74 : 1);
+    const stageDepth = tower.depth * (upper ? 0.74 : 1);
+    const inward = tower.right.clone().multiplyScalar(-tower.side);
+    const useInwardFace = i % 4 !== 0;
+    const normal = useInwardFace
+      ? inward
+      : tower.tangent.clone().multiplyScalar(i % 8 === 0 ? 1 : -1);
+    const horizontal = useInwardFace ? tower.tangent : tower.right;
+    const span = useInwardFace ? stageDepth : stageWidth;
+    const column = ((i * 11) % 9) / 8 - 0.5;
+    dummy.position.copy(tower.position).setY(tower.baseY + tower.height * rowFraction);
+    dummy.position.addScaledVector(
+      normal,
+      (useInwardFace ? stageWidth : stageDepth) * 0.5 + 0.025,
+    );
+    dummy.position.addScaledVector(horizontal, column * span * 0.68);
+    dummy.rotation.set(0, Math.atan2(normal.x, normal.z), 0);
+    dummy.scale.set(0.9 + (i % 3) * 0.16, 1, 1);
     dummy.updateMatrix();
     windows.setMatrixAt(i, dummy.matrix);
-    windows.setColorAt(i, i % 17 === 0 ? magenta : i % 5 === 0 ? pale : cyan);
+    windows.setColorAt(i, i % 19 === 0 ? magenta : i % 5 === 0 ? pale : cyan);
   }
   windows.instanceMatrix.needsUpdate = true;
   if (windows.instanceColor) windows.instanceColor.needsUpdate = true;
-  group.add(towers, windows);
+
+  group.add(towers, roofs, windows);
+  group.userData.skylineLogicalTowerCount = towerData.length;
+  return towerData;
 }
 
-function addProceduralSignage(group: THREE.Group, track: NeonGrid): void {
+function addProceduralSignage(group: THREE.Group, towers: SkylineTower[]): void {
   const material = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     emissive: CYAN,
@@ -299,25 +410,22 @@ function addProceduralSignage(group: THREE.Group, track: NeonGrid): void {
     vertexColors: true,
   });
   markBloomMaterial(material, 'emissive');
-  const signs = new THREE.InstancedMesh(new THREE.BoxGeometry(2.8, 1.1, 0.12), material, 18);
+  const signs = new THREE.InstancedMesh(new THREE.BoxGeometry(3.2, 1.15, 0.1), material, 18);
   signs.name = 'skyline-procedural-signage';
   const dummy = new THREE.Object3D();
   const cyan = new THREE.Color(CYAN);
   const magenta = new THREE.Color(MAGENTA);
-  const gapSide = billboardSide(track);
-
   for (let i = 0; i < signs.count; i++) {
-    const progress = THREE.MathUtils.lerp(0.045, END - 0.01, i / (signs.count - 1));
-    const center = track.curve.getPointAt(progress);
-    const right = neonGridRightAt(track, progress);
-    const side = i % 4 === 0 ? -gapSide : gapSide;
+    const tower = towers[(i * 5 + 3) % towers.length];
+    if (!tower) continue;
+    const inward = tower.right.clone().multiplyScalar(-tower.side);
     dummy.position
-      .copy(center)
-      .addScaledVector(right, side * (track.halfWidthAt(progress) + 7.5 + (i % 3) * 1.8));
-    dummy.position.y += 2.5 + (i % 4) * 1.05;
-    const normal = right.clone().multiplyScalar(-side);
-    dummy.rotation.set(0, Math.atan2(normal.x, normal.z), 0);
-    dummy.scale.set(0.85 + (i % 3) * 0.12, 0.9 + (i % 2) * 0.15, 1);
+      .copy(tower.position)
+      .addScaledVector(inward, tower.width * 0.5 + 0.06)
+      .setY(tower.baseY + tower.height * (0.28 + (i % 4) * 0.11));
+    dummy.position.addScaledVector(tower.tangent, (((i * 7) % 5) / 4 - 0.5) * tower.depth * 0.42);
+    dummy.rotation.set(0, Math.atan2(inward.x, inward.z), 0);
+    dummy.scale.set(0.85 + (i % 3) * 0.12, 0.9 + (i % 2) * 0.12, 1);
     dummy.updateMatrix();
     signs.setMatrixAt(i, dummy.matrix);
     signs.setColorAt(i, i % 5 === 0 ? magenta : cyan);
@@ -327,27 +435,37 @@ function addProceduralSignage(group: THREE.Group, track: NeonGrid): void {
   group.add(signs);
 }
 
-interface AdMaterial {
-  readonly path: string;
-  readonly material: THREE.MeshBasicMaterial;
-}
-
-function addApprovedAds(group: THREE.Group, track: NeonGrid, materials: AdMaterial[]): void {
-  const gapSide = billboardSide(track);
+function addApprovedAds(
+  group: THREE.Group,
+  towers: SkylineTower[],
+  materials: AdMaterial[],
+): void {
   const definitions = [
     {
       name: 'skyline-ad-manaconda-racing',
       path: 'assets/track/neon-grid/signage/manaconda-racing-v1.webp',
-      progresses: [0.071, 0.136, 0.191],
+      towerIndices: [2, 9, 16],
     },
     {
       name: 'skyline-ad-taco-bell-live-mas',
       path: 'assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp',
-      progresses: [0.089, 0.161, 0.232],
+      towerIndices: [5, 12, 20],
     },
   ] as const;
 
-  for (const [definitionIndex, definition] of definitions.entries()) {
+  const frameMaterial = new THREE.MeshStandardMaterial({
+    color: 0x102332,
+    emissive: CYAN,
+    emissiveIntensity: 0.18,
+    roughness: 0.5,
+    metalness: 0.5,
+  });
+  const frames = new THREE.InstancedMesh(new THREE.BoxGeometry(8.45, 4.45, 0.12), frameMaterial, 6);
+  frames.name = 'skyline-ad-supports';
+  const dummy = new THREE.Object3D();
+  let frameIndex = 0;
+
+  for (const definition of definitions) {
     const material = new THREE.MeshBasicMaterial({
       color: 0xffffff,
       map: new THREE.Texture(),
@@ -355,30 +473,33 @@ function addApprovedAds(group: THREE.Group, track: NeonGrid, materials: AdMateri
       toneMapped: false,
     });
     materials.push({ path: definition.path, material });
-    const ads = new THREE.InstancedMesh(
-      new THREE.PlaneGeometry(8, 4),
-      material,
-      definition.progresses.length,
-    );
+    const ads = new THREE.InstancedMesh(new THREE.PlaneGeometry(8, 4), material, 3);
     ads.name = definition.name;
-    const dummy = new THREE.Object3D();
-    definition.progresses.forEach((progress, i) => {
-      const center = track.curve.getPointAt(progress);
-      const right = neonGridRightAt(track, progress);
-      const side = i === 1 ? -gapSide : gapSide;
-      dummy.position
-        .copy(center)
-        .addScaledVector(right, side * (track.halfWidthAt(progress) + 11 + i * 1.7));
-      dummy.position.y += 5 + ((i + definitionIndex) % 2) * 1.4;
-      const normal = right.clone().multiplyScalar(-side);
-      dummy.rotation.set(0, Math.atan2(normal.x, normal.z), 0);
+    definition.towerIndices.forEach((towerIndex, i) => {
+      const tower = towers[towerIndex];
+      if (!tower) throw new Error('Skyline ad requires an authored tower mount');
+      const inward = tower.right.clone().multiplyScalar(-tower.side);
+      const y = tower.baseY + Math.min(tower.height * 0.48, tower.height - 5.5);
+      const facade = tower.position
+        .clone()
+        .addScaledVector(inward, tower.width * 0.5 + 0.085)
+        .setY(y);
+      dummy.position.copy(facade);
+      dummy.rotation.set(0, Math.atan2(inward.x, inward.z), 0);
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
       ads.setMatrixAt(i, dummy.matrix);
+
+      dummy.position.copy(facade).addScaledVector(inward, -0.08);
+      dummy.updateMatrix();
+      frames.setMatrixAt(frameIndex, dummy.matrix);
+      frameIndex++;
     });
     ads.instanceMatrix.needsUpdate = true;
     group.add(ads);
   }
+  frames.instanceMatrix.needsUpdate = true;
+  group.add(frames);
 }
 
 export class SkylineVisual {
@@ -393,13 +514,17 @@ export class SkylineVisual {
     this.group.userData.progressRange = [START, END];
     this.group.userData.quality = quality;
 
+    const roadGeometry = neonGridSurfaceSliceGeometry(track, START, END);
     const asphaltBase = new THREE.Mesh(
-      neonGridRibbonGeometry(track, START, END, SEGMENTS, 5.96, 0.012),
+      roadGeometry,
       new THREE.MeshStandardMaterial({
         color: 0x06121d,
         roughness: 0.36,
         metalness: 0.3,
         side: THREE.DoubleSide,
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+        polygonOffsetUnits: -1,
       }),
     );
     asphaltBase.name = 'skyline-asphalt-base';
@@ -409,10 +534,7 @@ export class SkylineVisual {
     if (quality !== 'low') {
       const wetMaterial = wetAsphaltMaterial();
       this.animatedMaterials.push(wetMaterial);
-      const wet = new THREE.Mesh(
-        neonGridRibbonGeometry(track, START, END, SEGMENTS, 5.86, 0.018),
-        wetMaterial,
-      );
+      const wet = new THREE.Mesh(roadGeometry.clone(), wetMaterial);
       wet.name = 'skyline-wet-asphalt';
       wet.renderOrder = -10;
       this.group.add(wet);
@@ -425,9 +547,9 @@ export class SkylineVisual {
     this.group.add(edges);
 
     addStructure(this.group, track);
-    addCity(this.group, track, quality);
-    addProceduralSignage(this.group, track);
-    addApprovedAds(this.group, track, this.adMaterials);
+    const towers = addCity(this.group, track, quality);
+    addProceduralSignage(this.group, towers);
+    addApprovedAds(this.group, towers, this.adMaterials);
   }
 
   public async load(): Promise<void> {

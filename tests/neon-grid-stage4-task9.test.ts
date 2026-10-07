@@ -113,7 +113,6 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
     const textureDispose = vi.spyOn(ownedTexture, 'dispose');
 
     try {
-      expect(scene.fallsRun.dispose).toBeTypeOf('function');
       scene.fallsRun.dispose();
       scene.fallsRun.dispose();
       expect(scene.fallsRun.group.children).toHaveLength(0);

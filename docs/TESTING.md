@@ -1,3 +1,33 @@
+## Neon Grid Stage 4 Task 9 T9.2 Skyline checkpoint — 2026-10-07
+
+T9.2 adds a dedicated Skyline contract file at `tests/neon-grid-stage4-task9-skyline.test.ts` while preserving the accepted Task 8/T9.1 baseline in `tests/neon-grid-stage4-task9.test.ts`.
+
+The Skyline contracts require:
+- owner name `skyline-visual`, exact progress range 0.000–0.24654910452879084 and matching quality metadata;
+- finite bounded instance matrices with exact pylons 14, braces 24, towers 22, procedural signs 18, Manaconda Racing ads 3 and Taco Bell / Live Más ads 3;
+- exact Skyline window counts Low 120 / Medium 240 / High 360;
+- Low omission of `skyline-wet-asphalt`, with Medium/High `renderOrder < 0`, transparent true, depthWrite false and depthTest true;
+- hidden animation freeze and resume without hidden-time catch-up;
+- idempotent owner disposal with geometry/material/texture released exactly once before whole-scene cleanup;
+- approved static mask ads remain separate from the existing Paprika/Arin/Raven Billboard tell.
+
+The aggregate future-sector tests now intentionally retain only Undercity and Falls-extension names under `it.fails`. T9.3/T9.4 therefore keep explicit RED runway instead of becoming accidentally green when Skyline exists.
+
+Asset verification is enforced by `tools/verify-task9-skyline-assets.mjs`: both runtime WebPs must be RIFF/WebP, exact 1024×512, exact approved byte length and SHA-256. The production build invokes this verifier through `verify-runtime-assets.mjs`.
+
+The T9.2 render-readiness gate is `task9-skyline-render`, driven by `tools/diagnostics/neon-grid-course.html` and `neon-grid-course-render.mjs`. It stages eight racers at Skyline progress ~0.16 and captures Low/Medium/High desktop/mobile plus Medium rear view. The canonical Medium 1920×1080 chase capture performs a same-camera A/B with `skyline-visual` hidden and visible. Skyline contribution must be no more than +18 draw calls, and every capture must stay below the Task 9 engineering ceiling of 200 calls / 300,000 visible triangles. Low/Medium/High quality counts and wet-overlay bypass are checked in the browser fixture, along with resource/page/shader errors. Software-rendered timing is collected only as diagnostic data.
+
+Verified runtime/test source `28c8bd2f6fbddffa2d586aa265796a327f81be09`, CI `37662836256`:
+- validate job `112934951587`: PASS, typecheck, zero-warning lint, **128 files / 1011 passes + 2 expected future failures**, asset verification and production build;
+- Task 8 Falls Run render `112934950981`: PASS, confirming the accepted Task 8 presentation still clears its gate;
+- spillway render `112934951521`: PASS;
+- T9.2 Skyline render `112934951571`: PASS;
+- pinned runtime checks and active preview builds: PASS.
+
+Skyline render results: desktop Medium 1920×1080 visible **114 calls / 71,612 triangles**, same-camera hidden **103 / 66,876**, for **+11 / +4,736**. Matrix maximum was **115 calls / 151,196 triangles**. Artifact `11502245930`, ZIP SHA-256 `a0664078fb26e547fa0425281f44bd448d6ab27bcf667dea2152bea14b164f1d`. SwiftShader measured median 392.05 ms, p95 396.20 ms and median 2.55 FPS; this is explicitly diagnostic-only and is not representative-hardware PRD certification. T9.6 remains responsible for that hardware gate.
+
+Evidence: `docs/evidence/2026-10-07-neon-task9-t9-2/progress.md`.
+
 ## Neon Grid Stage 4 Task 9 T9.1 lifecycle/helper checkpoint — 2026-10-07
 
 T9.1 consumes only the first two T9.0 RED contracts. `FallsRunVisual` must expose idempotent owned-resource disposal and hidden presentation animation must freeze without catching up the hidden interval when visibility resumes. The canonical contract remains `tests/neon-grid-stage4-task9.test.ts`.
@@ -8,7 +38,7 @@ The accepted Task 8 baseline assertions remain ordinary passing tests. The two f
 
 Verified source `876d90cc5d284885f9a5ef041fe87fab9fb00590`, hosted CI run `37643865611`: validate `112870109150` PASS with **127 files / 1006 passes + 2 expected failures**, typecheck, zero-warning lint and production build; spillway render `112870109653` PASS; Task 8 Falls Run render `112870109575` PASS. Render artifact `11494291072` has ZIP SHA-256 `c1fde3d3e4d95ebaeef7b314390527cef0440e6a19200e62189b80dbf1795d54`. Maximum observed load was **123 draw calls / 78,604 visible triangles**; desktop Medium 1920×1080 was **93 / 78,604**. SwiftShader timing remains diagnostic-only and is not representative-hardware PRD certification.
 
-Evidence: `docs/evidence/2026-10-07-neon-task9-t9-1/'progress.md`.
+Evidence: `docs/evidence/2026-10-07-neon-task9-t9-1/progress.md`.
 
 ## Neon Grid Stage 4 Task 9 T9.0 RED-contract procedure — 2026-10-07
 

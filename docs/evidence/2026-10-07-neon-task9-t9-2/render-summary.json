@@ -1,0 +1,55 @@
+{
+  "source": "28c8bd2f6fbddffa2d586aa265796a327f81be09",
+  "ciRun": 37662836256,
+  "validateJob": 112934951587,
+  "skylineRenderJob": 112934951571,
+  "artifact": {
+    "id": 11502245930,
+    "zipSha256": "a0664078fb26e547fa0425281f44bd448d6ab27bcf667dea2152bea14b164f1d",
+    "bytes": 1899822
+  },
+  "tests": {
+    "filesPassed": 128,
+    "passed": 1011,
+    "expectedFutureFailures": 2,
+    "totalCases": 1013
+  },
+  "skyline": {
+    "medium1920Visible": {
+      "calls": 114,
+      "triangles": 71612
+    },
+    "medium1920Hidden": {
+      "calls": 103,
+      "triangles": 66876
+    },
+    "delta": {
+      "calls": 11,
+      "triangles": 4736
+    },
+    "maximumAcrossMatrix": {
+      "calls": 115,
+      "triangles": 151196
+    },
+    "engineeringCeilings": {
+      "calls": 200,
+      "triangles": 300000,
+      "skylineCallDelta": 18
+    }
+  },
+  "task8RegressionGate": {
+    "job": 112934950981,
+    "maximum": {
+      "calls": 135,
+      "triangles": 98776
+    }
+  },
+  "softwareTimingDiagnostic": {
+    "frames": 240,
+    "medianFrameMs": 392.05,
+    "p95FrameMs": 396.2,
+    "medianFps": 2.5507,
+    "authority": "diagnostic-only"
+  },
+  "ownerPreview": "not started; T9.7"
+}

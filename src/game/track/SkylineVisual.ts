@@ -327,10 +327,10 @@ function addProceduralSignage(group: THREE.Group, track: NeonGrid): void {
   group.add(signs);
 }
 
-type AdMaterial = {
+interface AdMaterial {
   readonly path: string;
   readonly material: THREE.MeshBasicMaterial;
-};
+}
 
 function addApprovedAds(group: THREE.Group, track: NeonGrid, materials: AdMaterial[]): void {
   const gapSide = billboardSide(track);

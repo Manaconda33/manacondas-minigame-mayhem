@@ -1154,3 +1154,22 @@ Runtime candidate `c71b2287b463f6a17645d664d3307d6b591561bf` places the pad at B
 - **Preserved balance:** Keep the once-only **0.82 ON/static exit retention**, AI shortcut rates **5% / 45% / 12%** for Tunnel/Billboard/Dive, **+3.6 s** Billboard phase offset, and the forgiving approximately **1.5 s** Dive recovery unchanged.
 - **Preserved boundaries:** No kart statistics, global physics, item behavior, Tunnel/Dive geometry, repaired 5.3 faces, or Stage 4 work is authorized. This decision supersedes only amendment 2.23's active tell-separation target and prior boost-pad placement checkpoint.
 - **Validation:** Runtime `406bb5c2f606c2db4d1f2fa9ee7e36e1d6217308`; CI `37361803233` passed. Evidence: `docs/evidence/2026-10-05-neon-billboard-balance/`.
+
+
+## ADR-109 — Adopt the validated 300 m Neon Grid far-plane clamp as a temporary production policy
+
+- **Date:** 2026-10-06 (America/Chicago).
+- **Status:** **APPROVED FOR PRODUCTION ADOPTION.**
+- **Authority:** Manny explicitly approved the 300 m Neon Grid clamp for production after passing the locked owner review.
+- **Decision:** Use a 300 m race-camera far plane for Neon Grid only. Circuit Alpha remains unchanged.
+- **Evidence:** The one-variable stopgap candidate reduced software-render median frame time from 286.3 ms to 170.5 ms and increased median FPS from 3.49 to 5.87. Manny then passed clipping/horizon review and, after the wet-road/2D-driver compositing repair, passed the corrected preview.
+- **Visual gate:** PASSED. The owner reported “Clipping passes” and later “This fix is passed.”
+- **Boundary:** This is a temporary mitigation, not the shared render-workload architecture and not a future-minigame default. It must retain the render-governance removal/re-evaluation condition at Neon Grid Phase V2.
+- **Preserved behavior:** no physics, AI, checkpoints, shortcut geometry/balance, items, materials, fog, bloom or Circuit Alpha camera change is authorized by this decision.
+- **Deployment state:** approved for production adoption; actual runtime deployment and verification are separate implementation evidence and must not be claimed until merged and published.
+
+## Task 9 owner approval and 2D asset gate — 2026-10-06
+
+Manny approved `docs/design/neon-grid/task9-coursewide-visual-plan.md` for execution. Task 9 remains presentation-only under the recorded scope boundaries.
+
+Any new 2D billboard/ad/sign asset is owner-gated individually: generate and present **one asset at a time**, state its intended in-game use, and obtain explicit approval before runtime integration or asset-manifest registration. Unapproved candidates stay review-only.

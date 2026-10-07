@@ -237,10 +237,10 @@ function addBuildings(
   buildings.name = 'undercity-city-buildings';
   const dummy = new THREE.Object3D();
   const colors = [
-    new THREE.Color(0x161425),
-    new THREE.Color(0x20162d),
-    new THREE.Color(0x13222b),
-    new THREE.Color(0x25172d),
+    new THREE.Color(0x303b4d),
+    new THREE.Color(0x393349),
+    new THREE.Color(0x283d43),
+    new THREE.Color(0x40344a),
   ];
   data.forEach((building, i) => {
     dummy.position.set(building.position.x, building.baseY, building.position.z);
@@ -248,7 +248,7 @@ function addBuildings(
     dummy.scale.set(building.width, building.height, building.depth);
     dummy.updateMatrix();
     buildings.setMatrixAt(i, dummy.matrix);
-    buildings.setColorAt(i, colors[i % colors.length] ?? colors[0] ?? new THREE.Color(0x161425));
+    buildings.setColorAt(i, colors[i % colors.length] ?? colors[0] ?? new THREE.Color(0x303b4d));
   });
   buildings.instanceMatrix.needsUpdate = true;
   if (buildings.instanceColor) buildings.instanceColor.needsUpdate = true;
@@ -256,7 +256,7 @@ function addBuildings(
   // Every tower sits on a deep service-block foundation rather than hovering
   // over the unsupported void beside the track. These props never carry collision.
   const foundationMaterial = new THREE.MeshStandardMaterial({
-    color: 0x111923, roughness: 0.83, metalness: 0.2,
+    color: 0x252f3c, roughness: 0.83, metalness: 0.2,
   });
   const foundations = new THREE.InstancedMesh(
     new THREE.BoxGeometry(1, 1, 1), foundationMaterial, data.length,
@@ -271,6 +271,14 @@ function addBuildings(
     new THREE.BoxGeometry(1, 1, 1), roofMaterial.clone(), data.length * 2,
   );
   ribs.name = 'undercity-facade-ribs';
+  const loadingBays = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(3.1, 4.1, 0.22),
+    new THREE.MeshStandardMaterial({
+      color: 0x586276, roughness: 0.68, metalness: 0.43,
+    }),
+    data.length,
+  );
+  loadingBays.name = 'undercity-loading-bay-doors';
   data.forEach((building, i) => {
     dummy.position.set(building.position.x, building.baseY - 4.25, building.position.z);
     dummy.rotation.set(0, Math.atan2(building.tangent.x, building.tangent.z), 0);
@@ -278,6 +286,13 @@ function addBuildings(
     dummy.updateMatrix();
     foundations.setMatrixAt(i, dummy.matrix);
     const inward = building.right.clone().multiplyScalar(-building.side);
+    dummy.position.copy(building.position)
+      .addScaledVector(inward, building.width * 0.5 + 0.25)
+      .setY(building.baseY + 2.15);
+    dummy.rotation.set(0, Math.atan2(inward.x, inward.z), 0);
+    dummy.scale.set(1, 1, 1);
+    dummy.updateMatrix();
+    loadingBays.setMatrixAt(i, dummy.matrix);
     for (let index = 0; index < 2; index++) {
       dummy.position.copy(building.position)
         .addScaledVector(inward, building.width * 0.5 + 0.07)
@@ -294,7 +309,9 @@ function addBuildings(
       roofPlants.setMatrixAt(i * 2 + index, dummy.matrix);
     }
   });
-  for (const mesh of [foundations, roofPlants, ribs]) mesh.instanceMatrix.needsUpdate = true;
+  for (const mesh of [foundations, roofPlants, ribs, loadingBays]) {
+    mesh.instanceMatrix.needsUpdate = true;
+  }
 
   const windowCount = quality === 'low' ? 80 : quality === 'high' ? 240 : 160;
   const windowMaterial = new THREE.MeshBasicMaterial({
@@ -339,7 +356,7 @@ function addBuildings(
   windows.instanceMatrix.needsUpdate = true;
   if (windows.instanceColor) windows.instanceColor.needsUpdate = true;
 
-  group.add(buildings, foundations, roofPlants, ribs, windows);
+  group.add(buildings, foundations, roofPlants, ribs, loadingBays, windows);
   group.userData.undercityLogicalBuildingCount = data.length;
   return data;
 }

@@ -103,6 +103,7 @@ describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
         expect(requireInstanced(scene, 'undercity-city-buildings').count).toBe(16);
         expect(requireInstanced(scene, 'undercity-building-foundations').count).toBe(16);
         expect(requireInstanced(scene, 'undercity-roof-plants').count).toBe(32);
+        expect(requireInstanced(scene, 'undercity-loading-bay-doors').count).toBe(16);
         expect(requireInstanced(scene, 'undercity-facade-ribs').count).toBe(32);
         expect(requireInstanced(scene, 'undercity-utility-pads').count).toBe(20);
         expect(requireInstanced(scene, 'undercity-service-bay-backs').count).toBe(10);

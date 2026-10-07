@@ -1,4 +1,4 @@
-import { sameTrackLayer } from './track/TrackSurface';
+import { projectTrackSurface, sameTrackLayer } from './track/TrackSurface';
 import { NeonGrid } from './track/NeonGrid';
 import { RacerTrack } from './track/RacerTrack';
 import { bloomDisabledFromSearch, markBloomMaterial } from './rendering/bloomEligibility';
@@ -859,6 +859,8 @@ export class KartTimeTrial {
       return;
     }
     const projection = this.racerTrack().project(position);
+    const supportProjection =
+      this.track.id === 'neon-grid' ? projectTrackSurface(this.track, position) : projection;
     let playerRespawned = diveRecovered;
     const forwardDot = this.kart.forward(this.forward).dot(projection.tangent);
     this.wrongWaySeconds = forwardDot < -0.35 ? this.wrongWaySeconds + dt : 0;
@@ -868,7 +870,7 @@ export class KartTimeTrial {
     if (
       !this.racerRoutes?.get('player')?.diveState.active &&
       (this.outOfBoundsSeconds > 1 ||
-        position.y < (this.track.id === 'neon-grid' ? projection.point.y - 4 : -3))
+        position.y < (this.track.id === 'neon-grid' ? supportProjection.point.y - 4 : -3))
     ) {
       this.respawn();
       playerRespawned = true;

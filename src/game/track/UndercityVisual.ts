@@ -578,7 +578,7 @@ export class UndercityVisual {
     edgeMaterial.polygonOffsetFactor = -3;
     edgeMaterial.polygonOffsetUnits = -3;
     const edges = new THREE.Mesh(edgeGeometry(track), edgeMaterial);
-    edges.renderOrder = -9;
+    edges.renderOrder = 2; // opaque dressing follows the native road; depth offset avoids fighting
     edges.name = 'undercity-magenta-edges';
     this.group.add(edges);
 

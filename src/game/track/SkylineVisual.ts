@@ -320,16 +320,16 @@ function addCity(
   const towerData = placeTowers(track);
   const towerMaterial = new THREE.MeshStandardMaterial({
     color: 0xffffff,
-    roughness: 0.76,
-    metalness: 0.24,
+    roughness: 0.72,
+    metalness: 0.28,
     vertexColors: true,
-    emissive: 0x07111d,
-    emissiveIntensity: 0.22,
+    emissive: 0x0b1b29,
+    emissiveIntensity: 0.48,
   });
   const towers = new THREE.InstancedMesh(steppedTowerGeometry(), towerMaterial, towerData.length);
   towers.name = 'skyline-city-towers';
   const dummy = new THREE.Object3D();
-  const colors = [new THREE.Color(0x142a3d), new THREE.Color(0x172337), new THREE.Color(0x211c36)];
+  const colors = [new THREE.Color(0x24445c), new THREE.Color(0x293852), new THREE.Color(0x3a3157)];
   towerData.forEach((tower, i) => {
     dummy.position.set(tower.position.x, tower.baseY, tower.position.z);
     dummy.rotation.set(0, Math.atan2(tower.tangent.x, tower.tangent.z), 0);
@@ -354,10 +354,44 @@ function addCity(
   });
   roofs.instanceMatrix.needsUpdate = true;
 
+  const cornerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true });
+  markBloomMaterial(cornerMaterial, 'color');
+  const cornerLights = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(0.1, 1, 0.1),
+    cornerMaterial,
+    towerData.length * 2,
+  );
+  cornerLights.name = 'skyline-city-corner-lights';
+  let cornerIndex = 0;
+  towerData.forEach((tower, towerIndex) => {
+    const inward = tower.right.clone().multiplyScalar(-tower.side);
+    for (const along of [-1, 1]) {
+      dummy.position
+        .copy(tower.position)
+        .addScaledVector(inward, tower.width * 0.5 + 0.09)
+        .addScaledVector(tower.tangent, along * tower.depth * 0.39)
+        .setY(tower.baseY + tower.height * 0.43);
+      dummy.rotation.set(0, 0, 0);
+      dummy.scale.set(1, tower.height * 0.56, 1);
+      dummy.updateMatrix();
+      cornerLights.setMatrixAt(cornerIndex, dummy.matrix);
+      cornerLights.setColorAt(cornerIndex, towerIndex % 4 === 0 ? magenta : cyan);
+      cornerIndex++;
+    }
+  });
+  cornerLights.instanceMatrix.needsUpdate = true;
+  if (cornerLights.instanceColor) cornerLights.instanceColor.needsUpdate = true;
+
   const windowCount = quality === 'low' ? 120 : quality === 'high' ? 360 : 240;
+  const windowMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    vertexColors: true,
+    side: THREE.DoubleSide,
+  });
+  markBloomMaterial(windowMaterial, 'color');
   const windows = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(0.7, 0.36, 0.035),
-    new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true }),
+    new THREE.PlaneGeometry(0.72, 0.38),
+    windowMaterial,
     windowCount,
   );
   windows.name = 'skyline-city-windows';
@@ -382,7 +416,7 @@ function addCity(
     dummy.position.copy(tower.position).setY(tower.baseY + tower.height * rowFraction);
     dummy.position.addScaledVector(
       normal,
-      (useInwardFace ? stageWidth : stageDepth) * 0.5 + 0.025,
+      (useInwardFace ? stageWidth : stageDepth) * 0.5 + 0.12,
     );
     dummy.position.addScaledVector(horizontal, column * span * 0.68);
     dummy.rotation.set(0, Math.atan2(normal.x, normal.z), 0);
@@ -394,7 +428,7 @@ function addCity(
   windows.instanceMatrix.needsUpdate = true;
   if (windows.instanceColor) windows.instanceColor.needsUpdate = true;
 
-  group.add(towers, roofs, windows);
+  group.add(towers, roofs, cornerLights, windows);
   group.userData.skylineLogicalTowerCount = towerData.length;
   return towerData;
 }

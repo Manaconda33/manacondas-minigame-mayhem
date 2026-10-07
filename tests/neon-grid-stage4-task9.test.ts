@@ -37,14 +37,6 @@ function requireInstanced(scene: THREE.Object3D, name: string): THREE.InstancedM
   return object as THREE.InstancedMesh;
 }
 
-function expectFiniteInstances(mesh: THREE.InstancedMesh): void {
-  const matrix = new THREE.Matrix4();
-  for (let i = 0; i < mesh.count; i++) {
-    mesh.getMatrixAt(i, matrix);
-    for (const value of matrix.elements) expect(Number.isFinite(value)).toBe(true);
-  }
-}
-
 function expectAcceptedTask8Baseline(scene: NeonGridScene): void {
   const falls = scene.getObjectByName('falls-run-visual');
   expect(falls).toBeInstanceOf(THREE.Group);
@@ -144,12 +136,12 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
           expect(owner?.userData.quality, name).toBe(quality);
           owner?.traverse((object) => {
             if (!(object instanceof THREE.InstancedMesh)) return;
-            const mesh = object as THREE.InstancedMesh<
-              THREE.BufferGeometry,
-              THREE.Material | THREE.Material[]
-            >;
-            expect(mesh.count, mesh.name).toBeLessThanOrEqual(mesh.instanceMatrix.count);
-            expectFiniteInstances(mesh);
+            expect(object.count, object.name).toBeLessThanOrEqual(object.instanceMatrix.count);
+            const matrix = new THREE.Matrix4();
+            for (let i = 0; i < object.count; i++) {
+              object.getMatrixAt(i, matrix);
+              for (const value of matrix.elements) expect(Number.isFinite(value)).toBe(true);
+            }
           });
         }
       } finally {

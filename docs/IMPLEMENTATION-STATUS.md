@@ -934,3 +934,20 @@ Owner approved the bounded repair. The fix leaves avatar material, gameplay, far
 - Corrected owner-review URL remains `/previews/neon-grid-far300/`.
 
 **Owner visual confirmation:** PASSED on 2026-10-06. Manny explicitly reported, “This fix is passed.” This closes the 2D-driver/wet-road translucency repair gate. Combined with the earlier “Clipping passes” verdict, the locked 300 m preview has now passed the requested owner visual/playability review for clipping and compositing. This does **not** by itself authorize production adoption of the 300 m clamp; production adoption remains a separate owner decision. Task 9 planning may begin, but Task 9 implementation remains separately gated.
+
+
+## Neon Grid Stage 4 Task 9 planning — 2026-10-06
+
+Task 9 planning is now drafted at `docs/design/neon-grid/task9-coursewide-visual-plan.md` following owner acceptance of the Task 8/far300 compositing repair.
+
+Plan status: **DRAFT FOR OWNER REVIEW / NO IMPLEMENTATION AUTHORITY**.
+
+The draft keeps Task 9 presentation-only, extends the approved Task 8 language across Skyline Straight, The Undercity and Falls Run, preserves the accepted 0.70–0.85 Falls Run stretch, requires failing-first lifecycle/compositing/quality tests, proposes an internal ≤200 draw-call / ≤300k visible-triangle engineering ceiling beneath the unchanged PRD hard limits, and requires representative-hardware 60 FPS / p95 ≤18.3 ms certification before completion.
+
+The plan explicitly does not:
+- adopt the 300 m camera clamp into production;
+- implement the separate cross-minigame render-workload architecture;
+- change gameplay, physics, AI, balance, items, shortcuts, checkpoints or repaired 5.3 geometry;
+- authorize PR #242 merge or production release.
+
+**Next gate:** Manny reviews/approves or revises the Task 9 plan. If approved, T9.0 (baseline freeze + failing lifecycle tests) is the first authorized implementation checkpoint. No Task 9 runtime work should begin before that approval.

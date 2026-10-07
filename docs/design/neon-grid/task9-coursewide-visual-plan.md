@@ -1,11 +1,11 @@
 # Task 9 — Neon Grid Course-Wide Visual Completion Plan
 
-**Status:** DRAFT FOR OWNER REVIEW — planning only  
+**Status:** APPROVED FOR EXECUTION — owner approved 2026-10-06 America/Chicago  
 **Date:** 2026-10-06 America/Chicago  
 **Scope:** Stage 4 Task 9 only — extend the approved Task 8 visual language across Neon Grid and complete lifecycle/performance/full-course review gates.  
 **Core principle:** “spectacle as camouflage — mask the door, light the keyhole.”
 
-This document is a proposed implementation contract. Recording it does **not** authorize Task 9 implementation, PR #242 merge, production publication, or production adoption of the temporary 300 m far-plane clamp.
+This document is the approved Task 9 implementation contract. Approval authorizes the bounded Task 9 sequence beginning with T9.0 and pre-integration asset creation/review. It does **not** authorize PR #242 merge or final Neon Grid production publication.
 
 ## 1. Repository / runtime baseline
 
@@ -17,7 +17,7 @@ This document is a proposed implementation contract. Recording it does **not** a
 - Task 8 hosted structural evidence: 124 max draw calls, 80,772 max visible triangles, zero render errors in the accepted render-gate run.
 - Hosted SwiftShader FPS/p95 are diagnostic-only; PRD hardware targets remain unchanged.
 - 300 m far-plane test slice: owner visual/playability review passed for clipping and the corrected 2D-driver/wet-road compositing issue.
-- Production adoption of the 300 m clamp remains **not authorized**.
+- The 300 m Neon Grid far-plane clamp is **owner-approved for production adoption** as of 2026-10-06 after clipping and compositing review. The approval is recorded separately; until the runtime deployment commit lands, the live production game may still contain the previous 900 m value.
 - Task 8 accepted range approximately progress 0.70–0.85 remains visually frozen except for seam-safe refactors proven equivalent.
 
 Authoritative design references:
@@ -291,13 +291,11 @@ The unchanged PRD targets remain:
 
 These require representative hardware evidence and may not be inferred from CI.
 
-### 900 m vs temporary 300 m camera policy
+### Production camera policy
 
-Task 9 must **not rely on the 300 m clamp to pass** unless production adoption is separately approved.
+The owner has approved the Neon Grid-only **300 m far-plane clamp for production adoption**. Task 9 should therefore use 300 m as the intended Neon Grid camera policy once the approved clamp is applied to the canonical runtime. Circuit Alpha remains unchanged.
 
-Primary Task 9 acceptance should use the authoritative runtime camera policy in effect at the time of implementation. Until another owner decision, that remains the existing production 900 m behavior.
-
-A secondary 300 m diagnostic may be captured for comparison, but it is not a substitute for the primary acceptance run.
+The clamp is still a temporary mitigation under the render-workload governance plan and must retain its documented removal/re-evaluation condition at Neon Grid Phase V2. Task 9 may not generalize 300 m into a platform-wide or future-minigame default.
 
 ## 11. File-by-file plan
 
@@ -415,12 +413,16 @@ Task 9 is complete only when all are true:
 - pinned preview source/hash verified;
 - owner full-course visual/playability approval recorded.
 
-## 14. Approval gate
+## 14. Approval and asset-review gate
 
-**Do not implement Task 9 from this draft until Manny approves the plan.**
+**Owner approval:** Manny approved this Task 9 plan on 2026-10-06 America/Chicago and authorized execution beginning with T9.0 plus pre-integration asset creation/review.
 
-Approval authorizes T9.0 only as the first bounded implementation checkpoint. Later checkpoints proceed in order, with regressions fixed before advancing.
+**2D asset rule:** any new 2D billboard/ad/sign artwork must be presented to Manny **one asset at a time**, together with its exact intended in-game use, before it may be integrated into runtime code or the asset manifest. Rejected or unapproved candidates remain review-only and must not enter the game.
+
+3D/procedural engineering assets may proceed under the approved Task 9 plan unless they materially alter product direction, gameplay, or an existing owner-approved visual.
+
+PR #242 merge and final Neon Grid production publication remain separate explicit owner gates.
 
 ---
 
-**Planning note:** the accepted 300 m test slice may inform a later separate production-camera decision, but Task 9 is deliberately planned so its visual completion and performance evidence do not depend on that stopgap.
+**Planning note:** the production-approved 300 m Neon Grid clamp is a temporary mitigation, not the long-term render-workload architecture.

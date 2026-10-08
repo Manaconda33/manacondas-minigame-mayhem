@@ -131,12 +131,20 @@ try {
     'undercity-entry', 'mobile-landscape-undercity-approach',
     'mobile-portrait-undercity-approach',
   ];
+  // These vantage points actually see one or more genuine interior road
+  // targets. Require that evidence: a zero-visible-target run must not pass
+  // merely because the whole tunnel happened to sit outside the camera.
+  const requiredInteriorViews = new Set([
+    'undercity-pre-approach', 'undercity-approach-chase',
+    'mobile-landscape-undercity-approach',
+  ]);
   for (const station of tunnelStations) {
     const sightline = frames.find((frame) => frame.station === station)
       ?.actualCameraShortcutSightline;
     if (!sightline || sightline.shortcut !== 'service-tunnel' ||
       sightline.interiorTargetsEvaluated < 4 ||
-      sightline.interiorExposed !== 0) {
+      sightline.interiorExposed !== 0 ||
+      (requiredInteriorViews.has(station) && sightline.interiorTargetsInView < 1)) {
       console.error('T9.5 true tunnel interior LOS failure:', station,
         JSON.stringify(sightline));
       throw new Error('T9.5 Service Tunnel inner roadway is exposed from real ChaseCamera: ' + station);

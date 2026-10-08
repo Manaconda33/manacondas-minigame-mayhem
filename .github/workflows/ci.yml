@@ -51,8 +51,12 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # The complete Vitest suite includes several CPU-heavy real race and physics
+      # integrations. Serialize files to prevent worker contention from exhausting
+      # their unchanged 5-second assertion timeouts on shared GitHub runners.
+      # Keep all tests, V8 coverage, and the original individual time limits.
       - name: Test
-        run: npm run test:ci
+        run: npm run test:ci -- --maxWorkers=1
 
       - name: Production build
         run: npm run build

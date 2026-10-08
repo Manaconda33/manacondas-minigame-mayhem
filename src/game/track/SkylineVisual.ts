@@ -641,11 +641,12 @@ function addApprovedAds(
   const supports = new THREE.InstancedMesh(
     supportGeometry,
     new THREE.MeshStandardMaterial({ color: 0x243747, roughness: 0.76, metalness: 0.33 }),
-    8,
+    4,
   );
   supports.name = 'skyline-mask-roadside-billboard-supports';
   supports.userData.immutableSponsorArt = true;
-  supports.userData.camouflageProgress = [0.052, 0.076, 0.135, 0.184, 0.060, 0.085, 0.146, 0.194];
+  supports.userData.camouflageProgress = [0.135, 0.184, 0.146, 0.194];
+  supports.userData.wallMountedProgress = [0.052, 0.076, 0.060, 0.085];
   const decoyProgresses = [
     [0.052, 0.076, 0.135, 0.184],
     [0.060, 0.085, 0.146, 0.194],
@@ -692,29 +693,28 @@ function addApprovedAds(
       if (progress === undefined) continue;
       const center = track.curve.getPointAt(progress);
       const right = neonGridRightAt(track, progress);
-      const side = (i + sponsorIndex) % 2 === 0 ? -1 : 1;
+      const side = billboardSide(track);
       const inward = right.clone().multiplyScalar(-side);
-      let offset = track.halfWidthAt(progress) + 8.5;
-      let foot = center.clone().addScaledVector(right, side * offset);
-      // Never mask a real route or shortcut aperture with a static ad support.
-      for (let attempt = 0; attempt < 6 &&
-        (mainClearance(track, foot, 5) < 3 || gapClearance(track, foot, 5) < 4);
-        attempt++
-      ) {
-        offset += 5;
-        foot = center.clone().addScaledVector(right, side * offset);
-      }
-      foot.y = center.y - 2.4;
+      // Two facade-ad faces per sponsor, plus two raised post-mounted panels.
+      // All eight are attached to the established camouflage wall instead
+      // of floating on isolated stands several metres behind it.
+      const elevated = i >= 2;
+      const foot = center.clone().addScaledVector(
+        right, side * (track.halfWidthAt(progress) + 0.70),
+      );
       const facing = Math.atan2(inward.x, inward.z);
-      dummy.position.copy(foot);
+      if (elevated) {
+        dummy.position.copy(foot);
+        dummy.rotation.set(0, facing, 0);
+        dummy.scale.set(1, 1, 1);
+        dummy.updateMatrix();
+        supports.setMatrixAt(supportIndex++, dummy.matrix);
+      }
+      dummy.position.copy(foot)
+        .add(new THREE.Vector3(0, elevated ? 5.45 : 1.7, 0))
+        .addScaledVector(inward, 0.21);
       dummy.rotation.set(0, facing, 0);
       dummy.scale.set(1, 1, 1);
-      dummy.updateMatrix();
-      supports.setMatrixAt(supportIndex++, dummy.matrix);
-      // Fixed billboards share approved artwork with tower advertisements.
-      // Unlike the real portal, they never flicker or indicate ON/OFF state.
-      dummy.position.copy(foot).add(new THREE.Vector3(0, 5.45, 0))
-        .addScaledVector(inward, 0.21);
       dummy.updateMatrix();
       ads.setMatrixAt(3 + i, dummy.matrix);
       dummy.position.addScaledVector(inward, -0.20);

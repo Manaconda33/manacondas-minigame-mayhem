@@ -111,3 +111,8 @@ Manny approved excluding the *shared drivable entrance* from hidden-interior cam
 
 **New owner-only URL:** https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-5-sightline/?review=d54a70a . This is neither PR #242 merge nor production Neon Grid gameplay publication. Manny still must review real driving: Billboard approach and interior camouflage, UnderCity continuous facade and magenta tell at genuine turn-in, visible world geometry support, any clipping or visual obstructions, mobile portrait/landscape readability, bidirectional tunnel traversal and Waterfall unaffected. Do not declare T9.5 accepted before owner explicit PASS. Do not start T9.6/T9.7. Prior owner-rejected T9.5 and T9.5-correction previews retained. Only runtime source checkpoint `d54a70a` is exact CI validated; following documentation commits preserve that source unchanged.
 
+
+
+## Owner follow-up 2026-10-08: camouflage accepted in principle, traversal corrections authorized
+
+Owner gameplay screenshots: T9.5 exterior disguise works, but independent Skyline sponsor stands appear behind the new wall rather than architecturally attached. Service Tunnel image sequence shows visual entrance blockage, apparent road clipping, opaque meshes crossing the player camera and disappearing kart. Correct the geometry and both-way approach-camera envelope before soliciting final owner approval. Preserve prior exterior deep-road LOS gate. Proposed translucent DO NOT ENTER art is not integrated without separate art signoff. Code and test change is an unverified candidate pending exact-head CI and human preview; no claim of successful correction or new publication here.

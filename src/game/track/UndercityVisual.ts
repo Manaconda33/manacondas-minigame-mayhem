@@ -522,33 +522,40 @@ function addFacadeVentilation(group: THREE.Group, buildings: UndercityBuilding[]
 function serviceTunnelApproachScreen(track: NeonGrid): THREE.BufferGeometry {
   const tunnel = track.serviceTunnel;
   const approach = track.curve.getPointAt(tunnel.entry.progress[0] - 0.012);
+  const reference = tunnel.curve.getPointAt(0.22);
+  const direction = tunnel.curve.getTangentAt(0.22).setY(0).normalize();
+  const referenceRight = new THREE.Vector3(direction.z, 0, -direction.x);
+  // An earlier screen extended toward the incoming camera rather than following
+  // the tunnel's lateral edge. It could sweep over the ramp and kart sightline.
+  const side = Math.sign(approach.clone().sub(reference).dot(referenceRight)) || 1;
   const vertices: number[] = [];
   const indices: number[] = [];
   let panels = 0;
   function edge(fraction: number): {
-    foot: THREE.Vector3; crest: THREE.Vector3; facing: THREE.Vector3; clear: boolean;
+    foot: THREE.Vector3; crest: THREE.Vector3; outward: THREE.Vector3; clear: boolean;
   } {
     const center = tunnel.curve.getPointAt(fraction);
-    const facing = approach.clone().sub(center).setY(0);
-    if (facing.lengthSq() < 0.0001) {
-      const tangent = tunnel.curve.getTangentAt(fraction).setY(0).normalize();
-      facing.set(tangent.z, 0, -tangent.x);
-    }
-    facing.normalize();
-    const foot = center.clone().addScaledVector(facing, tunnel.roadHalfWidth + 0.55);
+    const tangent = tunnel.curve.getTangentAt(fraction).setY(0).normalize();
+    const outward = new THREE.Vector3(tangent.z, 0, -tangent.x).multiplyScalar(side);
+    // An actual offset from the accepted straight shortcut edge, not an
+    // eye-directed diagonal that can intersect the drivable/camera corridor.
+    const foot = center.clone().addScaledVector(outward, tunnel.roadHalfWidth + 1.65);
     const nearest = track.projectMain(foot);
     const crestY = Math.max(center.y + 4.1, nearest.point.y + 3.15);
     const clear = nearest.lateralDistance - track.halfWidthAt(nearest.progress) > 0.4;
     return {
       foot: foot.clone().setY(center.y - 0.9),
       crest: foot.clone().setY(crestY),
-      facing, clear,
+      outward, clear,
     };
   }
   const count = 84;
+  // The shared junction and ramp transition must stay open and camera-safe.
+  // Deep-road concealment remains handled by this longitudinal inner wing
+  // combined with the intact continuous main-route facade.
   for (let i = 0; i < count; i++) {
-    const start = THREE.MathUtils.lerp(0.012, 0.76, i / count);
-    const end = THREE.MathUtils.lerp(0.012, 0.76, (i + 1) / count);
+    const start = THREE.MathUtils.lerp(0.115, 0.76, i / count);
+    const end = THREE.MathUtils.lerp(0.115, 0.76, (i + 1) / count);
     const a = edge(start), b = edge(end);
     if (!a.clear || !b.clear) continue;
     const n = vertices.length / 3;
@@ -556,8 +563,8 @@ function serviceTunnelApproachScreen(track: NeonGrid): THREE.BufferGeometry {
       ...b.crest.toArray(), ...a.crest.toArray());
     indices.push(n, n + 1, n + 2, n, n + 2, n + 3);
     if (i % 6 === 0) {
-      const back = a.foot.clone().addScaledVector(a.facing, 0.5);
-      const backTop = a.crest.clone().addScaledVector(a.facing, 0.5);
+      const back = a.foot.clone().addScaledVector(a.outward, 0.5);
+      const backTop = a.crest.clone().addScaledVector(a.outward, 0.5);
       const p = vertices.length / 3;
       vertices.push(...a.foot.toArray(), ...a.crest.toArray(),
         ...backTop.toArray(), ...back.toArray());
@@ -571,6 +578,7 @@ function serviceTunnelApproachScreen(track: NeonGrid): THREE.BufferGeometry {
   geometry.computeVertexNormals();
   geometry.userData.panels = panels;
   geometry.userData.presentationOnly = true;
+  geometry.userData.laneOffset = tunnel.roadHalfWidth + 1.65;
   return geometry;
 }
 
@@ -579,8 +587,8 @@ function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): void 
   // actual shortcut roadway. This continuous opaque facade now does.
   const opening = (side: -1 | 1, progress: number): boolean =>
     tunnelWallOpen(track, side, progress) ||
-    Math.abs(progress - track.serviceTunnel.entry.progress[0]) < 0.009 ||
-    Math.abs(progress - track.serviceTunnel.exitProgress) < 0.010;
+    Math.abs(progress - track.serviceTunnel.entry.progress[0]) < 0.014 ||
+    Math.abs(progress - track.serviceTunnel.exitProgress) < 0.016;
   const roadScreens = neonGridRoadsideScreenGeometry(track, [
     { start: START + 0.009, end: END - 0.006, side: -1,
       opening: (progress) => opening(-1, progress) },

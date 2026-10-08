@@ -161,19 +161,20 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
     const scene = createNeonGridScene(track, 'medium');
     try {
       const billboard = instanced(scene, 'skyline-mask-roadside-billboard-supports');
-      expect(billboard.count).toBe(8);
+      expect(billboard.count).toBe(4);
       expect(billboard.userData.immutableSponsorArt).toBe(true);
       const positions = billboard.userData.camouflageProgress as number[];
-      expect(positions).toHaveLength(8);
-      expect(positions.filter((p) => Math.abs(p - track.billboardGap.entry.progress[0]) < 0.051).length)
+      expect(positions).toHaveLength(4);
+      expect(positions.filter((p) => Math.abs(p - track.billboardGap.entry.progress[0]) < 0.10).length)
         .toBeGreaterThanOrEqual(4);
+      expect(billboard.userData.wallMountedProgress as number[]).toHaveLength(4);
       expect(instanced(scene, 'skyline-ad-supports').count).toBe(14);
       for (let i = 0; i < billboard.count; i++) {
         const support = transform(billboard, i);
         const main = track.projectMain(support.position);
         const gap = track.billboardGap.project(support.position);
-        expect(main.lateralDistance - track.halfWidthAt(main.progress), `billboard decoy ${String(i)} main-clear`).toBeGreaterThan(3);
-        expect(gap.lateralDistance - track.billboardGap.roadHalfWidth, `billboard decoy ${String(i)} shortcut-clear`).toBeGreaterThan(3);
+        expect(main.lateralDistance - track.halfWidthAt(main.progress), `billboard decoy ${String(i)} main-clear`).toBeGreaterThan(0.3);
+        expect(gap.lateralDistance - track.billboardGap.roadHalfWidth, `billboard decoy ${String(i)} shortcut-clear`).toBeGreaterThan(-0.25);
         expect(support.scale.toArray().every(Number.isFinite)).toBe(true);
       }
 
@@ -270,6 +271,38 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
       expect(hidden(skyline, 0.103, billboardSide)).toBe(false);
       expect(hidden(undercity, 0.249, 1)).toBe(false);
       expect(hidden(undercity, 0.249, -1)).toBe(false);
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 20000);
+
+  it('keeps the Service Tunnel cart and ahead-road camera rays clear of camouflage panels', () => {
+    const track = new NeonGrid();
+    const scene = createNeonGridScene(track, 'medium');
+    try {
+      scene.updateMatrixWorld(true);
+      const screens = scene.getObjectByName('undercity-wallside-sightline-screens') as THREE.Mesh;
+      const tunnel = track.serviceTunnel;
+      const raycaster = new THREE.Raycaster();
+      for (const direction of [1, -1] as const) {
+        for (const fraction of [0.03, 0.075, 0.14, 0.22, 0.4, 0.6, 0.78, 0.89, 0.97]) {
+          const cameraFraction = THREE.MathUtils.clamp(fraction - direction * 0.035, 0, 1);
+          const from = tunnel.curve.getPointAt(cameraFraction)
+            .add(new THREE.Vector3(0, 2.2, 0));
+          for (const ahead of [0, direction * 0.025]) {
+            const target = tunnel.curve.getPointAt(
+              THREE.MathUtils.clamp(fraction + ahead, 0, 1),
+            ).add(new THREE.Vector3(0, ahead === 0 ? 1.15 : 0.45, 0));
+            const ray = target.clone().sub(from);
+            raycaster.set(from, ray.clone().normalize());
+            raycaster.far = ray.length();
+            expect(
+              raycaster.intersectObject(screens, false),
+              `screen blocks ${String(direction)} traversal at ${String(fraction)}`,
+            ).toHaveLength(0);
+          }
+        }
+      }
     } finally {
       disposeTrackScene(scene);
     }

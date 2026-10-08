@@ -157,7 +157,12 @@ function mainClearance(track: NeonGrid, point: THREE.Vector3, radius: number): n
 
 function tunnelClearance(track: NeonGrid, point: THREE.Vector3, radius: number): number {
   const projection = track.serviceTunnel.project(point);
-  return projection.lateralDistance - track.serviceTunnel.roadHalfWidth - radius;
+  // The tunnel is a finite chord. lateralDistance alone treats its infinite
+  // extension beyond each mouth as another drivable corridor, rejecting safe
+  // decoys near adjacent switchbacks. Use the planar distance to the clamped
+  // tunnel centerline instead, including each endpoint.
+  const planar = Math.hypot(point.x - projection.point.x, point.z - projection.point.z);
+  return planar - track.serviceTunnel.roadHalfWidth - radius;
 }
 
 function buildingGeometry(): THREE.BufferGeometry {

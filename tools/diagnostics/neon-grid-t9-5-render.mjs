@@ -55,7 +55,12 @@ try {
       page.on('response', (response) => {
         if (response.status() >= 400) errors.push(station.name + ': HTTP ' + response.status() + ' ' + response.url());
       });
-      page.on('pageerror', (error) => errors.push(station.name + ': ' + error.message));
+      page.on('pageerror', (error) => {
+        const detail = station.name + ': ' + error.message;
+        errors.push(detail);
+        // Preserve startup exceptions even if the scene never sets ready.
+        console.error('T9.5 scene initialization:', detail);
+      });
       page.on('console', (message) => {
         if (message.type() === 'error') errors.push(station.name + ': ' + message.text());
       });

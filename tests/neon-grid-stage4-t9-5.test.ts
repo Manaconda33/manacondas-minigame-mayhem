@@ -232,6 +232,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
       expect(undercity).toBeInstanceOf(THREE.Mesh);
       expect(skyline.userData.sightlinePanels as number).toBeGreaterThan(70);
       expect(undercity.userData.sightlinePanels as number).toBeGreaterThan(100);
+      expect(undercity.userData.innerWingPanels as number).toBeGreaterThan(5);
       expect(skyline.userData.mouthCuts as number).toBeGreaterThan(0);
       for (const screen of [skyline, undercity]) {
         const material = screen.material as THREE.MeshStandardMaterial;

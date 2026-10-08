@@ -205,7 +205,8 @@ try {
   }
   for (const frame of frames.filter((f) => f.station.startsWith('tunnel-'))) {
     if (!frame.tunnelKartSightline || frame.tunnelKartSightline.rays.length !== 3 ||
-        frame.tunnelKartSightline.blocked.length !== 0) {
+        frame.tunnelKartSightline.blocked.length !== 0 ||
+        frame.tunnelKartSightline.roadAhead?.blocker !== null) {
       console.error('T9.5 tunnel camera occlusion:', frame.station, JSON.stringify(frame.tunnelKartSightline));
       throw new Error('T9.5 Service Tunnel camera/kart line of sight obstructed: ' + frame.station);
     }

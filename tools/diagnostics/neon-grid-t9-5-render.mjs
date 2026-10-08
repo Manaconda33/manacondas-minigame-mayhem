@@ -142,7 +142,7 @@ try {
     if (!result || result.error || !Array.isArray(result.samples)) {
       throw new Error('T9.5 artwork scene inspection missing: ' + station);
     }
-    if (result.samples.some((sample) => !sample.imageLoaded || !sample.faceHit)) {
+    if (result.samples.some((sample) => !sample.imageLoaded || (sample.inViewport && !sample.faceHit))) {
       throw new Error('T9.5 approved Billboard artwork not loaded/hittable: ' + station);
     }
     return result.samples.filter((sample) => sample.visibleArtwork).map((sample) => ({

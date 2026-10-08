@@ -515,6 +515,7 @@ function addProceduralSignage(group: THREE.Group, towers: SkylineTower[]): void 
 
 function addApprovedAds(
   group: THREE.Group,
+  track: NeonGrid,
   towers: SkylineTower[],
   materials: AdMaterial[],
 ): void {
@@ -538,10 +539,30 @@ function addApprovedAds(
     roughness: 0.5,
     metalness: 0.5,
   });
-  const frames = new THREE.InstancedMesh(new THREE.BoxGeometry(8.45, 4.45, 0.12), frameMaterial, 6);
+  const frames = new THREE.InstancedMesh(new THREE.BoxGeometry(8.45, 4.45, 0.12), frameMaterial, 14);
   frames.name = 'skyline-ad-supports';
+  // T9.5 camouflage: reuse already-approved sponsor textures as ordinary,
+  // architecturally supported roadside advertising, not new hologram tells.
+  // Four boards per sponsor flank BOTH sides of the real billboard approach.
+  const feet = new THREE.BoxGeometry(0.48, 5.5, 0.65).translate(-3.55, 2.75, -0.25);
+  const secondFoot = new THREE.BoxGeometry(0.48, 5.5, 0.65).translate(3.55, 2.75, -0.25);
+  const backing = new THREE.BoxGeometry(8.7, 4.7, 0.48).translate(0, 5.45, -0.12);
+  const supportGeometry = mergeGeometries([feet, secondFoot, backing], false);
+  for (const part of [feet, secondFoot, backing]) part.dispose();
+  const supports = new THREE.InstancedMesh(
+    supportGeometry,
+    new THREE.MeshStandardMaterial({ color: 0x243747, roughness: 0.76, metalness: 0.33 }),
+    8,
+  );
+  supports.name = 'skyline-mask-roadside-billboard-supports';
+  const decoyProgresses = [
+    [0.052, 0.076, 0.135, 0.184],
+    [0.060, 0.085, 0.146, 0.194],
+  ];
   const dummy = new THREE.Object3D();
   let frameIndex = 0;
+  let supportIndex = 0;
+  let sponsorIndex = 0;
 
   for (const definition of definitions) {
     const material = new THREE.MeshBasicMaterial({
@@ -551,7 +572,7 @@ function addApprovedAds(
       toneMapped: false,
     });
     materials.push({ path: definition.path, material });
-    const ads = new THREE.InstancedMesh(new THREE.PlaneGeometry(8, 4), material, 3);
+    const ads = new THREE.InstancedMesh(new THREE.PlaneGeometry(8, 4), material, 7);
     ads.name = definition.name;
     definition.towerIndices.forEach((towerIndex, i) => {
       const tower = towers[towerIndex];
@@ -573,11 +594,49 @@ function addApprovedAds(
       frames.setMatrixAt(frameIndex, dummy.matrix);
       frameIndex++;
     });
+    const progressSamples = decoyProgresses[sponsorIndex];
+    if (!progressSamples) throw new Error('Skyline sponsor mask progress unavailable');
+    for (let i = 0; i < progressSamples.length; i++) {
+      const progress = progressSamples[i];
+      if (progress === undefined) continue;
+      const center = track.curve.getPointAt(progress);
+      const right = neonGridRightAt(track, progress);
+      const side = (i + sponsorIndex) % 2 === 0 ? -1 : 1;
+      const inward = right.clone().multiplyScalar(-side);
+      let offset = track.halfWidthAt(progress) + 8.5;
+      let foot = center.clone().addScaledVector(right, side * offset);
+      // Never mask a real route or shortcut aperture with a static ad support.
+      for (let attempt = 0; attempt < 6 &&
+        (mainClearance(track, foot, 5) < 3 || gapClearance(track, foot, 5) < 4);
+        attempt++
+      ) {
+        offset += 5;
+        foot = center.clone().addScaledVector(right, side * offset);
+      }
+      foot.y = center.y - 2.4;
+      const facing = Math.atan2(inward.x, inward.z);
+      dummy.position.copy(foot);
+      dummy.rotation.set(0, facing, 0);
+      dummy.scale.set(1, 1, 1);
+      dummy.updateMatrix();
+      supports.setMatrixAt(supportIndex++, dummy.matrix);
+      // Fixed billboards share approved artwork with tower advertisements.
+      // Unlike the real portal, they never flicker or indicate ON/OFF state.
+      dummy.position.copy(foot).add(new THREE.Vector3(0, 5.45, 0))
+        .addScaledVector(inward, 0.21);
+      dummy.updateMatrix();
+      ads.setMatrixAt(3 + i, dummy.matrix);
+      dummy.position.addScaledVector(inward, -0.20);
+      dummy.updateMatrix();
+      frames.setMatrixAt(frameIndex++, dummy.matrix);
+    }
+    sponsorIndex++;
     ads.instanceMatrix.needsUpdate = true;
     group.add(ads);
   }
+  supports.instanceMatrix.needsUpdate = true;
   frames.instanceMatrix.needsUpdate = true;
-  group.add(frames);
+  group.add(frames, supports);
 }
 
 export class SkylineVisual {
@@ -627,7 +686,7 @@ export class SkylineVisual {
     addStructure(this.group, track);
     const towers = addCity(this.group, track, quality);
     addProceduralSignage(this.group, towers);
-    addApprovedAds(this.group, towers, this.adMaterials);
+    addApprovedAds(this.group, track, towers, this.adMaterials);
   }
 
   public async load(): Promise<void> {

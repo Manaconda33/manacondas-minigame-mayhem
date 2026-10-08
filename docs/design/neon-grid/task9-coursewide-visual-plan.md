@@ -372,6 +372,9 @@ No Task 9 change is planned for `NeonGrid.ts`, shortcut physics modules, kart tu
 - preserve Waterfall Dive gold tell hierarchy.
 
 ### T9.5 — Full-course lifecycle + masking pass
+
+**Approved T9.5 scope refinement (2026-10-07 America/Chicago):** In addition to the validation requirements below, Manny explicitly approved a proactive but bounded **visual-enhancement pass**. Inspect the full course and improve presentation where doing so deepens supported architecture, sector identity and mask legibility. Initial additions target facade-mounted industrial ventilation in the Undercity and support-attached deck service fixtures in the Falls extension; they are procedural, non-colliding and remain owned by the existing sector groups. No new 2D assets, gameplay, physics, AI, shortcuts, checkpoint changes or camera policy changes are approved. Quantify batch counts and render costs, preserve Task 8 accepted visuals, and publish an isolated pinned preview for owner acceptance. This amendment does not move the separately recorded Skyline building-geometry or city-base polish out of T9.7, and does not replace the dedicated T9.6 representative-hardware performance gate.
+
 - cleanup tests;
 - quality-tier bounds;
 - pause/hidden freeze;

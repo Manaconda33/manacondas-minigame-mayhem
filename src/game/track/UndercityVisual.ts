@@ -258,46 +258,44 @@ function addBuildings(
   buildings.instanceMatrix.needsUpdate = true;
   if (buildings.instanceColor) buildings.instanceColor.needsUpdate = true;
 
-  // Every tower sits on a deep service-block foundation rather than hovering
-  // over the unsupported void beside the track. These props never carry collision.
-  const foundationMaterial = new THREE.MeshStandardMaterial({
-    color: 0x252f3c, roughness: 0.83, metalness: 0.2,
-  });
-  const foundations = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(1, 1, 1), foundationMaterial, data.length,
-  );
-  foundations.name = 'undercity-building-foundations';
-  const roofMaterial = new THREE.MeshStandardMaterial({
-    color: 0x344452, roughness: 0.67, metalness: 0.52,
-  });
-  const roofPlants = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), roofMaterial, data.length * 2);
-  roofPlants.name = 'undercity-roof-plants';
-  const ribs = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(1, 1, 1), roofMaterial.clone(), data.length * 2,
-  );
-  ribs.name = 'undercity-facade-ribs';
-  const loadingBays = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(3.1, 4.1, 0.22),
+  // T9.5: preserve every accepted physical support, roof plant, facade rib
+  // and loading door, but batch the cube-based parts in one instanced family.
+  // The ranges are explicit so tests validate every former visual component.
+  const buildingCount = data.length;
+  const partRanges = {
+    foundations: { start: 0, count: buildingCount },
+    roofPlants: { start: buildingCount, count: buildingCount * 2 },
+    facadeRibs: { start: buildingCount * 3, count: buildingCount * 2 },
+    loadingBays: { start: buildingCount * 5, count: buildingCount },
+  };
+  const industrial = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 1, 1),
     new THREE.MeshStandardMaterial({
-      color: 0x586276, roughness: 0.68, metalness: 0.43,
+      color: 0xffffff, roughness: 0.72, metalness: 0.4,
     }),
-    data.length,
+    buildingCount * 6,
   );
-  loadingBays.name = 'undercity-loading-bay-doors';
+  industrial.name = 'undercity-industrial-architecture';
+  industrial.userData.partRanges = partRanges;
+  const foundationColor = new THREE.Color(0x252f3c);
+  const roofColor = new THREE.Color(0x344452);
+  const loadingColor = new THREE.Color(0x586276);
   data.forEach((building, i) => {
     dummy.position.set(building.position.x, building.baseY - 4.25, building.position.z);
     dummy.rotation.set(0, Math.atan2(building.tangent.x, building.tangent.z), 0);
     dummy.scale.set(building.width + 1.4, 8.6, building.depth + 1.4);
     dummy.updateMatrix();
-    foundations.setMatrixAt(i, dummy.matrix);
+    industrial.setMatrixAt(partRanges.foundations.start + i, dummy.matrix);
+    industrial.setColorAt(partRanges.foundations.start + i, foundationColor);
     const inward = building.right.clone().multiplyScalar(-building.side);
     dummy.position.copy(building.position)
       .addScaledVector(inward, building.width * 0.5 + 0.25)
       .setY(building.baseY + 2.15);
     dummy.rotation.set(0, Math.atan2(inward.x, inward.z), 0);
-    dummy.scale.set(1, 1, 1);
+    dummy.scale.set(3.1, 4.1, 0.22);
     dummy.updateMatrix();
-    loadingBays.setMatrixAt(i, dummy.matrix);
+    industrial.setMatrixAt(partRanges.loadingBays.start + i, dummy.matrix);
+    industrial.setColorAt(partRanges.loadingBays.start + i, loadingColor);
     for (let index = 0; index < 2; index++) {
       dummy.position.copy(building.position)
         .addScaledVector(inward, building.width * 0.5 + 0.07)
@@ -305,18 +303,21 @@ function addBuildings(
         .setY(building.baseY + building.height * 0.29);
       dummy.scale.set(0.32, building.height * 0.58, 0.34);
       dummy.updateMatrix();
-      ribs.setMatrixAt(i * 2 + index, dummy.matrix);
+      const ribIndex = partRanges.facadeRibs.start + i * 2 + index;
+      industrial.setMatrixAt(ribIndex, dummy.matrix);
+      industrial.setColorAt(ribIndex, roofColor);
       dummy.position.copy(building.position)
         .addScaledVector(building.tangent, (index === 0 ? -1 : 1) * building.depth * 0.2)
         .setY(building.baseY + building.height + 0.64);
       dummy.scale.set(index === 0 ? 2.5 : 1.8, 1.28, index === 0 ? 2 : 1.6);
       dummy.updateMatrix();
-      roofPlants.setMatrixAt(i * 2 + index, dummy.matrix);
+      const roofIndex = partRanges.roofPlants.start + i * 2 + index;
+      industrial.setMatrixAt(roofIndex, dummy.matrix);
+      industrial.setColorAt(roofIndex, roofColor);
     }
   });
-  for (const mesh of [foundations, roofPlants, ribs, loadingBays]) {
-    mesh.instanceMatrix.needsUpdate = true;
-  }
+  industrial.instanceMatrix.needsUpdate = true;
+  if (industrial.instanceColor) industrial.instanceColor.needsUpdate = true;
 
   const windowCount = quality === 'low' ? 80 : quality === 'high' ? 240 : 160;
   const windowMaterial = new THREE.MeshBasicMaterial({
@@ -361,7 +362,7 @@ function addBuildings(
   windows.instanceMatrix.needsUpdate = true;
   if (windows.instanceColor) windows.instanceColor.needsUpdate = true;
 
-  group.add(buildings, foundations, roofPlants, ribs, loadingBays, windows);
+  group.add(buildings, industrial, windows);
   group.userData.undercityLogicalBuildingCount = data.length;
   return data;
 }
@@ -369,20 +370,22 @@ function addBuildings(
 function addUtilityClutter(
   group: THREE.Group, track: NeonGrid, buildings: UndercityBuilding[],
 ): void {
-  const utilityMaterial = new THREE.MeshStandardMaterial({
-    color: 0x171b28, roughness: 0.66, metalness: 0.46,
-  });
-  const boxes = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), utilityMaterial, 20);
-  boxes.name = 'undercity-utility-boxes';
-  const pads = new THREE.InstancedMesh(
+  // The 20 junction boxes and their 20 solid pads share one static batch;
+  // colors and exact transforms are retained for every individual piece.
+  const utilityCount = 20;
+  const utility = new THREE.InstancedMesh(
     new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshStandardMaterial({ color: 0x222432, roughness: 0.8 }),
-    boxes.count,
+    new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.74, metalness: 0.35 }),
+    utilityCount * 2,
   );
-  pads.name = 'undercity-utility-pads';
+  utility.name = 'undercity-utility-clutter';
+  utility.userData.boxCount = utilityCount;
+  utility.userData.padCount = utilityCount;
+  const utilityBoxColor = new THREE.Color(0x171b28);
+  const utilityPadColor = new THREE.Color(0x222432);
   const dummy = new THREE.Object3D();
-  for (let i = 0; i < boxes.count; i++) {
-    const progress = THREE.MathUtils.lerp(START + 0.008, END - 0.008, i / (boxes.count - 1));
+  for (let i = 0; i < utilityCount; i++) {
+    const progress = THREE.MathUtils.lerp(START + 0.008, END - 0.008, i / (utilityCount - 1));
     const center = track.curve.getPointAt(progress);
     const right = neonGridRightAt(track, progress);
     const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
@@ -396,14 +399,16 @@ function addUtilityClutter(
     dummy.position.copy(foot).add(new THREE.Vector3(0, y * 0.5, 0));
     dummy.scale.set(x, y, z);
     dummy.updateMatrix();
-    boxes.setMatrixAt(i, dummy.matrix);
+    utility.setMatrixAt(i, dummy.matrix);
+    utility.setColorAt(i, utilityBoxColor);
     dummy.position.copy(foot).add(new THREE.Vector3(0, -0.32, 0));
     dummy.scale.set(x + 0.7, 0.7, z + 0.7);
     dummy.updateMatrix();
-    pads.setMatrixAt(i, dummy.matrix);
+    utility.setMatrixAt(utilityCount + i, dummy.matrix);
+    utility.setColorAt(utilityCount + i, utilityPadColor);
   }
-  boxes.instanceMatrix.needsUpdate = true;
-  pads.instanceMatrix.needsUpdate = true;
+  utility.instanceMatrix.needsUpdate = true;
+  if (utility.instanceColor) utility.instanceColor.needsUpdate = true;
 
   // Pipes terminate at the foundation and roof of actual buildings. Former
   // road-relative horizontal cylinders had no architectural anchors.
@@ -454,50 +459,57 @@ function addUtilityClutter(
   }
   lights.instanceMatrix.needsUpdate = true;
   if (lights.instanceColor) lights.instanceColor.needsUpdate = true;
-  group.add(boxes, pads, pipes, lights);
+  group.add(utility, pipes, lights);
 }
 
 /**
- * T9.5 facade service detail: each vent bank is physically backed by an
- * existing warehouse wall. No free-floating corridor clutter or collision.
+ * T9.5 facade ventilation is physically wall-backed, with all 48 slats
+ * permanently baked into the 16 local housing prefabs. One material/batch
+ * replaces separate housing/louver draws without losing geometry.
  */
 function addFacadeVentilation(group: THREE.Group, buildings: UndercityBuilding[]): void {
-  const housings = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshStandardMaterial({ color: 0x42505d, roughness: 0.6, metalness: 0.65 }),
+  const parts: { geometry: THREE.BoxGeometry; color: THREE.Color }[] = [
+    { geometry: new THREE.BoxGeometry(2.2, 1.45, 0.45), color: new THREE.Color(0x42505d) },
+  ];
+  for (let slot = 0; slot < 3; slot++) {
+    parts.push({
+      geometry: new THREE.BoxGeometry(1.82, 0.11, 0.12)
+        .translate(0, (slot - 1) * 0.32, 0.255),
+      color: new THREE.Color(0x9ba3b2),
+    });
+  }
+  for (const { geometry, color } of parts) {
+    const count = geometry.getAttribute('position').count;
+    const colors = new Float32Array(count * 3);
+    for (let j = 0; j < count; j++) color.toArray(colors, j * 3);
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  }
+  const geometry = mergeGeometries(parts.map((part) => part.geometry), false);
+  for (const part of parts) part.geometry.dispose();
+  geometry.userData.ventParts = 4;
+  geometry.userData.slatsPerBank = 3;
+  const banks = new THREE.InstancedMesh(
+    geometry,
+    new THREE.MeshStandardMaterial({
+      color: 0xffffff, vertexColors: true, roughness: 0.56, metalness: 0.66,
+    }),
     buildings.length,
   );
-  housings.name = 'undercity-facade-vent-housings';
-  const louvers = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshStandardMaterial({ color: 0x9ba3b2, roughness: 0.48, metalness: 0.7 }),
-    buildings.length * 3,
-  );
-  louvers.name = 'undercity-facade-vent-louvers';
+  banks.name = 'undercity-facade-vent-banks';
   const dummy = new THREE.Object3D();
   buildings.forEach((building, i) => {
     const outward = building.right.clone().multiplyScalar(-building.side);
     const y = building.baseY + Math.min(building.height * 0.74, building.height - 2.2);
     const wall = building.position.clone()
       .addScaledVector(outward, building.width * 0.5 + 0.28).setY(y);
-    const facing = Math.atan2(outward.x, outward.z);
     dummy.position.copy(wall);
-    dummy.rotation.set(0, facing, 0);
-    dummy.scale.set(2.2, 1.45, 0.45);
+    dummy.rotation.set(0, Math.atan2(outward.x, outward.z), 0);
+    dummy.scale.set(1, 1, 1);
     dummy.updateMatrix();
-    housings.setMatrixAt(i, dummy.matrix);
-    for (let slot = 0; slot < 3; slot++) {
-      dummy.position.copy(wall).addScaledVector(outward, 0.255);
-      dummy.position.y += (slot - 1) * 0.32;
-      dummy.rotation.set(0, facing, 0);
-      dummy.scale.set(1.82, 0.11, 0.12);
-      dummy.updateMatrix();
-      louvers.setMatrixAt(i * 3 + slot, dummy.matrix);
-    }
+    banks.setMatrixAt(i, dummy.matrix);
   });
-  housings.instanceMatrix.needsUpdate = true;
-  louvers.instanceMatrix.needsUpdate = true;
-  group.add(housings, louvers);
+  banks.instanceMatrix.needsUpdate = true;
+  group.add(banks);
 }
 
 function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
@@ -511,29 +523,37 @@ function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
     START + 0.148, START + 0.168, END - 0.032, END - 0.018,
     END - 0.009, END - 0.003,
   ];
-  const material = new THREE.MeshStandardMaterial({
-    color: 0x111320, emissive: 0x401846, emissiveIntensity: 0.22,
-    roughness: 0.68, metalness: 0.45,
-  });
-  const bays = new THREE.InstancedMesh(new THREE.BoxGeometry(5.45, 3.72, 0.18), material, progresses.length);
-  bays.name = 'undercity-service-bays';
-  bays.userData.camouflageProgress = progresses;
-  // One batched pre-fab: deep foundation, threshold and the two metal jambs.
-  // The large opening matches the tunnel's 6.4 m mouth much more closely than
-  // the original narrow utility-box shutters.
+  // Combine the solid support, jambs, lintel, threshold and dark false
+  // opening into one instanced prefab. Colors remain per vertex: no extra
+  // draw pass and no opening gains physical gameplay collision.
   const base = new THREE.BoxGeometry(6.45, 6.4, 1.15);
   const left = new THREE.BoxGeometry(0.34, 4.05, 0.23).translate(-2.92, 0.25, 0.65);
-  const right = new THREE.BoxGeometry(0.34, 4.05, 0.23).translate(2.92, 0.25, 0.65);
+  const rightJamb = new THREE.BoxGeometry(0.34, 4.05, 0.23).translate(2.92, 0.25, 0.65);
   const lintel = new THREE.BoxGeometry(6.1, 0.32, 0.25).translate(0, 2.42, 0.65);
   const threshold = new THREE.BoxGeometry(6.45, 0.35, 1.75).translate(0, -3.15, 0.38);
-  const backingGeometry = mergeGeometries([base, left, right, lintel, threshold], false);
-  for (const part of [base, left, right, lintel, threshold]) part.dispose();
-  const backing = new THREE.InstancedMesh(
-    backingGeometry,
-    new THREE.MeshStandardMaterial({ color: 0x272d3b, roughness: 0.86, metalness: 0.28 }),
+  // The old face was 0.67 m above and 0.64 m forward of the back's origin.
+  const face = new THREE.BoxGeometry(5.45, 3.72, 0.18).translate(0, 0.67, 0.64);
+  const parts = [base, left, rightJamb, lintel, threshold, face];
+  parts.forEach((geometry, index) => {
+    const color = new THREE.Color(index === parts.length - 1 ? 0x111320 : 0x272d3b);
+    const count = geometry.getAttribute('position').count;
+    const colors = new Float32Array(count * 3);
+    for (let j = 0; j < count; j++) color.toArray(colors, j * 3);
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  });
+  const geometry = mergeGeometries(parts, false);
+  for (const part of parts) part.dispose();
+  geometry.userData.prefabParts = parts.length;
+  const bays = new THREE.InstancedMesh(
+    geometry,
+    new THREE.MeshStandardMaterial({
+      color: 0xffffff, vertexColors: true, emissive: 0x08030a,
+      emissiveIntensity: 0.18, roughness: 0.75, metalness: 0.38,
+    }),
     progresses.length,
   );
-  backing.name = 'undercity-service-bay-backs';
+  bays.name = 'undercity-service-bays';
+  bays.userData.camouflageProgress = progresses;
   const dummy = new THREE.Object3D();
   progresses.forEach((progress, i) => {
     const center = track.curve.getPointAt(progress);
@@ -565,15 +585,10 @@ function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
     dummy.rotation.set(0, yaw, 0);
     dummy.scale.set(1, 1, 1);
     dummy.updateMatrix();
-    backing.setMatrixAt(i, dummy.matrix);
-    dummy.position.copy(foot).add(new THREE.Vector3(0, 0.02, 0))
-      .addScaledVector(right, -side * 0.64);
-    dummy.updateMatrix();
     bays.setMatrixAt(i, dummy.matrix);
   });
   bays.instanceMatrix.needsUpdate = true;
-  backing.instanceMatrix.needsUpdate = true;
-  group.add(backing, bays);
+  group.add(bays);
 }
 
 function addApprovedAds(

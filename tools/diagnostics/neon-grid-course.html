@@ -64,7 +64,7 @@
       windows: g.trackScene.getObjectByName('undercity-city-windows')?.count ?? 0,
       buildings: g.trackScene.getObjectByName('undercity-city-buildings')?.count ?? 0,
       pipes: g.trackScene.getObjectByName('undercity-pipes')?.count ?? 0,
-      utilityBoxes: g.trackScene.getObjectByName('undercity-utility-boxes')?.count ?? 0,
+      utilityBoxes: g.trackScene.getObjectByName('undercity-utility-clutter')?.userData.boxCount ?? 0,
       workLights: g.trackScene.getObjectByName('undercity-work-lights')?.count ?? 0,
       serviceBays: g.trackScene.getObjectByName('undercity-service-bays')?.count ?? 0,
       nightshiftAds: g.trackScene.getObjectByName('undercity-ad-nightshift-noodles')?.count ?? 0,

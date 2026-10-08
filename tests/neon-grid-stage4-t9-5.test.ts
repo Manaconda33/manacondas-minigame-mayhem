@@ -63,8 +63,8 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect(instanced(scene, 'falls-run-extension-city-windows').count).toBe(expected.falls);
         expect(instanced(scene, 'falls-run-ambient-mist').count).toBe(expected.task8Mist);
         expect((scene.getObjectByName('falls-run-extension-ambient-mist') as THREE.InstancedMesh | undefined)?.count ?? 0).toBe(expected.extensionMist);
-        expect(instanced(scene, 'undercity-facade-vent-housings').count).toBe(16);
-        expect(instanced(scene, 'undercity-facade-vent-louvers').count).toBe(48);
+        expect(instanced(scene, 'undercity-facade-vent-banks').count).toBe(16);
+        expect(instanced(scene, 'undercity-facade-vent-banks').geometry.userData.slatsPerBank).toBe(3);
         expect(instanced(scene, 'falls-run-extension-deck-service-fixtures').count).toBe(16);
         assertRoadCompositing(scene, quality);
         for (const name of [
@@ -85,18 +85,22 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
     try {
       const buildings = instanced(scene, 'undercity-city-buildings');
-      const housings = instanced(scene, 'undercity-facade-vent-housings');
-      const louvers = instanced(scene, 'undercity-facade-vent-louvers');
-      for (let i = 0; i < housings.count; i++) {
+      const banks = instanced(scene, 'undercity-facade-vent-banks');
+      expect(banks.geometry.userData.ventParts).toBe(4);
+      expect(banks.geometry.userData.slatsPerBank).toBe(3);
+      const ventColors = banks.geometry.getAttribute('color');
+      expect(ventColors.count).toBeGreaterThan(24);
+      expect(new THREE.Color().fromBufferAttribute(ventColors, 0)
+        .equals(new THREE.Color().fromBufferAttribute(ventColors, ventColors.count - 1))).toBe(false);
+      banks.geometry.computeBoundingBox();
+      expect(banks.geometry.boundingBox?.min.z).toBeLessThan(-0.2);
+      expect(banks.geometry.boundingBox?.max.z).toBeGreaterThan(0.3);
+      for (let i = 0; i < banks.count; i++) {
         const building = transform(buildings, i);
-        const housing = transform(housings, i);
-        expect(housing.position.y).toBeGreaterThan(building.position.y);
-        expect(housing.position.y).toBeLessThan(building.position.y + building.scale.y);
-        expect(housing.position.distanceTo(building.position)).toBeLessThan(26);
-        for (let slot = 0; slot < 3; slot++) {
-          const slat = transform(louvers, i * 3 + slot);
-          expect(slat.position.distanceTo(housing.position)).toBeLessThan(0.55);
-        }
+        const bank = transform(banks, i);
+        expect(bank.position.y).toBeGreaterThan(building.position.y);
+        expect(bank.position.y).toBeLessThan(building.position.y + building.scale.y);
+        expect(bank.position.distanceTo(building.position)).toBeLessThan(26);
       }
       const pylons = instanced(scene, 'falls-run-extension-supported-pylons');
       const fixtures = instanced(scene, 'falls-run-extension-deck-service-fixtures');
@@ -174,17 +178,20 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
       }
 
       const bays = instanced(scene, 'undercity-service-bays');
-      const bayBacks = instanced(scene, 'undercity-service-bay-backs');
       expect(bays.count).toBe(14);
-      expect(bayBacks.count).toBe(bays.count);
+      expect(bays.geometry.userData.prefabParts).toBe(6);
+      const bayColors = bays.geometry.getAttribute('color');
+      expect(new THREE.Color().fromBufferAttribute(bayColors, 0)
+        .equals(new THREE.Color().fromBufferAttribute(bayColors, bayColors.count - 1))).toBe(false);
+      bays.geometry.computeBoundingBox();
+      expect(bays.geometry.boundingBox?.max.z).toBeGreaterThan(0.5);
+      expect(bays.geometry.boundingBox?.min.z).toBeLessThan(-0.5);
       const approaches = bays.userData.camouflageProgress as number[];
       expect(approaches).toHaveLength(14);
       expect(approaches[0]).toBeCloseTo(track.serviceTunnel.entry.progress[0] + 0.004, 6);
       expect(approaches.at(-1)).toBeCloseTo(track.serviceTunnel.exitProgress - 0.003, 6);
       for (let i = 0; i < bays.count; i++) {
-        const face = transform(bays, i);
-        const back = transform(bayBacks, i);
-        expect(face.position.distanceTo(back.position)).toBeLessThan(1.5);
+        const back = transform(bays, i);
         const main = track.projectMain(back.position);
         const tunnel = track.serviceTunnel.project(back.position);
         // Measure the prefab footprint, not merely its center. The former
@@ -239,7 +246,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
 
   it('disposes owned detail once without disposing accepted neighboring scene resources', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
-    const housing = instanced(scene, 'undercity-facade-vent-housings');
+    const housing = instanced(scene, 'undercity-facade-vent-banks');
     const cap = instanced(scene, 'falls-run-extension-deck-service-fixtures');
     const skylineRoad = scene.getObjectByName('skyline-asphalt-base') as THREE.Mesh;
     const task8Road = scene.getObjectByName('falls-run-asphalt-base') as THREE.Mesh;
@@ -272,7 +279,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
       try {
         expect(scene.children.length).toBeGreaterThan(8);
         for (const name of [
-          'undercity-facade-vent-housings', 'undercity-facade-vent-louvers',
+          'undercity-facade-vent-banks',
           'falls-run-extension-deck-service-fixtures',
         ]) {
           const mesh = instanced(scene, name);

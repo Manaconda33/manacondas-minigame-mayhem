@@ -101,14 +101,19 @@ describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
         expect(owner?.userData.progressRange).toEqual([0.24654910452879084, 0.46154128347522666]);
         expect(owner?.userData.quality).toBe(quality);
         expect(requireInstanced(scene, 'undercity-city-buildings').count).toBe(16);
-        expect(requireInstanced(scene, 'undercity-building-foundations').count).toBe(16);
-        expect(requireInstanced(scene, 'undercity-roof-plants').count).toBe(32);
-        expect(requireInstanced(scene, 'undercity-loading-bay-doors').count).toBe(16);
-        expect(requireInstanced(scene, 'undercity-facade-ribs').count).toBe(32);
-        expect(requireInstanced(scene, 'undercity-utility-pads').count).toBe(20);
-        expect(requireInstanced(scene, 'undercity-service-bay-backs').count).toBe(14);
+        const industrial = requireInstanced(scene, 'undercity-industrial-architecture');
+        expect(industrial.count).toBe(96);
+        expect(industrial.userData.partRanges).toEqual({
+          foundations: { start: 0, count: 16 },
+          roofPlants: { start: 16, count: 32 },
+          facadeRibs: { start: 48, count: 32 },
+          loadingBays: { start: 80, count: 16 },
+        });
+        expect(requireInstanced(scene, 'undercity-utility-clutter').count).toBe(40);
+        expect(requireInstanced(scene, 'undercity-utility-clutter').userData.padCount).toBe(20);
+        expect(requireInstanced(scene, 'undercity-service-bays').geometry.userData.prefabParts).toBe(6);
         expect(requireInstanced(scene, 'undercity-city-windows').count).toBe(expectedWindows[quality]);
-        expect(requireInstanced(scene, 'undercity-utility-boxes').count).toBe(20);
+        expect(requireInstanced(scene, 'undercity-utility-clutter').userData.boxCount).toBe(20);
         expect(requireInstanced(scene, 'undercity-pipes').count).toBe(26);
         expect(requireInstanced(scene, 'undercity-work-lights').count).toBe(24);
         expect(requireInstanced(scene, 'undercity-service-bays').count).toBe(14);
@@ -142,18 +147,18 @@ describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
       expect((edge.material as THREE.Material).polygonOffset).toBe(true);
 
       const buildings = requireInstanced(scene, 'undercity-city-buildings');
-      const foundations = requireInstanced(scene, 'undercity-building-foundations');
-      const roofs = requireInstanced(scene, 'undercity-roof-plants');
+      const industrial = requireInstanced(scene, 'undercity-industrial-architecture');
+      const ranges = industrial.userData.partRanges as Record<string, { start: number; count: number }>;
       const pipes = requireInstanced(scene, 'undercity-pipes');
       const frame = new THREE.Matrix4();
       const scale = new THREE.Vector3(), p = new THREE.Vector3(), q = new THREE.Quaternion();
       for (let i = 0; i < buildings.count; i++) {
         buildings.getMatrixAt(i, frame); frame.decompose(p, q, scale);
         const ground = p.y;
-        foundations.getMatrixAt(i, frame); frame.decompose(p, q, scale);
+        industrial.getMatrixAt((ranges.foundations?.start ?? 0) + i, frame); frame.decompose(p, q, scale);
         expect(p.y + scale.y * 0.5).toBeGreaterThanOrEqual(ground);
         for (const roof of [i * 2, i * 2 + 1]) {
-          roofs.getMatrixAt(roof, frame); frame.decompose(p, q, scale);
+          industrial.getMatrixAt((ranges.roofPlants?.start ?? 0) + roof, frame); frame.decompose(p, q, scale);
           expect(p.y - scale.y * 0.5).toBeGreaterThan(ground);
         }
       }

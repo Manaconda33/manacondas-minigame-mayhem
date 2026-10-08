@@ -9,6 +9,7 @@
   <script type="module">
     import * as THREE from 'three';
     import { KartTimeTrial } from '../../src/game/KartTimeTrial.ts';
+    import { ChaseCamera } from '../../src/game/camera/ChaseCamera.ts';
     import { characterById } from '../../src/characters/manifest.ts';
 
     const params = new URLSearchParams(location.search);
@@ -49,14 +50,14 @@
     });
     for (let i = 0; i < 120; i++) g.updateVisuals(1 / 60);
 
+    // T9.5 owner camouflage validation must use the *actual* in-game chase
+    // camera. The older fixture invented a 10m/28m rear look direction and
+    // placed its camera inside solid geometry at the Dive mouth. This made
+    // both the rear screenshot and its draw-call reading misleading.
+    const diagnosticChase = new ChaseCamera(g.camera, window.innerWidth < 900);
+    const stagedKartPosition = p.clone().add(new THREE.Vector3(0, 1.1, 0));
     const placeCamera = (view) => {
-      if (view === 'rear') {
-        g.camera.position.copy(p).addScaledVector(tangent, 10).add(new THREE.Vector3(0, 3.8, 0));
-        g.camera.lookAt(p.clone().addScaledVector(tangent, -28).add(new THREE.Vector3(0, 0.9, 0)));
-      } else {
-        g.camera.position.copy(p).addScaledVector(tangent, -10).add(new THREE.Vector3(0, 3.8, 0));
-        g.camera.lookAt(p.clone().addScaledVector(tangent, 30).add(new THREE.Vector3(0, 0.9, 0)));
-      }
+      diagnosticChase.update(stagedKartPosition, tangent, view === 'rear', 3, p.y);
     };
 
     const undercitySnapshot = () => ({

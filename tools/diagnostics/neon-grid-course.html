@@ -87,9 +87,21 @@
         caster.set(g.camera.position, ray.clone().normalize());
         caster.far = ray.length();
         const intercept = caster.intersectObject(screen, false)[0];
+        const clearances = [0.25, 0.5, 0.75, 0.9, 1].map((factor) => {
+          const position = g.camera.position.clone().lerp(target, factor);
+          const main = g.track.projectMain(position);
+          const cross = shortcut.project(position);
+          return {
+            factor,
+            point: position.toArray().map((value) => Number(value.toFixed(2))),
+            mainEdge: Number((main.lateralDistance - g.track.halfWidthAt(main.progress)).toFixed(2)),
+            tunnelEdge: Number((cross.lateralDistance - shortcut.roadHalfWidth).toFixed(2)),
+            sharedMouth: g.track.serviceTunnel.junctionContains(position),
+          };
+        });
         inView.push({ fraction, occluded: Boolean(intercept), distance: ray.length(),
           targetWorld: target.toArray(), targetNdc: projected.toArray(),
-          blockerDistance: intercept?.distance ?? null });
+          blockerDistance: intercept?.distance ?? null, clearances });
       }
       return {
         shortcut: shortcut.id,

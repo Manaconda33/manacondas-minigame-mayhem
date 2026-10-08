@@ -214,7 +214,7 @@ try {
     medium.fallsExtension.windows !== 160 ||
     medium.fallsExtension.pylons !== 16 ||
     medium.fallsExtension.footings !== 16 ||
-    medium.fallsExtension.waterfalls !== 14 ||
+    medium.fallsExtension.waterfalls !== 24 ||
     medium.fallsExtension.mist !== 14 ||
     medium.fallsExtension.wet !== true ||
     !low ||

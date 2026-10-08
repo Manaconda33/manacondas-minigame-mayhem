@@ -57,7 +57,7 @@ describe('Neon Grid T9.2 owner-review corrections', () => {
       const towers = scene.getObjectByName('skyline-city-towers') as THREE.InstancedMesh;
       const supports = scene.getObjectByName('skyline-ad-supports') as THREE.InstancedMesh;
       expect(supports).toBeInstanceOf(THREE.InstancedMesh);
-      expect(supports.count).toBe(6);
+      expect(supports.count).toBe(14);
 
       const towerPositions: THREE.Vector3[] = [];
       const matrix = new THREE.Matrix4();
@@ -73,7 +73,10 @@ describe('Neon Grid T9.2 owner-review corrections', () => {
       ]) {
         const signs = scene.getObjectByName(name) as THREE.InstancedMesh;
         expect(signs, name).toBeInstanceOf(THREE.InstancedMesh);
-        for (let i = 0; i < signs.count; i++) {
+        // Existing first three sponsor signs remain attached to accepted towers.
+        // T9.5 adds four supported roadside masks per sponsor separately.
+        const facadeCount = name === 'skyline-procedural-signage' ? signs.count : 3;
+        for (let i = 0; i < facadeCount; i++) {
           signs.getMatrixAt(i, matrix);
           const position = new THREE.Vector3().setFromMatrixPosition(matrix);
           expect(

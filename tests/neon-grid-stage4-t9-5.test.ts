@@ -222,6 +222,49 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
   }, 20000);
 
 
+  it('renders both owner-approved warning panels without blocking either legal tunnel mouth', () => {
+    const track = new NeonGrid();
+    const scene = createNeonGridScene(track, 'medium');
+    try {
+      const warnings = scene.tunnelWarnings;
+      expect(warnings.group.children).toHaveLength(2);
+      expect(warnings.group.userData.presentationOnly).toBe(true);
+      for (const [name, fraction] of [
+        ['service-tunnel-warning-entry', 0.015],
+        ['service-tunnel-warning-exit', 0.985],
+      ] as const) {
+        const mesh = scene.getObjectByName(name) as THREE.Mesh<
+          THREE.PlaneGeometry, THREE.MeshBasicMaterial
+        >;
+        expect(mesh, name).toBeInstanceOf(THREE.Mesh);
+        expect(mesh.userData.nonColliding).toBe(true);
+        expect(mesh.userData.presentationOnly).toBe(true);
+        expect(mesh.userData.portalFraction).toBe(fraction);
+        expect(mesh.geometry.parameters.width).toBeLessThan(track.serviceTunnel.roadHalfWidth * 2);
+        expect(mesh.geometry.parameters.height).toBeLessThanOrEqual(track.serviceTunnel.headroom);
+        const center = track.serviceTunnel.curve.getPointAt(fraction);
+        expect(Math.hypot(mesh.position.x - center.x, mesh.position.z - center.z)).toBeLessThan(0.01);
+        expect(mesh.material.transparent).toBe(true);
+        expect(mesh.material.depthTest).toBe(true);
+        expect(mesh.material.depthWrite).toBe(false);
+        expect(mesh.material.opacity).toBeGreaterThan(0);
+        // A warning at the physical entrance/exit must fade fully at the
+        // kart's actual traversal point; geometry has no collider.
+        warnings.update(center);
+        expect(mesh.visible).toBe(false);
+        expect(mesh.material.opacity).toBe(0);
+        warnings.update(center.clone().add(new THREE.Vector3(50, 0, 50)));
+        expect(mesh.visible).toBe(true);
+        expect(mesh.material.opacity).toBeCloseTo(0.63, 5);
+      }
+      expect(warnings.group.userData.approvedAsset).toBe(
+        'assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png',
+      );
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 20000);
+
   it('screens shortcut interiors along the real road edges without disguising the actual mouths', () => {
     const track = new NeonGrid();
     const scene = createNeonGridScene(track, 'medium');

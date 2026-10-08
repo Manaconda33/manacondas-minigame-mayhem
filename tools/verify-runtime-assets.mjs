@@ -5,6 +5,7 @@ import './verify-terrain-assets.mjs';
 import './verify-billboard-assets.mjs';
 import './verify-task9-skyline-assets.mjs';
 import './verify-task9-undercity-assets.mjs';
+import './verify-task9-tunnel-warning-asset.mjs';
 
 const archivedCleoHashes = new Map([
   [

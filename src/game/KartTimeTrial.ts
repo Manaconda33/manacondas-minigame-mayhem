@@ -404,6 +404,7 @@ export class KartTimeTrial {
           game.trackScene.billboard.load(),
           game.trackScene.skyline.load(),
           game.trackScene.undercity.load(),
+          game.trackScene.tunnelWarnings.load(),
         ]);
       await game.createKartVisual();
     } catch (error) {
@@ -1929,6 +1930,7 @@ export class KartTimeTrial {
 
   private updateVisuals(dt: number): void {
     const position = this.kart.position(this.position);
+    if (this.trackScene instanceof NeonGridScene) this.trackScene.tunnelWarnings.update(position);
     const forward = this.kart.forward(this.forward);
     this.kartMesh.position.copy(position);
     this.kartMesh.rotation.y = Math.atan2(forward.x, forward.z);

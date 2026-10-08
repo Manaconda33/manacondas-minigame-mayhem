@@ -551,3 +551,6 @@ The owner rejected the latest corrected preview because the Billboard and Servic
 - **Gates:** source/derivative hash and provenance, asset load/fallback and cleanup, bidirectional camera and kart/road visibility, original exterior camouflage, strict CI and separately pinned owner preview. No redesign or other new artwork is approved by this signoff.
 - **Integration status:** pending byte-safe repository preservation and exact-head validation, no in-game acceptance yet.
 
+
+
+**Asset 5 implementation candidate (2026-10-08):** Owner-approved exact 1024×512 transparent PNG has been committed byte-for-byte as Git blob `6d1275e9266dc5bd16a78de0a8d91aeead463369` to archival and runtime paths, with a narrowly scoped non-LFS runtime exception. Two non-colliding semi-transparent holograms use the original image at both Service Tunnel portals; their per-kart alpha fades to zero at the legal mouth and restores outside the clearance radius. Asset signature tests, type/lint/full regression, published pinned runtime and owner at-speed approval remain separate gates. Neither acceptance nor production merge is implied.

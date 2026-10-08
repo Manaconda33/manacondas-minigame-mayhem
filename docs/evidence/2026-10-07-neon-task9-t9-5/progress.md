@@ -126,3 +126,8 @@ Manny expressly approved the standalone reviewed DO NOT ENTER sign for both ends
 ## 2026-10-08 exact approved hologram binary checkpoint
 
 Contrary to initial handoff limitations, GitHub connector `create_blob` accepts full base64 PNG bytes. The verified master SHA-256 is `11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4`; Git object SHA-1 `6d1275e9266dc5bd16a78de0a8d91aeead463369` agrees with an independent local Git blob hash. Two paths use that *same* object, one master and one direct runtime. No recompression or reconstruction. A scoped direct-Git .gitattributes exception is present. Gameplay integration, fresh validation and owner visual preview remain open.
+
+
+## Approved hologram runtime candidate (2026-10-08)
+
+Two warning planes wired through NeonGridScene and KartTimeTrial with single master/runtime PNG (exact approved Git blob 6d1275e9266dc5bd16a78de0a8d91aeead463369), PNG load verification and per-portal fade on kart proximity. Added geometry/material/no-collider/fade regression. No validation or owner gameplay acceptance claimed at code-commit time; require full exact-head CI before an immutable preview.

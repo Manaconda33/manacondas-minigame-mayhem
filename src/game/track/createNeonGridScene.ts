@@ -3,6 +3,7 @@ import { FallsRunVisual } from './FallsRunVisual';
 import { FallsRunExtensionVisual } from './FallsRunExtensionVisual';
 import { SkylineVisual } from './SkylineVisual';
 import { UndercityVisual } from './UndercityVisual';
+import { ServiceTunnelWarningVisual } from './ServiceTunnelWarningVisual';
 import { NeonGridDiveVisual } from './NeonGridDiveVisual';
 import * as THREE from 'three';
 import type { NeonGrid } from './NeonGrid';
@@ -19,6 +20,7 @@ export class NeonGridScene extends THREE.Group {
   public readonly fallsRunExtension: FallsRunExtensionVisual;
   public readonly skyline: SkylineVisual;
   public readonly undercity: UndercityVisual;
+  public readonly tunnelWarnings: ServiceTunnelWarningVisual;
   public constructor(track: NeonGrid, quality: GraphicsQuality = 'medium') {
     super();
     this.billboard = new NeonGridBillboardVisual(track.billboardGap);
@@ -33,6 +35,8 @@ export class NeonGridScene extends THREE.Group {
     this.add(this.skyline.group);
     this.undercity = new UndercityVisual(track, quality);
     this.add(this.undercity.group);
+    this.tunnelWarnings = new ServiceTunnelWarningVisual(track.serviceTunnel);
+    this.add(this.tunnelWarnings.group);
   }
 }
 

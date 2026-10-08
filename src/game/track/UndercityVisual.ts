@@ -585,10 +585,21 @@ function serviceTunnelApproachScreen(track: NeonGrid): THREE.BufferGeometry {
 function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): void {
   // Existing false service bays are useful texture but did not occlude the
   // actual shortcut roadway. This continuous opaque facade now does.
-  const opening = (side: -1 | 1, progress: number): boolean =>
-    tunnelWallOpen(track, side, progress) ||
-    Math.abs(progress - track.serviceTunnel.entry.progress[0]) < 0.014 ||
-    Math.abs(progress - track.serviceTunnel.exitProgress) < 0.016;
+  const opening = (side: -1 | 1, progress: number): boolean => {
+    if (tunnelWallOpen(track, side, progress) ||
+      Math.abs(progress - track.serviceTunnel.entry.progress[0]) < 0.014 ||
+      Math.abs(progress - track.serviceTunnel.exitProgress) < 0.016) return true;
+    // Main-road panels crossing the tunnel ramp can occlude the lower camera
+    // despite being outside the *upper* road's collision bounds.
+    const main = track.curve.getPointAt(progress);
+    const foot = main.clone().addScaledVector(neonGridRightAt(track, progress),
+      side * (track.halfWidthAt(progress) + 0.44));
+    const nearest = track.serviceTunnel.project(foot).point;
+    return Math.hypot(foot.x - nearest.x, foot.z - nearest.z) <
+      track.serviceTunnel.roadHalfWidth + 2.4 &&
+      main.y - 1 < nearest.y + track.serviceTunnel.headroom + 0.4 &&
+      main.y + 4.35 > nearest.y;
+  };
   const roadScreens = neonGridRoadsideScreenGeometry(track, [
     { start: START + 0.009, end: END - 0.006, side: -1,
       opening: (progress) => opening(-1, progress) },

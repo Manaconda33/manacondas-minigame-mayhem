@@ -24,6 +24,12 @@ const captures = [
   { name: 'undercity-service-tunnel', progress: 0.250, performance: true, scale: 1.5 },
   { name: 'undercity-exit', progress: 0.454 },
   { name: 'undercity-rear', progress: 0.254, view: 'rear' },
+  { name: 'tunnel-forward-entry', progress: 0.25, tunnelFraction: 0.08 },
+  { name: 'tunnel-forward-interior', progress: 0.35, tunnelFraction: 0.38 },
+  { name: 'tunnel-reverse-interior', progress: 0.35, tunnelFraction: 0.66, view: 'rear' },
+  { name: 'tunnel-forward-exit', progress: 0.45, tunnelFraction: 0.94 },
+  { name: 'tunnel-mobile-landscape', progress: 0.35, tunnelFraction: 0.40, width: 844, height: 390 },
+  { name: 'tunnel-mobile-portrait', progress: 0.35, tunnelFraction: 0.50, width: 390, height: 844 },
   { name: 'falls-climb', progress: 0.688 },
   // Waterfall Dive entry is 0.792717, NOT former 0.75 capture.
   { name: 'waterfall-dive-approach', progress: 0.786 },
@@ -71,7 +77,8 @@ try {
         if (message.type() === 'error') errors.push(station.name + ': ' + message.text());
       });
       const target = 'http://127.0.0.1:5173/manacondas-minigame-mayhem/tools/diagnostics/neon-grid-course.html' +
-        '?quality=medium&sector=course&testRacePerf=1&progress=' + station.progress;
+        '?quality=medium&sector=course&testRacePerf=1&progress=' + station.progress +
+        (station.tunnelFraction === undefined ? '' : '&tunnelFraction=' + station.tunnelFraction);
       await page.goto(target);
       await page.waitForFunction(() => window.ready, undefined, { timeout: 90000 });
       await page.waitForLoadState('networkidle');
@@ -154,9 +161,17 @@ try {
     tunnelApproach.entranceTargetsInView < 2) {
     throw new Error('T9.5 Service Tunnel true entrance is not visibly discoverable from real ChaseCamera');
   }
+  for (const frame of frames.filter((f) => f.station.startsWith('tunnel-'))) {
+    if (!frame.tunnelKartSightline || frame.tunnelKartSightline.rays.length !== 3 ||
+        frame.tunnelKartSightline.blocked.length !== 0) {
+      console.error('T9.5 tunnel camera occlusion:', frame.station, JSON.stringify(frame.tunnelKartSightline));
+      throw new Error('T9.5 Service Tunnel camera/kart line of sight obstructed: ' + frame.station);
+    }
+  }
   if (errors.length || frames.length !== captures.length ||
     frames.some((f) => f.racers !== 8 || f.calls <= 0 || f.triangles <= 0 ||
-      f.skyline.maskBillboards !== 8 || f.skyline.manacondaAds !== 7 ||
+      f.skyline.maskBillboards !== 8 || f.skyline.raisedBillboardPosts !== 4 ||
+      f.skyline.facadeMountedBillboards !== 4 || f.skyline.manacondaAds !== 7 ||
       f.skyline.tacoBellAds !== 7 || f.undercity.serviceBays !== 14 ||
       f.fallsExtension.waterfalls !== 24 ||
       f.width <= 0 || f.height <= 0 ||

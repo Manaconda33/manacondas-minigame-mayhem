@@ -38,8 +38,12 @@
         : sector === 'course'
         ? (Number.isFinite(requestedProgress) && requestedProgress >= 0 && requestedProgress <= 1 ? requestedProgress : 0.355)
         : 0.16;
-    const p = g.track.curve.getPointAt(progress);
-    const tangent = g.track.curve.getTangentAt(progress).setY(0).normalize();
+    const tunnelFraction = Number(params.get('tunnelFraction'));
+    const inTunnel = sector === 'course' && params.has('tunnelFraction') &&
+      Number.isFinite(tunnelFraction) && tunnelFraction >= 0 && tunnelFraction <= 1;
+    const p = inTunnel ? g.track.serviceTunnel.curve.getPointAt(tunnelFraction) : g.track.curve.getPointAt(progress);
+    const tangent = (inTunnel ? g.track.serviceTunnel.curve.getTangentAt(tunnelFraction) :
+      g.track.curve.getTangentAt(progress)).setY(0).normalize();
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
     g.kart.respawn(p.clone().add(new THREE.Vector3(0, 1.1, 0)), Math.atan2(tangent.x, tangent.z));
     g.opponents.forEach((o, i) => {
@@ -57,14 +61,15 @@
     const diagnosticChase = new ChaseCamera(g.camera, window.innerWidth < 900);
     const stagedKartPosition = p.clone().add(new THREE.Vector3(0, 1.1, 0));
     const placeCamera = (view) => {
-      diagnosticChase.update(stagedKartPosition, tangent, view === 'rear', 3, p.y);
+      diagnosticChase.update(stagedKartPosition, tangent, view === 'rear', 3, p.y,
+        inTunnel ? p.y + g.track.serviceTunnel.headroom - 0.35 : Number.POSITIVE_INFINITY);
     };
 
     // Actual ChaseCamera line-of-sight evidence: project sampled alternate-road
     // points into this camera's viewport, then raycast toward them through the
     // opaque wallside screen. This complements structural lateral ray tests.
     const currentShortcutSightline = (view) => {
-      if (view !== 'chase' || progress > 0.46155) return null;
+      if (inTunnel || view !== 'chase' || progress > 0.46155) return null;
       const billboard = progress < 0.22;
       const shortcut = billboard ? g.track.billboardGap : g.track.serviceTunnel;
       const screen = g.trackScene.getObjectByName(
@@ -144,11 +149,34 @@
       proceduralSigns: g.trackScene.getObjectByName('skyline-procedural-signage')?.count ?? 0,
       manacondaAds: g.trackScene.getObjectByName('skyline-ad-manaconda-racing')?.count ?? 0,
       tacoBellAds: g.trackScene.getObjectByName('skyline-ad-taco-bell-live-mas')?.count ?? 0,
-      maskBillboards: g.trackScene.getObjectByName('skyline-mask-roadside-billboard-supports')?.count ?? 0,
+      maskBillboards: Math.max(0, (g.trackScene.getObjectByName('skyline-ad-manaconda-racing')?.count ?? 0) - 3) +
+        Math.max(0, (g.trackScene.getObjectByName('skyline-ad-taco-bell-live-mas')?.count ?? 0) - 3),
+      raisedBillboardPosts: g.trackScene.getObjectByName('skyline-mask-roadside-billboard-supports')?.count ?? 0,
+      facadeMountedBillboards:
+        g.trackScene.getObjectByName('skyline-mask-roadside-billboard-supports')?.userData.wallMountedProgress?.length ?? 0,
       wet: Boolean(g.trackScene.getObjectByName('skyline-wet-asphalt')),
     });
 
     g.renderer.info.autoReset = false;
+    const tunnelKartSightline = () => {
+      if (!inTunnel) return null;
+      g.camera.updateMatrixWorld(true);
+      g.trackScene.updateMatrixWorld(true);
+      const blockers = ['undercity-wallside-sightline-screens', 'service-tunnel-roof',
+        'service-tunnel-left-wall', 'service-tunnel-right-wall']
+        .map((name) => g.trackScene.getObjectByName(name)).filter(Boolean);
+      const caster = new THREE.Raycaster();
+      const rays = [0.15, 0.65, 1.15].map((height) => {
+        const target = stagedKartPosition.clone().add(new THREE.Vector3(0, height, 0));
+        const ray = target.clone().sub(g.camera.position);
+        caster.set(g.camera.position, ray.clone().normalize());
+        caster.far = ray.length() - 0.02;
+        const hit = caster.intersectObjects(blockers, false)[0];
+        return { height, blocker: hit?.object.name ?? null, camera: g.camera.position.toArray(), target: target.toArray() };
+      });
+      return { fraction: tunnelFraction, rays, blocked: rays.filter((ray) => ray.blocker !== null) };
+    };
+
     window.renderFrame = (skylineVisible = true, view = 'chase') => {
       g.trackScene.skyline.group.visible = skylineVisible;
       g.trackScene.billboard.update(4);
@@ -179,6 +207,7 @@
         undercity: undercitySnapshot(),
         fallsExtension: fallsExtensionSnapshot(),
         actualCameraShortcutSightline: currentShortcutSightline(view),
+        tunnelKartSightline: tunnelKartSightline(),
       };
     };
 

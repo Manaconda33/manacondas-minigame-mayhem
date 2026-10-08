@@ -412,6 +412,8 @@ function addAmbientFalls(group: THREE.Group, track: NeonGrid, quality: GraphicsQ
   const count = progresses.length;
   const falls = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), material, count);
   falls.name = 'falls-run-extension-ambient-waterfalls';
+  falls.userData.camouflageProgress = progresses;
+  falls.userData.noGold = true;
   falls.frustumCulled = false;
   const lips = new THREE.InstancedMesh(
     new THREE.BoxGeometry(1, 0.12, 0.18),

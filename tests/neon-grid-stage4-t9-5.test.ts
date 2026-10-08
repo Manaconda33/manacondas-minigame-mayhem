@@ -152,6 +152,62 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
     }
   });
 
+  it('positions decoy structures beside real shortcut approaches without replacing the approved tells', () => {
+    const track = new NeonGrid();
+    const scene = createNeonGridScene(track, 'medium');
+    try {
+      const billboard = instanced(scene, 'skyline-mask-roadside-billboard-supports');
+      expect(billboard.count).toBe(8);
+      expect(billboard.userData.immutableSponsorArt).toBe(true);
+      const positions = billboard.userData.camouflageProgress as number[];
+      expect(positions).toHaveLength(8);
+      expect(positions.filter((p) => Math.abs(p - track.billboardGap.entry.progress[0]) < 0.051).length)
+        .toBeGreaterThanOrEqual(4);
+      expect(instanced(scene, 'skyline-ad-supports').count).toBe(14);
+      for (let i = 0; i < billboard.count; i++) {
+        const support = transform(billboard, i);
+        const main = track.projectMain(support.position);
+        const gap = track.billboardGap.project(support.position);
+        expect(main.lateralDistance - track.halfWidthAt(main.progress), `billboard decoy ${i} main-clear`).toBeGreaterThan(3);
+        expect(gap.lateralDistance - track.billboardGap.roadHalfWidth, `billboard decoy ${i} shortcut-clear`).toBeGreaterThan(3);
+        expect(support.scale.toArray().every(Number.isFinite)).toBe(true);
+      }
+
+      const bays = instanced(scene, 'undercity-service-bays');
+      const bayBacks = instanced(scene, 'undercity-service-bay-backs');
+      expect(bays.count).toBe(14);
+      expect(bayBacks.count).toBe(bays.count);
+      const approaches = bays.userData.camouflageProgress as number[];
+      expect(approaches).toHaveLength(14);
+      expect(approaches[0]).toBeCloseTo(track.serviceTunnel.entry.progress[0] + 0.004, 6);
+      expect(approaches.at(-1)).toBeCloseTo(track.serviceTunnel.exitProgress - 0.003, 6);
+      for (let i = 0; i < bays.count; i++) {
+        const face = transform(bays, i);
+        const back = transform(bayBacks, i);
+        expect(face.position.distanceTo(back.position)).toBeLessThan(1.5);
+        const main = track.projectMain(back.position);
+        const tunnel = track.serviceTunnel.project(back.position);
+        expect(main.lateralDistance - track.halfWidthAt(main.progress), `service bay ${i} main-clear`).toBeGreaterThan(1);
+        expect(tunnel.lateralDistance - track.serviceTunnel.roadHalfWidth, `service bay ${i} tunnel-clear`).toBeGreaterThan(1);
+      }
+
+      const falls = instanced(scene, 'falls-run-extension-ambient-waterfalls');
+      expect(falls.count).toBe(24);
+      expect(falls.userData.noGold).toBe(true);
+      const fallsPositions = falls.userData.camouflageProgress as number[];
+      expect(fallsPositions).toHaveLength(24);
+      expect(fallsPositions.every((p) => p < 0.7 || p > 0.85)).toBe(true);
+      expect(fallsPositions.filter((p) => p >= 0.65 && p < 0.7).length).toBeGreaterThanOrEqual(8);
+      expect(fallsPositions.filter((p) => p > 0.85 && p < 0.89).length).toBeGreaterThanOrEqual(4);
+      expect(scene.getObjectByName('billboard-ad-paprika')).toBeDefined();
+      expect(scene.getObjectByName('dive-launch-tell')).toBeDefined();
+      expect(scene.getObjectByName('dive-landing-marker')).toBeDefined();
+      expect(scene.getObjectByName('service-tunnel')).toBeDefined();
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 20000);
+
   it('freezes all four visual clocks when hidden, without resume catch-up', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
     try {

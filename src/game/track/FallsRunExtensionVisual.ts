@@ -401,7 +401,15 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
 }
 
 function addAmbientFalls(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality, material: THREE.ShaderMaterial): void {
-  const count = 14;
+  // T9.5: enough ordinary, non-gold spillways on BOTH approaches to make
+  // the Dive waterfall less singular. The accepted Task 8 0.70–0.85 region
+  // and its unique gold launch cue are not modified or occluded.
+  const progresses = [
+    0.480, 0.513, 0.542, 0.570, 0.598, 0.623, 0.640, 0.650,
+    0.659, 0.668, 0.676, 0.683, 0.688, 0.693, 0.696, 0.698,
+    0.853, 0.861, 0.872, 0.886, 0.909, 0.938, 0.964, 0.982,
+  ];
+  const count = progresses.length;
   const falls = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), material, count);
   falls.name = 'falls-run-extension-ambient-waterfalls';
   falls.frustumCulled = false;
@@ -414,10 +422,8 @@ function addAmbientFalls(group: THREE.Group, track: NeonGrid, quality: GraphicsQ
   const drops: { position: THREE.Vector3; height: number; width: number }[] = [];
   const dummy = new THREE.Object3D();
   for (let i = 0; i < count; i++) {
-    const range = RANGES[i < 8 ? 0 : 1];
-    const local = i < 8 ? i : i - 8;
-    const total = i < 8 ? 8 : 6;
-    const progress = THREE.MathUtils.lerp(range[0] + 0.015, range[1] - 0.015, local / (total - 1));
+    const progress = progresses[i];
+    if (progress === undefined) continue;
     const center = track.curve.getPointAt(progress);
     const right = neonGridRightAt(track, progress);
     const side = i % 2 === 0 ? -1 : 1;

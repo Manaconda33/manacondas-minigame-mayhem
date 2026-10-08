@@ -160,6 +160,13 @@ jobs:
             marker_type: feature
             marker_name: 'Neon Grid Stage 4 Task 9 T9.4 Falls Run extension'
             status: 'T9.4 owner visual/playability review only; T9.5/T9.7/production not authorized'
+          - id: neon-grid-t9-5
+            embed_source: true
+            sha: a25c4b1788f4930b4e416777c8100284ff3c65a7
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-5/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 Task 9 T9.5 lifecycle masking and visual enhancements'
+            status: 'T9.5 owner visual/playability review ONLY; no T9.6, runtime PR merge or gameplay production release'
 
     steps:
       - name: Restore immutable preview build
@@ -436,6 +443,12 @@ jobs:
           path: preview-output/neon-grid-t9-4
           key: preview-dist-v1-neon-grid-t9-4-be47a3d7215867b9b275473fd2640cc626ef5e37-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
+      - name: Restore Neon Grid T9.5 full-course owner preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-5
+          key: preview-dist-v1-neon-grid-t9-5-a25c4b1788f4930b4e416777c8100284ff3c65a7-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
         run: |
@@ -501,6 +514,14 @@ jobs:
           test -f site-root/previews/neon-grid-t9-4/assets/track/neon-grid/signage/nightshift-noodles-v1.webp
           test -f site-root/previews/neon-grid-t9-4/assets/track/neon-grid/signage/voltline-industrial-v1.webp
 
+          mkdir -p site-root/previews/neon-grid-t9-5
+          cp -a preview-output/neon-grid-t9-5/. site-root/previews/neon-grid-t9-5/
+          test -f site-root/previews/neon-grid-t9-5/index.html
+          test -f site-root/previews/neon-grid-t9-5/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
+            test -f "site-root/previews/neon-grid-t9-5/assets/track/neon-grid/signage/$art"
+          done
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -533,13 +554,16 @@ jobs:
           t94 = root/'previews/neon-grid-t9-4'
           paths += [t94/'index.html', t94/'review-build.json', *sorted((t94/'assets').glob('*.js')), *sorted((t94/'assets').glob('*.css'))]
           paths += [t94/'assets/track/neon-grid/signage'/name for name in ['nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
+          t95 = root/'previews/neon-grid-t9-5'
+          paths += [t95/'index.html', t95/'review-build.json', *sorted((t95/'assets').glob('*.js')), *sorted((t95/'assets').glob('*.css'))]
+          paths += [t95/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
           report = []
           for path in paths:
               relative = str(path.relative_to(root))
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/')):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/')):
                   with urllib.request.urlopen(url, timeout=45) as response:
                       assert response.status == 200
                       assert hashlib.sha256(response.read()).hexdigest() == sha, 'Production bytes differ: ' + relative
@@ -652,7 +676,7 @@ jobs:
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = 'be47a3d7215867b9b275473fd2640cc626ef5e37' if item['path'].startswith('previews/neon-grid-t9-4/') else '42781fb5367a146473c49012e0442e953197e480' if item['path'].startswith('previews/neon-grid-t9-3-correction/') else '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = 'a25c4b1788f4930b4e416777c8100284ff3c65a7' if item['path'].startswith('previews/neon-grid-t9-5/') else 'be47a3d7215867b9b275473fd2640cc626ef5e37' if item['path'].startswith('previews/neon-grid-t9-4/') else '42781fb5367a146473c49012e0442e953197e480' if item['path'].startswith('previews/neon-grid-t9-3-correction/') else '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

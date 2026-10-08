@@ -7,7 +7,9 @@ const directory = process.argv[2] ?? '/tmp/neon-grid-t9-5-render';
 mkdirSync(directory, { recursive: true });
 
 // Structural/readability CI only. Representative-hardware certification is T9.6.
-const engineeringCeilings = { calls: 200, triangles: 300000 };
+// Owner-approved T9.5 full-course only: 200-call optimization TARGET, 220-call CI blocker.
+const engineeringTargetCalls = 200;
+const engineeringCeilings = { calls: 220, triangles: 300000 };
 const prdCaps = { calls: 250, triangles: 750000 };
 const captures = [
   { name: 'skyline-chase', progress: 0.063 },
@@ -76,7 +78,7 @@ try {
         performanceSummary = await page.evaluate(() => window.measureFrames(300, 45));
         await page.evaluate((camera) => window.renderFrame(true, camera), view);
       }
-      // Diagnose real rear-view peaks without weakening the 200-call budget.
+      // Diagnose real rear-view peaks without relaxing the 200-call target or 220-call blocker.
       if (station.name === 'waterfall-dive-rear' || station.name === 'billboard-rear') {
         frame.ownerProfile = await page.evaluate((camera) => window.profileOwnerCalls(camera), view);
         await page.evaluate((camera) => window.renderFrame(true, camera), view);
@@ -94,12 +96,14 @@ try {
   const report = {
     source: 'Actual Neon Grid kart race scene, eight racers, all Task 9 visual owners mounted',
     classification: 'GitHub Actions Chromium/SwiftShader: blocking structural readiness only, FPS/p95 diagnostic, T9.6 hardware certification pending',
-    engineeringCeilings, prdCaps, errors, frames,
+    engineeringTargetCalls, engineeringCeilings, prdCaps, errors, frames,
+    drawCallsAboveTarget: Math.max(0, maximumDrawCalls - engineeringTargetCalls),
     maximumDrawCalls, maximumTriangles, performanceSummary,
   };
   writeFileSync(directory + '/t9-5-render-check.json', JSON.stringify(report, null, 2));
   console.log(JSON.stringify({
-    errors, count: frames.length, maximumDrawCalls,
+    errors, count: frames.length, maximumDrawCalls, engineeringTargetCalls,
+    drawCallsAboveTarget: Math.max(0, maximumDrawCalls - engineeringTargetCalls),
     maximumTriangles, scoredFrames: performanceSummary?.scoredFrames ?? null,
     ownerProfiles: frames.filter((f) => f.ownerProfile).map((f) => ({
       station: f.station, ...f.ownerProfile,

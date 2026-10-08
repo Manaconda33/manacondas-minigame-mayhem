@@ -188,6 +188,7 @@ try {
     medium.undercity.windows !== 160 ||
     medium.undercity.buildings !== 16 ||
     medium.undercity.pipes !== 26 ||
+    medium.undercity.serviceBays !== 14 ||
     medium.undercity.nightshiftAds !== 2 ||
     medium.undercity.voltlineAds !== 2 ||
     medium.undercity.wet !== true ||

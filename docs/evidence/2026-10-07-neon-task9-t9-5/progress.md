@@ -116,3 +116,8 @@ Manny approved excluding the *shared drivable entrance* from hidden-interior cam
 ## Owner follow-up 2026-10-08: camouflage accepted in principle, traversal corrections authorized
 
 Owner gameplay screenshots: T9.5 exterior disguise works, but independent Skyline sponsor stands appear behind the new wall rather than architecturally attached. Service Tunnel image sequence shows visual entrance blockage, apparent road clipping, opaque meshes crossing the player camera and disappearing kart. Correct the geometry and both-way approach-camera envelope before soliciting final owner approval. Preserve prior exterior deep-road LOS gate. Proposed translucent DO NOT ENTER art is not integrated without separate art signoff. Code and test change is an unverified candidate pending exact-head CI and human preview; no claim of successful correction or new publication here.
+
+
+## 2026-10-08 owner hologram-art approval
+
+Manny expressly approved the standalone reviewed DO NOT ENTER sign for both ends of the Service Tunnel. Source 1024×512 transparent PNG SHA-256 `11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4`. This approves the graphic and intended non-colliding fade-in-traffic treatment only. At this checkpoint the binary is not yet preserved in the repository and no runtime sign implementation, final CI or in-game acceptance is claimed. Maintain the fixed 200 target / 220 full-course blocker / 300k visible triangles and all prior sector limits. 

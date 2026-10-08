@@ -540,3 +540,14 @@ This completes the currently planned four-billboard Task 9 masking set: two Skyl
 ## Owner-approved T9.5 sightline correction (2026-10-08)
 
 The owner rejected the latest corrected preview because the Billboard and Service Tunnel alternate asphalt is openly visible from the normal racing line. The approved bounded repair places opaque, supported, non-colliding facade screens along the road's outer walls rather than relying on detached decorative ad supports or isolated service decoys. Real mouth cuts and all original tells remain clear, both directions remain physically accessible, Task 8's 0.70–0.85 visuals remain frozen, and T9.7 Skyline massing/ground polish remains deferred. Require geometric line-of-sight ray tests at multiple race-line positions, chase/mobile/rear captured frame inspection, full existing regression gates and a fresh pinned preview for Manny's subjective at-speed signoff. A green CI run does not grant owner camouflage acceptance. Only the T9.5 **full-course** maximum changes to **220 calls**, still targeting **200** and reporting any excess; all other draw limits remain unchanged.
+
+
+### Asset 5 — Service Tunnel holographic warning "DO NOT ENTER"
+
+- **Status:** OWNER APPROVED, 2026-10-08. Approval was given to the standalone review-only graphic, not T9.5 playability.
+- **Visual:** 1024 × 512 transparent PNG with magenta/violet warning borders, triangular caution symbols, title **DO NOT ENTER**, and subtitle **RESTRICTED SERVICE ACCESS**.
+- **Source:** exact approved local conversation artifact `neon-grid-do-not-enter-asset-review.png`; SHA-256 `11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4`. Do not treat this as already preserved in GitHub.
+- **Use:** the same approved image at the Service Tunnel entrance and exit, presentation only. Both approaches physically open, non-colliding holograms, semi-transparent and locally softened/faded during traversal.
+- **Gates:** source/derivative hash and provenance, asset load/fallback and cleanup, bidirectional camera and kart/road visibility, original exterior camouflage, strict CI and separately pinned owner preview. No redesign or other new artwork is approved by this signoff.
+- **Integration status:** pending byte-safe repository preservation and exact-head validation, no in-game acceptance yet.
+

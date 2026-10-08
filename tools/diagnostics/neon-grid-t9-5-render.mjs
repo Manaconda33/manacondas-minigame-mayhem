@@ -17,6 +17,8 @@ const captures = [
   { name: 'billboard-approach-chase', progress: 0.092 },
   { name: 'billboard-mouth', progress: 0.103 },
   { name: 'billboard-rear', progress: 0.108, view: 'rear' },
+  { name: 'undercity-pre-approach', progress: 0.234 },
+  { name: 'undercity-approach-chase', progress: 0.239 },
   { name: 'undercity-entry', progress: 0.242 },
   // Service Tunnel entry spans 0.24655–0.25155, NOT former 0.355 capture.
   { name: 'undercity-service-tunnel', progress: 0.250, performance: true, scale: 1.5 },
@@ -29,8 +31,10 @@ const captures = [
   { name: 'falls-exit', progress: 0.865 },
   { name: 'waterfall-dive-rear', progress: 0.801, view: 'rear' },
   { name: 'mobile-landscape-billboard', progress: 0.102, width: 844, height: 390 },
+  { name: 'mobile-landscape-undercity-approach', progress: 0.239, width: 844, height: 390 },
   { name: 'mobile-landscape-undercity', progress: 0.249, width: 844, height: 390 },
   { name: 'mobile-landscape-dive', progress: 0.792, width: 844, height: 390 },
+  { name: 'mobile-portrait-undercity-approach', progress: 0.239, width: 390, height: 844 },
   { name: 'mobile-portrait-undercity', progress: 0.248, width: 390, height: 844 },
   { name: 'mobile-portrait-falls', progress: 0.792, width: 390, height: 844 },
 ];
@@ -119,10 +123,28 @@ try {
   }
   const tunnelApproach = frames.find((frame) => frame.station === 'undercity-entry')
     ?.actualCameraShortcutSightline;
-  console.log('T9.5 Service Tunnel approach LOS evidence:', JSON.stringify(tunnelApproach));
+  // The legal mouth is intentionally visible and enterable. Instead of counting
+  // it as exposed *interior*, test multiple real chase-camera approaches and
+  // both mobile orientations against only genuinely hidden tunnel samples.
+  const tunnelStations = [
+    'undercity-pre-approach', 'undercity-approach-chase',
+    'undercity-entry', 'mobile-landscape-undercity-approach',
+    'mobile-portrait-undercity-approach',
+  ];
+  for (const station of tunnelStations) {
+    const sightline = frames.find((frame) => frame.station === station)
+      ?.actualCameraShortcutSightline;
+    if (!sightline || sightline.shortcut !== 'service-tunnel' ||
+      sightline.interiorTargetsEvaluated < 4 ||
+      sightline.interiorExposed !== 0) {
+      console.error('T9.5 true tunnel interior LOS failure:', station,
+        JSON.stringify(sightline));
+      throw new Error('T9.5 Service Tunnel inner roadway is exposed from real ChaseCamera: ' + station);
+    }
+  }
   if (!tunnelApproach || tunnelApproach.viewportTargets < 3 ||
-    tunnelApproach.blockedTargets < 2) {
-    throw new Error('T9.5 Service Tunnel approach reveals shortcut interior from real ChaseCamera');
+    tunnelApproach.entranceTargetsInView < 2) {
+    throw new Error('T9.5 Service Tunnel true entrance is not visibly discoverable from real ChaseCamera');
   }
   if (errors.length || frames.length !== captures.length ||
     frames.some((f) => f.racers !== 8 || f.calls <= 0 || f.triangles <= 0 ||

@@ -36,3 +36,15 @@ Manny approved the revised T9.5 plan: in addition to original full-course lifecy
 - Record measured incremental draw calls/triangles and any necessary bounded corrections. Do not expand global camera/far, cross-minigame render workload or pre-approved quality budgets.
 - Publish exact-source pinned T9.5 review through a publication-only PR to main, verify live delivery hashes and unchanged production assets, then request Manny's visual/playability review.
 - Do **not** merge #242, deploy Neon Grid gameplay to production, start T9.6 or pull T9.7 Skyline work forward.
+
+
+## First candidate CI and bounded fix — 2026-10-07 (America/Chicago)
+
+First modified-source candidate `98a36b3698f48b1fa1b77fb2c59b902c464d68a7`, [CI 37712350695](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37712350695):
+
+- Typecheck and lint steps **PASS** after fixing the initial ESLint issue; the separate `task9-full-course-render`, `task9-undercity-render`, `task9-skyline-render`, and spillway gates **PASS**.
+- Undercity A/B passes the original **+20** maximum, measured +20 draw calls / +8,092 triangles. Whole capture peak 176 draw calls / 156,816 triangles, below engineering ceilings.
+- Falls extension A/B fails the *unchanged* **+12** incremental-call gate with **+13**, although readiness parity passes, and whole capture peaks 151 calls / 145,706 triangles. This is a genuine render-cost regression from two individually batched deck fixture families, not the earlier asynchronous readiness drift. Do not raise the bound.
+- Corrective engineering checkpoint: fuse the cap and cyan underside lamp (two colored geometries) into a single `falls-run-extension-deck-service-fixtures` instanced geometry family with one material and 16 instances. Visual cap/underside-light geometry remains present, attached to existing pylons and collision-free. The corresponding T9.5 tests inspect both colored geometry regions, exact pylon support and once-only resource disposal.
+- This adjustment is **not yet validated** on the final head. CI of an earlier head is insufficient for completion, and passing the structural mask gate is not an owner visual/playability approval.
+

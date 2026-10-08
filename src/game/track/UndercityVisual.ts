@@ -496,39 +496,63 @@ function addFacadeVentilation(group: THREE.Group, buildings: UndercityBuilding[]
 }
 
 function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
+  // T9.5: the actual tunnel mouth must read as ONE of many similar service
+  // openings. Distribute dark bays throughout the driving corridor, including
+  // immediately after its real entrance and before its exit. The fake bays
+  // have solid backing, no physical drivable branch and no collider.
+  const progresses = [
+    START + 0.004, START + 0.014, START + 0.027, START + 0.045,
+    START + 0.064, START + 0.084, START + 0.105, START + 0.125,
+    START + 0.148, START + 0.168, END - 0.032, END - 0.018,
+    END - 0.009, END - 0.003,
+  ];
   const material = new THREE.MeshStandardMaterial({
-    color: 0x121523, emissive: 0x5f1a65, emissiveIntensity: 0.34,
-    roughness: 0.57, metalness: 0.5,
+    color: 0x111320, emissive: 0x401846, emissiveIntensity: 0.22,
+    roughness: 0.68, metalness: 0.45,
   });
-  const bays = new THREE.InstancedMesh(new THREE.BoxGeometry(2.8, 3.7, 0.22), material, 10);
+  const bays = new THREE.InstancedMesh(new THREE.BoxGeometry(5.45, 3.72, 0.18), material, progresses.length);
   bays.name = 'undercity-service-bays';
+  // One batched pre-fab: deep foundation, threshold and the two metal jambs.
+  // The large opening matches the tunnel's 6.4 m mouth much more closely than
+  // the original narrow utility-box shutters.
+  const base = new THREE.BoxGeometry(6.45, 6.4, 1.15);
+  const left = new THREE.BoxGeometry(0.34, 4.05, 0.23).translate(-2.92, 0.25, 0.65);
+  const right = new THREE.BoxGeometry(0.34, 4.05, 0.23).translate(2.92, 0.25, 0.65);
+  const lintel = new THREE.BoxGeometry(6.1, 0.32, 0.25).translate(0, 2.42, 0.65);
+  const threshold = new THREE.BoxGeometry(6.45, 0.35, 1.75).translate(0, -3.15, 0.38);
+  const backingGeometry = mergeGeometries([base, left, right, lintel, threshold], false);
+  for (const part of [base, left, right, lintel, threshold]) part.dispose();
   const backing = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(3.5, 8.5, 1.3),
-    new THREE.MeshStandardMaterial({ color: 0x1a1d2a, roughness: 0.88 }),
-    bays.count,
+    backingGeometry,
+    new THREE.MeshStandardMaterial({ color: 0x272d3b, roughness: 0.86, metalness: 0.28 }),
+    progresses.length,
   );
   backing.name = 'undercity-service-bay-backs';
-  const authoredProgress = [
-    START + 0.01, START + 0.021, START + 0.034, START + 0.049, START + 0.064,
-    END - 0.064, END - 0.049, END - 0.034, END - 0.021, END - 0.01,
-  ];
   const dummy = new THREE.Object3D();
-  authoredProgress.forEach((progress, i) => {
+  progresses.forEach((progress, i) => {
     const center = track.curve.getPointAt(progress);
     const right = neonGridRightAt(track, progress);
     const side = i % 2 === 0 ? -1 : 1;
-    const outward = side * (track.halfWidthAt(progress) + 5.1);
-    dummy.position.copy(center).addScaledVector(right, outward)
-      .add(new THREE.Vector3(0, 1.85, 0));
-    dummy.rotation.set(0, Math.atan2(-side * right.x, -side * right.z), 0);
-    dummy.scale.set(0.9 + (i % 3) * 0.12, 1, 1);
-    dummy.updateMatrix();
-    bays.setMatrixAt(i, dummy.matrix);
-    dummy.position.copy(center).addScaledVector(right, outward + side * 0.52)
-      .add(new THREE.Vector3(0, -0.25, 0));
+    let offset = track.halfWidthAt(progress) + 5.4;
+    let foot = center.clone().addScaledVector(right, side * offset);
+    // No facade intrudes into either actual drivable route.
+    for (let retry = 0; retry < 5 &&
+      (mainClearance(track, foot, 3.8) < 1.5 || tunnelClearance(track, foot, 3.8) < 2.4);
+      retry++
+    ) {
+      offset += 3.5;
+      foot = center.clone().addScaledVector(right, side * offset);
+    }
+    const yaw = Math.atan2(-side * right.x, -side * right.z);
+    dummy.position.copy(foot).add(new THREE.Vector3(0, -0.65, 0));
+    dummy.rotation.set(0, yaw, 0);
     dummy.scale.set(1, 1, 1);
     dummy.updateMatrix();
     backing.setMatrixAt(i, dummy.matrix);
+    dummy.position.copy(foot).add(new THREE.Vector3(0, 0.02, 0))
+      .addScaledVector(right, -side * 0.64);
+    dummy.updateMatrix();
+    bays.setMatrixAt(i, dummy.matrix);
   });
   bays.instanceMatrix.needsUpdate = true;
   backing.instanceMatrix.needsUpdate = true;

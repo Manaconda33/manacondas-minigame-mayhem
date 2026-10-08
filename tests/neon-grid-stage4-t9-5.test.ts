@@ -168,8 +168,8 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         const support = transform(billboard, i);
         const main = track.projectMain(support.position);
         const gap = track.billboardGap.project(support.position);
-        expect(main.lateralDistance - track.halfWidthAt(main.progress), `billboard decoy ${i} main-clear`).toBeGreaterThan(3);
-        expect(gap.lateralDistance - track.billboardGap.roadHalfWidth, `billboard decoy ${i} shortcut-clear`).toBeGreaterThan(3);
+        expect(main.lateralDistance - track.halfWidthAt(main.progress), `billboard decoy ${String(i)} main-clear`).toBeGreaterThan(3);
+        expect(gap.lateralDistance - track.billboardGap.roadHalfWidth, `billboard decoy ${String(i)} shortcut-clear`).toBeGreaterThan(3);
         expect(support.scale.toArray().every(Number.isFinite)).toBe(true);
       }
 
@@ -187,8 +187,8 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect(face.position.distanceTo(back.position)).toBeLessThan(1.5);
         const main = track.projectMain(back.position);
         const tunnel = track.serviceTunnel.project(back.position);
-        expect(main.lateralDistance - track.halfWidthAt(main.progress), `service bay ${i} main-clear`).toBeGreaterThan(1);
-        expect(tunnel.lateralDistance - track.serviceTunnel.roadHalfWidth, `service bay ${i} tunnel-clear`).toBeGreaterThan(1);
+        expect(main.lateralDistance - track.halfWidthAt(main.progress), `service bay ${String(i)} main-clear`).toBeGreaterThan(1);
+        expect(tunnel.lateralDistance - track.serviceTunnel.roadHalfWidth, `service bay ${String(i)} tunnel-clear`).toBeGreaterThan(1);
       }
 
       const falls = instanced(scene, 'falls-run-extension-ambient-waterfalls');

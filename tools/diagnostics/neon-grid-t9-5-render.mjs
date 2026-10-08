@@ -13,6 +13,12 @@ const engineeringCeilings = { calls: 220, triangles: 300000 };
 const prdCaps = { calls: 250, triangles: 750000 };
 const captures = [
   { name: 'skyline-chase', progress: 0.063 },
+  { name: 'billboard-sponsor-wall-early', progress: 0.052 },
+  { name: 'billboard-sponsor-wall-mid', progress: 0.077 },
+  { name: 'mobile-landscape-billboard-sponsors', progress: 0.075, width: 844, height: 390 },
+  { name: 'mobile-portrait-billboard-sponsors-early', progress: 0.053, width: 390, height: 844 },
+  { name: 'mobile-portrait-billboard-sponsors-mid', progress: 0.075, width: 390, height: 844 },
+  { name: 'mobile-portrait-billboard-sponsors-near', progress: 0.094, width: 390, height: 844 },
   // Actual Billboard Gap entry spans 0.101–0.106, NOT former 0.22 capture.
   { name: 'billboard-approach-chase', progress: 0.092 },
   { name: 'billboard-mouth', progress: 0.103 },
@@ -120,6 +126,42 @@ try {
       station: f.station, ...f.ownerProfile,
     })),
   }, null, 2));
+
+  // A real rendered approach must load and present the APPROVED texture
+  // on image-plane pixels, not merely declare four instances in a scene graph.
+  // Check actual chase-camera projection and the closest opaque fascia depth.
+  const sponsorStations = [
+    'billboard-sponsor-wall-early', 'billboard-sponsor-wall-mid',
+    'mobile-landscape-billboard-sponsors',
+    'mobile-portrait-billboard-sponsors-early',
+    'mobile-portrait-billboard-sponsors-mid',
+    'mobile-portrait-billboard-sponsors-near',
+  ];
+  const sponsorEvidence = sponsorStations.flatMap((station) => {
+    const result = frames.find((frame) => frame.station === station)?.sponsorArtworkSightline;
+    if (!result || result.error || !Array.isArray(result.samples)) {
+      throw new Error('T9.5 artwork scene inspection missing: ' + station);
+    }
+    if (result.samples.some((sample) => !sample.imageLoaded || !sample.faceHit)) {
+      throw new Error('T9.5 approved Billboard artwork not loaded/hittable: ' + station);
+    }
+    return result.samples.filter((sample) => sample.visibleArtwork).map((sample) => ({
+      station, ...sample,
+    }));
+  });
+  const visibleSponsors = new Set(sponsorEvidence.map((sample) => sample.name));
+  const mobilePortraitVisible = sponsorEvidence.filter((sample) =>
+    sample.station.startsWith('mobile-portrait-')).length;
+  if (visibleSponsors.size !== 2 || sponsorEvidence.length < 3 ||
+      mobilePortraitVisible < 1) {
+    console.error('T9.5 sponsor image visibility evidence:', JSON.stringify(sponsorEvidence));
+    throw new Error('T9.5 Billboard sponsors still invisible behind masking fascia');
+  }
+  report.sponsorArtworkEvidence = {
+    visibleSponsors: [...visibleSponsors], visibleViews: sponsorEvidence.length,
+    mobilePortraitVisible, evidence: sponsorEvidence,
+  };
+  writeFileSync(directory + '/t9-5-render-check.json', JSON.stringify(report, null, 2));
 
   // Gate the specific failure that the earlier decoration-count checks missed:
   // a driver approaching Billboard must not see most of the interior roadway.

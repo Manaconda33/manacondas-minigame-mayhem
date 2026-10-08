@@ -27,12 +27,14 @@
     });
     window.game = g;
 
-    const sector = params.get('sector') === 'undercity' ? 'undercity' : 'skyline';
+    const sector = ['undercity', 'falls-extension'].includes(params.get('sector')) ? params.get('sector') : 'skyline';
     const requestedProgress = Number(params.get('progress'));
     const progress = sector === 'undercity'
       ? (Number.isFinite(requestedProgress) && requestedProgress >= 0.247 && requestedProgress <= 0.46
         ? requestedProgress : 0.355)
-      : 0.16;
+      : sector === 'falls-extension'
+        ? (Number.isFinite(requestedProgress) && ((requestedProgress >= 0.47 && requestedProgress <= 0.68) || (requestedProgress >= 0.87 && requestedProgress <= 0.99)) ? requestedProgress : 0.57)
+        : 0.16;
     const p = g.track.curve.getPointAt(progress);
     const tangent = g.track.curve.getTangentAt(progress).setY(0).normalize();
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
@@ -139,9 +141,38 @@
       };
     };
 
+    const fallsExtensionSnapshot = () => ({
+      windows: g.trackScene.getObjectByName('falls-run-extension-city-windows')?.count ?? 0,
+      towers: g.trackScene.getObjectByName('falls-run-extension-city-towers')?.count ?? 0,
+      pylons: g.trackScene.getObjectByName('falls-run-extension-supported-pylons')?.count ?? 0,
+      footings: g.trackScene.getObjectByName('falls-run-extension-pylon-footings')?.count ?? 0,
+      waterfalls: g.trackScene.getObjectByName('falls-run-extension-ambient-waterfalls')?.count ?? 0,
+      mist: g.trackScene.getObjectByName('falls-run-extension-ambient-mist')?.count ?? 0,
+      wet: Boolean(g.trackScene.getObjectByName('falls-run-extension-wet-asphalt')),
+    });
+
+    window.renderFallsExtensionFrame = (visible = true, view = 'chase') => {
+      g.trackScene.fallsRunExtension.group.visible = visible;
+      g.trackScene.fallsRunExtension.update(4);
+      g.updateVisuals(1 / 60);
+      placeCamera(view);
+      g.renderer.info.reset();
+      g.bloom.render(g.scene, g.camera);
+      g.motionBlur.render(false);
+      const size = g.renderer.getDrawingBufferSize(new THREE.Vector2());
+      return {
+        calls: g.renderer.info.render.calls, triangles: g.renderer.info.render.triangles,
+        geometries: g.renderer.info.memory.geometries, textures: g.renderer.info.memory.textures,
+        width: size.x, height: size.y, pixelRatio: g.renderer.getPixelRatio(),
+        racers: g.opponents.length + 1, quality, view, sector, progress,
+        extensionVisible: visible, fallsExtension: fallsExtensionSnapshot(),
+      };
+    };
+
     window.measureFrames = async (count = 240, warmup = 45) => {
       g.trackScene.skyline.group.visible = true;
       g.trackScene.undercity.group.visible = true;
+      g.trackScene.fallsRunExtension.group.visible = true;
       placeCamera('chase');
       const samples = [];
       let previous = performance.now();
@@ -154,6 +185,7 @@
         g.trackScene.billboard.update(raceTime);
         g.trackScene.dive.update(raceTime);
         g.trackScene.fallsRun.update(raceTime);
+        g.trackScene.fallsRunExtension.update(raceTime);
         g.trackScene.skyline.update(raceTime);
         g.trackScene.undercity.update(raceTime);
         g.updateVisuals(1 / 60);

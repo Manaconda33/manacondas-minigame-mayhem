@@ -56,6 +56,14 @@ async function renderCase({
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(1000);
 
+  // T9.5: compile the visible scene before timing a same-camera A/B.
+  // This prevents first-use geometry/material/texture uploads from counting as
+  // a visual-owner contribution. Do not modify the unchanged +12 limit.
+  if (measureDelta) {
+    await page.evaluate(({ view }) => {
+      for (let i = 0; i < 3; i++) window.renderFallsExtensionFrame(true, view);
+    }, { view });
+  }
   const baseline = measureDelta
     ? await page.evaluate(({ view }) => window.renderFallsExtensionFrame(false, view), { view })
     : null;
@@ -71,7 +79,25 @@ async function renderCase({
         };
 
   await page.screenshot({ path: directory + '/' + label + '.png' });
-  visualFrames.push({ label, ...visible, baseline, delta });
+  // Reverse the order as an independent readiness check after screenshot.
+  const hiddenAgain = measureDelta
+    ? await page.evaluate(({ view }) => window.renderFallsExtensionFrame(false, view), { view })
+    : null;
+  const visibleAgain = measureDelta
+    ? await page.evaluate(({ view }) => window.renderFallsExtensionFrame(true, view), { view })
+    : null;
+  const readinessStable = !measureDelta || Boolean(
+    baseline && hiddenAgain && visibleAgain &&
+    baseline.calls === hiddenAgain.calls &&
+    baseline.triangles === hiddenAgain.triangles &&
+    visible.calls === visibleAgain.calls &&
+    visible.triangles === visibleAgain.triangles &&
+    baseline.geometries === visible.geometries &&
+    baseline.textures === visible.textures &&
+    visible.geometries === visibleAgain.geometries &&
+    visible.textures === visibleAgain.textures
+  );
+  visualFrames.push({ label, ...visible, baseline, delta, hiddenAgain, visibleAgain, readinessStable });
 
   if (performance) performanceSummary = await page.evaluate(() => window.measureFrames(240, 45));
   await page.evaluate(() => window.game.dispose());
@@ -202,6 +228,7 @@ try {
     medium.delta === null ||
     medium.delta.calls < 5 ||
     medium.delta.calls > engineeringCeilings.extensionCallDelta ||
+    medium.readinessStable !== true ||
     medium.delta.triangles <= 0 ||
     maximumDrawCalls > engineeringCeilings.calls ||
     maximumTriangles > engineeringCeilings.triangles ||
@@ -210,7 +237,7 @@ try {
     performanceSummary.p95FrameMs === null ||
     performanceSummary.medianFps === null
   ) {
-    throw new Error('Task 9 T9.3 FallsExtension rendered readiness gate failed');
+    throw new Error('Task 9 T9.4 FallsExtension rendered readiness gate failed');
   }
 } finally {
   await browser.close();

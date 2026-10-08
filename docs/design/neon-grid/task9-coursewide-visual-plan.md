@@ -211,7 +211,7 @@ Planning allowance:
 | bloom/transparency variability reserve | +18 calls |
 | Task 9 working ceiling | **200 total** |
 
-If the rendered scene exceeds 200 calls or 300k visible triangles, optimize batching/material families before owner preview. Do not consume the PRD hard ceiling by default.
+For T9.5 full-course rendering, 200 calls remains the **optimization target** and 220 is the **owner-approved blocking maximum**; report every call above 200. The 300,000 visible-triangle engineering ceiling, 250/750k PRD hard limits and separate sector A/B limits are unchanged. Batch and optimize before owner review where possible.
 
 ## 8. Lifecycle contract — failing-first
 
@@ -535,3 +535,8 @@ Repository preservation does not itself equal runtime integration.
 
 This completes the currently planned four-billboard Task 9 masking set: two Skyline assets and two Undercity assets. Any additional new 2D artwork still requires the same one-at-a-time owner review gate before integration.
 
+
+
+## Owner-approved T9.5 sightline correction (2026-10-08)
+
+The owner rejected the latest corrected preview because the Billboard and Service Tunnel alternate asphalt is openly visible from the normal racing line. The approved bounded repair places opaque, supported, non-colliding facade screens along the road's outer walls rather than relying on detached decorative ad supports or isolated service decoys. Real mouth cuts and all original tells remain clear, both directions remain physically accessible, Task 8's 0.70–0.85 visuals remain frozen, and T9.7 Skyline massing/ground polish remains deferred. Require geometric line-of-sight ray tests at multiple race-line positions, chase/mobile/rear captured frame inspection, full existing regression gates and a fresh pinned preview for Manny's subjective at-speed signoff. A green CI run does not grant owner camouflage acceptance. Only the T9.5 **full-course** maximum changes to **220 calls**, still targeting **200** and reporting any excess; all other draw limits remain unchanged.

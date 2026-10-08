@@ -197,7 +197,6 @@ function roadGeometry(track: NeonGrid): THREE.BufferGeometry {
   const merged = mergeGeometries([first, second], false);
   first.dispose();
   second.dispose();
-  if (!merged) throw new Error('Cannot merge Falls extension native road slices');
   merged.userData.conformsToMainRibbon = true;
   merged.userData.progressRanges = RANGES.map(([start, end]) => [start, end]);
   return merged;
@@ -258,7 +257,6 @@ function steppedTowerGeometry(): THREE.BufferGeometry {
   const rail = new THREE.BoxGeometry(0.68, 0.025, 0.7).translate(-0.04, 1.038, 0.02);
   const result = mergeGeometries([lower, middle, top, rail], false);
   for (const part of [lower, middle, top, rail]) part.dispose();
-  if (!result) throw new Error('Cannot merge Falls extension skyline silhouette');
   return result;
 }
 
@@ -297,7 +295,7 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
     dummy.scale.set(tower.width, tower.height, tower.depth);
     dummy.updateMatrix();
     buildings.setMatrixAt(i, dummy.matrix);
-    buildings.setColorAt(i, colors[i % colors.length] ?? colors[0]!);
+    buildings.setColorAt(i, colors[i % colors.length] ?? new THREE.Color(0x1a3342));
   });
   buildings.instanceMatrix.needsUpdate = true;
   if (buildings.instanceColor) buildings.instanceColor.needsUpdate = true;

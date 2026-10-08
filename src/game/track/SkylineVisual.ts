@@ -128,6 +128,65 @@ function skylineFasciaGeometry(track: NeonGrid): THREE.BufferGeometry {
   return geometry;
 }
 
+
+/** An inner wing wall follows the near edge of the curved Billboard bypass.
+ * This blocks a long straight sightline through the genuine mouth while
+ * leaving the accepted driveable eight-metre branch completely open.
+ * Only opaque scenery, no new collision objects or gameplay rules.
+ */
+function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry {
+  const gap = track.billboardGap;
+  const vertices: number[] = [];
+  const indices: number[] = [];
+  let panels = 0;
+  function nearEdge(t: number): { base: THREE.Vector3; top: THREE.Vector3; out: THREE.Vector3; clear: boolean } {
+    const road = gap.curve.getPointAt(t);
+    const nearest = track.projectMain(road);
+    const toMain = nearest.point.clone().sub(road).setY(0);
+    if (toMain.lengthSq() < 0.0001) {
+      const tangent = gap.curve.getTangentAt(t).setY(0).normalize();
+      toMain.set(tangent.z, 0, -tangent.x);
+    }
+    toMain.normalize();
+    const foot = road.clone().addScaledVector(toMain, gap.roadHalfWidth + 0.55);
+    const projection = track.projectMain(foot);
+    const clear = projection.lateralDistance - track.halfWidthAt(projection.progress) > 0.4;
+    const high = Math.max(road.y + 5.0, projection.point.y + 3.6);
+    return {
+      base: foot.clone().setY(road.y - 0.95),
+      top: foot.clone().setY(high),
+      out: toMain,
+      clear,
+    };
+  }
+  const cells = 72;
+  for (let i = 0; i < cells; i++) {
+    const start = THREE.MathUtils.lerp(0.12, 0.84, i / cells);
+    const end = THREE.MathUtils.lerp(0.12, 0.84, (i + 1) / cells);
+    const a = nearEdge(start), b = nearEdge(end);
+    if (!a.clear || !b.clear) continue;
+    const first = vertices.length / 3;
+    vertices.push(...a.base.toArray(), ...b.base.toArray(), ...b.top.toArray(), ...a.top.toArray());
+    indices.push(first, first + 1, first + 2, first, first + 2, first + 3);
+    // Substantial vertically backed industrial pilaster at regular intervals.
+    if (i % 6 === 0) {
+      const aBack = a.base.clone().addScaledVector(a.out, 0.5);
+      const aTopBack = a.top.clone().addScaledVector(a.out, 0.5);
+      const p = vertices.length / 3;
+      vertices.push(...a.base.toArray(), ...a.top.toArray(), ...aTopBack.toArray(), ...aBack.toArray());
+      indices.push(p, p + 1, p + 2, p, p + 2, p + 3);
+    }
+    panels++;
+  }
+  const geometry = new THREE.BufferGeometry()
+    .setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+    .setIndex(indices);
+  geometry.computeVertexNormals();
+  geometry.userData.panels = panels;
+  geometry.userData.presentationOnly = true;
+  return geometry;
+}
+
 function wetAsphaltMaterial(): THREE.ShaderMaterial {
   const material = new THREE.ShaderMaterial({
     uniforms: {
@@ -264,12 +323,15 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
     { start: 0.220, end: 0.244, side: -1 },
     { start: 0.220, end: 0.244, side: 1 },
   ]);
-  const fasciaGeometry = mergeGeometries([originalFascia, wallScreens], false);
-  // mergeGeometries has a non-null return contract in our Three.js version.
-  const screenPanelCount = wallScreens.userData.panelCount as number;
+  const innerScreens = billboardInteriorScreenGeometry(track);
+  const fasciaGeometry = mergeGeometries([originalFascia, wallScreens, innerScreens], false);
+  // Both outer facade and inner Billboard wing share the existing draw call.
+  const screenPanelCount = (wallScreens.userData.panelCount as number) +
+    (innerScreens.userData.panels as number);
   const mouthCuts = wallScreens.userData.openingSegments as number;
   originalFascia.dispose();
   wallScreens.dispose();
+  innerScreens.dispose();
   const fascia = new THREE.Mesh(
     fasciaGeometry,
     new THREE.MeshStandardMaterial({

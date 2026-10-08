@@ -110,6 +110,13 @@ try {
     })),
   }, null, 2));
 
+  // Gate the specific failure that the earlier decoration-count checks missed:
+  // a driver approaching Billboard must not see most of the interior roadway.
+  const approach = frames.find((frame) => frame.station === 'billboard-approach-chase')
+    ?.actualCameraShortcutSightline;
+  if (!approach || approach.viewportTargets < 2 || approach.blockedTargets < 2) {
+    throw new Error('T9.5 Billboard approach reveals shortcut interior from real ChaseCamera');
+  }
   if (errors.length || frames.length !== captures.length ||
     frames.some((f) => f.racers !== 8 || f.calls <= 0 || f.triangles <= 0 ||
       f.skyline.maskBillboards !== 8 || f.skyline.manacondaAds !== 7 ||

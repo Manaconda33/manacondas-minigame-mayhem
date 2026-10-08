@@ -7,6 +7,7 @@ import type { NeonGrid } from './NeonGrid';
 import {
   NeonGridVisualClock,
   neonGridRightAt,
+  neonGridRoadsideScreenGeometry,
   neonGridSurfaceSliceGeometry,
 } from './NeonGridVisualCommon';
 import { disposeTrackScene } from './TrackSceneResources';
@@ -512,6 +513,33 @@ function addFacadeVentilation(group: THREE.Group, buildings: UndercityBuilding[]
   group.add(banks);
 }
 
+
+function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): void {
+  // Existing false service bays are useful texture but did not occlude the
+  // actual shortcut roadway. This continuous opaque facade now does.
+  const opening = (side: -1 | 1, progress: number): boolean =>
+    tunnelWallOpen(track, side, progress) ||
+    Math.abs(progress - track.serviceTunnel.entry.progress[0]) < 0.009 ||
+    Math.abs(progress - track.serviceTunnel.exitProgress) < 0.010;
+  const screens = new THREE.Mesh(
+    neonGridRoadsideScreenGeometry(track, [
+      { start: START + 0.009, end: END - 0.006, side: -1,
+        opening: (progress) => opening(-1, progress) },
+      { start: START + 0.009, end: END - 0.006, side: 1,
+        opening: (progress) => opening(1, progress) },
+    ]),
+    new THREE.MeshStandardMaterial({
+      color: 0x242637, roughness: 0.76, metalness: 0.28,
+      side: THREE.DoubleSide,
+    }),
+  );
+  screens.name = 'undercity-wallside-sightline-screens';
+  screens.userData.presentationOnly = true;
+  screens.userData.sightlinePanels = screens.geometry.userData.panelCount as number;
+  screens.userData.mouthCuts = screens.geometry.userData.openingSegments as number;
+  group.add(screens);
+}
+
 function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
   // T9.5: the actual tunnel mouth must read as ONE of many similar service
   // openings. Distribute dark bays throughout the driving corridor, including
@@ -701,6 +729,7 @@ export class UndercityVisual {
     const buildings = addBuildings(this.group, track, quality);
     addUtilityClutter(this.group, track, buildings);
     addFacadeVentilation(this.group, buildings);
+    addWallsideSightlineScreens(this.group, track);
     addServiceBayMask(this.group, track);
     addApprovedAds(this.group, buildings, this.adMaterials);
   }

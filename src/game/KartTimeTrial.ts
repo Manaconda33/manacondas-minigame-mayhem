@@ -548,14 +548,27 @@ export class KartTimeTrial {
 
   public exportPerformanceCapture(metadata: RaceCaptureMetadata): RacePerformanceCapture | null {
     if (this.racePerformance === null) return null;
-    const gl = this.renderer.getContext();
-    const debugRenderer = gl.getExtension('WEBGL_debug_renderer_info');
-    const rendererValue: unknown = gl.getParameter(
-      debugRenderer === null ? gl.RENDERER : debugRenderer.UNMASKED_RENDERER_WEBGL,
-    );
+    // Renderer test doubles and unsupported contexts need not expose raw GL.
+    // GPU identity is optional metadata, never required for exporting frames.
+    const getContext: unknown = (this.renderer as unknown as { getContext?: unknown }).getContext;
+    let gpuRenderer: string | null = null;
+    if (typeof getContext === 'function') {
+      try {
+        const gl = (getContext as () => WebGLRenderingContext | WebGL2RenderingContext).call(
+          this.renderer,
+        );
+        const debugRenderer = gl.getExtension('WEBGL_debug_renderer_info');
+        const raw: unknown = gl.getParameter(
+          debugRenderer === null ? gl.RENDERER : debugRenderer.UNMASKED_RENDERER_WEBGL,
+        );
+        if (typeof raw === 'string') gpuRenderer = raw;
+      } catch {
+        gpuRenderer = null;
+      }
+    }
     return (
       this.racePerformance.exportCapture({
-        gpuRenderer: typeof rendererValue === 'string' ? rendererValue : null,
+        gpuRenderer,
         ...metadata,
         bloom: this.bloom.snapshot(),
         motionBlur: this.motionBlur.snapshot(),

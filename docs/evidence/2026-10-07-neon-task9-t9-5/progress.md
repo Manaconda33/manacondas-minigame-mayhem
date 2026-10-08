@@ -48,3 +48,18 @@ First modified-source candidate `98a36b3698f48b1fa1b77fb2c59b902c464d68a7`, [CI 
 - Corrective engineering checkpoint: fuse the cap and cyan underside lamp (two colored geometries) into a single `falls-run-extension-deck-service-fixtures` instanced geometry family with one material and 16 instances. Visual cap/underside-light geometry remains present, attached to existing pylons and collision-free. The corresponding T9.5 tests inspect both colored geometry regions, exact pylon support and once-only resource disposal.
 - This adjustment is **not yet validated** on the final head. CI of an earlier head is insufficient for completion, and passing the structural mask gate is not an owner visual/playability approval.
 
+
+## Final exact-runtime automated checkpoint (green)
+
+- **Final frozen runtime:** `a25c4b1788f4930b4e416777c8100284ff3c65a7`
+- **GitHub Actions validation:** [37712902704](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37712902704), all seven jobs including `validate` and the six rendering gates **SUCCESS**.
+- **Vitest/V8:** 130 passed files, **1,033 passed tests**, full V8 report.
+- **Build/quality:** Node 22, typecheck PASS, zero-warning lint PASS, production build PASS, Git LFS accepted.
+- **Falls extension:** **+12 draw calls / +8,626 triangles** versus unchanged +12-call A/B bound; max 148 calls/133,694 triangles. Stabilized forward/reverse hidden/visible readiness counters without changing budget.
+- **Undercity:** earlier modified candidate passed unchanged +20-call A/B cap (+8,092 triangles), maximum 176/156,816; final source all associated render jobs passed.
+- **Full-course:** fifteen rendered cameras across Skyline/Undercity/Falls plus three shortcut tells, chase/rear and mobile portrait/landscape; eight racers each, canonical Medium 1920x1080, **177 maximum draw calls and 148,316 maximum visible triangles** (Task 9 200/300k ceiling), 300 scored software-rendered frames; no HTTP, console or page errors.
+- **Software FPS:** median **1.62 FPS**, p95 **625.5ms** in CI SwiftShader; diagnostic only, NOT representative device performance. Do not cite this as PRD 60 FPS acceptance, reserved for T9.6.
+- **Visual inspect:** downloaded and inspected both full-course screenshot artifact and corrected Falls render artifact. No obvious new unsupported standalone fixtures in the sampled screenshots; the known low-detail Skyline tower silhouettes remain documented for T9.7. Screenshots do NOT establish owner visual/playability signoff.
+- **Publication PR:** workflow-only [#277](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/277) pinned this exact runtime SHA, all PR CI including historic preview guards PASSED [37713559260](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37713559260), and PR #277 merged at main `8537e018f09f4524f5de105c4bc5780af01bed8c`.
+- **Pending:** main GitHub Pages deployment and exact live hash verification of `/previews/neon-grid-t9-5/`, then Manny's visual/playability review. Main workflow merge alone does not prove the URL is live. Runtime PR #242 stays **draft/unmerged**. T9.6 and production gameplay remain off-limits.
+

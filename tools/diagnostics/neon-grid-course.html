@@ -85,10 +85,13 @@
         caster.set(g.camera.position, ray.clone().normalize());
         caster.far = ray.length();
         const intercept = caster.intersectObject(screen, false)[0];
-        inView.push({ fraction, occluded: Boolean(intercept), distance: ray.length() });
+        inView.push({ fraction, occluded: Boolean(intercept), distance: ray.length(),
+          targetWorld: target.toArray(), targetNdc: projected.toArray(),
+          blockerDistance: intercept?.distance ?? null });
       }
       return {
         shortcut: shortcut.id,
+        cameraWorld: g.camera.position.toArray(),
         viewportTargets: inView.length,
         blockedTargets: inView.filter((sample) => sample.occluded).length,
         samples: inView,

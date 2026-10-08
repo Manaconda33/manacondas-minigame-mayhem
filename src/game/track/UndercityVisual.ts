@@ -538,8 +538,12 @@ function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
     // intended roadside facade. Search both sides and fail closed rather
     // than silently placing an unsafe bay after a fixed five retries.
     let placement: { foot: THREE.Vector3; side: number } | null = null;
-    for (let step = 0; step < 36 && !placement; step++) {
-      const offset = track.halfWidthAt(progress) + 5.4 + step * 2.5;
+    // Sparse escalating offsets avoid dozens of expensive full-route
+    // projections per bay on low-power mobile hardware and CI SwiftShader.
+    // Both sides are checked at each distance; never accept an unsafe fallback.
+    for (const distance of [5.4, 9, 14, 21, 30, 42, 57, 75]) {
+      if (placement) break;
+      const offset = track.halfWidthAt(progress) + distance;
       for (const candidateSide of [preferredSide, -preferredSide]) {
         const candidate = center.clone().addScaledVector(right, candidateSide * offset);
         if (mainClearance(track, candidate, 3.8) >= 3 &&

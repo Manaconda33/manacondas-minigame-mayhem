@@ -136,33 +136,35 @@ function skylineFasciaGeometry(track: NeonGrid): THREE.BufferGeometry {
  */
 function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry {
   const gap = track.billboardGap;
+  // The approach camera is NOT on the same side as the nearest later main
+  // roadway around the hairpin. Face the true incoming driver viewpoint.
+  const approachRoad = track.curve.getPointAt(gap.entry.progress[0] - 0.015);
   const vertices: number[] = [];
   const indices: number[] = [];
   let panels = 0;
   function nearEdge(t: number): { base: THREE.Vector3; top: THREE.Vector3; out: THREE.Vector3; clear: boolean } {
     const road = gap.curve.getPointAt(t);
-    const nearest = track.projectMain(road);
-    const toMain = nearest.point.clone().sub(road).setY(0);
-    if (toMain.lengthSq() < 0.0001) {
+    const toApproach = approachRoad.clone().sub(road).setY(0);
+    if (toApproach.lengthSq() < 0.0001) {
       const tangent = gap.curve.getTangentAt(t).setY(0).normalize();
-      toMain.set(tangent.z, 0, -tangent.x);
+      toApproach.set(tangent.z, 0, -tangent.x);
     }
-    toMain.normalize();
-    const foot = road.clone().addScaledVector(toMain, gap.roadHalfWidth + 0.55);
+    toApproach.normalize();
+    const foot = road.clone().addScaledVector(toApproach, gap.roadHalfWidth + 0.55);
     const projection = track.projectMain(foot);
     const clear = projection.lateralDistance - track.halfWidthAt(projection.progress) > 0.4;
     const high = Math.max(road.y + 5.0, projection.point.y + 3.6);
     return {
       base: foot.clone().setY(road.y - 0.95),
       top: foot.clone().setY(high),
-      out: toMain,
+      out: toApproach,
       clear,
     };
   }
   const cells = 72;
   for (let i = 0; i < cells; i++) {
-    const start = THREE.MathUtils.lerp(0.12, 0.84, i / cells);
-    const end = THREE.MathUtils.lerp(0.12, 0.84, (i + 1) / cells);
+    const start = THREE.MathUtils.lerp(0.045, 0.84, i / cells);
+    const end = THREE.MathUtils.lerp(0.045, 0.84, (i + 1) / cells);
     const a = nearEdge(start), b = nearEdge(end);
     if (!a.clear || !b.clear) continue;
     const first = vertices.length / 3;

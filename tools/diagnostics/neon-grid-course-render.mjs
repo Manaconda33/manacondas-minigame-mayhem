@@ -167,6 +167,7 @@ try {
     medium.skyline.windows !== 240 ||
     medium.skyline.manacondaAds !== 7 ||
     medium.skyline.tacoBellAds !== 7 ||
+    medium.skyline.maskBillboards !== 8 ||
     medium.skyline.wet !== true ||
     !low ||
     low.skyline.windows !== 120 ||

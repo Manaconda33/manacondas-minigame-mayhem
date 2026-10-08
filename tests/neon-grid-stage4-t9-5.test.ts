@@ -178,6 +178,22 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect(support.scale.toArray().every(Number.isFinite)).toBe(true);
       }
 
+      // The raised sponsor image must touch its architectural backing, not
+      // hover half a metre in front of a post that happens to exist nearby.
+      for (const [sponsor, name] of [
+        [0, 'skyline-ad-manaconda-racing'],
+        [1, 'skyline-ad-taco-bell-live-mas'],
+      ] as const) {
+        const artwork = instanced(scene, name);
+        for (let i = 0; i < 2; i++) {
+          const image = transform(artwork, 5 + i).position;
+          const post = transform(billboard, sponsor * 2 + i).position;
+          expect(Math.hypot(image.x - post.x, image.z - post.z),
+            name + ' raised backing contact ' + i).toBeLessThan(0.31);
+          expect(image.y - post.y, name + ' raised vertical mount ' + i).toBeCloseTo(5.45, 2);
+        }
+      }
+
       const bays = instanced(scene, 'undercity-service-bays');
       expect(bays.count).toBe(14);
       expect(bays.geometry.userData.prefabParts).toBe(6);

@@ -130,6 +130,52 @@
       };
     };
 
+    // Use the actual race camera, actual approved texture on the instanced
+    // image plane, and depth-tested fascia visibility. Decorative instance
+    // counts cannot satisfy this contract.
+    const sponsorArtworkSightline = () => {
+      if (progress > 0.22 || inTunnel) return null;
+      g.camera.updateMatrixWorld(true);
+      g.trackScene.updateMatrixWorld(true);
+      const fascia = g.trackScene.getObjectByName('skyline-deck-fascia');
+      const raycaster = new THREE.Raycaster();
+      const samples = [];
+      for (const name of ['skyline-ad-manaconda-racing', 'skyline-ad-taco-bell-live-mas']) {
+        const art = g.trackScene.getObjectByName(name);
+        if (!art || !fascia) return { error: 'missing art or fascia', samples };
+        const map = art.material.map;
+        for (let index = 3; index < 7; index++) {
+          const matrix = new THREE.Matrix4();
+          art.getMatrixAt(index, matrix);
+          const world = new THREE.Vector3().applyMatrix4(matrix).applyMatrix4(art.matrixWorld);
+          const ndc = world.clone().project(g.camera);
+          const inViewport = Math.abs(ndc.x) <= 1 && Math.abs(ndc.y) <= 1 &&
+            ndc.z >= -1 && ndc.z <= 1;
+          const toward = world.clone().sub(g.camera.position);
+          raycaster.set(g.camera.position, toward.clone().normalize());
+          raycaster.far = toward.length() + 0.3;
+          const artHit = raycaster.intersectObject(art, false)
+            .find((hit) => hit.instanceId === index);
+          const fasciaHit = raycaster.intersectObject(fascia, false)[0];
+          samples.push({
+            name, index, world: world.toArray(), ndc: ndc.toArray(),
+            inViewport, imageLoaded: (map?.image?.width ?? 0) > 0,
+            faceHit: Boolean(artHit),
+            visibleArtwork: inViewport && Boolean(artHit) &&
+              Boolean((map?.image?.width ?? 0) > 0) && art.material.opacity > 0 &&
+              (fasciaHit?.distance ?? Infinity) >= artHit.distance - 0.02,
+            fasciaDistance: fasciaHit?.distance ?? null,
+            imageDistance: artHit?.distance ?? null,
+          });
+        }
+      }
+      return {
+        samples,
+        inViewport: samples.filter((p) => p.inViewport).length,
+        readable: samples.filter((p) => p.visibleArtwork).length,
+      };
+    };
+
     const undercitySnapshot = () => ({
       windows: g.trackScene.getObjectByName('undercity-city-windows')?.count ?? 0,
       buildings: g.trackScene.getObjectByName('undercity-city-buildings')?.count ?? 0,
@@ -207,6 +253,7 @@
         undercity: undercitySnapshot(),
         fallsExtension: fallsExtensionSnapshot(),
         actualCameraShortcutSightline: currentShortcutSightline(view),
+        sponsorArtworkSightline: sponsorArtworkSightline(),
         tunnelKartSightline: tunnelKartSightline(),
       };
     };

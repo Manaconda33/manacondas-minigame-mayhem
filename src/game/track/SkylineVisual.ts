@@ -68,6 +68,19 @@ function segmentCrossesBillboardOpening(
   );
 }
 
+/** The dark deck fascia is not allowed to close over the actual Tunnel entry.
+ * Clip only the near-side terminal cells, keeping the remaining deck mask intact.
+ * The lateral side comes from the authored tunnel chord, not a camera guess. */
+function skylineTunnelMouthOpen(track: NeonGrid, side: number, progress: number): boolean {
+  const entry = track.serviceTunnel.entry.progress[0];
+  if (Math.abs(progress - entry) > 0.0125) return false;
+  const start = track.serviceTunnel.curve.getPointAt(0);
+  const inside = track.serviceTunnel.curve.getPointAt(0.13);
+  const right = neonGridRightAt(track, entry);
+  const approachSide = Math.sign(inside.clone().sub(start).dot(right)) || 1;
+  return side === approachSide;
+}
+
 function skylineEdgeGeometry(track: NeonGrid): THREE.BufferGeometry {
   const positions: number[] = [];
   const indices: number[] = [];
@@ -115,7 +128,9 @@ function skylineFasciaGeometry(track: NeonGrid): THREE.BufferGeometry {
       positions.push(...top.toArray(), ...bottom.toArray());
       if (i < SEGMENTS) {
         const nextProgress = THREE.MathUtils.lerp(START, END, (i + 1) / SEGMENTS);
-        if (segmentCrossesBillboardOpening(track, side, progress, nextProgress)) continue;
+        if (segmentCrossesBillboardOpening(track, side, progress, nextProgress) ||
+          [progress, (progress + nextProgress) * 0.5, nextProgress].some((p) =>
+            skylineTunnelMouthOpen(track, side, p))) continue;
         const a = base + i * 2;
         indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
       }
@@ -322,8 +337,10 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
         Math.abs(p - track.billboardGap.exitProgress) < 0.010,
     },
     // Short supported expressway facades also obscure the tunnel approach.
-    { start: 0.220, end: 0.244, side: -1 },
-    { start: 0.220, end: 0.244, side: 1 },
+    { start: 0.220, end: 0.244, side: -1,
+      opening: (p) => skylineTunnelMouthOpen(track, -1, p) },
+    { start: 0.220, end: 0.244, side: 1,
+      opening: (p) => skylineTunnelMouthOpen(track, 1, p) },
   ]);
   const innerScreens = billboardInteriorScreenGeometry(track);
   const fasciaGeometry = mergeGeometries([originalFascia, wallScreens, innerScreens], false);
@@ -700,7 +717,7 @@ function addApprovedAds(
       // of floating on isolated stands several metres behind it.
       const elevated = i >= 2;
       const foot = center.clone().addScaledVector(
-        right, side * (track.halfWidthAt(progress) + 0.70),
+        right, side * (track.halfWidthAt(progress) + 0.44),
       );
       const facing = Math.atan2(inward.x, inward.z);
       if (elevated) {
@@ -712,7 +729,7 @@ function addApprovedAds(
       }
       dummy.position.copy(foot)
         .add(new THREE.Vector3(0, elevated ? 5.45 : 1.7, 0))
-        .addScaledVector(inward, 0.21);
+        .addScaledVector(inward, elevated ? 0.56 : 0.30);
       dummy.rotation.set(0, facing, 0);
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();

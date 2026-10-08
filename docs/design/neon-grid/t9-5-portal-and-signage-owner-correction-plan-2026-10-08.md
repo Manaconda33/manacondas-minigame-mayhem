@@ -1,5 +1,7 @@
 # T9.5 owner correction plan: Billboard approach signage and Service Tunnel portals
 
+**Current result (2026-10-08): T9.5 OWNER APPROVED.** The following initial CORRECTIONS REQUIRED notes remain historical; the final verified correction and owner closure are recorded at the end of this file.
+
 **Status:** Owner screenshot review: **CORRECTIONS REQUIRED / T9.5 NOT APPROVED**. This document records the agreed correction approach and is a **handoff/implementation plan**, not evidence that fixes were implemented.
 **Date:** 2026-10-08 (America/Chicago)
 **Repository:** `Manaconda33/manacondas-minigame-mayhem`
@@ -98,3 +100,9 @@ This is a bounded **T9.5 correction** to already-approved asset placement/portal
 - Preview-only PR [#282](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/282) merged `cee4b4f1241309d198faa87496f2a601d3191a96` after [PR CI 37857076512](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37857076512) success. [Pages 37857511926](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37857511926) PASSED live source/hash and unchanged production checks. **Owner link:** https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-5-owner-correction/?review=9b973d4
 - No PRD deviation, new artwork, physics/routing/AI/camera changes, PR #242 runtime merge, or production Neon Grid gameplay release. T9.6/T9.7 remain gated.
 - **Next action:** Manny's owner desktop and Android mobile portrait/landscape playtest and explicit PASS/CORRECTIONS REQUIRED on BB-01, TU-01/02/03, MASK-01 and OWNER-01. Do not declare completion before then.
+
+## 6. Final owner gate — APPROVED (2026-10-08)
+
+Manny explicitly replied **“Approved”** to [the latest T9.5 owner-correction preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-5-owner-correction/?review=9b973d4), pinned to tested runtime `9b973d48c1115d4b35d3936a3eacbed8dbb7ed76`. This resolves **OWNER-01** and records acceptance of the reviewed BB-01, TU-01/02/03, MASK-01 and GATE-01 correction within T9.5. Older rejection/plan statements in sections 1–4 document what was wrong before the fix, not the present result.
+
+[Source CI 37826321830](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37826321830) passed 1,039 tests, 34 render captures and budgets (206/220 draw calls; 164,806/300,000 triangles). Workflow-only [publication PR #282](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/282) and [Pages 37857511926](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37857511926) passed live-hash and production-preservation checks. No hardware performance pass is inferred. **Do not merge runtime PR #242 or begin T9.6/T9.7/production deployment without a separate next-step authorization.**

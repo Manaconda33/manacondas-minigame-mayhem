@@ -138,11 +138,11 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
       ]) {
         expect(scene.getObjectByName(name), name).toBeDefined();
       }
-      expect(instanced(scene, 'skyline-ad-manaconda-racing').count).toBe(3);
-      expect(instanced(scene, 'skyline-ad-taco-bell-live-mas').count).toBe(3);
+      expect(instanced(scene, 'skyline-ad-manaconda-racing').count).toBe(7);
+      expect(instanced(scene, 'skyline-ad-taco-bell-live-mas').count).toBe(7);
       expect(instanced(scene, 'undercity-ad-nightshift-noodles').count).toBe(2);
       expect(instanced(scene, 'undercity-ad-voltline-industrial').count).toBe(2);
-      expect(instanced(scene, 'undercity-service-bays').count).toBe(10);
+      expect(instanced(scene, 'undercity-service-bays').count).toBe(14);
       const ambient = instanced(scene, 'falls-run-extension-ambient-waterfalls');
       const material = ambient.material as THREE.ShaderMaterial;
       expect(material.uniforms.time).toBeDefined();

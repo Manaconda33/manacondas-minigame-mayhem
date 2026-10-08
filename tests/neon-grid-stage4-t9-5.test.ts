@@ -65,8 +65,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect((scene.getObjectByName('falls-run-extension-ambient-mist') as THREE.InstancedMesh | undefined)?.count ?? 0).toBe(expected.extensionMist);
         expect(instanced(scene, 'undercity-facade-vent-housings').count).toBe(16);
         expect(instanced(scene, 'undercity-facade-vent-louvers').count).toBe(48);
-        expect(instanced(scene, 'falls-run-extension-deck-service-caps').count).toBe(16);
-        expect(instanced(scene, 'falls-run-extension-deck-downlights').count).toBe(16);
+        expect(instanced(scene, 'falls-run-extension-deck-service-fixtures').count).toBe(16);
         assertRoadCompositing(scene, quality);
         for (const name of [
           'skyline-visual', 'undercity-visual',
@@ -100,17 +99,25 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         }
       }
       const pylons = instanced(scene, 'falls-run-extension-supported-pylons');
-      const caps = instanced(scene, 'falls-run-extension-deck-service-caps');
-      const lamps = instanced(scene, 'falls-run-extension-deck-downlights');
+      const fixtures = instanced(scene, 'falls-run-extension-deck-service-fixtures');
+      expect(fixtures.geometry.userData.supportedFixtureParts).toBe(2);
+      expect(fixtures.geometry.userData.hasCyanUndersideLight).toBe(true);
+      const colors = fixtures.geometry.getAttribute('color');
+      expect(colors.count).toBeGreaterThan(24);
+      const firstColor = new THREE.Color().fromBufferAttribute(colors, 0);
+      const lastColor = new THREE.Color().fromBufferAttribute(colors, colors.count - 1);
+      expect(firstColor.equals(lastColor)).toBe(false);
+      fixtures.geometry.computeBoundingBox();
+      const bounds = fixtures.geometry.boundingBox;
+      expect(bounds).not.toBeNull();
+      expect(bounds?.max.y).toBeGreaterThan(0.15);
+      expect(bounds?.min.y).toBeLessThan(-0.25);
       for (let i = 0; i < pylons.count; i++) {
         const pylon = transform(pylons, i);
-        const cap = transform(caps, i);
-        const lamp = transform(lamps, i);
+        const fixture = transform(fixtures, i);
         const top = pylon.position.y + pylon.scale.y * 0.5;
-        expect(Math.abs(cap.position.y - (top - 0.18))).toBeLessThan(0.01);
-        expect(Math.abs(lamp.position.y - (top - 0.425))).toBeLessThan(0.01);
-        expect(cap.position.distanceTo(lamp.position)).toBeLessThan(0.3);
-        expect(new THREE.Vector2(cap.position.x, cap.position.z)
+        expect(Math.abs(fixture.position.y - (top - 0.18))).toBeLessThan(0.01);
+        expect(new THREE.Vector2(fixture.position.x, fixture.position.z)
           .distanceTo(new THREE.Vector2(pylon.position.x, pylon.position.z))).toBeLessThan(0.001);
       }
     } finally {
@@ -172,7 +179,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
   it('disposes owned detail once without disposing accepted neighboring scene resources', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
     const housing = instanced(scene, 'undercity-facade-vent-housings');
-    const cap = instanced(scene, 'falls-run-extension-deck-service-caps');
+    const cap = instanced(scene, 'falls-run-extension-deck-service-fixtures');
     const skylineRoad = scene.getObjectByName('skyline-asphalt-base') as THREE.Mesh;
     const task8Road = scene.getObjectByName('falls-run-asphalt-base') as THREE.Mesh;
     const housingSpy = vi.spyOn(housing.geometry, 'dispose');
@@ -205,7 +212,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect(scene.children.length).toBeGreaterThan(8);
         for (const name of [
           'undercity-facade-vent-housings', 'undercity-facade-vent-louvers',
-          'falls-run-extension-deck-service-caps', 'falls-run-extension-deck-downlights',
+          'falls-run-extension-deck-service-fixtures',
         ]) {
           const mesh = instanced(scene, name);
           for (let i = 0; i < mesh.count; i++) transform(mesh, i);

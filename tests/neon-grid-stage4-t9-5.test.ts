@@ -189,8 +189,8 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
           const image = transform(artwork, 5 + i).position;
           const post = transform(billboard, sponsor * 2 + i).position;
           expect(Math.hypot(image.x - post.x, image.z - post.z),
-            `${name} raised backing contact ${i}`).toBeLessThan(0.31);
-          expect(image.y - post.y, `${name} raised vertical mount ${i}`).toBeCloseTo(5.45, 2);
+            `${name} raised backing contact ${String(i)}`).toBeLessThan(0.31);
+          expect(image.y - post.y, `${name} raised vertical mount ${String(i)}`).toBeCloseTo(5.45, 2);
         }
       }
 
@@ -291,7 +291,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
           matrix.premultiply(mesh.matrixWorld);
           const contact = new THREE.Vector3(0, -0.5, 0).applyMatrix4(matrix);
           const expected = edge.clone().setY(tunnel.wallElevationAt(at, side, true) - 0.12);
-          expect(contact.distanceTo(expected), `${name} wall contact ${index}`).toBeLessThan(0.015);
+          expect(contact.distanceTo(expected), `${name} wall contact ${String(index)}`).toBeLessThan(0.015);
         }
         warnings.update(crossing);
         expect(mesh.visible).toBe(false);
@@ -334,9 +334,9 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
           raycaster.set(eye, direction.clone().normalize());
           raycaster.far = direction.length() + 0.2;
           const artHit = raycaster.intersectObject(art, false).find((hit) => hit.instanceId === i + 3);
-          expect(artHit, `${name} actual image ray ${i}`).toBeDefined();
+          expect(artHit, `${name} actual image ray ${String(i)}`).toBeDefined();
           const firstOpaqueWall = raycaster.intersectObject(wall, false)[0];
-          expect(firstOpaqueWall?.distance ?? Infinity, `${name} fascia occlusion ${i}`)
+          expect(firstOpaqueWall?.distance ?? Infinity, `${name} fascia occlusion ${String(i)}`)
             .toBeGreaterThan((artHit?.distance ?? 0) - 0.02);
         }
       }
@@ -448,7 +448,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         const ray = ahead.clone().sub(start);
         raycaster.set(start, ray.clone().normalize());
         raycaster.far = ray.length();
-        expect(raycaster.intersectObject(fascia, false), `opaque entry fascia at ${fraction}`)
+        expect(raycaster.intersectObject(fascia, false), `opaque entry fascia at ${String(fraction)}`)
           .toHaveLength(0);
       }
     } finally {

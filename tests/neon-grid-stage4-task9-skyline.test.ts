@@ -47,8 +47,8 @@ describe('Neon Grid Stage 4 Task 9 T9.2 Skyline Straight', () => {
         expect(requireInstanced(scene, 'skyline-city-towers').count).toBe(22);
         expect(requireInstanced(scene, 'skyline-city-windows').count).toBe(expectedWindows[quality]);
         expect(requireInstanced(scene, 'skyline-procedural-signage').count).toBe(18);
-        expect(requireInstanced(scene, 'skyline-ad-manaconda-racing').count).toBe(3);
-        expect(requireInstanced(scene, 'skyline-ad-taco-bell-live-mas').count).toBe(3);
+        expect(requireInstanced(scene, 'skyline-ad-manaconda-racing').count).toBe(7);
+        expect(requireInstanced(scene, 'skyline-ad-taco-bell-live-mas').count).toBe(7);
         for (const batch of batches) expectFiniteInstances(batch);
       } finally {
         disposeTrackScene(scene);
@@ -131,8 +131,8 @@ describe('Neon Grid Stage 4 Task 9 T9.2 Skyline Straight', () => {
   it('keeps approved static mask ads separate from the Billboard tell', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
     try {
-      expect(requireInstanced(scene, 'skyline-ad-manaconda-racing').count).toBe(3);
-      expect(requireInstanced(scene, 'skyline-ad-taco-bell-live-mas').count).toBe(3);
+      expect(requireInstanced(scene, 'skyline-ad-manaconda-racing').count).toBe(7);
+      expect(requireInstanced(scene, 'skyline-ad-taco-bell-live-mas').count).toBe(7);
       expect(scene.getObjectByName('billboard-hologram')).toBeDefined();
       expect(scene.getObjectByName('billboard-ad-paprika')).toBeDefined();
       expect(scene.getObjectByName('billboard-ad-arin')).toBeDefined();

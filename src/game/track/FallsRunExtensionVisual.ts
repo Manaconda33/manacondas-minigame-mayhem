@@ -243,27 +243,43 @@ function addDeckStructure(group: THREE.Group, track: NeonGrid): void {
 }
 
 /**
- * T9.5 supported deck service fixtures. Each girder cap and its cool-white
- * underside lamp inherit the physical pylon transform rather than floating
- * independently near the racing corridor. Gold remains exclusive to Dive.
+ * T9.5 physically supported cap + cyan downlight, fused into one instanced
+ * geometry/material family so their combined presentation costs one draw call.
+ * This preserves the inherited +12-call T9.4 extension A/B budget.
  */
 function addDeckServiceFixtures(group: THREE.Group): void {
   const pylons = group.getObjectByName('falls-run-extension-supported-pylons');
   if (!(pylons instanceof THREE.InstancedMesh)) {
     throw new Error('Falls deck fixtures require their supporting pylons');
   }
-  const caps = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshStandardMaterial({ color: 0x294453, roughness: 0.66, metalness: 0.45 }),
-    pylons.count,
-  );
-  caps.name = 'falls-run-extension-deck-service-caps';
-  const lampMaterial = new THREE.MeshBasicMaterial({ color: 0x6bbdcc });
-  markBloomMaterial(lampMaterial, 'color');
-  const lamps = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(1, 1, 1), lampMaterial, pylons.count,
-  );
-  lamps.name = 'falls-run-extension-deck-downlights';
+  const cap = new THREE.BoxGeometry(4.1, 0.38, 3.1);
+  const lamp = new THREE.BoxGeometry(2.6, 0.07, 0.18);
+  // Relative to the cap center: both remain physically attached to the pylon.
+  lamp.translate(0, -0.245, 0);
+  for (const [geometry, tint] of [
+    [cap, new THREE.Color(0x294453)],
+    [lamp, new THREE.Color(0x6bbdcc)],
+  ] as const) {
+    const count = geometry.getAttribute('position').count;
+    const colors = new Float32Array(count * 3);
+    for (let vertex = 0; vertex < count; vertex++) {
+      colors[vertex * 3] = tint.r;
+      colors[vertex * 3 + 1] = tint.g;
+      colors[vertex * 3 + 2] = tint.b;
+    }
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  }
+  const geometry = mergeGeometries([cap, lamp], false);
+  cap.dispose();
+  lamp.dispose();
+  if (!geometry) throw new Error('Falls deck service cap/lamp merge failed');
+  geometry.userData.supportedFixtureParts = 2;
+  geometry.userData.hasCyanUndersideLight = true;
+  const material = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true });
+  markBloomMaterial(material, 'color');
+  const fixtures = new THREE.InstancedMesh(geometry, material, pylons.count);
+  fixtures.name = 'falls-run-extension-deck-service-fixtures';
+
   const matrix = new THREE.Matrix4();
   const position = new THREE.Vector3();
   const rotation = new THREE.Quaternion();
@@ -275,17 +291,12 @@ function addDeckServiceFixtures(group: THREE.Group): void {
     const top = position.y + scale.y * 0.5;
     dummy.position.set(position.x, top - 0.18, position.z);
     dummy.quaternion.copy(rotation);
-    dummy.scale.set(4.1, 0.38, 3.1);
+    dummy.scale.set(1, 1, 1);
     dummy.updateMatrix();
-    caps.setMatrixAt(i, dummy.matrix);
-    dummy.position.y = top - 0.425;
-    dummy.scale.set(2.6, 0.07, 0.18);
-    dummy.updateMatrix();
-    lamps.setMatrixAt(i, dummy.matrix);
+    fixtures.setMatrixAt(i, dummy.matrix);
   }
-  caps.instanceMatrix.needsUpdate = true;
-  lamps.instanceMatrix.needsUpdate = true;
-  group.add(caps, lamps);
+  fixtures.instanceMatrix.needsUpdate = true;
+  group.add(fixtures);
 }
 
 interface Tower {

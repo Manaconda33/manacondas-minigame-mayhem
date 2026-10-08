@@ -78,6 +78,7 @@
       proceduralSigns: g.trackScene.getObjectByName('skyline-procedural-signage')?.count ?? 0,
       manacondaAds: g.trackScene.getObjectByName('skyline-ad-manaconda-racing')?.count ?? 0,
       tacoBellAds: g.trackScene.getObjectByName('skyline-ad-taco-bell-live-mas')?.count ?? 0,
+      maskBillboards: g.trackScene.getObjectByName('skyline-mask-roadside-billboard-supports')?.count ?? 0,
       wet: Boolean(g.trackScene.getObjectByName('skyline-wet-asphalt')),
     });
 
@@ -110,6 +111,7 @@
         skylineVisible,
         skyline: skylineSnapshot(),
         undercity: undercitySnapshot(),
+        fallsExtension: fallsExtensionSnapshot(),
       };
     };
 

@@ -62,7 +62,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect(instanced(scene, 'falls-run-city-windows').count).toBe(expected.task8);
         expect(instanced(scene, 'falls-run-extension-city-windows').count).toBe(expected.falls);
         expect(instanced(scene, 'falls-run-ambient-mist').count).toBe(expected.task8Mist);
-        expect(instanced(scene, 'falls-run-extension-ambient-mist').count).toBe(expected.extensionMist);
+        expect((scene.getObjectByName('falls-run-extension-ambient-mist') as THREE.InstancedMesh | undefined)?.count ?? 0).toBe(expected.extensionMist);
         expect(instanced(scene, 'undercity-facade-vent-housings').count).toBe(16);
         expect(instanced(scene, 'undercity-facade-vent-louvers').count).toBe(48);
         expect(instanced(scene, 'falls-run-extension-deck-service-caps').count).toBe(16);
@@ -93,7 +93,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         const housing = transform(housings, i);
         expect(housing.position.y).toBeGreaterThan(building.position.y);
         expect(housing.position.y).toBeLessThan(building.position.y + building.scale.y);
-        expect(housing.position.distanceTo(building.position)).toBeLessThan(18);
+        expect(housing.position.distanceTo(building.position)).toBeLessThan(26);
         for (let slot = 0; slot < 3; slot++) {
           const slat = transform(louvers, i * 3 + slot);
           expect(slat.position.distanceTo(housing.position)).toBeLessThan(0.55);

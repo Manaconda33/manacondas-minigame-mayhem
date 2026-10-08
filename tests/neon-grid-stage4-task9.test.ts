@@ -347,7 +347,7 @@ describe('Neon Grid Stage 4 Task 9 T9.4 Falls Run extension', () => {
       expect(scene.getObjectByName('falls-run-extension-pylon-footings')).toBeDefined();
       expect(scene.getObjectByName('falls-run-extension-city-foundations')).toBeDefined();
       expect(requireInstanced(scene, 'falls-run-extension-ambient-waterfalls').count).toBe(14);
-      expect(scene.getObjectByName('falls-run-extension-ambient-waterfalls')?.material).toBeDefined();
+      expect((scene.getObjectByName('falls-run-extension-ambient-waterfalls') as THREE.InstancedMesh).material).toBeDefined();
     } finally {
       disposeTrackScene(scene);
     }
@@ -360,7 +360,7 @@ describe('Neon Grid Stage 4 Task 9 T9.4 Falls Run extension', () => {
         const counts = { low: [80, 0], medium: [160, 14], high: [240, 28] } as const;
         const [windows, mist] = counts[quality];
         expect(requireInstanced(scene, 'falls-run-extension-city-windows').count).toBe(windows);
-        expect(scene.getObjectByName('falls-run-extension-ambient-mist')?.count ?? 0).toBe(mist);
+        expect((scene.getObjectByName('falls-run-extension-ambient-mist') as THREE.InstancedMesh | undefined)?.count ?? 0).toBe(mist);
         expect(Boolean(scene.getObjectByName('falls-run-extension-wet-asphalt'))).toBe(quality !== 'low');
       } finally {
         disposeTrackScene(scene);

@@ -36,3 +36,11 @@ Status: **T9.4 implemented; automated validation passed; owner visual/playabilit
 ## PRD deviations
 
 None. CI worker scheduling change is verification infrastructure only and retains all tests and timeout bounds. No material gameplay or visual-scope changes approved or made.
+
+## Isolated owner preview publication (completed)
+
+- Preview workflow-only PR [#276](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/276): merged; main publication checkpoint `a8d003873e52207d523857ba17f9aff634fb1519`.
+- Exact pinned source: `be47a3d7215867b9b275473fd2640cc626ef5e37`, unaffected by subsequent docs-only status commits.
+- Final URL: https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-4/?review=be47a3d
+- Exact publisher validation: https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37709158455 **SUCCESS**. `validate`, `assemble`, `deploy`, `Verify live preview and unchanged production bytes`, and `Upload verified delivery evidence` each passed. Checks cover source marker, published preview files, required approved billboard bytes, and preservation of live production and prior previews.
+- **Manny visual/playability review PENDING**. Published != owner approved. No T9.5, no runtime PR #242 merge, no production Neon Grid gameplay publication.

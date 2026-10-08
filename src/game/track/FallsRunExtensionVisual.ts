@@ -242,6 +242,52 @@ function addDeckStructure(group: THREE.Group, track: NeonGrid): void {
   group.add(pylons, footings);
 }
 
+/**
+ * T9.5 supported deck service fixtures. Each girder cap and its cool-white
+ * underside lamp inherit the physical pylon transform rather than floating
+ * independently near the racing corridor. Gold remains exclusive to Dive.
+ */
+function addDeckServiceFixtures(group: THREE.Group): void {
+  const pylons = group.getObjectByName('falls-run-extension-supported-pylons');
+  if (!(pylons instanceof THREE.InstancedMesh)) {
+    throw new Error('Falls deck fixtures require their supporting pylons');
+  }
+  const caps = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshStandardMaterial({ color: 0x294453, roughness: 0.66, metalness: 0.45 }),
+    pylons.count,
+  );
+  caps.name = 'falls-run-extension-deck-service-caps';
+  const lampMaterial = new THREE.MeshBasicMaterial({ color: 0x6bbdcc });
+  markBloomMaterial(lampMaterial, 'color');
+  const lamps = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 1, 1), lampMaterial, pylons.count,
+  );
+  lamps.name = 'falls-run-extension-deck-downlights';
+  const matrix = new THREE.Matrix4();
+  const position = new THREE.Vector3();
+  const rotation = new THREE.Quaternion();
+  const scale = new THREE.Vector3();
+  const dummy = new THREE.Object3D();
+  for (let i = 0; i < pylons.count; i++) {
+    pylons.getMatrixAt(i, matrix);
+    matrix.decompose(position, rotation, scale);
+    const top = position.y + scale.y * 0.5;
+    dummy.position.set(position.x, top - 0.18, position.z);
+    dummy.quaternion.copy(rotation);
+    dummy.scale.set(4.1, 0.38, 3.1);
+    dummy.updateMatrix();
+    caps.setMatrixAt(i, dummy.matrix);
+    dummy.position.y = top - 0.425;
+    dummy.scale.set(2.6, 0.07, 0.18);
+    dummy.updateMatrix();
+    lamps.setMatrixAt(i, dummy.matrix);
+  }
+  caps.instanceMatrix.needsUpdate = true;
+  lamps.instanceMatrix.needsUpdate = true;
+  group.add(caps, lamps);
+}
+
 interface Tower {
   readonly position: THREE.Vector3;
   readonly baseY: number;
@@ -449,6 +495,7 @@ export class FallsRunExtensionVisual {
     this.group.add(edges);
 
     addDeckStructure(this.group, track);
+    addDeckServiceFixtures(this.group);
     addCity(this.group, track, quality);
     const water = waterMaterial();
     this.animatedMaterials.push(water);

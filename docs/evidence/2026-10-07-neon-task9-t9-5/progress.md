@@ -63,3 +63,10 @@ First modified-source candidate `98a36b3698f48b1fa1b77fb2c59b902c464d68a7`, [CI 
 - **Publication PR:** workflow-only [#277](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/277) pinned this exact runtime SHA, all PR CI including historic preview guards PASSED [37713559260](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37713559260), and PR #277 merged at main `8537e018f09f4524f5de105c4bc5780af01bed8c`.
 - **Pending:** main GitHub Pages deployment and exact live hash verification of `/previews/neon-grid-t9-5/`, then Manny's visual/playability review. Main workflow merge alone does not prove the URL is live. Runtime PR #242 stays **draft/unmerged**. T9.6 and production gameplay remain off-limits.
 
+## Owner rejection and T9.5 camouflage correction cycle
+
+Manny reports the first T9.5 preview successfully deployed, but *the shortcuts are obvious and not camouflaged*. The 1,033-test green CI was only structural acceptance, **not owner visual acceptance**. Required: correct the masks and repeat visual review. Owner conditionally authorizes incremental Falls extension +15 calls if objectively needed; retained +12 in first correction candidate.
+
+Root-cause review: prior fifteen screenshots focused on Billboard progress .22 vs actual entry .101–.106; Service Tunnel .355 vs .24655–.25155; Waterfall Dive .75 vs .792717. These frames therefore could not validate the disguised entrances.
+
+Correction code on `design/neon-grid-circuit-02`: Skyline road-edge ad gantries with pre-approved existing sponsors, Undercity service bay/door family densified to 14 grounded portal-size false doors with solid backings, Falls extension non-gold ambient water count 14→24 clustered before/after the frozen 0.70–0.85 Task 8 sector. No physics or visual-tell modification, 2D art creation, or unapproved Task8 district changes. T9.5 test assertions enforce masks near entrances, batch counts, road clearance and frozen ranges. Render fixture expanded to 18 entrance-focused views. Await full validation and rendered owner preview. **No T9.6, #242 merge or production gameplay release.**

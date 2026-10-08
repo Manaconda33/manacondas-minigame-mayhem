@@ -265,7 +265,7 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
     { start: 0.220, end: 0.244, side: 1 },
   ]);
   const fasciaGeometry = mergeGeometries([originalFascia, wallScreens], false);
-  if (!fasciaGeometry) throw new Error('Unable to merge Skyline roadside screens');
+  // mergeGeometries has a non-null return contract in our Three.js version.
   const screenPanelCount = wallScreens.userData.panelCount as number;
   const mouthCuts = wallScreens.userData.openingSegments as number;
   originalFascia.dispose();

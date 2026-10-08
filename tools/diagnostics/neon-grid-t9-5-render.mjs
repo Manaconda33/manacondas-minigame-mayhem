@@ -119,6 +119,7 @@ try {
   }
   const tunnelApproach = frames.find((frame) => frame.station === 'undercity-entry')
     ?.actualCameraShortcutSightline;
+  console.log('T9.5 Service Tunnel approach LOS evidence:', JSON.stringify(tunnelApproach));
   if (!tunnelApproach || tunnelApproach.viewportTargets < 3 ||
     tunnelApproach.blockedTargets < 2) {
     throw new Error('T9.5 Service Tunnel approach reveals shortcut interior from real ChaseCamera');

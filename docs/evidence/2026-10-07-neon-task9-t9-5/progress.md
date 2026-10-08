@@ -131,3 +131,14 @@ Contrary to initial handoff limitations, GitHub connector `create_blob` accepts 
 ## Approved hologram runtime candidate (2026-10-08)
 
 Two warning planes wired through NeonGridScene and KartTimeTrial with single master/runtime PNG (exact approved Git blob 6d1275e9266dc5bd16a78de0a8d91aeead463369), PNG load verification and per-portal fade on kart proximity. Added geometry/material/no-collider/fade regression. No validation or owner gameplay acceptance claimed at code-commit time; require full exact-head CI before an immutable preview.
+
+
+## 2026-10-08 final pinned portal-warning preview publication
+
+- **Exact owner-approved binary:** Git blob `6d1275e9266dc5bd16a78de0a8d91aeead463369`, source/runtime PNG SHA-256 `11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4`.
+- **Runtime source checkpoint:** `64492dfbca7c4a5633880637ddbc5bcc05c34fde`, [CI 37818513159](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37818513159) SUCCESS: typecheck, lint, all tests, production build, legacy sector and 28-station T9.5 desktop/mobile/rear/full-course render checks.
+- **T9.5 peak rendering:** 206 calls (200 target, 220 blocker), 168,790 visible triangles (300k blocker), 300 scored SwiftShader frames, no structural gate failures. These are software structural numbers, NOT representative device FPS.
+- **Preview-only publication:** [PR #280](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/280), commit `26f393018ed691df98014c234ebd07f2b3357ebf`, [main Pages CI 37820169477](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37820169477) SUCCESS. Deploy job verified live source/hash marker, exact approved PNG delivery, and unchanged production bytes.
+- **NEW PINNED REVIEW:** https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-5-portals/?review=64492df
+- **Inspection:** screenshot diagnostics indicate close tunnel roof framing on mobile. Owner playtest must judge actual racer/driver and chase-camera readability; do not claim the mobile problem is eliminated based on structural CI alone. Previous screenshot clipping issues and both-direction driving must be reviewed.
+- **Approval:** OWNER IN-GAME T9.5 ACCEPTANCE PENDING. PR #242 stays draft/unmerged; production game runtime and T9.6/T9.7 scope unchanged. Next: wait for Manny's verdict and handle bounded corrections if requested.

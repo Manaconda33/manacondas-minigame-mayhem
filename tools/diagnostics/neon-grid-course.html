@@ -75,7 +75,9 @@
       g.trackScene.updateMatrixWorld(true);
       const caster = new THREE.Raycaster();
       const inView = [];
-      const samples = [0.12, 0.22, 0.32, 0.42, 0.52, 0.62, 0.72, 0.82, 0.92];
+      const samples = billboard
+        ? [0.12, 0.22, 0.32, 0.42, 0.52, 0.62, 0.72, 0.82, 0.92]
+        : [0.01, 0.03, 0.06, 0.09, 0.12, 0.22, 0.32, 0.52, 0.72, 0.92];
       for (const fraction of samples) {
         const target = shortcut.curve.getPointAt(fraction).add(new THREE.Vector3(0, 0.65, 0));
         const projected = target.clone().project(g.camera);

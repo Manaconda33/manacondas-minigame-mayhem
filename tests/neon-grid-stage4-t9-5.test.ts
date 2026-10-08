@@ -222,16 +222,18 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
   }, 20000);
 
 
-  it('renders both owner-approved warning panels without blocking either legal tunnel mouth', () => {
+  it('mounts right-reading warning art at both true angled tunnel wall openings', () => {
     const track = new NeonGrid();
     const scene = createNeonGridScene(track, 'medium');
     try {
+      scene.updateMatrixWorld(true);
+      const tunnel = track.serviceTunnel;
       const warnings = scene.tunnelWarnings;
       expect(warnings.group.children).toHaveLength(2);
       expect(warnings.group.userData.presentationOnly).toBe(true);
-      for (const [name, fraction] of [
-        ['service-tunnel-warning-entry', 0.015],
-        ['service-tunnel-warning-exit', 0.985],
+      for (const [name, exit, facing] of [
+        ['service-tunnel-warning-entry', false, -1],
+        ['service-tunnel-warning-exit', true, 1],
       ] as const) {
         const mesh = scene.getObjectByName(name) as THREE.Mesh<
           THREE.PlaneGeometry, THREE.MeshBasicMaterial
@@ -239,27 +241,88 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect(mesh, name).toBeInstanceOf(THREE.Mesh);
         expect(mesh.userData.nonColliding).toBe(true);
         expect(mesh.userData.presentationOnly).toBe(true);
-        expect(mesh.userData.portalFraction).toBe(fraction);
-        expect(mesh.geometry.parameters.width).toBeLessThan(track.serviceTunnel.roadHalfWidth * 2);
-        expect(mesh.geometry.parameters.height).toBeLessThanOrEqual(track.serviceTunnel.headroom);
-        const center = track.serviceTunnel.curve.getPointAt(fraction);
-        expect(Math.hypot(mesh.position.x - center.x, mesh.position.z - center.z)).toBeLessThan(0.01);
+        const leftFraction = tunnel.wallRange(-1)[exit ? 1 : 0];
+        const rightFraction = tunnel.wallRange(1)[exit ? 1 : 0];
+        const fraction = (leftFraction + rightFraction) / 2;
+        expect(mesh.userData.portalWallFractions).toEqual([leftFraction, rightFraction]);
+        expect(mesh.userData.portalFraction).toBeCloseTo(fraction, 8);
+        const left = new THREE.Vector3().fromArray(mesh.userData.portalEdges[0] as number[]);
+        const right = new THREE.Vector3().fromArray(mesh.userData.portalEdges[1] as number[]);
+        const crossing = left.clone().add(right).multiplyScalar(0.5);
+        expect(Math.hypot(mesh.position.x - crossing.x, mesh.position.z - crossing.z)).toBeLessThan(0.01);
+        expect(mesh.position.y - Math.max(left.y, right.y) - mesh.geometry.parameters.height / 2)
+          .toBeGreaterThanOrEqual(tunnel.headroom);
+        const normal = new THREE.Vector3(0, 0, 1).applyQuaternion(mesh.quaternion);
+        const targetNormal = tunnel.curve.getTangentAt(fraction).setY(0).normalize()
+          .multiplyScalar(facing);
+        expect(normal.dot(targetNormal)).toBeGreaterThan(0.999);
+        expect(mesh.material.side).toBe(THREE.FrontSide);
+        expect(mesh.geometry.parameters.width).toBeLessThan(tunnel.roadHalfWidth * 2);
         expect(mesh.material.transparent).toBe(true);
         expect(mesh.material.depthTest).toBe(true);
         expect(mesh.material.depthWrite).toBe(false);
-        expect(mesh.material.opacity).toBeGreaterThan(0);
-        // A warning at the physical entrance/exit must fade fully at the
-        // kart's actual traversal point; geometry has no collider.
-        warnings.update(center);
+        expect(mesh.material.map).toBeDefined();
+        const mounts = instanced(mesh, name + '-wall-mounts');
+        expect(mounts.count).toBe(2);
+        expect(mounts.userData.nonColliding).toBe(true);
+        for (const [index, side, at, edge] of [
+          [0, -1, leftFraction, left],
+          [1, 1, rightFraction, right],
+        ] as const) {
+          const matrix = new THREE.Matrix4();
+          mounts.getMatrixAt(index, matrix);
+          matrix.premultiply(mesh.matrixWorld);
+          const contact = new THREE.Vector3(0, -0.5, 0).applyMatrix4(matrix);
+          const expected = edge.clone().setY(tunnel.wallElevationAt(at, side, true) - 0.12);
+          expect(contact.distanceTo(expected), name + ' wall contact ' + index).toBeLessThan(0.015);
+        }
+        warnings.update(crossing);
         expect(mesh.visible).toBe(false);
         expect(mesh.material.opacity).toBe(0);
-        warnings.update(center.clone().add(new THREE.Vector3(50, 0, 50)));
+        warnings.update(crossing.clone().add(new THREE.Vector3(50, 0, 50)));
         expect(mesh.visible).toBe(true);
         expect(mesh.material.opacity).toBeCloseTo(0.63, 5);
       }
       expect(warnings.group.userData.approvedAsset).toBe(
         'assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png',
       );
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 20000);
+
+  it('exposes actual wall-mounted and raised sponsor artwork to the ordinary-road eye', () => {
+    const track = new NeonGrid();
+    const scene = createNeonGridScene(track, 'medium');
+    try {
+      scene.updateMatrixWorld(true);
+      const wall = scene.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
+      const raycaster = new THREE.Raycaster();
+      const samples = [[0.052, 0.076, 0.135, 0.184], [0.060, 0.085, 0.146, 0.194]];
+      for (const [sponsor, name] of [
+        [0, 'skyline-ad-manaconda-racing'],
+        [1, 'skyline-ad-taco-bell-live-mas'],
+      ] as const) {
+        const art = instanced(scene, name);
+        const material = art.material as THREE.MeshBasicMaterial;
+        expect(material.map).toBeInstanceOf(THREE.Texture);
+        expect(material.transparent).toBe(false);
+        for (let i = 0; i < 4; i++) {
+          const progress = samples[sponsor]?.[i];
+          expect(progress).toBeDefined();
+          if (progress === undefined) continue;
+          const target = transform(art, 3 + i).position;
+          const eye = track.curve.getPointAt(progress).add(new THREE.Vector3(0, 2.2, 0));
+          const direction = target.clone().sub(eye);
+          raycaster.set(eye, direction.clone().normalize());
+          raycaster.far = direction.length() + 0.2;
+          const artHit = raycaster.intersectObject(art, false).find((hit) => hit.instanceId === i + 3);
+          expect(artHit, name + ' actual image ray ' + i).toBeDefined();
+          const firstOpaqueWall = raycaster.intersectObject(wall, false)[0];
+          expect(firstOpaqueWall?.distance ?? Infinity, name + ' fascia occlusion ' + i)
+            .toBeGreaterThan((artHit?.distance ?? 0) - 0.02);
+        }
+      }
     } finally {
       disposeTrackScene(scene);
     }
@@ -345,6 +408,31 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
             ).toHaveLength(0);
           }
         }
+      }
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 20000);
+
+  it('keeps the dark Skyline fascia outside the real Service Tunnel entry corridor', () => {
+    const track = new NeonGrid();
+    const scene = createNeonGridScene(track, 'medium');
+    try {
+      scene.updateMatrixWorld(true);
+      const fascia = scene.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
+      const tunnel = track.serviceTunnel;
+      const raycaster = new THREE.Raycaster();
+      // Use actual entry geometry, not an unrelated road progress sample.
+      // The wall may hide deep tunnel, but must not cover immediate turn-in.
+      for (const fraction of [0.007, 0.025, 0.045]) {
+        const start = tunnel.curve.getPointAt(fraction).add(new THREE.Vector3(0, 1.5, 0));
+        const ahead = tunnel.curve.getPointAt(fraction + 0.035)
+          .add(new THREE.Vector3(0, 1.0, 0));
+        const ray = ahead.clone().sub(start);
+        raycaster.set(start, ray.clone().normalize());
+        raycaster.far = ray.length();
+        expect(raycaster.intersectObject(fascia, false), 'opaque entry fascia at ' + fraction)
+          .toHaveLength(0);
       }
     } finally {
       disposeTrackScene(scene);

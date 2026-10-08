@@ -491,3 +491,15 @@ Manny reviewed and approved both standalone Undercity billboard candidates one a
 | `public/assets/track/neon-grid/signage/voltline-industrial-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/voltline-industrial-v1.webp` | `87dc1584b0c38eb459eb81086fa26721130439022cfb79826901cd9799fde95f` | `19b32b71ee59a0f52860c4a6003057b46e4fde890c4e2d4d390b78ed2ea67863` | 238,228 |
 
 `tools/verify-task9-undercity-assets.mjs` enforces RIFF/WebP signatures, 1024 × 512 dimensions, exact byte counts and SHA-256 hashes through the existing runtime-asset validation chain. These two files use the same narrow owner-approved normal-Git delivery treatment as the already-integrated Task 9 Skyline masking derivatives; other track PNG/WebP policy remains unchanged.
+
+
+## T9.5 Service Tunnel hologram "DO NOT ENTER" (2026-10-08)
+
+- **Artwork:** Owner-approved, author-supplied transparent RGBA warning artwork, not third-party stock.
+- **Provenance:** Approved in Manaconda's Minigame Mayhem ChatGPT owner review on 2026-10-08 specifically for both Undercity Service Tunnel portals.
+- **Master:** `docs/design/neon-grid/assets/task9/billboards/service-tunnel-do-not-enter-v1-source.png` (1024×512, 147,958 bytes).
+- **Runtime:** `public/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png` (byte-identical master, no conversion/recolor or asset substitution).
+- **Git blob SHA-1:** `6d1275e9266dc5bd16a78de0a8d91aeead463369` for both paths.
+- **SHA-256:** `11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4` for both paths.
+- **Use restriction:** two non-colliding, depth-tested, semi-transparent warning images over genuine legal portal openings; locally fade for player/road/camera readability. Not a physical blockade, gameplay gate, directional route aid, or production-release authorization.
+- **Asset handling:** Approved exception in `.gitattributes` permits this fixed-size runtime PNG as a direct normal-Git object, avoiding LFS pointers in browser delivery. Runtime integration/validation and owner playtest remain independently gated.

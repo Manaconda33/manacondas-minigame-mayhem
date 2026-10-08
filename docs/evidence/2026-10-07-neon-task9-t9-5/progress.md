@@ -121,3 +121,8 @@ Owner gameplay screenshots: T9.5 exterior disguise works, but independent Skylin
 ## 2026-10-08 owner hologram-art approval
 
 Manny expressly approved the standalone reviewed DO NOT ENTER sign for both ends of the Service Tunnel. Source 1024×512 transparent PNG SHA-256 `11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4`. This approves the graphic and intended non-colliding fade-in-traffic treatment only. At this checkpoint the binary is not yet preserved in the repository and no runtime sign implementation, final CI or in-game acceptance is claimed. Maintain the fixed 200 target / 220 full-course blocker / 300k visible triangles and all prior sector limits. 
+
+
+## 2026-10-08 exact approved hologram binary checkpoint
+
+Contrary to initial handoff limitations, GitHub connector `create_blob` accepts full base64 PNG bytes. The verified master SHA-256 is `11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4`; Git object SHA-1 `6d1275e9266dc5bd16a78de0a8d91aeead463369` agrees with an independent local Git blob hash. Two paths use that *same* object, one master and one direct runtime. No recompression or reconstruction. A scoped direct-Git .gitattributes exception is present. Gameplay integration, fresh validation and owner visual preview remain open.

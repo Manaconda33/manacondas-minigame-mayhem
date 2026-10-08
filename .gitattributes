@@ -67,3 +67,7 @@ public/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp -filter -diff -
 # Fixed 1024x512 derivatives; Task 9 owner-review gate and ASSET-PROVENANCE.md.
 public/assets/track/neon-grid/signage/nightshift-noodles-v1.webp -filter -diff -merge -text
 public/assets/track/neon-grid/signage/voltline-industrial-v1.webp -filter -diff -merge -text
+
+# Exact approved T9.5 holographic warning PNG, direct normal Git runtime delivery (2026-10-08).
+# Master and runtime binary are identical: Git blob 6d1275e9266dc5bd16a78de0a8d91aeead463369.
+public/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png -filter -diff -merge -text

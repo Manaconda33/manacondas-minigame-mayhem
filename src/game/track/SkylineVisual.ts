@@ -6,6 +6,7 @@ import type { NeonGrid } from './NeonGrid';
 import {
   NeonGridVisualClock,
   neonGridRightAt,
+  neonGridRoadsideScreenGeometry,
   neonGridSurfaceSliceGeometry,
 } from './NeonGridVisualCommon';
 import { disposeTrackScene } from './TrackSceneResources';
@@ -248,8 +249,29 @@ function placeTowers(track: NeonGrid): SkylineTower[] {
 }
 
 function addStructure(group: THREE.Group, track: NeonGrid): void {
+  // The formerly separate ad supports did not actually hide alternate asphalt.
+  // Fuse opaque facade panels into the existing elevated-deck fascia draw call.
+  const originalFascia = skylineFasciaGeometry(track);
+  const billboardScreenSide = billboardSide(track) as -1 | 1;
+  const wallScreens = neonGridRoadsideScreenGeometry(track, [
+    {
+      start: 0.038, end: 0.224, side: billboardScreenSide,
+      opening: (p) => billboardWallOpen(track, billboardScreenSide, p) ||
+        Math.abs(p - track.billboardGap.entry.progress[0]) < 0.010 ||
+        Math.abs(p - track.billboardGap.exitProgress) < 0.010,
+    },
+    // Short supported expressway facades also obscure the tunnel approach.
+    { start: 0.220, end: 0.244, side: -1 },
+    { start: 0.220, end: 0.244, side: 1 },
+  ]);
+  const fasciaGeometry = mergeGeometries([originalFascia, wallScreens], false);
+  if (!fasciaGeometry) throw new Error('Unable to merge Skyline roadside screens');
+  const screenPanelCount = wallScreens.userData.panelCount as number;
+  const mouthCuts = wallScreens.userData.openingSegments as number;
+  originalFascia.dispose();
+  wallScreens.dispose();
   const fascia = new THREE.Mesh(
-    skylineFasciaGeometry(track),
+    fasciaGeometry,
     new THREE.MeshStandardMaterial({
       color: 0x08131f,
       roughness: 0.82,
@@ -258,6 +280,9 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
     }),
   );
   fascia.name = 'skyline-deck-fascia';
+  fascia.userData.sightlinePanels = screenPanelCount;
+  fascia.userData.mouthCuts = mouthCuts;
+  fascia.userData.presentationOnly = true;
   group.add(fascia);
 
   const material = new THREE.MeshStandardMaterial({

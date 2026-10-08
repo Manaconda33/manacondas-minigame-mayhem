@@ -1,3 +1,5 @@
+**T9.5 corrective A/B case:** First candidate render run 37712350695 showed the Falls extension at +13 calls, exceeding +12 even though reverse-order renderer readiness was stable. Keep the original +12 blocker. The two service cap and cyan lamp materials/meshes have been consolidated into one instanced, vertex-colored geometry family. The T9.5 tests assert the two material color regions in merged geometry, the pylon attachment and exact-once disposal; the unchanged Falls extension render gate must still pass on the final source. Undercity A/B measured exactly its existing +20 cap; monitor it but do not increase the allowance.
+
 ## Neon Grid Stage 4 Task 9 T9.5 — full-course lifecycle, masking and visual enhancements (2026-10-07)
 
 **Governing approval:** Manny approved the revised T9.5 plan to permit bounded presentation-only improvements. Do not advance to T9.6 before T9.5 automated/visual owner review.

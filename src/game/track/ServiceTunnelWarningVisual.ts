@@ -39,7 +39,12 @@ export class ServiceTunnelWarningVisual {
       const leftEdge = edgeAt(-1, leftFraction);
       const rightEdge = edgeAt(1, rightFraction);
       const crossing = leftEdge.clone().add(rightEdge).multiplyScalar(0.5);
-      const normal = tunnel.curve.getTangentAt(fraction).setY(0).normalize()
+      // The real mouth is oblique to the tunnel spline. Make the sign face
+      // perpendicular to the line joining the two physical wall ends, not
+      // to an average spline tangent that leaves a skewed detached gantry.
+      const portalAcross = rightEdge.clone().sub(leftEdge).setY(0);
+      const portalRight = portalAcross.clone().normalize();
+      const normal = portalRight.clone().cross(new THREE.Vector3(0, 1, 0))
         .multiplyScalar(normalDirection);
       const material = new THREE.MeshBasicMaterial({
         map: this.placeholder,
@@ -64,36 +69,46 @@ export class ServiceTunnelWarningVisual {
       mesh.userData.portalWallFractions = [leftFraction, rightFraction];
       mesh.userData.portalEdges = [leftEdge.toArray(), rightEdge.toArray()];
       mesh.userData.readableNormal = normal.toArray();
+      mesh.userData.portalSpanMeters = portalAcross.length();
+      mesh.userData.portalHeaderY = mesh.position.y + plane.parameters.height * 0.5 + 0.08;
 
-      // A single instanced pair of visible posts joins the approved panel to
-      // the REAL wall-end corners. It is not a freestanding floating hologram.
+      // One integrated 3-piece portal frame: two truly vertical wall-end
+      // uprights plus a rigid, continuous overhead header joining them.
+      // Image sits directly beneath the header, never on inward-leaning
+      // freestanding posts displaced toward the camera.
       const mounts = new THREE.InstancedMesh(
-        new THREE.BoxGeometry(0.22, 1, 0.26),
+        new THREE.BoxGeometry(0.26, 1, 0.34),
         new THREE.MeshStandardMaterial({ color: 0x437088, roughness: 0.44, metalness: 0.52 }),
-        2,
+        3,
       );
       mounts.name = name + '-wall-mounts';
       mounts.userData.presentationOnly = true;
       mounts.userData.nonColliding = true;
+      mounts.userData.portalFrame = true;
+      const headerY = mesh.userData.portalHeaderY as number;
       const dummy = new THREE.Object3D();
-      const along = tunnel.curve.getTangentAt(fraction).setY(0).normalize();
-      const lateral = new THREE.Vector3(along.z, 0, -along.x);
       for (const [index, side, at, wallEdge] of [
         [0, -1, leftFraction, leftEdge],
         [1, 1, rightFraction, rightEdge],
       ] as const) {
-        const lower = wallEdge.clone().setY(tunnel.wallElevationAt(at, side, true) - 0.12);
-        const upper = mesh.position.clone().addScaledVector(lateral, side * 3.05)
-          .add(new THREE.Vector3(0, 1.34, 0));
-        const a = mesh.worldToLocal(lower);
-        const b = mesh.worldToLocal(upper);
-        const delta = b.clone().sub(a);
-        dummy.position.copy(a).add(b).multiplyScalar(0.5);
-        dummy.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), delta.clone().normalize());
-        dummy.scale.set(1, delta.length(), 1);
+        const footY = tunnel.wallElevationAt(at, side, true) - 0.12;
+        const postMid = wallEdge.clone().setY((footY + headerY) / 2);
+        dummy.position.copy(mesh.worldToLocal(postMid));
+        dummy.quaternion.identity();
+        dummy.scale.set(1, headerY - footY, 1);
         dummy.updateMatrix();
         mounts.setMatrixAt(index, dummy.matrix);
       }
+      const beamStart = leftEdge.clone().setY(headerY);
+      const beamEnd = rightEdge.clone().setY(headerY);
+      const first = mesh.worldToLocal(beamStart);
+      const last = mesh.worldToLocal(beamEnd);
+      const beam = last.clone().sub(first);
+      dummy.position.copy(first).add(last).multiplyScalar(0.5);
+      dummy.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), beam.clone().normalize());
+      dummy.scale.set(1, beam.length(), 1);
+      dummy.updateMatrix();
+      mounts.setMatrixAt(2, dummy.matrix);
       mounts.instanceMatrix.needsUpdate = true;
       mesh.add(mounts);
       this.panels.push(mesh);

@@ -1188,3 +1188,7 @@ Any new 2D billboard/ad/sign asset is owner-gated individually: generate and pre
 - **Preserved contracts:** no main-curve, checkpoint-order, kart-stat, global-physics, item, audio, AI-rate, Billboard balance, Tunnel support, Dive support, repaired 5.3 face, culling/LOD or T9.3 Undercity presentation change.
 - **Delivery gate:** preserve rejected pinned preview source `bef603649eeb7a5bd1c767aa4b53da0ac3583f9e` as historical evidence; publish a distinct replacement T9.2 preview after full validation and stop for owner review.
 - **Numbering:** ADR-110 remains reserved for the separately approved cross-minigame render-workload governance decision.
+
+## T9.5 visual-enhancement scope approval — 2026-10-07 America/Chicago
+
+Manny approved the revised T9.5 plan, expanding the original full-course lifecycle/masking pass to permit bounded **proactive visual enhancements**, not merely defect repair. Approved examples are building-attached industrial ventilation in the Undercity and pylon-attached deck cap/downlight detailing in Falls Run outside the accepted Task 8 range. The additions must remain presentation-only, locally owned, procedurally batched, physically supported, measurable under the Task 9 structural budgets and reviewed in an isolated pinned owner preview. New 2D artwork remains one-at-a-time owner-gated. The two specific T9.2 Skyline building mass/city-base issues remain strictly deferred to T9.7; T9.6 retains hardware FPS/p95 certification. No PR #242 merge or gameplay deployment is authorized.

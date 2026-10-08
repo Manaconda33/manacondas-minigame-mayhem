@@ -127,6 +127,81 @@ export function neonGridSurfaceSliceGeometry(
   return geometry;
 }
 
+
+/**
+ * Opaque presentation-only roadway facade screens. The panels and attached ribs
+ * begin below the main-road edge, follow its authored grade and have no collider.
+ * Strips leave genuine shortcut entrance/exit openings clear.
+ */
+export interface NeonRoadsideScreenStrip {
+  readonly start: number;
+  readonly end: number;
+  readonly side: -1 | 1;
+  readonly opening?: (progress: number) => boolean;
+}
+
+export function neonGridRoadsideScreenGeometry(
+  track: NeonGrid,
+  strips: readonly NeonRoadsideScreenStrip[],
+): THREE.BufferGeometry {
+  const vertices: number[] = [];
+  const indices: number[] = [];
+  let panels = 0;
+  let openings = 0;
+  function quad(a: THREE.Vector3, b: THREE.Vector3, c: THREE.Vector3, d: THREE.Vector3): void {
+    const first = vertices.length / 3;
+    vertices.push(...a.toArray(), ...b.toArray(), ...c.toArray(), ...d.toArray());
+    indices.push(first, first + 1, first + 2, first, first + 2, first + 3);
+  }
+  function surface(progress: number, side: -1 | 1, outward: number, height: number): THREE.Vector3 {
+    const center = track.curve.getPointAt(progress);
+    const right = neonGridRightAt(track, progress);
+    return center.addScaledVector(right, side * (track.halfWidthAt(progress) + outward))
+      .add(new THREE.Vector3(0, height, 0));
+  }
+  function panel(a: number, b: number, side: -1 | 1, outer: number, top: number): void {
+    const nearA = surface(a, side, outer, -1.0);
+    const nearB = surface(b, side, outer, -1.0);
+    const highA = surface(a, side, outer, top);
+    const highB = surface(b, side, outer, top);
+    const farA = surface(a, side, outer + 0.28, -1.0);
+    const farB = surface(b, side, outer + 0.28, -1.0);
+    const farHighA = surface(a, side, outer + 0.28, top);
+    const farHighB = surface(b, side, outer + 0.28, top);
+    quad(nearA, nearB, highB, highA);
+    quad(farB, farA, farHighA, farHighB);
+    quad(highA, highB, farHighB, farHighA);
+    quad(nearB, nearA, farA, farB);
+    quad(nearA, highA, farHighA, farA);
+    quad(highB, nearB, farB, farHighB);
+  }
+  for (const strip of strips) {
+    const count = Math.max(1, Math.ceil((strip.end - strip.start) / 0.0012));
+    for (let i = 0; i < count; i++) {
+      const a = THREE.MathUtils.lerp(strip.start, strip.end, i / count);
+      const b = THREE.MathUtils.lerp(strip.start, strip.end, (i + 1) / count);
+      const mid = (a + b) * 0.5;
+      if ([a, mid, b].some((p) => strip.opening?.(p) === true)) {
+        openings++;
+        continue;
+      }
+      // Repeating opaque wall modules and deeper integral pilaster ribs.
+      panel(a, b, strip.side, 0.44, 3.95);
+      if (i % 6 === 0) panel(a, a + (b - a) * 0.38, strip.side, 0.30, 4.35);
+      panels++;
+    }
+  }
+  const result = new THREE.BufferGeometry()
+    .setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+    .setIndex(indices);
+  result.computeVertexNormals();
+  result.userData.panelCount = panels;
+  result.userData.openingSegments = openings;
+  result.userData.presentationOnly = true;
+  result.userData.opaqueScreens = true;
+  return result;
+}
+
 export class NeonGridVisualClock {
   private lastSourceTime: number | null = null;
   private visualTime = 0;

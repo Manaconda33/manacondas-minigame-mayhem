@@ -10,21 +10,27 @@ mkdirSync(directory, { recursive: true });
 const engineeringCeilings = { calls: 200, triangles: 300000 };
 const prdCaps = { calls: 250, triangles: 750000 };
 const captures = [
-  { name: 'skyline-chase', progress: 0.16 },
-  { name: 'billboard-approach-chase', progress: 0.22 },
-  { name: 'billboard-rear', progress: 0.22, view: 'rear' },
-  { name: 'undercity-entry', progress: 0.285 },
-  { name: 'undercity-service-tunnel', progress: 0.355, performance: true, scale: 1.5 },
-  { name: 'undercity-exit', progress: 0.425 },
-  { name: 'undercity-rear', progress: 0.355, view: 'rear' },
-  { name: 'falls-climb', progress: 0.57 },
-  { name: 'waterfall-dive-approach', progress: 0.75 },
-  { name: 'falls-exit', progress: 0.91 },
-  { name: 'waterfall-dive-rear', progress: 0.75, view: 'rear' },
-  { name: 'mobile-landscape-undercity', progress: 0.34, width: 844, height: 390 },
-  { name: 'mobile-landscape-dive', progress: 0.75, width: 844, height: 390 },
-  { name: 'mobile-portrait-undercity', progress: 0.34, width: 390, height: 844 },
-  { name: 'mobile-portrait-falls', progress: 0.91, width: 390, height: 844 },
+  { name: 'skyline-chase', progress: 0.063 },
+  // Actual Billboard Gap entry spans 0.101–0.106, NOT former 0.22 capture.
+  { name: 'billboard-approach-chase', progress: 0.092 },
+  { name: 'billboard-mouth', progress: 0.103 },
+  { name: 'billboard-rear', progress: 0.108, view: 'rear' },
+  { name: 'undercity-entry', progress: 0.242 },
+  // Service Tunnel entry spans 0.24655–0.25155, NOT former 0.355 capture.
+  { name: 'undercity-service-tunnel', progress: 0.250, performance: true, scale: 1.5 },
+  { name: 'undercity-exit', progress: 0.454 },
+  { name: 'undercity-rear', progress: 0.254, view: 'rear' },
+  { name: 'falls-climb', progress: 0.688 },
+  // Waterfall Dive entry is 0.792717, NOT former 0.75 capture.
+  { name: 'waterfall-dive-approach', progress: 0.786 },
+  { name: 'waterfall-dive-mouth', progress: 0.794 },
+  { name: 'falls-exit', progress: 0.865 },
+  { name: 'waterfall-dive-rear', progress: 0.801, view: 'rear' },
+  { name: 'mobile-landscape-billboard', progress: 0.102, width: 844, height: 390 },
+  { name: 'mobile-landscape-undercity', progress: 0.249, width: 844, height: 390 },
+  { name: 'mobile-landscape-dive', progress: 0.792, width: 844, height: 390 },
+  { name: 'mobile-portrait-undercity', progress: 0.248, width: 390, height: 844 },
+  { name: 'mobile-portrait-falls', progress: 0.792, width: 390, height: 844 },
 ];
 
 const browser = await chromium.launch({

@@ -155,7 +155,7 @@ jobs:
 
           - id: neon-grid-t9-4
             embed_source: true
-            sha: fe24e39fc16a7ce8a6ca7991b705776d2f675871
+            sha: be47a3d7215867b9b275473fd2640cc626ef5e37
             base: /manacondas-minigame-mayhem/previews/neon-grid-t9-4/
             marker_type: feature
             marker_name: 'Neon Grid Stage 4 Task 9 T9.4 Falls Run extension'
@@ -434,7 +434,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: preview-output/neon-grid-t9-4
-          key: preview-dist-v1-neon-grid-t9-4-fe24e39fc16a7ce8a6ca7991b705776d2f675871-${{ needs.preview-plan.outputs.toolchain }}
+          key: preview-dist-v1-neon-grid-t9-4-be47a3d7215867b9b275473fd2640cc626ef5e37-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
@@ -652,7 +652,7 @@ jobs:
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = 'fe24e39fc16a7ce8a6ca7991b705776d2f675871' if item['path'].startswith('previews/neon-grid-t9-4/') else '42781fb5367a146473c49012e0442e953197e480' if item['path'].startswith('previews/neon-grid-t9-3-correction/') else '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = 'be47a3d7215867b9b275473fd2640cc626ef5e37' if item['path'].startswith('previews/neon-grid-t9-4/') else '42781fb5367a146473c49012e0442e953197e480' if item['path'].startswith('previews/neon-grid-t9-3-correction/') else '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

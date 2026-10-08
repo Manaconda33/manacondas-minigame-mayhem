@@ -555,6 +555,8 @@ function addApprovedAds(
     8,
   );
   supports.name = 'skyline-mask-roadside-billboard-supports';
+  supports.userData.immutableSponsorArt = true;
+  supports.userData.camouflageProgress = [0.052, 0.076, 0.135, 0.184, 0.060, 0.085, 0.146, 0.194];
   const decoyProgresses = [
     [0.052, 0.076, 0.135, 0.184],
     [0.060, 0.085, 0.146, 0.194],

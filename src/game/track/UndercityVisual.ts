@@ -452,6 +452,49 @@ function addUtilityClutter(
   group.add(boxes, pads, pipes, lights);
 }
 
+/**
+ * T9.5 facade service detail: each vent bank is physically backed by an
+ * existing warehouse wall. No free-floating corridor clutter or collision.
+ */
+function addFacadeVentilation(group: THREE.Group, buildings: UndercityBuilding[]): void {
+  const housings = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshStandardMaterial({ color: 0x42505d, roughness: 0.6, metalness: 0.65 }),
+    buildings.length,
+  );
+  housings.name = 'undercity-facade-vent-housings';
+  const louvers = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshStandardMaterial({ color: 0x9ba3b2, roughness: 0.48, metalness: 0.7 }),
+    buildings.length * 3,
+  );
+  louvers.name = 'undercity-facade-vent-louvers';
+  const dummy = new THREE.Object3D();
+  buildings.forEach((building, i) => {
+    const outward = building.right.clone().multiplyScalar(-building.side);
+    const y = building.baseY + Math.min(building.height * 0.74, building.height - 2.2);
+    const wall = building.position.clone()
+      .addScaledVector(outward, building.width * 0.5 + 0.28).setY(y);
+    const facing = Math.atan2(outward.x, outward.z);
+    dummy.position.copy(wall);
+    dummy.rotation.set(0, facing, 0);
+    dummy.scale.set(2.2, 1.45, 0.45);
+    dummy.updateMatrix();
+    housings.setMatrixAt(i, dummy.matrix);
+    for (let slot = 0; slot < 3; slot++) {
+      dummy.position.copy(wall).addScaledVector(outward, 0.255);
+      dummy.position.y += (slot - 1) * 0.32;
+      dummy.rotation.set(0, facing, 0);
+      dummy.scale.set(1.82, 0.11, 0.12);
+      dummy.updateMatrix();
+      louvers.setMatrixAt(i * 3 + slot, dummy.matrix);
+    }
+  });
+  housings.instanceMatrix.needsUpdate = true;
+  louvers.instanceMatrix.needsUpdate = true;
+  group.add(housings, louvers);
+}
+
 function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
   const material = new THREE.MeshStandardMaterial({
     color: 0x121523, emissive: 0x5f1a65, emissiveIntensity: 0.34,
@@ -601,6 +644,7 @@ export class UndercityVisual {
 
     const buildings = addBuildings(this.group, track, quality);
     addUtilityClutter(this.group, track, buildings);
+    addFacadeVentilation(this.group, buildings);
     addServiceBayMask(this.group, track);
     addApprovedAds(this.group, buildings, this.adMaterials);
   }

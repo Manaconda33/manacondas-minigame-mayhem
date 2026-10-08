@@ -1,3 +1,16 @@
+## Neon Grid Stage 4 Task 9 T9.5 — full-course lifecycle, masking and visual enhancements (2026-10-07)
+
+**Governing approval:** Manny approved the revised T9.5 plan to permit bounded presentation-only improvements. Do not advance to T9.6 before T9.5 automated/visual owner review.
+
+- Targeted lifecycle and masking assertions: `npx vitest run tests/neon-grid-stage4-t9-5.test.ts tests/neon-grid-stage4-task9.test.ts tests/neon-grid-stage4-task9-skyline.test.ts tests/neon-grid-stage4-t9-2-corrections.test.ts`.
+- Full acceptance checks: `npm run validate` (strict typecheck, zero-warning lint, V8-coverage Vitest, production build), `git diff --check`, `git lfs fsck`, approved runtime asset hash validations.
+- Hosted gate `task9-full-course-render`: `tools/diagnostics/neon-grid-t9-5-render.mjs` uses the real Neon Grid eight-racer scene at fifteen stations and desktop chase/rear, landscape and portrait views. Canonical Undercity Medium drawing buffer 1920x1080, >=300 scored software-rendered frames, no console/page/shader/HTTP errors; max <=200 calls/300,000 visible triangles (engineering) and <=250 calls/750,000 triangles (PRD). Inspect the captured actual PNGs rather than inferring owner acceptance from structural counters.
+- T9.4 A/B readiness hardening: warm up the visible owner before the hidden/visible comparison; require reverse-order hidden/visible call/triangle stability plus no resource-counter drift, while preserving the original +12 call limit. The prior documentation-only run's +15 anomaly is not erased; post-change exact-source green validation is necessary.
+- New procedural detailing: verify 16 supported Undercity vent banks/48 attached louvers and 16 Falls deck caps/16 attached cyan downlights, all finite, owned and disposed exactly once; no added physics collision or shortcut tell changes. All quality-tier wet-road and mist bypass contracts remain mandatory.
+- Presentation/owner gate: inspect shortcut camouflage versus tell readability at speed, wet-road/driver compositing, sector seams, grounded architecture, mobile road edges, rear-view clipping and repeat-create/dispose. No T9.5 visual approval until a hash-verified pinned preview is reviewed by Manny. Representative-device 60 FPS / p95 <=18.3 ms remains T9.6, not the software-rendered CI result.
+
+Evidence: `docs/evidence/2026-10-07-neon-task9-t9-5/progress.md`. Existing Task 8 and T9.2–T9.4 gates remain mandatory; do not increase their limits as part of this task.
+
 ## T9.4 owner acceptance and later render-gate discrepancy — 2026-10-07 America/Chicago
 
 Manny explicitly **approved** the exact pinned [T9.4 Falls Run Extension preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-4/?review=be47a3d). The approval closes the **owner visual/playability** gate only. Exact runtime `be47a3d7215867b9b275473fd2640cc626ef5e37` and hosted full CI [37708118256](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37708118256) passed 129/129 files and 1027/1027 tests, lint, typecheck, production build and all five render gates. Main preview publication CI/Pages [37709158455](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37709158455) also passed live source/hash and unchanged production-byte checks.

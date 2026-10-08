@@ -270,9 +270,13 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect(mesh.position.y - Math.max(left.y, right.y) - mesh.geometry.parameters.height / 2)
           .toBeGreaterThanOrEqual(tunnel.headroom);
         const normal = new THREE.Vector3(0, 0, 1).applyQuaternion(mesh.quaternion);
-        const targetNormal = tunnel.curve.getTangentAt(fraction).setY(0).normalize()
-          .multiplyScalar(facing);
+        const across = right.clone().sub(left).setY(0);
+        const targetNormal = across.clone().normalize()
+          .cross(new THREE.Vector3(0, 1, 0)).multiplyScalar(facing);
         expect(normal.dot(targetNormal)).toBeGreaterThan(0.999);
+        expect(normal.dot(tunnel.curve.getTangentAt(fraction).setY(0).normalize()
+          .multiplyScalar(facing))).toBeGreaterThan(0.5);
+        expect(mesh.userData.portalSpanMeters).toBeCloseTo(across.length(), 5);
         expect(mesh.material.side).toBe(THREE.FrontSide);
         expect(mesh.geometry.parameters.width).toBeLessThan(tunnel.roadHalfWidth * 2);
         expect(mesh.material.transparent).toBe(true);
@@ -280,8 +284,18 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect(mesh.material.depthWrite).toBe(false);
         expect(mesh.material.map).toBeDefined();
         const mounts = instanced(mesh, name + '-wall-mounts');
-        expect(mounts.count).toBe(2);
+        expect(mounts.count).toBe(3);
         expect(mounts.userData.nonColliding).toBe(true);
+        expect(mounts.userData.portalFrame).toBe(true);
+        const headerY = mesh.userData.portalHeaderY as number;
+        expect(headerY - mesh.position.y - mesh.geometry.parameters.height / 2).toBeCloseTo(0.08, 5);
+        const headerMatrix = new THREE.Matrix4();
+        mounts.getMatrixAt(2, headerMatrix);
+        headerMatrix.premultiply(mesh.matrixWorld);
+        const beamFirst = new THREE.Vector3(0, -0.5, 0).applyMatrix4(headerMatrix);
+        const beamLast = new THREE.Vector3(0, 0.5, 0).applyMatrix4(headerMatrix);
+        expect(beamFirst.distanceTo(left.clone().setY(headerY))).toBeLessThan(0.015);
+        expect(beamLast.distanceTo(right.clone().setY(headerY))).toBeLessThan(0.015);
         for (const [index, side, at, edge] of [
           [0, -1, leftFraction, left],
           [1, 1, rightFraction, right],
@@ -292,6 +306,9 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
           const contact = new THREE.Vector3(0, -0.5, 0).applyMatrix4(matrix);
           const expected = edge.clone().setY(tunnel.wallElevationAt(at, side, true) - 0.12);
           expect(contact.distanceTo(expected), `${name} wall contact ${String(index)}`).toBeLessThan(0.015);
+          const top = new THREE.Vector3(0, 0.5, 0).applyMatrix4(matrix);
+          expect(top.distanceTo(edge.clone().setY(headerY)),
+            `${name} frame header contact ${String(index)}`).toBeLessThan(0.015);
         }
         warnings.update(crossing);
         expect(mesh.visible).toBe(false);

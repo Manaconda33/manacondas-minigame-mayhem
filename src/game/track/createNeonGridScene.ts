@@ -1,5 +1,6 @@
 import type { GraphicsQuality } from '../../config/graphicsQuality';
 import { FallsRunVisual } from './FallsRunVisual';
+import { FallsRunExtensionVisual } from './FallsRunExtensionVisual';
 import { SkylineVisual } from './SkylineVisual';
 import { UndercityVisual } from './UndercityVisual';
 import { NeonGridDiveVisual } from './NeonGridDiveVisual';
@@ -15,6 +16,7 @@ export class NeonGridScene extends THREE.Group {
   public readonly billboard: NeonGridBillboardVisual;
   public readonly dive: NeonGridDiveVisual;
   public readonly fallsRun: FallsRunVisual;
+  public readonly fallsRunExtension: FallsRunExtensionVisual;
   public readonly skyline: SkylineVisual;
   public readonly undercity: UndercityVisual;
   public constructor(track: NeonGrid, quality: GraphicsQuality = 'medium') {
@@ -25,6 +27,8 @@ export class NeonGridScene extends THREE.Group {
     this.add(this.dive.group);
     this.fallsRun = new FallsRunVisual(track, quality);
     this.add(this.fallsRun.group);
+    this.fallsRunExtension = new FallsRunExtensionVisual(track, quality);
+    this.add(this.fallsRunExtension.group);
     this.skyline = new SkylineVisual(track, quality);
     this.add(this.skyline.group);
     this.undercity = new UndercityVisual(track, quality);

@@ -274,7 +274,7 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
     }
   });
 
-  it.fails('requires bounded finite Task 9 sector owners on every quality tier', () => {
+  it('requires bounded finite Task 9 sector owners on every quality tier', () => {
     for (const quality of ['low', 'medium', 'high'] as const) {
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
@@ -298,7 +298,7 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
     }
   }, 20000);
 
-  it.fails('requires Low wet-road bypass and safe avatar compositing for every new sector pass', () => {
+  it('requires Low wet-road bypass and safe avatar compositing for every new sector pass', () => {
     const low = createNeonGridScene(new NeonGrid(), 'low');
     const medium = createNeonGridScene(new NeonGrid(), 'medium');
     const high = createNeonGridScene(new NeonGrid(), 'high');
@@ -322,4 +322,74 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
       disposeTrackScene(high);
     }
   }, 20000);
+});
+
+
+describe('Neon Grid Stage 4 Task 9 T9.4 Falls Run extension', () => {
+  it('leaves the accepted Task 8 group and counts unchanged while owning two disjoint regions', () => {
+    const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    try {
+      expectAcceptedTask8Baseline(scene);
+      const owner = scene.getObjectByName('falls-run-extension-visual');
+      expect(owner).toBeInstanceOf(THREE.Group);
+      expect(owner?.userData.progressRanges).toEqual([
+        [0.46154128347522666, 0.7 - 1 / 1536],
+        [0.85 + 1 / 1536, 1],
+      ]);
+      expect(owner?.userData.excludedRange).toEqual([0.7, 0.85]);
+      const base = scene.getObjectByName('falls-run-extension-asphalt-base') as THREE.Mesh;
+      expect(base.geometry.userData.conformsToMainRibbon).toBe(true);
+      expect(base.geometry.userData.progressRanges).toEqual(owner?.userData.progressRanges);
+      const edges = scene.getObjectByName('falls-run-extension-cyan-edges') as THREE.Mesh;
+      expect(edges.geometry.userData.nativeRibbonEdges).toBe(true);
+      expect((edges.material as THREE.Material).depthWrite).toBe(false);
+      expect(scene.getObjectByName('falls-run-extension-supported-pylons')).toBeDefined();
+      expect(scene.getObjectByName('falls-run-extension-pylon-footings')).toBeDefined();
+      expect(scene.getObjectByName('falls-run-extension-city-foundations')).toBeDefined();
+      expect(requireInstanced(scene, 'falls-run-extension-ambient-waterfalls').count).toBe(14);
+      expect(scene.getObjectByName('falls-run-extension-ambient-waterfalls')?.material).toBeDefined();
+    } finally {
+      disposeTrackScene(scene);
+    }
+  });
+
+  it('bounds new windows/mist and omits wet road and mist on Low', () => {
+    for (const quality of ['low', 'medium', 'high'] as const) {
+      const scene = createNeonGridScene(new NeonGrid(), quality);
+      try {
+        const counts = { low: [80, 0], medium: [160, 14], high: [240, 28] } as const;
+        const [windows, mist] = counts[quality];
+        expect(requireInstanced(scene, 'falls-run-extension-city-windows').count).toBe(windows);
+        expect(scene.getObjectByName('falls-run-extension-ambient-mist')?.count ?? 0).toBe(mist);
+        expect(Boolean(scene.getObjectByName('falls-run-extension-wet-asphalt'))).toBe(quality !== 'low');
+      } finally {
+        disposeTrackScene(scene);
+      }
+    }
+  }, 20000);
+
+  it('freezes hidden extension animation and disposes its owned presentation idempotently', () => {
+    const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    const material = (scene.getObjectByName('falls-run-extension-wet-asphalt') as THREE.Mesh)
+      .material as THREE.ShaderMaterial;
+    const spy = vi.spyOn(material, 'dispose');
+    try {
+      scene.fallsRunExtension.update(2);
+      expect(material.uniforms.time?.value).toBe(2);
+      scene.fallsRunExtension.group.visible = false;
+      scene.fallsRunExtension.update(9);
+      expect(material.uniforms.time?.value).toBe(2);
+      scene.fallsRunExtension.group.visible = true;
+      scene.fallsRunExtension.update(10);
+      expect(material.uniforms.time?.value).toBe(3);
+      scene.fallsRunExtension.dispose();
+      scene.fallsRunExtension.dispose();
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(scene.fallsRunExtension.group.children).toHaveLength(0);
+      expect(scene.getObjectByName('falls-run-visual')).toBeDefined();
+    } finally {
+      disposeTrackScene(scene);
+      spy.mockRestore();
+    }
+  });
 });

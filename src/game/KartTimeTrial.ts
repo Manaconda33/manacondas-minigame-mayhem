@@ -690,6 +690,7 @@ export class KartTimeTrial {
       const raceTime = this.raceDirector.raceTime();
       this.trackScene.dive.update(raceTime);
       this.trackScene.fallsRun.update(raceTime);
+      this.trackScene.fallsRunExtension.update(raceTime);
       this.trackScene.skyline.update(raceTime);
       this.trackScene.undercity.update(raceTime);
     }

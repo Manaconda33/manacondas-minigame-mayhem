@@ -165,8 +165,8 @@ try {
     medium.height !== 1080 ||
     medium.racers !== 8 ||
     medium.skyline.windows !== 240 ||
-    medium.skyline.manacondaAds !== 3 ||
-    medium.skyline.tacoBellAds !== 3 ||
+    medium.skyline.manacondaAds !== 7 ||
+    medium.skyline.tacoBellAds !== 7 ||
     medium.skyline.wet !== true ||
     !low ||
     low.skyline.windows !== 120 ||

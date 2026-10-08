@@ -512,6 +512,7 @@ function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
   });
   const bays = new THREE.InstancedMesh(new THREE.BoxGeometry(5.45, 3.72, 0.18), material, progresses.length);
   bays.name = 'undercity-service-bays';
+  bays.userData.camouflageProgress = progresses;
   // One batched pre-fab: deep foundation, threshold and the two metal jambs.
   // The large opening matches the tunnel's 6.4 m mouth much more closely than
   // the original narrow utility-box shutters.

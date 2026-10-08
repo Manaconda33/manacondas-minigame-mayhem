@@ -106,12 +106,12 @@ describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
         expect(requireInstanced(scene, 'undercity-loading-bay-doors').count).toBe(16);
         expect(requireInstanced(scene, 'undercity-facade-ribs').count).toBe(32);
         expect(requireInstanced(scene, 'undercity-utility-pads').count).toBe(20);
-        expect(requireInstanced(scene, 'undercity-service-bay-backs').count).toBe(10);
+        expect(requireInstanced(scene, 'undercity-service-bay-backs').count).toBe(14);
         expect(requireInstanced(scene, 'undercity-city-windows').count).toBe(expectedWindows[quality]);
         expect(requireInstanced(scene, 'undercity-utility-boxes').count).toBe(20);
         expect(requireInstanced(scene, 'undercity-pipes').count).toBe(26);
         expect(requireInstanced(scene, 'undercity-work-lights').count).toBe(24);
-        expect(requireInstanced(scene, 'undercity-service-bays').count).toBe(10);
+        expect(requireInstanced(scene, 'undercity-service-bays').count).toBe(14);
         expect(requireInstanced(scene, 'undercity-ad-nightshift-noodles').count).toBe(2);
         expect(requireInstanced(scene, 'undercity-ad-voltline-industrial').count).toBe(2);
         expect(Boolean(scene.getObjectByName('undercity-wet-asphalt'))).toBe(quality !== 'low');
@@ -346,7 +346,7 @@ describe('Neon Grid Stage 4 Task 9 T9.4 Falls Run extension', () => {
       expect(scene.getObjectByName('falls-run-extension-supported-pylons')).toBeDefined();
       expect(scene.getObjectByName('falls-run-extension-pylon-footings')).toBeDefined();
       expect(scene.getObjectByName('falls-run-extension-city-foundations')).toBeDefined();
-      expect(requireInstanced(scene, 'falls-run-extension-ambient-waterfalls').count).toBe(14);
+      expect(requireInstanced(scene, 'falls-run-extension-ambient-waterfalls').count).toBe(24);
       expect((scene.getObjectByName('falls-run-extension-ambient-waterfalls') as THREE.InstancedMesh).material).toBeDefined();
     } finally {
       disposeTrackScene(scene);

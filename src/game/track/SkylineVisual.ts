@@ -729,7 +729,7 @@ function addApprovedAds(
       }
       dummy.position.copy(foot)
         .add(new THREE.Vector3(0, elevated ? 5.45 : 1.7, 0))
-        .addScaledVector(inward, elevated ? 0.56 : 0.30);
+        .addScaledVector(inward, elevated ? 0.20 : 0.30);
       dummy.rotation.set(0, facing, 0);
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();

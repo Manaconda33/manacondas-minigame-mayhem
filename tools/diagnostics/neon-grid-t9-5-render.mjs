@@ -117,6 +117,12 @@ try {
   if (!approach || approach.viewportTargets < 2 || approach.blockedTargets < 2) {
     throw new Error('T9.5 Billboard approach reveals shortcut interior from real ChaseCamera');
   }
+  const tunnelApproach = frames.find((frame) => frame.station === 'undercity-entry')
+    ?.actualCameraShortcutSightline;
+  if (!tunnelApproach || tunnelApproach.viewportTargets < 3 ||
+    tunnelApproach.blockedTargets < 2) {
+    throw new Error('T9.5 Service Tunnel approach reveals shortcut interior from real ChaseCamera');
+  }
   if (errors.length || frames.length !== captures.length ||
     frames.some((f) => f.racers !== 8 || f.calls <= 0 || f.triangles <= 0 ||
       f.skyline.maskBillboards !== 8 || f.skyline.manacondaAds !== 7 ||

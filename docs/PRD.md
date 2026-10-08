@@ -6,13 +6,19 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; approved implementation amendment 2.24
+Version 1.1 - Final approved baseline; approved implementation amendment 2.25
 
 August 16, 2026
 
 Implementation starting point: Slice 0 - Repository & Project Bootstrap
 
 Durable source of truth: GitHub repository
+
+## Approved implementation amendment 2.25 - T9.5 line-of-sight screening and 220-call full-course gate
+
+Approved October 8, 2026. The owner rejected corrected T9.5 because the Billboard and Service Tunnel shortcut roadways remain plainly exposed from the main driving line. T9.5 must add opaque, physically supported, presentation-only wallside sightline screening and real-camera/line-of-sight evidence while retaining distinct readable entrance tells, fully traversable entrances/exits in both directions and prior accepted gameplay and visuals. Do not alter shortcut surfaces, geometry, handling, recovery, AI, item rules, checkpoints, approved sponsor art or Task 8's frozen 0.70–0.85 presentation.
+
+For the **T9.5 full-course rendered CI gate only**, **200 draw calls is the optimization target** and **220 calls is the blocking maximum**. Any excess above 200 must be reported. The PRD hard 250-call/750,000-visible-triangle caps, Task 9 300,000 engineering triangle bound, separate sector A/B draw-call limits and original Falls +12 incremental bound remain unchanged. This amendment does not automatically invoke the previously contingent Falls +15 allowance. Rendering success does not constitute owner camouflage acceptance. T9.5 remains NOT APPROVED until a freshly pinned corrected preview receives owner visual/playability approval; T9.6/T9.7, PR #242 merge and Neon Grid production gameplay publication remain gated.
 
 ## Approved implementation amendment 1.2 - Manual confirmation deployments
 

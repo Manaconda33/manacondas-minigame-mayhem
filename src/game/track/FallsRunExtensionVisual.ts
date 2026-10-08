@@ -272,7 +272,6 @@ function addDeckServiceFixtures(group: THREE.Group): void {
   const geometry = mergeGeometries([cap, lamp], false);
   cap.dispose();
   lamp.dispose();
-  if (!geometry) throw new Error('Falls deck service cap/lamp merge failed');
   geometry.userData.supportedFixtureParts = 2;
   geometry.userData.hasCyanUndersideLight = true;
   const material = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true });

@@ -76,7 +76,8 @@ export class ServiceTunnelWarningVisual {
       mounts.userData.presentationOnly = true;
       mounts.userData.nonColliding = true;
       const dummy = new THREE.Object3D();
-      const lateral = new THREE.Vector3(normal.z, 0, -normal.x).normalize();
+      const along = tunnel.curve.getTangentAt(fraction).setY(0).normalize();
+      const lateral = new THREE.Vector3(along.z, 0, -along.x);
       for (const [index, side, at, wallEdge] of [
         [0, -1, leftFraction, leftEdge],
         [1, 1, rightFraction, rightEdge],

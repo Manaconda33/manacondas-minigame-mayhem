@@ -514,6 +514,66 @@ function addFacadeVentilation(group: THREE.Group, buildings: UndercityBuilding[]
 }
 
 
+
+/** Service Tunnel camera-facing wing facade. The entrance is fully drivable:
+ * every segment is outside the tunnel's 3.2 m half-width and main-road edge.
+ * This is presentation only; existing tunnel walls/colliders remain unchanged.
+ */
+function serviceTunnelApproachScreen(track: NeonGrid): THREE.BufferGeometry {
+  const tunnel = track.serviceTunnel;
+  const approach = track.curve.getPointAt(tunnel.entry.progress[0] - 0.012);
+  const vertices: number[] = [];
+  const indices: number[] = [];
+  let panels = 0;
+  function edge(fraction: number): {
+    foot: THREE.Vector3; crest: THREE.Vector3; facing: THREE.Vector3; clear: boolean;
+  } {
+    const center = tunnel.curve.getPointAt(fraction);
+    const facing = approach.clone().sub(center).setY(0);
+    if (facing.lengthSq() < 0.0001) {
+      const tangent = tunnel.curve.getTangentAt(fraction).setY(0).normalize();
+      facing.set(tangent.z, 0, -tangent.x);
+    }
+    facing.normalize();
+    const foot = center.clone().addScaledVector(facing, tunnel.roadHalfWidth + 0.55);
+    const nearest = track.projectMain(foot);
+    const crestY = Math.max(center.y + 4.1, nearest.point.y + 3.15);
+    const clear = nearest.lateralDistance - track.halfWidthAt(nearest.progress) > 0.4;
+    return {
+      foot: foot.clone().setY(center.y - 0.9),
+      crest: foot.clone().setY(crestY),
+      facing, clear,
+    };
+  }
+  const count = 84;
+  for (let i = 0; i < count; i++) {
+    const start = THREE.MathUtils.lerp(0.012, 0.76, i / count);
+    const end = THREE.MathUtils.lerp(0.012, 0.76, (i + 1) / count);
+    const a = edge(start), b = edge(end);
+    if (!a.clear || !b.clear) continue;
+    const n = vertices.length / 3;
+    vertices.push(...a.foot.toArray(), ...b.foot.toArray(),
+      ...b.crest.toArray(), ...a.crest.toArray());
+    indices.push(n, n + 1, n + 2, n, n + 2, n + 3);
+    if (i % 6 === 0) {
+      const back = a.foot.clone().addScaledVector(a.facing, 0.5);
+      const backTop = a.crest.clone().addScaledVector(a.facing, 0.5);
+      const p = vertices.length / 3;
+      vertices.push(...a.foot.toArray(), ...a.crest.toArray(),
+        ...backTop.toArray(), ...back.toArray());
+      indices.push(p, p + 1, p + 2, p, p + 2, p + 3);
+    }
+    panels++;
+  }
+  const geometry = new THREE.BufferGeometry()
+    .setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+    .setIndex(indices);
+  geometry.computeVertexNormals();
+  geometry.userData.panels = panels;
+  geometry.userData.presentationOnly = true;
+  return geometry;
+}
+
 function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): void {
   // Existing false service bays are useful texture but did not occlude the
   // actual shortcut roadway. This continuous opaque facade now does.
@@ -521,13 +581,22 @@ function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): void 
     tunnelWallOpen(track, side, progress) ||
     Math.abs(progress - track.serviceTunnel.entry.progress[0]) < 0.009 ||
     Math.abs(progress - track.serviceTunnel.exitProgress) < 0.010;
+  const roadScreens = neonGridRoadsideScreenGeometry(track, [
+    { start: START + 0.009, end: END - 0.006, side: -1,
+      opening: (progress) => opening(-1, progress) },
+    { start: START + 0.009, end: END - 0.006, side: 1,
+      opening: (progress) => opening(1, progress) },
+  ]);
+  const innerScreens = serviceTunnelApproachScreen(track);
+  const screensGeometry = mergeGeometries([roadScreens, innerScreens], false);
+  const count = (roadScreens.userData.panelCount as number) +
+    (innerScreens.userData.panels as number);
+  const mouthCuts = roadScreens.userData.openingSegments as number;
+  const innerPanels = innerScreens.userData.panels as number;
+  roadScreens.dispose();
+  innerScreens.dispose();
   const screens = new THREE.Mesh(
-    neonGridRoadsideScreenGeometry(track, [
-      { start: START + 0.009, end: END - 0.006, side: -1,
-        opening: (progress) => opening(-1, progress) },
-      { start: START + 0.009, end: END - 0.006, side: 1,
-        opening: (progress) => opening(1, progress) },
-    ]),
+    screensGeometry,
     new THREE.MeshStandardMaterial({
       color: 0x242637, roughness: 0.76, metalness: 0.28,
       side: THREE.DoubleSide,
@@ -535,8 +604,9 @@ function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): void 
   );
   screens.name = 'undercity-wallside-sightline-screens';
   screens.userData.presentationOnly = true;
-  screens.userData.sightlinePanels = screens.geometry.userData.panelCount as number;
-  screens.userData.mouthCuts = screens.geometry.userData.openingSegments as number;
+  screens.userData.sightlinePanels = count;
+  screens.userData.mouthCuts = mouthCuts;
+  screens.userData.innerWingPanels = innerPanels;
   group.add(screens);
 }
 

@@ -95,6 +95,9 @@ try {
 
   if (errors.length || frames.length !== captures.length ||
     frames.some((f) => f.racers !== 8 || f.calls <= 0 || f.triangles <= 0 ||
+      f.skyline.maskBillboards !== 8 || f.skyline.manacondaAds !== 7 ||
+      f.skyline.tacoBellAds !== 7 || f.undercity.serviceBays !== 14 ||
+      f.fallsExtension.waterfalls !== 24 ||
       f.width <= 0 || f.height <= 0 ||
       !Number.isFinite(f.calls) || !Number.isFinite(f.triangles)) ||
     frames.find((f) => f.station === 'undercity-service-tunnel')?.width !== 1920 ||

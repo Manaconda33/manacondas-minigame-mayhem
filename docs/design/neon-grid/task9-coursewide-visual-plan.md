@@ -554,3 +554,8 @@ The owner rejected the latest corrected preview because the Billboard and Servic
 
 
 **Asset 5 implementation candidate (2026-10-08):** Owner-approved exact 1024×512 transparent PNG has been committed byte-for-byte as Git blob `6d1275e9266dc5bd16a78de0a8d91aeead463369` to archival and runtime paths, with a narrowly scoped non-LFS runtime exception. Two non-colliding semi-transparent holograms use the original image at both Service Tunnel portals; their per-kart alpha fades to zero at the legal mouth and restores outside the clearance radius. Asset signature tests, type/lint/full regression, published pinned runtime and owner at-speed approval remain separate gates. Neither acceptance nor production merge is implied.
+
+
+## 2026-10-08 T9.5 portal/signage owner-review correction handoff
+
+The owner rejected the newly pinned T9.5 portal build in Android portrait. The approved Billboard lead-up advertisements are not visually present along the camouflaging wall; the new warnings float away from the actual Service Tunnel openings and one reads reversed; an opaque black wall remains over the legitimate entrance. **Next:** follow the owner-requested, bounded, six-step plan at [`t9-5-portal-and-signage-owner-correction-plan-2026-10-08.md`](t9-5-portal-and-signage-owner-correction-plan-2026-10-08.md), which supplements but does not replace this Task 9 master plan or PRD amendment 2.25. Preserve frozen geometry/gameplay, existing approvals and budgets; re-run all CI and actual mobile viewpoints; publish a *new* pinned preview before asking for acceptance. No runtime fixes are made by this planning checkpoint. PR #242 remains draft and Neon Grid production gameplay unchanged.

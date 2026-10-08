@@ -142,3 +142,8 @@ Two warning planes wired through NeonGridScene and KartTimeTrial with single mas
 - **NEW PINNED REVIEW:** https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-5-portals/?review=64492df
 - **Inspection:** screenshot diagnostics indicate close tunnel roof framing on mobile. Owner playtest must judge actual racer/driver and chase-camera readability; do not claim the mobile problem is eliminated based on structural CI alone. Previous screenshot clipping issues and both-direction driving must be reviewed.
 - **Approval:** OWNER IN-GAME T9.5 ACCEPTANCE PENDING. PR #242 stays draft/unmerged; production game runtime and T9.6/T9.7 scope unchanged. Next: wait for Manny's verdict and handle bounded corrections if requested.
+
+
+## 2026-10-08 owner mobile review — new T9.5 correction gate
+
+After the verified warning-portals preview, Manny submitted four Android portrait screenshots (race times approx. 0:10, 0:56, 1:20, 1:43) showing Billboard lead-up approved sponsor artwork visually absent, DO NOT ENTER warning offset from the actual Tunnel portal (including reverse-readable side), and black opaque wall occluding the real entrance. Owner feedback: **CORRECTIONS REQUIRED, T9.5 NOT APPROVED**. Treat this as an actual end-user visibility/playability rejection despite CI success. The full bounded fix sequence, affected source files, do-not-change rules, CI budget limits and owner acceptance contract are now filed in `docs/design/neon-grid/t9-5-portal-and-signage-owner-correction-plan-2026-10-08.md`. This entry records documentation only, **not** any runtime correction, preview publication or owner acceptance. The `WRONG WAY` overlay is visible in one screenshot, but no rule change is authorized absent a separate diagnosis/approval.

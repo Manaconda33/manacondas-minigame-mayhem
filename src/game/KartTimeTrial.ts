@@ -547,8 +547,15 @@ export class KartTimeTrial {
   }
 
   public exportPerformanceCapture(metadata: RaceCaptureMetadata): RacePerformanceCapture | null {
+    if (this.racePerformance === null) return null;
+    const gl = this.renderer.getContext();
+    const debugRenderer = gl.getExtension('WEBGL_debug_renderer_info');
+    const rendererValue: unknown = gl.getParameter(
+      debugRenderer === null ? gl.RENDERER : debugRenderer.UNMASKED_RENDERER_WEBGL,
+    );
     return (
-      this.racePerformance?.exportCapture({
+      this.racePerformance.exportCapture({
+        gpuRenderer: typeof rendererValue === 'string' ? rendererValue : null,
         ...metadata,
         bloom: this.bloom.snapshot(),
         motionBlur: this.motionBlur.snapshot(),

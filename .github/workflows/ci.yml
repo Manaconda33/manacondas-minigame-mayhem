@@ -58,6 +58,9 @@ jobs:
       - name: Test
         run: npm run test:ci -- --maxWorkers=1
 
+      - name: T9.6 independent performance-evidence checker tests
+        run: node --test tools/diagnostics/t9-6-certify.test.mjs
+
       - name: Production build
         run: npm run build
 

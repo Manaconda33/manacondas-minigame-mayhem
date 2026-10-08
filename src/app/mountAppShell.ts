@@ -432,6 +432,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
           !disposed && generation === raceGeneration
             ? (game?.exportPerformanceCapture(metadata) ?? null)
             : null,
+          { trackId: selectedTrackId, quality: appSettings.graphics.quality },
         )
       : null;
     diagnosticsPanel = racePanel;

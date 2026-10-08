@@ -50,6 +50,8 @@ export interface RaceCaptureMetadata {
   quality: GraphicsQuality;
   userAgent: string;
   hardwareDescription: string | null;
+  /** Best-effort WebGL renderer identifier, never proof of representative hardware alone. */
+  gpuRenderer?: string | null;
   scenario: string;
   racerCount: number;
   nominalViewport: { width: number; height: number };

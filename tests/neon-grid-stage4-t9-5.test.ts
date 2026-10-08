@@ -153,7 +153,7 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         'skyline-wet-asphalt', 'undercity-wet-asphalt',
         'falls-run-wet-asphalt', 'falls-run-extension-wet-asphalt',
       ];
-      owners.forEach((owner) => owner.update(2));
+      owners.forEach((owner) => { owner.update(2); });
       owners.forEach((owner) => { owner.group.visible = false; owner.update(9); });
       for (const name of roads) {
         const road = scene.getObjectByName(name) as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;

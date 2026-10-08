@@ -1,3 +1,7 @@
+## T9.5 second camouflage correction and 220-call owner authority — 2026-10-08
+
+Manny explicitly approved the six-step plan to conceal Billboard and Service Tunnel shortcut interiors using opaque, physically supported roadside facades, actual line-of-sight testing and a new hash-pinned preview. **Only the T9.5 full-course rendered CI blocking ceiling increases to 220 calls**, retaining a **200-call optimization target**; report excess above target. PRD hard limits 250 calls/750k triangles and Task 9 300k engineering triangle maximum remain fixed; separate Skyline/Undercity/Falls A/B budget limits, including the existing Falls +12, remain unchanged. No 2D art changes, physics, AI, items, checkpoint/shortcut authority changes, Task 8 frozen-area changes, PR #242 merge or production release. The earlier corrected T9.5 pin is REJECTED and the new one remains owner-review gated.
+
 # Architecture and Product Decisions
 
 ## ADR-101: Bounded quality-dependent peripheral motion blur

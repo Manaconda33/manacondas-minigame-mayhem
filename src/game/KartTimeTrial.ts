@@ -562,7 +562,7 @@ export class KartTimeTrial {
         quality: this.options.graphicsQuality,
         racerCount: this.opponents.length + 1,
         nominalViewport: { ...this.captureViewport },
-      }) ?? null
+      })
     );
   }
 

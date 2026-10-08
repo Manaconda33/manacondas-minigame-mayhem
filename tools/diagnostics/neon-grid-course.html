@@ -175,6 +175,38 @@
       };
     };
 
+    // Debug-only per-owner A/B cost: same real camera and renderer, no scene
+    // creation or gameplay changes. Every temporarily hidden group is restored.
+    window.profileOwnerCalls = (view = 'rear') => {
+      const owners = [
+        ['skyline', g.trackScene.skyline.group],
+        ['undercity', g.trackScene.undercity.group],
+        ['fallsRun', g.trackScene.fallsRun.group],
+        ['fallsExtension', g.trackScene.fallsRunExtension.group],
+        ['billboard', g.trackScene.billboard.group],
+        ['dive', g.trackScene.dive.group],
+      ];
+      placeCamera(view);
+      const renderCalls = () => {
+        g.renderer.info.reset();
+        g.bloom.render(g.scene, g.camera);
+        g.motionBlur.render(false);
+        return g.renderer.info.render.calls;
+      };
+      const full = renderCalls();
+      const costs = owners.map(([name, group]) => {
+        const visible = group.visible;
+        try {
+          group.visible = false;
+          return { name, callsSaved: full - renderCalls() };
+        } finally {
+          group.visible = visible;
+        }
+      });
+      renderCalls();
+      return { full, costs };
+    };
+
     window.measureFrames = async (count = 240, warmup = 45) => {
       g.trackScene.skyline.group.visible = true;
       g.trackScene.undercity.group.visible = true;

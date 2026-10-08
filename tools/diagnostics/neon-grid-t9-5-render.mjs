@@ -71,6 +71,11 @@ try {
         performanceSummary = await page.evaluate(() => window.measureFrames(300, 45));
         await page.evaluate((camera) => window.renderFrame(true, camera), view);
       }
+      // Diagnose real rear-view peaks without weakening the 200-call budget.
+      if (station.name === 'waterfall-dive-rear' || station.name === 'billboard-rear') {
+        frame.ownerProfile = await page.evaluate((camera) => window.profileOwnerCalls(camera), view);
+        await page.evaluate((camera) => window.renderFrame(true, camera), view);
+      }
       await page.screenshot({ path: directory + '/' + station.name + '.png' });
       frames.push({ station: station.name, progress: station.progress, ...frame });
       await page.evaluate(() => window.game.dispose());
@@ -91,6 +96,9 @@ try {
   console.log(JSON.stringify({
     errors, count: frames.length, maximumDrawCalls,
     maximumTriangles, scoredFrames: performanceSummary?.scoredFrames ?? null,
+    ownerProfiles: frames.filter((f) => f.ownerProfile).map((f) => ({
+      station: f.station, ...f.ownerProfile,
+    })),
   }, null, 2));
 
   if (errors.length || frames.length !== captures.length ||

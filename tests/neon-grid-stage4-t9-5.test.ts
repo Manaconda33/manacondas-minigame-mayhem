@@ -187,8 +187,10 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         expect(face.position.distanceTo(back.position)).toBeLessThan(1.5);
         const main = track.projectMain(back.position);
         const tunnel = track.serviceTunnel.project(back.position);
-        expect(main.lateralDistance - track.halfWidthAt(main.progress), `service bay ${String(i)} main-clear`).toBeGreaterThan(1);
-        expect(tunnel.lateralDistance - track.serviceTunnel.roadHalfWidth, `service bay ${String(i)} tunnel-clear`).toBeGreaterThan(1);
+        // Measure the prefab footprint, not merely its center. The former
+        // five-step placement search could leave a decoy inside a hairpin.
+        expect(main.lateralDistance - track.halfWidthAt(main.progress) - 3.8, `service bay ${String(i)} main-clear`).toBeGreaterThan(1.5);
+        expect(tunnel.lateralDistance - track.serviceTunnel.roadHalfWidth - 3.8, `service bay ${String(i)} tunnel-clear`).toBeGreaterThan(1.5);
       }
 
       const falls = instanced(scene, 'falls-run-extension-ambient-waterfalls');

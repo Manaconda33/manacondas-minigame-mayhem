@@ -533,17 +533,24 @@ function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
   progresses.forEach((progress, i) => {
     const center = track.curve.getPointAt(progress);
     const right = neonGridRightAt(track, progress);
-    const side = i % 2 === 0 ? -1 : 1;
-    let offset = track.halfWidthAt(progress) + 5.4;
-    let foot = center.clone().addScaledVector(right, side * offset);
-    // No facade intrudes into either actual drivable route.
-    for (let retry = 0; retry < 5 &&
-      (mainClearance(track, foot, 3.8) < 1.5 || tunnelClearance(track, foot, 3.8) < 2.4);
-      retry++
-    ) {
-      offset += 3.5;
-      foot = center.clone().addScaledVector(right, side * offset);
+    const preferredSide = i % 2 === 0 ? -1 : 1;
+    // Switchback loops can put a *different* stretch of road behind the
+    // intended roadside facade. Search both sides and fail closed rather
+    // than silently placing an unsafe bay after a fixed five retries.
+    let placement: { foot: THREE.Vector3; side: number } | null = null;
+    for (let step = 0; step < 36 && !placement; step++) {
+      const offset = track.halfWidthAt(progress) + 5.4 + step * 2.5;
+      for (const candidateSide of [preferredSide, -preferredSide]) {
+        const candidate = center.clone().addScaledVector(right, candidateSide * offset);
+        if (mainClearance(track, candidate, 3.8) >= 3 &&
+            tunnelClearance(track, candidate, 3.8) >= 3) {
+          placement = { foot: candidate, side: candidateSide };
+          break;
+        }
+      }
     }
+    if (!placement) throw new Error('Service bay ' + String(i) + ' has no safe roadside position');
+    const { foot, side } = placement;
     const yaw = Math.atan2(-side * right.x, -side * right.z);
     dummy.position.copy(foot).add(new THREE.Vector3(0, -0.65, 0));
     dummy.rotation.set(0, yaw, 0);

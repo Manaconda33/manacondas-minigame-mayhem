@@ -27,13 +27,15 @@
     });
     window.game = g;
 
-    const sector = ['undercity', 'falls-extension'].includes(params.get('sector')) ? params.get('sector') : 'skyline';
+    const sector = ['undercity', 'falls-extension', 'course'].includes(params.get('sector')) ? params.get('sector') : 'skyline';
     const requestedProgress = Number(params.get('progress'));
     const progress = sector === 'undercity'
       ? (Number.isFinite(requestedProgress) && requestedProgress >= 0.247 && requestedProgress <= 0.46
         ? requestedProgress : 0.355)
       : sector === 'falls-extension'
         ? (Number.isFinite(requestedProgress) && ((requestedProgress >= 0.47 && requestedProgress <= 0.68) || (requestedProgress >= 0.87 && requestedProgress <= 0.99)) ? requestedProgress : 0.57)
+        : sector === 'course'
+        ? (Number.isFinite(requestedProgress) && requestedProgress >= 0 && requestedProgress <= 1 ? requestedProgress : 0.355)
         : 0.16;
     const p = g.track.curve.getPointAt(progress);
     const tangent = g.track.curve.getTangentAt(progress).setY(0).normalize();

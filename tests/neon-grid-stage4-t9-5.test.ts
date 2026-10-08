@@ -220,6 +220,60 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
     }
   }, 20000);
 
+
+  it('screens shortcut interiors along the real road edges without disguising the actual mouths', () => {
+    const track = new NeonGrid();
+    const scene = createNeonGridScene(track, 'medium');
+    try {
+      scene.updateMatrixWorld(true);
+      const skyline = scene.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
+      const undercity = scene.getObjectByName('undercity-wallside-sightline-screens') as THREE.Mesh;
+      expect(skyline).toBeInstanceOf(THREE.Mesh);
+      expect(undercity).toBeInstanceOf(THREE.Mesh);
+      expect(skyline.userData.sightlinePanels as number).toBeGreaterThan(70);
+      expect(undercity.userData.sightlinePanels as number).toBeGreaterThan(100);
+      expect(skyline.userData.mouthCuts as number).toBeGreaterThan(0);
+      for (const screen of [skyline, undercity]) {
+        const material = screen.material as THREE.MeshStandardMaterial;
+        expect(material.transparent).toBe(false);
+        expect(material.depthWrite).toBe(true);
+        expect(screen.userData.presentationOnly).toBe(true);
+      }
+
+      const raycaster = new THREE.Raycaster();
+      const hidden = (mesh: THREE.Mesh, progress: number, side: -1 | 1): boolean => {
+        const center = track.curve.getPointAt(progress);
+        const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
+        const right = new THREE.Vector3(tangent.z, 0, -tangent.x);
+        // Eye height is deliberately a little above the kart cockpit.
+        const from = center.clone().add(new THREE.Vector3(0, 2.45, 0));
+        const target = center.clone()
+          .addScaledVector(right, side * (track.halfWidthAt(progress) + 12))
+          .add(new THREE.Vector3(0, 2.45, 0));
+        const toward = target.sub(from);
+        raycaster.set(from, toward.clone().normalize());
+        raycaster.far = toward.length();
+        return raycaster.intersectObject(mesh, false).length > 0;
+      };
+      const billboardSide = (Math.sign(
+        track.projectMain(track.billboardGap.curve.getPointAt(0.5)).lateralOffset,
+      ) || 1) as -1 | 1;
+      // Verify the assembled opaque mesh, not merely declared instance counts.
+      const skylineSamples = [0.053, 0.070, 0.086, 0.131, 0.155, 0.180, 0.195];
+      const undercitySamples = [0.266, 0.282, 0.301, 0.332, 0.366, 0.413, 0.442];
+      expect(skylineSamples.filter((p) => hidden(skyline, p, billboardSide)).length)
+        .toBeGreaterThanOrEqual(5);
+      expect(undercitySamples.filter((p) => hidden(undercity, p, -1) &&
+        hidden(undercity, p, 1)).length).toBeGreaterThanOrEqual(5);
+      // Do not put a newly introduced facade across the true open entrances.
+      expect(hidden(skyline, 0.103, billboardSide)).toBe(false);
+      expect(hidden(undercity, 0.249, 1)).toBe(false);
+      expect(hidden(undercity, 0.249, -1)).toBe(false);
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 20000);
+
   it('freezes all four visual clocks when hidden, without resume catch-up', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
     try {

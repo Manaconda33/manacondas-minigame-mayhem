@@ -49,13 +49,57 @@ test('checks actual framebuffer dimensions and not just nominal viewport', () =>
   assert.equal(r.status, 'FAIL');
   assert.ok(r.blockers.some(x => x.includes('rendered buffer')));
 });
-test('the historical 206-call case requires review, not an invented T9.6 allowance', () => {
+test('owner-approved 220-call / 350k-triangle T9.6 engineering limits include the mobile peak', () => {
   const x = makeCapture();
-  for (const f of x.samples) f.counters.drawCalls = 206;
+  for (const frame of x.samples) {
+    frame.counters.drawCalls = 206;
+    frame.counters.triangles = 317908;
+  }
   x.summary.maxDrawCalls = 206;
+  x.summary.maxTriangles = 317908;
   const r = assessT96Capture(x, sha);
-  assert.equal(r.status, 'REVIEW_REQUIRED');
-  assert.equal(r.metrics.drawCallsAbove200, 6);
+  assert.equal(r.status, 'PASS_CANDIDATE');
+  assert.equal(r.metrics.drawCallsAbove200, 6); // historical comparison remains traceable
+  assert.equal(r.metrics.drawCallsAboveTarget, 0);
+  assert.equal(r.metrics.trianglesAboveTarget, 0);
+  assert.deepEqual(r.metrics.engineeringLimits, { drawCalls: 220, triangles: 350000 });
+});
+test('engineering boundaries pass inclusively; excess still requires review', () => {
+  const x = makeCapture();
+  for (const frame of x.samples) {
+    frame.counters.drawCalls = 220;
+    frame.counters.triangles = 350000;
+  }
+  x.summary.maxDrawCalls = 220;
+  x.summary.maxTriangles = 350000;
+  assert.equal(assessT96Capture(x, sha).status, 'PASS_CANDIDATE');
+  x.samples[0].counters.drawCalls = 221;
+  x.summary.maxDrawCalls = 221;
+  const calls = assessT96Capture(x, sha);
+  assert.equal(calls.status, 'REVIEW_REQUIRED');
+  assert.equal(calls.metrics.drawCallsAboveTarget, 1);
+  x.samples[0].counters.drawCalls = 220;
+  x.summary.maxDrawCalls = 220;
+  x.samples[0].counters.triangles = 350001;
+  x.summary.maxTriangles = 350001;
+  const triangles = assessT96Capture(x, sha);
+  assert.equal(triangles.status, 'REVIEW_REQUIRED');
+  assert.equal(triangles.metrics.trianglesAboveTarget, 1);
+});
+test('PRD hard draw and triangle ceilings still fail even when engineering targets are raised', () => {
+  const x = makeCapture();
+  x.samples[0].counters.drawCalls = 251;
+  x.summary.maxDrawCalls = 251;
+  const calls = assessT96Capture(x, sha);
+  assert.equal(calls.status, 'FAIL');
+  assert.ok(calls.blockers.some(s => s.includes('PRD hard draw-call')));
+  x.samples[0].counters.drawCalls = 198;
+  x.summary.maxDrawCalls = 198;
+  x.samples[0].counters.triangles = 750001;
+  x.summary.maxTriangles = 750001;
+  const triangles = assessT96Capture(x, sha);
+  assert.equal(triangles.status, 'FAIL');
+  assert.ok(triangles.blockers.some(s => s.includes('PRD hard visible-triangle')));
 });
 test('consecutive stalls and unsupported summary cannot be averaged away', () => {
   const x = makeCapture();

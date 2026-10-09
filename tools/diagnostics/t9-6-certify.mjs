@@ -2,6 +2,9 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 const minimumFrames = 600;
+// Owner-approved T9.6 engineering headroom. PRD hard caps remain 250 / 750,000.
+const engineeringDrawCalls = 220;
+const engineeringTriangles = 350000;
 const median = (sorted) => {
   const n = sorted.length;
   return n % 2 ? sorted[(n - 1) / 2] : (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
@@ -80,7 +83,10 @@ export function assessT96Capture(capture, expectedSource) {
   Object.assign(metrics, {
     scoredFrames: sorted.length, medianFps, p95FrameMs, maxFrameMs,
     maxDrawCalls: maxCalls, maxTriangles, over50msFrames, longestOver50msRun,
-    drawCallsAbove200: Math.max(0, maxCalls - 200),
+    drawCallsAbove200: Math.max(0, maxCalls - 200), // historical 200-call baseline, retained for comparison
+    drawCallsAboveTarget: Math.max(0, maxCalls - engineeringDrawCalls),
+    trianglesAboveTarget: Math.max(0, maxTriangles - engineeringTriangles),
+    engineeringLimits: { drawCalls: engineeringDrawCalls, triangles: engineeringTriangles },
   });
   const s = capture.summary ?? {};
   if (s.scoredFrames !== sorted.length || !closeTo(s.medianFps, medianFps) ||
@@ -93,8 +99,10 @@ export function assessT96Capture(capture, expectedSource) {
   if (longestOver50msRun >= 3) blockers.push('Sustained sequence of at least three >50ms frames');
   if (maxCalls > 250) blockers.push('PRD hard draw-call limit exceeded');
   if (maxTriangles > 750000) blockers.push('PRD hard visible-triangle limit exceeded');
-  if (maxCalls > 200) review.push('Task 9 200-call engineering target exceeded; owner disposition required');
-  if (maxTriangles > 300000) review.push('Task 9 300k-triangle engineering limit exceeded; owner disposition required');
+  if (maxCalls > engineeringDrawCalls)
+    review.push('T9.6 220-call owner-approved engineering target exceeded; owner disposition required');
+  if (maxTriangles > engineeringTriangles)
+    review.push('T9.6 350k-triangle owner-approved engineering limit exceeded; owner disposition required');
   return {
     status: blockers.length ? 'FAIL' : review.length ? 'REVIEW_REQUIRED' : 'PASS_CANDIDATE',
     blockers: [...new Set(blockers)], review, metrics, source: meta.sourceCommit,

@@ -29,6 +29,7 @@ export function flowingWater(falling = false): THREE.ShaderMaterial {
     side: THREE.DoubleSide,
   });
   material.forceSinglePass = true;
+  material.userData.bloomBlackAdapter = true;
   return material;
 }
 
@@ -187,7 +188,7 @@ export function leftWaterway(dive: WaterfallDive): {
 }
 
 export function poolWater(): THREE.ShaderMaterial {
-  return new THREE.ShaderMaterial({
+  const material = new THREE.ShaderMaterial({
     uniforms: { time: { value: 0 } },
     vertexShader: `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
     fragmentShader: `uniform float time; varying vec2 vUv;
@@ -204,10 +205,12 @@ export function poolWater(): THREE.ShaderMaterial {
     transparent: true,
     depthWrite: false,
   });
+  material.userData.bloomBlackAdapter = true;
+  return material;
 }
 
 export function softMist(): THREE.ShaderMaterial {
-  return new THREE.ShaderMaterial({
+  const material = new THREE.ShaderMaterial({
     vertexShader: `varying vec2 vUv; void main() {
       vUv = uv;
       vec4 center = modelViewMatrix * instanceMatrix * vec4(0., 0., 0., 1.);
@@ -224,4 +227,6 @@ export function softMist(): THREE.ShaderMaterial {
     transparent: true,
     depthWrite: false,
   });
+  material.userData.bloomBlackAdapter = true;
+  return material;
 }

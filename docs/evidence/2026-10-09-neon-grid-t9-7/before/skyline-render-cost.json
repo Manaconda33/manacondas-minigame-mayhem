@@ -1,0 +1,16 @@
+{
+  "source": "44e0c022631a3bded11beebb3494618906adc6c9",
+  "viewport": "1920x1080 drawing buffer, Medium, SwiftShader",
+  "hidden": {
+    "calls": 117,
+    "triangles": 52108
+  },
+  "visible": {
+    "calls": 134,
+    "triangles": 60266
+  },
+  "delta": {
+    "calls": 17,
+    "triangles": 8158
+  }
+}

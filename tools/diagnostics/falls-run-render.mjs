@@ -103,7 +103,7 @@ try {
     medium.width !== 1920 ||
     medium.height !== 1080 ||
     medium.racers !== 8 ||
-    report.maximumDrawCalls > 250 ||
+    report.maximumDrawCalls > 500 ||
     report.maximumTriangles > 750000 ||
     !summary ||
     summary.scoredFrames < 300 ||

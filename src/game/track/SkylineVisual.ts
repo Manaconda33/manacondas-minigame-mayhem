@@ -285,6 +285,34 @@ function steppedTowerGeometry(): THREE.BufferGeometry {
   return merged;
 }
 
+function skylineFoundationGeometry(): THREE.BufferGeometry {
+  const footing = new THREE.BoxGeometry(1, 0.18, 1).translate(0, 0.09, 0);
+  const pedestal = new THREE.BoxGeometry(0.8, 0.58, 0.8).translate(0, 0.47, 0);
+  const collar = new THREE.BoxGeometry(0.9, 0.2, 0.9).translate(0, 0.9, 0);
+  const geometry = mergeGeometries([footing, pedestal, collar], false);
+  footing.dispose();
+  pedestal.dispose();
+  collar.dispose();
+  geometry.computeVertexNormals();
+  geometry.userData.presentationOnly = true;
+  return geometry;
+}
+
+function skylineRoofCapGeometry(): THREE.BufferGeometry {
+  const plinth = new THREE.BoxGeometry(1, 0.08, 1).translate(0, 0.04, 0);
+  const parapet = new THREE.BoxGeometry(0.82, 0.12, 0.82).translate(0, 0.14, 0);
+  const penthouse = new THREE.BoxGeometry(0.5, 0.26, 0.56).translate(0, 0.33, 0);
+  const serviceStack = new THREE.BoxGeometry(0.2, 0.18, 0.22).translate(0.15, 0.55, -0.1);
+  const geometry = mergeGeometries([plinth, parapet, penthouse, serviceStack], false);
+  plinth.dispose();
+  parapet.dispose();
+  penthouse.dispose();
+  serviceStack.dispose();
+  geometry.computeVertexNormals();
+  geometry.userData.presentationOnly = true;
+  return geometry;
+}
+
 function placeTowers(track: NeonGrid): SkylineTower[] {
   const towers: SkylineTower[] = [];
   for (let attempt = 0; attempt < 180 && towers.length < 22; attempt++) {
@@ -426,16 +454,15 @@ function addCity(
   const towerData = placeTowers(track);
   const towerMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
-    vertexColors: true,
   });
   const towers = new THREE.InstancedMesh(steppedTowerGeometry(), towerMaterial, towerData.length);
   towers.name = 'skyline-city-towers';
   const dummy = new THREE.Object3D();
   const colors = [
-    new THREE.Color(0x17354a),
-    new THREE.Color(0x1c2f49),
-    new THREE.Color(0x30294b),
-    new THREE.Color(0x203d46),
+    new THREE.Color(0x1d3d51),
+    new THREE.Color(0x223853),
+    new THREE.Color(0x332f4d),
+    new THREE.Color(0x25464d),
   ];
   towerData.forEach((tower, i) => {
     dummy.position.set(tower.position.x, tower.baseY, tower.position.z);
@@ -448,30 +475,57 @@ function addCity(
   towers.instanceMatrix.needsUpdate = true;
   if (towers.instanceColor) towers.instanceColor.needsUpdate = true;
 
-  const rooftopMaterial = new THREE.MeshBasicMaterial({ color: 0x243e52, vertexColors: true });
-  const rooftopGeometry = mergeGeometries(
-    [
-      new THREE.BoxGeometry(0.52, 0.24, 0.58).translate(0, 0.12, 0),
-      new THREE.BoxGeometry(0.18, 0.28, 0.18).translate(0.18, 0.38, -0.12),
-    ],
-    false,
+  const rooftopMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const rooftops = new THREE.InstancedMesh(
+    skylineRoofCapGeometry(),
+    rooftopMaterial,
+    towerData.length,
   );
-  const rooftops = new THREE.InstancedMesh(rooftopGeometry, rooftopMaterial, towerData.length);
-  rooftops.name = 'skyline-city-rooftops';
+  rooftops.name = 'skyline-city-roof-caps';
+  rooftops.userData.presentationOnly = true;
   towerData.forEach((tower, i) => {
     dummy.position.copy(tower.position).setY(tower.baseY + tower.height);
     dummy.rotation.set(0, Math.atan2(tower.tangent.x, tower.tangent.z) + (i % 3) * 0.16, 0);
     dummy.scale.set(
-      tower.width * (0.38 + (i % 3) * 0.06),
-      3.2 + (i % 4) * 1.15,
-      tower.depth * (0.34 + ((i + 1) % 3) * 0.05),
+      tower.width * (0.48 + (i % 3) * 0.045),
+      2.25 + (i % 4) * 0.55,
+      tower.depth * (0.43 + ((i + 1) % 3) * 0.055),
     );
     dummy.updateMatrix();
     rooftops.setMatrixAt(i, dummy.matrix);
-    rooftops.setColorAt(i, colors[(i + 1) % colors.length] ?? colors[0] ?? new THREE.Color(0x243e52));
+    rooftops.setColorAt(i, colors[(i + 1) % colors.length] ?? colors[0] ?? new THREE.Color(0x244050));
   });
   rooftops.instanceMatrix.needsUpdate = true;
   if (rooftops.instanceColor) rooftops.instanceColor.needsUpdate = true;
+
+  const foundations = new THREE.InstancedMesh(
+    skylineFoundationGeometry(),
+    new THREE.MeshBasicMaterial({ color: 0xffffff }),
+    towerData.length,
+  );
+  foundations.name = 'skyline-city-foundations';
+  foundations.userData.presentationOnly = true;
+  foundations.userData.collision = false;
+  const foundationColors = [
+    new THREE.Color(0x263f4d),
+    new THREE.Color(0x2b3d4f),
+    new THREE.Color(0x343348),
+    new THREE.Color(0x294548),
+  ];
+  const fallbackFoundationColor = new THREE.Color(0x263f4d);
+  towerData.forEach((tower, i) => {
+    dummy.position.copy(tower.position).setY(tower.baseY - 1.6);
+    dummy.rotation.set(0, Math.atan2(tower.tangent.x, tower.tangent.z), 0);
+    dummy.scale.set(tower.width * 1.12, 1.6, tower.depth * 1.12);
+    dummy.updateMatrix();
+    foundations.setMatrixAt(i, dummy.matrix);
+    foundations.setColorAt(
+      i,
+      foundationColors[i % foundationColors.length] ?? fallbackFoundationColor,
+    );
+  });
+  foundations.instanceMatrix.needsUpdate = true;
+  if (foundations.instanceColor) foundations.instanceColor.needsUpdate = true;
 
   const spireMaterial = new THREE.MeshBasicMaterial({ color: 0x65ecff });
   markBloomMaterial(spireMaterial, 'color');
@@ -508,7 +562,7 @@ function addCity(
   const pale = new THREE.Color(0xa9f4ff);
   const magenta = new THREE.Color(MAGENTA);
 
-  const cornerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true });
+  const cornerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
   markBloomMaterial(cornerMaterial, 'color');
   const cornerLights = new THREE.InstancedMesh(
     new THREE.BoxGeometry(0.18, 1, 0.18),
@@ -539,7 +593,6 @@ function addCity(
   const windowCount = quality === 'low' ? 120 : quality === 'high' ? 360 : 240;
   const windowMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
-    vertexColors: true,
     side: THREE.DoubleSide,
   });
   markBloomMaterial(windowMaterial, 'color');
@@ -579,7 +632,7 @@ function addCity(
   windows.instanceMatrix.needsUpdate = true;
   if (windows.instanceColor) windows.instanceColor.needsUpdate = true;
 
-  group.add(towers, rooftops, spires, roofs, cornerLights, windows);
+  group.add(towers, foundations, rooftops, spires, roofs, cornerLights, windows);
   group.userData.skylineLogicalTowerCount = towerData.length;
   return towerData;
 }
@@ -591,7 +644,6 @@ function addProceduralSignage(group: THREE.Group, towers: SkylineTower[]): void 
     emissiveIntensity: 0.82,
     roughness: 0.42,
     metalness: 0.18,
-    vertexColors: true,
   });
   markBloomMaterial(material, 'emissive');
   const signs = new THREE.InstancedMesh(new THREE.BoxGeometry(3.2, 1.15, 0.1), material, 18);

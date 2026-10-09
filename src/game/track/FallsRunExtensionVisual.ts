@@ -112,11 +112,12 @@ function waterMaterial(): THREE.ShaderMaterial {
     side: THREE.DoubleSide,
   });
   material.forceSinglePass = true;
+  material.userData.bloomBlackAdapter = true;
   return material;
 }
 
 function mistMaterial(): THREE.ShaderMaterial {
-  return new THREE.ShaderMaterial({
+  const material = new THREE.ShaderMaterial({
     vertexShader: `varying vec2 vUv;
       void main() {
         vUv = uv;
@@ -144,6 +145,8 @@ function mistMaterial(): THREE.ShaderMaterial {
     transparent: true,
     depthWrite: false,
   });
+  material.userData.bloomBlackAdapter = true;
+  return material;
 }
 
 /** Native ribbon vertex positions, never independently interpolated over steep faces. */
@@ -339,7 +342,7 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   }
   if (data.length === 0) throw new Error('Falls extension has no safe city anchors');
 
-  const silhouetteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true });
+  const silhouetteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
   const buildings = new THREE.InstancedMesh(steppedTowerGeometry(), silhouetteMaterial, data.length);
   buildings.name = 'falls-run-extension-city-towers';
   const dummy = new THREE.Object3D();
@@ -359,7 +362,7 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   const windowCount = quality === 'low' ? 80 : quality === 'high' ? 240 : 160;
   const windows = new THREE.InstancedMesh(
     new THREE.BoxGeometry(0.7, 0.35, 0.04),
-    new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true }),
+    new THREE.MeshBasicMaterial({ color: 0xffffff }),
     windowCount,
   );
   windows.name = 'falls-run-extension-city-windows';

@@ -237,7 +237,6 @@ function addBuildings(
   const data = placeBuildings(track);
   const buildingMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
-    vertexColors: true,
   });
   const buildings = new THREE.InstancedMesh(buildingGeometry(), buildingMaterial, data.length);
   buildings.name = 'undercity-city-buildings';
@@ -323,7 +322,6 @@ function addBuildings(
   const windowCount = quality === 'low' ? 80 : quality === 'high' ? 240 : 160;
   const windowMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
-    vertexColors: true,
     side: THREE.DoubleSide,
   });
   markBloomMaterial(windowMaterial, 'color');
@@ -438,7 +436,7 @@ function addUtilityClutter(
   pipes.instanceMatrix.needsUpdate = true;
 
   // Facade-mounted lamps no longer hang in open air beside the corridor.
-  const lightMaterial = new THREE.MeshBasicMaterial({ color: MAGENTA, vertexColors: true });
+  const lightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
   markBloomMaterial(lightMaterial, 'color');
   const lights = new THREE.InstancedMesh(new THREE.BoxGeometry(0.7, 0.12, 0.16), lightMaterial, 24);
   lights.name = 'undercity-work-lights';

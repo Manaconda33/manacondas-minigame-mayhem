@@ -179,6 +179,7 @@ export class NeonGridBillboardVisual {
               #include <colorspace_fragment>
             }`,
         });
+        material.userData.bloomBlackAdapter = true;
         const ad = new THREE.Mesh(new THREE.PlaneGeometry(artWidth, artHeight), material);
         ad.name = name === 'entrance' ? `billboard-ad-${sponsor}` : `billboard-exit-ad-${sponsor}`;
         ad.position.y = artHeight / 2;

@@ -1,0 +1,74 @@
+{
+  "label": "falls-extension-chase-desktop-medium",
+  "source": "working tree T9.7 candidate; local Chromium SwiftShader diagnostic",
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "dpr": 1,
+    "buffer": [
+      1280,
+      720
+    ]
+  },
+  "render": {
+    "calls": 256,
+    "triangles": 139499,
+    "geometries": 115,
+    "textures": 7,
+    "width": 1280,
+    "height": 720,
+    "pixelRatio": 1,
+    "racers": 8,
+    "quality": "medium",
+    "view": "chase",
+    "skylineVisible": true,
+    "skyline": {
+      "windows": 240,
+      "pylons": 14,
+      "braces": 24,
+      "proceduralSigns": 18,
+      "manacondaAds": 7,
+      "tacoBellAds": 7,
+      "maskBillboards": 8,
+      "raisedBillboardPosts": 4,
+      "facadeMountedBillboards": 4,
+      "wet": true
+    },
+    "undercity": {
+      "windows": 160,
+      "buildings": 16,
+      "pipes": 26,
+      "utilityBoxes": 20,
+      "workLights": 24,
+      "serviceBays": 14,
+      "nightshiftAds": 2,
+      "voltlineAds": 2,
+      "wet": true
+    },
+    "fallsExtension": {
+      "windows": 160,
+      "towers": 16,
+      "pylons": 16,
+      "footings": 16,
+      "waterfalls": 24,
+      "mist": 14,
+      "wet": true
+    },
+    "actualCameraShortcutSightline": null,
+    "sponsorArtworkSightline": null,
+    "tunnelKartSightline": null
+  },
+  "details": {
+    "bloom": {
+      "enabled": true,
+      "quality": "medium",
+      "maskWidth": 640,
+      "maskHeight": 360,
+      "fallbackReason": null
+    },
+    "towers": 22,
+    "foundations": 22,
+    "roofCaps": 22
+  },
+  "errors": []
+}

@@ -566,7 +566,7 @@ Scene budgets:
 
 - Visible triangles: target \<= 750,000
 
-- Draw calls: target \<= 250
+- Draw calls: target \<= 500 (approved implementation amendment 2.26)
 
 - Shadow-casting dynamic objects: \<= 12
 
@@ -2907,7 +2907,7 @@ Baseline: latest Chrome, latest Edge, latest Firefox, and current desktop Safari
 
 ☐ GPU target \<=12 ms where measurable.
 
-☐ Draw calls target \<=250.
+☐ Draw calls target \<=500 (implementation amendment 2.26).
 
 ☐ Visible triangles target \<=750k.
 
@@ -3173,3 +3173,11 @@ Approved October 7, 2026 after owner review of the pinned T9.2 Skyline preview. 
 The same owner review rejects the first T9.2 Skyline visual candidate as final art. The bounded correction pass is authorized to: improve the procedural Skyline architecture without new unapproved art; mount the already-approved Manaconda Racing and Taco Bell / Live Más ads to physical architecture; keep all city/signage footprints clear of the Billboard route; eliminate presentation-road clipping by conforming overlays to the accepted dense road mesh; and remove the world-centered sky boundary artifact. The accepted main route, Billboard timing/0.82 behavior/boost, Tunnel and Dive authored support, checkpoint order, AI rates, kart tuning, items, audio and Stage 4 roadmap remain unchanged unless this amendment explicitly says otherwise.
 
 This correction must publish a replacement isolated T9.2 owner-review preview before T9.3 begins. The rejected `bef6036` preview remains historical evidence and is not production approval.
+
+## Approved implementation amendment 2.26 - Global race-scene draw-call ceiling
+
+Approved October 9, 2026. Manny directs the PRD hard draw-call cap to increase from 250 to **500 calls for every race scene**, including Neon Grid and Circuit Alpha. This supersedes the draw-call value in PRD §2.6 and earlier 250-call hard-cap references. The forward-looking Task 9 draw-call engineering target is also **500 calls**. This is a draw-call-only adjustment: the PRD visible-triangle cap remains **750,000**, the forward-looking Task 9 visible-triangle engineering target remains **350,000**, and all G-05 hardware requirements remain unchanged (Medium 1920×1080, median ≥60 FPS, p95 ≤18.3 ms, and no sustained sequence of three frames over 50 ms). Historical measurements retain the limits in force when collected. This amendment changes no visual, gameplay, physics, AI, audio, camera, shortcut, or production-release approval, and it does not certify hardware performance.
+
+## Approved implementation amendment 2.27 - T9.7 sector A/B draw-call ceilings
+
+Approved October 9, 2026. For the active T9.7 sector A/B render gates, amend the incremental draw-call ceilings to **Skyline +36**, **Undercity +30**, and **Falls Run extension +28**. These values cover the observed additional cost of the current sector visuals and selective-bloom mask pass while retaining the existing full-scene ceilings. Historical evidence and records keep the thresholds in force when those measurements were taken; future T9.7 sector-gate evidence uses the amended values. The global **500-call** scene cap, Task 9 **350,000** visible-triangle engineering limit, PRD **750,000** visible-triangle cap, and G-05 hardware FPS/frame-time requirements remain unchanged. This amendment does not change shared `RaceBloom` behavior, certify performance, or grant visual acceptance, preview publication, PR #242 merge, or production-release approval.

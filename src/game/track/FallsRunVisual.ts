@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
-import { markBloomMaterial } from '../rendering/bloomEligibility';
 import type { NeonGrid } from './NeonGrid';
 import {
   NeonGridVisualClock,
@@ -254,11 +253,12 @@ function waterMaterial(): THREE.ShaderMaterial {
     side: THREE.DoubleSide,
   });
   material.forceSinglePass = true;
+  material.userData.bloomBlackAdapter = true;
   return material;
 }
 
 function mistMaterial(): THREE.ShaderMaterial {
-  return new THREE.ShaderMaterial({
+  const material = new THREE.ShaderMaterial({
     vertexShader: `varying vec2 vUv;
       void main() {
         vUv = uv;
@@ -286,6 +286,8 @@ function mistMaterial(): THREE.ShaderMaterial {
     transparent: true,
     depthWrite: false,
   });
+  material.userData.bloomBlackAdapter = true;
+  return material;
 }
 
 function addStructure(group: THREE.Group, track: NeonGrid): void {
@@ -458,7 +460,6 @@ function addWaterfallDistrict(
   falls.name = 'falls-run-ambient-waterfalls';
   falls.frustumCulled = false;
   const lipMaterial = new THREE.MeshBasicMaterial({ color: 0xa7f4ff, transparent: true, opacity: 0.76 });
-  markBloomMaterial(lipMaterial, 'color');
   const lips = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 0.08, 0.16), lipMaterial, fallCount);
   lips.name = 'falls-run-waterfall-lips';
 
@@ -532,7 +533,6 @@ function addSignageAndDebris(group: THREE.Group, track: NeonGrid): void {
     metalness: 0.18,
     vertexColors: true,
   });
-  markBloomMaterial(signMaterial, 'emissive');
   const signs = new THREE.InstancedMesh(new THREE.BoxGeometry(1.8, 0.18, 0.32), signMaterial, 18);
   signs.name = 'falls-run-neon-signage';
   const dummy = new THREE.Object3D();
@@ -630,7 +630,6 @@ export class FallsRunVisual {
     this.group.add(wallCladding);
 
     const edgeMaterial = new THREE.MeshBasicMaterial({ color: CYAN });
-    markBloomMaterial(edgeMaterial, 'color');
     const edges = new THREE.Mesh(fallsRunEdgeGeometry(track), edgeMaterial);
     edges.name = 'falls-run-luminous-edges';
     this.group.add(edges);

@@ -186,7 +186,7 @@ Task 8 accepted meshes remain in place rather than being rebuilt merely to reduc
 
 ## 7. Draw-call / geometry budget
 
-PRD hard cap remains **≤250 draw calls** with visible triangles **≤750,000**.
+PRD hard cap is **≤500 draw calls across all race scenes** under approved implementation amendment 2.26, with visible triangles **≤750,000**.
 
 Latest accepted Task 8 hosted structural evidence:
 - max draw calls: **124**;
@@ -211,7 +211,9 @@ Planning allowance:
 | bloom/transparency variability reserve | +18 calls |
 | Task 9 working ceiling | **200 total** |
 
-For T9.5 full-course rendering, 200 calls remains the **optimization target** and 220 is the **owner-approved blocking maximum**; report every call above 200. The 300,000 visible-triangle engineering ceiling, 250/750k PRD hard limits and separate sector A/B limits are unchanged. Batch and optimize before owner review where possible.
+The table above preserves the original planning proposal. For active T9.7 sector A/B gates, Manny approved amended ceilings of **Skyline +36 calls, Undercity +30 calls, and Falls Run extension +28 calls** in PRD amendment 2.27 on 2026-10-09. These match the measured current visuals and selective-bloom mask cost; historical measurements retain their original thresholds. The shared `RaceBloom` implementation is unchanged by this budget amendment.
+
+The T9.5 full-course historical gate used a 200-call optimization target and a 220-call blocking maximum; its evidence remains labeled against those then-current limits. Current forward-looking Task 9 gates use the subsequently owner-approved 500-call limit, 350,000 visible-triangle engineering limit, 500/750k PRD hard limits and the amended T9.7 sector A/B incremental limits above.
 
 ## 8. Lifecycle contract — failing-first
 
@@ -274,7 +276,7 @@ CI blocks on:
 - valid 1920×1080 evidence;
 - eight racers present;
 - at least 300 scored frames with finite timing instrumentation;
-- ≤250 draw calls;
+- ≤500 draw calls;
 - ≤750k visible triangles;
 - Task 9 engineering ceilings reported separately;
 - deterministic instance/resource counts within declared bounds.
@@ -400,7 +402,7 @@ No Task 9 change is planned for `NeonGrid.ts`, shortcut physics modules, kart tu
 - add a presentation-only city ground/base treatment beneath the Skyline building field so the city reads as physically grounded rather than as towers floating in open space; this must not add gameplay collision, alter track/shortcut geometry, or compromise road/driver readability;
 - these are **deferred T9.7 visual-polish requirements, not a rejection or reopening of T9.2**. The corrected T9.2 owner preview is accepted. Do not implement these items earlier unless Manny explicitly reprioritizes them.
 
-**T9.7 expanded final-visual-pass proposal (recorded 2026-10-08; execution approval pending):** The owner asked to include **selective bloom / emissive balance and existing texture/material polish** alongside the already-deferred Skyline stepped-building/city-base improvements and final full-course preview. The full six-step proposed work plan, acceptance conditions, art gates and scope limits are in [T9.7 Final Visual Polish & Owner Preview Plan](t9-7-final-visual-polish-plan-2026-10-08.md). This is a **planning checkpoint only**, not authorization to start T9.7. Existing Task 9 notes excluding *new texture assets* remain in force; existing approved maps and procedural materials may be tuned only after T9.7 execution approval, while **new binary artwork requires separate approval**. Owner reports desktop FPS PASS; exact hardware capture/PRD evidence must not be invented. Forward-looking approved T9.6/Task 9 internal scene targets are **220 calls / 350,000 triangles**; PRD caps remain **250 / 750,000**, G-05 desktop FPS/frame targets unchanged. No changes to T9.2–T9.5 approvals, Circuit Alpha, PR #242, or production release.
+**T9.7 expanded final-visual-pass proposal (recorded 2026-10-08; execution approved 2026-10-09):** Manny directed execution of **selective bloom / emissive balance and existing texture/material polish** alongside the deferred Skyline stepped-building/city-base improvements and final full-course preview. The complete scope and acceptance gates are in [T9.7 Final Visual Polish & Owner Preview Plan](t9-7-final-visual-polish-plan-2026-10-08.md). New binary artwork requires separate approval. The owner reports desktop FPS PASS, but raw capture/hardware metadata remain unavailable and G-05 certification is open. On 2026-10-09 Manny raised the global race-scene PRD draw-call cap and forward-looking Task 9 engineering draw-call target to **500**, then amended the active T9.7 sector A/B ceilings to **+36 Skyline / +30 Undercity / +28 Falls extension** in [PRD amendment 2.27](../../PRD.md). Engineering triangles remain **350,000**, PRD triangles **750,000**, and G-05 targets unchanged. No changes to gameplay, the frozen Task 8 appearance, T9.2–T9.5 owner approvals, PR #242 merge status, or production release.
 
 ### T9.8 — Stage 4 stop
 After owner full-course approval, record evidence and STOP. PR #242 production merge/release remains a separate explicit owner gate.
@@ -416,7 +418,7 @@ Task 9 is complete only when all are true:
 - shortcut tells remain readable;
 - mobile road/driver readability passes;
 - no gameplay/physics/balance/checkpoint changes;
-- draw calls ≤250 and visible triangles ≤750k;
+- draw calls ≤500 and visible triangles ≤750k;
 - proposed engineering ceilings are met or any exception is explicitly reviewed;
 - representative-hardware 60 FPS / p95 ≤18.3 ms evidence is recorded;
 - full validation/build green;
@@ -574,3 +576,8 @@ Manny explicitly requested that the *additional Task 9 engineering budgets* incr
 The **PRD hard ceilings 250 draw calls / 750,000 triangles, G-05 Medium 1920×1080 median ≥60 FPS, p95 ≤18.3 ms and no sustained >50 ms frames are NOT relaxed**. At the new internal target, reserve is 30 draw calls / 400,000 triangles beneath the PRD caps. T9.6 captures exceeding the newly approved engineering target still require explicit review; hard-budget or frame-time failures are never converted to automatic passes by this decision. No visual, gameplay, physics, AI, audio, camera, shortcut, deployment or other acceptance requirement changes.
 
 **Owner-playtest evidence:** mobile portrait screenshot in the October 8 work session shows 9,559 scored frames, 59.9 displayed median FPS, p95 16.8 ms, max frame 216.8 ms, six >50ms samples with longest run one, 206 peak draw calls and 317,908 peak visible triangles. This is a *screenshot-transcribed mobile diagnostic*, not independently re-audited JSON. The reported metrics fit the new engineering budgets and PRD scene-count hard ceilings, but 59.9 < 60 as displayed and the test device/actual framebuffer resolution cannot be independently validated without the original export. Manny's extensive mobile playtesting and lack of perceived issues are accepted as qualitative owner playability feedback, not fabricated baseline-desktop GPU certification. T9.6 remains open until the distinct approved real-hardware evidence gate is resolved. See `docs/evidence/2026-10-08-neon-task9-t9-6/progress.md`.
+
+
+## 2026-10-09 owner-approved global draw-call budget amendment
+
+Manny explicitly directed the PRD hard draw-call cap to **500 for every race scene, including Circuit Alpha and Neon Grid**, and approved the forward-looking Task 9 engineering draw-call target at **500**. This supersedes the earlier 250-call PRD cap for all scenes and the 220-call forward-looking Task 9 engineering target. The **350,000** Task 9 engineering triangle limit, **750,000** PRD triangle cap, G-05 hardware FPS/frame-time thresholds, historical T9.5 measurements, and per-sector incremental A/B budgets remain unchanged. This is a budget revision only and does not certify performance, approve visual changes to Circuit Alpha, close T9.6, merge PR #242, or release Neon Grid to production. Current T9.7 execution status and evidence are recorded in the [T9.7 plan](t9-7-final-visual-polish-plan-2026-10-08.md) and [implementation status](../../IMPLEMENTATION-STATUS.md).

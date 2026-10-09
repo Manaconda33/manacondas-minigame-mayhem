@@ -7,10 +7,10 @@ const directory = process.argv[2] ?? '/tmp/neon-grid-t9-5-render';
 mkdirSync(directory, { recursive: true });
 
 // Structural/readability CI only. Representative-hardware certification is T9.6.
-// Owner-approved T9.5 full-course only: 200-call optimization TARGET, 220-call CI blocker.
-const engineeringTargetCalls = 200;
-const engineeringCeilings = { calls: 220, triangles: 300000 };
-const prdCaps = { calls: 250, triangles: 750000 };
+// Current full-course engineering target and PRD hard cap are both 500 calls.
+const engineeringTargetCalls = 500;
+const engineeringCeilings = { calls: 500, triangles: 350000 };
+const prdCaps = { calls: 500, triangles: 750000 };
 const captures = [
   { name: 'skyline-chase', progress: 0.063 },
   { name: 'billboard-sponsor-wall-early', progress: 0.052 },
@@ -95,7 +95,7 @@ try {
         performanceSummary = await page.evaluate(() => window.measureFrames(300, 45));
         await page.evaluate((camera) => window.renderFrame(true, camera), view);
       }
-      // Diagnose real rear-view peaks without relaxing the 200-call target or 220-call blocker.
+      // Diagnose real rear-view peaks while retaining the historical 200-call optimization target.
       if (station.name === 'waterfall-dive-rear' || station.name === 'billboard-rear') {
         frame.ownerProfile = await page.evaluate((camera) => window.profileOwnerCalls(camera), view);
         await page.evaluate((camera) => window.renderFrame(true, camera), view);

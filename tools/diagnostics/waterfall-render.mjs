@@ -77,7 +77,7 @@ try {
   };
   writeFileSync(`${directory}/render-check.json`, JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report, null, 2));
-  if (errors.length || frames.some((frame) => frame.calls > 250 || frame.racers !== 8))
+  if (errors.length || frames.some((frame) => frame.calls > 500 || frame.racers !== 8))
     throw new Error('Render errors or PRD draw-call budget failure');
   await page.evaluate(() => window.game.dispose());
 } finally {

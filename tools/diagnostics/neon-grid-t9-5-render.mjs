@@ -5,6 +5,9 @@ const require = createRequire(process.env.NEON_GRID_COURSE_PLAYWRIGHT + '/packag
 const { chromium } = require('playwright');
 const directory = process.argv[2] ?? '/tmp/neon-grid-t9-5-render';
 mkdirSync(directory, { recursive: true });
+const renderEnvironment = process.env.GITHUB_ACTIONS === 'true'
+  ? 'GitHub Actions Chromium software WebGL / SwiftShader'
+  : 'Local Chromium software WebGL / SwiftShader';
 
 // Structural/readability CI only. Representative-hardware certification is T9.6.
 // Current full-course engineering target and PRD hard cap are both 500 calls.
@@ -133,7 +136,7 @@ try {
   const maximumTriangles = Math.max(...frames.map((f) => f.triangles));
   const report = {
     source: 'Actual Neon Grid kart race scene, eight racers, all Task 9 visual owners mounted',
-    classification: 'GitHub Actions Chromium/SwiftShader: blocking structural readiness only, FPS/p95 diagnostic, T9.6 hardware certification pending',
+    classification: `${renderEnvironment}: blocking structural readiness only, FPS/p95 diagnostic, T9.6 hardware certification pending`,
     engineeringTargetCalls, engineeringCeilings, prdCaps, errors, frames,
     drawCallsAboveTarget: Math.max(0, maximumDrawCalls - engineeringTargetCalls),
     maximumDrawCalls, maximumTriangles, performanceSummary,

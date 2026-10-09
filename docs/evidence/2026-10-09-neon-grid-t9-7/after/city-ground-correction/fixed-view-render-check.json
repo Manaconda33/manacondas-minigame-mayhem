@@ -1,0 +1,596 @@
+{
+  "errors": [],
+  "captures": [
+    {
+      "name": "falls-city-dive-approach-portrait",
+      "calls": 130,
+      "triangles": 92639,
+      "geometries": 61,
+      "textures": 7,
+      "width": 390,
+      "height": 844,
+      "pixelRatio": 1,
+      "racers": 8,
+      "quality": "medium",
+      "view": "chase",
+      "skylineVisible": true,
+      "skyline": {
+        "windows": 240,
+        "pylons": 14,
+        "braces": 24,
+        "proceduralSigns": 18,
+        "manacondaAds": 7,
+        "tacoBellAds": 7,
+        "maskBillboards": 8,
+        "raisedBillboardPosts": 4,
+        "facadeMountedBillboards": 4,
+        "wet": true
+      },
+      "undercity": {
+        "windows": 160,
+        "buildings": 16,
+        "pipes": 26,
+        "utilityBoxes": 20,
+        "workLights": 24,
+        "serviceBays": 14,
+        "nightshiftAds": 2,
+        "voltlineAds": 2,
+        "wet": true
+      },
+      "fallsExtension": {
+        "windows": 160,
+        "towers": 16,
+        "pylons": 16,
+        "footings": 16,
+        "waterfalls": 24,
+        "mist": 14,
+        "wet": true
+      },
+      "actualCameraShortcutSightline": null,
+      "sponsorArtworkSightline": null,
+      "tunnelKartSightline": null
+    },
+    {
+      "name": "falls-city-climb",
+      "calls": 120,
+      "triangles": 103507,
+      "geometries": 55,
+      "textures": 7,
+      "width": 1920,
+      "height": 1080,
+      "pixelRatio": 1.5,
+      "racers": 8,
+      "quality": "medium",
+      "view": "chase",
+      "skylineVisible": true,
+      "skyline": {
+        "windows": 240,
+        "pylons": 14,
+        "braces": 24,
+        "proceduralSigns": 18,
+        "manacondaAds": 7,
+        "tacoBellAds": 7,
+        "maskBillboards": 8,
+        "raisedBillboardPosts": 4,
+        "facadeMountedBillboards": 4,
+        "wet": true
+      },
+      "undercity": {
+        "windows": 160,
+        "buildings": 16,
+        "pipes": 26,
+        "utilityBoxes": 20,
+        "workLights": 24,
+        "serviceBays": 14,
+        "nightshiftAds": 2,
+        "voltlineAds": 2,
+        "wet": true
+      },
+      "fallsExtension": {
+        "windows": 160,
+        "towers": 16,
+        "pylons": 16,
+        "footings": 16,
+        "waterfalls": 24,
+        "mist": 14,
+        "wet": true
+      },
+      "actualCameraShortcutSightline": null,
+      "sponsorArtworkSightline": null,
+      "tunnelKartSightline": null
+    },
+    {
+      "name": "falls-city-dive",
+      "calls": 394,
+      "triangles": 160179,
+      "geometries": 177,
+      "textures": 14,
+      "width": 1920,
+      "height": 1080,
+      "pixelRatio": 1.5,
+      "racers": 8,
+      "quality": "medium",
+      "view": "chase",
+      "skylineVisible": true,
+      "skyline": {
+        "windows": 240,
+        "pylons": 14,
+        "braces": 24,
+        "proceduralSigns": 18,
+        "manacondaAds": 7,
+        "tacoBellAds": 7,
+        "maskBillboards": 8,
+        "raisedBillboardPosts": 4,
+        "facadeMountedBillboards": 4,
+        "wet": true
+      },
+      "undercity": {
+        "windows": 160,
+        "buildings": 16,
+        "pipes": 26,
+        "utilityBoxes": 20,
+        "workLights": 24,
+        "serviceBays": 14,
+        "nightshiftAds": 2,
+        "voltlineAds": 2,
+        "wet": true
+      },
+      "fallsExtension": {
+        "windows": 160,
+        "towers": 16,
+        "pylons": 16,
+        "footings": 16,
+        "waterfalls": 24,
+        "mist": 14,
+        "wet": true
+      },
+      "actualCameraShortcutSightline": null,
+      "sponsorArtworkSightline": null,
+      "tunnelKartSightline": null
+    },
+    {
+      "name": "falls-city-dive-portrait",
+      "calls": 220,
+      "triangles": 113571,
+      "geometries": 100,
+      "textures": 10,
+      "width": 390,
+      "height": 844,
+      "pixelRatio": 1,
+      "racers": 8,
+      "quality": "medium",
+      "view": "chase",
+      "skylineVisible": true,
+      "skyline": {
+        "windows": 240,
+        "pylons": 14,
+        "braces": 24,
+        "proceduralSigns": 18,
+        "manacondaAds": 7,
+        "tacoBellAds": 7,
+        "maskBillboards": 8,
+        "raisedBillboardPosts": 4,
+        "facadeMountedBillboards": 4,
+        "wet": true
+      },
+      "undercity": {
+        "windows": 160,
+        "buildings": 16,
+        "pipes": 26,
+        "utilityBoxes": 20,
+        "workLights": 24,
+        "serviceBays": 14,
+        "nightshiftAds": 2,
+        "voltlineAds": 2,
+        "wet": true
+      },
+      "fallsExtension": {
+        "windows": 160,
+        "towers": 16,
+        "pylons": 16,
+        "footings": 16,
+        "waterfalls": 24,
+        "mist": 14,
+        "wet": true
+      },
+      "actualCameraShortcutSightline": null,
+      "sponsorArtworkSightline": null,
+      "tunnelKartSightline": null
+    },
+    {
+      "name": "falls-city-dive-landscape",
+      "calls": 396,
+      "triangles": 153491,
+      "geometries": 176,
+      "textures": 13,
+      "width": 844,
+      "height": 390,
+      "pixelRatio": 1,
+      "racers": 8,
+      "quality": "medium",
+      "view": "chase",
+      "skylineVisible": true,
+      "skyline": {
+        "windows": 240,
+        "pylons": 14,
+        "braces": 24,
+        "proceduralSigns": 18,
+        "manacondaAds": 7,
+        "tacoBellAds": 7,
+        "maskBillboards": 8,
+        "raisedBillboardPosts": 4,
+        "facadeMountedBillboards": 4,
+        "wet": true
+      },
+      "undercity": {
+        "windows": 160,
+        "buildings": 16,
+        "pipes": 26,
+        "utilityBoxes": 20,
+        "workLights": 24,
+        "serviceBays": 14,
+        "nightshiftAds": 2,
+        "voltlineAds": 2,
+        "wet": true
+      },
+      "fallsExtension": {
+        "windows": 160,
+        "towers": 16,
+        "pylons": 16,
+        "footings": 16,
+        "waterfalls": 24,
+        "mist": 14,
+        "wet": true
+      },
+      "actualCameraShortcutSightline": null,
+      "sponsorArtworkSightline": null,
+      "tunnelKartSightline": null
+    },
+    {
+      "name": "falls-city-dive-rear",
+      "calls": 200,
+      "triangles": 234103,
+      "geometries": 210,
+      "textures": 20,
+      "width": 1920,
+      "height": 1080,
+      "pixelRatio": 1.5,
+      "racers": 8,
+      "quality": "medium",
+      "view": "rear",
+      "skylineVisible": true,
+      "skyline": {
+        "windows": 240,
+        "pylons": 14,
+        "braces": 24,
+        "proceduralSigns": 18,
+        "manacondaAds": 7,
+        "tacoBellAds": 7,
+        "maskBillboards": 8,
+        "raisedBillboardPosts": 4,
+        "facadeMountedBillboards": 4,
+        "wet": true
+      },
+      "undercity": {
+        "windows": 160,
+        "buildings": 16,
+        "pipes": 26,
+        "utilityBoxes": 20,
+        "workLights": 24,
+        "serviceBays": 14,
+        "nightshiftAds": 2,
+        "voltlineAds": 2,
+        "wet": true
+      },
+      "fallsExtension": {
+        "windows": 160,
+        "towers": 16,
+        "pylons": 16,
+        "footings": 16,
+        "waterfalls": 24,
+        "mist": 14,
+        "wet": true
+      },
+      "actualCameraShortcutSightline": null,
+      "sponsorArtworkSightline": null,
+      "tunnelKartSightline": null
+    },
+    {
+      "name": "falls-city-exit",
+      "calls": 206,
+      "triangles": 109539,
+      "geometries": 89,
+      "textures": 10,
+      "width": 1920,
+      "height": 1080,
+      "pixelRatio": 1.5,
+      "racers": 8,
+      "quality": "medium",
+      "view": "chase",
+      "skylineVisible": true,
+      "skyline": {
+        "windows": 240,
+        "pylons": 14,
+        "braces": 24,
+        "proceduralSigns": 18,
+        "manacondaAds": 7,
+        "tacoBellAds": 7,
+        "maskBillboards": 8,
+        "raisedBillboardPosts": 4,
+        "facadeMountedBillboards": 4,
+        "wet": true
+      },
+      "undercity": {
+        "windows": 160,
+        "buildings": 16,
+        "pipes": 26,
+        "utilityBoxes": 20,
+        "workLights": 24,
+        "serviceBays": 14,
+        "nightshiftAds": 2,
+        "voltlineAds": 2,
+        "wet": true
+      },
+      "fallsExtension": {
+        "windows": 160,
+        "towers": 16,
+        "pylons": 16,
+        "footings": 16,
+        "waterfalls": 24,
+        "mist": 14,
+        "wet": true
+      },
+      "actualCameraShortcutSightline": null,
+      "sponsorArtworkSightline": null,
+      "tunnelKartSightline": null
+    },
+    {
+      "name": "skyline-mobile-city-ground",
+      "calls": 202,
+      "triangles": 119867,
+      "geometries": 97,
+      "textures": 12,
+      "width": 390,
+      "height": 844,
+      "pixelRatio": 1,
+      "racers": 8,
+      "quality": "medium",
+      "view": "chase",
+      "skylineVisible": true,
+      "skyline": {
+        "windows": 240,
+        "pylons": 14,
+        "braces": 24,
+        "proceduralSigns": 18,
+        "manacondaAds": 7,
+        "tacoBellAds": 7,
+        "maskBillboards": 8,
+        "raisedBillboardPosts": 4,
+        "facadeMountedBillboards": 4,
+        "wet": true
+      },
+      "undercity": {
+        "windows": 160,
+        "buildings": 16,
+        "pipes": 26,
+        "utilityBoxes": 20,
+        "workLights": 24,
+        "serviceBays": 14,
+        "nightshiftAds": 2,
+        "voltlineAds": 2,
+        "wet": true
+      },
+      "fallsExtension": {
+        "windows": 160,
+        "towers": 16,
+        "pylons": 16,
+        "footings": 16,
+        "waterfalls": 24,
+        "mist": 14,
+        "wet": true
+      },
+      "actualCameraShortcutSightline": {
+        "shortcut": "billboard-gap",
+        "cameraWorld": [
+          200.00959705111856,
+          18.04050794571208,
+          -74.01630754233045
+        ],
+        "viewportTargets": 1,
+        "blockedTargets": 1,
+        "interiorTargetsEvaluated": 9,
+        "interiorTargetsInView": 1,
+        "interiorExposed": 0,
+        "entranceTargetsInView": 0,
+        "samples": [
+          {
+            "fraction": 0.92,
+            "interior": true,
+            "sharedMouth": false,
+            "mainEdgeMargin": -0.8266532497144823,
+            "occluded": true,
+            "distance": 70.9061053047386,
+            "targetWorld": [
+              184.57428408415117,
+              9.00136630094982,
+              -5.403474912971868
+            ],
+            "targetNdc": [
+              0.9541169513832314,
+              0.298038801767622,
+              0.9972605950528799
+            ],
+            "blockerDistance": 32.555592501453134
+          }
+        ]
+      },
+      "sponsorArtworkSightline": {
+        "samples": [
+          {
+            "name": "skyline-ad-manaconda-racing",
+            "index": 3,
+            "world": [
+              75.31371307373047,
+              15.699999809265137,
+              -119.93482208251953
+            ],
+            "ndc": [
+              -9.369689491469721,
+              0.6183985740331748,
+              1.0044539756024675
+            ],
+            "inViewport": false,
+            "imageLoaded": true,
+            "faceHit": true,
+            "visibleArtwork": false,
+            "fasciaDistance": 7.37073868391671,
+            "imageDistance": 132.9024132091534
+          },
+          {
+            "name": "skyline-ad-manaconda-racing",
+            "index": 4,
+            "world": [
+              110.35816192626953,
+              15.699999809265137,
+              -119.93083953857422
+            ],
+            "ndc": [
+              -6.8761889662414735,
+              0.6206589758860654,
+              1.0045645386114581
+            ],
+            "inViewport": false,
+            "imageLoaded": true,
+            "faceHit": true,
+            "visibleArtwork": false,
+            "fasciaDistance": 7.774053645028929,
+            "imageDistance": 100.75218134966549
+          },
+          {
+            "name": "skyline-ad-manaconda-racing",
+            "index": 5,
+            "world": [
+              183.45004272460938,
+              19.450000762939453,
+              -98.15791320800781
+            ],
+            "ndc": [
+              -2.3555374515112146,
+              0.4291730021700046,
+              1.0085645270663688
+            ],
+            "inViewport": false,
+            "imageLoaded": true,
+            "faceHit": true,
+            "visibleArtwork": false,
+            "fasciaDistance": null,
+            "imageDistance": 29.309087901391393
+          },
+          {
+            "name": "skyline-ad-manaconda-racing",
+            "index": 6,
+            "world": [
+              192.47264099121094,
+              18.919734954833984,
+              -34.49979782104492
+            ],
+            "ndc": [
+              0.8693027660013712,
+              0.5732999339175929,
+              0.9948295021215825
+            ],
+            "inViewport": true,
+            "imageLoaded": true,
+            "faceHit": true,
+            "visibleArtwork": true,
+            "fasciaDistance": null,
+            "imageDistance": 40.23845532988309
+          },
+          {
+            "name": "skyline-ad-taco-bell-live-mas",
+            "index": 3,
+            "world": [
+              87.07501220703125,
+              15.699999809265137,
+              -119.74077606201172
+            ],
+            "ndc": [
+              -8.581245338378176,
+              0.6194871678116611,
+              1.0045072219770288
+            ],
+            "inViewport": false,
+            "imageLoaded": true,
+            "faceHit": true,
+            "visibleArtwork": false,
+            "fasciaDistance": 7.504346535201752,
+            "imageDistance": 121.86232171450887
+          },
+          {
+            "name": "skyline-ad-taco-bell-live-mas",
+            "index": 4,
+            "world": [
+              123.37200164794922,
+              15.699999809265137,
+              -120.40513610839844
+            ],
+            "ndc": [
+              -5.857216763312835,
+              0.6206474649163761,
+              1.0045639755755345
+            ],
+            "inViewport": false,
+            "imageLoaded": true,
+            "faceHit": true,
+            "visibleArtwork": false,
+            "fasciaDistance": 8.417064602339842,
+            "imageDistance": 89.61429809605553
+          },
+          {
+            "name": "skyline-ad-taco-bell-live-mas",
+            "index": 5,
+            "world": [
+              190.85023498535156,
+              19.456451416015625,
+              -86.36668395996094
+            ],
+            "ndc": [
+              -2.5092782642458134,
+              0.33398677708879715,
+              1.0162224772508364
+            ],
+            "inViewport": false,
+            "imageLoaded": true,
+            "faceHit": true,
+            "visibleArtwork": false,
+            "fasciaDistance": null,
+            "imageDistance": 15.441198367357025
+          },
+          {
+            "name": "skyline-ad-taco-bell-live-mas",
+            "index": 6,
+            "world": [
+              190.87872314453125,
+              17.46713638305664,
+              -21.05335807800293
+            ],
+            "ndc": [
+              0.7900166703231475,
+              0.5119581969766795,
+              0.996243968622342
+            ],
+            "inViewport": true,
+            "imageLoaded": true,
+            "faceHit": true,
+            "visibleArtwork": true,
+            "fasciaDistance": null,
+            "imageDistance": 53.7473313682427
+          }
+        ],
+        "inViewport": 2,
+        "readable": 2
+      },
+      "tunnelKartSightline": null
+    }
+  ]
+}

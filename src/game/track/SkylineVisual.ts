@@ -9,6 +9,13 @@ import {
   neonGridRoadsideScreenGeometry,
   neonGridSurfaceSliceGeometry,
 } from './NeonGridVisualCommon';
+import {
+  cityGroundFootingBounds,
+  NEON_GRID_CITY_TERRACES,
+  neonGridSteppedTowerGeometry,
+  neonGridTerracedCityGroundGeometry,
+  type TerracedCityGroundOptions,
+} from './NeonGridCityGround';
 import { disposeTrackScene } from './TrackSceneResources';
 
 const START = 0;
@@ -26,6 +33,8 @@ interface SkylineTower {
   readonly depth: number;
   readonly height: number;
   readonly baseY: number;
+  readonly foundationBottom: number;
+  readonly foundationDepth: number;
 }
 
 interface AdMaterial {
@@ -47,8 +56,7 @@ function billboardWallOpen(track: NeonGrid, side: number, progress: number): boo
   const center = track.curve.getPointAt(progress);
   const right = neonGridRightAt(track, progress);
   const edge = center.addScaledVector(right, side * track.halfWidthAt(progress));
-  const entry =
-    (track.billboardGap.entry.progress[0] + track.billboardGap.entry.progress[1]) * 0.5;
+  const entry = (track.billboardGap.entry.progress[0] + track.billboardGap.entry.progress[1]) * 0.5;
   return (
     track.billboardGap.junctionContains(edge) ||
     Math.abs(progress - entry) < 0.006 ||
@@ -128,9 +136,13 @@ function skylineFasciaGeometry(track: NeonGrid): THREE.BufferGeometry {
       positions.push(...top.toArray(), ...bottom.toArray());
       if (i < SEGMENTS) {
         const nextProgress = THREE.MathUtils.lerp(START, END, (i + 1) / SEGMENTS);
-        if (segmentCrossesBillboardOpening(track, side, progress, nextProgress) ||
+        if (
+          segmentCrossesBillboardOpening(track, side, progress, nextProgress) ||
           [progress, (progress + nextProgress) * 0.5, nextProgress].some((p) =>
-            skylineTunnelMouthOpen(track, side, p))) continue;
+            skylineTunnelMouthOpen(track, side, p),
+          )
+        )
+          continue;
         const a = base + i * 2;
         indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
       }
@@ -142,7 +154,6 @@ function skylineFasciaGeometry(track: NeonGrid): THREE.BufferGeometry {
   geometry.computeVertexNormals();
   return geometry;
 }
-
 
 /** An inner wing wall follows the near edge of the curved Billboard bypass.
  * This blocks a long straight sightline through the genuine mouth while
@@ -157,7 +168,12 @@ function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry 
   const vertices: number[] = [];
   const indices: number[] = [];
   let panels = 0;
-  function nearEdge(t: number): { base: THREE.Vector3; top: THREE.Vector3; out: THREE.Vector3; clear: boolean } {
+  function nearEdge(t: number): {
+    base: THREE.Vector3;
+    top: THREE.Vector3;
+    out: THREE.Vector3;
+    clear: boolean;
+  } {
     const road = gap.curve.getPointAt(t);
     const toApproach = approachRoad.clone().sub(road).setY(0);
     if (toApproach.lengthSq() < 0.0001) {
@@ -180,7 +196,8 @@ function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry 
   for (let i = 0; i < cells; i++) {
     const start = THREE.MathUtils.lerp(0.045, 0.84, i / cells);
     const end = THREE.MathUtils.lerp(0.045, 0.84, (i + 1) / cells);
-    const a = nearEdge(start), b = nearEdge(end);
+    const a = nearEdge(start),
+      b = nearEdge(end);
     if (!a.clear || !b.clear) continue;
     const first = vertices.length / 3;
     vertices.push(...a.base.toArray(), ...b.base.toArray(), ...b.top.toArray(), ...a.top.toArray());
@@ -190,7 +207,12 @@ function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry 
       const aBack = a.base.clone().addScaledVector(a.out, 0.5);
       const aTopBack = a.top.clone().addScaledVector(a.out, 0.5);
       const p = vertices.length / 3;
-      vertices.push(...a.base.toArray(), ...a.top.toArray(), ...aTopBack.toArray(), ...aBack.toArray());
+      vertices.push(
+        ...a.base.toArray(),
+        ...a.top.toArray(),
+        ...aTopBack.toArray(),
+        ...aBack.toArray(),
+      );
       indices.push(p, p + 1, p + 2, p, p + 2, p + 3);
     }
     panels++;
@@ -267,22 +289,13 @@ function mainClearance(track: NeonGrid, point: THREE.Vector3, radius: number): n
 }
 
 function towerFootprintClear(track: NeonGrid, point: THREE.Vector3, radius: number): boolean {
-  return mainClearance(track, point, radius) >= 5 && gapClearance(track, point, radius) >= 6;
-}
-
-function steppedTowerGeometry(): THREE.BufferGeometry {
-  const lower = new THREE.BoxGeometry(1, 0.62, 1);
-  lower.translate(0, 0.31, 0);
-  const upper = new THREE.BoxGeometry(0.74, 0.27, 0.74);
-  upper.translate(0, 0.755, 0);
-  const crown = new THREE.BoxGeometry(0.48, 0.11, 0.48);
-  crown.translate(0, 0.945, 0);
-  const merged = mergeGeometries([lower, upper, crown], false);
-  lower.dispose();
-  upper.dispose();
-  crown.dispose();
-  merged.computeVertexNormals();
-  return merged;
+  const tunnelClearance =
+    track.serviceTunnel.project(point).lateralDistance - track.serviceTunnel.roadHalfWidth - radius;
+  return (
+    mainClearance(track, point, radius) >= 5 &&
+    gapClearance(track, point, radius) >= 6 &&
+    tunnelClearance >= 6
+  );
 }
 
 function skylineFoundationGeometry(): THREE.BufferGeometry {
@@ -313,7 +326,103 @@ function skylineRoofCapGeometry(): THREE.BufferGeometry {
   return geometry;
 }
 
+function skylineCityGroundOptions(track: NeonGrid): TerracedCityGroundOptions {
+  return {
+    start: START - 0.006,
+    end: END + 0.006,
+    segments: 32,
+    innerOffset: 12,
+    terraces: NEON_GRID_CITY_TERRACES,
+    baseElevationAt: (progress) => track.curve.getPointAt(progress).y - 0.45,
+  };
+}
+
+function mergeCityBaseIntoSkylineFascia(
+  group: THREE.Group,
+  ground: THREE.Mesh,
+  foundations: THREE.InstancedMesh,
+): void {
+  const fascia = group.getObjectByName('skyline-deck-fascia');
+  if (!(fascia instanceof THREE.Mesh)) {
+    throw new Error('Skyline city ground requires the existing deck-fascia mesh');
+  }
+  const fasciaGeometry = fascia.geometry as THREE.BufferGeometry;
+  const groundMetadata = ground.geometry.userData as {
+    terraceCount: number;
+    progressRange: readonly number[];
+    innerOffset: number;
+    outerOffset: number;
+  };
+
+  const positions: number[] = [];
+  const colors: number[] = [];
+  const indices: number[] = [];
+  const point = new THREE.Vector3();
+  const identity = new THREE.Matrix4();
+
+  const append = (
+    geometry: THREE.BufferGeometry,
+    transform: THREE.Matrix4,
+    tint: THREE.Color,
+  ) => {
+    const position = geometry.getAttribute('position');
+    const color = geometry.hasAttribute('color')
+      ? (geometry.getAttribute('color') as THREE.BufferAttribute)
+      : undefined;
+    const first = positions.length / 3;
+    for (let i = 0; i < position.count; i++) {
+      point.fromBufferAttribute(position, i).applyMatrix4(transform);
+      positions.push(point.x, point.y, point.z);
+      if (color) colors.push(color.getX(i), color.getY(i), color.getZ(i));
+      else colors.push(tint.r, tint.g, tint.b);
+    }
+    const index = geometry.index;
+    for (let i = 0; i < (index?.count ?? position.count); i++) {
+      indices.push(first + (index ? index.getX(i) : i));
+    }
+  };
+
+  append(fasciaGeometry, identity, new THREE.Color(0x08131f));
+  append(ground.geometry, identity, new THREE.Color(0xffffff));
+
+  const instanceMatrix = new THREE.Matrix4();
+  const instanceColor = new THREE.Color(0xffffff);
+  for (let i = 0; i < foundations.count; i++) {
+    foundations.getMatrixAt(i, instanceMatrix);
+    if (foundations.instanceColor) foundations.getColorAt(i, instanceColor);
+    append(foundations.geometry, instanceMatrix, instanceColor);
+  }
+
+  const combined = new THREE.BufferGeometry()
+    .setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+    .setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
+    .setIndex(indices);
+  combined.computeVertexNormals();
+  combined.computeBoundingBox();
+  combined.computeBoundingSphere();
+  combined.userData.terracedCityGround = true;
+  combined.userData.terraceCount = groundMetadata.terraceCount;
+  combined.userData.progressRange = [...groundMetadata.progressRange];
+  combined.userData.innerOffset = groundMetadata.innerOffset;
+  combined.userData.outerOffset = groundMetadata.outerOffset;
+  combined.userData.includesCityFoundations = foundations.count;
+
+  fasciaGeometry.dispose();
+  fascia.geometry = combined;
+  fascia.userData.collision = false;
+  const material = fascia.material as THREE.Material;
+  if (!(material instanceof THREE.MeshStandardMaterial)) {
+    throw new Error('Skyline city ground requires a single standard deck-fascia material');
+  }
+  material.color.set(0xffffff);
+  material.vertexColors = true;
+  material.needsUpdate = true;
+  ground.visible = false;
+  foundations.visible = false;
+}
+
 function placeTowers(track: NeonGrid): SkylineTower[] {
+  const ground = skylineCityGroundOptions(track);
   const towers: SkylineTower[] = [];
   for (let attempt = 0; attempt < 180 && towers.length < 22; attempt++) {
     const fraction = ((attempt * 37) % 179) / 178;
@@ -325,9 +434,11 @@ function placeTowers(track: NeonGrid): SkylineTower[] {
     const lateral = 38 + ((attempt * 17) % 31);
     const width = 11 + ((attempt * 5) % 7);
     const depth = 12 + ((attempt * 11) % 9);
-    const height = 30 + ((attempt * 13) % 35);
+    const originalBaseY = Math.min(0, center.y - 12);
+    const originalHeight = 30 + ((attempt * 13) % 35);
     const position = center.clone().addScaledVector(right, side * lateral);
     const radius = Math.hypot(width, depth) * 0.52;
+    const rotationY = Math.atan2(tangent.x, tangent.z);
     if (!towerFootprintClear(track, position, radius)) continue;
     if (
       towers.some(
@@ -337,6 +448,15 @@ function placeTowers(track: NeonGrid): SkylineTower[] {
       )
     )
       continue;
+    const footing = cityGroundFootingBounds(
+      track,
+      ground,
+      position,
+      rotationY,
+      width * 1.12,
+      depth * 1.12,
+      0.65,
+    );
     towers.push({
       position,
       right,
@@ -344,11 +464,14 @@ function placeTowers(track: NeonGrid): SkylineTower[] {
       side,
       width,
       depth,
-      height,
-      baseY: Math.min(0, center.y - 12),
+      height: Math.max(20, originalBaseY + originalHeight - footing.topY),
+      baseY: footing.topY,
+      foundationBottom: footing.bottomY,
+      foundationDepth: footing.depth,
     });
   }
-  if (towers.length !== 22) throw new Error(`Skyline requires 22 clear towers; got ${String(towers.length)}`);
+  if (towers.length !== 22)
+    throw new Error(`Skyline requires 22 clear towers; got ${String(towers.length)}`);
   return towers;
 }
 
@@ -359,22 +482,23 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
   const billboardScreenSide = billboardSide(track) as -1 | 1;
   const wallScreens = neonGridRoadsideScreenGeometry(track, [
     {
-      start: 0.038, end: 0.224, side: billboardScreenSide,
-      opening: (p) => billboardWallOpen(track, billboardScreenSide, p) ||
-        Math.abs(p - track.billboardGap.entry.progress[0]) < 0.010 ||
-        Math.abs(p - track.billboardGap.exitProgress) < 0.010,
+      start: 0.038,
+      end: 0.224,
+      side: billboardScreenSide,
+      opening: (p) =>
+        billboardWallOpen(track, billboardScreenSide, p) ||
+        Math.abs(p - track.billboardGap.entry.progress[0]) < 0.01 ||
+        Math.abs(p - track.billboardGap.exitProgress) < 0.01,
     },
     // Short supported expressway facades also obscure the tunnel approach.
-    { start: 0.220, end: 0.244, side: -1,
-      opening: (p) => skylineTunnelMouthOpen(track, -1, p) },
-    { start: 0.220, end: 0.244, side: 1,
-      opening: (p) => skylineTunnelMouthOpen(track, 1, p) },
+    { start: 0.22, end: 0.244, side: -1, opening: (p) => skylineTunnelMouthOpen(track, -1, p) },
+    { start: 0.22, end: 0.244, side: 1, opening: (p) => skylineTunnelMouthOpen(track, 1, p) },
   ]);
   const innerScreens = billboardInteriorScreenGeometry(track);
   const fasciaGeometry = mergeGeometries([originalFascia, wallScreens, innerScreens], false);
   // Both outer facade and inner Billboard wing share the existing draw call.
-  const screenPanelCount = (wallScreens.userData.panelCount as number) +
-    (innerScreens.userData.panels as number);
+  const screenPanelCount =
+    (wallScreens.userData.panelCount as number) + (innerScreens.userData.panels as number);
   const mouthCuts = wallScreens.userData.openingSegments as number;
   originalFascia.dispose();
   wallScreens.dispose();
@@ -446,16 +570,29 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
   group.add(pylons, braces);
 }
 
-function addCity(
-  group: THREE.Group,
-  track: NeonGrid,
-  quality: GraphicsQuality,
-): SkylineTower[] {
+function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality): SkylineTower[] {
   const towerData = placeTowers(track);
+  const groundOptions = skylineCityGroundOptions(track);
+  const cityGround = new THREE.Mesh(
+    neonGridTerracedCityGroundGeometry(track, groundOptions),
+    new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      vertexColors: true,
+      side: THREE.DoubleSide,
+    }),
+  );
+  cityGround.name = 'skyline-city-terraced-ground';
+  cityGround.userData.presentationOnly = true;
+  cityGround.userData.collision = false;
+  cityGround.userData.progressRange = [groundOptions.start, groundOptions.end];
   const towerMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
   });
-  const towers = new THREE.InstancedMesh(steppedTowerGeometry(), towerMaterial, towerData.length);
+  const towers = new THREE.InstancedMesh(
+    neonGridSteppedTowerGeometry(),
+    towerMaterial,
+    towerData.length,
+  );
   towers.name = 'skyline-city-towers';
   const dummy = new THREE.Object3D();
   const colors = [
@@ -493,7 +630,10 @@ function addCity(
     );
     dummy.updateMatrix();
     rooftops.setMatrixAt(i, dummy.matrix);
-    rooftops.setColorAt(i, colors[(i + 1) % colors.length] ?? colors[0] ?? new THREE.Color(0x244050));
+    rooftops.setColorAt(
+      i,
+      colors[(i + 1) % colors.length] ?? colors[0] ?? new THREE.Color(0x244050),
+    );
   });
   rooftops.instanceMatrix.needsUpdate = true;
   if (rooftops.instanceColor) rooftops.instanceColor.needsUpdate = true;
@@ -514,9 +654,9 @@ function addCity(
   ];
   const fallbackFoundationColor = new THREE.Color(0x263f4d);
   towerData.forEach((tower, i) => {
-    dummy.position.copy(tower.position).setY(tower.baseY - 1.6);
+    dummy.position.copy(tower.position).setY(tower.foundationBottom);
     dummy.rotation.set(0, Math.atan2(tower.tangent.x, tower.tangent.z), 0);
-    dummy.scale.set(tower.width * 1.12, 1.6, tower.depth * 1.12);
+    dummy.scale.set(tower.width * 1.12, tower.foundationDepth, tower.depth * 1.12);
     dummy.updateMatrix();
     foundations.setMatrixAt(i, dummy.matrix);
     foundations.setColorAt(
@@ -526,10 +666,15 @@ function addCity(
   });
   foundations.instanceMatrix.needsUpdate = true;
   if (foundations.instanceColor) foundations.instanceColor.needsUpdate = true;
+  mergeCityBaseIntoSkylineFascia(group, cityGround, foundations);
 
   const spireMaterial = new THREE.MeshBasicMaterial({ color: 0x65ecff });
   markBloomMaterial(spireMaterial, 'color');
-  const spires = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.08, 0.14, 1, 6), spireMaterial, 9);
+  const spires = new THREE.InstancedMesh(
+    new THREE.CylinderGeometry(0.08, 0.14, 1, 6),
+    spireMaterial,
+    9,
+  );
   spires.name = 'skyline-city-spires';
   let spireIndex = 0;
   for (let i = 0; i < towerData.length && spireIndex < spires.count; i += 2 + (i % 2)) {
@@ -547,7 +692,11 @@ function addCity(
 
   const roofMaterial = new THREE.MeshBasicMaterial({ color: CYAN });
   markBloomMaterial(roofMaterial, 'color');
-  const roofs = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 0.08, 0.16), roofMaterial, towerData.length);
+  const roofs = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 0.08, 0.16),
+    roofMaterial,
+    towerData.length,
+  );
   roofs.name = 'skyline-city-roof-accents';
   towerData.forEach((tower, i) => {
     dummy.position.copy(tower.position).setY(tower.baseY + tower.height + 0.08);
@@ -618,10 +767,7 @@ function addCity(
     const span = useInwardFace ? stageDepth : stageWidth;
     const column = ((i * 11) % 7) / 6 - 0.5;
     dummy.position.copy(tower.position).setY(tower.baseY + tower.height * rowFraction);
-    dummy.position.addScaledVector(
-      normal,
-      (useInwardFace ? stageWidth : stageDepth) * 0.5 + 0.12,
-    );
+    dummy.position.addScaledVector(normal, (useInwardFace ? stageWidth : stageDepth) * 0.5 + 0.12);
     dummy.position.addScaledVector(horizontal, column * span * 0.72);
     dummy.rotation.set(0, Math.atan2(normal.x, normal.z), 0);
     dummy.scale.set(1.25 + (i % 4) * 0.42, 1 + (i % 2) * 0.22, 1);
@@ -632,7 +778,7 @@ function addCity(
   windows.instanceMatrix.needsUpdate = true;
   if (windows.instanceColor) windows.instanceColor.needsUpdate = true;
 
-  group.add(towers, foundations, rooftops, spires, roofs, cornerLights, windows);
+  group.add(cityGround, towers, foundations, rooftops, spires, roofs, cornerLights, windows);
   group.userData.skylineLogicalTowerCount = towerData.length;
   return towerData;
 }
@@ -697,7 +843,11 @@ function addApprovedAds(
     roughness: 0.5,
     metalness: 0.5,
   });
-  const frames = new THREE.InstancedMesh(new THREE.BoxGeometry(8.45, 4.45, 0.12), frameMaterial, 14);
+  const frames = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(8.45, 4.45, 0.12),
+    frameMaterial,
+    14,
+  );
   frames.name = 'skyline-ad-supports';
   // T9.5 camouflage: reuse already-approved sponsor textures as ordinary,
   // architecturally supported roadside advertising, not new hologram tells.
@@ -715,10 +865,10 @@ function addApprovedAds(
   supports.name = 'skyline-mask-roadside-billboard-supports';
   supports.userData.immutableSponsorArt = true;
   supports.userData.camouflageProgress = [0.135, 0.184, 0.146, 0.194];
-  supports.userData.wallMountedProgress = [0.052, 0.076, 0.060, 0.085];
+  supports.userData.wallMountedProgress = [0.052, 0.076, 0.06, 0.085];
   const decoyProgresses = [
     [0.052, 0.076, 0.135, 0.184],
-    [0.060, 0.085, 0.146, 0.194],
+    [0.06, 0.085, 0.146, 0.194],
   ];
   const dummy = new THREE.Object3D();
   let frameIndex = 0;
@@ -768,9 +918,9 @@ function addApprovedAds(
       // All eight are attached to the established camouflage wall instead
       // of floating on isolated stands several metres behind it.
       const elevated = i >= 2;
-      const foot = center.clone().addScaledVector(
-        right, side * (track.halfWidthAt(progress) + 0.44),
-      );
+      const foot = center
+        .clone()
+        .addScaledVector(right, side * (track.halfWidthAt(progress) + 0.44));
       const facing = Math.atan2(inward.x, inward.z);
       if (elevated) {
         dummy.position.copy(foot);
@@ -779,14 +929,15 @@ function addApprovedAds(
         dummy.updateMatrix();
         supports.setMatrixAt(supportIndex++, dummy.matrix);
       }
-      dummy.position.copy(foot)
+      dummy.position
+        .copy(foot)
         .add(new THREE.Vector3(0, elevated ? 5.45 : 1.7, 0))
-        .addScaledVector(inward, elevated ? 0.20 : 0.30);
+        .addScaledVector(inward, elevated ? 0.2 : 0.3);
       dummy.rotation.set(0, facing, 0);
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
       ads.setMatrixAt(3 + i, dummy.matrix);
-      dummy.position.addScaledVector(inward, -0.20);
+      dummy.position.addScaledVector(inward, -0.2);
       dummy.updateMatrix();
       frames.setMatrixAt(frameIndex++, dummy.matrix);
     }

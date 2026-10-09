@@ -1262,3 +1262,8 @@ Manny approved amending the active T9.7 per-sector incremental draw-call ceiling
 ## Task 9 engineering triangle ceiling update — 2026-10-09
 
 Manny approved raising the forward-looking Task 9 engineering visible-triangle ceiling to **425,000**, superseding the prior 350,000 internal limit. The PRD hard cap remains **750,000** for all race scenes. The 500-call scene cap, T9.7 sector call deltas (+36 Skyline / +30 Undercity / +28 Falls extension), G-05 FPS/frame-time requirements, and the requirement to inspect a source-pinned owner preview remain unchanged. Historical measurements preserve their original thresholds. This adjustment does not certify hardware performance or grant visual acceptance, PR #242 merge approval, or production release.
+
+
+## Owner-approved T9.7 background-city correction — 2026-10-09
+
+After reviewing the T9.7 preview, Manny identified that the background lacked a city-like ground and that the generic buildings around the waterfall remained box-shaped. He requested the plan first and explicitly approved the bounded correction. Add grade-following terraced ground beneath the Skyline city and into the Falls backdrop; give the existing Falls towers stepped massing and foundations that meet or overlap the ground. The work is presentation-only and does not add collision or change routes, elevations, shortcut geometry, waterfall/mist, rails, signs/tells, driver/camera behavior, or existing entity counts and budgets. This is a narrow exception to the previously frozen Task 8 range for **background city ground and tower massing only**. All other Task 8 visuals and gameplay remain accepted and protected. The new preview must be inspected by Manny; this implementation approval does not approve PR #242 merge or production release.

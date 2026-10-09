@@ -6,6 +6,12 @@ import {
   neonGridRightAt,
   neonGridSurfaceSliceGeometry,
 } from './NeonGridVisualCommon';
+import {
+  cityGroundFootingBounds,
+  neonGridSteppedTowerGeometry,
+  neonGridTerracedCityGroundGeometry,
+  type TerracedCityGroundOptions,
+} from './NeonGridCityGround';
 import { disposeTrackScene } from './TrackSceneResources';
 
 const START = 0.7;
@@ -104,7 +110,9 @@ function fasciaGeometry(track: NeonGrid): THREE.BufferGeometry {
       const progress = THREE.MathUtils.lerp(START, END, i / SEGMENTS);
       const center = track.curve.getPointAt(progress);
       const right = neonGridRightAt(track, progress);
-      const top = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 0.28));
+      const top = center
+        .clone()
+        .addScaledVector(right, side * (track.halfWidthAt(progress) + 0.28));
       const bottom = top.clone().add(new THREE.Vector3(0, -8.5, 0));
       positions.push(...top.toArray(), ...bottom.toArray());
       if (i < SEGMENTS) {
@@ -306,18 +314,10 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
     roughness: 0.7,
     metalness: 0.4,
   });
-  const pylons = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(1.25, 12, 1.25),
-    pylonMaterial,
-    12,
-  );
+  const pylons = new THREE.InstancedMesh(new THREE.BoxGeometry(1.25, 12, 1.25), pylonMaterial, 12);
   pylons.name = 'falls-run-pylons';
 
-  const braces = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(0.32, 0.32, 8.5),
-    pylonMaterial,
-    22,
-  );
+  const braces = new THREE.InstancedMesh(new THREE.BoxGeometry(0.32, 0.32, 8.5), pylonMaterial, 22);
   braces.name = 'falls-run-cross-braces';
   const dummy = new THREE.Object3D();
 
@@ -328,7 +328,11 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
     const side = i % 2 === 0 ? -1 : 1;
     const point = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 2.4));
     dummy.position.copy(point).add(new THREE.Vector3(0, -6.0, 0));
-    dummy.rotation.set(0, Math.atan2(track.curve.getTangentAt(progress).x, track.curve.getTangentAt(progress).z), 0);
+    dummy.rotation.set(
+      0,
+      Math.atan2(track.curve.getTangentAt(progress).x, track.curve.getTangentAt(progress).z),
+      0,
+    );
     dummy.scale.set(1, 1, 1);
     dummy.updateMatrix();
     pylons.setMatrixAt(i, dummy.matrix);
@@ -352,19 +356,57 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
 }
 
 function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality): void {
-  const towerMaterial = new THREE.MeshStandardMaterial({
-    color: 0x07111d,
-    roughness: 0.88,
-    metalness: 0.15,
-    vertexColors: true,
-  });
-  const towers = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), towerMaterial, 24);
-  towers.name = 'falls-run-city-towers';
-  const towerDummy = new THREE.Object3D();
-  const cool = new THREE.Color(0x0b1b2a);
-  const warm = new THREE.Color(0x1c1515);
+  const groundOptions: TerracedCityGroundOptions = {
+    start: START - 0.02,
+    end: END + 0.02,
+    segments: 24,
+    innerOffset: 11,
+    terraces: [
+      { outerOffset: 22, drop: 0 },
+      { outerOffset: 32, drop: -1.25 },
+      { outerOffset: 42, drop: -2.65 },
+      { outerOffset: 52, drop: -4.2 },
+      { outerOffset: 62, drop: -6.0 },
+    ],
+    baseElevationAt: (progress) => track.curve.getPointAt(progress).y - 0.45,
+  };
+  const ground = new THREE.Mesh(
+    neonGridTerracedCityGroundGeometry(track, groundOptions),
+    new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      vertexColors: true,
+      side: THREE.DoubleSide,
+    }),
+  );
+  ground.name = 'falls-run-city-terraced-ground';
+  ground.userData.presentationOnly = true;
+  ground.userData.collision = false;
+  ground.userData.progressRange = [groundOptions.start, groundOptions.end];
 
-  const towerData: { position: THREE.Vector3; width: number; depth: number; height: number }[] = [];
+  const towerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const towers = new THREE.InstancedMesh(neonGridSteppedTowerGeometry(), towerMaterial, 24);
+  towers.name = 'falls-run-city-towers';
+  towers.userData.presentationOnly = true;
+  towers.userData.collision = false;
+  const towerDummy = new THREE.Object3D();
+  const facadeColors = [
+    new THREE.Color(0x1d3d51),
+    new THREE.Color(0x223853),
+    new THREE.Color(0x332f4d),
+    new THREE.Color(0x25464d),
+  ];
+
+  const towerData: {
+    position: THREE.Vector3;
+    width: number;
+    depth: number;
+    height: number;
+    baseY: number;
+    foundationBottom: number;
+    foundationDepth: number;
+    foundationWidth: number;
+    foundationDepthWidth: number;
+  }[] = [];
   for (let i = 0; i < towers.count; i++) {
     const progress = THREE.MathUtils.lerp(START - 0.015, END + 0.015, i / (towers.count - 1));
     const center = track.curve.getPointAt(progress);
@@ -373,24 +415,102 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
     const lateral = 24 + ((i * 7) % 25);
     const width = 7 + ((i * 5) % 8);
     const depth = 7 + ((i * 11) % 10);
-    const height = 34 + ((i * 13) % 46);
-    const position = center
-      .clone()
-      .addScaledVector(right, side * lateral)
-      .add(new THREE.Vector3(0, -11 + height * 0.5, 0));
-    towerData.push({ position, width, depth, height });
-    towerDummy.position.copy(position);
+    const originalHeight = 34 + ((i * 13) % 46);
+    const foundationWidth = width * 1.18;
+    const foundationDepthWidth = depth * 1.18;
+    const position = center.clone().addScaledVector(right, side * lateral);
+    const footing = cityGroundFootingBounds(
+      track,
+      groundOptions,
+      position,
+      0,
+      foundationWidth,
+      foundationDepthWidth,
+      1.5,
+    );
+    const baseY = footing.topY;
+    const height = Math.max(20, center.y - 11 + originalHeight - baseY);
+    position.y = baseY + height * 0.5;
+    towerData.push({
+      position,
+      width,
+      depth,
+      height,
+      baseY,
+      foundationBottom: footing.bottomY,
+      foundationDepth: footing.depth,
+      foundationWidth,
+      foundationDepthWidth,
+    });
+    towerDummy.position.copy(position).setY(baseY);
     towerDummy.rotation.set(0, 0, 0);
     towerDummy.scale.set(width, height, depth);
     towerDummy.updateMatrix();
     towers.setMatrixAt(i, towerDummy.matrix);
-    towers.setColorAt(i, i % 4 === 0 ? warm : cool);
+    towers.setColorAt(
+      i,
+      facadeColors[i % facadeColors.length] ?? facadeColors[0] ?? new THREE.Color(0x1d3d51),
+    );
   }
   towers.instanceMatrix.needsUpdate = true;
   if (towers.instanceColor) towers.instanceColor.needsUpdate = true;
 
+  const foundationLower = new THREE.BoxGeometry(1, 0.58, 1).translate(0, 0.29, 0);
+  const foundationUpper = new THREE.BoxGeometry(0.82, 0.28, 0.82).translate(0, 0.72, 0);
+  const foundationCap = new THREE.BoxGeometry(0.92, 0.14, 0.92).translate(0, 0.93, 0);
+  const foundationGeometry = new THREE.BufferGeometry();
+  const foundationPositions: number[] = [];
+  const foundationIndices: number[] = [];
+  for (const part of [foundationLower, foundationUpper, foundationCap]) {
+    const offset = foundationPositions.length / 3;
+    const attribute = part.getAttribute('position');
+    for (let i = 0; i < attribute.count; i++)
+      foundationPositions.push(attribute.getX(i), attribute.getY(i), attribute.getZ(i));
+    const index = part.index;
+    if (index) for (let i = 0; i < index.count; i++) foundationIndices.push(offset + index.getX(i));
+  }
+  foundationLower.dispose();
+  foundationUpper.dispose();
+  foundationCap.dispose();
+  foundationGeometry
+    .setAttribute('position', new THREE.Float32BufferAttribute(foundationPositions, 3))
+    .setIndex(foundationIndices);
+  foundationGeometry.computeVertexNormals();
+  const foundations = new THREE.InstancedMesh(
+    foundationGeometry,
+    new THREE.MeshBasicMaterial({ color: 0xffffff }),
+    towerData.length,
+  );
+  foundations.name = 'falls-run-city-foundations';
+  foundations.userData.presentationOnly = true;
+  foundations.userData.collision = false;
+  const foundationColors = [
+    new THREE.Color(0x263f4d),
+    new THREE.Color(0x2b3d4f),
+    new THREE.Color(0x343348),
+  ];
+  towerData.forEach((tower, i) => {
+    towerDummy.position.copy(tower.position).setY(tower.foundationBottom);
+    towerDummy.rotation.set(0, 0, 0);
+    towerDummy.scale.set(
+      tower.foundationWidth,
+      tower.foundationDepth,
+      tower.foundationDepthWidth,
+    );
+    towerDummy.updateMatrix();
+    foundations.setMatrixAt(i, towerDummy.matrix);
+    foundations.setColorAt(
+      i,
+      foundationColors[i % foundationColors.length] ??
+        foundationColors[0] ??
+        new THREE.Color(0x263f4d),
+    );
+  });
+  foundations.instanceMatrix.needsUpdate = true;
+  if (foundations.instanceColor) foundations.instanceColor.needsUpdate = true;
+
   const windowCount = quality === 'low' ? 160 : quality === 'high' ? 480 : 320;
-  const windowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true });
+  const windowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
   const windows = new THREE.InstancedMesh(
     new THREE.BoxGeometry(0.7, 0.42, 0.04),
     windowMaterial,
@@ -406,16 +526,18 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
     if (tower === undefined) continue;
     const row = (i * 5) % 15;
     const column = (i * 11) % 9;
+    const heightFraction = 0.12 + (row / 14) * 0.76;
+    const tierScale = heightFraction > 0.62 ? 0.74 : 1;
     dummy.position.copy(tower.position);
-    dummy.position.y += -tower.height * 0.38 + (row / 14) * tower.height * 0.76;
-    const columnOffset = ((column / 8) - 0.5) * 0.74;
+    dummy.position.y = tower.baseY + heightFraction * tower.height;
+    const columnOffset = (column / 8 - 0.5) * 0.74;
     if (i % 2 === 0) {
-      dummy.position.x += columnOffset * tower.width;
-      dummy.position.z += tower.depth * 0.505;
+      dummy.position.x += columnOffset * tower.width * tierScale;
+      dummy.position.z += tower.depth * tierScale * 0.505;
       dummy.rotation.set(0, 0, 0);
     } else {
-      dummy.position.z += columnOffset * tower.depth;
-      dummy.position.x += tower.width * 0.505;
+      dummy.position.z += columnOffset * tower.depth * tierScale;
+      dummy.position.x += tower.width * tierScale * 0.505;
       dummy.rotation.set(0, Math.PI / 2, 0);
     }
     dummy.scale.set(1.05 + (i % 3) * 0.16, 0.95, 1);
@@ -428,7 +550,7 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
 
   const roofLights = new THREE.InstancedMesh(
     new THREE.BoxGeometry(1, 0.16, 0.18),
-    new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true }),
+    new THREE.MeshBasicMaterial({ color: 0xffffff }),
     towerData.length,
   );
   roofLights.name = 'falls-run-city-roof-lights';
@@ -436,17 +558,17 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
     const tower = towerData[i];
     if (tower === undefined) continue;
     dummy.position.copy(tower.position);
-    dummy.position.y += tower.height * 0.5 + 0.12;
-    dummy.position.z += tower.depth * 0.505;
+    dummy.position.y = tower.baseY + tower.height + 0.12;
+    dummy.position.z += tower.depth * 0.26;
     dummy.rotation.set(0, 0, 0);
-    dummy.scale.set(tower.width * 0.72, 1, 1);
+    dummy.scale.set(tower.width * 0.48, 1, 1);
     dummy.updateMatrix();
     roofLights.setMatrixAt(i, dummy.matrix);
     roofLights.setColorAt(i, i % 5 === 0 ? magenta : i % 3 === 0 ? gold : cyan);
   }
   roofLights.instanceMatrix.needsUpdate = true;
   if (roofLights.instanceColor) roofLights.instanceColor.needsUpdate = true;
-  group.add(towers, windows, roofLights);
+  group.add(ground, foundations, towers, windows, roofLights);
 }
 
 function addWaterfallDistrict(
@@ -456,27 +578,55 @@ function addWaterfallDistrict(
   waterfallMaterial: THREE.ShaderMaterial,
 ): void {
   const fallCount = 12;
-  const falls = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1, 1, 1), waterfallMaterial, fallCount);
+  const falls = new THREE.InstancedMesh(
+    new THREE.PlaneGeometry(1, 1, 1, 1),
+    waterfallMaterial,
+    fallCount,
+  );
   falls.name = 'falls-run-ambient-waterfalls';
   falls.frustumCulled = false;
-  const lipMaterial = new THREE.MeshBasicMaterial({ color: 0xa7f4ff, transparent: true, opacity: 0.76 });
-  const lips = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 0.08, 0.16), lipMaterial, fallCount);
+  const lipMaterial = new THREE.MeshBasicMaterial({
+    color: 0xa7f4ff,
+    transparent: true,
+    opacity: 0.76,
+  });
+  const lips = new THREE.InstancedMesh(
+    new THREE.BoxGeometry(1, 0.08, 0.16),
+    lipMaterial,
+    fallCount,
+  );
   lips.name = 'falls-run-waterfall-lips';
 
   const mistCount = quality === 'low' ? 16 : quality === 'high' ? 48 : 32;
-  const mist = new THREE.InstancedMesh(new THREE.PlaneGeometry(2.5, 2.5), mistMaterial(), mistCount);
+  const mist = new THREE.InstancedMesh(
+    new THREE.PlaneGeometry(2.5, 2.5),
+    mistMaterial(),
+    mistCount,
+  );
   mist.name = 'falls-run-ambient-mist';
   mist.frustumCulled = false;
 
   const spray = new THREE.InstancedMesh(
     new THREE.PlaneGeometry(2.2, 0.7),
-    new THREE.MeshBasicMaterial({ color: 0xa9e9ef, transparent: true, opacity: 0.12, depthWrite: false, side: THREE.DoubleSide }),
+    new THREE.MeshBasicMaterial({
+      color: 0xa9e9ef,
+      transparent: true,
+      opacity: 0.12,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    }),
     fallCount,
   );
   spray.name = 'falls-run-plunge-spray';
 
   const dummy = new THREE.Object3D();
-  const placements: { progress: number; side: number; width: number; height: number; position: THREE.Vector3 }[] = [];
+  const placements: {
+    progress: number;
+    side: number;
+    width: number;
+    height: number;
+    position: THREE.Vector3;
+  }[] = [];
   for (let i = 0; i < fallCount; i++) {
     const progress = THREE.MathUtils.lerp(START + 0.012, END - 0.012, i / (fallCount - 1));
     const side = i % 2 === 0 ? -1 : 1;
@@ -484,11 +634,17 @@ function addWaterfallDistrict(
     const right = neonGridRightAt(track, progress);
     const width = 4.2 + ((i * 7) % 5) * 0.85;
     const height = 12 + ((i * 11) % 6) * 1.6;
-    const position = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 1.8));
+    const position = center
+      .clone()
+      .addScaledVector(right, side * (track.halfWidthAt(progress) + 1.8));
     placements.push({ progress, side, width, height, position });
 
     dummy.position.copy(position).add(new THREE.Vector3(0, -height * 0.5 - 0.05, 0));
-    dummy.rotation.set(0, Math.atan2(track.curve.getTangentAt(progress).x, track.curve.getTangentAt(progress).z), 0);
+    dummy.rotation.set(
+      0,
+      Math.atan2(track.curve.getTangentAt(progress).x, track.curve.getTangentAt(progress).z),
+      0,
+    );
     dummy.scale.set(width, height, 1);
     dummy.updateMatrix();
     falls.setMatrixAt(i, dummy.matrix);
@@ -545,7 +701,11 @@ function addSignageAndDebris(group: THREE.Group, track: NeonGrid): void {
     const side = i % 2 === 0 ? -1 : 1;
     dummy.position.copy(center).addScaledVector(right, side * (track.halfWidthAt(progress) + 1.2));
     dummy.position.y += 0.35 + (i % 3) * 0.35;
-    dummy.rotation.set(0, Math.atan2(track.curve.getTangentAt(progress).x, track.curve.getTangentAt(progress).z), side * 0.18);
+    dummy.rotation.set(
+      0,
+      Math.atan2(track.curve.getTangentAt(progress).x, track.curve.getTangentAt(progress).z),
+      side * 0.18,
+    );
     dummy.scale.set(0.75 + (i % 4) * 0.12, 1, 1);
     dummy.updateMatrix();
     signs.setMatrixAt(i, dummy.matrix);
@@ -568,7 +728,11 @@ function addSignageAndDebris(group: THREE.Group, track: NeonGrid): void {
       .copy(dive.pointAtDistance(distance))
       .addScaledVector(dive.right, side * (dive.roadHalfWidth + 0.72 + (i % 2) * 0.25));
     dummy.position.y += 0.2 + (i % 3) * 0.12;
-    dummy.rotation.set((i % 3) * 0.17, Math.atan2(dive.direction.x, dive.direction.z), side * (0.08 + (i % 2) * 0.13));
+    dummy.rotation.set(
+      (i % 3) * 0.17,
+      Math.atan2(dive.direction.x, dive.direction.z),
+      side * (0.08 + (i % 2) * 0.13),
+    );
     dummy.scale.set(1, 1, 0.8 + (i % 3) * 0.2);
     dummy.updateMatrix();
     debris.setMatrixAt(i, dummy.matrix);

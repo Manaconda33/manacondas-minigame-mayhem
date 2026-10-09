@@ -53,7 +53,9 @@ describe('Neon Grid Stage 4 Task 9 T9.2 Skyline Straight', () => {
         expect(requireInstanced(scene, 'skyline-city-towers').count).toBe(22);
         expect(requireInstanced(scene, 'skyline-city-foundations').count).toBe(22);
         expect(requireInstanced(scene, 'skyline-city-roof-caps').count).toBe(22);
-        expect(requireInstanced(scene, 'skyline-city-windows').count).toBe(expectedWindows[quality]);
+        expect(requireInstanced(scene, 'skyline-city-windows').count).toBe(
+          expectedWindows[quality],
+        );
         expect(requireInstanced(scene, 'skyline-procedural-signage').count).toBe(18);
         expect(requireInstanced(scene, 'skyline-ad-manaconda-racing').count).toBe(7);
         expect(requireInstanced(scene, 'skyline-ad-taco-bell-live-mas').count).toBe(7);
@@ -145,6 +147,10 @@ describe('Neon Grid Stage 4 Task 9 T9.2 Skyline Straight', () => {
         'undercity-city-buildings',
         'undercity-city-windows',
         'undercity-work-lights',
+        'falls-run-city-towers',
+        'falls-run-city-foundations',
+        'falls-run-city-windows',
+        'falls-run-city-roof-lights',
         'falls-run-extension-city-towers',
         'falls-run-extension-city-windows',
       ]) {
@@ -210,31 +216,27 @@ describe('Neon Grid Stage 4 Task 9 T9.2 Skyline Straight', () => {
     }
   }, 20000);
 
-  it(
-    'bypasses Skyline wet asphalt on Low and keeps Medium/High avatar-safe',
-    () => {
-      for (const quality of ['low', 'medium', 'high'] as const) {
-        const scene = createNeonGridScene(new NeonGrid(), quality);
-        try {
-          const wet = scene.getObjectByName('skyline-wet-asphalt');
-          if (quality === 'low') {
-            expect(wet).toBeUndefined();
-            continue;
-          }
-          expect(wet).toBeInstanceOf(THREE.Mesh);
-          const mesh = wet as THREE.Mesh;
-          const material = mesh.material as THREE.Material;
-          expect(mesh.renderOrder).toBeLessThan(0);
-          expect(material.transparent).toBe(true);
-          expect(material.depthWrite).toBe(false);
-          expect(material.depthTest).toBe(true);
-        } finally {
-          disposeTrackScene(scene);
+  it('bypasses Skyline wet asphalt on Low and keeps Medium/High avatar-safe', () => {
+    for (const quality of ['low', 'medium', 'high'] as const) {
+      const scene = createNeonGridScene(new NeonGrid(), quality);
+      try {
+        const wet = scene.getObjectByName('skyline-wet-asphalt');
+        if (quality === 'low') {
+          expect(wet).toBeUndefined();
+          continue;
         }
+        expect(wet).toBeInstanceOf(THREE.Mesh);
+        const mesh = wet as THREE.Mesh;
+        const material = mesh.material as THREE.Material;
+        expect(mesh.renderOrder).toBeLessThan(0);
+        expect(material.transparent).toBe(true);
+        expect(material.depthWrite).toBe(false);
+        expect(material.depthTest).toBe(true);
+      } finally {
+        disposeTrackScene(scene);
       }
-    },
-    20000,
-  );
+    }
+  }, 20000);
 
   it('freezes Skyline animation while hidden and resumes without catch-up', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');

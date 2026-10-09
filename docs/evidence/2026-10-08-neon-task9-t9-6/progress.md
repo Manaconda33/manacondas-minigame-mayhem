@@ -45,3 +45,11 @@ Reuse the game's opt-in `?testRacePerf=1` real-race frame meter: `src/game/diagn
 - Exact-head CI source passes typecheck, lint, all Vitest and Node harness tests, production build, Task 8/9 render gates. Record concrete CI workflow run IDs after completion.
 - A source-pinned **diagnostic-only** GitHub Pages preview, with exact source hash and unchanged production bytes, must be published so the hardware collection protocol can be executed against real gameplay. This is distinct from final T9.7 owner-preview approval.
 - **Missing real-hardware captures:** no actual desktop benchmark samples have been supplied or verified. Thus **T9.6 is IN PROGRESS, not PASS/complete**. Do not start T9.7, merge #242 or publish Neon Grid gameplay to production.
+
+
+## 6. Verified source and preview release staging — 2026-10-08
+
+- **Tested source:** c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf, [CI 37862136028](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37862136028) SUCCESS: 131 Vitest files / 1,041 tests, six Node analyzer tests, strict typecheck, zero-warning lint, asset verification, production build and inherited Task 8/9 hosted rendering gates. Previous intermediate red CI 37860962199 was corrected and superseded; the source used for publication is the green one.
+- **Workflow-only [PR #283](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/283):** head 60e2fb070a0793566d0f2ac3e517cfbe1816c512, [PR CI 37862150928](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37862150928) SUCCESS; merged main at 23c2b97d800a7b7ee9d401d586785d9c24656a11. New source-pinned path /previews/neon-grid-t9-6-diagnostics/ is diagnostic-only. Do not merge gameplay PR #242.
+- **Post-merge live verification:** [main Pages 37864780112](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37864780112) is the required delivery gate. Treat live byte hashes, deployment and production-root preservation as pending until successful outcome.
+- **Outstanding T9.6 gate:** Zero verified representative-desktop GPU samples, no PRD hardware FPS/p95 certification and unresolved six-call exceedance above the 200-call engineering goal at waterfall-dive-rear. No runtime visual optimization, PRD revision, T9.7 start, or Neon Grid gameplay production release.

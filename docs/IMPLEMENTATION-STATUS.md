@@ -1095,3 +1095,12 @@ Manny approved the bounded six-stage performance/readiness workflow: freeze T9.5
 **Next:** verify complete hosted CI at the new exact code checkpoint; publish new isolated source-hash-pinned T9.6 diagnostic preview without changing main gameplay; use the documented real-hardware capture protocol for three complete eight-racer Medium 1920×1080 races and independently validate raw frame JSON against PRD G-05. If a real performance issue or unavoidable >200 target exception remains, return for owner decision before material changes. **No T9.7, no PR #242 merge, no gameplay production deployment.**
 
 Detailed durable [T9.6 evidence and hardware capture method](evidence/2026-10-08-neon-task9-t9-6/progress.md).
+
+ 
+## T9.6 validated diagnostic-source / preview publication checkpoint — 2026-10-08
+
+**Status:** T9.6 IN PROGRESS, representative-hardware certification NOT COMPLETE. Exact source c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf passed [CI 37862136028](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37862136028): 131 Vitest files / 1,041 passing tests, 6 Node analyzer tests, typecheck, zero-warning lint, assets/build and inherited Task 8/9 render gates. Intermediate red source 007caa0 is superseded by this exact-head green verification.
+
+**Preview release separation:** Workflow-only [PR #283](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/283) passed [CI 37862150928](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37862150928) and merged to main at 23c2b97d800a7b7ee9d401d586785d9c24656a11. Its isolated neon-grid-t9-6-diagnostics preview is pinned to the validated runtime source. [Post-merge Pages run 37864780112](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37864780112) must pass before claiming live preview bytes, hash and unchanged production-root verification.
+
+**Unfinished:** No hardware-accelerated representative-desktop measurements or 60 FPS / 18.3ms p95 PRD acceptance; 206 calls at waterfall-dive-rear remains six above the 200-call Task 9 engineering target. PR #242 draft/unmerged; no production Neon Grid runtime, PRD deviation, material gameplay change or T9.7 work. **Next:** verify main Pages output and live source; collect three real complete Medium 1920×1080 three-lap eight-racer captures with metadata as documented in the evidence file; optimize only against genuine data while preserving owner-approved visuals. Stop for Manny's T9.6 acceptance.

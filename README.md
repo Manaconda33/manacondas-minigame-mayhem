@@ -4,7 +4,7 @@ Manaconda's Minigame Mayhem is a modular HTML5 minigame collection whose first p
 
 The canonical repository `Manaconda33/manacondas-minigame-mayhem` is intentionally public. Publication and deployment changes remain approval-gated under the PRD workflow.
 
-## Current state (owner approval: October 8, 2026)
+## Current state (October 8, 2026)
 
 **Production game:** The GitHub Pages root continues to serve the owner-accepted Circuit Alpha kart racer with the Route Night title/hub, character selection, HUD, results, audio and effects. Slice 3 character/asset ingestion and Slice 5 items are accepted. Slice 6's accepted UI and presentation checkpoints remain documented in [Implementation Status](docs/IMPLEMENTATION-STATUS.md) and [Testing](docs/TESTING.md). Neon Grid gameplay is **not deployed to the production root**.
 
@@ -14,7 +14,11 @@ The accepted T9.5 correction restores approved Manaconda Racing/Taco Bell billbo
 
 **Release separation:** The immutable [T9.5 owner-reviewed gameplay preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-5-owner-correction/?review=9b973d4) was published by workflow-only PR [#282](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/282). [Post-merge Pages verification](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37857511926) passed exact source, approved asset and unchanged production-byte checks. Development remains on `design/neon-grid-circuit-02`; runtime PR [#242](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/242) is **draft/unmerged**. T9.5 approval does not authorize that runtime merge or production publication.
 
-**What remains:** T9.6 performance/readiness evidence, including representative-hardware PRD FPS/frame-time certification, then T9.7 final pinned owner preview and deferred Skyline stepped-building/city-ground polish. These are **not yet accepted or authorized to start by the T9.5 signoff**. Next recommended action is to review the T9.6 plan/acceptance criteria and obtain owner approval before execution. PRD v1.1 with [approved amendment 2.25](docs/PRD.md) remains authoritative. See the [Task 9 plan](docs/design/neon-grid/task9-coursewide-visual-plan.md), [T9.5 evidence](docs/evidence/2026-10-07-neon-task9-t9-5/progress.md) and [current status](docs/IMPLEMENTATION-STATUS.md).
+**T9.6 owner authorization and verified source:** Manny approved execution of T9.6 on October 8. Exact-source [CI 37862136028](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37862136028) passed 131 Vitest files / 1,041 tests, six independent Node certification-checker tests, strict typecheck, zero-warning lint, production build and all inherited Task 8/9 render gates. Runtime source c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf improves opt-in hardware capture metadata and adds an offline analyzer; it does not certify representative GPU FPS by itself.
+
+**Isolated diagnostic preview:** Workflow-only [PR #283](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/283) passed [CI 37862150928](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37862150928) and merged to main at 23c2b97d800a7b7ee9d401d586785d9c24656a11. [Post-merge Pages run 37864780112](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37864780112) is the independent live deployment, exact source/hash and production-byte preservation check; do not call the preview delivered until this succeeds. Runtime PR #242 remains draft/unmerged.
+
+**What remains:** Finish preview delivery verification, collect three actual representative-hardware three-lap eight-racer Medium 1920×1080 races, certify median ≥60 FPS and p95 ≤18.3ms against raw capture data, and resolve or explicitly review the 206-call peak against the 200-call engineering target. T9.6 remains **IN PROGRESS / NOT HARDWARE CERTIFIED**. T9.7 final owner preview and deferred Skyline building/city-ground polish have not begun. PRD v1.1 / approved amendment 2.25 remains authoritative. See [T9.6 evidence and hardware instructions](docs/evidence/2026-10-08-neon-task9-t9-6/progress.md), [Task 9 plan](docs/design/neon-grid/task9-coursewide-visual-plan.md), and [implementation status](docs/IMPLEMENTATION-STATUS.md).
 
 ## Builds and previews
 

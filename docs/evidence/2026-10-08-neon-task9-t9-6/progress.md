@@ -53,3 +53,14 @@ Reuse the game's opt-in `?testRacePerf=1` real-race frame meter: `src/game/diagn
 - **Workflow-only [PR #283](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/283):** head 60e2fb070a0793566d0f2ac3e517cfbe1816c512, [PR CI 37862150928](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37862150928) SUCCESS; merged main at 23c2b97d800a7b7ee9d401d586785d9c24656a11. New source-pinned path /previews/neon-grid-t9-6-diagnostics/ is diagnostic-only. Do not merge gameplay PR #242.
 - **Post-merge live verification:** [main Pages 37864780112](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37864780112) is the required delivery gate. Treat live byte hashes, deployment and production-root preservation as pending until successful outcome.
 - **Outstanding T9.6 gate:** Zero verified representative-desktop GPU samples, no PRD hardware FPS/p95 certification and unresolved six-call exceedance above the 200-call engineering goal at waterfall-dive-rear. No runtime visual optimization, PRD revision, T9.7 start, or Neon Grid gameplay production release.
+
+
+## 7. Isolated diagnostic publication verified — 2026-10-08
+
+**Delivery PASS:** workflow-only PR #283 merged to main at 23c2b97d800a7b7ee9d401d586785d9c24656a11. [Main/Pages run 37864780112](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37864780112) **SUCCESS**, including preview build, Pages deployment and live HTTP 200/byte-hash checks. The review-build.json source marker is the exact green runtime c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf. Independent verified-delivery artifact ID 11588315852.
+
+**Live diagnostic-only link:** https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-6-diagnostics/?review=c8c65f4&testRacePerf=1
+
+**Preservation:** The same post-deploy run verified the existing pinned preview files and production-root byte identities as unchanged, including all five approved Neon Grid signage assets at the new diagnostic path. Production gameplay still serves Circuit Alpha; #242 remains draft/unmerged, and neither T9.7 nor gameplay public release was authorized. Earlier pending-publication language in sections 5–6 is superseded by this confirmation.
+
+**Unclosed:** zero real representative desktop captures; median 60 FPS / p95 <=18.3 ms PRD hardware proof unavailable; the Task 9 200-call engineering-target overage at Waterfall Dive rear (206 calls) remains for measurement/owner disposition. Actual hardware evidence and product-owner approval are required before T9.6 may close. The preview being online is NOT hardware certification.

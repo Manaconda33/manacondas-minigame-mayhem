@@ -1,0 +1,41 @@
+{
+  "publishedAtUTC": "2026-10-04T05:47:46.246700+00:00",
+  "ownerURL": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-billboard/?review=45da17c",
+  "runtimeSource": "45da17cdab7f7ce5a084f3d60da08e1c676dae1d",
+  "runtimeCI": {
+    "run": 37180284551,
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "previewPR": 253,
+  "previewHead": "bb72e52b348cc041264a29d0a2bff4c23c8b6dfa",
+  "previewCI": {
+    "run": 37180301110,
+    "conclusion": "success"
+  },
+  "mainCommit": "ffc3e01c6266643c7e38df2a4bab0c7e78a87b56",
+  "pages": {
+    "run": 37180497965,
+    "validateJob": 111371934421,
+    "deployJob": 111372844381,
+    "conclusion": "success"
+  },
+  "verification": {
+    "HTTP200": 22,
+    "byteCountAndSHA256Match": 22,
+    "localPinnedBillboardMatch": 8,
+    "priorPreservationMatch": 14,
+    "servedMarker": "45da17cdab7f7ce5a084f3d60da08e1c676dae1d",
+    "ownerURLMatchesIndex": true
+  },
+  "preserved": {
+    "productionGameplay": true,
+    "tunnelSource": "92025b5f241cae7ac208c977f74b24396ce6909b",
+    "runtimePR242": "draft/open/unmerged",
+    "assets": true,
+    "ownerRemainderReview": "Everything else looks good",
+    "step4": "pending; not started"
+  },
+  "ownerExitAcceptance": "pending focused retest; STOP",
+  "workflowReconciliation": "fe4799378092287bdff0a44d3cf1b2c04a4ff1b8"
+}

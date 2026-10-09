@@ -1,0 +1,39 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/add544ab7370/neon-repair
+
+ ❯ tests/neon-grid-projection.test.ts (3 tests | 2 failed) 81ms
+     × prunes distant segments without changing the 3D nearest result 13ms
+     × reuses identical coordinates but recomputes after movement, height change or recovery 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-projection.test.ts > Neon exact projection cost and lifetime > prunes distant segments without changing the 3D nearest result
+AssertionError: expected 390 to be less than 40
+ ❯ tests/neon-grid-projection.test.ts:30:19
+     28|     expect(actual.index).toBe(reference.index);
+     29|     expect(actual.point.distanceTo(reference.point)).toBeLessThan(1e-9…
+     30|     expect(count).toBeLessThan(40);
+       |                   ^
+     31|   });
+     32|   it('reuses identical coordinates but recomputes after movement, heig…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/neon-grid-projection.test.ts > Neon exact projection cost and lifetime > reuses identical coordinates but recomputes after movement, height change or recovery
+AssertionError: expected "getTangentAt" to be called 1 times, but got 2 times
+ ❯ tests/neon-grid-projection.test.ts:40:21
+     38|     original.tangent.set(0, 0, 0);
+     39|     const repeated = track.project(p.clone());
+     40|     expect(tangent).toHaveBeenCalledTimes(1);
+       |                     ^
+     41|     expect(repeated.point.distanceTo(p)).toBeLessThan(0.1);
+     42|     expect(repeated.tangent.length()).toBeCloseTo(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  11:24:58
+   Duration  982ms (transform 44ms, setup 0ms, import 87ms, tests 81ms, environment 637ms)

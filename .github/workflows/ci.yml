@@ -823,6 +823,45 @@ jobs:
           name: waterfall-spillway-render
           path: /tmp/waterfall-render/
 
+  task8-falls-run-render:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out Task 8 candidate
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Render Falls Run and verify Task 8 performance gates
+        env:
+          FALLS_RUN_PLAYWRIGHT: /tmp/falls-run-webgl
+          VITE_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git lfs fsck
+          npm install --prefix /tmp/falls-run-webgl --no-package-lock playwright@1.58.2
+          export FALLS_RUN_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/falls-run-vite.log 2>&1 &
+          falls_run_server_pid=$!
+          trap 'kill "$falls_run_server_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/falls-run-render.mjs /tmp/falls-run-render
+      - name: Upload Task 8 rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task8-falls-run-render
+          path: /tmp/falls-run-render/
+
+
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: assemble

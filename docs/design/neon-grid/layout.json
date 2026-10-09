@@ -1,0 +1,687 @@
+{
+  "status": "approved course geometry; tokens omitted; runtime verification pending",
+  "mainLengthDense": 1450.001,
+  "mainLength200Divisions": 1448.938,
+  "sampleCount": 384,
+  "sampleSpacing": 3.776,
+  "controlPoints": [
+    [
+      0.0,
+      14.0,
+      -125.795
+    ],
+    [
+      90.852,
+      14.0,
+      -125.795
+    ],
+    [
+      160.738,
+      14.0,
+      -122.301
+    ],
+    [
+      195.682,
+      14.0,
+      -90.852
+    ],
+    [
+      199.176,
+      14.0,
+      -41.932
+    ],
+    [
+      192.187,
+      10.0,
+      -6.989
+    ],
+    [
+      160.738,
+      2.0,
+      17.472
+    ],
+    [
+      139.773,
+      0.0,
+      17.472
+    ],
+    [
+      111.818,
+      0.0,
+      17.472
+    ],
+    [
+      99.238,
+      0.0,
+      30.051
+    ],
+    [
+      111.818,
+      0.0,
+      42.631
+    ],
+    [
+      139.773,
+      0.0,
+      42.631
+    ],
+    [
+      164.233,
+      0.0,
+      42.631
+    ],
+    [
+      176.812,
+      0.0,
+      55.21
+    ],
+    [
+      164.233,
+      0.0,
+      67.79
+    ],
+    [
+      139.773,
+      0.0,
+      67.79
+    ],
+    [
+      111.818,
+      0.0,
+      67.79
+    ],
+    [
+      99.238,
+      0.0,
+      80.369
+    ],
+    [
+      111.818,
+      0.0,
+      92.949
+    ],
+    [
+      139.773,
+      0.0,
+      92.949
+    ],
+    [
+      178.21,
+      0.0,
+      97.142
+    ],
+    [
+      199.176,
+      0.0,
+      123.699
+    ],
+    [
+      181.704,
+      0.0,
+      150.255
+    ],
+    [
+      69.886,
+      0.0,
+      150.255
+    ],
+    [
+      -55.909,
+      0.0,
+      150.255
+    ],
+    [
+      -132.784,
+      1.0,
+      143.267
+    ],
+    [
+      -160.738,
+      3.0,
+      108.324
+    ],
+    [
+      -157.244,
+      6.0,
+      59.403
+    ],
+    [
+      -174.716,
+      8.0,
+      44.028
+    ],
+    [
+      -157.244,
+      9.0,
+      25.858
+    ],
+    [
+      -146.761,
+      10.0,
+      -3.494
+    ],
+    [
+      -132.784,
+      12.0,
+      -62.898
+    ],
+    [
+      -101.335,
+      14.0,
+      -104.829
+    ],
+    [
+      -48.92,
+      14.0,
+      -124.398
+    ]
+  ],
+  "checkpointIndices": [
+    0,
+    28,
+    36,
+    74,
+    88,
+    182,
+    226,
+    253,
+    298,
+    323,
+    345,
+    368
+  ],
+  "sectors": [
+    {
+      "id": 1,
+      "name": "Skyline Straight",
+      "start": 0,
+      "end": 0.24654910452879084,
+      "halfWidth": 6,
+      "color": "#37e6ff"
+    },
+    {
+      "id": 2,
+      "name": "The Undercity",
+      "start": 0.24654910452879084,
+      "end": 0.46154128347522666,
+      "halfWidth": 4.5,
+      "color": "#ff4fd8"
+    },
+    {
+      "id": 3,
+      "name": "Falls Run",
+      "start": 0.46154128347522666,
+      "end": 1,
+      "halfWidth": 6,
+      "color": "#ffc63f"
+    }
+  ],
+  "shortcuts": [
+    {
+      "id": "billboard-gap",
+      "entryProgress": [
+        0.1112341368367766,
+        0.11623413683677661
+      ],
+      "exitProgress": 0.17852464824355127,
+      "halfWidth": 6,
+      "points": [
+        [
+          160.76,
+          14.0,
+          -122.292
+        ],
+        [
+          199.174,
+          13.998,
+          -41.895
+        ]
+      ],
+      "mainDistance": 97.571,
+      "chordDistance": 89.103,
+      "pathPolylineDistance": 89.103
+    },
+    {
+      "id": "service-tunnel",
+      "entryProgress": [
+        0.24654910452879084,
+        0.2515491045287908
+      ],
+      "exitProgress": 0.46154128347522666,
+      "halfWidth": 3.2,
+      "points": [
+        [
+          139.828,
+          0.003,
+          17.472
+        ],
+        [
+          148.249,
+          -4.0,
+          34.987
+        ],
+        [
+          169.685,
+          -4.0,
+          79.57
+        ],
+        [
+          178.107,
+          0.0,
+          97.085
+        ]
+      ],
+      "mainDistance": 311.739,
+      "chordDistance": 88.338,
+      "pathPolylineDistance": 89.153
+    },
+    {
+      "id": "waterfall-dive",
+      "entryProgress": [
+        0.7927174336702608,
+        0.7977174336702608
+      ],
+      "exitProgress": 0.8270304316386314,
+      "halfWidth": 6,
+      "points": [
+        [
+          -157.267,
+          6.005,
+          59.347
+        ],
+        [
+          -157.2,
+          9.003,
+          25.786
+        ]
+      ],
+      "mainDistance": 49.754,
+      "chordDistance": 33.695,
+      "pathPolylineDistance": 33.695
+    }
+  ],
+  "checkpoints": [
+    {
+      "index": 0,
+      "progress": 0.0151724,
+      "sampleIndex": 5,
+      "position": [
+        21.998,
+        14.0,
+        -126.058
+      ],
+      "tangent": [
+        0.999956,
+        0.0,
+        -0.009392
+      ]
+    },
+    {
+      "index": 1,
+      "progress": 0.07291667,
+      "sampleIndex": 28,
+      "position": [
+        105.722,
+        14.0,
+        -125.913
+      ],
+      "tangent": [
+        0.999509,
+        0.0,
+        -0.031345
+      ]
+    },
+    {
+      "index": 2,
+      "progress": 0.09375,
+      "sampleIndex": 36,
+      "position": [
+        135.917,
+        14.0,
+        -126.601
+      ],
+      "tangent": [
+        0.999609,
+        0.0,
+        0.027967
+      ]
+    },
+    {
+      "index": 3,
+      "progress": 0.19270833,
+      "sampleIndex": 74,
+      "position": [
+        197.319,
+        12.229,
+        -21.504
+      ],
+      "tangent": [
+        -0.174428,
+        -0.117452,
+        0.97764
+      ]
+    },
+    {
+      "index": 4,
+      "progress": 0.22916667,
+      "sampleIndex": 88,
+      "position": [
+        164.414,
+        2.676,
+        16.0
+      ],
+      "tangent": [
+        -0.895702,
+        -0.17947,
+        0.406827
+      ]
+    },
+    {
+      "index": 5,
+      "progress": 0.47395833,
+      "sampleIndex": 182,
+      "position": [
+        191.783,
+        0.0,
+        108.651
+      ],
+      "tangent": [
+        0.643594,
+        0.0,
+        0.765367
+      ]
+    },
+    {
+      "index": 6,
+      "progress": 0.58854167,
+      "sampleIndex": 226,
+      "position": [
+        66.658,
+        -0.0,
+        150.258
+      ],
+      "tangent": [
+        -0.999998,
+        -0.000293,
+        0.002051
+      ]
+    },
+    {
+      "index": 7,
+      "progress": 0.65885417,
+      "sampleIndex": 253,
+      "position": [
+        -35.291,
+        -0.086,
+        150.857
+      ],
+      "tangent": [
+        -0.999872,
+        0.00227,
+        -0.01586
+      ]
+    },
+    {
+      "index": 8,
+      "progress": 0.77604167,
+      "sampleIndex": 298,
+      "position": [
+        -159.044,
+        4.426,
+        83.094
+      ],
+      "tangent": [
+        0.213799,
+        0.055959,
+        -0.975274
+      ]
+    },
+    {
+      "index": 9,
+      "progress": 0.84114583,
+      "sampleIndex": 323,
+      "position": [
+        -149.696,
+        9.664,
+        6.827
+      ],
+      "tangent": [
+        0.274666,
+        0.030451,
+        -0.961057
+      ]
+    },
+    {
+      "index": 10,
+      "progress": 0.8984375,
+      "sampleIndex": 345,
+      "position": [
+        -127.739,
+        12.44,
+        -72.812
+      ],
+      "tangent": [
+        0.484302,
+        0.04198,
+        -0.873893
+      ]
+    },
+    {
+      "index": 11,
+      "progress": 0.95833333,
+      "sampleIndex": 368,
+      "position": [
+        -60.041,
+        14.035,
+        -121.989
+      ],
+      "tangent": [
+        0.972244,
+        -0.005252,
+        -0.233911
+      ]
+    }
+  ],
+  "clearance": [
+    {
+      "shortcut": "billboard-gap",
+      "before": 2,
+      "after": 3,
+      "entryMeters": 25.35,
+      "rejoinMeters": 20.57
+    },
+    {
+      "shortcut": "service-tunnel",
+      "before": 4,
+      "after": 5,
+      "entryMeters": 25.2,
+      "rejoinMeters": 18.0
+    },
+    {
+      "shortcut": "waterfall-dive",
+      "before": 8,
+      "after": 9,
+      "entryMeters": 24.18,
+      "rejoinMeters": 20.47
+    }
+  ],
+  "boostPadCenters": [
+    0.035,
+    0.06,
+    0.085,
+    0.73
+  ],
+  "validation": {
+    "lengthInRange": true,
+    "orderedDistinctGates": true,
+    "noGateSkippedByShortcut": true,
+    "higherRejoinProgress": true,
+    "unintendedMainCurveGateCrossings": [],
+    "geometricShortcutCombinations": [
+      {
+        "mask": 0,
+        "shortcuts": [],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 1,
+        "shortcuts": [
+          "billboard-gap"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 2,
+        "shortcuts": [
+          "service-tunnel"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 3,
+        "shortcuts": [
+          "billboard-gap",
+          "service-tunnel"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 4,
+        "shortcuts": [
+          "waterfall-dive"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 5,
+        "shortcuts": [
+          "billboard-gap",
+          "waterfall-dive"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 6,
+        "shortcuts": [
+          "service-tunnel",
+          "waterfall-dive"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      },
+      {
+        "mask": 7,
+        "shortcuts": [
+          "billboard-gap",
+          "service-tunnel",
+          "waterfall-dive"
+        ],
+        "gateSequence": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          0
+        ]
+      }
+    ],
+    "physicalGateCollisionAndLapTests": "not yet run; runtime stage"
+  }
+}

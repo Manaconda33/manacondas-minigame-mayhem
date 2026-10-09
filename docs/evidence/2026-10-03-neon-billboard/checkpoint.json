@@ -1,0 +1,34 @@
+{
+  "runtime": "ee687a5225bf2ef14a2b799958aa7b7011e66f7c",
+  "validatedTree": "c84b3c1e4bb7a619a00baf2e816bd62ce506e874",
+  "ci": {
+    "run": 37168707541,
+    "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37168707541",
+    "conclusion": "success",
+    "validate": "success",
+    "deploy": "skipped"
+  },
+  "local": {
+    "files": 119,
+    "tests": 937,
+    "validate": "PASS",
+    "stagedDiff": "PASS",
+    "lfs": "PASS"
+  },
+  "main": "28889be06dc91b82b0bed2eaca5c724ba572bc72",
+  "pr242": {
+    "draft": true,
+    "merged": false
+  },
+  "previewRuntime": "92025b5f241cae7ac208c977f74b24396ce6909b",
+  "newPreview": false,
+  "stop": "Before Step3 visual execution; discuss with Manny first",
+  "limits": [
+    "first-lap OFF phase unaccepted",
+    "paired savings/entry feel unaccepted",
+    "final joint AI rates pending; billboard default0",
+    "rendered plaza/wall aperture/hologram/assets/audio not implemented",
+    "Dive/all8 native combinations not implemented",
+    "no new owner/device/WebGL acceptance"
+  ]
+}

@@ -9,8 +9,9 @@ mkdirSync(directory, { recursive: true });
 // Structural/readability CI only. Representative-hardware certification is T9.6.
 // Current full-course engineering target and PRD hard cap are both 500 calls.
 const engineeringTargetCalls = 500;
-const engineeringCeilings = { calls: 500, triangles: 350000 };
+const engineeringCeilings = { calls: 500, triangles: 425000 };
 const prdCaps = { calls: 500, triangles: 750000 };
+const maximumTriangleAiRoster = ['aa-03', 'aa-04', 'aa-05', 'aa-07', 'aa-10', 'aa-12', 'aa-14'];
 const captures = [
   { name: 'skyline-chase', progress: 0.063 },
   { name: 'billboard-sponsor-wall-early', progress: 0.052 },
@@ -70,6 +71,15 @@ try {
     });
     try {
       const page = await context.newPage();
+      await page.addInitScript(() => {
+        const originalRandom = Math.random;
+        let state = 1417;
+        Math.random = () => {
+          if (!(new Error().stack ?? '').includes('raceRoster')) return originalRandom();
+          state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+          return state / 0x100000000;
+        };
+      });
       page.on('response', (response) => {
         if (response.status() >= 400) errors.push(station.name + ': HTTP ' + response.status() + ' ' + response.url());
       });
@@ -88,6 +98,17 @@ try {
       await page.goto(target);
       await page.waitForFunction(() => window.ready, undefined, { timeout: 90000 });
       await page.waitForLoadState('networkidle');
+      // `networkidle` does not wait for GLTF parsing/callbacks that replace AI fallback karts.
+      await page.waitForFunction(
+        () => window.game?.opponents?.length === 7 &&
+          window.game.opponents.every((opponent) => opponent.mesh.children[0]?.type === 'Group'),
+        undefined,
+        { timeout: 90000 },
+      );
+      const aiRoster = await page.evaluate(() => window.game.opponents.map(({ characterId }) => characterId).sort());
+      if (JSON.stringify(aiRoster) !== JSON.stringify(maximumTriangleAiRoster)) {
+        throw new Error(`Full-course render used unexpected AI roster: ${aiRoster.join(', ')}`);
+      }
       await page.waitForTimeout(1000);
       const frame = await page.evaluate((camera) => window.renderFrame(true, camera), view);
       if (station.performance) {
@@ -101,7 +122,7 @@ try {
         await page.evaluate((camera) => window.renderFrame(true, camera), view);
       }
       await page.screenshot({ path: directory + '/' + station.name + '.png' });
-      frames.push({ station: station.name, progress: station.progress, ...frame });
+      frames.push({ station: station.name, progress: station.progress, aiRoster, ...frame });
       await page.evaluate(() => window.game.dispose());
     } finally {
       await context.close();

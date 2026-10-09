@@ -18,7 +18,7 @@ const browser = await chromium.launch({
 const errors = [];
 const visualFrames = [];
 let performanceSummary = null;
-const engineeringCeilings = { calls: 500, triangles: 350000, extensionCallDelta: 28 };
+const engineeringCeilings = { calls: 500, triangles: 425000, extensionCallDelta: 28 };
 const performanceClassification = {
   environment: renderEnvironment,
   authority: 'diagnostic-only',

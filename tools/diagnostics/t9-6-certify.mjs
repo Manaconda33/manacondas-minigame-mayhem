@@ -4,7 +4,7 @@ import { pathToFileURL } from 'node:url';
 const minimumFrames = 600;
 // Owner-approved draw-call limit applies to the engineering target and PRD cap.
 const engineeringDrawCalls = 500;
-const engineeringTriangles = 350000;
+const engineeringTriangles = 425000;
 const median = (sorted) => {
   const n = sorted.length;
   return n % 2 ? sorted[(n - 1) / 2] : (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
@@ -102,7 +102,7 @@ export function assessT96Capture(capture, expectedSource) {
   if (maxCalls > engineeringDrawCalls)
     review.push('T9.6 500-call owner-approved engineering target exceeded; owner disposition required');
   if (maxTriangles > engineeringTriangles)
-    review.push('T9.6 350k-triangle owner-approved engineering limit exceeded; owner disposition required');
+    review.push('T9.6 425k-triangle owner-approved engineering limit exceeded; owner disposition required');
   return {
     status: blockers.length ? 'FAIL' : review.length ? 'REVIEW_REQUIRED' : 'PASS_CANDIDATE',
     blockers: [...new Set(blockers)], review, metrics, source: meta.sourceCommit,

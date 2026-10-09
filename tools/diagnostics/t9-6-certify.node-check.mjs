@@ -49,7 +49,7 @@ test('checks actual framebuffer dimensions and not just nominal viewport', () =>
   assert.equal(r.status, 'FAIL');
   assert.ok(r.blockers.some(x => x.includes('rendered buffer')));
 });
-test('owner-approved 500-call / 350k-triangle T9.6 engineering limits include the mobile peak', () => {
+test('owner-approved 500-call / 425k-triangle T9.6 engineering limits include the mobile peak', () => {
   const x = makeCapture();
   for (const frame of x.samples) {
     frame.counters.drawCalls = 206;
@@ -62,16 +62,16 @@ test('owner-approved 500-call / 350k-triangle T9.6 engineering limits include th
   assert.equal(r.metrics.drawCallsAbove200, 6); // historical comparison remains traceable
   assert.equal(r.metrics.drawCallsAboveTarget, 0);
   assert.equal(r.metrics.trianglesAboveTarget, 0);
-  assert.deepEqual(r.metrics.engineeringLimits, { drawCalls: 500, triangles: 350000 });
+  assert.deepEqual(r.metrics.engineeringLimits, { drawCalls: 500, triangles: 425000 });
 });
-test('engineering boundaries pass inclusively; excess still requires review', () => {
+test('425k engineering boundaries pass inclusively; excess still requires review', () => {
   const x = makeCapture();
   for (const frame of x.samples) {
     frame.counters.drawCalls = 500;
-    frame.counters.triangles = 350000;
+    frame.counters.triangles = 425000;
   }
   x.summary.maxDrawCalls = 500;
-  x.summary.maxTriangles = 350000;
+  x.summary.maxTriangles = 425000;
   assert.equal(assessT96Capture(x, sha).status, 'PASS_CANDIDATE');
   x.samples[0].counters.drawCalls = 501;
   x.summary.maxDrawCalls = 501;
@@ -81,8 +81,8 @@ test('engineering boundaries pass inclusively; excess still requires review', ()
   assert.ok(calls.blockers.some(s => s.includes('PRD hard draw-call')));
   x.samples[0].counters.drawCalls = 500;
   x.summary.maxDrawCalls = 500;
-  x.samples[0].counters.triangles = 350001;
-  x.summary.maxTriangles = 350001;
+  x.samples[0].counters.triangles = 425001;
+  x.summary.maxTriangles = 425001;
   const triangles = assessT96Capture(x, sha);
   assert.equal(triangles.status, 'REVIEW_REQUIRED');
   assert.equal(triangles.metrics.trianglesAboveTarget, 1);

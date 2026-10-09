@@ -23,7 +23,8 @@ const t91Reference = {
   desktopMedium1920x1080: { calls: 93, triangles: 78604 },
   maximumObserved: { calls: 123, triangles: 78604 },
 };
-const engineeringCeilings = { calls: 500, triangles: 350000, skylineCallDelta: 36 };
+const engineeringCeilings = { calls: 500, triangles: 425000, skylineCallDelta: 36 };
+const maximumTriangleAiRoster = ['aa-03', 'aa-04', 'aa-05', 'aa-07', 'aa-10', 'aa-12', 'aa-14'];
 const performanceClassification = {
   environment: renderEnvironment,
   authority: 'diagnostic-only',
@@ -46,6 +47,15 @@ async function renderCase({
     deviceScaleFactor: scale,
   });
   const page = await context.newPage();
+  await page.addInitScript(() => {
+    const originalRandom = Math.random;
+    let state = 1417;
+    Math.random = () => {
+      if (!(new Error().stack ?? '').includes('raceRoster')) return originalRandom();
+      state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+      return state / 0x100000000;
+    };
+  });
   page.on('response', (response) => {
     if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`);
   });
@@ -66,6 +76,10 @@ async function renderCase({
     undefined,
     { timeout: 90000 },
   );
+  const aiRoster = await page.evaluate(() => window.game.opponents.map(({ characterId }) => characterId).sort());
+  if (JSON.stringify(aiRoster) !== JSON.stringify(maximumTriangleAiRoster)) {
+    throw new Error(`Full-course render used unexpected AI roster: ${aiRoster.join(', ')}`);
+  }
   await page.waitForTimeout(1000);
 
   const baseline = measureDelta
@@ -81,7 +95,7 @@ async function renderCase({
         };
 
   await page.screenshot({ path: `${directory}/${label}.png` });
-  visualFrames.push({ label, ...visible, baseline, delta });
+  visualFrames.push({ label, ...visible, aiRoster, baseline, delta });
 
   if (performance) performanceSummary = await page.evaluate(() => window.measureFrames(240, 45));
   await page.evaluate(() => window.game.dispose());

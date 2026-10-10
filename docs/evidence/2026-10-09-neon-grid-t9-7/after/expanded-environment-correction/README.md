@@ -14,6 +14,8 @@ This evidence set covers the owner-approved expanded T9.7 scope: continuous sect
 
 In the candidate Billboard Gap scene, the shared ground mesh records 53 cells kept clear near the shortcut and 34 near the Service Tunnel; the actual rendered ground reports zero folded triangles. These are bounded route clearances. They are not missing corridor floor: `billboard-plaza` provides the uninterrupted shortcut surface.
 
+The final overlap audit found one actual raster-row ownership overlap in Falls Run: the extension used a `1/1536`-row seam while the adjacent Falls ground used `0.002`, allowing both visible meshes to claim the same world-space cell at different heights. The Falls ground now uses the matching `1/1536` seam. The full-lap clearance regression raycasts the actual visible ground draws against the main roadway, including the merged Skyline fascia and all four ground surfaces.
+
 The owner-reported race-time anchors map approximately to progress `0.075, 0.239, 0.31, 0.37, 0.43, 0.54, 0.63, 0.69, 0.72`. The mapping is approximate; the separate course sweep samples the entire route.
 
 ## Visual overviews
@@ -66,11 +68,11 @@ These captures were generated from the current local correction source on 2026-1
 
 ### Current measurements
 
-- **Continuous camera sweep:** 182 positions over the 1,448.94 m course; maximum spacing 7.9612 m; chase and rear frames; zero browser/render errors. Peak: **494 calls / 416,487 triangles**.
+- **Continuous camera sweep:** 182 positions over the 1,448.94 m course; maximum spacing 7.9612 m; chase and rear frames; zero browser/render errors. Peak: **494 calls / 416,459 triangles**.
 - **Owner regressions:** all nine reported anchors captured in desktop chase/rear and mobile portrait chase/rear.
-- **Graphics quality:** 16 Low/Medium/High captures across Skyline, Undercity, Falls Run, and Falls extension, including Medium rear views; zero errors. Peak: **386 calls / 402,847 triangles**.
+- **Graphics quality:** 16 Low/Medium/High captures across Skyline, Undercity, Falls Run, and Falls extension, including Medium rear views; zero errors. Peak: **386 calls / 402,819 triangles**.
 - **Bloom:** 16 Medium captures across the same sectors and cameras, with bloom enabled and disabled. The renderer reported both states correctly; seven of eight sector/camera pairs changed visually. Falls Run chase was unchanged; its rear view changed. Zero errors.
-- **Billboard Gap:** 30 captures across 12 desktop fractions and three mobile portrait fractions, chase/rear; zero errors. Peak: **378 calls / 303,179 triangles**. The fraction `0.25` comparison shows the old brown exposure and pre-correction wedges beside the current connected floor.
+- **Billboard Gap:** 30 captures across 12 desktop fractions and three mobile portrait fractions, chase/rear; zero errors. Peak: **378 calls / 306,631 triangles**. The fraction `0.25` comparison shows the accepted T9.4 view, PR #285 candidate, and current connected-floor correction.
 - **Background-source audit:** 9 camera anchors, 25 actual rendered-pixel ray samples per anchor, and six lateral city-floor probes per anchor; zero browser errors and no near-coincident ground pairs. The remaining sky hits use the cool nighttime shader, not the prior orange/brown horizon treatment.
 - **Budgets:** Task 9 remains **500 calls / 425,000 triangles**; PRD remains **500 calls / 750,000 triangles**. Neither was raised.
 
@@ -78,6 +80,6 @@ Raw captures and JSON reports are in `source-final-2026-10-10/`. The course, qua
 
 ## Validation record
 
-The targeted T9.7 city-ground suite passes **25/25**. Typecheck and zero-warning lint pass. The complete repository test suite and production build are still running; their exact results and the final pinned source SHA will be recorded before owner acceptance is requested.
+The targeted T9.7 city-ground suite passes **26/26**. Complete repository validation passes: **132 test files / 1,072 tests**, strict typecheck, zero-warning lint, **8/8** independent T9.6 certification checks, asset verification, and production build. The build retains Vite's existing large-chunk advisory. `git diff --check` passes. The full course and visual matrices report zero browser/render errors. The committed runtime source SHA and hosted CI run will be added after the source-pinned workflow PR publishes the preview. Local Chromium/SwiftShader and simulated mobile captures do not certify G-05 hardware performance.
 
 Do not merge runtime PR #285 or #242, publish Neon Grid gameplay to production, or advance to T9.8 before Manny accepts the new immutable preview.

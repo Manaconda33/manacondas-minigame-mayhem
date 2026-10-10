@@ -33,40 +33,7 @@
       "camera": "chase",
       "filename": "skyline-low-chase.png",
       "calls": 81,
-      "triangles": 63787,
-      "width": 1280,
-      "height": 720
-    },
-    {
-      "region": "skyline",
-      "progress": 0.075,
-      "quality": "medium",
-      "camera": "chase",
-      "filename": "skyline-medium-chase.png",
-      "calls": 176,
-      "triangles": 134887,
-      "width": 1280,
-      "height": 720
-    },
-    {
-      "region": "skyline",
-      "progress": 0.075,
-      "quality": "medium",
-      "camera": "rear",
-      "filename": "skyline-medium-rear.png",
-      "calls": 322,
-      "triangles": 385331,
-      "width": 1280,
-      "height": 720
-    },
-    {
-      "region": "skyline",
-      "progress": 0.075,
-      "quality": "high",
-      "camera": "chase",
-      "filename": "skyline-high-chase.png",
-      "calls": 176,
-      "triangles": 135807,
+      "triangles": 63834,
       "width": 1280,
       "height": 720
     },
@@ -77,40 +44,7 @@
       "camera": "chase",
       "filename": "undercity-low-chase.png",
       "calls": 146,
-      "triangles": 81283,
-      "width": 1280,
-      "height": 720
-    },
-    {
-      "region": "undercity",
-      "progress": 0.37,
-      "quality": "medium",
-      "camera": "chase",
-      "filename": "undercity-medium-chase.png",
-      "calls": 306,
-      "triangles": 170839,
-      "width": 1280,
-      "height": 720
-    },
-    {
-      "region": "undercity",
-      "progress": 0.37,
-      "quality": "medium",
-      "camera": "rear",
-      "filename": "undercity-medium-rear.png",
-      "calls": 274,
-      "triangles": 384619,
-      "width": 1280,
-      "height": 720
-    },
-    {
-      "region": "undercity",
-      "progress": 0.37,
-      "quality": "high",
-      "camera": "chase",
-      "filename": "undercity-high-chase.png",
-      "calls": 306,
-      "triangles": 172719,
+      "triangles": 81260,
       "width": 1280,
       "height": 720
     },
@@ -121,40 +55,7 @@
       "camera": "chase",
       "filename": "falls-run-low-chase.png",
       "calls": 48,
-      "triangles": 49165,
-      "width": 1280,
-      "height": 720
-    },
-    {
-      "region": "falls-run",
-      "progress": 0.72,
-      "quality": "medium",
-      "camera": "chase",
-      "filename": "falls-run-medium-chase.png",
-      "calls": 110,
-      "triangles": 105803,
-      "width": 1280,
-      "height": 720
-    },
-    {
-      "region": "falls-run",
-      "progress": 0.72,
-      "quality": "medium",
-      "camera": "rear",
-      "filename": "falls-run-medium-rear.png",
-      "calls": 386,
-      "triangles": 402847,
-      "width": 1280,
-      "height": 720
-    },
-    {
-      "region": "falls-run",
-      "progress": 0.72,
-      "quality": "high",
-      "camera": "chase",
-      "filename": "falls-run-high-chase.png",
-      "calls": 110,
-      "triangles": 106883,
+      "triangles": 49142,
       "width": 1280,
       "height": 720
     },
@@ -165,7 +66,73 @@
       "camera": "chase",
       "filename": "falls-extension-low-chase.png",
       "calls": 87,
-      "triangles": 58699,
+      "triangles": 58746,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "quality": "medium",
+      "camera": "chase",
+      "filename": "skyline-medium-chase.png",
+      "calls": 176,
+      "triangles": 134999,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "quality": "medium",
+      "camera": "rear",
+      "filename": "skyline-medium-rear.png",
+      "calls": 322,
+      "triangles": 385303,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "quality": "medium",
+      "camera": "chase",
+      "filename": "undercity-medium-chase.png",
+      "calls": 306,
+      "triangles": 170811,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "quality": "medium",
+      "camera": "rear",
+      "filename": "undercity-medium-rear.png",
+      "calls": 274,
+      "triangles": 384731,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "quality": "medium",
+      "camera": "chase",
+      "filename": "falls-run-medium-chase.png",
+      "calls": 110,
+      "triangles": 105775,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "quality": "medium",
+      "camera": "rear",
+      "filename": "falls-run-medium-rear.png",
+      "calls": 386,
+      "triangles": 402819,
       "width": 1280,
       "height": 720
     },
@@ -176,7 +143,7 @@
       "camera": "chase",
       "filename": "falls-extension-medium-chase.png",
       "calls": 188,
-      "triangles": 124711,
+      "triangles": 124823,
       "width": 1280,
       "height": 720
     },
@@ -187,7 +154,40 @@
       "camera": "rear",
       "filename": "falls-extension-medium-rear.png",
       "calls": 274,
-      "triangles": 355731,
+      "triangles": 355703,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "quality": "high",
+      "camera": "chase",
+      "filename": "skyline-high-chase.png",
+      "calls": 176,
+      "triangles": 135919,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "quality": "high",
+      "camera": "chase",
+      "filename": "undercity-high-chase.png",
+      "calls": 306,
+      "triangles": 172691,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "quality": "high",
+      "camera": "chase",
+      "filename": "falls-run-high-chase.png",
+      "calls": 110,
+      "triangles": 106855,
       "width": 1280,
       "height": 720
     },
@@ -198,13 +198,13 @@
       "camera": "chase",
       "filename": "falls-extension-high-chase.png",
       "calls": 188,
-      "triangles": 125631,
+      "triangles": 125743,
       "width": 1280,
       "height": 720
     }
   ],
   "maximumCalls": 386,
-  "maximumTriangles": 402847,
+  "maximumTriangles": 402819,
   "engineeringCeilings": {
     "calls": 500,
     "triangles": 425000

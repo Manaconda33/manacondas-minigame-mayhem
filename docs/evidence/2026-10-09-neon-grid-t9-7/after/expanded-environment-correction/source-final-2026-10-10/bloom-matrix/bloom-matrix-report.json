@@ -41,7 +41,7 @@
       "bloom": "on",
       "filename": "skyline-chase-bloom-on.png",
       "calls": 176,
-      "triangles": 134887,
+      "triangles": 134999,
       "width": 1280,
       "height": 720,
       "bloomEnabled": true,
@@ -54,11 +54,11 @@
       "bloom": "on",
       "filename": "skyline-rear-bloom-on.png",
       "calls": 322,
-      "triangles": 385331,
+      "triangles": 385303,
       "width": 1280,
       "height": 720,
       "bloomEnabled": true,
-      "sha256": "606d9699ee7a3df595a4c96403cccea0bad0413fe7ec04835f42bc9b0c9c4c7b"
+      "sha256": "44290643af9bc122c8ebdb19aeb1db1136421a70ad425e356b2fa68bc3800fc3"
     },
     {
       "region": "undercity",
@@ -67,11 +67,11 @@
       "bloom": "on",
       "filename": "undercity-chase-bloom-on.png",
       "calls": 306,
-      "triangles": 170839,
+      "triangles": 170811,
       "width": 1280,
       "height": 720,
       "bloomEnabled": true,
-      "sha256": "b830014350b5c94e2230d802f4d384f783dc340d8b8236be514eafb98bb23c96"
+      "sha256": "fb5174b15eafb7966a61784cad5c2b9de1b2be9903f35474eb441d2184ee8539"
     },
     {
       "region": "undercity",
@@ -80,7 +80,7 @@
       "bloom": "on",
       "filename": "undercity-rear-bloom-on.png",
       "calls": 274,
-      "triangles": 384619,
+      "triangles": 384731,
       "width": 1280,
       "height": 720,
       "bloomEnabled": true,
@@ -93,11 +93,11 @@
       "bloom": "on",
       "filename": "falls-run-chase-bloom-on.png",
       "calls": 110,
-      "triangles": 105803,
+      "triangles": 105775,
       "width": 1280,
       "height": 720,
       "bloomEnabled": true,
-      "sha256": "d10044e9cff0c9fef54fed7fb016d6e32521288870627bd5df87c01624ef3928"
+      "sha256": "0d8e6ecb04a4bc73320bfa1b48df6e94fc6e7bdc56c909593ef8cdb4d9fe66fb"
     },
     {
       "region": "falls-run",
@@ -106,11 +106,11 @@
       "bloom": "on",
       "filename": "falls-run-rear-bloom-on.png",
       "calls": 386,
-      "triangles": 402847,
+      "triangles": 402819,
       "width": 1280,
       "height": 720,
       "bloomEnabled": true,
-      "sha256": "4df472a98296ee943cd31cc5e287eecd950917e41d65b4f72dec51686c1bae18"
+      "sha256": "6dac207af275568b29a03dc82fac1f71931c1400fb127e1cea17c8aacc2bb979"
     },
     {
       "region": "falls-extension",
@@ -119,11 +119,11 @@
       "bloom": "on",
       "filename": "falls-extension-chase-bloom-on.png",
       "calls": 188,
-      "triangles": 124711,
+      "triangles": 124823,
       "width": 1280,
       "height": 720,
       "bloomEnabled": true,
-      "sha256": "fa43515e8562ceaf381b80bf855256c5569fe873db176019d5fffe7534ff75a9"
+      "sha256": "42a479264603c18598569805626b55b65044eeee32ab8bb51b01a14edb8879ea"
     },
     {
       "region": "falls-extension",
@@ -132,11 +132,11 @@
       "bloom": "on",
       "filename": "falls-extension-rear-bloom-on.png",
       "calls": 274,
-      "triangles": 355731,
+      "triangles": 355703,
       "width": 1280,
       "height": 720,
       "bloomEnabled": true,
-      "sha256": "97f069661431af61c5bcd4508453fe37f72786a662dd1b21be6cc4907ffd1451"
+      "sha256": "388dce3d97444c65280e196318fb30cd74d0a4236be95076d196b0fe71e50592"
     },
     {
       "region": "skyline",
@@ -145,7 +145,7 @@
       "bloom": "off",
       "filename": "skyline-chase-bloom-off.png",
       "calls": 86,
-      "triangles": 67394,
+      "triangles": 67450,
       "width": 1280,
       "height": 720,
       "bloomEnabled": false,
@@ -158,11 +158,11 @@
       "bloom": "off",
       "filename": "skyline-rear-bloom-off.png",
       "calls": 159,
-      "triangles": 192616,
+      "triangles": 192602,
       "width": 1280,
       "height": 720,
       "bloomEnabled": false,
-      "sha256": "8e0cb60b06293e78866151d22471662c915b5eed42c8de0c29a819c9f3eec5e5"
+      "sha256": "e201f8e749b41bf196c91a6daf422e2895d8e529383b286c0c27f61a9e068326"
     },
     {
       "region": "undercity",
@@ -171,11 +171,11 @@
       "bloom": "off",
       "filename": "undercity-chase-bloom-off.png",
       "calls": 151,
-      "triangles": 85370,
+      "triangles": 85356,
       "width": 1280,
       "height": 720,
       "bloomEnabled": false,
-      "sha256": "107d76aab942acdd9c827d872c355eb7d1d43ada6c3614c883e7e155cac6f47d"
+      "sha256": "427033c48bd4fc8f019570438a02fca8e5c0e17066580a07f0ef163bf67269e1"
     },
     {
       "region": "undercity",
@@ -184,7 +184,7 @@
       "bloom": "off",
       "filename": "undercity-rear-bloom-off.png",
       "calls": 135,
-      "triangles": 192260,
+      "triangles": 192316,
       "width": 1280,
       "height": 720,
       "bloomEnabled": false,
@@ -197,11 +197,11 @@
       "bloom": "off",
       "filename": "falls-run-chase-bloom-off.png",
       "calls": 53,
-      "triangles": 52852,
+      "triangles": 52838,
       "width": 1280,
       "height": 720,
       "bloomEnabled": false,
-      "sha256": "d10044e9cff0c9fef54fed7fb016d6e32521288870627bd5df87c01624ef3928"
+      "sha256": "0d8e6ecb04a4bc73320bfa1b48df6e94fc6e7bdc56c909593ef8cdb4d9fe66fb"
     },
     {
       "region": "falls-run",
@@ -210,11 +210,11 @@
       "bloom": "off",
       "filename": "falls-run-rear-bloom-off.png",
       "calls": 191,
-      "triangles": 201374,
+      "triangles": 201360,
       "width": 1280,
       "height": 720,
       "bloomEnabled": false,
-      "sha256": "17be8028b692880d4f15c90bea750a5bf1aab123dddc5224b323cd7334f82157"
+      "sha256": "85558edf348e4aa2ad921f90c13c08912c843e4fb34f7243aee3ed5fd2bc8c4a"
     },
     {
       "region": "falls-extension",
@@ -223,11 +223,11 @@
       "bloom": "off",
       "filename": "falls-extension-chase-bloom-off.png",
       "calls": 92,
-      "triangles": 62306,
+      "triangles": 62362,
       "width": 1280,
       "height": 720,
       "bloomEnabled": false,
-      "sha256": "b8c3851100820d847b4b4294286ddbb6583acdd402ccfd4a2075e3c0157a0674"
+      "sha256": "283801d199bcc51869f7b70a0bb90c80da99dfcebb456d77818b19a373e3a8be"
     },
     {
       "region": "falls-extension",
@@ -236,15 +236,15 @@
       "bloom": "off",
       "filename": "falls-extension-rear-bloom-off.png",
       "calls": 135,
-      "triangles": 177816,
+      "triangles": 177802,
       "width": 1280,
       "height": 720,
       "bloomEnabled": false,
-      "sha256": "17e014ba637eee290429f3a200a50548505b198427495000abac7607a15603fd"
+      "sha256": "f7ebb0c2a7302b2b6391e3b65ba1981c357c5680c77a21cc4a75e7039c361125"
     }
   ],
   "maximumCalls": 386,
-  "maximumTriangles": 402847,
+  "maximumTriangles": 402819,
   "engineeringCeilings": {
     "calls": 500,
     "triangles": 425000

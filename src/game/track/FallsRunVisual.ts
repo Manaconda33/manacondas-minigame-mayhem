@@ -18,10 +18,9 @@ import { disposeTrackScene } from './TrackSceneResources';
 const START = 0.7;
 const END = 0.85;
 const SEGMENTS = 56;
-// A 2 m route-space overlap lets the outer city floor follow the true world
-// projection where lateral offsets shift the visible seam across the protected
-// Falls Run section boundary.
-const CITY_GROUND_SEAM = 0.002;
+// Match the extension ground's native-row seam so only one city-floor owner
+// emits each raster cell beside the protected Falls Run section.
+const CITY_GROUND_SEAM = 1 / 1536;
 const CYAN = 0x37e6ff;
 const GOLD = 0xffc63f;
 const MAGENTA = 0xff4fd8;

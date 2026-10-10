@@ -1,5 +1,5 @@
 {
-  "source": "expanded-city-ground-candidate",
+  "source": "final-runtime-candidate",
   "runtime": "Neon Grid KartTimeTrial scene, mobile portrait viewport, actual chase camera",
   "environment": "Local Chromium software WebGL / SwiftShader; raycast source audit only",
   "screenGrid": {
@@ -676,11 +676,10 @@
       "name": "1m22-undercity-city",
       "progress": 0.37,
       "visibleObjects": {
-        "falls-run-city-towers": 2,
+        "falls-run-city-terraced-ground": 3,
         "undercity-wallside-sightline-screens": 2,
         "Mesh": 5,
         "undercity-asphalt-base": 7,
-        "falls-run-city-terraced-ground": 1,
         "ManacondaDriverSprite": 2,
         "batched-static-kart-parts": 3,
         "Chassis_1": 1,
@@ -749,12 +748,12 @@
           "lateralOffset": 70,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -1.5191029389414012,
-          "triangle": 750,
+          "height": -1.5067371571403925,
+          "triangle": 762,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -1.5191029389414012
+              "height": -1.5067371571403925
             }
           ],
           "nearCoincidentPairs": []
@@ -842,12 +841,12 @@
           "lateralOffset": -70,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -0.5876076817719138,
-          "triangle": 752,
+          "height": -0.587640355396843,
+          "triangle": 764,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -0.5876076817719138
+              "height": -0.587640355396843
             }
           ],
           "nearCoincidentPairs": []
@@ -856,12 +855,12 @@
           "lateralOffset": -45,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -1.1842176452408566,
-          "triangle": 751,
+          "height": -1.1733259043051447,
+          "triangle": 763,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -1.1842176452408566
+              "height": -1.1733259043051447
             }
           ],
           "nearCoincidentPairs": []
@@ -919,8 +918,9 @@
         "falls-run-city-windows": 1,
         "ManacondaDriverSprite": 2,
         "batched-static-kart-parts": 3,
-        "falls-run-city-terraced-ground": 2,
+        "falls-run-city-towers": 1,
         "Chassis_1": 1,
+        "falls-run-city-terraced-ground": 1,
         "falls-run-extension-city-towers": 1
       },
       "exposedSkyPixels": [],
@@ -931,11 +931,11 @@
             0.3
           ],
           "object": "falls-run-extension-city-terraced-ground",
-          "distance": 77.25315029321384,
+          "distance": 77.16425992872551,
           "point": [
-            66.32755400346191,
-            -1.740238127840442,
-            168.81080793775774
+            66.41475653360777,
+            -1.7339208544794396,
+            168.79476712442707
           ],
           "isCityFloorFace": true,
           "faceColors": [
@@ -985,12 +985,12 @@
           "lateralOffset": -24,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -1.8102449548779163,
-          "triangle": 749,
+          "height": -1.8039898968776882,
+          "triangle": 761,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -1.8102449548779163
+              "height": -1.8039898968776882
             }
           ],
           "nearCoincidentPairs": []
@@ -999,12 +999,12 @@
           "lateralOffset": 24,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -2.5841992546927273,
-          "triangle": 755,
+          "height": -2.5839612659403315,
+          "triangle": 767,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -2.5841992546927273
+              "height": -2.5839612659403315
             }
           ],
           "nearCoincidentPairs": []
@@ -1013,12 +1013,12 @@
           "lateralOffset": 45,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -5.194652016922575,
-          "triangle": 738,
+          "height": -5.194699735847479,
+          "triangle": 750,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -5.194652016922575
+              "height": -5.194699735847479
             }
           ],
           "nearCoincidentPairs": []
@@ -1027,12 +1027,12 @@
           "lateralOffset": 70,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -8.314005805872029,
-          "triangle": 743,
+          "height": -8.314027739029235,
+          "triangle": 755,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -8.314005805872029
+              "height": -8.314027739029235
             }
           ],
           "nearCoincidentPairs": []
@@ -1076,11 +1076,11 @@
             0.3
           ],
           "object": "falls-run-extension-city-terraced-ground",
-          "distance": 80.93537338474412,
+          "distance": 81.14655448112535,
           "point": [
-            -66.52059637004487,
-            -2.08997456419619,
-            170.64760603539182
+            -66.72479087883973,
+            -2.104982812939606,
+            170.69934393751834
           ],
           "isCityFloorFace": true,
           "faceColors": [
@@ -1107,12 +1107,12 @@
           "lateralOffset": -70,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -8.395367580177322,
-          "triangle": 361,
+          "height": -8.395101135423381,
+          "triangle": 373,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -8.395367580177322
+              "height": -8.395101135423381
             }
           ],
           "nearCoincidentPairs": []
@@ -1121,12 +1121,12 @@
           "lateralOffset": -45,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -5.1777545228952135,
-          "triangle": 367,
+          "height": -5.177655259908079,
+          "triangle": 379,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -5.1777545228952135
+              "height": -5.177655259908079
             }
           ],
           "nearCoincidentPairs": []
@@ -1135,12 +1135,12 @@
           "lateralOffset": -24,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -2.3420545331901437,
-          "triangle": 372,
+          "height": -2.3422795846830553,
+          "triangle": 384,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -2.3420545331901437
+              "height": -2.3422795846830553
             }
           ],
           "nearCoincidentPairs": []
@@ -1149,12 +1149,12 @@
           "lateralOffset": 24,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -2.5974552647376257,
-          "triangle": 378,
+          "height": -2.59966447241127,
+          "triangle": 390,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -2.5974552647376257
+              "height": -2.59966447241127
             }
           ],
           "nearCoincidentPairs": []
@@ -1163,12 +1163,12 @@
           "lateralOffset": 45,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -5.486093392186646,
-          "triangle": 382,
+          "height": -5.48964614117704,
+          "triangle": 394,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -5.486093392186646
+              "height": -5.48964614117704
             }
           ],
           "nearCoincidentPairs": []
@@ -1177,12 +1177,12 @@
           "lateralOffset": 70,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -8.89641037870242,
-          "triangle": 388,
+          "height": -8.894330831228515,
+          "triangle": 400,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -8.89641037870242
+              "height": -8.894330831228515
             }
           ],
           "nearCoincidentPairs": []
@@ -1208,12 +1208,12 @@
           "lateralOffset": -70,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -7.775480516783695,
-          "triangle": 31,
+          "height": -7.774541815826225,
+          "triangle": 43,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -7.775480516783695
+              "height": -7.774541815826225
             }
           ],
           "nearCoincidentPairs": []
@@ -1222,12 +1222,12 @@
           "lateralOffset": -45,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -4.937751362818005,
-          "triangle": 37,
+          "height": -4.939518208008749,
+          "triangle": 49,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -4.937751362818005
+              "height": -4.939518208008749
             }
           ],
           "nearCoincidentPairs": []
@@ -1236,12 +1236,12 @@
           "lateralOffset": -24,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -2.4061812904127393,
-          "triangle": 41,
+          "height": -2.4069123851218706,
+          "triangle": 53,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -2.4061812904127393
+              "height": -2.4069123851218706
             }
           ],
           "nearCoincidentPairs": []
@@ -1250,12 +1250,12 @@
           "lateralOffset": 24,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -2.457961730994775,
-          "triangle": 47,
+          "height": -2.484495654533113,
+          "triangle": 59,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -2.457961730994775
+              "height": -2.484495654533113
             }
           ],
           "nearCoincidentPairs": []
@@ -1264,12 +1264,12 @@
           "lateralOffset": 45,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -5.204286876692159,
-          "triangle": 51,
+          "height": -5.1665783128269,
+          "triangle": 63,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -5.204286876692159
+              "height": -5.1665783128269
             }
           ],
           "nearCoincidentPairs": []
@@ -1278,12 +1278,12 @@
           "lateralOffset": 70,
           "renderedCityFloor": true,
           "object": "falls-run-extension-city-terraced-ground",
-          "height": -8.382967480487515,
-          "triangle": 57,
+          "height": -8.331064270164106,
+          "triangle": 69,
           "allRenderedFloors": [
             {
               "object": "falls-run-extension-city-terraced-ground",
-              "height": -8.382967480487515
+              "height": -8.331064270164106
             }
           ],
           "nearCoincidentPairs": []
@@ -1294,12 +1294,13 @@
       "name": "2m43-waterfall-zone",
       "progress": 0.72,
       "visibleObjects": {
-        "falls-run-city-terraced-ground": 6,
+        "falls-run-city-terraced-ground": 5,
         "Mesh": 6,
         "falls-run-asphalt-base": 7,
         "ManacondaDriverSprite": 2,
         "batched-static-kart-parts": 3,
-        "Chassis_1": 1
+        "Chassis_1": 1,
+        "falls-run-city-towers": 1
       },
       "exposedSkyPixels": [],
       "cityFloorPixels": [],
@@ -1308,12 +1309,12 @@
           "lateralOffset": -70,
           "renderedCityFloor": true,
           "object": "falls-run-city-terraced-ground",
-          "height": -0.8070366686402011,
-          "triangle": 647,
+          "height": -1.0573271065930356,
+          "triangle": 595,
           "allRenderedFloors": [
             {
               "object": "falls-run-city-terraced-ground",
-              "height": -0.8070366686402011
+              "height": -1.0573271065930356
             }
           ],
           "nearCoincidentPairs": []
@@ -1322,12 +1323,12 @@
           "lateralOffset": -45,
           "renderedCityFloor": true,
           "object": "falls-run-city-terraced-ground",
-          "height": -2.5856446616948645,
-          "triangle": 604,
+          "height": -2.621423058760655,
+          "triangle": 554,
           "allRenderedFloors": [
             {
               "object": "falls-run-city-terraced-ground",
-              "height": -2.5856446616948645
+              "height": -2.621423058760655
             }
           ],
           "nearCoincidentPairs": []
@@ -1336,12 +1337,12 @@
           "lateralOffset": -24,
           "renderedCityFloor": true,
           "object": "falls-run-city-terraced-ground",
-          "height": -2.976782105578039,
-          "triangle": 560,
+          "height": -2.7624267740608417,
+          "triangle": 510,
           "allRenderedFloors": [
             {
               "object": "falls-run-city-terraced-ground",
-              "height": -2.976782105578039
+              "height": -2.7624267740608417
             }
           ],
           "nearCoincidentPairs": []
@@ -1350,12 +1351,12 @@
           "lateralOffset": 24,
           "renderedCityFloor": true,
           "object": "falls-run-city-terraced-ground",
-          "height": -2.500654374688118,
-          "triangle": 517,
+          "height": -2.513223568162097,
+          "triangle": 467,
           "allRenderedFloors": [
             {
               "object": "falls-run-city-terraced-ground",
-              "height": -2.500654374688118
+              "height": -2.513223568162097
             }
           ],
           "nearCoincidentPairs": []
@@ -1364,12 +1365,12 @@
           "lateralOffset": 45,
           "renderedCityFloor": true,
           "object": "falls-run-city-terraced-ground",
-          "height": -4.893828294969126,
-          "triangle": 474,
+          "height": -4.878825945373919,
+          "triangle": 426,
           "allRenderedFloors": [
             {
               "object": "falls-run-city-terraced-ground",
-              "height": -4.893828294969126
+              "height": -4.878825945373919
             }
           ],
           "nearCoincidentPairs": []
@@ -1378,12 +1379,12 @@
           "lateralOffset": 70,
           "renderedCityFloor": true,
           "object": "falls-run-city-terraced-ground",
-          "height": -7.594241552278142,
-          "triangle": 479,
+          "height": -7.597508672429022,
+          "triangle": 431,
           "allRenderedFloors": [
             {
               "object": "falls-run-city-terraced-ground",
-              "height": -7.594241552278142
+              "height": -7.597508672429022
             }
           ],
           "nearCoincidentPairs": []

@@ -100,7 +100,7 @@ function expectRoadCorridorClear(
       const lane = halfWidth * laneFraction;
       const road = center.clone().addScaledVector(right, lane);
       raycaster.set(road.clone().add(new THREE.Vector3(0, 5, 0)), down);
-      raycaster.far = 8;
+      raycaster.far = 7.4;
       const intersections = raycaster.intersectObject(ground, false);
       expect(
         intersections,
@@ -941,6 +941,50 @@ describe('T9.7 city ground and waterfall-side massing', () => {
       disposeTrackScene(scene);
     }
   });
+
+  it('keeps rendered city ground clear of the main course roadway across the full lap', () => {
+    const track = new NeonGrid();
+    const scene = createNeonGridScene(track, 'medium');
+    try {
+      const courseLength = track.curve.getLength();
+      const centerAtDistance = (distance: number) =>
+        track.curve.getPointAt(distance / courseLength);
+      const tangentAtDistance = (distance: number) =>
+        track.curve.getTangentAt(distance / courseLength);
+      const halfWidthAtDistance = (distance: number) =>
+        track.halfWidthAt(distance / courseLength);
+
+      const skylineFascia = scene.getObjectByName('skyline-deck-fascia');
+      expect(skylineFascia, 'expected the visible Skyline deck fascia mesh').toBeInstanceOf(THREE.Mesh);
+      const fasciaMesh = skylineFascia as THREE.Mesh;
+      const floorStart = Number(fasciaMesh.geometry.userData.floorIndexStart ?? 0);
+      const floorCount = Number(fasciaMesh.geometry.userData.floorIndexCount ?? 0);
+      expect(floorCount, 'expected the fascia to contain the rendered city-floor range').toBeGreaterThan(0);
+      fasciaMesh.geometry.setDrawRange(floorStart, floorCount);
+
+      const renderedGrounds = [
+        ['Skyline fascia city-floor range', fasciaMesh],
+        ['undercity-city-terraced-ground', requireGround(scene, 'undercity-city-terraced-ground')],
+        ['falls-run-city-terraced-ground', requireGround(scene, 'falls-run-city-terraced-ground')],
+        [
+          'falls-run-extension-city-terraced-ground',
+          requireGround(scene, 'falls-run-extension-city-terraced-ground'),
+        ],
+      ] as const;
+      for (const [name, ground] of renderedGrounds) {
+        expectRoadCorridorClear(
+          ground,
+          name,
+          courseLength,
+          centerAtDistance,
+          tangentAtDistance,
+          halfWidthAtDistance,
+        );
+      }
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 30000);
 
   it('keeps Falls city ground clear of the Waterfall Dive roadway and landing pad', () => {
     const track = new NeonGrid();

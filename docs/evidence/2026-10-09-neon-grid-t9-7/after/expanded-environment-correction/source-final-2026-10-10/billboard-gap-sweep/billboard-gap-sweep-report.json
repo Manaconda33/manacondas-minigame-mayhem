@@ -32,7 +32,7 @@
       "width": 1280,
       "height": 720,
       "calls": 114,
-      "triangles": 99551
+      "triangles": 99663
     },
     {
       "fraction": 0,
@@ -40,7 +40,7 @@
       "width": 1280,
       "height": 720,
       "calls": 378,
-      "triangles": 303179
+      "triangles": 306631
     },
     {
       "fraction": 0.05,
@@ -48,7 +48,7 @@
       "width": 1280,
       "height": 720,
       "calls": 222,
-      "triangles": 123551
+      "triangles": 123663
     },
     {
       "fraction": 0.05,
@@ -56,7 +56,7 @@
       "width": 1280,
       "height": 720,
       "calls": 260,
-      "triangles": 269307
+      "triangles": 272899
     },
     {
       "fraction": 0.15,
@@ -64,7 +64,7 @@
       "width": 1280,
       "height": 720,
       "calls": 226,
-      "triangles": 123583
+      "triangles": 123695
     },
     {
       "fraction": 0.15,
@@ -72,7 +72,7 @@
       "width": 1280,
       "height": 720,
       "calls": 260,
-      "triangles": 279491
+      "triangles": 283083
     },
     {
       "fraction": 0.25,
@@ -80,7 +80,7 @@
       "width": 1280,
       "height": 720,
       "calls": 218,
-      "triangles": 123507
+      "triangles": 123619
     },
     {
       "fraction": 0.25,
@@ -88,7 +88,7 @@
       "width": 1280,
       "height": 720,
       "calls": 264,
-      "triangles": 279803
+      "triangles": 283395
     },
     {
       "fraction": 0.35,
@@ -96,7 +96,7 @@
       "width": 1280,
       "height": 720,
       "calls": 218,
-      "triangles": 123507
+      "triangles": 123619
     },
     {
       "fraction": 0.35,
@@ -104,7 +104,7 @@
       "width": 1280,
       "height": 720,
       "calls": 266,
-      "triangles": 279827
+      "triangles": 283419
     },
     {
       "fraction": 0.45,
@@ -112,7 +112,7 @@
       "width": 1280,
       "height": 720,
       "calls": 218,
-      "triangles": 123507
+      "triangles": 123619
     },
     {
       "fraction": 0.45,
@@ -120,7 +120,7 @@
       "width": 1280,
       "height": 720,
       "calls": 266,
-      "triangles": 279827
+      "triangles": 283419
     },
     {
       "fraction": 0.55,
@@ -128,7 +128,7 @@
       "width": 1280,
       "height": 720,
       "calls": 218,
-      "triangles": 123507
+      "triangles": 123619
     },
     {
       "fraction": 0.55,
@@ -136,7 +136,7 @@
       "width": 1280,
       "height": 720,
       "calls": 266,
-      "triangles": 279827
+      "triangles": 283419
     },
     {
       "fraction": 0.65,
@@ -144,7 +144,7 @@
       "width": 1280,
       "height": 720,
       "calls": 216,
-      "triangles": 123499
+      "triangles": 123611
     },
     {
       "fraction": 0.65,
@@ -152,7 +152,7 @@
       "width": 1280,
       "height": 720,
       "calls": 268,
-      "triangles": 282515
+      "triangles": 286107
     },
     {
       "fraction": 0.75,
@@ -160,7 +160,7 @@
       "width": 1280,
       "height": 720,
       "calls": 216,
-      "triangles": 123499
+      "triangles": 123611
     },
     {
       "fraction": 0.75,
@@ -168,7 +168,7 @@
       "width": 1280,
       "height": 720,
       "calls": 270,
-      "triangles": 284819
+      "triangles": 288411
     },
     {
       "fraction": 0.85,
@@ -176,7 +176,7 @@
       "width": 1280,
       "height": 720,
       "calls": 220,
-      "triangles": 124139
+      "triangles": 124251
     },
     {
       "fraction": 0.85,
@@ -184,7 +184,7 @@
       "width": 1280,
       "height": 720,
       "calls": 278,
-      "triangles": 286535
+      "triangles": 290127
     },
     {
       "fraction": 0.95,
@@ -192,7 +192,7 @@
       "width": 1280,
       "height": 720,
       "calls": 266,
-      "triangles": 133659
+      "triangles": 133631
     },
     {
       "fraction": 0.95,
@@ -200,7 +200,7 @@
       "width": 1280,
       "height": 720,
       "calls": 288,
-      "triangles": 292263
+      "triangles": 295855
     },
     {
       "fraction": 1,
@@ -208,7 +208,7 @@
       "width": 1280,
       "height": 720,
       "calls": 320,
-      "triangles": 146735
+      "triangles": 146707
     },
     {
       "fraction": 1,
@@ -216,7 +216,7 @@
       "width": 1280,
       "height": 720,
       "calls": 134,
-      "triangles": 115179
+      "triangles": 115291
     },
     {
       "fraction": 0.05,
@@ -224,7 +224,7 @@
       "width": 390,
       "height": 844,
       "calls": 122,
-      "triangles": 106783
+      "triangles": 106895
     },
     {
       "fraction": 0.05,
@@ -232,7 +232,7 @@
       "width": 390,
       "height": 844,
       "calls": 104,
-      "triangles": 97703
+      "triangles": 97815
     },
     {
       "fraction": 0.5,
@@ -240,15 +240,15 @@
       "width": 390,
       "height": 844,
       "calls": 202,
-      "triangles": 123303
+      "triangles": 123415
     },
     {
       "fraction": 0.5,
       "view": "rear",
       "width": 390,
       "height": 844,
-      "calls": 138,
-      "triangles": 138599
+      "calls": 142,
+      "triangles": 127479
     },
     {
       "fraction": 0.95,
@@ -256,7 +256,7 @@
       "width": 390,
       "height": 844,
       "calls": 198,
-      "triangles": 122991
+      "triangles": 123103
     },
     {
       "fraction": 0.95,
@@ -264,11 +264,11 @@
       "width": 390,
       "height": 844,
       "calls": 134,
-      "triangles": 115179
+      "triangles": 115291
     }
   ],
   "maximumCalls": 378,
-  "maximumTriangles": 303179,
+  "maximumTriangles": 306631,
   "engineeringCeilings": {
     "calls": 500,
     "triangles": 425000

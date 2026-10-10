@@ -13,7 +13,7 @@ for (const fixture of cases) {
   try {
     assertApproval(m, trusted);
     const queued = eventRouter({id:`fixture-${fixture.name}`,type:'manual_fixture'}, 'scope_approved', new Set());
-    const outcomes = fixture.cycles.map((cycle, index) => evaluateCycle({...cycle, cycles:index+1, manifest:m, changedPaths:fixture.changed_paths}));
+    const outcomes = fixture.cycles.map((cycle, index) => evaluateCycle({...cycle, cycles:index+1, manifest:m, changedPaths:fixture.changed_paths, reviewerAvailable:true}));
     const terminal = outcomes.at(-1);
     const packet = terminal === 'correcting' ? null : reviewPacket({taskId:m.id,sha:fixture.candidate_sha,cycles:outcomes.length,state:terminal,checks:fixture.cycles.at(-1).checks,findings:fixture.cycles.at(-1).findings});
     results.push({fixture:fixture.name, queued, outcomes, notice_key:packet ? noticeKey(packet) : null, packet});

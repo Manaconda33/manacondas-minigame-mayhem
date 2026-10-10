@@ -10,7 +10,7 @@ function setup() {
   return {m,trusted};
 }
 const check = [{name:'fixture_tests',pass:true},{name:'path_diff',pass:true}];
-const args = (m, overrides={}) => ({manifest:m, changedPaths:['tools/ai-handoff/contract.mjs'], cycles:1,checks:check,findings:[],elapsedMinutes:1,spendUsd:0,...overrides});
+const args = (m, overrides={}) => ({manifest:m, changedPaths:['tools/ai-handoff/contract.mjs'], cycles:1,checks:check,findings:[],elapsedMinutes:1,spendUsd:0,reviewerAvailable:true,...overrides});
 test('canonical JSON is order independent and digest is stable', () => {
   assert.equal(canonical({b:1,a:{d:true,c:null}}),canonical({a:{c:null,d:true},b:1}));
   const {m}=setup(); assert.equal(manifestDigest({...m,manifest_sha256:'f'.repeat(64)}),m.manifest_sha256);
@@ -49,3 +49,4 @@ test('fixture simulations cover green, correction, exhaustion',()=>{const expect
 test('missing time or cost evidence cannot pass',()=>{const {m}=setup();assert.throws(()=>evaluateCycle(args(m,{elapsedMinutes:undefined})),/time\/cost/);assert.throws(()=>evaluateCycle(args(m,{spendUsd:undefined})),/time\/cost/);});
 test('duplicate issue labels with different delivery IDs do not requeue',()=>{const seen=new Set();assert.equal(eventRouter({id:'one',type:'issue_labeled',issue_number:9001,label:'approved-for-agent'},'scope_approved',seen),'queued');assert.throws(()=>eventRouter({id:'two',type:'issue_labeled',issue_number:9001,label:'approved-for-agent'},'scope_approved',seen),/duplicate/);});
 test('unclassified findings fail closed',()=>{const {m}=setup();assert.throws(()=>evaluateCycle(args(m,{findings:[{severity:'not_a_severity'}]})),/unclassified/);});
+test('missing independent reviewer evidence never defaults to PASS',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{reviewerAvailable:undefined})),'needs_owner_decision');});

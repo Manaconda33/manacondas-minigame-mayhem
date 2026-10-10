@@ -137,7 +137,7 @@ export function leaseRelease(ledger, taskId, generation) {
   return {owner:null, expiresAt:0, generation};
 }
 
-export function evaluateCycle({ cycles, checks, findings, elapsedMinutes, spendUsd, manifest, changedPaths, reviewerAvailable = true }) {
+export function evaluateCycle({ cycles, checks, findings, elapsedMinutes, spendUsd, manifest, changedPaths, reviewerAvailable = false }) {
   validateManifest(manifest);
   assertPaths(changedPaths, manifest);
   ensure(Number.isInteger(cycles) && cycles >= 1, 'invalid cycle');

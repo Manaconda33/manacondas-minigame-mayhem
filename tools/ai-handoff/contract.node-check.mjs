@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { validateSchemaInstance } from './schema-validator.mjs';
 import {
   REPOSITORY, CONTRACT_VERSION, canonical, manifestDigest, validateManifest, assertApproval,
   safePath, assertPaths, TRANSITIONS, transition, authorizeScope, verifyOwnerDecision,
@@ -244,4 +245,97 @@ test('packet reports latest unresolved findings, without relabeling fixed earlie
   assert.equal(packet.state,'review_ready');
   assert.deepEqual(packet.unresolved_risks,[]);
   assert.ok(packet.cycles[0].review.findings.length>0);
+});
+
+// Third independent Work review: scope gate, durable report provenance, schema instances, merge denial.
+for (const severity of ['info','low','medium','high','critical','blocker']) {
+  test(`out-of-scope ${severity} finding always requires owner disposition, never review_ready`, () => {
+    const p=prepared();const c=cloned(p.fixture.cycles[0]);
+    c.review.findings=[{severity,type:'out_of_scope',code:`SCOPE-${severity}`,description:'Attempted operation outside approved paths'}];
+    c.review.verdict='pass';
+    const result=take(p,ledger(p),c);
+    assert.equal(result.outcome,'needs_owner_decision');
+    const packet=reviewPacket(p.m,result.ledger,p.fixture.pr_number);
+    assert.match(packet.unresolved_risks.join(' / '),new RegExp(`SCOPE-${severity}`));
+    assert.equal(packet.human_approval,'NOT GRANTED');
+  });
+}
+test('task and final review packet retain both immutable approval and routed event IDs',()=>{
+  const p=prepared();const started=ledger(p);
+  assert.equal(started.scope_approval_event_id,p.m.approval.event_id);
+  assert.equal(started.routed_event_id,p.event.id);
+  const finished=take(p,started,p.fixture.cycles[0]).ledger;
+  const packet=reviewPacket(p.m,finished,p.fixture.pr_number);
+  assert.equal(packet.scope_approval_event_id,p.m.approval.event_id);
+  assert.equal(packet.routed_event_id,p.event.id);
+  assert.equal(validateTask(finished,p.m),true);
+  assert.equal(validateSchemaInstance(schema,finished,'#/$defs/task_ledger'),true);
+  assert.equal(validateSchemaInstance(schema,packet,'#/$defs/review_packet'),true);
+});
+test('task history cannot be relabeled to a different scope approval event',()=>{
+  const p=prepared();const started=ledger(p);
+  assert.throws(()=>validateTask({...started,scope_approval_event_id:'unrelated-approval'},p.m),/task approval provenance mismatch/);
+  assert.throws(()=>validateTask({...started,routed_event_id:''},p.m),/routed event provenance/);
+  assert.throws(()=>validateTask({...started,routed_event_id:p.m.approval.event_id},p.m),/must be distinct/);
+});
+
+const schemaCases = {
+  queue_item: (p) => queueItem(p.m,p.event.id),
+  event: (p) => p.event,
+  lease: () => ({version:CONTRACT_VERSION,workstream:'pilot-automation',owner:null,expires_at_ms:0,generation:0}),
+  review: (p) => p.fixture.cycles[0].review,
+  cycle: (p) => p.fixture.cycles[0],
+  decision: (p) => decision(p,'implementation_acceptance'),
+  task_ledger: (p) => ledger(p),
+  review_packet: (p) => reviewPacket(p.m,take(p,ledger(p),p.fixture.cycles[0]).ledger,p.fixture.pr_number)
+};
+for (const [kind,build] of Object.entries(schemaCases)) {
+  test(`Draft 2020-12 ${kind} schema checks valid and malformed instances`,()=>{
+    const p=prepared();const valid=build(p),ref=`#/$defs/${kind}`;
+    assert.equal(validateSchemaInstance(schema,valid,ref),true,`${kind} valid instance`);
+    // Required fields and additionalProperties are actual schema assertions.
+    const without=cloned(valid);delete without[Object.keys(valid)[0]];
+    assert.equal(validateSchemaInstance(schema,without,ref),false,`${kind} missing required property`);
+    assert.equal(validateSchemaInstance(schema,{...valid,unexpected_escalation:true},ref),false,`${kind} unexpected property`);
+  });
+}
+test('Draft 2020-12 discriminated top-level contract and nested constraints reject invalid types',()=>{
+  const p=prepared();const q=queueItem(p.m,p.event.id);
+  assert.equal(validateSchemaInstance(schema,q),true);
+  assert.equal(validateSchemaInstance(schema,{...q,base_sha:'bad'}),false);
+  assert.equal(validateSchemaInstance(schema,{...q,workstream:'production'}),false);
+  const c=cloned(p.fixture.cycles[0]);c.review.findings=[{severity:'not-a-severity',code:'X',description:'bad'}];
+  assert.equal(validateSchemaInstance(schema,c,'#/$defs/cycle'),false);
+  assert.equal(validateSchemaInstance(manifestSchema,p.m),true);
+  assert.equal(validateSchemaInstance(manifestSchema,{...p.m,scope:{...p.m.scope,workstream_lock:'another-workstream'}}),false);
+});
+test('schema instance runner refuses silently ignoring new unsupported assertion keywords',()=>{
+  const altered=cloned(schema);altered.$defs.queue_item.properties.event_id.not_a_real_keyword=true;
+  const p=prepared();assert.throws(()=>validateSchemaInstance(altered,queueItem(p.m,p.event.id),'#/$defs/queue_item'),/unimplemented JSON Schema keyword/);
+});
+test('simulated merge request without exact authorization is always rejected',()=>{
+  const p=prepared();const candidate=p.fixture.cycles[0].candidate_sha;
+  const reviewed=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  const accept=decision(p,'implementation_acceptance',candidate);
+  const accepted=applyOwnerDecision(p.m,reviewed,accept,decisionTrust(p,accept),p.m.base_sha,candidate,289);
+  // Stage B does not route merge events or contain a merge/publish function.
+  assert.throws(()=>validateEvent({...p.event,type:'merge_request'}),/untrusted event type/);
+  assert.throws(()=>transition('release_authorized','delivered'),/privileged transition/);
+  const release=decision(p,'release_authorization',candidate);
+  assert.throws(()=>applyOwnerDecision(p.m,accepted,null,null,p.m.base_sha,candidate,289,{decision:accept,trusted:decisionTrust(p,accept)}));
+  for (const [variant,decisionChange,baseline,sha,pr] of [
+    ['stale baseline',{},'f'.repeat(40),candidate,289],
+    ['wrong PR',{},p.m.base_sha,candidate,290],
+    ['wrong candidate SHA',{},p.m.base_sha,'f'.repeat(40),289],
+    ['wrong owner',{approved_by:'unauthorized'},p.m.base_sha,candidate,289]
+  ]) {
+    assert.throws(()=>applyOwnerDecision(p.m,accepted,{...release,...decisionChange},decisionTrust(p,release),baseline,sha,pr,{decision:accept,trusted:decisionTrust(p,accept)}),undefined,variant);
+  }
+});
+
+test('task start rejects a routed event reusing the scope-approval event ID before consuming deduplication',()=>{
+  const p=prepared();const altered={...p.event,id:p.m.approval.event_id};const seen=new Set();
+  const q=queueItem(p.m,altered.id);
+  assert.throws(()=>beginTask(p.m,q,p.fixture.deadline_ms,{...startEvidence(p,seen),event:altered}),/routed event must differ/);
+  assert.equal(seen.size,0);
 });

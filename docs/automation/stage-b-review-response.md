@@ -51,3 +51,14 @@ At the second Work review of `cf4ca3ac`, three additional implementation defects
 - **Medium: missing unresolved-risk summary.** `reviewPacket` preserves nonblocking low/medium review findings on the final candidate in `unresolved_risks`, even when `review_ready`. It retains the existing simulated-gate warning when not ready. Tests cover a passing review with two residual findings and the later correction of earlier findings.
 
 The previous High task-start correction remains in force. No CI or independent acceptance is claimed for these new changes until exact-head hosted tests and Work re-review. Stage B remains **BLOCKED**. No merge, credentials, runner, or production publication is authorized.
+
+## Third Work assessment of `694bce3`: PASS WITH REQUIRED FIXES
+
+The independent review confirmed the previous four concerns resolved for Stage B simulation and requested four further fixes. Candidate changes (not yet independently re-reviewed):
+
+1. **Out-of-scope false readiness:** any synthetic `out_of_scope` reviewer finding now returns `needs_owner_decision` regardless of severity. Six severity-specific tests verify the stop and visible risk.
+2. **Approval/event provenance:** task start records `scope_approval_event_id` and `routed_event_id` as distinct identity fields; `validateTask`, the versioned task/packet schemas, and the generated packet preserve them. Negative tests reject mismatched, missing, or duplicated provenance.
+3. **JSON Schema instance coverage:** test-only `schema-validator.mjs` evaluates every assertion keyword used by the Stage B schemas and fails on unsupported keywords. Native tests validate representative valid/malformed queue, event, lease, cycle, review, owner decision, task ledger, and review packet objects plus the manifest; Vitest invokes the full native suite in hosted CI. Independently checked these same instance shapes against Python `jsonschema.Draft202012Validator` locally, which is not a hosted CI dependency. A production standards engine is deferred.
+4. **Explicit merge-request rejection:** a simulated `merge_request` event is denied, an unapproved merge delivery transition is denied, and tests reject missing, stale, wrong-PR, wrong-SHA, or wrong-owner authorization. No real GitHub merge endpoint is invoked.
+
+**Boundary:** no changes to GitHub workflow/settings, credentials, production/game code, or actual dispatch. The synthetic trusted actor, clock and in-memory deduplication are *not* live authentication or atomic persistence. Stage B acceptance, the merge gate, and all Stage C actions remain separately unapproved until exact-head hosted CI and independent re-review succeed.

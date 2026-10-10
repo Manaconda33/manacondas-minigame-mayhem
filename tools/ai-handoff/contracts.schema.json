@@ -433,6 +433,8 @@
         "issue_number",
         "manifest_digest",
         "base_sha",
+        "scope_approval_event_id",
+        "routed_event_id",
         "state",
         "revision",
         "deadline_ms",
@@ -501,6 +503,14 @@
         },
         "simulation_only": {
           "const": true
+        },
+        "scope_approval_event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "routed_event_id": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },
@@ -517,6 +527,8 @@
         "pr_number",
         "manifest_digest",
         "base_sha",
+        "scope_approval_event_id",
+        "routed_event_id",
         "candidate_sha",
         "state",
         "cycles",
@@ -628,6 +640,14 @@
         "deadline_ms": {
           "type": "integer",
           "minimum": 1
+        },
+        "scope_approval_event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "routed_event_id": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

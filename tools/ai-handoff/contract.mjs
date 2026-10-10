@@ -116,9 +116,12 @@ export function eventRouter(event, state, seen) {
   ensure(event && typeof event === 'object' && typeof event.id === 'string', 'invalid event');
   ensure(event.type === 'manual_fixture' || event.type === 'issue_labeled', 'untrusted event type');
   ensure(event.type !== 'issue_labeled' || event.label === 'approved-for-agent', 'unexpected label');
-  ensure(!seen.has(event.id), 'duplicate event');
+  const semantic = event.type === 'issue_labeled' ? `issue:${event.issue_number}:label:${event.label}` : event.id;
+  if (event.type === 'issue_labeled') ensure(Number.isSafeInteger(event.issue_number) && event.issue_number > 0, 'invalid issue event');
+  ensure(!seen.has(event.id) && !seen.has(semantic), 'duplicate event');
   ensure(state === 'scope_approved', 'task not approved for queue');
   seen.add(event.id);
+  seen.add(semantic);
   return transition(state, 'queued');
 }
 
@@ -139,6 +142,8 @@ export function evaluateCycle({ cycles, checks, findings, elapsedMinutes, spendU
   assertPaths(changedPaths, manifest);
   ensure(Number.isInteger(cycles) && cycles >= 1, 'invalid cycle');
   ensure(Array.isArray(checks) && Array.isArray(findings), 'missing evidence');
+  ensure(Number.isFinite(elapsedMinutes) && elapsedMinutes >= 0 && Number.isFinite(spendUsd) && spendUsd >= 0, 'missing time/cost evidence');
+  ensure(findings.every(f => f && ['info','low','medium','high','critical','blocker'].includes(f.severity)), 'unclassified reviewer finding');
   const q = manifest.quality_loop;
   if (cycles > q.total_build_cycles || elapsedMinutes >= q.elapsed_minutes_limit || spendUsd >= q.api_spend_usd_limit) return 'failed_budget_or_checks';
   if (!reviewerAvailable) return 'needs_owner_decision';

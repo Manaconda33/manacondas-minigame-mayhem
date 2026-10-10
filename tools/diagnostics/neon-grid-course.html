@@ -27,10 +27,67 @@
       onFinish() {},
     });
     window.game = g;
+    window.THREE = THREE;
+    window.inspectRenderedPixel = (x, y) => {
+      const camera = g.camera;
+      camera.updateMatrixWorld(true);
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(new THREE.Vector2(
+        (x / window.innerWidth) * 2 - 1,
+        -((y / window.innerHeight) * 2 - 1),
+      ), camera);
+      return raycaster.intersectObjects(g.scene.children, true).slice(0, 8).map((hit) => {
+        const materials = Array.isArray(hit.object.material)
+          ? hit.object.material
+          : [hit.object.material];
+        const geometry = hit.object.geometry;
+        const geometryData = geometry?.userData ?? {};
+        const position = geometry?.getAttribute('position');
+        const vertexColor = geometry?.getAttribute('color');
+        const face = hit.face;
+        const faceColors = face && vertexColor
+          ? [face.a, face.b, face.c].map((index) => [
+            vertexColor.getX(index), vertexColor.getY(index), vertexColor.getZ(index),
+          ])
+          : [];
+        const floorIndexStart = geometryData.floorIndexStart ?? 0;
+        const floorIndexCount = geometryData.floorIndexCount ?? 0;
+        return {
+          name: hit.object.name || hit.object.type,
+          type: hit.object.type,
+          distance: hit.distance,
+          point: hit.point.toArray(),
+          faceIndex: hit.faceIndex,
+          instanceId: hit.instanceId ?? null,
+          materials: materials.map((material) => ({
+            color: material?.color?.getHexString?.() ?? null,
+            emissive: material?.emissive?.getHexString?.() ?? null,
+            transparent: material?.transparent ?? null,
+            opacity: material?.opacity ?? null,
+          })),
+          geometry: {
+            floorTriangleCount: geometryData.floorTriangleCount ?? null,
+            floorIndexStart,
+            floorIndexCount,
+            isCityFloorFace: hit.faceIndex !== null &&
+              hit.faceIndex * 3 >= floorIndexStart &&
+              hit.faceIndex * 3 < floorIndexStart + floorIndexCount,
+            terracedCityGround: geometryData.terracedCityGround ?? null,
+            progressRange: geometryData.progressRange ?? null,
+            faceColors,
+            faceVertices: face && position
+              ? [face.a, face.b, face.c].map((index) => [
+                position.getX(index), position.getY(index), position.getZ(index),
+              ])
+              : [],
+          },
+        };
+      });
+    };
 
     const sector = ['undercity', 'falls-extension', 'course'].includes(params.get('sector')) ? params.get('sector') : 'skyline';
     const requestedProgress = Number(params.get('progress'));
-    const progress = sector === 'undercity'
+    let progress = sector === 'undercity'
       ? (Number.isFinite(requestedProgress) && requestedProgress >= 0.247 && requestedProgress <= 0.46
         ? requestedProgress : 0.355)
       : sector === 'falls-extension'
@@ -38,20 +95,54 @@
         : sector === 'course'
         ? (Number.isFinite(requestedProgress) && requestedProgress >= 0 && requestedProgress <= 1 ? requestedProgress : 0.355)
         : 0.16;
-    const tunnelFraction = Number(params.get('tunnelFraction'));
-    const inTunnel = sector === 'course' && params.has('tunnelFraction') &&
+    let tunnelFraction = Number(params.get('tunnelFraction'));
+    let inTunnel = sector === 'course' && params.has('tunnelFraction') &&
       Number.isFinite(tunnelFraction) && tunnelFraction >= 0 && tunnelFraction <= 1;
-    const p = inTunnel ? g.track.serviceTunnel.curve.getPointAt(tunnelFraction) : g.track.curve.getPointAt(progress);
-    const tangent = (inTunnel ? g.track.serviceTunnel.curve.getTangentAt(tunnelFraction) :
+    let p = inTunnel ? g.track.serviceTunnel.curve.getPointAt(tunnelFraction) : g.track.curve.getPointAt(progress);
+    let tangent = (inTunnel ? g.track.serviceTunnel.curve.getTangentAt(tunnelFraction) :
       g.track.curve.getTangentAt(progress)).setY(0).normalize();
-    const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
-    g.kart.respawn(p.clone().add(new THREE.Vector3(0, 1.1, 0)), Math.atan2(tangent.x, tangent.z));
-    g.opponents.forEach((o, i) => {
-      const q = g.track.curve.getPointAt(progress - 0.004 - i * 0.0015);
-      q.addScaledVector(right, ((i % 3) - 1) * 1.6);
-      q.y += 1.1;
-      o.controller.respawn(q, Math.atan2(tangent.x, tangent.z));
-    });
+    let right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+    const stageAtProgress = (nextProgress, useTunnel = false) => {
+      progress = THREE.MathUtils.euclideanModulo(nextProgress, 1);
+      inTunnel = useTunnel;
+      if (!useTunnel) tunnelFraction = Number.NaN;
+      p = inTunnel
+        ? g.track.serviceTunnel.curve.getPointAt(tunnelFraction)
+        : g.track.curve.getPointAt(progress);
+      tangent = (inTunnel
+        ? g.track.serviceTunnel.curve.getTangentAt(tunnelFraction)
+        : g.track.curve.getTangentAt(progress)).setY(0).normalize();
+      right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+      g.kart.respawn(p.clone().add(new THREE.Vector3(0, 1.1, 0)), Math.atan2(tangent.x, tangent.z));
+      g.opponents.forEach((o, i) => {
+        const q = g.track.curve.getPointAt(THREE.MathUtils.euclideanModulo(
+          progress - 0.004 - i * 0.0015, 1,
+        ));
+        q.addScaledVector(right, ((i % 3) - 1) * 1.6);
+        q.y += 1.1;
+        o.controller.respawn(q, Math.atan2(tangent.x, tangent.z));
+      });
+      for (let i = 0; i < 12; i++) g.updateVisuals(1 / 60);
+      stagedKartPosition.copy(p).add(new THREE.Vector3(0, 1.1, 0));
+      return progress;
+    };
+    let stagedKartPosition = p.clone().add(new THREE.Vector3(0, 1.1, 0));
+    window.stageCourseAtProgress = (nextProgress) => stageAtProgress(nextProgress, false);
+    window.stageBillboardGapAtFraction = (requestedFraction) => {
+      const fraction = THREE.MathUtils.clamp(Number(requestedFraction), 0, 1);
+      const gap = g.track.billboardGap;
+      progress = (gap.entry.progress[0] + gap.entry.progress[1]) * 0.5;
+      inTunnel = false;
+      tunnelFraction = Number.NaN;
+      p = gap.curve.getPointAt(fraction);
+      tangent = gap.curve.getTangentAt(fraction).setY(0).normalize();
+      right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+      g.kart.respawn(p.clone().add(new THREE.Vector3(0, 1.1, 0)), Math.atan2(tangent.x, tangent.z));
+      stagedKartPosition.copy(p).add(new THREE.Vector3(0, 1.1, 0));
+      for (let i = 0; i < 12; i++) g.updateVisuals(1 / 60);
+      return { fraction, position: p.toArray(), tangent: tangent.toArray() };
+    };
+    stageAtProgress(progress, inTunnel);
     for (let i = 0; i < 120; i++) g.updateVisuals(1 / 60);
 
     // T9.5 owner camouflage validation must use the *actual* in-game chase
@@ -59,7 +150,6 @@
     // placed its camera inside solid geometry at the Dive mouth. This made
     // both the rear screenshot and its draw-call reading misleading.
     const diagnosticChase = new ChaseCamera(g.camera, window.innerWidth < 900);
-    const stagedKartPosition = p.clone().add(new THREE.Vector3(0, 1.1, 0));
     const placeCamera = (view) => {
       diagnosticChase.update(stagedKartPosition, tangent, view === 'rear', 3, p.y,
         inTunnel ? p.y + g.track.serviceTunnel.headroom - 0.35 : Number.POSITIVE_INFINITY);
@@ -140,6 +230,14 @@
       const fascia = g.trackScene.getObjectByName('skyline-deck-fascia');
       const raycaster = new THREE.Raycaster();
       const samples = [];
+      const visibleMeshes = [];
+      const collectVisibleMeshes = (object, parentVisible = true) => {
+        const visible = parentVisible && object.visible;
+        if (visible && (object.isMesh || object.isInstancedMesh)) visibleMeshes.push(object);
+        for (const child of object.children) collectVisibleMeshes(child, visible);
+      };
+      collectVisibleMeshes(g.scene);
+      const faceCoordinates = [-0.4, 0, 0.4];
       for (const name of ['skyline-ad-manaconda-racing', 'skyline-ad-taco-bell-live-mas']) {
         const art = g.trackScene.getObjectByName(name);
         if (!art || !fascia) return { error: 'missing art or fascia', samples };
@@ -147,25 +245,42 @@
         for (let index = 3; index < 7; index++) {
           const matrix = new THREE.Matrix4();
           art.getMatrixAt(index, matrix);
-          const world = new THREE.Vector3().applyMatrix4(matrix).applyMatrix4(art.matrixWorld);
-          const ndc = world.clone().project(g.camera);
-          const inViewport = Math.abs(ndc.x) <= 1 && Math.abs(ndc.y) <= 1 &&
-            ndc.z >= -1 && ndc.z <= 1;
-          const toward = world.clone().sub(g.camera.position);
-          raycaster.set(g.camera.position, toward.clone().normalize());
-          raycaster.far = toward.length() + 0.3;
-          const artHit = raycaster.intersectObject(art, false)
-            .find((hit) => hit.instanceId === index);
-          const fasciaHit = raycaster.intersectObject(fascia, false)[0];
+          const faceSamples = [];
+          for (const v of faceCoordinates) {
+            for (const u of faceCoordinates) {
+              const world = new THREE.Vector3(u * 4, v * 2, 0)
+                .applyMatrix4(matrix)
+                .applyMatrix4(art.matrixWorld);
+              const ndc = world.clone().project(g.camera);
+              const inViewport = Math.abs(ndc.x) <= 1 && Math.abs(ndc.y) <= 1 &&
+                ndc.z >= -1 && ndc.z <= 1;
+              const toward = world.clone().sub(g.camera.position);
+              raycaster.set(g.camera.position, toward.clone().normalize());
+              raycaster.far = toward.length() + 0.3;
+              const intersections = raycaster.intersectObjects(visibleMeshes, false);
+              const artHit = intersections.find((hit) =>
+                hit.object === art && hit.instanceId === index);
+              const blocker = intersections.find((hit) =>
+                hit.object !== art && hit.distance < (artHit?.distance ?? Infinity) - 0.02);
+              faceSamples.push({
+                u, v, world: world.toArray(), ndc: ndc.toArray(), inViewport,
+                faceHit: Boolean(artHit),
+                visibleArtwork: inViewport && Boolean(artHit) && !blocker,
+                blocker: blocker?.object.name ?? null,
+              });
+            }
+          }
+          const inView = faceSamples.filter((sample) => sample.inViewport);
+          const visibleCount = faceSamples.filter((sample) => sample.visibleArtwork).length;
+          const visibleFraction = inView.length > 0 ? visibleCount / inView.length : 0;
           samples.push({
-            name, index, world: world.toArray(), ndc: ndc.toArray(),
-            inViewport, imageLoaded: (map?.image?.width ?? 0) > 0,
-            faceHit: Boolean(artHit),
-            visibleArtwork: inViewport && Boolean(artHit) &&
-              Boolean((map?.image?.width ?? 0) > 0) && art.material.opacity > 0 &&
-              (fasciaHit?.distance ?? Infinity) >= artHit.distance - 0.02,
-            fasciaDistance: fasciaHit?.distance ?? null,
-            imageDistance: artHit?.distance ?? null,
+            name, index, inViewport: inView.length > 0,
+            imageLoaded: (map?.image?.width ?? 0) > 0,
+            faceHit: inView.every((sample) => sample.faceHit),
+            visibleArtwork: inView.length > 0 && visibleFraction >= 0.67 &&
+              Boolean((map?.image?.width ?? 0) > 0) && art.material.opacity > 0,
+            visibleFraction, areaSamplesInViewport: inView.length,
+            areaSamplesVisible: visibleCount, faceSamples,
           });
         }
       }
@@ -346,23 +461,31 @@
         ['dive', g.trackScene.dive.group],
       ];
       placeCamera(view);
-      const renderCalls = () => {
+      const renderStats = () => {
         g.renderer.info.reset();
         g.bloom.render(g.scene, g.camera);
         g.motionBlur.render(false);
-        return g.renderer.info.render.calls;
+        return {
+          calls: g.renderer.info.render.calls,
+          triangles: g.renderer.info.render.triangles,
+        };
       };
-      const full = renderCalls();
+      const full = renderStats();
       const costs = owners.map(([name, group]) => {
         const visible = group.visible;
         try {
           group.visible = false;
-          return { name, callsSaved: full - renderCalls() };
+          const without = renderStats();
+          return {
+            name,
+            callsSaved: full.calls - without.calls,
+            trianglesSaved: full.triangles - without.triangles,
+          };
         } finally {
           group.visible = visible;
         }
       });
-      renderCalls();
+      renderStats();
       return { full, costs };
     };
 

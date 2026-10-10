@@ -8,6 +8,8 @@ mkdirSync(directory, { recursive: true });
 const renderEnvironment = process.env.GITHUB_ACTIONS === 'true'
   ? 'GitHub Actions Chromium software WebGL / SwiftShader'
   : 'Local Chromium software WebGL / SwiftShader';
+const courseBaseUrl = (process.env.NEON_GRID_COURSE_BASE_URL ??
+  'http://127.0.0.1:5173/manacondas-minigame-mayhem').replace(/\/$/, '');
 
 const browser = await chromium.launch({
   headless: true,
@@ -51,8 +53,7 @@ async function renderCase({
   });
 
   await page.goto(
-    'http://127.0.0.1:5173/manacondas-minigame-mayhem/tools/diagnostics/neon-grid-course.html?quality=' +
-      quality +
+    courseBaseUrl + '/tools/diagnostics/neon-grid-course.html?quality=' + quality +
       '&sector=undercity&testRacePerf=1' + (progress === null ? '' : '&progress=' + progress),
   );
   await page.waitForFunction(() => window.ready, undefined, { timeout: 90000 });

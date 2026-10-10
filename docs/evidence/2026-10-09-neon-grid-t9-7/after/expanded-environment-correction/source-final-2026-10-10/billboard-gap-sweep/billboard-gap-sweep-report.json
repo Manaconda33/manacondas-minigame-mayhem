@@ -1,0 +1,276 @@
+{
+  "source": "Actual Neon Grid Billboard Gap curve, staged Kart, ChaseCamera, all visual owners mounted",
+  "environment": "Local Chromium software WebGL / SwiftShader; structural and visual evidence only",
+  "errors": [],
+  "desktopFractions": [
+    0,
+    0.05,
+    0.15,
+    0.25,
+    0.35,
+    0.45,
+    0.55,
+    0.65,
+    0.75,
+    0.85,
+    0.95,
+    1
+  ],
+  "mobileFractions": [
+    0.05,
+    0.5,
+    0.95
+  ],
+  "cameraViews": [
+    "chase",
+    "rear"
+  ],
+  "captures": [
+    {
+      "fraction": 0,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 114,
+      "triangles": 99551
+    },
+    {
+      "fraction": 0,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 378,
+      "triangles": 303179
+    },
+    {
+      "fraction": 0.05,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 222,
+      "triangles": 123551
+    },
+    {
+      "fraction": 0.05,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 260,
+      "triangles": 269307
+    },
+    {
+      "fraction": 0.15,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 226,
+      "triangles": 123583
+    },
+    {
+      "fraction": 0.15,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 260,
+      "triangles": 279491
+    },
+    {
+      "fraction": 0.25,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 218,
+      "triangles": 123507
+    },
+    {
+      "fraction": 0.25,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 264,
+      "triangles": 279803
+    },
+    {
+      "fraction": 0.35,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 218,
+      "triangles": 123507
+    },
+    {
+      "fraction": 0.35,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 266,
+      "triangles": 279827
+    },
+    {
+      "fraction": 0.45,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 218,
+      "triangles": 123507
+    },
+    {
+      "fraction": 0.45,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 266,
+      "triangles": 279827
+    },
+    {
+      "fraction": 0.55,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 218,
+      "triangles": 123507
+    },
+    {
+      "fraction": 0.55,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 266,
+      "triangles": 279827
+    },
+    {
+      "fraction": 0.65,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 216,
+      "triangles": 123499
+    },
+    {
+      "fraction": 0.65,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 268,
+      "triangles": 282515
+    },
+    {
+      "fraction": 0.75,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 216,
+      "triangles": 123499
+    },
+    {
+      "fraction": 0.75,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 270,
+      "triangles": 284819
+    },
+    {
+      "fraction": 0.85,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 220,
+      "triangles": 124139
+    },
+    {
+      "fraction": 0.85,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 278,
+      "triangles": 286535
+    },
+    {
+      "fraction": 0.95,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 266,
+      "triangles": 133659
+    },
+    {
+      "fraction": 0.95,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 288,
+      "triangles": 292263
+    },
+    {
+      "fraction": 1,
+      "view": "chase",
+      "width": 1280,
+      "height": 720,
+      "calls": 320,
+      "triangles": 146735
+    },
+    {
+      "fraction": 1,
+      "view": "rear",
+      "width": 1280,
+      "height": 720,
+      "calls": 134,
+      "triangles": 115179
+    },
+    {
+      "fraction": 0.05,
+      "view": "chase",
+      "width": 390,
+      "height": 844,
+      "calls": 122,
+      "triangles": 106783
+    },
+    {
+      "fraction": 0.05,
+      "view": "rear",
+      "width": 390,
+      "height": 844,
+      "calls": 104,
+      "triangles": 97703
+    },
+    {
+      "fraction": 0.5,
+      "view": "chase",
+      "width": 390,
+      "height": 844,
+      "calls": 202,
+      "triangles": 123303
+    },
+    {
+      "fraction": 0.5,
+      "view": "rear",
+      "width": 390,
+      "height": 844,
+      "calls": 138,
+      "triangles": 138599
+    },
+    {
+      "fraction": 0.95,
+      "view": "chase",
+      "width": 390,
+      "height": 844,
+      "calls": 198,
+      "triangles": 122991
+    },
+    {
+      "fraction": 0.95,
+      "view": "rear",
+      "width": 390,
+      "height": 844,
+      "calls": 134,
+      "triangles": 115179
+    }
+  ],
+  "maximumCalls": 378,
+  "maximumTriangles": 303179,
+  "engineeringCeilings": {
+    "calls": 500,
+    "triangles": 425000
+  }
+}

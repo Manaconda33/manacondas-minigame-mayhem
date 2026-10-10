@@ -5,6 +5,12 @@ import { markBloomMaterial } from '../rendering/bloomEligibility';
 import { neonGridRibbon } from './NeonGridGeometry';
 import type { NeonGrid } from './NeonGrid';
 import {
+  cityGroundFootingBounds,
+  mergeInstancedCityMeshesIntoGround,
+  neonGridCityGroundOptions,
+  neonGridTerracedCityGroundGeometry,
+} from './NeonGridCityGround';
+import {
   NeonGridVisualClock,
   neonGridRightAt,
   neonGridSurfaceSliceGeometry,
@@ -17,7 +23,7 @@ const TASK8_START = 0.7;
 const TASK8_END = 0.85;
 const END = 1.0;
 // An entire native ribbon row separates presentation owners at both seams.
-const SEAM = 1 / 1536;
+const SEAM = 0.002;
 const RANGES = [[START, TASK8_START - SEAM], [TASK8_END + SEAM, END]] as const;
 const CYAN = 0x37e6ff;
 const GOLD = 0xffc63f;
@@ -307,6 +313,8 @@ interface Tower {
   readonly width: number;
   readonly depth: number;
   readonly height: number;
+  readonly foundationBottom: number;
+  readonly foundationHeight: number;
 }
 
 function steppedTowerGeometry(): THREE.BufferGeometry {
@@ -321,7 +329,60 @@ function steppedTowerGeometry(): THREE.BufferGeometry {
 
 function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality): void {
   const data: Tower[] = [];
-  for (let i = 0; i < 96 && data.length < 16; i++) {
+  const terrainGeometries = RANGES.map(([start, end]) =>
+    neonGridTerracedCityGroundGeometry(track, neonGridCityGroundOptions(track, start, end)),
+  );
+  const groundGeometry = mergeGeometries(terrainGeometries, false);
+  let rasterIndexOffset = 0;
+  const rasterSurfaceRanges = terrainGeometries.map((geometry) => {
+    const range = {
+      start: rasterIndexOffset + Number(geometry.userData.rasterSurfaceIndexStart ?? 0),
+      count: Number(geometry.userData.rasterSurfaceIndexCount ?? 0),
+    };
+    rasterIndexOffset += geometry.getIndex()?.count ?? 0;
+    return range;
+  });
+  groundGeometry.userData.foldedTriangleCount = terrainGeometries.reduce(
+    (total, geometry) => total + Number(geometry.userData.foldedTriangleCount ?? 0),
+    0,
+  );
+  const omittedCellsByCorridor: Record<string, number> = {};
+  for (const geometry of terrainGeometries) {
+    const omitted = geometry.userData.omittedCellsByCorridor as
+      | Record<string, number>
+      | undefined;
+    for (const [corridor, count] of Object.entries(omitted ?? {})) {
+      omittedCellsByCorridor[corridor] = (omittedCellsByCorridor[corridor] ?? 0) + count;
+    }
+  }
+  groundGeometry.userData.omittedCellsByCorridor = omittedCellsByCorridor;
+  for (const geometry of terrainGeometries) geometry.dispose();
+  groundGeometry.userData.presentationOnly = true;
+  groundGeometry.userData.collision = false;
+  groundGeometry.userData.progressRanges = RANGES.map((range) => [...range]);
+  groundGeometry.userData.terracedCityGround = true;
+  groundGeometry.userData.rasterCellSize = Number(terrainGeometries[0]?.userData.rasterCellSize ?? 9);
+  groundGeometry.userData.rasterSurfaceRanges = rasterSurfaceRanges;
+  groundGeometry.userData.rasterSurfaceIndexStart = rasterSurfaceRanges[0]?.start ?? 0;
+  groundGeometry.userData.rasterSurfaceIndexCount = rasterSurfaceRanges.reduce(
+    (total, range) => total + range.count,
+    0,
+  );
+  groundGeometry.userData.maxRasterCellHeightRange = Math.max(
+    0,
+    ...terrainGeometries.map((geometry) =>
+      Number(geometry.userData.maxRasterCellHeightRange ?? 0),
+    ),
+  );
+  groundGeometry.userData.retainingWallTriangleCount = 0;
+  const cityGround = new THREE.Mesh(
+    groundGeometry,
+    new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: true, side: THREE.DoubleSide }),
+  );
+  cityGround.name = 'falls-run-extension-city-terraced-ground';
+  cityGround.userData.presentationOnly = true;
+  cityGround.userData.collision = false;
+  for (let i = 0; i < 240 && data.length < 16; i++) {
     const range = RANGES[i % 3 === 0 ? 1 : 0];
     const u = ((i * 37) % 97) / 96;
     const progress = THREE.MathUtils.lerp(range[0] + 0.012, range[1] - 0.012, u);
@@ -338,7 +399,33 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
     if (track.serviceTunnel.project(position).lateralDistance < track.serviceTunnel.roadHalfWidth + radius + 7) continue;
     if (data.some(tower => Math.hypot(tower.position.x - position.x, tower.position.z - position.z) <
       (Math.hypot(tower.width, tower.depth) * 0.5 + radius) * 0.8)) continue;
-    data.push({ position, baseY: Math.min(0, center.y - 13), width, depth, height: 36 + (i * 17) % 31 });
+    const originalBaseY = Math.min(0, center.y - 13);
+    const originalHeight = 36 + (i * 17) % 31;
+    const rotationY = (i % 3) * 0.22;
+    let footing: ReturnType<typeof cityGroundFootingBounds>;
+    try {
+      footing = cityGroundFootingBounds(
+        track,
+        neonGridCityGroundOptions(track, range[0], range[1]),
+        position,
+        rotationY,
+        width * 1.28,
+        depth * 1.25,
+        0.12,
+        cityGround,
+      );
+    } catch {
+      continue;
+    }
+    data.push({
+      position,
+      baseY: footing.topY,
+      width,
+      depth,
+      height: Math.max(20, originalBaseY + originalHeight - footing.topY),
+      foundationBottom: footing.bottomY,
+      foundationHeight: footing.depth,
+    });
   }
   if (data.length === 0) throw new Error('Falls extension has no safe city anchors');
 
@@ -361,8 +448,8 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
 
   const windowCount = quality === 'low' ? 80 : quality === 'high' ? 240 : 160;
   const windows = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(0.7, 0.35, 0.04),
-    new THREE.MeshBasicMaterial({ color: 0xffffff }),
+    new THREE.PlaneGeometry(0.7, 0.35),
+    new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide }),
     windowCount,
   );
   windows.name = 'falls-run-extension-city-windows';
@@ -393,14 +480,19 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   );
   foundations.name = 'falls-run-extension-city-foundations';
   data.forEach((tower, i) => {
-    dummy.position.set(tower.position.x, tower.baseY - 1, tower.position.z);
+    dummy.position.set(
+      tower.position.x,
+      tower.foundationBottom + tower.foundationHeight * 0.5,
+      tower.position.z,
+    );
     dummy.rotation.set(0, (i % 3) * 0.22, 0);
-    dummy.scale.set(tower.width * 1.28, 2, tower.depth * 1.25);
+    dummy.scale.set(tower.width * 1.28, tower.foundationHeight, tower.depth * 1.25);
     dummy.updateMatrix();
     foundations.setMatrixAt(i, dummy.matrix);
   });
   foundations.instanceMatrix.needsUpdate = true;
-  group.add(buildings, foundations, windows);
+  group.add(buildings, foundations, windows, cityGround);
+  mergeInstancedCityMeshesIntoGround(cityGround, [buildings, foundations]);
 }
 
 function addAmbientFalls(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality, material: THREE.ShaderMaterial): void {

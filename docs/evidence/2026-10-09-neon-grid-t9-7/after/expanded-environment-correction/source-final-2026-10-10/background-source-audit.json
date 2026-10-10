@@ -1,0 +1,1394 @@
+{
+  "source": "expanded-city-ground-candidate",
+  "runtime": "Neon Grid KartTimeTrial scene, mobile portrait viewport, actual chase camera",
+  "environment": "Local Chromium software WebGL / SwiftShader; raycast source audit only",
+  "screenGrid": {
+    "columns": 5,
+    "rows": 5,
+    "normalizedX": [
+      0.05,
+      0.25,
+      0.5,
+      0.75,
+      0.95
+    ],
+    "normalizedY": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6
+    ]
+  },
+  "lateralCityGroundProbesMeters": [
+    -70,
+    -45,
+    -24,
+    24,
+    45,
+    70
+  ],
+  "errors": [],
+  "anchors": [
+    {
+      "name": "0m35-start-billboards",
+      "progress": 0.075,
+      "visibleObjects": {
+        "skyline-city-towers": 3,
+        "Mesh": 7,
+        "skyline-asphalt-base": 5,
+        "ManacondaDriverSprite": 2,
+        "batched-static-kart-parts": 3,
+        "falls-run-night-sky": 2,
+        "Chassis_1": 1,
+        "skyline-city-windows": 1,
+        "skyline-deck-fascia": 1
+      },
+      "exposedSkyPixels": [
+        {
+          "screen": [
+            0.05,
+            0.2
+          ],
+          "object": "skyline-city-towers",
+          "distance": 105.28040808072294,
+          "point": [
+            204.98111620707354,
+            21.48348698601403,
+            -153.52721505575767
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.05,
+            0.3
+          ],
+          "object": "skyline-city-towers",
+          "distance": 106.72979711872976,
+          "point": [
+            205.9589256050287,
+            10.164911246948023,
+            -154.66333948183774
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.05,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 9.29996647530344,
+          "point": [
+            111.6054419819933,
+            14,
+            -128.35357133485368
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.25,
+            0.2
+          ],
+          "object": "skyline-city-towers",
+          "distance": 104.54985016442772,
+          "point": [
+            206.53635854283203,
+            21.526346277448944,
+            -143.019231512363
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.25,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 9.112263042300595,
+          "point": [
+            111.64128472931381,
+            14,
+            -127.35869183670741
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.5,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 699.1706087997883,
+          "point": [
+            801.7327691240683,
+            43.21638391815978,
+            -150.98194506621508
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.5,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 9.02777009072203,
+          "point": [
+            111.68585840226373,
+            14,
+            -126.12146989670534
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.75,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 711.6147294564186,
+          "point": [
+            811.4495170849651,
+            43.44914146083899,
+            -58.647083376117976
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.75,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 9.11400585986006,
+          "point": [
+            111.73089159761511,
+            14,
+            -124.8714930913423
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.95,
+            0.2
+          ],
+          "object": "skyline-city-windows",
+          "distance": 148.04968718853203,
+          "point": [
+            248.61226580764176,
+            22.99861803391777,
+            -97.05899868417374
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.95,
+            0.3
+          ],
+          "object": "skyline-deck-fascia",
+          "distance": 27.779304779506138,
+          "point": [
+            130.6159387802481,
+            15.776403193814382,
+            -120.22337277962478
+          ],
+          "isCityFloorFace": false,
+          "faceColors": [
+            [
+              0.008568125776946545,
+              0.02518685907125473,
+              0.0423114113509655
+            ],
+            [
+              0.008568125776946545,
+              0.02518685907125473,
+              0.0423114113509655
+            ],
+            [
+              0.008568125776946545,
+              0.02518685907125473,
+              0.0423114113509655
+            ]
+          ]
+        },
+        {
+          "screen": [
+            0.95,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 9.30304001670651,
+          "point": [
+            111.76673434493563,
+            14,
+            -123.87661359319601
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        }
+      ],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": 6.095428773356495,
+          "triangle": 3553,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": 6.095428773356495
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": 8.757394249116551,
+          "triangle": 3547,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": 8.757394249116551
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": 10.721923055131676,
+          "triangle": 3543,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": 10.721923055131676
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": 11.718558759192518,
+          "triangle": 3504,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": 11.718558759192518
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": 8.854779119955175,
+          "triangle": 3500,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": 8.854779119955175
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": 5.426807069702555,
+          "triangle": 3494,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": 5.426807069702555
+            }
+          ],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "0m48-skyline-approach",
+      "progress": 0.239,
+      "visibleObjects": {
+        "falls-run-city-terraced-ground": 1,
+        "undercity-utility-clutter": 1,
+        "Mesh": 5,
+        "skyline-asphalt-base": 7,
+        "undercity-city-buildings": 3,
+        "ManacondaDriverSprite": 2,
+        "batched-static-kart-parts": 3,
+        "undercity-industrial-architecture": 2,
+        "Chassis_1": 1
+      },
+      "exposedSkyPixels": [
+        {
+          "screen": [
+            0.05,
+            0.5
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 14.710265295718694,
+          "point": [
+            142.16282157849457,
+            0.13415262027544728,
+            21.294728192673194
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.05,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 10.024671814511324,
+          "point": [
+            146.9849455253987,
+            0.43716230638681886,
+            20.5355175758311
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.25,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 9.83061542072764,
+          "point": [
+            147.06473376778789,
+            0.4337573045644474,
+            19.466487364783095
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.5,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 9.749589817616089,
+          "point": [
+            147.1642224219696,
+            0.42955018968785286,
+            18.13454350716016
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.75,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 9.852465368622212,
+          "point": [
+            147.26548564545283,
+            0.425540663293722,
+            16.78617968336942
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.95,
+            0.5
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 14.697195267637968,
+          "point": [
+            142.75945564848743,
+            0.13946695661102382,
+            14.190490224991187
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.95,
+            0.6
+          ],
+          "object": "skyline-asphalt-base",
+          "distance": 10.064746948515804,
+          "point": [
+            147.34622632346134,
+            0.4223437289239067,
+            15.711082470484127
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        }
+      ],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": 4.1329779825041655,
+          "triangle": 3734,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": 4.1329779825041655
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": 1.4898046217698067,
+          "triangle": 3740,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": 1.4898046217698067
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": -0.41010229931660547,
+          "triangle": 3704,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": -0.41010229931660547
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "1m07-undercity-ground",
+      "progress": 0.31,
+      "visibleObjects": {
+        "falls-run-night-sky": 4,
+        "undercity-wallside-sightline-screens": 2,
+        "Mesh": 5,
+        "undercity-asphalt-base": 7,
+        "ManacondaDriverSprite": 2,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1,
+        "undercity-ad-voltline-industrial": 1
+      },
+      "exposedSkyPixels": [
+        {
+          "screen": [
+            0.05,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 696.3339395351383,
+          "point": [
+            805.9109774990447,
+            28.443613479408697,
+            -135.45137112644255
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.25,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 687.807221555712,
+          "point": [
+            812.0369840595768,
+            28.593634300538696,
+            -65.29582158746695
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.5,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 683.2125515348561,
+          "point": [
+            815.7111108060699,
+            28.635132388361786,
+            23.263038373956586
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.95,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 676.5271455648699,
+          "point": [
+            795.4412796724171,
+            27.73406000436112,
+            179.15206487126756
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        }
+      ],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": true,
+          "object": "undercity-wallside-sightline-screens",
+          "height": -3.7803156636966904,
+          "triangle": 4998,
+          "allRenderedFloors": [
+            {
+              "object": "undercity-wallside-sightline-screens",
+              "height": -3.7803156636966904
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": -1.481441109971513,
+          "triangle": 3661,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": -1.481441109971513
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": 1.4792380107306755,
+          "triangle": 3655,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": 1.4792380107306755
+            }
+          ],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "1m22-undercity-city",
+      "progress": 0.37,
+      "visibleObjects": {
+        "falls-run-city-towers": 2,
+        "undercity-wallside-sightline-screens": 2,
+        "Mesh": 5,
+        "undercity-asphalt-base": 7,
+        "falls-run-city-terraced-ground": 1,
+        "ManacondaDriverSprite": 2,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1,
+        "undercity-ad-supports": 1,
+        "undercity-city-buildings": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": true,
+          "object": "skyline-deck-fascia",
+          "height": -1.2758872348313517,
+          "triangle": 3661,
+          "allRenderedFloors": [
+            {
+              "object": "skyline-deck-fascia",
+              "height": -1.2758872348313517
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": true,
+          "object": "undercity-wallside-sightline-screens",
+          "height": -3.810134349210358,
+          "triangle": 4999,
+          "allRenderedFloors": [
+            {
+              "object": "undercity-wallside-sightline-screens",
+              "height": -3.810134349210358
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -1.5191029389414012,
+          "triangle": 750,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -1.5191029389414012
+            }
+          ],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "1m38-tunnel-exit",
+      "progress": 0.43,
+      "visibleObjects": {
+        "falls-run-night-sky": 4,
+        "undercity-wallside-sightline-screens": 2,
+        "Mesh": 5,
+        "undercity-asphalt-base": 7,
+        "ManacondaDriverSprite": 2,
+        "batched-static-kart-parts": 3,
+        "service-tunnel-warning-exit": 1,
+        "Chassis_1": 1
+      },
+      "exposedSkyPixels": [
+        {
+          "screen": [
+            0.05,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 712.3509311479193,
+          "point": [
+            807.3440168383321,
+            29.01161302949415,
+            -118.5606927784715
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.25,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 700.4920827179084,
+          "point": [
+            813.6449987415854,
+            29.051812125299218,
+            -46.50396630065664
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.75,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 679.9822279340842,
+          "point": [
+            806.112337611843,
+            28.306770306863946,
+            133.27291720484243
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        },
+        {
+          "screen": [
+            0.95,
+            0.2
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 671.0593928403264,
+          "point": [
+            789.8443640253619,
+            27.540218644299777,
+            200.09876956328418
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        }
+      ],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -0.5876076817719138,
+          "triangle": 752,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -0.5876076817719138
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -1.1842176452408566,
+          "triangle": 751,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -1.1842176452408566
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": true,
+          "object": "undercity-wallside-sightline-screens",
+          "height": -4.304685534028323,
+          "triangle": 4994,
+          "allRenderedFloors": [
+            {
+              "object": "undercity-wallside-sightline-screens",
+              "height": -4.304685534028323
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "1m51-falls-approach",
+      "progress": 0.54,
+      "visibleObjects": {
+        "falls-run-extension-city-terraced-ground": 3,
+        "Mesh": 5,
+        "falls-run-extension-asphalt-base": 7,
+        "falls-run-city-windows": 1,
+        "ManacondaDriverSprite": 2,
+        "batched-static-kart-parts": 3,
+        "falls-run-city-terraced-ground": 2,
+        "Chassis_1": 1,
+        "falls-run-extension-city-towers": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [
+        {
+          "screen": [
+            0.05,
+            0.3
+          ],
+          "object": "falls-run-extension-city-terraced-ground",
+          "distance": 77.25315029321384,
+          "point": [
+            66.32755400346191,
+            -1.740238127840442,
+            168.81080793775774
+          ],
+          "isCityFloorFace": true,
+          "faceColors": [
+            [
+              0.021993430331349373,
+              0.04741832986474037,
+              0.06539713591337204
+            ],
+            [
+              0.021993430331349373,
+              0.04741832986474037,
+              0.06539713591337204
+            ],
+            [
+              0.021993430331349373,
+              0.04741832986474037,
+              0.06539713591337204
+            ]
+          ]
+        }
+      ],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": true,
+          "object": "undercity-wallside-sightline-screens",
+          "height": -3.452417661393625,
+          "triangle": 4998,
+          "allRenderedFloors": [
+            {
+              "object": "undercity-wallside-sightline-screens",
+              "height": -3.452417661393625
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -1.8102449548779163,
+          "triangle": 749,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -1.8102449548779163
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -2.5841992546927273,
+          "triangle": 755,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -2.5841992546927273
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -5.194652016922575,
+          "triangle": 738,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -5.194652016922575
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -8.314005805872029,
+          "triangle": 743,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -8.314005805872029
+            }
+          ],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "2m12-falls-city",
+      "progress": 0.63,
+      "visibleObjects": {
+        "falls-run-city-terraced-ground": 5,
+        "falls-run-extension-city-terraced-ground": 1,
+        "Mesh": 5,
+        "falls-run-extension-asphalt-base": 7,
+        "ManacondaDriverSprite": 2,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1,
+        "falls-run-night-sky": 1
+      },
+      "exposedSkyPixels": [
+        {
+          "screen": [
+            0.95,
+            0.3
+          ],
+          "object": "falls-run-night-sky",
+          "distance": 847.9938945343597,
+          "point": [
+            -811.8894056714345,
+            -56.584264834566035,
+            -41.803215825111266
+          ],
+          "isCityFloorFace": false,
+          "faceColors": []
+        }
+      ],
+      "cityFloorPixels": [
+        {
+          "screen": [
+            0.05,
+            0.3
+          ],
+          "object": "falls-run-extension-city-terraced-ground",
+          "distance": 80.93537338474412,
+          "point": [
+            -66.52059637004487,
+            -2.08997456419619,
+            170.64760603539182
+          ],
+          "isCityFloorFace": true,
+          "faceColors": [
+            [
+              0.020446723327040672,
+              0.04426224157214165,
+              0.06122090667486191
+            ],
+            [
+              0.020446723327040672,
+              0.04426224157214165,
+              0.06122090667486191
+            ],
+            [
+              0.020446723327040672,
+              0.04426224157214165,
+              0.06122090667486191
+            ]
+          ]
+        }
+      ],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -8.395367580177322,
+          "triangle": 361,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -8.395367580177322
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -5.1777545228952135,
+          "triangle": 367,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -5.1777545228952135
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -2.3420545331901437,
+          "triangle": 372,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -2.3420545331901437
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -2.5974552647376257,
+          "triangle": 378,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -2.5974552647376257
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -5.486093392186646,
+          "triangle": 382,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -5.486093392186646
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -8.89641037870242,
+          "triangle": 388,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -8.89641037870242
+            }
+          ],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "2m31-falls-run",
+      "progress": 0.69,
+      "visibleObjects": {
+        "falls-run-city-terraced-ground": 6,
+        "Mesh": 5,
+        "falls-run-extension-asphalt-base": 7,
+        "ManacondaDriverSprite": 2,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1,
+        "falls-run-deck-fascia": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -7.775480516783695,
+          "triangle": 31,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -7.775480516783695
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -4.937751362818005,
+          "triangle": 37,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -4.937751362818005
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -2.4061812904127393,
+          "triangle": 41,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -2.4061812904127393
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -2.457961730994775,
+          "triangle": 47,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -2.457961730994775
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -5.204286876692159,
+          "triangle": 51,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -5.204286876692159
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": true,
+          "object": "falls-run-extension-city-terraced-ground",
+          "height": -8.382967480487515,
+          "triangle": 57,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-extension-city-terraced-ground",
+              "height": -8.382967480487515
+            }
+          ],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "2m43-waterfall-zone",
+      "progress": 0.72,
+      "visibleObjects": {
+        "falls-run-city-terraced-ground": 6,
+        "Mesh": 6,
+        "falls-run-asphalt-base": 7,
+        "ManacondaDriverSprite": 2,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": true,
+          "object": "falls-run-city-terraced-ground",
+          "height": -0.8070366686402011,
+          "triangle": 647,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-city-terraced-ground",
+              "height": -0.8070366686402011
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": true,
+          "object": "falls-run-city-terraced-ground",
+          "height": -2.5856446616948645,
+          "triangle": 604,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-city-terraced-ground",
+              "height": -2.5856446616948645
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": true,
+          "object": "falls-run-city-terraced-ground",
+          "height": -2.976782105578039,
+          "triangle": 560,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-city-terraced-ground",
+              "height": -2.976782105578039
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": true,
+          "object": "falls-run-city-terraced-ground",
+          "height": -2.500654374688118,
+          "triangle": 517,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-city-terraced-ground",
+              "height": -2.500654374688118
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": true,
+          "object": "falls-run-city-terraced-ground",
+          "height": -4.893828294969126,
+          "triangle": 474,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-city-terraced-ground",
+              "height": -4.893828294969126
+            }
+          ],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": true,
+          "object": "falls-run-city-terraced-ground",
+          "height": -7.594241552278142,
+          "triangle": 479,
+          "allRenderedFloors": [
+            {
+              "object": "falls-run-city-terraced-ground",
+              "height": -7.594241552278142
+            }
+          ],
+          "nearCoincidentPairs": []
+        }
+      ]
+    }
+  ]
+}

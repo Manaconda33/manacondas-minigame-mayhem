@@ -5,6 +5,11 @@ import type { GraphicsQuality } from '../../config/graphicsQuality';
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import type { NeonGrid } from './NeonGrid';
 import {
+  cityGroundFootingBounds,
+  neonGridCityGroundOptions,
+  neonGridTerracedCityGroundGeometry,
+} from './NeonGridCityGround';
+import {
   NeonGridVisualClock,
   neonGridRightAt,
   neonGridRoadsideScreenGeometry,
@@ -16,6 +21,7 @@ const START = 0.24654910452879084;
 const END = 0.46154128347522666;
 const MAGENTA = 0xff4fd8;
 const CYAN = 0x37e6ff;
+const SKYLINE_GROUND_START = START + 0.006;
 
 interface UndercityBuilding {
   readonly position: THREE.Vector3;
@@ -187,7 +193,8 @@ function buildingGeometry(): THREE.BufferGeometry {
   return merged;
 }
 
-function placeBuildings(track: NeonGrid): UndercityBuilding[] {
+function placeBuildings(track: NeonGrid, renderedGround: THREE.Mesh): UndercityBuilding[] {
+  const ground = neonGridCityGroundOptions(track, SKYLINE_GROUND_START, END);
   const buildings: UndercityBuilding[] = [];
   for (let attempt = 0; attempt < 220 && buildings.length < 16; attempt++) {
     const fraction = ((attempt * 43) % 211) / 210;
@@ -212,6 +219,23 @@ function placeBuildings(track: NeonGrid): UndercityBuilding[] {
       )
     )
       continue;
+    const rotationY = Math.atan2(tangent.x, tangent.z);
+    const originalBaseY = center.y - 0.12;
+    let footing: ReturnType<typeof cityGroundFootingBounds>;
+    try {
+      footing = cityGroundFootingBounds(
+        track,
+        ground,
+        position,
+        rotationY,
+        width + 1.4,
+        depth + 1.4,
+        0.12,
+        renderedGround,
+      );
+    } catch {
+      continue;
+    }
     buildings.push({
       position,
       right,
@@ -219,8 +243,8 @@ function placeBuildings(track: NeonGrid): UndercityBuilding[] {
       side,
       width,
       depth,
-      height,
-      baseY: center.y - 0.12,
+      height: originalBaseY + height - footing.topY,
+      baseY: footing.topY,
       progress,
     });
   }
@@ -233,8 +257,9 @@ function addBuildings(
   group: THREE.Group,
   track: NeonGrid,
   quality: GraphicsQuality,
+  renderedGround: THREE.Mesh,
 ): UndercityBuilding[] {
-  const data = placeBuildings(track);
+  const data = placeBuildings(track, renderedGround);
   const buildingMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
   });
@@ -580,7 +605,7 @@ function serviceTunnelApproachScreen(track: NeonGrid): THREE.BufferGeometry {
   return geometry;
 }
 
-function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): void {
+function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): THREE.Mesh {
   // Existing false service bays are useful texture but did not occlude the
   // actual shortcut roadway. This continuous opaque facade now does.
   const opening = (side: -1 | 1, progress: number): boolean => {
@@ -605,26 +630,82 @@ function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): void 
       opening: (progress) => opening(1, progress) },
   ]);
   const innerScreens = serviceTunnelApproachScreen(track);
-  const screensGeometry = mergeGeometries([roadScreens, innerScreens], false);
+  const groundOptions = neonGridCityGroundOptions(track, SKYLINE_GROUND_START, END);
+  const groundGeometry = neonGridTerracedCityGroundGeometry(track, groundOptions);
+  const groundFoldedTriangles = Number(groundGeometry.userData.foldedTriangleCount ?? 0);
+  const rawOmittedCells: unknown = groundGeometry.userData.omittedCellsByCorridor as unknown;
+  const groundOmittedCells =
+    typeof rawOmittedCells === 'object' && rawOmittedCells !== null &&
+    !Array.isArray(rawOmittedCells)
+      ? rawOmittedCells as Record<string, number>
+      : {};
+  const screenTint = new THREE.Color(0x242637);
+  for (const geometry of [roadScreens, innerScreens]) {
+    const color = new Float32Array(geometry.getAttribute('position').count * 3);
+    for (let i = 0; i < color.length; i += 3) screenTint.toArray(color, i);
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(color, 3));
+  }
+  const screensGeometry = mergeGeometries([roadScreens, innerScreens, groundGeometry], false);
+  const floorIndexStart = (roadScreens.getIndex()?.count ?? 0) +
+    (innerScreens.getIndex()?.count ?? 0);
+  const floorIndexCount = groundGeometry.getIndex()?.count ?? 0;
   const count = (roadScreens.userData.panelCount as number) +
     (innerScreens.userData.panels as number);
   const mouthCuts = roadScreens.userData.openingSegments as number;
   const innerPanels = innerScreens.userData.panels as number;
   roadScreens.dispose();
   innerScreens.dispose();
+  const groundValidationMesh = new THREE.Mesh(
+    groundGeometry,
+    new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }),
+  );
   const screens = new THREE.Mesh(
     screensGeometry,
     new THREE.MeshStandardMaterial({
-      color: 0x242637, roughness: 0.76, metalness: 0.28,
+      color: 0xffffff, vertexColors: true, roughness: 0.76, metalness: 0.28,
       side: THREE.DoubleSide,
     }),
   );
   screens.name = 'undercity-wallside-sightline-screens';
   screens.userData.presentationOnly = true;
+  screens.userData.collision = false;
   screens.userData.sightlinePanels = count;
   screens.userData.mouthCuts = mouthCuts;
   screens.userData.innerWingPanels = innerPanels;
+  screens.geometry.userData.terracedCityGround = true;
+  screens.geometry.userData.cityGroundProgressRange = [groundOptions.start, groundOptions.end];
+  screens.geometry.userData.innerOffset = groundOptions.innerOffset;
+  screens.geometry.userData.outerOffset = groundOptions.terraces.at(-1)?.outerOffset;
+  screens.geometry.userData.excludedCorridors = ['service-tunnel', 'billboard-gap', 'waterfall-dive'];
+  screens.geometry.userData.foldedTriangleCount = groundFoldedTriangles;
+  screens.geometry.userData.floorIndexStart = floorIndexStart;
+  screens.geometry.userData.floorIndexCount = floorIndexCount;
+  screens.geometry.userData.floorTriangleCount = floorIndexCount / 3;
+  screens.geometry.userData.rasterCellSize = Number(groundGeometry.userData.rasterCellSize ?? 9);
+  const rasterSurfaceIndexStart = floorIndexStart +
+    Number(groundGeometry.userData.rasterSurfaceIndexStart ?? 0);
+  const rasterSurfaceIndexCount =
+    Number(groundGeometry.userData.rasterSurfaceIndexCount ?? 0);
+  screens.geometry.userData.rasterSurfaceIndexStart = rasterSurfaceIndexStart;
+  screens.geometry.userData.rasterSurfaceIndexCount = rasterSurfaceIndexCount;
+  screens.geometry.userData.rasterSurfaceRanges = [{
+    start: rasterSurfaceIndexStart,
+    count: rasterSurfaceIndexCount,
+  }];
+  screens.geometry.userData.maxRasterCellHeightRange = Number(
+    groundGeometry.userData.maxRasterCellHeightRange ?? 0,
+  );
+  screens.geometry.userData.retainingWallTriangleCount = 0;
+  screens.geometry.userData.omittedCellsByCorridor = groundOmittedCells;
+  const groundMarker = new THREE.Group();
+  groundMarker.name = 'undercity-city-terraced-ground';
+  groundMarker.userData.presentationOnly = true;
+  groundMarker.userData.collision = false;
+  groundMarker.userData.progressRange = [groundOptions.start, groundOptions.end];
+  groundMarker.userData.renderMesh = screens;
+  group.add(groundMarker);
   group.add(screens);
+  return groundValidationMesh;
 }
 
 function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
@@ -813,10 +894,12 @@ export class UndercityVisual {
     edges.name = 'undercity-magenta-edges';
     this.group.add(edges);
 
-    const buildings = addBuildings(this.group, track, quality);
+    const validationGround = addWallsideSightlineScreens(this.group, track);
+    const buildings = addBuildings(this.group, track, quality, validationGround);
+    validationGround.geometry.dispose();
+    (validationGround.material as THREE.Material).dispose();
     addUtilityClutter(this.group, track, buildings);
     addFacadeVentilation(this.group, buildings);
-    addWallsideSightlineScreens(this.group, track);
     addServiceBayMask(this.group, track);
     addApprovedAds(this.group, buildings, this.adMaterials);
   }

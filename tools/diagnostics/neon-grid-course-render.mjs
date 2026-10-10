@@ -8,6 +8,8 @@ mkdirSync(directory, { recursive: true });
 const renderEnvironment = process.env.GITHUB_ACTIONS === 'true'
   ? 'GitHub Actions Chromium software WebGL / SwiftShader'
   : 'Local Chromium software WebGL / SwiftShader';
+const courseBaseUrl = (process.env.NEON_GRID_COURSE_BASE_URL ??
+  'http://127.0.0.1:5173/manacondas-minigame-mayhem').replace(/\/$/, '');
 
 const browser = await chromium.launch({
   headless: true,
@@ -41,6 +43,7 @@ async function renderCase({
   view = 'chase',
   measureDelta = false,
   performance = false,
+  progress = 0,
 }) {
   const context = await browser.newContext({
     viewport: { width, height },
@@ -65,7 +68,7 @@ async function renderCase({
   });
 
   await page.goto(
-    `http://127.0.0.1:5173/manacondas-minigame-mayhem/tools/diagnostics/neon-grid-course.html?quality=${quality}&testRacePerf=1`,
+    `${courseBaseUrl}/tools/diagnostics/neon-grid-course.html?quality=${quality}&testRacePerf=1`,
   );
   await page.waitForFunction(() => window.ready, undefined, { timeout: 90000 });
   await page.waitForLoadState('networkidle');
@@ -81,6 +84,7 @@ async function renderCase({
     throw new Error(`Full-course render used unexpected AI roster: ${aiRoster.join(', ')}`);
   }
   await page.waitForTimeout(1000);
+  await page.evaluate((nextProgress) => window.stageCourseAtProgress(nextProgress), progress);
 
   const baseline = measureDelta
     ? await page.evaluate(({ view }) => window.renderFrame(false, view), { view })
@@ -95,7 +99,7 @@ async function renderCase({
         };
 
   await page.screenshot({ path: `${directory}/${label}.png` });
-  visualFrames.push({ label, ...visible, aiRoster, baseline, delta });
+  visualFrames.push({ label, progress, ...visible, aiRoster, baseline, delta });
 
   if (performance) performanceSummary = await page.evaluate(() => window.measureFrames(240, 45));
   await page.evaluate(() => window.game.dispose());
@@ -111,6 +115,7 @@ try {
     label: 'skyline-desktop-medium-1920x1080',
     measureDelta: true,
     performance: true,
+    progress: 0.075,
   });
   await renderCase({
     quality: 'low',
@@ -118,6 +123,7 @@ try {
     height: 720,
     scale: 1,
     label: 'skyline-desktop-low',
+    progress: 0.075,
   });
   await renderCase({
     quality: 'high',
@@ -125,6 +131,7 @@ try {
     height: 720,
     scale: 1,
     label: 'skyline-desktop-high',
+    progress: 0.075,
   });
   await renderCase({
     quality: 'low',
@@ -132,6 +139,7 @@ try {
     height: 390,
     scale: 1,
     label: 'skyline-mobile-low',
+    progress: 0.075,
   });
   await renderCase({
     quality: 'medium',
@@ -139,6 +147,7 @@ try {
     height: 390,
     scale: 1,
     label: 'skyline-mobile-medium',
+    progress: 0.075,
   });
   await renderCase({
     quality: 'high',
@@ -146,6 +155,7 @@ try {
     height: 390,
     scale: 1,
     label: 'skyline-mobile-high',
+    progress: 0.075,
   });
   await renderCase({
     quality: 'medium',
@@ -154,7 +164,36 @@ try {
     scale: 1,
     label: 'skyline-desktop-rear-medium',
     view: 'rear',
+    progress: 0.075,
   });
+
+  for (const station of [
+    { name: 'undercity', progress: 0.37 },
+    { name: 'falls-run', progress: 0.72 },
+    { name: 'falls-extension', progress: 0.92 },
+  ]) {
+    for (const quality of ['low', 'medium', 'high']) {
+      await renderCase({
+        quality,
+        width: 1280,
+        height: 720,
+        scale: 1,
+        label: `${station.name}-${quality}-desktop-chase`,
+        progress: station.progress,
+      });
+    }
+    for (const view of ['chase', 'rear']) {
+      await renderCase({
+        quality: 'medium',
+        width: 844,
+        height: 390,
+        scale: 1,
+        label: `${station.name}-mobile-landscape-${view}`,
+        view,
+        progress: station.progress,
+      });
+    }
+  }
 
   const medium = visualFrames.find((frame) => frame.label === 'skyline-desktop-medium-1920x1080');
   const low = visualFrames.find((frame) => frame.label === 'skyline-desktop-low');

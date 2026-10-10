@@ -1,0 +1,171 @@
+{
+  "source": "Owner-approved T9.4 runtime be47a3d7215867b9b275473fd2640cc626ef5e37; shared diagnostic view harness; baseline comparison only",
+  "environment": "Local Chromium SwiftShader",
+  "anchors": [
+    [
+      "0m35-start",
+      0.075
+    ],
+    [
+      "0m48-skyline",
+      0.239
+    ],
+    [
+      "1m07-undercity",
+      0.31
+    ],
+    [
+      "1m22-undercity",
+      0.37
+    ],
+    [
+      "1m38-tunnel-exit",
+      0.43
+    ],
+    [
+      "1m51-falls-approach",
+      0.54
+    ],
+    [
+      "2m12-falls-city",
+      0.63
+    ],
+    [
+      "2m31-falls-run",
+      0.69
+    ],
+    [
+      "2m43-waterfall",
+      0.72
+    ]
+  ],
+  "errors": [],
+  "frames": [
+    {
+      "name": "0m35-start",
+      "progress": 0.075,
+      "view": "chase",
+      "calls": 82,
+      "triangles": 41346
+    },
+    {
+      "name": "0m35-start",
+      "progress": 0.075,
+      "view": "rear",
+      "calls": 158,
+      "triangles": 158632
+    },
+    {
+      "name": "0m48-skyline",
+      "progress": 0.239,
+      "view": "chase",
+      "calls": 137,
+      "triangles": 62702
+    },
+    {
+      "name": "0m48-skyline",
+      "progress": 0.239,
+      "view": "rear",
+      "calls": 140,
+      "triangles": 156066
+    },
+    {
+      "name": "1m07-undercity",
+      "progress": 0.31,
+      "view": "chase",
+      "calls": 102,
+      "triangles": 48628
+    },
+    {
+      "name": "1m07-undercity",
+      "progress": 0.31,
+      "view": "rear",
+      "calls": 197,
+      "triangles": 168566
+    },
+    {
+      "name": "1m22-undercity",
+      "progress": 0.37,
+      "view": "chase",
+      "calls": 155,
+      "triangles": 61480
+    },
+    {
+      "name": "1m22-undercity",
+      "progress": 0.37,
+      "view": "rear",
+      "calls": 138,
+      "triangles": 155736
+    },
+    {
+      "name": "1m38-tunnel-exit",
+      "progress": 0.43,
+      "view": "chase",
+      "calls": 94,
+      "triangles": 47606
+    },
+    {
+      "name": "1m38-tunnel-exit",
+      "progress": 0.43,
+      "view": "rear",
+      "calls": 192,
+      "triangles": 167456
+    },
+    {
+      "name": "1m51-falls-approach",
+      "progress": 0.54,
+      "view": "chase",
+      "calls": 138,
+      "triangles": 56012
+    },
+    {
+      "name": "1m51-falls-approach",
+      "progress": 0.54,
+      "view": "rear",
+      "calls": 91,
+      "triangles": 146854
+    },
+    {
+      "name": "2m12-falls-city",
+      "progress": 0.63,
+      "view": "chase",
+      "calls": 68,
+      "triangles": 43528
+    },
+    {
+      "name": "2m12-falls-city",
+      "progress": 0.63,
+      "view": "rear",
+      "calls": 175,
+      "triangles": 159806
+    },
+    {
+      "name": "2m31-falls-run",
+      "progress": 0.69,
+      "view": "chase",
+      "calls": 52,
+      "triangles": 39818
+    },
+    {
+      "name": "2m31-falls-run",
+      "progress": 0.69,
+      "view": "rear",
+      "calls": 188,
+      "triangles": 165280
+    },
+    {
+      "name": "2m43-waterfall",
+      "progress": 0.72,
+      "view": "chase",
+      "calls": 52,
+      "triangles": 39818
+    },
+    {
+      "name": "2m43-waterfall",
+      "progress": 0.72,
+      "view": "rear",
+      "calls": 190,
+      "triangles": 165640
+    }
+  ]
+}

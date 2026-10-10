@@ -372,6 +372,10 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
       expect(skyline).toBeInstanceOf(THREE.Mesh);
       expect(undercity).toBeInstanceOf(THREE.Mesh);
       expect(skyline.userData.sightlinePanels as number).toBeGreaterThan(70);
+      expect(skyline.userData.billboardInteriorPanels as number).toBeGreaterThan(10);
+      expect(skyline.userData.billboardGuideBands as number).toBeGreaterThan(
+        (skyline.userData.billboardInteriorPanels as number) * 1.5,
+      );
       expect(undercity.userData.sightlinePanels as number).toBeGreaterThan(100);
       expect(undercity.userData.innerWingPanels as number).toBeGreaterThan(5);
       expect(skyline.userData.mouthCuts as number).toBeGreaterThan(0);

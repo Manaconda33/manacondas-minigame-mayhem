@@ -1,7 +1,7 @@
 # Neon Grid Stage 4 T9.7 — Final Visual Polish & Owner Preview Plan
 
 **Prepared:** 2026-10-08 (America/Chicago)  
-**Status:** EXECUTION APPROVED / LOCAL IMPLEMENTATION, VALIDATION AND AMENDED SECTOR GATES PASSED — G-05, PREVIEW, OWNER REVIEW AND T9.8 GATES OPEN
+**Status:** EXECUTION APPROVED / EXPANDED IMPLEMENTATION AND VISUAL AUDIT COMPLETE — FINAL AUTOMATED VALIDATION, PINNED PREVIEW, OWNER REVIEW, G-05 AND T9.8 GATES OPEN
 **Repository:** `Manaconda33/manacondas-minigame-mayhem`  
 **Working branch:** `design/neon-grid-circuit-02`  
 **Planning baseline:** `0262a1e89ddd59cf483a274c6a9737a91049ea44`  
@@ -88,3 +88,39 @@ The first bloom-enabled capture changed the Task 8 rail appearance. The candidat
 Fresh `npm run validate` passed strict typecheck, zero-warning lint, **131 test files / 1,046 tests**, approved asset verification and production build. The standalone T9.6 analyzer suite passed **8/8**, and `git diff --check` is clean. At the time of the prior 350,000-triangle ceiling, all three Local Chromium/SwiftShader sector gates passed with zero captured errors: Skyline **+36 calls**, peak **286 calls / 311,199 triangles**; Undercity **+30**, peak **314 / 313,135**; Falls extension **+24** against its +28 ceiling, peak **266 / 329,723**, with stable reverse-order hidden/visible counters. Full reports and the preserved pre-amendment captures are in the [sector-gate evidence](../../evidence/2026-10-09-neon-grid-t9-7/after/sector-gates/summary.json). The sector diagnostics wait for all seven asynchronously loaded AI kart GLTF models before measuring. On October 9, the owner raised the forward-looking Task 9 engineering triangle ceiling to **425,000** under PRD amendment 2.28; the active full-course gate now pins the seven highest-triangle AI kart models and checks the full scene against the new ceiling. Its 34-station run passed with **404,291 triangles / 416 calls** at `waterfall-dive-rear`, 300 scored frames and zero errors; the [report and representative captures](../../evidence/2026-10-09-neon-grid-t9-7/after/full-course-worst-case/) are preserved. The PRD hard cap remains 750,000, and G-05 hardware requirements remain open.
 
 These captures use Chromium SwiftShader; mobile-sized viewports are simulations, and they do not establish G-05 hardware performance. The owner-reported desktop FPS PASS has no original raw capture or hardware metadata, so T9.6 remains open. No T9.7 preview has been published and owner visual/playability review remains open. PR #242 remains draft/unmerged; production gameplay is unchanged; stop before T9.8.
+
+## 8. Owner-approved comprehensive environment-correction amendment — 2026-10-09
+
+**Status: APPROVED; IMPLEMENTATION AND VISUAL AUDIT COMPLETE; OWNER ACCEPTANCE AND RUNTIME MERGE ARE STILL REQUIRED.** Manny directed that the environment correction use **Approach 2: connected, sector-local city ground**, with the following expanded scope and conditions. This amendment supersedes the narrower background-city correction checkpoint in §7 for implementation and verification.
+
+### Defects to trace and correct
+
+- Trace each owner-reported brown area to the actual rendered source: missing sector terrain, exposed warm horizon shader, insufficient city massing, or a gap left by geometry exclusions.
+- Audit the shared city-ground generator's corridor exclusions, curved-track rows, world-space overlaps, and all sector joins. Validate rendered meshes by raycasting and checking the generated triangles, not by relying on generator settings alone.
+- Deliver grounded, coherent city environments throughout Skyline, Undercity, and all of Falls Run using approved materials and optimized geometry. Buildings must visibly rise from the connected terraced city base; the result must read as a nighttime city rather than a collection of broad flat platforms.
+- Correct start-billboard wall occlusion and Billboard Gap screen-opening geometry as independent defects. Compare both with the earlier accepted runtime. Preserve approved sign artwork, route/shortcut behavior, all gameplay, and Task 8 protected visuals outside the explicitly approved background-city correction.
+
+### Verification and release gate
+
+- Sweep the complete course continuously with the actual chase and rear cameras, sampling at no more than 8 m between stations. Include all nine owner-reported visual anchors, clearly marked as approximate race-time-to-progress mappings.
+- Capture desktop and mobile portrait/landscape views with chase/rear cameras. Compare Low, Medium, and High graphics quality across Skyline, Undercity, Falls Run, and the Falls extension. Inspect the captured images and reports together.
+- Retain current ceilings: 500 calls for every race scene, 425,000 triangles for forward-looking Task 9 gates, the 750,000 PRD triangle cap, and the approved per-sector call budgets. Optimize current presentation geometry before considering any ceiling change. If the triangle ceiling still prevents visual completeness, present measured options and their visual impact for owner review.
+- Require a visual evidence review, full automated validation, and a new immutable, source-pinned preview before asking Manny for owner acceptance. Update this plan, IMPLEMENTATION-STATUS.md, TESTING.md, and DECISIONS.md with the evidence and exact source.
+
+**Acceptance requirement:** No unexplained brown voids, unfinished city-ground areas, floating buildings, obscured approved billboards, or malformed shortcut geometry in any owner-reported or full-course inspection view.
+
+**Governance:** Preserve approved gameplay, Task 8 protected visuals and all production release restrictions. Do not merge runtime PR #285 or #242, publish Neon Grid gameplay to production, or advance to T9.8 without Manny's explicit acceptance of the new preview. The approved correction plan does not itself constitute that acceptance.
+
+### Owner-reported regression views
+
+The nine approximate anchors are 0:35.55 (start billboards), 0:48.33 (Skyline approach), 1:07.30 and 1:22.32 (Undercity), 1:38.50 (tunnel exit), 1:51.97 (Falls approach), 2:12.02 and 2:31.15 (Falls city/Run), and 2:43.15 (waterfall zone). These mappings are diagnostic approximations; every course position is also covered by the continuous sweep.
+
+### Implementation evidence — 2026-10-09
+
+The diagnostic audit traced the reported gaps by sector. Skyline already had a local ground mesh, but it stopped at an 86 m outer offset and omitted corridor cells near shortcuts. Undercity and both Falls Run extension ranges (`0.46154–0.69935` and `0.85065–1.0`) had no continuous shared city floor; the separate Falls Run ground covered only `0.70–0.85`. Exposed background in the Falls shader also contributed a warm brown horizon where the city field did not cover the view. The expanded build now connects grade-following terraces through Skyline (`0–0.25255`), Undercity (`0.2525–0.46154`), both Falls Run extension ranges and the existing Task 8 Falls ground, while retaining the sector seam and shortcut openings. The Falls horizon shader uses the existing cool nighttime palette; shared renderer and Circuit Alpha sky settings were not changed.
+
+The shared generator now adapts terrace rows to curve curvature, removes only shortcut-specific ground cells, and checks seams against the actual merged visible meshes. In the Billboard Gap camera isolation at path fraction 0.25, the measured 948-triangle `billboard-plaza` is the continuous driving surface; the dark overhead flank is the existing Skyline deck fascia, and the stepped adjacent surfaces are the non-colliding city-ground mesh. That fascia and the portal artwork already appear at matching path fractions in the owner-approved T9.4 runtime `be47a3d7215867b9b275473fd2640cc626ef5e37`. The shortcut route, exit patch, collision/race behavior and sign art are unchanged. Rendered path images show the roadway remains continuous; geometry checks report no folded ground triangles or route intrusion. The T9.5 38-view runner passed before the final Falls-foundation alignment correction, so it is not presented as a post-correction run. T9.5 preview pin `64492df` was owner-rejected and is not called an accepted baseline.
+
+The nine owner anchors were recaptured at approximate progress values `0.075, 0.239, 0.31, 0.37, 0.43, 0.54, 0.63, 0.69, 0.72`. The continuous course sweep sampled all 182 positions at no more than 7.97 m apart, in desktop chase/rear views. It reported zero browser/render errors and peaked at **494 calls / 417,943 triangles**, within the unchanged **500 / 425,000** engineering ceilings. Each owner anchor also has desktop and mobile portrait chase/rear captures. Low/Medium/High comparisons cover Skyline, Undercity, Falls Run and the extension; mobile landscape and bloom-on/off comparisons are included. Contact sheets and raw images/reports are in the [expanded-environment evidence](../../evidence/2026-10-09-neon-grid-t9-7/after/expanded-environment-correction/README.md).
+
+The Billboard Gap curve was separately swept at 12 desktop fractions and three mobile-portrait fractions, in chase/rear views, against the owner-approved T9.4 runtime. The candidate reports zero browser errors and peaks at **378 calls / 344,115 triangles**. The T9.5 start-billboard/shortcut regression suite passed 38 captures before the final Falls-foundation alignment correction and peaked at **412 calls / 410,603 triangles**. After that correction, the refreshed full-course sweep recaptured all nine owner views, including start and waterfall, with zero browser/render errors. Chromium SwiftShader and simulated mobile viewports do not certify G-05 hardware performance.

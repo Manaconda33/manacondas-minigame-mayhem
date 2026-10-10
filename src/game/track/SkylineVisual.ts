@@ -11,7 +11,7 @@ import {
 } from './NeonGridVisualCommon';
 import {
   cityGroundFootingBounds,
-  NEON_GRID_CITY_TERRACES,
+  neonGridCityGroundOptions,
   neonGridSteppedTowerGeometry,
   neonGridTerracedCityGroundGeometry,
   type TerracedCityGroundOptions,
@@ -56,11 +56,13 @@ function billboardWallOpen(track: NeonGrid, side: number, progress: number): boo
   const center = track.curve.getPointAt(progress);
   const right = neonGridRightAt(track, progress);
   const edge = center.addScaledVector(right, side * track.halfWidthAt(progress));
-  const entry = (track.billboardGap.entry.progress[0] + track.billboardGap.entry.progress[1]) * 0.5;
+  const projection = track.billboardGap.project(edge, track.sampleCount);
+  const gapLength = track.billboardGap.curve.getLength();
+  const distance = track.billboardGap.fraction(projection) * gapLength;
   return (
-    track.billboardGap.junctionContains(edge) ||
-    Math.abs(progress - entry) < 0.006 ||
-    Math.abs(progress - track.billboardGap.exitProgress) < 0.006
+    projection.lateralDistance <= track.billboardGap.roadHalfWidth + 1.5 &&
+    Math.abs(edge.y - projection.point.y) < 1.5 &&
+    (distance < track.billboardGap.mouthDistance + 10 || distance > gapLength - 22)
   );
 }
 
@@ -163,11 +165,27 @@ function skylineFasciaGeometry(track: NeonGrid): THREE.BufferGeometry {
 function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry {
   const gap = track.billboardGap;
   // The approach camera is NOT on the same side as the nearest later main
-  // roadway around the hairpin. Face the true incoming driver viewpoint.
+  // roadway around the hairpin. Keep the inner screen on the same approach
+  // side while following the shortcut's local tangent, so it cannot fan
+  // across a turning camera view.
   const approachRoad = track.curve.getPointAt(gap.entry.progress[0] - 0.015);
+  const gapLength = gap.curve.getLength();
+  const mouthStart = gap.mouthDistance + 11;
+  const mouthEnd = gapLength - 23;
+  const referenceRoad = gap.curve.getPointAt(0.12);
+  const referenceTangent = gap.curve.getTangentAt(0.12).setY(0).normalize();
+  const referenceRight = new THREE.Vector3(referenceTangent.z, 0, -referenceTangent.x);
+  const screenSide = Math.sign(approachRoad.clone().sub(referenceRoad).dot(referenceRight)) || 1;
   const vertices: number[] = [];
+  const colors: number[] = [];
   const indices: number[] = [];
+  const lowerTone = new THREE.Color(0x1a303e);
+  const panelTone = new THREE.Color(0x294451);
+  const alternatePanelTone = new THREE.Color(0x233c49);
+  const ribTone = new THREE.Color(0x3a5864);
+  const guideTone = new THREE.Color(0x37e6ff);
   let panels = 0;
+  let guideBands = 0;
   function nearEdge(t: number): {
     base: THREE.Vector3;
     top: THREE.Vector3;
@@ -175,15 +193,15 @@ function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry 
     clear: boolean;
   } {
     const road = gap.curve.getPointAt(t);
-    const toApproach = approachRoad.clone().sub(road).setY(0);
-    if (toApproach.lengthSq() < 0.0001) {
-      const tangent = gap.curve.getTangentAt(t).setY(0).normalize();
-      toApproach.set(tangent.z, 0, -tangent.x);
-    }
-    toApproach.normalize();
-    const foot = road.clone().addScaledVector(toApproach, gap.roadHalfWidth + 0.55);
+    const tangent = gap.curve.getTangentAt(t).setY(0).normalize();
+    const toApproach = new THREE.Vector3(tangent.z, 0, -tangent.x).multiplyScalar(screenSide);
+    // Keep the opaque facade two and a half metres beyond the road edge.
+    const foot = road.clone().addScaledVector(toApproach, gap.roadHalfWidth + 2.5);
     const projection = track.projectMain(foot);
-    const clear = projection.lateralDistance - track.halfWidthAt(projection.progress) > 0.4;
+    const distance = t * gapLength;
+    const clear =
+      distance > mouthStart && distance < mouthEnd &&
+      projection.lateralDistance - track.halfWidthAt(projection.progress) > 0.4;
     const high = Math.max(road.y + 5.0, projection.point.y + 3.6);
     return {
       base: foot.clone().setY(road.y - 0.95),
@@ -201,7 +219,25 @@ function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry 
     if (!a.clear || !b.clear) continue;
     const first = vertices.length / 3;
     vertices.push(...a.base.toArray(), ...b.base.toArray(), ...b.top.toArray(), ...a.top.toArray());
+    const faceTone = i % 2 === 0 ? panelTone : alternatePanelTone;
+    for (const color of [lowerTone, lowerTone, faceTone, faceTone])
+      colors.push(color.r, color.g, color.b);
     indices.push(first, first + 1, first + 2, first, first + 2, first + 3);
+    const pushGuideBand = (low: number, high: number) => {
+      const aLow = a.base.clone().lerp(a.top, low).addScaledVector(a.out, -0.045);
+      const bLow = b.base.clone().lerp(b.top, low).addScaledVector(b.out, -0.045);
+      const bHigh = b.base.clone().lerp(b.top, high).addScaledVector(b.out, -0.045);
+      const aHigh = a.base.clone().lerp(a.top, high).addScaledVector(a.out, -0.045);
+      const bandStart = vertices.length / 3;
+      vertices.push(...aLow.toArray(), ...bLow.toArray(), ...bHigh.toArray(), ...aHigh.toArray());
+      for (let vertex = 0; vertex < 4; vertex++)
+        colors.push(guideTone.r, guideTone.g, guideTone.b);
+      indices.push(bandStart, bandStart + 1, bandStart + 2,
+        bandStart, bandStart + 2, bandStart + 3);
+      guideBands++;
+    };
+    pushGuideBand(0.16, 0.19);
+    pushGuideBand(0.86, 0.89);
     // Substantial vertically backed industrial pilaster at regular intervals.
     if (i % 6 === 0) {
       const aBack = a.base.clone().addScaledVector(a.out, 0.5);
@@ -213,15 +249,19 @@ function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry 
         ...aTopBack.toArray(),
         ...aBack.toArray(),
       );
+      for (let vertex = 0; vertex < 4; vertex++)
+        colors.push(ribTone.r, ribTone.g, ribTone.b);
       indices.push(p, p + 1, p + 2, p, p + 2, p + 3);
     }
     panels++;
   }
   const geometry = new THREE.BufferGeometry()
     .setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+    .setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
     .setIndex(indices);
   geometry.computeVertexNormals();
   geometry.userData.panels = panels;
+  geometry.userData.guideBands = guideBands;
   geometry.userData.presentationOnly = true;
   return geometry;
 }
@@ -327,14 +367,7 @@ function skylineRoofCapGeometry(): THREE.BufferGeometry {
 }
 
 function skylineCityGroundOptions(track: NeonGrid): TerracedCityGroundOptions {
-  return {
-    start: START - 0.006,
-    end: END + 0.006,
-    segments: 32,
-    innerOffset: 12,
-    terraces: NEON_GRID_CITY_TERRACES,
-    baseElevationAt: (progress) => track.curve.getPointAt(progress).y - 0.45,
-  };
+  return neonGridCityGroundOptions(track, START, END + 0.006);
 }
 
 function mergeCityBaseIntoSkylineFascia(
@@ -352,7 +385,23 @@ function mergeCityBaseIntoSkylineFascia(
     progressRange: readonly number[];
     innerOffset: number;
     outerOffset: number;
+    foldedTriangleCount: number;
+    omittedCellsByCorridor: Record<string, number>;
+    underlayCellsByCorridor: Record<string, number>;
+    maxOmittedCellSpanByCorridor: Record<string, number>;
+    competingTrackCellsRemoved: number;
+    occludedCorridorUnderlaysRemoved: number;
+    rasterCellSize: number;
+    rasterSurfaceIndexStart: number;
+    rasterSurfaceIndexCount: number;
+    maxRasterCellHeightRange: number;
   };
+  const floorIndexStart = fasciaGeometry.getIndex()?.count ?? 0;
+  const floorIndexCount = ground.geometry.getIndex()?.count ?? 0;
+  const geometryRanges = fascia.userData.geometryRanges as Record<
+    string,
+    { startTriangle: number; triangleCount: number }
+  >;
 
   const positions: number[] = [];
   const colors: number[] = [];
@@ -400,12 +449,41 @@ function mergeCityBaseIntoSkylineFascia(
   combined.computeVertexNormals();
   combined.computeBoundingBox();
   combined.computeBoundingSphere();
+  geometryRanges.cityGround = {
+    startTriangle: floorIndexStart / 3,
+    triangleCount: floorIndexCount / 3,
+  };
+  geometryRanges.cityFoundations = {
+    startTriangle: (floorIndexStart + floorIndexCount) / 3,
+    triangleCount: ((foundations.geometry.getIndex()?.count ?? 0) * foundations.count) / 3,
+  };
+  fascia.userData.geometryRanges = geometryRanges;
   combined.userData.terracedCityGround = true;
   combined.userData.terraceCount = groundMetadata.terraceCount;
   combined.userData.progressRange = [...groundMetadata.progressRange];
   combined.userData.innerOffset = groundMetadata.innerOffset;
   combined.userData.outerOffset = groundMetadata.outerOffset;
   combined.userData.includesCityFoundations = foundations.count;
+  combined.userData.floorIndexStart = floorIndexStart;
+  combined.userData.floorIndexCount = floorIndexCount;
+  combined.userData.floorTriangleCount = floorIndexCount / 3;
+  combined.userData.rasterCellSize = groundMetadata.rasterCellSize;
+  combined.userData.rasterSurfaceIndexStart =
+    floorIndexStart + groundMetadata.rasterSurfaceIndexStart;
+  combined.userData.rasterSurfaceIndexCount = groundMetadata.rasterSurfaceIndexCount;
+  combined.userData.rasterSurfaceRanges = [{
+    start: floorIndexStart + groundMetadata.rasterSurfaceIndexStart,
+    count: groundMetadata.rasterSurfaceIndexCount,
+  }];
+  combined.userData.maxRasterCellHeightRange = groundMetadata.maxRasterCellHeightRange;
+  combined.userData.retainingWallTriangleCount = 0;
+  combined.userData.foldedTriangleCount = groundMetadata.foldedTriangleCount;
+  combined.userData.omittedCellsByCorridor = groundMetadata.omittedCellsByCorridor;
+  combined.userData.underlayCellsByCorridor = groundMetadata.underlayCellsByCorridor;
+  combined.userData.maxOmittedCellSpanByCorridor = groundMetadata.maxOmittedCellSpanByCorridor;
+  combined.userData.competingTrackCellsRemoved = groundMetadata.competingTrackCellsRemoved;
+  combined.userData.occludedCorridorUnderlaysRemoved =
+    groundMetadata.occludedCorridorUnderlaysRemoved;
 
   fasciaGeometry.dispose();
   fascia.geometry = combined;
@@ -421,7 +499,7 @@ function mergeCityBaseIntoSkylineFascia(
   foundations.visible = false;
 }
 
-function placeTowers(track: NeonGrid): SkylineTower[] {
+function placeTowers(track: NeonGrid, renderedGround: THREE.Mesh): SkylineTower[] {
   const ground = skylineCityGroundOptions(track);
   const towers: SkylineTower[] = [];
   for (let attempt = 0; attempt < 180 && towers.length < 22; attempt++) {
@@ -448,15 +526,21 @@ function placeTowers(track: NeonGrid): SkylineTower[] {
       )
     )
       continue;
-    const footing = cityGroundFootingBounds(
-      track,
-      ground,
-      position,
-      rotationY,
-      width * 1.12,
-      depth * 1.12,
-      0.65,
-    );
+    let footing: ReturnType<typeof cityGroundFootingBounds>;
+    try {
+      footing = cityGroundFootingBounds(
+        track,
+        ground,
+        position,
+        rotationY,
+        width * 1.12,
+        depth * 1.12,
+        0.65,
+        renderedGround,
+      );
+    } catch {
+      continue;
+    }
     towers.push({
       position,
       right,
@@ -485,17 +569,27 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
       start: 0.038,
       end: 0.224,
       side: billboardScreenSide,
-      opening: (p) =>
-        billboardWallOpen(track, billboardScreenSide, p) ||
-        Math.abs(p - track.billboardGap.entry.progress[0]) < 0.01 ||
-        Math.abs(p - track.billboardGap.exitProgress) < 0.01,
+      opening: (p) => billboardWallOpen(track, billboardScreenSide, p),
     },
     // Short supported expressway facades also obscure the tunnel approach.
     { start: 0.22, end: 0.244, side: -1, opening: (p) => skylineTunnelMouthOpen(track, -1, p) },
     { start: 0.22, end: 0.244, side: 1, opening: (p) => skylineTunnelMouthOpen(track, 1, p) },
   ]);
   const innerScreens = billboardInteriorScreenGeometry(track);
+  const tintGeometry = (geometry: THREE.BufferGeometry, hex: number) => {
+    if (geometry.hasAttribute('color')) return;
+    const position = geometry.getAttribute('position');
+    const tint = new THREE.Color(hex);
+    const colors = new Float32Array(position.count * 3);
+    for (let i = 0; i < position.count; i++) tint.toArray(colors, i * 3);
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  };
+  tintGeometry(originalFascia, 0x132837);
+  tintGeometry(wallScreens, 0x172c3a);
   const fasciaGeometry = mergeGeometries([originalFascia, wallScreens, innerScreens], false);
+  const outerFasciaTriangles = (originalFascia.getIndex()?.count ?? 0) / 3;
+  const roadsideScreenTriangles = (wallScreens.getIndex()?.count ?? 0) / 3;
+  const billboardGapWingTriangles = (innerScreens.getIndex()?.count ?? 0) / 3;
   // Both outer facade and inner Billboard wing share the existing draw call.
   const screenPanelCount =
     (wallScreens.userData.panelCount as number) + (innerScreens.userData.panels as number);
@@ -514,7 +608,23 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
   );
   fascia.name = 'skyline-deck-fascia';
   fascia.userData.sightlinePanels = screenPanelCount;
+  fascia.userData.billboardInteriorPanels = innerScreens.userData.panels as number;
+  fascia.userData.billboardGuideBands = innerScreens.userData.guideBands as number;
+  fascia.userData.geometryRanges = {
+    outerFascia: { startTriangle: 0, triangleCount: outerFasciaTriangles },
+    roadsideScreens: {
+      startTriangle: outerFasciaTriangles,
+      triangleCount: roadsideScreenTriangles,
+    },
+    billboardGapWing: {
+      startTriangle: outerFasciaTriangles + roadsideScreenTriangles,
+      triangleCount: billboardGapWingTriangles,
+    },
+  };
   fascia.userData.mouthCuts = mouthCuts;
+  fascia.userData.billboardWallOpenings = (
+    wallScreens.userData.openingIntervals as { start: number; end: number; side: -1 | 1 }[]
+  ).filter((interval) => interval.side === billboardScreenSide && interval.start >= 0.038 && interval.end <= 0.224);
   fascia.userData.presentationOnly = true;
   group.add(fascia);
 
@@ -571,7 +681,6 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
 }
 
 function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality): SkylineTower[] {
-  const towerData = placeTowers(track);
   const groundOptions = skylineCityGroundOptions(track);
   const cityGround = new THREE.Mesh(
     neonGridTerracedCityGroundGeometry(track, groundOptions),
@@ -585,6 +694,7 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   cityGround.userData.presentationOnly = true;
   cityGround.userData.collision = false;
   cityGround.userData.progressRange = [groundOptions.start, groundOptions.end];
+  const towerData = placeTowers(track, cityGround);
   const towerMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
   });
@@ -863,6 +973,7 @@ function addApprovedAds(
     4,
   );
   supports.name = 'skyline-mask-roadside-billboard-supports';
+  supports.userData.supportOffsetFromRoadsideScreen = 0.32;
   supports.userData.immutableSponsorArt = true;
   supports.userData.camouflageProgress = [0.135, 0.184, 0.146, 0.194];
   supports.userData.wallMountedProgress = [0.052, 0.076, 0.06, 0.085];
@@ -918,12 +1029,13 @@ function addApprovedAds(
       // All eight are attached to the established camouflage wall instead
       // of floating on isolated stands several metres behind it.
       const elevated = i >= 2;
+      const roadsideOffset = elevated ? 0.66 : 0.44;
       const foot = center
         .clone()
-        .addScaledVector(right, side * (track.halfWidthAt(progress) + 0.44));
+        .addScaledVector(right, side * (track.halfWidthAt(progress) + roadsideOffset));
       const facing = Math.atan2(inward.x, inward.z);
       if (elevated) {
-        dummy.position.copy(foot);
+        dummy.position.copy(foot).addScaledVector(inward, 0.32);
         dummy.rotation.set(0, facing, 0);
         dummy.scale.set(1, 1, 1);
         dummy.updateMatrix();
@@ -931,8 +1043,8 @@ function addApprovedAds(
       }
       dummy.position
         .copy(foot)
-        .add(new THREE.Vector3(0, elevated ? 5.45 : 1.7, 0))
-        .addScaledVector(inward, elevated ? 0.2 : 0.3);
+        .add(new THREE.Vector3(0, elevated ? 5.45 : 3.5, 0))
+        .addScaledVector(inward, elevated ? 0.48 : 0.3);
       dummy.rotation.set(0, facing, 0);
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();

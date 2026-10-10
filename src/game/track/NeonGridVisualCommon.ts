@@ -146,6 +146,7 @@ export function neonGridRoadsideScreenGeometry(
 ): THREE.BufferGeometry {
   const vertices: number[] = [];
   const indices: number[] = [];
+  const openingIntervals: { start: number; end: number; side: -1 | 1 }[] = [];
   let panels = 0;
   let openings = 0;
   function quad(a: THREE.Vector3, b: THREE.Vector3, c: THREE.Vector3, d: THREE.Vector3): void {
@@ -180,15 +181,51 @@ export function neonGridRoadsideScreenGeometry(
     for (let i = 0; i < count; i++) {
       const a = THREE.MathUtils.lerp(strip.start, strip.end, i / count);
       const b = THREE.MathUtils.lerp(strip.start, strip.end, (i + 1) / count);
-      const mid = (a + b) * 0.5;
-      if ([a, mid, b].some((p) => strip.opening?.(p) === true)) {
-        openings++;
+      const samplePoints = [a, THREE.MathUtils.lerp(a, b, 0.25), (a + b) * 0.5,
+        THREE.MathUtils.lerp(a, b, 0.75), b];
+      if (!samplePoints.some((progress) => strip.opening?.(progress) === true)) {
+        // Repeating opaque wall modules and deeper integral pilaster ribs.
+        panel(a, b, strip.side, 0.44, 3.95);
+        if (i % 6 === 0) panel(a, a + (b - a) * 0.38, strip.side, 0.30, 4.35);
+        panels++;
         continue;
       }
-      // Repeating opaque wall modules and deeper integral pilaster ribs.
-      panel(a, b, strip.side, 0.44, 3.95);
-      if (i % 6 === 0) panel(a, a + (b - a) * 0.38, strip.side, 0.30, 4.35);
-      panels++;
+
+      openings++;
+      const closedSegments: { start: number; end: number }[] = [];
+      const openSegments: { start: number; end: number }[] = [];
+      const refine = (start: number, end: number, depth: number): void => {
+        const middle = (start + end) * 0.5;
+        const startOpen = strip.opening?.(start) === true;
+        const middleOpen = strip.opening?.(middle) === true;
+        const endOpen = strip.opening?.(end) === true;
+        if (startOpen === middleOpen && middleOpen === endOpen) {
+          (middleOpen ? openSegments : closedSegments).push({ start, end });
+          return;
+        }
+        if (depth >= 9 || end - start <= 0.000025) {
+          (middleOpen ? openSegments : closedSegments).push({ start, end });
+          return;
+        }
+        refine(start, middle, depth + 1);
+        refine(middle, end, depth + 1);
+      };
+      refine(a, b, 0);
+      for (const interval of openSegments) {
+        const previous = openingIntervals.at(-1);
+        if (previous?.side === strip.side && Math.abs(previous.end - interval.start) < 1e-7) {
+          openingIntervals[openingIntervals.length - 1] = {
+            ...previous,
+            end: interval.end,
+          };
+        } else {
+          openingIntervals.push({ ...interval, side: strip.side });
+        }
+      }
+      for (const interval of closedSegments) {
+        panel(interval.start, interval.end, strip.side, 0.44, 3.95);
+        panels++;
+      }
     }
   }
   const result = new THREE.BufferGeometry()
@@ -197,6 +234,7 @@ export function neonGridRoadsideScreenGeometry(
   result.computeVertexNormals();
   result.userData.panelCount = panels;
   result.userData.openingSegments = openings;
+  result.userData.openingIntervals = openingIntervals;
   result.userData.presentationOnly = true;
   result.userData.opaqueScreens = true;
   return result;

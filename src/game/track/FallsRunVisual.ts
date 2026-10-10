@@ -8,15 +8,20 @@ import {
 } from './NeonGridVisualCommon';
 import {
   cityGroundFootingBounds,
+  mergeInstancedCityMeshesIntoGround,
+  neonGridCityGroundOptions,
   neonGridSteppedTowerGeometry,
   neonGridTerracedCityGroundGeometry,
-  type TerracedCityGroundOptions,
 } from './NeonGridCityGround';
 import { disposeTrackScene } from './TrackSceneResources';
 
 const START = 0.7;
 const END = 0.85;
 const SEGMENTS = 56;
+// A 2 m route-space overlap lets the outer city floor follow the true world
+// projection where lateral offsets shift the visible seam across the protected
+// Falls Run section boundary.
+const CITY_GROUND_SEAM = 0.002;
 const CYAN = 0x37e6ff;
 const GOLD = 0xffc63f;
 const MAGENTA = 0xff4fd8;
@@ -205,11 +210,11 @@ function nightSky(): THREE.Mesh {
         float h = normalize(vDirection).y;
         vec3 zenith = vec3(0.002, 0.006, 0.018);
         vec3 upper = vec3(0.005, 0.018, 0.040);
-        vec3 horizon = vec3(0.045, 0.028, 0.032);
+        vec3 horizon = vec3(0.008, 0.012, 0.028);
         vec3 color = mix(horizon, upper, smoothstep(-0.02, 0.28, h));
         color = mix(color, zenith, smoothstep(0.28, 0.88, h));
         float cityGlow = exp(-abs(h) * 17.0) * (0.45 + 0.25 * sin(atan(vDirection.z, vDirection.x) * 4.0));
-        color += vec3(0.42, 0.16, 0.035) * max(cityGlow, 0.0);
+        color += vec3(0.035, 0.055, 0.13) * max(cityGlow, 0.0);
         float cyanGlow = exp(-abs(h + 0.02) * 24.0) * max(0.0, sin(atan(vDirection.z, vDirection.x) * 3.0 + 1.7));
         color += vec3(0.01, 0.12, 0.18) * cyanGlow * 0.35;
         vec3 cell = floor(normalize(vDirection) * 520.0);
@@ -356,20 +361,12 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
 }
 
 function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality): void {
-  const groundOptions: TerracedCityGroundOptions = {
-    start: START - 0.02,
-    end: END + 0.02,
-    segments: 24,
-    innerOffset: 11,
-    terraces: [
-      { outerOffset: 22, drop: 0 },
-      { outerOffset: 32, drop: -1.25 },
-      { outerOffset: 42, drop: -2.65 },
-      { outerOffset: 52, drop: -4.2 },
-      { outerOffset: 62, drop: -6.0 },
-    ],
-    baseElevationAt: (progress) => track.curve.getPointAt(progress).y - 0.45,
-  };
+  const groundOptions = neonGridCityGroundOptions(
+    track,
+    START - CITY_GROUND_SEAM,
+    END + CITY_GROUND_SEAM,
+    13,
+  );
   const ground = new THREE.Mesh(
     neonGridTerracedCityGroundGeometry(track, groundOptions),
     new THREE.MeshBasicMaterial({
@@ -407,51 +404,84 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
     foundationWidth: number;
     foundationDepthWidth: number;
   }[] = [];
-  for (let i = 0; i < towers.count; i++) {
-    const progress = THREE.MathUtils.lerp(START - 0.015, END + 0.015, i / (towers.count - 1));
+  for (let attempt = 0; attempt < 360 && towerData.length < towers.count; attempt++) {
+    const i = towerData.length;
+    const progressFraction = ((attempt * 37) % 359) / 358;
+    const progress = THREE.MathUtils.lerp(START + 0.012, END - 0.012, progressFraction);
     const center = track.curve.getPointAt(progress);
     const right = neonGridRightAt(track, progress);
-    const side = i % 2 === 0 ? -1 : 1;
-    const lateral = 24 + ((i * 7) % 25);
-    const width = 7 + ((i * 5) % 8);
-    const depth = 7 + ((i * 11) % 10);
+    const preferredSide = i % 2 === 0 ? -1 : 1;
+    const preferredLateral = 24 + ((attempt * 7) % 25);
+    const baseWidth = 7 + ((attempt * 5) % 8);
+    const baseDepth = 7 + ((attempt * 11) % 10);
     const originalHeight = 34 + ((i * 13) % 46);
-    const foundationWidth = width * 1.18;
-    const foundationDepthWidth = depth * 1.18;
-    const position = center.clone().addScaledVector(right, side * lateral);
-    const footing = cityGroundFootingBounds(
-      track,
-      groundOptions,
-      position,
-      0,
-      foundationWidth,
-      foundationDepthWidth,
-      1.5,
-    );
-    const baseY = footing.topY;
-    const height = Math.max(20, center.y - 11 + originalHeight - baseY);
-    position.y = baseY + height * 0.5;
-    towerData.push({
-      position,
-      width,
-      depth,
-      height,
-      baseY,
-      foundationBottom: footing.bottomY,
-      foundationDepth: footing.depth,
-      foundationWidth,
-      foundationDepthWidth,
-    });
-    towerDummy.position.copy(position).setY(baseY);
-    towerDummy.rotation.set(0, 0, 0);
-    towerDummy.scale.set(width, height, depth);
-    towerDummy.updateMatrix();
-    towers.setMatrixAt(i, towerDummy.matrix);
-    towers.setColorAt(
-      i,
-      facadeColors[i % facadeColors.length] ?? facadeColors[0] ?? new THREE.Color(0x1d3d51),
-    );
+    let placed = false;
+    for (const scaleFactor of [1, 0.86, 0.72]) {
+      const width = baseWidth * scaleFactor;
+      const depth = baseDepth * scaleFactor;
+      const foundationWidth = width * 1.18;
+      const foundationDepthWidth = depth * 1.18;
+      const offsets = [0, -6, -12, -18, 6, 12];
+      const sides = [preferredSide, (preferredSide * -1) as -1 | 1];
+      for (const side of sides) {
+        for (const delta of offsets) {
+          const lateral = Math.max(
+            groundOptions.innerOffset + Math.max(foundationWidth, foundationDepthWidth) * 0.58,
+            preferredLateral + delta,
+          );
+          const position = center.clone().addScaledVector(right, side * lateral);
+          if (towerData.some((tower) =>
+            Math.hypot(tower.position.x - position.x, tower.position.z - position.z) <
+            (Math.hypot(tower.width, tower.depth) + Math.hypot(width, depth)) * 0.42,
+          )) continue;
+          let footing: ReturnType<typeof cityGroundFootingBounds>;
+          try {
+            footing = cityGroundFootingBounds(
+              track,
+              groundOptions,
+              position,
+              0,
+              foundationWidth,
+              foundationDepthWidth,
+              1.5,
+              ground,
+            );
+          } catch {
+            continue;
+          }
+          const baseY = footing.topY;
+          const height = Math.max(20, center.y - 11 + originalHeight - baseY);
+          position.y = baseY + height * 0.5;
+          towerData.push({
+            position,
+            width,
+            depth,
+            height,
+            baseY,
+            foundationBottom: footing.bottomY,
+            foundationDepth: footing.depth,
+            foundationWidth,
+            foundationDepthWidth,
+          });
+          towerDummy.position.copy(position).setY(baseY);
+          towerDummy.rotation.set(0, 0, 0);
+          towerDummy.scale.set(width, height, depth);
+          towerDummy.updateMatrix();
+          towers.setMatrixAt(i, towerDummy.matrix);
+          towers.setColorAt(
+            i,
+            facadeColors[i % facadeColors.length] ?? facadeColors[0] ?? new THREE.Color(0x1d3d51),
+          );
+          placed = true;
+          break;
+        }
+        if (placed) break;
+      }
+      if (placed) break;
+    }
   }
+  if (towerData.length !== towers.count)
+    throw new Error(`Falls Run requires 24 supported city towers; got ${String(towerData.length)}`);
   towers.instanceMatrix.needsUpdate = true;
   if (towers.instanceColor) towers.instanceColor.needsUpdate = true;
 
@@ -510,9 +540,12 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   if (foundations.instanceColor) foundations.instanceColor.needsUpdate = true;
 
   const windowCount = quality === 'low' ? 160 : quality === 'high' ? 480 : 320;
-  const windowMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const windowMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    side: THREE.DoubleSide,
+  });
   const windows = new THREE.InstancedMesh(
-    new THREE.BoxGeometry(0.7, 0.42, 0.04),
+    new THREE.PlaneGeometry(0.7, 0.42),
     windowMaterial,
     windowCount,
   );
@@ -569,6 +602,7 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   roofLights.instanceMatrix.needsUpdate = true;
   if (roofLights.instanceColor) roofLights.instanceColor.needsUpdate = true;
   group.add(ground, foundations, towers, windows, roofLights);
+  mergeInstancedCityMeshesIntoGround(ground, [foundations, towers]);
 }
 
 function addWaterfallDistrict(

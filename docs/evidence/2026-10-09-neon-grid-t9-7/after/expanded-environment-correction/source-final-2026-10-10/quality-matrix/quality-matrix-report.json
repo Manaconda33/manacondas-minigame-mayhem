@@ -1,0 +1,212 @@
+{
+  "source": "Actual Neon Grid KartTimeTrial scene; four course sectors, Low/Medium/High, chase and Medium rear",
+  "environment": "Local Chromium software WebGL / SwiftShader; visual comparison and structural budget evidence only",
+  "regions": [
+    {
+      "name": "skyline",
+      "progress": 0.075
+    },
+    {
+      "name": "undercity",
+      "progress": 0.37
+    },
+    {
+      "name": "falls-run",
+      "progress": 0.72
+    },
+    {
+      "name": "falls-extension",
+      "progress": 0.92
+    }
+  ],
+  "qualities": [
+    "low",
+    "medium",
+    "high"
+  ],
+  "errors": [],
+  "captures": [
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "quality": "low",
+      "camera": "chase",
+      "filename": "skyline-low-chase.png",
+      "calls": 81,
+      "triangles": 63787,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "quality": "medium",
+      "camera": "chase",
+      "filename": "skyline-medium-chase.png",
+      "calls": 176,
+      "triangles": 134887,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "quality": "medium",
+      "camera": "rear",
+      "filename": "skyline-medium-rear.png",
+      "calls": 322,
+      "triangles": 385331,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "quality": "high",
+      "camera": "chase",
+      "filename": "skyline-high-chase.png",
+      "calls": 176,
+      "triangles": 135807,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "quality": "low",
+      "camera": "chase",
+      "filename": "undercity-low-chase.png",
+      "calls": 146,
+      "triangles": 81283,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "quality": "medium",
+      "camera": "chase",
+      "filename": "undercity-medium-chase.png",
+      "calls": 306,
+      "triangles": 170839,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "quality": "medium",
+      "camera": "rear",
+      "filename": "undercity-medium-rear.png",
+      "calls": 274,
+      "triangles": 384619,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "quality": "high",
+      "camera": "chase",
+      "filename": "undercity-high-chase.png",
+      "calls": 306,
+      "triangles": 172719,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "quality": "low",
+      "camera": "chase",
+      "filename": "falls-run-low-chase.png",
+      "calls": 48,
+      "triangles": 49165,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "quality": "medium",
+      "camera": "chase",
+      "filename": "falls-run-medium-chase.png",
+      "calls": 110,
+      "triangles": 105803,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "quality": "medium",
+      "camera": "rear",
+      "filename": "falls-run-medium-rear.png",
+      "calls": 386,
+      "triangles": 402847,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "quality": "high",
+      "camera": "chase",
+      "filename": "falls-run-high-chase.png",
+      "calls": 110,
+      "triangles": 106883,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-extension",
+      "progress": 0.92,
+      "quality": "low",
+      "camera": "chase",
+      "filename": "falls-extension-low-chase.png",
+      "calls": 87,
+      "triangles": 58699,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-extension",
+      "progress": 0.92,
+      "quality": "medium",
+      "camera": "chase",
+      "filename": "falls-extension-medium-chase.png",
+      "calls": 188,
+      "triangles": 124711,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-extension",
+      "progress": 0.92,
+      "quality": "medium",
+      "camera": "rear",
+      "filename": "falls-extension-medium-rear.png",
+      "calls": 274,
+      "triangles": 355731,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "region": "falls-extension",
+      "progress": 0.92,
+      "quality": "high",
+      "camera": "chase",
+      "filename": "falls-extension-high-chase.png",
+      "calls": 188,
+      "triangles": 125631,
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "maximumCalls": 386,
+  "maximumTriangles": 402847,
+  "engineeringCeilings": {
+    "calls": 500,
+    "triangles": 425000
+  }
+}

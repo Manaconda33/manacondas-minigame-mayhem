@@ -26,3 +26,18 @@
 | Stage C automation | New explicit authorization, credential and runner safety design | NOT AUTHORIZED |
 
 **Known external governance risk:** independent reviewer reported GitHub `main` as unprotected with required-status-check enforcement disabled. This PR cannot repair that within the Stage B footprint. No repository settings have been changed. Do not infer that written gates prevent privileged users from merging against policy.
+
+## Subsequent Work re-review at `cf4ca3ac` (first finding only)
+
+The second independent Work review remains **BLOCKED**. For its High finding 1,
+`beginTask()` now requires fresh synthetic approval and original routed-event facts,
+verifies queue event identity, and consumes the event in the same simulation start
+operation. A fabricated matching queue or absent proof is rejected. Six new native
+negative tests cover direct queue injection, fabricated event ID, unapproved actor,
+changed digest, stale current baseline and replay with the same in-memory store.
+
+**Unresolved findings remain open:** timestamp backdating, cancellation revision,
+unresolved-risk summary, schema-instance coverage and explicit merge-request fixture.
+No Stage B acceptance or publication authority is inferred from this first fix.
+Only a synthetic in-memory Set provides replay detection; genuine atomic receipt
+storage and authenticated evidence remain Stage C prerequisites.

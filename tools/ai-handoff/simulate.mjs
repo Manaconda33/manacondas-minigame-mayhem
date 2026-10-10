@@ -13,12 +13,12 @@ for(const fixture of fixtures){
   const trusted = {fixture_context:true,provenance:'offline_test_harness',actor:'Manaconda33',authorized:true,event_id:m.approval.event_id,task_id:m.id,repository:m.repository,issue_number:m.issue_number,base_sha:m.base_sha,digest:m.manifest_sha256};
   const event = {...fixture.event,manifest_digest:m.manifest_sha256};
   try {
-    const scoped = authorizeScope(m,trusted,fixture.current_base_sha);
-    const state = eventRouter(event,scoped,new Set(),m,trusted,fixture.current_base_sha);
-    if(state!=='queued')throw Error('fixture not queued');
     const queued = queueItem(m,event.id);
     validateQueueItem(queued,m);
-    let ledger = beginTask(m,queued,fixture.deadline_ms);
+    // The start gate performs fresh authorization and routing; a queued shape alone fails.
+    let ledger = beginTask(m,queued,fixture.deadline_ms,{
+      event,trusted,currentBaseSha:fixture.current_base_sha,seen:new Set()
+    });
     const outcomes=[];
     for(const [i,cycle] of fixture.cycles.entries()){
       const advanced=advanceCycle(ledger,cycle,m,{expectedRevision:ledger.revision,nowMs:fixture.now_ms+i*1000});

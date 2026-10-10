@@ -233,8 +233,17 @@ export function validateCycle(cycle,m) {
   if (cycle.review !== null) validateReview(cycle.review,cycle.candidate_sha);
   return true;
 }
-export function beginTask(m, queued, deadlineMs) {
-  validateManifest(m); validateQueueItem(queued,m);integer(deadlineMs,'task deadline',1);
+// A valid-looking queue record is never execution authority. Re-verify approval
+// AND route its original event at the moment this ledger is created. The provided
+// seen set is simulation-only: Stage C requires an authenticated durable store.
+export function beginTask(m, queued, deadlineMs, startEvidence) {
+  validateManifest(m); validateQueueItem(queued,m); integer(deadlineMs,'task deadline',1);
+  ensure(validObject(startEvidence), 'task start requires verified approval and routed event');
+  const {event,trusted,currentBaseSha,seen} = startEvidence;
+  ensure(validObject(event), 'task start requires routed event envelope');
+  ensure(event.id === queued.event_id, 'queue event ID differs from routed event');
+  const approvedState = authorizeScope(m,trusted,currentBaseSha);
+  ensure(eventRouter(event,approvedState,seen,m,trusted,currentBaseSha) === 'queued', 'event failed authorization/routing');
   return {version:CONTRACT_VERSION,repository:m.repository,task_id:m.id,issue_number:m.issue_number,manifest_digest:m.manifest_sha256,base_sha:m.base_sha,state:'running',revision:0,deadline_ms:deadlineMs,cycles:[],cumulative_elapsed_minutes:0,cumulative_spend_usd:0,corrections_consumed:0,simulation_only:true};
 }
 function outcomeForCycle(cycle,m,cumulativeMinutes,cumulativeSpend,deadlineMs) {

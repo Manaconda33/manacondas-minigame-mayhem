@@ -22,7 +22,8 @@ function prepared(i=0) {
   return {m,trusted,fixture,event};
 }
 function queued(p){const state=authorizeScope(p.m,p.trusted,p.fixture.current_base_sha);assert.equal(state,'scope_approved');assert.equal(eventRouter(p.event,state,new Set(),p.m,p.trusted,p.fixture.current_base_sha),'queued');return queueItem(p.m,p.event.id);}
-function ledger(p){return beginTask(p.m,queued(p),p.fixture.deadline_ms);}
+function startEvidence(p,seen=new Set()){return {event:p.event,trusted:p.trusted,currentBaseSha:p.fixture.current_base_sha,seen};}
+function ledger(p){return beginTask(p.m,queueItem(p.m,p.event.id),p.fixture.deadline_ms,startEvidence(p));}
 function take(p,l,c,i=0){return advanceCycle(l,c,p.m,{expectedRevision:l.revision,nowMs:p.fixture.now_ms+i*1000});}
 function decision(p,type,candidateSha='a'.repeat(40),prNumber=289){return {type,task_id:p.m.id,repository:p.m.repository,issue_number:p.m.issue_number,manifest_digest:p.m.manifest_sha256,base_sha:p.m.base_sha,candidate_sha:candidateSha,pr_number:prNumber,event_id:`fixture-decision-${type}`,approved_by:'Manaconda33',destination:type==='release_authorization'?'main':'implementation_only'};}
 function decisionTrust(p,d){return {fixture_context:true,provenance:'offline_test_harness',authorized:true,actor:'Manaconda33',event_id:d.event_id,type:d.type,task_id:d.task_id,repository:d.repository,issue_number:d.issue_number,manifest_digest:d.manifest_digest,candidate_sha:d.candidate_sha,pr_number:d.pr_number,destination:d.destination,base_sha:d.base_sha};}
@@ -115,7 +116,7 @@ test('review missing yields owner decision, not review readiness',()=>{const p=p
 test('review for another candidate is rejected before state advances',()=>{const p=prepared(9);assert.throws(()=>take(p,ledger(p),p.fixture.cycles[0]),/stale reviewer candidate/);});
 test('out of scope high finding escalates instead of new correction',()=>{const p=prepared();const c=cloned(p.fixture.cycles[0]);c.review.findings=[{severity:'high',code:'SCOPE',description:'protected file requested',type:'out_of_scope'}];assert.equal(take(p,ledger(p),c).outcome,'needs_owner_decision');});
 test('fake reviewer flag cannot grant review readiness and fake owner visual cannot grant acceptance',()=>{const p=prepared(7);assert.equal(take(p,ledger(p),p.fixture.cycles[0]).outcome,'needs_owner_decision');const bad=cloned(p.fixture.cycles[0]);bad.review={source:'ai-approved',review_id:'fake',reviewer_id:'fake',candidate_sha:bad.candidate_sha,verdict:'pass',findings:[]};assert.throws(()=>take(p,ledger(p),bad),/not an independent review fixture/);});
-test('new Task ledger must come from a matching queue record',()=>{const p=prepared();const q=queued(p);assert.equal(validateTask(beginTask(p.m,q,600000),p.m),true);assert.throws(()=>beginTask(p.m,{...q,task_id:'MAYHEM-AUTO-999'},600000),/identity/);});
+test('new Task ledger must come from a matching queue record',()=>{const p=prepared();const q=queued(p);assert.equal(validateTask(beginTask(p.m,q,600000,startEvidence(p)),p.m),true);assert.throws(()=>beginTask(p.m,{...q,task_id:'MAYHEM-AUTO-999'},600000,startEvidence(p)),/identity/);});
 test('review packet is immutable-identity complete, reconstructable, labeled synthetic, and cannot grant release',()=>{const p=prepared(1);let l=ledger(p);for(const[i,c]of p.fixture.cycles.entries())l=take(p,l,c,i).ledger;const packet=reviewPacket(p.m,l,p.fixture.pr_number);assert.equal(packet.simulation_only,true);assert.match(packet.evidence_source,/SYNTHETIC/);assert.equal(packet.release_authorization,'NOT GRANTED');assert.equal(packet.human_approval,'NOT GRANTED');assert.deepEqual(packet.candidate_shas,l.cycles.map(c=>c.candidate_sha));assert.deepEqual(packet.ci_run_ids,l.cycles.map(c=>c.ci_run_id));assert.equal(packet.manifest_digest,p.m.manifest_sha256);assert.equal(packet.base_sha,p.m.base_sha);assert.equal(packet.cumulative_elapsed_minutes,l.cumulative_elapsed_minutes);assert.equal(packet.cumulative_spend_usd,l.cumulative_spend_usd);assert.equal(packet.attempts_consumed,2);assert.equal(noticeKey(packet),noticeKey({...packet}));});
 test('packet cannot be created from active work or without committed evidence',()=>{const p=prepared();assert.throws(()=>reviewPacket(p.m,ledger(p),289),/active work/);});
 test('all 11 fixtures match explicit expected results including negative error scenarios',()=>{for(let i=0;i<fixtures.length;i++){const p=prepared(i);try{const l0=ledger(p);let l=l0;const outcomes=[];for(const[j,c]of p.fixture.cycles.entries()){const a=take(p,l,c,j);l=a.ledger;outcomes.push(a.outcome);}assert.equal(p.fixture.expected_error,undefined);assert.deepEqual(outcomes,p.fixture.expected_outcomes);}catch(e){if(!p.fixture.expected_error)throw e;assert.match(e.message,new RegExp(p.fixture.expected_error));}}});
@@ -135,4 +136,33 @@ test('cannot insert another cycle after a successful prior cycle and falsify cou
 test('cycle time evidence is bound to supplied observation clock, not resettable by caller',()=>{
   const p=prepared();const c={...p.fixture.cycles[0],observed_at_ms:1200};
   assert.throws(()=>take(p,ledger(p),c),/observation clock mismatch/);
+});
+
+// Work re-review high finding 1: no independent path from queue-shaped data to running.
+test('task start denies direct matching queue injection without approval or routing',()=>{
+  const p=prepared();const q=queueItem(p.m,p.event.id);
+  assert.throws(()=>beginTask(p.m,q,p.fixture.deadline_ms),/task start requires verified approval/);
+  assert.throws(()=>beginTask(p.m,q,p.fixture.deadline_ms,{}),/routed event envelope/);
+});
+test('task start rejects fabricated event ID despite otherwise matching queue identity',()=>{
+  const p=prepared();const invented=queueItem(p.m,'forged-event-999');
+  assert.equal(validateQueueItem(invented,p.m),true);
+  assert.throws(()=>beginTask(p.m,invented,p.fixture.deadline_ms,startEvidence(p)),/queue event ID differs/);
+});
+test('task start freshly rejects a disallowed actor even if queue identity matches',()=>{
+  const p=prepared();const q=queueItem(p.m,p.event.id);
+  assert.throws(()=>beginTask(p.m,q,p.fixture.deadline_ms,{...startEvidence(p),trusted:{...p.trusted,authorized:false}}),/untrusted actor/);
+});
+test('task start rejects modified manifest digest after purported queueing',()=>{
+  const p=prepared();const q=queueItem(p.m,p.event.id);p.m.objective+=' unauthorized change';
+  assert.throws(()=>beginTask(p.m,q,p.fixture.deadline_ms,startEvidence(p)),/approval digest mismatch/);
+});
+test('task start rejects otherwise consistent approval when current baseline is stale',()=>{
+  const p=prepared();const q=queueItem(p.m,p.event.id);
+  assert.throws(()=>beginTask(p.m,q,p.fixture.deadline_ms,{...startEvidence(p),currentBaseSha:'f'.repeat(40)}),/stale baseline/);
+});
+test('task start rejects replay when using the same simulated event ledger',()=>{
+  const p=prepared();const q=queueItem(p.m,p.event.id);const seen=new Set();
+  assert.equal(beginTask(p.m,q,p.fixture.deadline_ms,startEvidence(p,seen)).state,'running');
+  assert.throws(()=>beginTask(p.m,q,p.fixture.deadline_ms,startEvidence(p,seen)),/duplicate event/);
 });

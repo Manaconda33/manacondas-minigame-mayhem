@@ -152,6 +152,84 @@ jobs:
             marker_type: feature
             marker_name: 'Neon Grid Stage 4 Task 9 T9.3 The Undercity'
             status: 'T9.3 owner visual/playability review only; T9.4/T9.7/production not authorized'
+          - id: neon-grid-t9-3-correction
+            embed_source: true
+            sha: 42781fb5367a146473c49012e0442e953197e480
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-3-correction/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 Task 9 T9.3 Undercity owner correction'
+            status: 'T9.3 owner visual/playability review only; T9.4/T9.7/production not authorized'
+
+          - id: neon-grid-t9-4
+            embed_source: true
+            sha: be47a3d7215867b9b275473fd2640cc626ef5e37
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-4/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 Task 9 T9.4 Falls Run extension'
+            status: 'T9.4 owner visual/playability review only; T9.5/T9.7/production not authorized'
+          - id: neon-grid-t9-5
+            embed_source: true
+            sha: a25c4b1788f4930b4e416777c8100284ff3c65a7
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-5/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 Task 9 T9.5 lifecycle masking and visual enhancements'
+            status: 'T9.5 owner visual/playability review ONLY; no T9.6, runtime PR merge or gameplay production release'
+          - id: neon-grid-t9-5-correction
+            embed_source: true
+            sha: e31605fa9618df21eaba384d75a056816c95432c
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-5-correction/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 T9.5 corrected shortcut camouflage'
+            status: 'Corrected T9.5 owner visual/playability review ONLY; no T9.6, runtime PR merge or production release'
+          - id: neon-grid-t9-5-sightline
+            embed_source: true
+            sha: d54a70aefb90bac3051ac28bc02c663431edfb91
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-5-sightline/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 T9.5 owner-reviewed sightline correction'
+            status: 'Sightline-corrected T9.5 owner REVIEW ONLY; no T9.6, PR #242 merge or gameplay production release'
+          - id: neon-grid-t9-5-portals
+            embed_source: true
+            sha: 64492dfbca7c4a5633880637ddbc5bcc05c34fde
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-5-portals/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 T9.5 approved warning portals and camera-clearance correction'
+            status: 'T9.5 owner visual/playability REVIEW ONLY; no T9.6, PR #242 merge or gameplay production release'
+          - id: neon-grid-t9-5-owner-correction
+            embed_source: true
+            sha: 9b973d48c1115d4b35d3936a3eacbed8dbb7ed76
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-5-owner-correction/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 T9.5 wall ads and wall-connected portal correction owner retest'
+            status: 'T9.5 corrected owner review ONLY; keep PR #242 draft and production gameplay unchanged'
+          - id: neon-grid-t9-6-diagnostics
+            embed_source: true
+            sha: c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-6-diagnostics/
+            marker_type: feature
+            marker_name: 'Neon Grid T9.6 actual race-performance hardware capture build'
+            status: 'T9.6 diagnostic-only owner/device capture; no hardware certification or production gameplay release'
+          - id: neon-grid-t9-7
+            embed_source: true
+            sha: f4672ef55d6697fb3d205abd03633faa0f821874
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-7/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 Task 9 T9.7 final visual polish'
+            status: 'T9.7 owner visual/playability review ONLY; G-05 hardware evidence remains open; no T9.8, PR #242 merge or gameplay production release'
+          - id: neon-grid-t9-7-city-ground
+            embed_source: true
+            sha: 90ae7d5ff953fe90d40043de957507d7b79a3ef5
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-7-city-ground/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 Task 9 T9.7 terraced city ground and Falls tower correction'
+            status: 'T9.7 city-ground visual review ONLY; G-05 remains open; no T9.8, PR #242 merge or gameplay production release'
+          - id: neon-grid-t9-7-environment-correction
+            embed_source: true
+            sha: 75c6c62c865ec3b546f3f2512e649de9ea6d52bc
+            base: /manacondas-minigame-mayhem/previews/neon-grid-t9-7-environment-correction/
+            marker_type: feature
+            marker_name: 'Neon Grid Stage 4 Task 9 T9.7 comprehensive city-environment correction'
+            status: 'T9.7 owner visual review ONLY; runtime PRs #285 and #242 remain unmerged; no T9.8 or gameplay production release'
 
     steps:
       - name: Restore immutable preview build
@@ -333,7 +411,11 @@ jobs:
               npm run build -- --base "$PREVIEW_BASE"
               ;;
             far300)
-              npm run validate
+              # Keep the full validation phases while allowing the CPU-heavy render tests the same CI timeout as Billboard.
+              npm run typecheck
+              npm run lint
+              npm run test:ci -- --testTimeout=15000
+              npm run build
               git diff --check
               npm run build -- --base "$PREVIEW_BASE"
               ;;
@@ -415,6 +497,73 @@ jobs:
           path: preview-output/neon-grid-t9-3
           key: preview-dist-v1-neon-grid-t9-3-722d9db1c1867f2a1516843679bb30a4ca37a2ea-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
+      - name: Restore Neon Grid T9.3 corrected Undercity preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-3-correction
+          key: preview-dist-v1-neon-grid-t9-3-correction-42781fb5367a146473c49012e0442e953197e480-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
+      - name: Restore Neon Grid T9.4 Falls extension preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-4
+          key: preview-dist-v1-neon-grid-t9-4-be47a3d7215867b9b275473fd2640cc626ef5e37-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore Neon Grid T9.5 full-course owner preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-5
+          key: preview-dist-v1-neon-grid-t9-5-a25c4b1788f4930b4e416777c8100284ff3c65a7-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore Neon Grid T9.5 corrected camouflage owner preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-5-correction
+          key: preview-dist-v1-neon-grid-t9-5-correction-e31605fa9618df21eaba384d75a056816c95432c-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore new T9.5 sightline-corrected owner preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-5-sightline
+          key: preview-dist-v1-neon-grid-t9-5-sightline-d54a70aefb90bac3051ac28bc02c663431edfb91-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore T9.5 approved warning-portal owner preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-5-portals
+          key: preview-dist-v1-neon-grid-t9-5-portals-64492dfbca7c4a5633880637ddbc5bcc05c34fde-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore T9.5 owner-corrected exact-head preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-5-owner-correction
+          key: preview-dist-v1-neon-grid-t9-5-owner-correction-9b973d48c1115d4b35d3936a3eacbed8dbb7ed76-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore T9.6 source-pinned real-race performance capture preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-6-diagnostics
+          key: preview-dist-v1-neon-grid-t9-6-diagnostics-c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore T9.7 source-pinned owner review preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-7
+          key: preview-dist-v1-neon-grid-t9-7-f4672ef55d6697fb3d205abd03633faa0f821874-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore T9.7 city-ground correction preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-7-city-ground
+          key: preview-dist-v1-neon-grid-t9-7-city-ground-90ae7d5ff953fe90d40043de957507d7b79a3ef5-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore T9.7 comprehensive environment-correction preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-t9-7-environment-correction
+          key: preview-dist-v1-neon-grid-t9-7-environment-correction-75c6c62c865ec3b546f3f2512e649de9ea6d52bc-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
         run: |
@@ -466,6 +615,97 @@ jobs:
           test -f site-root/previews/neon-grid-t9-3/review-build.json
           test -f site-root/previews/neon-grid-t9-3/assets/track/neon-grid/signage/nightshift-noodles-v1.webp
           test -f site-root/previews/neon-grid-t9-3/assets/track/neon-grid/signage/voltline-industrial-v1.webp
+          mkdir -p site-root/previews/neon-grid-t9-3-correction
+          cp -a preview-output/neon-grid-t9-3-correction/. site-root/previews/neon-grid-t9-3-correction/
+          test -f site-root/previews/neon-grid-t9-3-correction/index.html
+          test -f site-root/previews/neon-grid-t9-3-correction/review-build.json
+          test -f site-root/previews/neon-grid-t9-3-correction/assets/track/neon-grid/signage/nightshift-noodles-v1.webp
+          test -f site-root/previews/neon-grid-t9-3-correction/assets/track/neon-grid/signage/voltline-industrial-v1.webp
+
+          mkdir -p site-root/previews/neon-grid-t9-4
+          cp -a preview-output/neon-grid-t9-4/. site-root/previews/neon-grid-t9-4/
+          test -f site-root/previews/neon-grid-t9-4/index.html
+          test -f site-root/previews/neon-grid-t9-4/review-build.json
+          test -f site-root/previews/neon-grid-t9-4/assets/track/neon-grid/signage/nightshift-noodles-v1.webp
+          test -f site-root/previews/neon-grid-t9-4/assets/track/neon-grid/signage/voltline-industrial-v1.webp
+
+          mkdir -p site-root/previews/neon-grid-t9-5
+          cp -a preview-output/neon-grid-t9-5/. site-root/previews/neon-grid-t9-5/
+          test -f site-root/previews/neon-grid-t9-5/index.html
+          test -f site-root/previews/neon-grid-t9-5/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
+            test -f "site-root/previews/neon-grid-t9-5/assets/track/neon-grid/signage/$art"
+          done
+
+          mkdir -p site-root/previews/neon-grid-t9-5-correction
+          cp -a preview-output/neon-grid-t9-5-correction/. site-root/previews/neon-grid-t9-5-correction/
+          test -f site-root/previews/neon-grid-t9-5-correction/index.html
+          test -f site-root/previews/neon-grid-t9-5-correction/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
+            test -f "site-root/previews/neon-grid-t9-5-correction/assets/track/neon-grid/signage/$art"
+          done
+
+          mkdir -p site-root/previews/neon-grid-t9-5-sightline
+          cp -a preview-output/neon-grid-t9-5-sightline/. site-root/previews/neon-grid-t9-5-sightline/
+          test -f site-root/previews/neon-grid-t9-5-sightline/index.html
+          test -f site-root/previews/neon-grid-t9-5-sightline/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
+            test -f "site-root/previews/neon-grid-t9-5-sightline/assets/track/neon-grid/signage/$art"
+          done
+
+          mkdir -p site-root/previews/neon-grid-t9-5-portals
+          cp -a preview-output/neon-grid-t9-5-portals/. site-root/previews/neon-grid-t9-5-portals/
+          test -f site-root/previews/neon-grid-t9-5-portals/index.html
+          test -f site-root/previews/neon-grid-t9-5-portals/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
+            test -f "site-root/previews/neon-grid-t9-5-portals/assets/track/neon-grid/signage/$art"
+          done
+          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-5-portals/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
+
+          mkdir -p site-root/previews/neon-grid-t9-5-owner-correction
+          cp -a preview-output/neon-grid-t9-5-owner-correction/. site-root/previews/neon-grid-t9-5-owner-correction/
+          test -f site-root/previews/neon-grid-t9-5-owner-correction/index.html
+          test -f site-root/previews/neon-grid-t9-5-owner-correction/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
+            test -f "site-root/previews/neon-grid-t9-5-owner-correction/assets/track/neon-grid/signage/$art"
+          done
+          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-5-owner-correction/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
+
+          mkdir -p site-root/previews/neon-grid-t9-6-diagnostics
+          cp -a preview-output/neon-grid-t9-6-diagnostics/. site-root/previews/neon-grid-t9-6-diagnostics/
+          test -f site-root/previews/neon-grid-t9-6-diagnostics/index.html
+          test -f site-root/previews/neon-grid-t9-6-diagnostics/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
+            test -f "site-root/previews/neon-grid-t9-6-diagnostics/assets/track/neon-grid/signage/$art"
+          done
+          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-6-diagnostics/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
+
+          mkdir -p site-root/previews/neon-grid-t9-7
+          cp -a preview-output/neon-grid-t9-7/. site-root/previews/neon-grid-t9-7/
+          test -f site-root/previews/neon-grid-t9-7/index.html
+          test -f site-root/previews/neon-grid-t9-7/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
+            test -f "site-root/previews/neon-grid-t9-7/assets/track/neon-grid/signage/$art"
+          done
+          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-7/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
+
+          mkdir -p site-root/previews/neon-grid-t9-7-city-ground
+          cp -a preview-output/neon-grid-t9-7-city-ground/. site-root/previews/neon-grid-t9-7-city-ground/
+          test -f site-root/previews/neon-grid-t9-7-city-ground/index.html
+          test -f site-root/previews/neon-grid-t9-7-city-ground/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
+            test -f "site-root/previews/neon-grid-t9-7-city-ground/assets/track/neon-grid/signage/$art"
+          done
+          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-7-city-ground/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
+
+          mkdir -p site-root/previews/neon-grid-t9-7-environment-correction
+          cp -a preview-output/neon-grid-t9-7-environment-correction/. site-root/previews/neon-grid-t9-7-environment-correction/
+          test -f site-root/previews/neon-grid-t9-7-environment-correction/index.html
+          test -f site-root/previews/neon-grid-t9-7-environment-correction/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
+            test -f "site-root/previews/neon-grid-t9-7-environment-correction/assets/track/neon-grid/signage/$art"
+          done
+          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-7-environment-correction/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
 
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -493,13 +733,46 @@ jobs:
           t93 = root/'previews/neon-grid-t9-3'
           paths += [t93/'index.html', t93/'review-build.json', *sorted((t93/'assets').glob('*.js')), *sorted((t93/'assets').glob('*.css'))]
           paths += [t93/'assets/track/neon-grid/signage'/name for name in ['nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
+          t93cor = root/'previews/neon-grid-t9-3-correction'
+          paths += [t93cor/'index.html', t93cor/'review-build.json', *sorted((t93cor/'assets').glob('*.js')), *sorted((t93cor/'assets').glob('*.css'))]
+          paths += [t93cor/'assets/track/neon-grid/signage'/name for name in ['nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
+          t94 = root/'previews/neon-grid-t9-4'
+          paths += [t94/'index.html', t94/'review-build.json', *sorted((t94/'assets').glob('*.js')), *sorted((t94/'assets').glob('*.css'))]
+          paths += [t94/'assets/track/neon-grid/signage'/name for name in ['nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
+          t95 = root/'previews/neon-grid-t9-5'
+          paths += [t95/'index.html', t95/'review-build.json', *sorted((t95/'assets').glob('*.js')), *sorted((t95/'assets').glob('*.css'))]
+          paths += [t95/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
+          t95cor = root/'previews/neon-grid-t9-5-correction'
+          paths += [t95cor/'index.html', t95cor/'review-build.json', *sorted((t95cor/'assets').glob('*.js')), *sorted((t95cor/'assets').glob('*.css'))]
+          paths += [t95cor/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
+          t95sight = root/'previews/neon-grid-t9-5-sightline'
+          paths += [t95sight/'index.html', t95sight/'review-build.json', *sorted((t95sight/'assets').glob('*.js')), *sorted((t95sight/'assets').glob('*.css'))]
+          paths += [t95sight/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
+          t95portals = root/'previews/neon-grid-t9-5-portals'
+          paths += [t95portals/'index.html', t95portals/'review-build.json', *sorted((t95portals/'assets').glob('*.js')), *sorted((t95portals/'assets').glob('*.css'))]
+          paths += [t95portals/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
+          t95owner = root/'previews/neon-grid-t9-5-owner-correction'
+          paths += [t95owner/'index.html', t95owner/'review-build.json', *sorted((t95owner/'assets').glob('*.js')), *sorted((t95owner/'assets').glob('*.css'))]
+          paths += [t95owner/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
+          t96diagnostic = root/'previews/neon-grid-t9-6-diagnostics'
+          paths += [t96diagnostic/'index.html', t96diagnostic/'review-build.json', *sorted((t96diagnostic/'assets').glob('*.js')), *sorted((t96diagnostic/'assets').glob('*.css'))]
+          paths += [t96diagnostic/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
+          t97 = root/'previews/neon-grid-t9-7'
+          paths += [t97/'index.html', t97/'review-build.json', *sorted((t97/'assets').glob('*.js')), *sorted((t97/'assets').glob('*.css'))]
+          paths += [t97/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
+          t97city = root/'previews/neon-grid-t9-7-city-ground'
+          paths += [t97city/'index.html', t97city/'review-build.json', *sorted((t97city/'assets').glob('*.js')), *sorted((t97city/'assets').glob('*.css'))]
+          paths += [t97city/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
+          t97env = root/'previews/neon-grid-t9-7-environment-correction'
+          paths += [t97env/'index.html', t97env/'review-build.json', *sorted((t97env/'assets').glob('*.js')), *sorted((t97env/'assets').glob('*.css'))]
+          paths += [t97env/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
           report = []
           for path in paths:
               relative = str(path.relative_to(root))
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/')):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/')):
                   with urllib.request.urlopen(url, timeout=45) as response:
                       assert response.status == 200
                       assert hashlib.sha256(response.read()).hexdigest() == sha, 'Production bytes differ: ' + relative
@@ -806,7 +1079,7 @@ jobs:
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = '75c6c62c865ec3b546f3f2512e649de9ea6d52bc' if item['path'].startswith('previews/neon-grid-t9-7-environment-correction/') else '90ae7d5ff953fe90d40043de957507d7b79a3ef5' if item['path'].startswith('previews/neon-grid-t9-7-city-ground/') else 'f4672ef55d6697fb3d205abd03633faa0f821874' if item['path'].startswith('previews/neon-grid-t9-7/') else 'c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf' if item['path'].startswith('previews/neon-grid-t9-6-diagnostics/') else '9b973d48c1115d4b35d3936a3eacbed8dbb7ed76' if item['path'].startswith('previews/neon-grid-t9-5-owner-correction/') else '64492dfbca7c4a5633880637ddbc5bcc05c34fde' if item['path'].startswith('previews/neon-grid-t9-5-portals/') else 'd54a70aefb90bac3051ac28bc02c663431edfb91' if item['path'].startswith('previews/neon-grid-t9-5-sightline/') else 'e31605fa9618df21eaba384d75a056816c95432c' if item['path'].startswith('previews/neon-grid-t9-5-correction/') else 'a25c4b1788f4930b4e416777c8100284ff3c65a7' if item['path'].startswith('previews/neon-grid-t9-5/') else 'be47a3d7215867b9b275473fd2640cc626ef5e37' if item['path'].startswith('previews/neon-grid-t9-4/') else '42781fb5367a146473c49012e0442e953197e480' if item['path'].startswith('previews/neon-grid-t9-3-correction/') else '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
                               assert json.loads(data)['source'] == expected_source
                           item['httpStatus'] = response.status
                   break

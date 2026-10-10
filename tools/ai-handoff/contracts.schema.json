@@ -435,6 +435,7 @@
         "base_sha",
         "scope_approval_event_id",
         "routed_event_id",
+        "routed_event_evidence",
         "state",
         "revision",
         "deadline_ms",
@@ -511,6 +512,9 @@
         "routed_event_id": {
           "type": "string",
           "minLength": 1
+        },
+        "routed_event_evidence": {
+          "$ref": "#/$defs/event"
         }
       }
     },
@@ -529,6 +533,7 @@
         "base_sha",
         "scope_approval_event_id",
         "routed_event_id",
+        "routed_event_evidence",
         "candidate_sha",
         "state",
         "cycles",
@@ -648,6 +653,9 @@
         "routed_event_id": {
           "type": "string",
           "minLength": 1
+        },
+        "routed_event_evidence": {
+          "$ref": "#/$defs/event"
         }
       }
     }

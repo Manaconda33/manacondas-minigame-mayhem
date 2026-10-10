@@ -121,6 +121,7 @@ export function authorizeScope(m, trusted, currentBaseSha, state = 'validated') 
 export function verifyOwnerDecision(m, decision, trusted, currentBaseSha, candidateSha, prNumber) {
   validateManifest(m); sha(currentBaseSha, 'current baseline'); sha(candidateSha, 'candidate SHA'); integer(prNumber, 'PR number', 1);
   keys(decision, ['type','task_id','repository','issue_number','manifest_digest','base_sha','candidate_sha','pr_number','event_id','approved_by','destination']);
+  string(decision.event_id, 'owner decision event ID');
   ensure(['implementation_acceptance','release_authorization'].includes(decision.type), 'invalid decision type');
   ensure(decision.task_id === m.id && decision.repository === REPOSITORY && decision.issue_number === m.issue_number, 'decision identity mismatch');
   ensure(decision.manifest_digest === manifestDigest(m) && m.manifest_sha256 === decision.manifest_digest, 'decision digest mismatch');
@@ -245,7 +246,11 @@ export function beginTask(m, queued, deadlineMs, startEvidence) {
   ensure(event.id !== m.approval.event_id, 'routed event must differ from scope approval event');
   const approvedState = authorizeScope(m,trusted,currentBaseSha);
   ensure(eventRouter(event,approvedState,seen,m,trusted,currentBaseSha) === 'queued', 'event failed authorization/routing');
-  return {version:CONTRACT_VERSION,repository:m.repository,task_id:m.id,issue_number:m.issue_number,manifest_digest:m.manifest_sha256,base_sha:m.base_sha,scope_approval_event_id:m.approval.event_id,routed_event_id:event.id,state:'running',revision:0,deadline_ms:deadlineMs,cycles:[],cumulative_elapsed_minutes:0,cumulative_spend_usd:0,corrections_consumed:0,simulation_only:true};
+  // Retain the validated, identity-bearing source event; never retain untrusted issue text.
+  // This proves consistency of simulated records, not authenticated or tamper-proof GitHub provenance.
+  const routedEventEvidence={version:event.version,id:event.id,type:event.type,repository:event.repository,task_id:event.task_id,issue_number:event.issue_number,manifest_digest:event.manifest_digest,base_sha:event.base_sha,actor:event.actor};
+  if(event.type==='issue_labeled')routedEventEvidence.label=event.label;
+  return {version:CONTRACT_VERSION,repository:m.repository,task_id:m.id,issue_number:m.issue_number,manifest_digest:m.manifest_sha256,base_sha:m.base_sha,scope_approval_event_id:m.approval.event_id,routed_event_id:event.id,routed_event_evidence:routedEventEvidence,state:'running',revision:0,deadline_ms:deadlineMs,cycles:[],cumulative_elapsed_minutes:0,cumulative_spend_usd:0,corrections_consumed:0,simulation_only:true};
 }
 function outcomeForCycle(cycle,m,cumulativeMinutes,cumulativeSpend,deadlineMs) {
   const q=m.quality_loop;
@@ -259,12 +264,17 @@ function outcomeForCycle(cycle,m,cumulativeMinutes,cumulativeSpend,deadlineMs) {
   return cycle.cycle===q.total_build_cycles?'failed_budget_or_checks':'correcting';
 }
 export function validateTask(ledger,m) {
-  keys(ledger,['version','repository','task_id','issue_number','manifest_digest','base_sha','scope_approval_event_id','routed_event_id','state','revision','deadline_ms','cycles','cumulative_elapsed_minutes','cumulative_spend_usd','corrections_consumed','simulation_only']);
+  keys(ledger,['version','repository','task_id','issue_number','manifest_digest','base_sha','scope_approval_event_id','routed_event_id','routed_event_evidence','state','revision','deadline_ms','cycles','cumulative_elapsed_minutes','cumulative_spend_usd','corrections_consumed','simulation_only']);
   ensure(ledger.version===CONTRACT_VERSION && ledger.simulation_only===true,'invalid task contract');
   ensure(ledger.repository===m.repository && ledger.task_id===m.id && ledger.issue_number===m.issue_number && ledger.manifest_digest===m.manifest_sha256 && ledger.base_sha===m.base_sha,'task identity mismatch');
   string(ledger.scope_approval_event_id,'scope approval provenance');string(ledger.routed_event_id,'routed event provenance');
   ensure(ledger.scope_approval_event_id===m.approval.event_id,'task approval provenance mismatch');
   ensure(ledger.scope_approval_event_id!==ledger.routed_event_id,'scope approval and routed event must be distinct');
+  const evidence=ledger.routed_event_evidence;
+  validateEvent(evidence);
+  ensure(!own(evidence,'untrusted_text'),'routed event evidence must exclude issue text');
+  ensure(evidence.id===ledger.routed_event_id,'task routed event provenance mismatch');
+  ensure(evidence.repository===m.repository && evidence.task_id===m.id && evidence.issue_number===m.issue_number && evidence.manifest_digest===m.manifest_sha256 && evidence.base_sha===m.base_sha && evidence.actor===m.approval.approver,'task routed event evidence identity mismatch');
   ensure(['running','correcting','review_ready','needs_owner_decision','failed_budget_or_checks','cancelled','superseded'].includes(ledger.state),'invalid ledger state');
   integer(ledger.revision,'task version');integer(ledger.deadline_ms,'deadline',1);
   integer(ledger.corrections_consumed,'corrections');finite(ledger.cumulative_elapsed_minutes,'cumulative time');finite(ledger.cumulative_spend_usd,'cumulative spend');
@@ -333,6 +343,6 @@ export function reviewPacket(m,ledger,prNumber) {
   // Earlier candidate findings stay in cycles; their disposition is not inferred.
   const latestRisks=last.review?.findings.map(f=>`${f.severity.toUpperCase()}: ${f.code}: ${f.description}`)??[];
   const unresolvedRisks=ledger.state==='review_ready'?latestRisks:[...latestRisks,'SIMULATED_GATE_NOT_CLEARED'];
-  return {version:CONTRACT_VERSION,simulation_only:true,evidence_source:'SYNTHETIC_FIXTURES_NOT_LIVE_REVIEW',repository:m.repository,task_id:m.id,issue_number:m.issue_number,pr_number:prNumber,manifest_digest:m.manifest_sha256,base_sha:m.base_sha,scope_approval_event_id:ledger.scope_approval_event_id,routed_event_id:ledger.routed_event_id,candidate_sha:last.candidate_sha,state:ledger.state,deadline_ms:ledger.deadline_ms,cycles:structuredClone(ledger.cycles),ci_run_ids:ledger.cycles.map(c=>c.ci_run_id),candidate_shas:ledger.cycles.map(c=>c.candidate_sha),changed_paths:[...new Set(ledger.cycles.flatMap(c=>c.changed_paths))].sort(),attempts_consumed:ledger.cycles.length,corrections_consumed:ledger.corrections_consumed,cumulative_elapsed_minutes:ledger.cumulative_elapsed_minutes,cumulative_spend_usd:ledger.cumulative_spend_usd,unresolved_risks:unresolvedRisks,human_approval:'NOT GRANTED',release_authorization:'NOT GRANTED'};
+  return {version:CONTRACT_VERSION,simulation_only:true,evidence_source:'SYNTHETIC_FIXTURES_NOT_LIVE_REVIEW',repository:m.repository,task_id:m.id,issue_number:m.issue_number,pr_number:prNumber,manifest_digest:m.manifest_sha256,base_sha:m.base_sha,scope_approval_event_id:ledger.scope_approval_event_id,routed_event_id:ledger.routed_event_id,routed_event_evidence:structuredClone(ledger.routed_event_evidence),candidate_sha:last.candidate_sha,state:ledger.state,deadline_ms:ledger.deadline_ms,cycles:structuredClone(ledger.cycles),ci_run_ids:ledger.cycles.map(c=>c.ci_run_id),candidate_shas:ledger.cycles.map(c=>c.candidate_sha),changed_paths:[...new Set(ledger.cycles.flatMap(c=>c.changed_paths))].sort(),attempts_consumed:ledger.cycles.length,corrections_consumed:ledger.corrections_consumed,cumulative_elapsed_minutes:ledger.cumulative_elapsed_minutes,cumulative_spend_usd:ledger.cumulative_spend_usd,unresolved_risks:unresolvedRisks,human_approval:'NOT GRANTED',release_authorization:'NOT GRANTED'};
 }
 export function noticeKey(packet) {ensure(packet?.simulation_only===true,'notification identity must be synthetic');return `${packet.task_id}:${packet.candidate_sha}:${packet.state}`;}

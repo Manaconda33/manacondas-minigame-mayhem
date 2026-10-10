@@ -339,3 +339,39 @@ test('task start rejects a routed event reusing the scope-approval event ID befo
   assert.throws(()=>beginTask(p.m,q,p.fixture.deadline_ms,{...startEvidence(p,seen),event:altered}),/routed event must differ/);
   assert.equal(seen.size,0);
 });
+
+// Narrow pilot-closeout fixes: provenance consistency and nonempty owner decisions.
+test('routed start-event evidence binds the routed ID and survives a packet without issue instructions',()=>{
+  const p=prepared(3);const started=ledger(p);
+  assert.equal(started.routed_event_evidence.id,p.event.id);
+  assert.equal(started.routed_event_evidence.manifest_digest,p.m.manifest_sha256);
+  assert.ok(!Object.hasOwn(started.routed_event_evidence,'untrusted_text'));
+  const reviewed=take(p,started,p.fixture.cycles[0]).ledger;
+  const packet=reviewPacket(p.m,reviewed,p.fixture.pr_number);
+  assert.deepEqual(packet.routed_event_evidence,started.routed_event_evidence);
+  assert.equal(packet.routed_event_id,packet.routed_event_evidence.id);
+  assert.equal(validateSchemaInstance(schema,reviewed,'#/$defs/task_ledger'),true);
+  assert.equal(validateSchemaInstance(schema,packet,'#/$defs/review_packet'),true);
+});
+test('relabeling the routed event ID fails ledger validation and packet generation',()=>{
+  const p=prepared();const reviewed=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  const tampered={...reviewed,routed_event_id:'forged-but-nonempty-event'};
+  assert.throws(()=>validateTask(tampered,p.m),/routed event provenance mismatch/);
+  assert.throws(()=>reviewPacket(p.m,tampered,p.fixture.pr_number),/routed event provenance mismatch/);
+});
+test('changing the retained start-event evidence ID or identity fails closed',()=>{
+  const p=prepared();const started=ledger(p);
+  assert.throws(()=>validateTask({...started,routed_event_evidence:{...started.routed_event_evidence,id:'forged-id'}},p.m),/routed event provenance mismatch/);
+  assert.throws(()=>validateTask({...started,routed_event_evidence:{...started.routed_event_evidence,manifest_digest:'f'.repeat(64)}},p.m),/routed event evidence identity mismatch/);
+  const missing=structuredClone(started);delete missing.routed_event_evidence;
+  assert.throws(()=>validateTask(missing,p.m),/missing routed_event_evidence/);
+});
+test('empty decision event ID is rejected for implementation acceptance and release authorization',()=>{
+  const p=prepared();
+  for(const type of ['implementation_acceptance','release_authorization']){
+    const d={...decision(p,type),event_id:''};
+    const trust={...decisionTrust(p,d),event_id:''};
+    assert.throws(()=>verifyOwnerDecision(p.m,d,trust,p.m.base_sha,d.candidate_sha,d.pr_number),/invalid owner decision event ID/);
+    assert.equal(validateSchemaInstance(schema,d,'#/$defs/decision'),false);
+  }
+});

@@ -1,5 +1,5 @@
 import type { Vector3 } from 'three';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { HazardSystem } from './HazardSystem';
 
 /** One marked incoming hazard per race; no inventory or AI-policy side effects. */
@@ -10,7 +10,7 @@ export class IncomingBlastOrbFixture {
     elapsed: number,
     finished: boolean,
     position: Vector3,
-    track: CircuitAlpha,
+    track: TrackDefinition,
     hazards: HazardSystem,
   ): void {
     if (!this.enabled || this.spawned || finished || elapsed < 5) return;

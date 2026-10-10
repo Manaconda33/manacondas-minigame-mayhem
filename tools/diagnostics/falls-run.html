@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <link rel="icon" href="data:," />
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #080f1d; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+  </style>
+  <canvas></canvas>
+  <script type="module">
+    import * as THREE from 'three';
+    import { KartTimeTrial } from '../../src/game/KartTimeTrial.ts';
+    import { characterById } from '../../src/characters/manifest.ts';
+
+    const params = new URLSearchParams(location.search);
+    const quality = ['low', 'medium', 'high'].includes(params.get('quality'))
+      ? params.get('quality')
+      : 'medium';
+    const g = await KartTimeTrial.create({
+      canvas: document.querySelector('canvas'),
+      character: characterById('aa-09'),
+      trackId: 'neon-grid',
+      graphicsQuality: quality,
+      motionBlur: false,
+      mobileSession: false,
+      onHud() {},
+      onFinish() {},
+    });
+    window.game = g;
+
+    const progress = 0.787;
+    const p = g.track.curve.getPointAt(progress);
+    const tangent = g.track.curve.getTangentAt(progress).setY(0).normalize();
+    const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+    g.kart.respawn(p.clone().add(new THREE.Vector3(0, 1.1, 0)), Math.atan2(tangent.x, tangent.z));
+    g.opponents.forEach((o, i) => {
+      const q = g.track.curve.getPointAt(progress - 0.004 - i * 0.0015);
+      q.addScaledVector(right, ((i % 3) - 1) * 1.6);
+      q.y += 1.1;
+      o.controller.respawn(q, Math.atan2(tangent.x, tangent.z));
+    });
+    for (let i = 0; i < 120; i++) g.updateVisuals(1 / 60);
+    g.trackScene.dive.update(4);
+    g.trackScene.fallsRun.update(4);
+    g.camera.position.copy(p).addScaledVector(tangent, -10).add(new THREE.Vector3(0, 3.8, 0));
+    g.camera.lookAt(p.clone().addScaledVector(tangent, 28).add(new THREE.Vector3(0, 0.9, 0)));
+    g.renderer.info.autoReset = false;
+
+    window.renderFrame = () => {
+      g.renderer.info.reset();
+      g.bloom.render(g.scene, g.camera);
+      g.motionBlur.render(false);
+      const size = g.renderer.getDrawingBufferSize(new THREE.Vector2());
+      return {
+        calls: g.renderer.info.render.calls,
+        triangles: g.renderer.info.render.triangles,
+        geometries: g.renderer.info.memory.geometries,
+        textures: g.renderer.info.memory.textures,
+        width: size.x,
+        height: size.y,
+        pixelRatio: g.renderer.getPixelRatio(),
+        racers: g.opponents.length + 1,
+        quality,
+      };
+    };
+    window.renderFrame();
+    window.ready = true;
+    window.measureFrames = async (count = 360, warmup = 60) => {
+      const samples = [];
+      let previous = performance.now();
+      for (let i = 0; i < count + warmup; i++) {
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        const now = performance.now();
+        const frameMs = now - previous;
+        previous = now;
+        g.trackScene.fallsRun.update(i / 60);
+        g.trackScene.dive.update(i / 60);
+        g.updateVisuals(1 / 60);
+        g.renderer.info.reset();
+        g.bloom.render(g.scene, g.camera);
+        g.motionBlur.render(false);
+        if (i >= warmup && Number.isFinite(frameMs) && frameMs > 0) samples.push(frameMs);
+      }
+      const sorted = [...samples].sort((a, b) => a - b);
+      const fps = sorted.map((ms) => 1000 / ms).sort((a, b) => a - b);
+      const median = (values) => {
+        const center = Math.floor(values.length / 2);
+        return values.length % 2
+          ? values[center]
+          : (values[center - 1] + values[center]) / 2;
+      };
+      return {
+        scoredFrames: sorted.length,
+        medianFrameMs: median(sorted),
+        p95FrameMs: sorted[Math.ceil(sorted.length * 0.95) - 1],
+        maxFrameMs: sorted.at(-1),
+        medianFps: median(fps),
+        over50msFrames: sorted.filter((ms) => ms > 50).length,
+      };
+    };
+  </script>
+</html>

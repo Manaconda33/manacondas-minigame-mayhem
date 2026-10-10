@@ -38,6 +38,8 @@ import {
   type RouteNightIcon,
 } from '../ui/routeNight';
 
+import type { TrackId } from '../game/track/TrackDefinition';
+
 export const APP_TITLE = "Manaconda's Minigame Mayhem";
 
 export function markGameFinished(shell: HTMLElement): void {
@@ -111,6 +113,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
   let diagnosticsPanel: ReturnType<typeof mountRaceDiagnosticsPanel> | null = null;
   let characterPreview: CharacterKartPreview | null = null;
   let touchWheelDispose: (() => void) | null = null;
+  let selectedTrackId: TrackId = 'circuit-alpha';
   let selectedCharacter = characterById('aa-02');
   let characterPage = 0;
   preloadUiSfx();
@@ -232,6 +235,8 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
               <h2>Circuit Alpha</h2>
               <p>Three laps. Eight racers. Live ranking. Keyboard and mobile touch control.</p>
               ${button('START GRAND PRIX', 'play', 'primary', 'play')}
+              <p class="card-tag">KART CIRCUIT 02 · NEON GRID · DRIVING BLOCKOUT</p>
+              ${button('DRIVE NEON GRID', 'play-neon-grid', 'utility', 'race')}
             </div>
           </article>
           <article class="game-card route-card unavailable" data-route-card="gallery-gauntlet" data-availability="coming-soon" aria-disabled="true">
@@ -396,7 +401,15 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     music.route('select');
     characterPreview?.dispose();
     characterPreview = null;
-    root.innerHTML = characterSelectMarkup(characterManifest, selectedCharacter, characterPage);
+    root.innerHTML = characterSelectMarkup(
+      characterManifest,
+      selectedCharacter,
+      characterPage,
+      selectedTrackId === 'neon-grid' ? 'NEON GRID' : 'CIRCUIT ALPHA',
+    );
+    root
+      .querySelector('[data-screen="character-select"]')
+      ?.setAttribute('data-track-id', selectedTrackId);
     bindPortraitFallbacks();
     const canvas = root.querySelector<HTMLCanvasElement>('[data-kart-preview-canvas]');
     if (canvas !== null) characterPreview = new CharacterKartPreview(canvas, selectedCharacter);
@@ -409,13 +422,17 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     characterPreview = null;
     const mobileSession = isMobileSession();
     const touchControls = touchControlsMarkup(mobileSession);
-    root.innerHTML = raceHudMarkup(touchControls);
+    root.innerHTML = raceHudMarkup(
+      touchControls,
+      selectedTrackId === 'neon-grid' ? 'Neon Grid' : 'Circuit Alpha',
+    );
     const diagnosticsEnabled = racePerformanceFromSearch(window.location.search);
     const racePanel = diagnosticsEnabled
       ? mountRaceDiagnosticsPanel(root, (metadata) =>
           !disposed && generation === raceGeneration
             ? (game?.exportPerformanceCapture(metadata) ?? null)
             : null,
+          { trackId: selectedTrackId, quality: appSettings.graphics.quality },
         )
       : null;
     diagnosticsPanel = racePanel;
@@ -527,6 +544,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     const createdGame = await KartTimeTrial.create({
       canvas,
       character: selectedCharacter,
+      trackId: selectedTrackId,
       graphicsQuality: appSettings.graphics.quality,
       motionBlur: appSettings.graphics.motionBlur !== false,
       mobileSession,
@@ -549,6 +567,9 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
         markGameFinished(gameShell);
         const finish = getElement('#finish');
         finish.innerHTML = renderResultsPodium(result.standings);
+        const circuit = finish.querySelector('.results-header .eyebrow');
+        if (circuit !== null)
+          circuit.textContent = `${selectedTrackId === 'neon-grid' ? 'NEON GRID' : 'CIRCUIT ALPHA'} · GRAND PRIX COMPLETE`;
         finish.hidden = false;
         bindResultsArtFallbacks(finish);
         root.querySelector<HTMLElement>('#results-title')?.focus();
@@ -608,7 +629,8 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     if (action === 'enter' || action === 'menu') renderMenu();
     if (action === 'controls') renderControls();
     if (action === 'settings') renderSettings();
-    if (action === 'play') {
+    if (action === 'play' || action === 'play-neon-grid') {
+      selectedTrackId = action === 'play-neon-grid' ? 'neon-grid' : 'circuit-alpha';
       characterPage = Math.floor(
         characterManifest.findIndex(({ id }) => id === selectedCharacter.id) / 12,
       );

@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/cf841ec4cf2f/repo
+
+ ❯ tests/neon-grid-dive-visual.test.ts (3 tests | 1 failed) 159ms
+   × joins both waterway edges flush to the sloping ramp rather than hovering across it 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-dive-visual.test.ts > joins both waterway edges flush to the sloping ramp rather than hovering across it
+AssertionError: expected -0.5946374527269889 to be close to 0.035, received difference is 0.6296374527269889, but expected 0.0005
+ ❯ tests/neon-grid-dive-visual.test.ts:76:39
+     74|     const hit = ray.intersectObject(ramp)[0];
+     75|     expect(hit).toBeDefined();
+     76|     expect(q.y - (hit?.point.y ?? 0)).toBeCloseTo(0.035, 3);
+       |                                       ^
+     77|   }
+     78| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  16:30:02
+   Duration  862ms (transform 76ms, setup 0ms, import 118ms, tests 159ms, environment 461ms)
+

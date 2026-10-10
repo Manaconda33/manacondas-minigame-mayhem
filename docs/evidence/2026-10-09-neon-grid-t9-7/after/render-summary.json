@@ -1,0 +1,207 @@
+{
+  "environment": "Local Chromium SwiftShader diagnostic only; mobile-sized viewports are not physical Android devices; FPS/p95 is not hardware certification.",
+  "frames": [
+    {
+      "label": "skyline-citybase-desktop-medium",
+      "width": 1920,
+      "height": 1080,
+      "calls": 202,
+      "triangles": 141967,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 768,
+        "maskHeight": 432,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "skyline-billboard-desktop-medium",
+      "width": 1920,
+      "height": 1080,
+      "calls": 280,
+      "triangles": 159159,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 768,
+        "maskHeight": 432,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "skyline-billboard-rear-desktop-medium",
+      "width": 1280,
+      "height": 720,
+      "calls": 232,
+      "triangles": 282671,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 640,
+        "maskHeight": 360,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "skyline-billboard-mobile-landscape-medium",
+      "width": 844,
+      "height": 390,
+      "calls": 282,
+      "triangles": 131023,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 422,
+        "maskHeight": 195,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "skyline-citybase-mobile-portrait-medium",
+      "width": 390,
+      "height": 844,
+      "calls": 180,
+      "triangles": 99563,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 195,
+        "maskHeight": 422,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "skyline-billboard-desktop-low",
+      "width": 1280,
+      "height": 720,
+      "calls": 131,
+      "triangles": 57250,
+      "bloom": {
+        "enabled": false,
+        "quality": "low",
+        "maskWidth": 0,
+        "maskHeight": 0,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "skyline-billboard-desktop-high",
+      "width": 1280,
+      "height": 720,
+      "calls": 282,
+      "triangles": 153839,
+      "bloom": {
+        "enabled": true,
+        "quality": "high",
+        "maskWidth": 640,
+        "maskHeight": 360,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "skyline-billboard-medium-no-bloom",
+      "width": 1280,
+      "height": 720,
+      "calls": 137,
+      "triangles": 82370,
+      "bloom": {
+        "enabled": false,
+        "quality": "medium",
+        "maskWidth": 0,
+        "maskHeight": 0,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "undercity-chase-desktop-medium",
+      "width": 1280,
+      "height": 720,
+      "calls": 310,
+      "triangles": 144995,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 640,
+        "maskHeight": 360,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "skyline-tunnel-transition-desktop-medium",
+      "width": 1280,
+      "height": 720,
+      "calls": 326,
+      "triangles": 148407,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 640,
+        "maskHeight": 360,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "falls-extension-chase-desktop-medium",
+      "width": 1280,
+      "height": 720,
+      "calls": 256,
+      "triangles": 139499,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 640,
+        "maskHeight": 360,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "falls-extension-rear-mobile-portrait-medium",
+      "width": 390,
+      "height": 844,
+      "calls": 158,
+      "triangles": 242967,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 195,
+        "maskHeight": 422,
+        "fallbackReason": null
+      },
+      "errors": 0
+    },
+    {
+      "label": "falls-task8-desktop-medium",
+      "width": 1280,
+      "height": 720,
+      "calls": 116,
+      "triangles": 123495,
+      "bloom": {
+        "enabled": true,
+        "quality": "medium",
+        "maskWidth": 640,
+        "maskHeight": 360,
+        "fallbackReason": null
+      },
+      "errors": 0
+    }
+  ],
+  "maxCalls": 326,
+  "maxTriangles": 282671,
+  "errors": [],
+  "task8Preservation": {
+    "beforeAfterPngSha256": "8e57ad2df8206efd494a8f739fd4fd0f88f817b7e6f94eb00a3832a353620bce",
+    "identicalPixels": true
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "approval": "Manny individually approved all three ads, 2026-10-03 America/Chicago. Exact 16:9 preparation and visual integration authorized.",
+  "assets": [
+    {
+      "character": "paprika",
+      "source": "exec-0838f1df-4e98-40dd-b1bb-d6366d1affdf.png",
+      "sourceSha256": "167c43b3a214393abb5d7e01c1d1371e76efd9e8d46c6e7852b570697387f3d9",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "runtimePath": "public/assets/track/neon-grid/billboard/paprika-v1.webp",
+      "runtimeSize": [
+        2048,
+        1152
+      ],
+      "sha256": "0e90ae576d25a5bcdd3049ba61f5e02357a31eba3fda5d2ccfb2e444c7f47b20",
+      "bytes": 490306
+    },
+    {
+      "character": "arin",
+      "source": "exec-a65d24a5-fa18-4518-87d4-2426bab985ed.png",
+      "sourceSha256": "bff9f54dbfa7aeb469486f631b5af6037aa78d0bcbdb25fa862db97bb4c6d23a",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "runtimePath": "public/assets/track/neon-grid/billboard/arin-v1.webp",
+      "runtimeSize": [
+        2048,
+        1152
+      ],
+      "sha256": "7a357de283bb0baca071b2a6eb7fd2e4f2bf213bf57e470253fdd694ee2085cf",
+      "bytes": 580170
+    },
+    {
+      "character": "raven",
+      "source": "exec-f5daa66a-58a6-471b-aed7-f42fabc69487.png",
+      "sourceSha256": "961e01a8f641f377528cb54cf506375e0a6ac635740f6698fbee314345d1562f",
+      "sourceSize": [
+        1672,
+        941
+      ],
+      "runtimePath": "public/assets/track/neon-grid/billboard/raven-v1.webp",
+      "runtimeSize": [
+        2048,
+        1152
+      ],
+      "sha256": "4f414a9c5bfb02a805a34a80b3d19a0134fd56fe2bad7ad52a8d23cd1483eb9e",
+      "bytes": 663338
+    }
+  ]
+}

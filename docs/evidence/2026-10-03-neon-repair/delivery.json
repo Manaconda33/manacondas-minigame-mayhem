@@ -1,0 +1,116 @@
+{
+  "verified_at_utc": "2026-10-03T03:49:33.175506+00:00",
+  "runtime_checkpoint": "6edd4fcaeeb1898bc842175976c678f0b6214b90",
+  "runtime_branch": "design/neon-grid-circuit-02",
+  "runtime_pr": 242,
+  "runtime_pr_disposition": "draft/unmerged; no production authorization",
+  "runtime_ci": 37093926679,
+  "preview_pr": 246,
+  "preview_commit": "a5d3fb9cf8741e52a375604e645aaa3b6e7468a0",
+  "preview_ci": 37093966915,
+  "main_merge": "01909ab62d1a92950b38961edc9bcc5a13342a80",
+  "pages_run": 37094083446,
+  "preview_url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid/?review=6edd4fc",
+  "review_marker": {
+    "feature": "Neon Grid Circuit 02 main-route blockout",
+    "source": "6edd4fcaeeb1898bc842175976c678f0b6214b90",
+    "base": "/manacondas-minigame-mayhem/previews/neon-grid/",
+    "status": "Stage 2 review only; no tokens or shortcuts; production acceptance pending"
+  },
+  "preview_http_hashes": [
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/index.html",
+      "status": 200,
+      "sha256": "258c6b2117af0f06b5a9e06349f482e036d8e9cd6992525d64b95831853d2d71",
+      "bytes": 776
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/assets/index-_MDH5Di8.js",
+      "status": 200,
+      "sha256": "89a75f96f593b670e158ceb76ed129b393f76a8e219a0018b69a82591010f07c",
+      "bytes": 807391
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/assets/KartTimeTrial-CD_DdEbV.js",
+      "status": 200,
+      "sha256": "1b496ec4fdd333b51c24edbf2aea5ee1507b46b98f5886daae186ad0b6a3900e",
+      "bytes": 3135141
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/assets/index-KLiXI-1N.css",
+      "status": 200,
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "bytes": 85082
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/assets/characters/aa-02/kart.glb",
+      "status": 200,
+      "sha256": "5d3d570e21759d0f77f2bc7cf88085e43b1b8c1be75a3ef0299f8fac83ef0ad2",
+      "bytes": 358036
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/assets/characters/aa-02/portrait.png",
+      "status": 200,
+      "sha256": "caa1fa398d5f61d7882ff0ae811755f5c7da292728974e72e900a011b8bdf2c6",
+      "bytes": 110622
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/assets/characters/aa-13/kart.glb",
+      "status": 200,
+      "sha256": "952ca8e50b69bb5f2bc9d8d4cd4e43f844560bb4069fa23c1c0132ae77fb1e93",
+      "bytes": 547452
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/assets/characters/aa-13/portrait.png",
+      "status": 200,
+      "sha256": "4781825b60e104dee1bd92b91bb37fe65796a855a8343027d3a5a8ab1330f378",
+      "bytes": 91555
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/assets/characters/lunarcrystal/kart.glb",
+      "status": 200,
+      "sha256": "06144c674f9b8100eb95a77069c6df00e7cb3fab6ce6bff4260fbc1b519fc12e",
+      "bytes": 1159364
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/previews/neon-grid/assets/characters/lunarcrystal/portrait.png",
+      "status": 200,
+      "sha256": "3e62da502fd7539efd682310cc185b02286688d625635b892f8cc4601333bf44",
+      "bytes": 123035
+    }
+  ],
+  "production_unchanged_http_hashes": [
+    {
+      "path": "/manacondas-minigame-mayhem/assets/index-DS-2a4hq.js",
+      "status": 200,
+      "sha256": "6657ae60358211b5fc69831f318eb9396fd62e04bd1c311f1b1f39ea2aa8d377",
+      "bytes": 806526
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/index-KLiXI-1N.css",
+      "status": 200,
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "bytes": 85082
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/",
+      "status": 200,
+      "sha256": "0805ea2fcb30e514284d344f2381862925a87468e9f87edd0e3197ad4bc5739f",
+      "bytes": 719
+    },
+    {
+      "path": "/manacondas-minigame-mayhem/assets/KartTimeTrial-DQ8owGNr.js",
+      "status": 200,
+      "sha256": "de1c85120ba7c442ab009aea93d7a812d27d8d91e47791bd609f688c1979b927",
+      "bytes": 3125918
+    }
+  ],
+  "phone_smooth_driving": "pending owner review",
+  "cloud_rendered_driving": "not verified: cloud WebGL disabled",
+  "next_gate": "mobile main-route smooth driving and map review; Stage 3/scenery paused",
+  "pages_validate_job": 111120312452,
+  "pages_deploy_job": 111121245638,
+  "pages_result": "completed/success",
+  "runtime_tests": "110 files / 848 tests; hosted and native pass",
+  "preview_only_diff": "one workflow file; two SHA pin field changes; no production src/public change"
+}

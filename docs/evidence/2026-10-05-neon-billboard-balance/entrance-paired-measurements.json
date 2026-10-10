@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-05",
+  "runtime": "406bb5c2f606c2db4d1f2fa9ee7e36e1d6217308",
+  "ci_run": 37361803233,
+  "ci_merge_tree": "abb5096ed104f05bb976e62a3998b4d994d13000",
+  "validation": {
+    "result": "PASS",
+    "treeIdentity": "GitHub compare reports zero file differences between runtime 406bb5c and PR merge tree abb5096 used by CI.",
+    "lfs": "actions/checkout@v5 with lfs:true materialized LFS objects; git lfs fsck PASS",
+    "install": "npm ci PASS",
+    "validate": "CI executed the npm run validate constituents: typecheck, zero-warning lint, Vitest coverage, production build; all PASS",
+    "tests": "125 test files / 997 tests passed on the changed runtime tree"
+  },
+  "placement": {
+    "boostPadCenterFraction": 0.16,
+    "approvedCenterFractionBand": [0.1, 0.2],
+    "shortcutLengthMeters": 140.80337709759127,
+    "commitmentDistanceMeters": 19,
+    "boostPadHalfLengthMeters": 3,
+    "boostPadHalfWidthMeters": 3.5,
+    "boostPadLeadingEdgeDistanceMeters": 19.528540335614603,
+    "mainLineTriggerRegression": "PASS: main-line RacerTrack projections at representative lanes remain outside billboard-gap ownership and never return boost"
+  },
+  "preserved": {
+    "staticExitRetention": 0.82,
+    "boostPadStrengthAndSize": "unchanged",
+    "aiAttemptRates": {"tunnel": 0.05, "billboard": 0.45, "dive": 0.12},
+    "billboardPhaseOffsetSeconds": 3.6,
+    "diveRecoverySeconds": 1.5,
+    "kartStatsPhysicsItemsTunnelDiveGeometryAndRepair53": "unchanged"
+  },
+  "method": "Existing production-native paired section method: NeonGrid/RacerTrack/AiDriver/KartController/native colliders; AA-01 and AA-09 at 12/22/30 m/s; matched main/OFF/ON runs from main progress 0.07 to common downstream plane 0.236; fixed OFF/ON race states; same settings and initial velocity.",
+  "purpose": "Placement/function sanity confirmation only. No balance target thresholds apply; ON/OFF tell is accepted as flavor.",
+  "measured": {
+    "offSavingSeconds": {"min": 0.633333, "max": 0.766667, "mean": 0.677778},
+    "onSavingSeconds": {"min": 0.6, "max": 0.75, "mean": 0.644444},
+    "tellSeparationSeconds": {"min": 0.016667, "max": 0.05, "mean": 0.033333}
+  },
+  "priorPosition055": {
+    "boostPadCenterFraction": 0.55,
+    "offSavingSeconds": {"min": 0.516667, "max": 0.666667, "mean": 0.575},
+    "onSavingSeconds": {"min": 0.5, "max": 0.633333, "mean": 0.55},
+    "tellSeparationSeconds": {"min": 0.016667, "max": 0.033333, "mean": 0.025}
+  },
+  "deltaMeanVs055Seconds": {
+    "offSaving": 0.102778,
+    "onSaving": 0.094444,
+    "tellSeparation": 0.008333
+  },
+  "assessment": "PASS for placement confirmation. The shortcut still enters/exits cleanly with zero guardrail contacts in every paired shortcut run, every shortcut run traverses the boost surface, and savings remain in the same general ballpark as the 0.55 round with a modest increase from earlier boost delivery. No further ON/OFF separation tuning is authorized.",
+  "rows": [
+    {"character":"aa-01","speed":12,"main":11.8,"off":11.133333,"on":11.183333,"offSaving":0.666667,"onSaving":0.616667,"tellSeparation":0.05},
+    {"character":"aa-01","speed":22,"main":11.383333,"off":10.733333,"on":10.766667,"offSaving":0.65,"onSaving":0.616667,"tellSeparation":0.033333},
+    {"character":"aa-01","speed":30,"main":11.316667,"off":10.633333,"on":10.666667,"offSaving":0.683333,"onSaving":0.65,"tellSeparation":0.033333},
+    {"character":"aa-09","speed":12,"main":11.95,"off":11.316667,"on":11.35,"offSaving":0.633333,"onSaving":0.6,"tellSeparation":0.033333},
+    {"character":"aa-09","speed":22,"main":11.566667,"off":10.9,"on":10.933333,"offSaving":0.666667,"onSaving":0.633333,"tellSeparation":0.033333},
+    {"character":"aa-09","speed":30,"main":11.416667,"off":10.65,"on":10.666667,"offSaving":0.766667,"onSaving":0.75,"tellSeparation":0.016667}
+  ]
+}

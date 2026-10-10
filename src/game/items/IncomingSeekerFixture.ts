@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { ProjectileSystem } from './ProjectileSystem';
 import { ITEM_DEFINITIONS } from './itemDefinitions';
 
@@ -12,7 +12,7 @@ export class IncomingSeekerFixture {
     elapsed: number,
     finished: boolean,
     position: THREE.Vector3,
-    track: CircuitAlpha,
+    track: TrackDefinition,
     projectiles: ProjectileSystem,
   ): void {
     if (!this.enabled || finished || elapsed < this.nextTime) return;

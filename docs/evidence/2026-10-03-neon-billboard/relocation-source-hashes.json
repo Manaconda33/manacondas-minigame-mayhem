@@ -1,0 +1,193 @@
+{
+  "runtime": "1a1e3ad9d0c5825130d392681c89f1f6ad521a51",
+  "tree": "ab677094b6015fbb15874d3a7d26a6d6b0fd0f35",
+  "all31BlobIDsVerified": true,
+  "entries": [
+    {
+      "path": "docs/DECISIONS.md",
+      "status": "M",
+      "bytes": 211445,
+      "sha": "cdb256002b0c49ebed90ad0d33fd93856659a560"
+    },
+    {
+      "path": "docs/IMPLEMENTATION-STATUS.md",
+      "status": "M",
+      "bytes": 183676,
+      "sha": "a7cbd3e9ac3bd5890c9fdb1a49fb02165f71e7b9"
+    },
+    {
+      "path": "docs/TESTING.md",
+      "status": "M",
+      "bytes": 228751,
+      "sha": "bd6badbd355068748cc6da5a6af87a95120cb8b6"
+    },
+    {
+      "path": "docs/assets/NEON-GRID-BILLBOARD-ASSET-BRIEF.md",
+      "status": "M",
+      "bytes": 2093,
+      "sha": "8fca5162867ca5db11b54a79f1a34ce7ac7d3c9c"
+    },
+    {
+      "path": "docs/design/neon-grid/BUILD-CONTRACT.md",
+      "status": "M",
+      "bytes": 10087,
+      "sha": "ad14c240d1a5a9d1b20692aea56cd192051287f0"
+    },
+    {
+      "path": "docs/design/neon-grid/billboard-gap-design.md",
+      "status": "M",
+      "bytes": 10188,
+      "sha": "3694ccd165f668bcd61a8903265bcb119aa8d5b2"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/progress.md",
+      "status": "M",
+      "bytes": 11299,
+      "sha": "1ee43d473787d80e625697db9ae35d11d2d304d8"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-code-review.md",
+      "status": "A",
+      "bytes": 1586,
+      "sha": "4c654cc222004df3712d0d8ad6b50cb6b9621e10"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-focused-green.txt",
+      "status": "A",
+      "bytes": 324,
+      "sha": "861a9b8e6d6df8be882f21b5067026aba126aae3"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-fold-red.txt",
+      "status": "A",
+      "bytes": 1260,
+      "sha": "c09742e4fb2a9437254850248c5f0d63b6256d7b"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-frame-span.txt",
+      "status": "A",
+      "bytes": 322,
+      "sha": "892fa91c774720ef8f2962a8f22f462e5b54f237"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-native.json",
+      "status": "A",
+      "bytes": 6923,
+      "sha": "6a0b191386dce25253563ec5fa767de9c30d4f79"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-probe.fixture.txt",
+      "status": "A",
+      "bytes": 8439,
+      "sha": "7054e583c5d8ecd7d91015fdbd44403793ce7de8"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-probe.mjs",
+      "status": "D",
+      "bytes": 0,
+      "sha": null
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-red.txt",
+      "status": "A",
+      "bytes": 5211,
+      "sha": "d27f0e1b3200ccc85f9c48ee3c1cf8455627ecdb"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-review.md",
+      "status": "M",
+      "bytes": 9870,
+      "sha": "18b0a79b8f53d02ba231889d0fc23e64b9100a65"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-surface-red.txt",
+      "status": "A",
+      "bytes": 1236,
+      "sha": "aa613388fd7b665168a91bddb89d02f2c2570620"
+    },
+    {
+      "path": "docs/evidence/2026-10-03-neon-billboard/relocation-validation.txt",
+      "status": "A",
+      "bytes": 12884,
+      "sha": "46d2e4d379e8f34a64788dbcef8d65315a2f36d1"
+    },
+    {
+      "path": "src/game/track/NeonGrid.ts",
+      "status": "M",
+      "bytes": 9153,
+      "sha": "a3840eaed90bc9193c89f61e37761bf51c14b723"
+    },
+    {
+      "path": "src/game/track/NeonGridBillboard.ts",
+      "status": "M",
+      "bytes": 4461,
+      "sha": "efda1d8245f34a1d50bcea2a0417781a176c95f4"
+    },
+    {
+      "path": "src/game/track/NeonGridBillboardVisual.ts",
+      "status": "M",
+      "bytes": 6900,
+      "sha": "cf28549f56802047b0ac4ebc36fde29bee0c3a06"
+    },
+    {
+      "path": "src/game/track/RacerTrack.ts",
+      "status": "M",
+      "bytes": 9681,
+      "sha": "265a16bb0df1ab28a807f5b645a2a5a9227b5434"
+    },
+    {
+      "path": "src/game/track/TrackSegmentIndex.ts",
+      "status": "M",
+      "bytes": 3390,
+      "sha": "b31686894c8ea3c25ee5095fec170351274284fb"
+    },
+    {
+      "path": "src/game/track/createNeonGridScene.ts",
+      "status": "M",
+      "bytes": 5154,
+      "sha": "34801f1754697764f87800de6da8704d73c0229d"
+    },
+    {
+      "path": "src/game/track/neonGridLayout.json",
+      "status": "M",
+      "bytes": 1714,
+      "sha": "318f227a7ccebb520429c5b67aec152cd5bf8373"
+    },
+    {
+      "path": "tests/neon-grid-billboard-driving.test.ts",
+      "status": "M",
+      "bytes": 10892,
+      "sha": "df9d32c4392d82f3021e23bb07b5e86118451f9b"
+    },
+    {
+      "path": "tests/neon-grid-billboard-relocation.test.ts",
+      "status": "A",
+      "bytes": 8439,
+      "sha": "36961b97c5d839948b09f8db5374f07da80a09bb"
+    },
+    {
+      "path": "tests/neon-grid-billboard-visual.test.ts",
+      "status": "M",
+      "bytes": 5282,
+      "sha": "6af58099a2b22bd1526023d864584dceb2bafc99"
+    },
+    {
+      "path": "tests/neon-grid-billboard.test.ts",
+      "status": "M",
+      "bytes": 5974,
+      "sha": "c083c0523b6cd9c84f889cd94f54c6fff7291a52"
+    },
+    {
+      "path": "tests/race-diagnostics-routing.test.ts",
+      "status": "M",
+      "bytes": 50957,
+      "sha": "5deeca0b59f9744e61741f4b0b60038839668950"
+    },
+    {
+      "path": "tools/diagnostics/neon-billboard-relocation.mjs",
+      "status": "A",
+      "bytes": 6297,
+      "sha": "e361f374d141b4a656b827b5c6181dbefd55a9b0"
+    }
+  ]
+}

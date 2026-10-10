@@ -12,6 +12,7 @@ export interface AreaEffectTarget {
 
 export interface AreaEffectOptions {
   readonly respectGroundHazardImmunity?: boolean;
+  readonly contactFilter?: (center: Vector3, target: Vector3) => boolean;
 }
 
 export function finitePosition(position: Vector3): boolean {
@@ -33,7 +34,11 @@ export function areaEffectVictims<T extends AreaEffectTarget>(
     if (seen.has(target.id) || target.finished || !finitePosition(target.position)) return false;
     const dx = target.position.x - center.x;
     const dz = target.position.z - center.z;
-    if (dx * dx + dz * dz > radius * radius) return false;
+    if (
+      dx * dx + dz * dz > radius * radius ||
+      options?.contactFilter?.(center, target.position) === false
+    )
+      return false;
     seen.add(target.id);
     const blocked =
       target.itemImmune === true ||

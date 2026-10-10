@@ -1,7 +1,7 @@
 import { RacerEffects } from './RacerEffects';
 import { RocketAutopilot } from './RocketAutopilot';
 import type { DriveInput } from '../physics/KartController';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import * as THREE from 'three';
 
 /** Amendment 2.21 / ADR-082: bounded legal catch-up autopilot. */
@@ -46,8 +46,9 @@ export class HyperDriveRocketSystem {
   private disposed = false;
 
   public constructor(
-    track: CircuitAlpha,
+    track: TrackDefinition,
     private readonly effects: RacerEffects,
+    private readonly trackForRacer?: (racerId: string) => TrackDefinition,
   ) {
     this.autopilot = new RocketAutopilot(track);
   }
@@ -86,7 +87,10 @@ export class HyperDriveRocketSystem {
   ): DriveInput {
     const state = this.states.get(racerId);
     if (state === undefined) return { ...normalInput };
-    return this.autopilot.input(
+    const autopilot = this.trackForRacer
+      ? new RocketAutopilot(this.trackForRacer(racerId))
+      : this.autopilot;
+    return autopilot.input(
       position,
       forward,
       speed,

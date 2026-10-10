@@ -1,0 +1,145 @@
+{
+  "environment": "Local Chromium SwiftShader diagnostic only; mobile-sized viewports are simulations; no FPS/p95 hardware certification.",
+  "source": "44e0c022631a3bded11beebb3494618906adc6c9",
+  "frames": [
+    {
+      "label": "falls-extension-chase-desktop-medium.json",
+      "width": 1280,
+      "height": 720,
+      "calls": 124,
+      "triangles": 51996,
+      "quality": "medium",
+      "view": "chase",
+      "errors": []
+    },
+    {
+      "label": "falls-extension-rear-mobile-portrait-medium.json",
+      "width": 390,
+      "height": 844,
+      "calls": 77,
+      "triangles": 104534,
+      "quality": "medium",
+      "view": "rear",
+      "errors": []
+    },
+    {
+      "label": "falls-task8-desktop-medium.json",
+      "width": 1280,
+      "height": 720,
+      "calls": 55,
+      "triangles": 47006,
+      "quality": "medium",
+      "view": "chase",
+      "errors": []
+    },
+    {
+      "label": "skyline-billboard-desktop-high.json",
+      "width": 1280,
+      "height": 720,
+      "calls": 137,
+      "triangles": 69846,
+      "quality": "high",
+      "view": "chase",
+      "errors": []
+    },
+    {
+      "label": "skyline-billboard-desktop-low.json",
+      "width": 1280,
+      "height": 720,
+      "calls": 133,
+      "triangles": 69554,
+      "quality": "low",
+      "view": "chase",
+      "errors": []
+    },
+    {
+      "label": "skyline-billboard-desktop-medium.json",
+      "width": 1920,
+      "height": 1080,
+      "calls": 136,
+      "triangles": 75690,
+      "quality": "medium",
+      "view": "chase",
+      "errors": []
+    },
+    {
+      "label": "skyline-billboard-mobile-landscape-medium.json",
+      "width": 844,
+      "height": 390,
+      "calls": 140,
+      "triangles": 67798,
+      "quality": "medium",
+      "view": "chase",
+      "errors": []
+    },
+    {
+      "label": "skyline-billboard-rear-desktop-medium.json",
+      "width": 1280,
+      "height": 720,
+      "calls": 114,
+      "triangles": 141486,
+      "quality": "medium",
+      "view": "rear",
+      "errors": []
+    },
+    {
+      "label": "skyline-citybase-desktop-medium.json",
+      "width": 1920,
+      "height": 1080,
+      "calls": 95,
+      "triangles": 48258,
+      "quality": "medium",
+      "view": "chase",
+      "errors": []
+    },
+    {
+      "label": "skyline-citybase-mobile-portrait-medium.json",
+      "width": 390,
+      "height": 844,
+      "calls": 86,
+      "triangles": 44156,
+      "quality": "medium",
+      "view": "chase",
+      "errors": []
+    },
+    {
+      "label": "skyline-tunnel-transition-desktop-medium.json",
+      "width": 1280,
+      "height": 720,
+      "calls": 160,
+      "triangles": 78562,
+      "quality": "medium",
+      "view": "chase",
+      "errors": []
+    },
+    {
+      "label": "undercity-chase-desktop-medium.json",
+      "width": 1280,
+      "height": 720,
+      "calls": 155,
+      "triangles": 79812,
+      "quality": "medium",
+      "view": "chase",
+      "errors": []
+    }
+  ],
+  "maxCalls": 160,
+  "maxTriangles": 141486,
+  "errors": [],
+  "skylineAB": {
+    "source": "44e0c022631a3bded11beebb3494618906adc6c9",
+    "viewport": "1920x1080 drawing buffer, Medium, SwiftShader",
+    "hidden": {
+      "calls": 117,
+      "triangles": 52108
+    },
+    "visible": {
+      "calls": 134,
+      "triangles": 60266
+    },
+    "delta": {
+      "calls": 17,
+      "triangles": 8158
+    }
+  }
+}\n

@@ -6,13 +6,19 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.20; approved governance amendment 2.21
+Version 1.1 - Final approved baseline; approved implementation amendment 2.25
 
 August 16, 2026
 
 Implementation starting point: Slice 0 - Repository & Project Bootstrap
 
 Durable source of truth: GitHub repository
+
+## Approved implementation amendment 2.25 - T9.5 line-of-sight screening and 220-call full-course gate
+
+Approved October 8, 2026. The owner rejected corrected T9.5 because the Billboard and Service Tunnel shortcut roadways remain plainly exposed from the main driving line. T9.5 must add opaque, physically supported, presentation-only wallside sightline screening and real-camera/line-of-sight evidence while retaining distinct readable entrance tells, fully traversable entrances/exits in both directions and prior accepted gameplay and visuals. Do not alter shortcut surfaces, geometry, handling, recovery, AI, item rules, checkpoints, approved sponsor art or Task 8's frozen 0.70–0.85 presentation.
+
+For the **T9.5 full-course rendered CI gate only**, **200 draw calls is the optimization target** and **220 calls is the blocking maximum**. Any excess above 200 must be reported. The PRD hard 250-call/750,000-visible-triangle caps, Task 9 300,000 engineering triangle bound, separate sector A/B draw-call limits and original Falls +12 incremental bound remain unchanged. This amendment does not automatically invoke the previously contingent Falls +15 allowance. Rendering success does not constitute owner camouflage acceptance. T9.5 remains NOT APPROVED until a freshly pinned corrected preview receives owner visual/playability approval; T9.6/T9.7, PR #242 merge and Neon Grid production gameplay publication remain gated.
 
 ## Approved implementation amendment 1.2 - Manual confirmation deployments
 
@@ -560,7 +566,7 @@ Scene budgets:
 
 - Visible triangles: target \<= 750,000
 
-- Draw calls: target \<= 250
+- Draw calls: target \<= 500 (approved implementation amendment 2.26)
 
 - Shadow-casting dynamic objects: \<= 12
 
@@ -2901,7 +2907,7 @@ Baseline: latest Chrome, latest Edge, latest Firefox, and current desktop Safari
 
 ☐ GPU target \<=12 ms where measurable.
 
-☐ Draw calls target \<=250.
+☐ Draw calls target \<=500 (implementation amendment 2.26).
 
 ☐ Visible triangles target \<=750k.
 
@@ -3132,3 +3138,50 @@ Manny approved adding Archer as AA-13 Precision Speedster, a new thirteenth prof
 ## Approved roster extension — Lunarcrystal, 2026-10-02
 
 Manny approved Lunarcrystal as new AA-14 Lunar Navigator, Medium class, Speed 6 / Acceleration 7 / Weight 4 / Handling 8 / Mini-Turbo 5 / Traction 6 (36 points). The fourteen-driver roster retains AA-01–13 assignments; page one remains the original twelve, page two adds Lunarcrystal beside Archer. Selection/page restoration behavior and eight unique racers remain unchanged. The Moonlit Carriage name and supplied-reference celestial concept are approved. All fourteen 2D images are approved and staged in asset-only PR #237 at `9a46bda1cd1c3fcfb1514bd9e5e8c8b10b5d441b`; hosted CI `37010681712` passed. Kart candidate geometry, actual cockpit mounting, runtime integration, deployed visual acceptance and production publication remain separately gated.
+
+## Approved implementation amendment Neon Grid Circuit 02 — 2026-10-02
+
+Manny approved the approximately 1,450 m Neon Grid course, sharp reversing Undercity hairpins, and a service tunnel bypassing all fuchsia hairpins. He authorized native implementation of the saved five-stage plan and explicitly omitted tokens on 2026-10-02. This amendment supersedes D-009’s single-circuit scope only: Circuit Alpha remains unchanged and selectable as circuit 01; Neon Grid is circuit 02. Retain eight unique racers, three validated laps, all accepted roster/stat/item tuning, visuals, audio, HUD and Results contracts.
+
+The reviewed contract and coordinate authority are docs/design/neon-grid/BUILD-CONTRACT.md and layout.json. Main-road half-widths are 6/4.5/6 m with interpolated transitions; the underground service tunnel has its own 3.2 m half-width. Every shortcut rejoins at strictly higher main-route progress and physically crosses all common-road gates; mapped progress awards no checkpoint. Gate elevation tolerance is 1.5 m for Neon Grid while legacy Alpha defaults remain unchanged. Billboard adds a static surface at 0.82 speed with asphalt acceleration and no off-road speed floor; its 6-second cycle freezes with race time. Dive landing/miss behavior remains physical, with approximately 1.5-second recovery penalty before the downstream gate.
+
+Normal-route lap target is 62–68 seconds, subject to actual driving evidence. Full-hairpin tunnel savings must be measured and supersede the former 1.0–1.4-second target. Compare paired same-driver shortcut runs; do not weaken the approved hairpins or add a hidden speed cap to fit old targets. Tokens and collection counters are excluded. Use unique Neon Grid race/final-lap audio filenames without replacing accepted music. Route identity persists through selection, restart, replay, minimap and Results. Assets/audio retain separate approval gates. Publish pinned GitHub Pages previews at the plan’s owner review checkpoints. No production merge/deployment is authorized until visual acceptance and explicit release direction.
+
+This is a reviewed design contract, not evidence of runtime collision, physics, race, timing or device performance acceptance. Slice 6 remains active; diagnostics remain deferred and context-loss recovery remains waived.
+
+## Approved implementation amendment 2.23 - Neon Grid shortcut balance candidate
+
+Approved October 5, 2026. Neon Grid Circuit 02 uses seeded default AI shortcut attempt rates of **5% Service Tunnel / 45% Billboard / 12% Waterfall Dive**. The Billboard six-second race-time cycle receives a **+3.6 second phase offset**, placing the measured first-lap OFF discovery window at approximately **30.4–32.4 race seconds** for the existing reference approaches. The Billboard retains its once-only **0.82 ON/static exit retention**.
+
+The approved Billboard balance candidate adds exactly one modest standard boost pad inside the shortcut after physical commitment and before rejoin. Use the existing track boost behavior rather than changing kart statistics or global physics. Paired same-driver measurements target approximately **0.8–1.0 s OFF savings**, **0.5–0.6 s ON savings**, and **0.25–0.4 s real ON/OFF tell value**. If the boost pad alone does not establish that separation, report the miss and stop for owner decision; do not change 0.82 unilaterally.
+
+Waterfall Dive miss recovery remains forgiving and unchanged: the approximately **1.5 race-second** splash/recovery forfeits the shortcut reward but is not required to cost position versus the main line. No Tunnel/Dive geometry, repaired 5.3 faces, items, racer statistics, or Stage 4 scope is authorized by this amendment.
+
+## Approved implementation amendment 2.24 - Billboard tell acceptance and entrance boost placement
+
+Approved October 5, 2026. The Billboard ON/OFF timing difference is accepted as **flavor**; the numeric ON/OFF tell-separation target from amendment 2.23 is retired and no further separation tuning is authorized. The once-only **0.82 ON/static exit retention** remains unchanged.
+
+The single existing standard Billboard boost pad moves from the prior 0.55 checkpoint to just inside the physically committed shortcut entrance, within approximately **gap fraction 0.1–0.2**. Its full trigger footprint must begin after commitment so a kart remaining on the main line cannot trigger it. Pad strength and size remain unchanged. Validation of this placement is a functional sanity check using the established paired native method, not a new balance experiment and carries no numeric savings threshold.
+
+The seeded AI shortcut rates remain **5% Service Tunnel / 45% Billboard / 12% Waterfall Dive**; the Billboard phase offset remains **+3.6 seconds**; Dive recovery remains approximately **1.5 race seconds**. No kart statistics, global physics, items, Tunnel/Dive geometry, repaired 5.3 faces, or Stage 4 work is authorized by this amendment.
+
+
+## Approved implementation amendment 2.25 - Bidirectional physical shortcut access and T9.2 correction authority
+
+Approved October 7, 2026 after owner review of the pinned T9.2 Skyline preview. All three Neon Grid shortcuts must be **physically enterable from either end**. Reverse shortcut travel is ordinary wrong-way driving: it does not reverse checkpoint order, award skipped checkpoints, increment laps, create shortcut balance credit, or alter the AI's normal forward shortcut choices. Remove traversal/guardrail/recovery behavior whose only purpose is to eject or block a kart because it approached a shortcut from the reverse end. Physical consequences of the authored geometry remain valid; for example, attempting the Waterfall Dive backward may still fail naturally at the gap. Manual recovery remains available.
+
+The same owner review rejects the first T9.2 Skyline visual candidate as final art. The bounded correction pass is authorized to: improve the procedural Skyline architecture without new unapproved art; mount the already-approved Manaconda Racing and Taco Bell / Live Más ads to physical architecture; keep all city/signage footprints clear of the Billboard route; eliminate presentation-road clipping by conforming overlays to the accepted dense road mesh; and remove the world-centered sky boundary artifact. The accepted main route, Billboard timing/0.82 behavior/boost, Tunnel and Dive authored support, checkpoint order, AI rates, kart tuning, items, audio and Stage 4 roadmap remain unchanged unless this amendment explicitly says otherwise.
+
+This correction must publish a replacement isolated T9.2 owner-review preview before T9.3 begins. The rejected `bef6036` preview remains historical evidence and is not production approval.
+
+## Approved implementation amendment 2.26 - Global race-scene draw-call ceiling
+
+Approved October 9, 2026. Manny directs the PRD hard draw-call cap to increase from 250 to **500 calls for every race scene**, including Neon Grid and Circuit Alpha. This supersedes the draw-call value in PRD §2.6 and earlier 250-call hard-cap references. The forward-looking Task 9 draw-call engineering target is also **500 calls**. This is a draw-call-only adjustment: the PRD visible-triangle cap remains **750,000**, the forward-looking Task 9 visible-triangle engineering target remains **350,000**, and all G-05 hardware requirements remain unchanged (Medium 1920×1080, median ≥60 FPS, p95 ≤18.3 ms, and no sustained sequence of three frames over 50 ms). Historical measurements retain the limits in force when collected. This amendment changes no visual, gameplay, physics, AI, audio, camera, shortcut, or production-release approval, and it does not certify hardware performance.
+
+## Approved implementation amendment 2.27 - T9.7 sector A/B draw-call ceilings
+
+Approved October 9, 2026. For the active T9.7 sector A/B render gates, amend the incremental draw-call ceilings to **Skyline +36**, **Undercity +30**, and **Falls Run extension +28**. These values cover the observed additional cost of the current sector visuals and selective-bloom mask pass while retaining the existing full-scene ceilings. Historical evidence and records keep the thresholds in force when those measurements were taken; future T9.7 sector-gate evidence uses the amended values. The global **500-call** scene cap, Task 9 **350,000** visible-triangle engineering limit, PRD **750,000** visible-triangle cap, and G-05 hardware FPS/frame-time requirements remain unchanged. This amendment does not change shared `RaceBloom` behavior, certify performance, or grant visual acceptance, preview publication, PR #242 merge, or production-release approval.
+
+## Approved implementation amendment 2.28 - Task 9 engineering triangle ceiling
+
+Approved October 9, 2026. Manny approved a **425,000 visible-triangle ceiling for forward-looking Task 9 engineering gates**, superseding the prior 350,000 internal limit. The PRD hard visible-triangle cap remains **750,000** for all race scenes, and the global 500-call cap and G-05 representative-hardware FPS/frame-time requirements remain unchanged. Historical evidence retains the ceiling in force when collected; active Task 9 analyzers and render gates use 425,000. This budget update is not hardware certification, visual acceptance, preview publication, PR #242 merge approval, or production-release approval.

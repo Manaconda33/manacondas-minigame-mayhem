@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+ ❯ tests/neon-grid-billboard-relocation.test.ts (8 tests | 1 failed | 7 skipped) 30ms
+   × keeps the inside driving edges from folding back at the curved joins 12ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-billboard-relocation.test.ts > keeps the inside driving edges from folding back at the curved joins
+AssertionError: expected -0.2653529877722884 to be greater than 0
+ ❯ tests/neon-grid-billboard-relocation.test.ts:195:63
+    193|       const fraction = i / 512, p = gap.curve.getPointAt(fraction), t …
+    194|       const edge = p.addScaledVector(new THREE.Vector3(t.z, 0, -t.x).n…
+    195|       if (previous) expect(edge.clone().sub(previous).dot(t)).toBeGrea…
+       |                                                               ^
+    196|       previous = edge;
+    197|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  13:23:34
+   Duration  874ms (transform 170ms, setup 0ms, import 235ms, tests 30ms, environment 481ms)
+

@@ -51,8 +51,15 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # The complete Vitest suite includes several CPU-heavy real race and physics
+      # integrations. Serialize files to prevent worker contention from exhausting
+      # their unchanged 5-second assertion timeouts on shared GitHub runners.
+      # Keep all tests, V8 coverage, and the original individual time limits.
       - name: Test
-        run: npm run test:ci
+        run: npm run test:ci -- --maxWorkers=1
+
+      - name: T9.6 independent performance-evidence checker tests
+        run: node --test tools/diagnostics/t9-6-certify.node-check.mjs
 
       - name: Production build
         run: npm run build
@@ -629,7 +636,7 @@ jobs:
           for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
             test -f "site-root/previews/neon-grid-t9-5/assets/track/neon-grid/signage/$art"
           done
-          
+
           mkdir -p site-root/previews/neon-grid-t9-5-correction
           cp -a preview-output/neon-grid-t9-5-correction/. site-root/previews/neon-grid-t9-5-correction/
           test -f site-root/previews/neon-grid-t9-5-correction/index.html
@@ -637,7 +644,7 @@ jobs:
           for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
             test -f "site-root/previews/neon-grid-t9-5-correction/assets/track/neon-grid/signage/$art"
           done
-          
+
           mkdir -p site-root/previews/neon-grid-t9-5-sightline
           cp -a preview-output/neon-grid-t9-5-sightline/. site-root/previews/neon-grid-t9-5-sightline/
           test -f site-root/previews/neon-grid-t9-5-sightline/index.html
@@ -645,7 +652,7 @@ jobs:
           for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
             test -f "site-root/previews/neon-grid-t9-5-sightline/assets/track/neon-grid/signage/$art"
           done
-          
+
           mkdir -p site-root/previews/neon-grid-t9-5-portals
           cp -a preview-output/neon-grid-t9-5-portals/. site-root/previews/neon-grid-t9-5-portals/
           test -f site-root/previews/neon-grid-t9-5-portals/index.html
@@ -847,6 +854,200 @@ jobs:
         with:
           name: waterfall-spillway-render
           path: /tmp/waterfall-render/
+
+  task8-falls-run-render:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out Task 8 candidate
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Render Falls Run and verify Task 8 render-readiness gates
+        env:
+          FALLS_RUN_PLAYWRIGHT: /tmp/falls-run-webgl
+          VITE_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git lfs fsck
+          npm install --prefix /tmp/falls-run-webgl --no-package-lock playwright@1.58.2
+          export FALLS_RUN_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/falls-run-vite.log 2>&1 &
+          falls_run_server_pid=$!
+          trap 'kill "$falls_run_server_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/falls-run-render.mjs /tmp/falls-run-render
+      - name: Upload Task 8 rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task8-falls-run-render
+          path: /tmp/falls-run-render/
+
+
+  task9-skyline-render:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out T9.2 Skyline candidate
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Render Skyline and verify T9.2 budget/readability gates
+        env:
+          NEON_GRID_COURSE_PLAYWRIGHT: /tmp/neon-grid-course-webgl
+          VITE_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git lfs fsck
+          npm install --prefix /tmp/neon-grid-course-webgl --no-package-lock playwright@1.58.2
+          export NEON_GRID_COURSE_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/neon-grid-course-vite.log 2>&1 &
+          course_server_pid=$!
+          trap 'kill "$course_server_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/neon-grid-course-render.mjs /tmp/neon-grid-course-render
+      - name: Upload T9.2 Skyline rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task9-skyline-render
+          path: /tmp/neon-grid-course-render/
+
+
+  task9-undercity-render:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out T9.3 Undercity candidate
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Render Undercity and verify T9.3 budget/readability gates
+        env:
+          NEON_GRID_COURSE_PLAYWRIGHT: /tmp/neon-grid-course-webgl
+          VITE_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git lfs fsck
+          npm install --prefix /tmp/neon-grid-course-webgl --no-package-lock playwright@1.58.2
+          export NEON_GRID_COURSE_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/neon-grid-course-vite.log 2>&1 &
+          course_server_pid=$!
+          trap 'kill "$course_server_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/neon-grid-undercity-render.mjs /tmp/neon-grid-undercity-render
+      - name: Upload T9.3 Undercity rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task9-undercity-render
+          path: /tmp/neon-grid-undercity-render/
+
+
+  task9-falls-extension-render:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out T9.4 Falls extension candidate
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Render T9.4 Falls extension and verify budget/readability gates
+        env:
+          NEON_GRID_COURSE_PLAYWRIGHT: /tmp/neon-grid-course-webgl
+          VITE_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git lfs fsck
+          npm install --prefix /tmp/neon-grid-course-webgl --no-package-lock playwright@1.58.2
+          export NEON_GRID_COURSE_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/neon-grid-course-vite.log 2>&1 &
+          course_server_pid=$!
+          trap 'kill "$course_server_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/neon-grid-falls-extension-render.mjs /tmp/neon-grid-falls-extension-render
+      - name: Upload T9.4 Falls extension rendered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task9-falls-extension-render
+          path: /tmp/neon-grid-falls-extension-render/
+
+
+  task9-full-course-render:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Check out T9.5 lifecycle and masking candidate
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Render full course and verify T9.5 desktop mobile and rear-view gates
+        env:
+          NEON_GRID_COURSE_PLAYWRIGHT: /tmp/neon-grid-course-webgl
+          VITE_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git lfs fsck
+          npm install --prefix /tmp/neon-grid-course-webgl --no-package-lock playwright@1.58.2
+          export NEON_GRID_COURSE_CHROME="$(command -v google-chrome)"
+          npm run dev -- --host 127.0.0.1 > /tmp/neon-grid-course-vite.log 2>&1 &
+          course_server_pid=$!
+          trap 'kill "$course_server_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/manacondas-minigame-mayhem/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node tools/diagnostics/neon-grid-t9-5-render.mjs /tmp/neon-grid-t9-5-render
+      - name: Upload T9.5 rendered lifecycle and masking evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: task9-full-course-render
+          path: /tmp/neon-grid-t9-5-render/
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

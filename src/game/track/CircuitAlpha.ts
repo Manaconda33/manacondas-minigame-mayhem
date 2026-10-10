@@ -1,17 +1,11 @@
 import * as THREE from 'three';
 import type { SurfaceType } from '../../config/kartTuning';
 
-export interface TrackProjection {
-  index: number;
-  progress: number;
-  point: THREE.Vector3;
-  tangent: THREE.Vector3;
-  lateralDistance: number;
-  lateralOffset: number;
-  surface: SurfaceType;
-}
+import type { TrackDefinition, TrackProjection } from './TrackDefinition';
+export type { TrackProjection } from './TrackDefinition';
 
-export class CircuitAlpha {
+export class CircuitAlpha implements TrackDefinition {
+  public readonly id = 'circuit-alpha' as const;
   public readonly roadHalfWidth = 6;
   public readonly sampleCount = 384;
   public readonly startFinishDistance = 22;
@@ -49,6 +43,14 @@ export class CircuitAlpha {
     this.checkpointIndices = Array.from({ length: 12 }, (_, index) =>
       Math.floor((index * this.sampleCount) / 12),
     );
+  }
+
+  public halfWidthAt(): number {
+    return this.roadHalfWidth;
+  }
+
+  public boundaryHalfWidthAt(): number {
+    return 9.25;
   }
 
   public project(position: THREE.Vector3): TrackProjection {

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { RacerProgress } from '../race/RaceDirector';
 import type { ApexMissileSystem, ApexTarget } from './ApexMissileSystem';
 import { BLAZE_ORB_CONFIG } from './BlazeOrbs';
@@ -20,7 +20,7 @@ export class ShockwaveCounterFixture {
     playerFinished: boolean,
     playerShockwaveReady: boolean,
     playerPosition: THREE.Vector3,
-    track: CircuitAlpha,
+    track: TrackDefinition,
     projectiles: ProjectileSystem,
     hazards: HazardSystem,
     apex: ApexMissileSystem,

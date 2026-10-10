@@ -1,0 +1,48 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { canonical, manifestDigest, validateManifest, assertApproval, assertPaths, safePath, transition, eventRouter, leaseAcquire, leaseRelease, evaluateCycle, reviewPacket, noticeKey } from '../../tools/ai-handoff/contract.mjs';
+const fixtures = JSON.parse(readFileSync(new globalThis.URL('./fixtures.json', import.meta.url), 'utf8'));
+function setup() {
+  const m = globalThis.structuredClone(fixtures[0].manifest);
+  m.manifest_sha256 = manifestDigest(m); m.approval.approved_digest = m.manifest_sha256;
+  const trusted = {fixture_context:true, actor:'Manaconda33', authorized:true, event_id:m.approval.event_id, issue_number:m.issue_number, base_sha:m.base_sha, digest:m.manifest_sha256};
+  return {m,trusted};
+}
+const check = [{name:'fixture_tests',pass:true},{name:'path_diff',pass:true}];
+const args = (m, overrides={}) => ({manifest:m, changedPaths:['tools/ai-handoff/contract.mjs'], cycles:1,checks:check,findings:[],elapsedMinutes:1,spendUsd:0,...overrides});
+test('canonical JSON is order independent and digest is stable', () => {
+  assert.equal(canonical({b:1,a:{d:true,c:null}}),canonical({a:{c:null,d:true},b:1}));
+  const {m}=setup(); assert.equal(manifestDigest({...m,manifest_sha256:'f'.repeat(64)}),m.manifest_sha256);
+});
+test('valid manifest passes schema-equivalent checks', () => {const {m}=setup(); assert.equal(validateManifest(m),true);});
+test('unknown field rejected', () => {const {m}=setup(); m.admin=true;assert.throws(()=>validateManifest(m),/unknown field/);});
+test('unsupported repository and schema rejected', () => {const {m}=setup();m.repository='evil/repo';assert.throws(()=>validateManifest(m),/repository/);m.repository=fixtures[0].manifest.repository;m.schema_version='999';assert.throws(()=>validateManifest(m),/schema/);});
+test('missing and invalid cost/time ceilings fail closed',()=>{const {m}=setup();delete m.quality_loop.api_spend_usd_limit;assert.throws(()=>validateManifest(m),/missing/);m.quality_loop.api_spend_usd_limit=-1;assert.throws(()=>validateManifest(m),/budget/);});
+test('three cycles and two corrections are immutable',()=>{const {m}=setup();m.quality_loop.total_build_cycles=4;assert.throws(()=>validateManifest(m),/quality budget/);});
+test('scope cannot expand to source or workflow',()=>{const {m}=setup();m.scope.allowed_paths.push('src/**');assert.throws(()=>validateManifest(m),/widen/);});
+test('unconfigured trusted adapter cannot issue authorization',()=>{const {m}=setup();assert.throws(()=>assertApproval(m,{}),/no trusted adapter/);});
+test('unknown actor, unapproved event and mismatch rejected',()=>{const {m,trusted}=setup();for(const change of [{actor:'attacker'},{authorized:false},{event_id:'evt-other'},{issue_number:999},{base_sha:'a'.repeat(40)}])assert.throws(()=>assertApproval(m,{...trusted,...change}));});
+test('manifest digest mutation invalidates approval',()=>{const {m,trusted}=setup();m.objective+=' changed';assert.throws(()=>assertApproval(m,trusted),/digest/);});
+test('claimed approval alone is not trusted',()=>{const {m,trusted}=setup();m.approval.approver='attacker';assert.throws(()=>assertApproval(m,trusted),/claimed/);});
+test('stale approved base fails closed',()=>{const {m,trusted}=setup();m.approval.approved_base_sha='b'.repeat(40);assert.throws(()=>assertApproval(m,trusted),/baseline/);});
+test('unexpected event and arbitrary PR comment rejected',()=>{assert.throws(()=>eventRouter({id:'xyz',type:'pull_request_comment'},'scope_approved',new Set()),/untrusted event/);});
+test('unapproved label and incorrect state rejected',()=>{assert.throws(()=>eventRouter({id:'xyz',type:'issue_labeled',label:'run-now'},'scope_approved',new Set()),/unexpected label/);assert.throws(()=>eventRouter({id:'xyz',type:'manual_fixture'},'draft',new Set()),/not approved/);});
+test('duplicate event is rejected without another state transition',()=>{const seen=new Set();assert.equal(eventRouter({id:'webhook1',type:'manual_fixture'},'scope_approved',seen),'queued');assert.throws(()=>eventRouter({id:'webhook1',type:'manual_fixture'},'scope_approved',seen),/duplicate/);});
+test('manifest cannot modify production assets or CI workflows',()=>{const {m}=setup();for(const p of ['src/game/index.ts','public/index.html','assets/music.wav','.github/workflows/ci.yml','AGENTS.md','docs/DECISIONS.md','package-lock.json'])assert.throws(()=>assertPaths([p],m),/protected/);});
+test('path traversal, absolute, drive and encoded path rejected',()=>{for(const p of ['../src/foo','docs/automation/../PRD.md','/etc/passwd','C:/windows','docs//automation/x','docs/automation/%2e%2e','tools\\ai-handoff\\x'])assert.throws(()=>safePath(p));});
+test('out of scope path rejected',()=>{const {m}=setup();assert.throws(()=>assertPaths(['docs/random.md'],m),/outside approved scope/);});
+test('valid paths accepted',()=>{const {m}=setup();assert.equal(assertPaths(['tools/ai-handoff/contract.mjs','tests/ai-handoff/check.mjs','docs/automation/stage-b-runbook.md'],m),true);});
+test('illegal state and self-approval rejected',()=>{assert.equal(transition('draft','validated'),'validated');for(const [a,b] of [['reviewing','release_authorized'],['draft','running'],['closed','running'],['changes_requested','running'],['review_ready','release_authorized']])assert.throws(()=>transition(a,b),/illegal/);});
+test('one occupied workstream and stale leases require operator',()=>{const held=leaseAcquire({owner:null,expiresAt:0,generation:0},'A',1000,50);assert.throws(()=>leaseAcquire(held,'B',1020,50),/occupied/);assert.throws(()=>leaseAcquire(held,'B',1100,50),/stale lease/);assert.throws(()=>leaseRelease(held,'B',1),/ownership/);assert.equal(leaseRelease(held,'A',1).owner,null);});
+test('green first cycle reports owner review only',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m)),'review_ready');});
+test('one correction then technical pass',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{checks:[],findings:[{severity:'high'}]})),'correcting');assert.equal(evaluateCycle(args(m,{cycles:2})),'review_ready');});
+test('three-cycle exhaustion fails, not requeues',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{cycles:3,checks:[]})),'failed_budget_or_checks');assert.equal(evaluateCycle(args(m,{cycles:4})),'failed_budget_or_checks');});
+test('time, cost limits halt',()=>{const {m}=setup();for(const fields of [{elapsedMinutes:30},{spendUsd:2}])assert.equal(evaluateCycle(args(m,fields)),'failed_budget_or_checks');});
+test('reviewer unavailable and material disagreement fail closed',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{reviewerAvailable:false})),'needs_owner_decision');assert.equal(evaluateCycle(args(m,{checks:check,findings:[{severity:'high'}]})),'correcting');});
+test('protected scope change blocks before checks',()=>{const {m}=setup();assert.throws(()=>evaluateCycle(args(m,{changedPaths:['.github/workflows/ci.yml']})),/protected/);});
+test('fake AI owner visual acceptance not sufficient',()=>{const {m}=setup();m.acceptance.owner_visual_required=true;assert.equal(evaluateCycle(args(m)),'needs_owner_decision');});
+test('out-of-scope review finding escalates immediately',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{findings:[{severity:'high',type:'out_of_scope'}]})),'needs_owner_decision');});
+test('missing mandatory check fails closed',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{checks:[]})),'correcting');});
+test('review packet cannot grant release, deduplicates',()=>{const packet=reviewPacket({taskId:'MAYHEM-AUTO-001',sha:'a'.repeat(40),cycles:1,state:'review_ready',checks:check,findings:[]});assert.equal(packet.release_authorization,'NOT GRANTED');assert.equal(noticeKey(packet),noticeKey({...packet}));assert.throws(()=>reviewPacket({...packet,state:'implementation_accepted'}));});
+test('fixture simulations cover green, correction, exhaustion',()=>{const expected=['review_ready','review_ready','failed_budget_or_checks'];fixtures.forEach((fixture,i)=>{const {m}=setup();const outcomes=fixture.cycles.map((cycle,n)=>evaluateCycle(args(m,{...cycle,cycles:n+1,changedPaths:fixture.changed_paths})));assert.equal(outcomes.at(-1),expected[i]);});});

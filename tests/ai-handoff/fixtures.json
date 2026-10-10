@@ -1,0 +1,41 @@
+[
+  {
+    "name":"initial-green",
+    "manifest":{
+      "schema_version":"1.2", "id":"MAYHEM-AUTO-001", "repository":"Manaconda33/manacondas-minigame-mayhem", "issue_number":9001,
+      "base_sha":"f16173c562911df0020aef22dce1521d104d521e", "objective":"Validate simulation-only handoff contract fixtures",
+      "approval":{"scope":"implementation_only", "approver":"Manaconda33", "event_id":"evt-stage-b-001", "approved_digest":"0000000000000000000000000000000000000000000000000000000000000000", "approved_base_sha":"f16173c562911df0020aef22dce1521d104d521e"},
+      "scope":{"allowed_paths":["tools/ai-handoff/**","tests/ai-handoff/**","docs/automation/**"], "forbidden_paths":["src/**","public/**",".github/**"], "workstream_lock":"pilot-automation"},
+      "quality_loop":{"total_build_cycles":3, "max_corrective_attempts":2, "elapsed_minutes_limit":30, "api_spend_usd_limit":2, "reviewer_required_for_final_ready":true},
+      "acceptance":{"mandatory_checks":["fixture_tests","path_diff"], "owner_visual_required":false}
+    },
+    "changed_paths":["tools/ai-handoff/contract.mjs"], "candidate_sha":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "cycles":[{"checks":[{"name":"fixture_tests","pass":true},{"name":"path_diff","pass":true}],"findings":[],"elapsedMinutes":2,"spendUsd":0}]
+  },
+  {
+    "name":"corrected-second-cycle",
+    "manifest":{
+      "schema_version":"1.2", "id":"MAYHEM-AUTO-002", "repository":"Manaconda33/manacondas-minigame-mayhem", "issue_number":9002,
+      "base_sha":"f16173c562911df0020aef22dce1521d104d521e", "objective":"Correct one simulation fixture within bounded attempts",
+      "approval":{"scope":"implementation_only", "approver":"Manaconda33", "event_id":"evt-stage-b-002", "approved_digest":"0000000000000000000000000000000000000000000000000000000000000000", "approved_base_sha":"f16173c562911df0020aef22dce1521d104d521e"},
+      "scope":{"allowed_paths":["tools/ai-handoff/**","tests/ai-handoff/**","docs/automation/**"], "forbidden_paths":["src/**","public/**",".github/**"], "workstream_lock":"pilot-automation"},
+      "quality_loop":{"total_build_cycles":3, "max_corrective_attempts":2, "elapsed_minutes_limit":30, "api_spend_usd_limit":2, "reviewer_required_for_final_ready":true},
+      "acceptance":{"mandatory_checks":["fixture_tests","path_diff"], "owner_visual_required":false}
+    },
+    "changed_paths":["tests/ai-handoff/fixtures.json"], "candidate_sha":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "cycles":[{"checks":[{"name":"fixture_tests","pass":false},{"name":"path_diff","pass":true}],"findings":[{"severity":"high"}],"elapsedMinutes":2,"spendUsd":0}, {"checks":[{"name":"fixture_tests","pass":true},{"name":"path_diff","pass":true}],"findings":[],"elapsedMinutes":5,"spendUsd":0}]
+  },
+  {
+    "name":"exhausted-third-cycle",
+    "manifest":{
+      "schema_version":"1.2", "id":"MAYHEM-AUTO-003", "repository":"Manaconda33/manacondas-minigame-mayhem", "issue_number":9003,
+      "base_sha":"f16173c562911df0020aef22dce1521d104d521e", "objective":"Exhaust bounded attempts without falsely claiming success",
+      "approval":{"scope":"implementation_only", "approver":"Manaconda33", "event_id":"evt-stage-b-003", "approved_digest":"0000000000000000000000000000000000000000000000000000000000000000", "approved_base_sha":"f16173c562911df0020aef22dce1521d104d521e"},
+      "scope":{"allowed_paths":["tools/ai-handoff/**","tests/ai-handoff/**","docs/automation/**"], "forbidden_paths":["src/**","public/**",".github/**"], "workstream_lock":"pilot-automation"},
+      "quality_loop":{"total_build_cycles":3, "max_corrective_attempts":2, "elapsed_minutes_limit":30, "api_spend_usd_limit":2, "reviewer_required_for_final_ready":true},
+      "acceptance":{"mandatory_checks":["fixture_tests","path_diff"], "owner_visual_required":false}
+    },
+    "changed_paths":["docs/automation/stage-b-runbook.md"], "candidate_sha":"cccccccccccccccccccccccccccccccccccccccc",
+    "cycles":[{"checks":[],"findings":[],"elapsedMinutes":2,"spendUsd":0},{"checks":[],"findings":[],"elapsedMinutes":4,"spendUsd":0},{"checks":[],"findings":[],"elapsedMinutes":7,"spendUsd":0}]
+  }
+]

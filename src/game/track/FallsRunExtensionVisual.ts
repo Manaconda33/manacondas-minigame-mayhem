@@ -23,7 +23,7 @@ const TASK8_START = 0.7;
 const TASK8_END = 0.85;
 const END = 1.0;
 // An entire native ribbon row separates presentation owners at both seams.
-const SEAM = 0.002;
+const SEAM = 1 / 1536;
 const RANGES = [[START, TASK8_START - SEAM], [TASK8_END + SEAM, END]] as const;
 const CYAN = 0x37e6ff;
 const GOLD = 0xffc63f;

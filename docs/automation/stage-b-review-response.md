@@ -41,3 +41,13 @@ unresolved-risk summary, schema-instance coverage and explicit merge-request fix
 No Stage B acceptance or publication authority is inferred from this first fix.
 Only a synthetic in-memory Set provides replay detection; genuine atomic receipt
 storage and authenticated evidence remain Stage C prerequisites.
+
+## Second Work re-review: remaining three substantive findings addressed (proposal)
+
+At the second Work review of `cf4ca3ac`, three additional implementation defects were raised following the task-start issue:
+
+- **Medium: caller-backdated deadline observations.** `advanceCycle` now requires each synthetic observation to be strictly newer than the last, even if the caller supplies matching `nowMs`. `validateTask` independently rejects a regressed timestamp in saved history. Tests cover a forged earlier/equal second cycle, history tampering, and a genuinely late second-cycle failure. **Still deferred:** authenticated monotonic time in Stage C. Stage B's injected clock is not a production authority or guaranteed hard deadline.
+- **Medium: cancellation revision not incremented.** `terminateTask` now increments `revision` for both cancelled and superseded tasks; `validateTask` accepts exactly one terminal revision beyond the number of build cycles, without inventing a build cycle. Tests check the invalidated pre-termination revision, cancellation with prior cycles, supersession, and forged unchanged-revision cancellation. Durable atomic CAS remains Stage C/E.
+- **Medium: missing unresolved-risk summary.** `reviewPacket` preserves nonblocking low/medium review findings on the final candidate in `unresolved_risks`, even when `review_ready`. It retains the existing simulated-gate warning when not ready. Tests cover a passing review with two residual findings and the later correction of earlier findings.
+
+The previous High task-start correction remains in force. No CI or independent acceptance is claimed for these new changes until exact-head hosted tests and Work re-review. Stage B remains **BLOCKED**. No merge, credentials, runner, or production publication is authorized.

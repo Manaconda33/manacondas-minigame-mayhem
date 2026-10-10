@@ -264,20 +264,32 @@ export function validateTask(ledger,m) {
   ensure(['running','correcting','review_ready','needs_owner_decision','failed_budget_or_checks','cancelled','superseded'].includes(ledger.state),'invalid ledger state');
   integer(ledger.revision,'task version');integer(ledger.deadline_ms,'deadline',1);
   integer(ledger.corrections_consumed,'corrections');finite(ledger.cumulative_elapsed_minutes,'cumulative time');finite(ledger.cumulative_spend_usd,'cumulative spend');
-  ensure(Array.isArray(ledger.cycles) && ledger.cycles.length===ledger.revision,'task history mismatch');
-  let minutes=0,usd=0;
-  for(const [i,c] of ledger.cycles.entries()){validateCycle(c,m);ensure(c.cycle===i+1,'nonsequential cycle history');minutes+=c.elapsed_minutes;usd+=c.spend_usd;}
+  // Version is a compare-and-swap token for *all* state mutations, not just cycles.
+  // Cancellation/supersession consumes one additional revision without inventing a cycle.
+  const terminal = ledger.state === 'cancelled' || ledger.state === 'superseded';
+  ensure(Array.isArray(ledger.cycles) && ledger.revision===ledger.cycles.length+(terminal?1:0),'task history/revision mismatch');
+  let minutes=0,usd=0,previousObservation=-1;
+  for(const [i,c] of ledger.cycles.entries()){
+    validateCycle(c,m);ensure(c.cycle===i+1,'nonsequential cycle history');
+    ensure(c.observed_at_ms>previousObservation,'nonmonotonic cycle observation history');
+    previousObservation=c.observed_at_ms;
+    minutes+=c.elapsed_minutes;usd+=c.spend_usd;
+  }
   ensure(Math.abs(minutes-ledger.cumulative_elapsed_minutes)<1e-9 && Math.abs(usd-ledger.cumulative_spend_usd)<1e-9,'cumulative metering mismatch');
   ensure(ledger.corrections_consumed===Math.max(ledger.cycles.length-1,0),'correction counter mismatch');
   ensure(ledger.cycles.length<=m.quality_loop.total_build_cycles && ledger.corrections_consumed<=m.quality_loop.max_corrective_attempts,'task exceeds correction cap');
-  if(ledger.cycles.length && !['cancelled','superseded'].includes(ledger.state)){
+  if(ledger.cycles.length){
     let historicalMinutes=0,historicalSpend=0;
     const outcomes=ledger.cycles.map(c=>{
       historicalMinutes+=c.elapsed_minutes;historicalSpend+=c.spend_usd;
       return outcomeForCycle(c,m,historicalMinutes,historicalSpend,ledger.deadline_ms);
     });
     ensure(outcomes.slice(0,-1).every(o=>o==='correcting'),'task continued after terminal cycle');
-    ensure(outcomes.at(-1)===ledger.state,'recorded review state not supported by evidence');
+    if(terminal){
+      // A stopped task may have been correcting, review-ready, or awaiting owner.
+      // It must not conceal a previously exhausted/failed cycle.
+      ensure(['correcting','review_ready','needs_owner_decision'].includes(outcomes.at(-1)),'task terminated after preexisting terminal result');
+    } else ensure(outcomes.at(-1)===ledger.state,'recorded review state not supported by evidence');
   }
   return true;
 }
@@ -290,7 +302,12 @@ export function advanceCycle(ledger,cycle,m,{expectedRevision,nowMs}) {
   ensure(cycle.cycle<=m.quality_loop.total_build_cycles && cycle.cycle-1<=m.quality_loop.max_corrective_attempts,'correction budget exceeded');
   const cumulativeMinutes=ledger.cumulative_elapsed_minutes+cycle.elapsed_minutes;
   const cumulativeSpend=ledger.cumulative_spend_usd+cycle.spend_usd;
+  // nowMs is injected synthetic clock evidence in Stage B, NOT authenticated time.
+  // Reject both a different reported observation and any backward/equal progression.
+  // Stage C must supply this from a trusted monotonic runner clock, never an agent.
   ensure(cycle.observed_at_ms===nowMs, 'cycle observation clock mismatch');
+  const previousObservation=ledger.cycles.at(-1)?.observed_at_ms;
+  ensure(previousObservation===undefined || nowMs>previousObservation,'nonmonotonic cycle observation');
   const state=outcomeForCycle(cycle,m,cumulativeMinutes,cumulativeSpend,ledger.deadline_ms);
   const updated={...ledger,revision:ledger.revision+1,cycles:[...ledger.cycles,structuredClone(cycle)],cumulative_elapsed_minutes:cumulativeMinutes,cumulative_spend_usd:cumulativeSpend,corrections_consumed:cycle.cycle-1,state};
   validateTask(updated,m);
@@ -300,12 +317,18 @@ export function terminateTask(ledger,m,state,expectedRevision) {
   validateTask(ledger,m);ensure(ledger.revision===expectedRevision,'stale task revision');
   ensure(['cancelled','superseded'].includes(state),'invalid terminal request');
   ensure(['running','correcting','review_ready','needs_owner_decision'].includes(ledger.state),'already terminated');
-  return {...ledger,state};
+  const stopped={...ledger,state,revision:ledger.revision+1};
+  validateTask(stopped,m);
+  return stopped;
 }
 export function reviewPacket(m,ledger,prNumber) {
   validateTask(ledger,m);integer(prNumber,'PR number',1);
   ensure(['review_ready','needs_owner_decision','failed_budget_or_checks'].includes(ledger.state),'no review packet for active work');
   const last=ledger.cycles.at(-1);ensure(last!==undefined,'no candidate evidence');
-  return {version:CONTRACT_VERSION,simulation_only:true,evidence_source:'SYNTHETIC_FIXTURES_NOT_LIVE_REVIEW',repository:m.repository,task_id:m.id,issue_number:m.issue_number,pr_number:prNumber,manifest_digest:m.manifest_sha256,base_sha:m.base_sha,candidate_sha:last.candidate_sha,state:ledger.state,deadline_ms:ledger.deadline_ms,cycles:structuredClone(ledger.cycles),ci_run_ids:ledger.cycles.map(c=>c.ci_run_id),candidate_shas:ledger.cycles.map(c=>c.candidate_sha),changed_paths:[...new Set(ledger.cycles.flatMap(c=>c.changed_paths))].sort(),attempts_consumed:ledger.cycles.length,corrections_consumed:ledger.corrections_consumed,cumulative_elapsed_minutes:ledger.cumulative_elapsed_minutes,cumulative_spend_usd:ledger.cumulative_spend_usd,unresolved_risks:ledger.state==='review_ready'?[]:['SIMULATED_GATE_NOT_CLEARED'],human_approval:'NOT GRANTED',release_authorization:'NOT GRANTED'};
+  // Findings on the latest candidate remain visible even when nonblocking.
+  // Earlier candidate findings stay in cycles; their disposition is not inferred.
+  const latestRisks=last.review?.findings.map(f=>`${f.severity.toUpperCase()}: ${f.code}: ${f.description}`)??[];
+  const unresolvedRisks=ledger.state==='review_ready'?latestRisks:[...latestRisks,'SIMULATED_GATE_NOT_CLEARED'];
+  return {version:CONTRACT_VERSION,simulation_only:true,evidence_source:'SYNTHETIC_FIXTURES_NOT_LIVE_REVIEW',repository:m.repository,task_id:m.id,issue_number:m.issue_number,pr_number:prNumber,manifest_digest:m.manifest_sha256,base_sha:m.base_sha,candidate_sha:last.candidate_sha,state:ledger.state,deadline_ms:ledger.deadline_ms,cycles:structuredClone(ledger.cycles),ci_run_ids:ledger.cycles.map(c=>c.ci_run_id),candidate_shas:ledger.cycles.map(c=>c.candidate_sha),changed_paths:[...new Set(ledger.cycles.flatMap(c=>c.changed_paths))].sort(),attempts_consumed:ledger.cycles.length,corrections_consumed:ledger.corrections_consumed,cumulative_elapsed_minutes:ledger.cumulative_elapsed_minutes,cumulative_spend_usd:ledger.cumulative_spend_usd,unresolved_risks:unresolvedRisks,human_approval:'NOT GRANTED',release_authorization:'NOT GRANTED'};
 }
 export function noticeKey(packet) {ensure(packet?.simulation_only===true,'notification identity must be synthetic');return `${packet.task_id}:${packet.candidate_sha}:${packet.state}`;}

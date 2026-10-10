@@ -166,3 +166,82 @@ test('task start rejects replay when using the same simulated event ledger',()=>
   assert.equal(beginTask(p.m,q,p.fixture.deadline_ms,startEvidence(p,seen)).state,'running');
   assert.throws(()=>beginTask(p.m,q,p.fixture.deadline_ms,startEvidence(p,seen)),/duplicate event/);
 });
+
+
+// Second independent Work review: monotonic time, cancellation CAS, and packet truthfulness.
+test('backdated second-cycle observation is rejected even if caller supplies matching nowMs',()=>{
+  const p=prepared(1); const first=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  const second={...p.fixture.cycles[1],observed_at_ms:p.fixture.cycles[0].observed_at_ms-1};
+  assert.throws(()=>advanceCycle(first,second,p.m,{expectedRevision:first.revision,nowMs:second.observed_at_ms}),/nonmonotonic cycle observation/);
+});
+test('duplicate second-cycle clock tick is rejected, not treated as forward progress',()=>{
+  const p=prepared(1); const first=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  const second={...p.fixture.cycles[1],observed_at_ms:p.fixture.cycles[0].observed_at_ms};
+  assert.throws(()=>advanceCycle(first,second,p.m,{expectedRevision:first.revision,nowMs:second.observed_at_ms}),/nonmonotonic cycle observation/);
+});
+test('late second cycle using a forward clock fails the absolute deadline',()=>{
+  const p=prepared(1); const first=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  const late=p.fixture.deadline_ms+1;
+  const second={...p.fixture.cycles[1],observed_at_ms:late};
+  const result=advanceCycle(first,second,p.m,{expectedRevision:first.revision,nowMs:late});
+  assert.equal(result.outcome,'failed_budget_or_checks');
+  assert.equal(result.ledger.revision,2);
+});
+test('forged ledger history with regressing observation is not validated',()=>{
+  const p=prepared(1); let record=ledger(p);
+  record=take(p,record,p.fixture.cycles[0]).ledger;
+  record=take(p,record,p.fixture.cycles[1],1).ledger;
+  const bad=structuredClone(record);
+  bad.cycles[1].observed_at_ms=bad.cycles[0].observed_at_ms-1;
+  assert.throws(()=>validateTask(bad,p.m),/nonmonotonic cycle observation history/);
+});
+test('cancellation consumes revision and invalidates a stale worker revision',()=>{
+  const p=prepared(1);const current=ledger(p);const oldRevision=current.revision;
+  const cancelled=terminateTask(current,p.m,'cancelled',oldRevision);
+  assert.equal(cancelled.revision,oldRevision+1);
+  assert.equal(cancelled.cycles.length,0);
+  assert.equal(validateTask(cancelled,p.m),true);
+  assert.throws(()=>advanceCycle(cancelled,p.fixture.cycles[0],p.m,{expectedRevision:oldRevision,nowMs:p.fixture.now_ms}),/stale task revision/);
+});
+test('cancellation after a correction preserves cycle evidence and increments revision',()=>{
+  const p=prepared(1);const first=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  const cancelled=terminateTask(first,p.m,'cancelled',first.revision);
+  assert.equal(cancelled.revision,2);
+  assert.equal(cancelled.cycles.length,1);
+  assert.equal(cancelled.corrections_consumed,0);
+  assert.equal(validateTask(cancelled,p.m),true);
+  assert.throws(()=>terminateTask(cancelled,p.m,'superseded',first.revision),/stale task revision/);
+});
+test('supersession also consumes a revision and blocks stale writes',()=>{
+  const p=prepared();const old=ledger(p);const stopped=terminateTask(old,p.m,'superseded',0);
+  assert.equal(stopped.revision,1);
+  assert.equal(validateTask(stopped,p.m),true);
+  assert.throws(()=>advanceCycle(stopped,p.fixture.cycles[0],p.m,{expectedRevision:0,nowMs:p.fixture.now_ms}),/stale task revision/);
+});
+test('forged cancellation retaining old revision cannot pass validation',()=>{
+  const p=prepared();const active=ledger(p);
+  assert.throws(()=>validateTask({...active,state:'cancelled'},p.m),/task history\/revision mismatch/);
+});
+test('review-ready packet retains nonblocking medium and low risk findings',()=>{
+  const p=prepared();const cycle=structuredClone(p.fixture.cycles[0]);
+  cycle.review.findings=[
+    {severity:'medium',code:'M-LINT',description:'Manual cleanup still recommended'},
+    {severity:'low',code:'L-DOC',description:'Minor docs improvement'}
+  ];
+  const result=take(p,ledger(p),cycle);
+  assert.equal(result.outcome,'review_ready');
+  const packet=reviewPacket(p.m,result.ledger,p.fixture.pr_number);
+  assert.deepEqual(packet.unresolved_risks,[
+    'MEDIUM: M-LINT: Manual cleanup still recommended',
+    'LOW: L-DOC: Minor docs improvement'
+  ]);
+  assert.equal(packet.human_approval,'NOT GRANTED');
+});
+test('packet reports latest unresolved findings, without relabeling fixed earlier findings',()=>{
+  const p=prepared(1);let record=ledger(p);
+  for(const [i,cycle] of p.fixture.cycles.entries())record=take(p,record,cycle,i).ledger;
+  const packet=reviewPacket(p.m,record,p.fixture.pr_number);
+  assert.equal(packet.state,'review_ready');
+  assert.deepEqual(packet.unresolved_risks,[]);
+  assert.ok(packet.cycles[0].review.findings.length>0);
+});

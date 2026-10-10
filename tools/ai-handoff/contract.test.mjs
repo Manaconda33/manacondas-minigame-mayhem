@@ -22,7 +22,7 @@ function start(p){
 }
 function advance(p,ledger,cycle,i=0){return advanceCycle(ledger,cycle,p.m,{expectedRevision:ledger.revision,nowMs:p.fixture.now_ms+i*1000});}
 describe('Stage B approved fixture contracts (CI)',()=>{
-  it('runs full native Node negative-test matrix in hosted PR CI',()=>{const output=execFileSync(process.execPath,['--test',resolve(process.cwd(), 'tools/ai-handoff/contract.node-check.mjs')],{encoding:'utf8',timeout:15000});expect(output).toMatch(/# tests 66/);expect(output).toMatch(/# pass 66/);expect(output).toMatch(/# fail 0/);console.log('Stage B native Node matrix: 66 passed, 0 failed');});
+  it('runs full native Node negative-test matrix in hosted PR CI',()=>{const output=execFileSync(process.execPath,['--test',resolve(process.cwd(), 'tools/ai-handoff/contract.node-check.mjs')],{encoding:'utf8',timeout:15000});expect(output).toMatch(/# tests 76/);expect(output).toMatch(/# pass 76/);expect(output).toMatch(/# fail 0/);console.log('Stage B native Node matrix: 76 passed, 0 failed');});
   it('accepts a valid versioned manifest and bound synthetic scope record',()=>{const p=prepared();expect(validateManifest(p.m)).toBe(true);expect(assertApproval(p.m,p.trusted,p.m.base_sha)).toBe(true);});
   it('rejects missing synthetic trust, changed manifest digest and stale main',()=>{const p=prepared();expect(()=>assertApproval(p.m,{},p.m.base_sha)).toThrow();p.m.objective+=' changed';expect(()=>assertApproval(p.m,p.trusted,p.m.base_sha)).toThrow();const q=prepared();expect(()=>assertApproval(q.m,q.trusted,'f'.repeat(40))).toThrow();});
   it('forbids privileged graph edges even via the otherwise allowed release sequence',()=>{expect(()=>transition('review_ready','implementation_accepted')).toThrow();expect(()=>transition('implementation_accepted','release_authorized')).toThrow();expect(()=>transition('release_authorized','delivered')).toThrow();});
@@ -39,3 +39,5 @@ describe('Stage B approved fixture contracts (CI)',()=>{
   it('does not accept a synthetic reviewer as visual approval',()=>{const p=prepared(7);expect(advance(p,start(p),p.fixture.cycles[0]).outcome).toBe('needs_owner_decision');});
   it('returns packets reconstructing per-cycle SHAs, CI runs and budget usage without granting release',()=>{const p=prepared(1);let l=start(p);for(const[i,c]of p.fixture.cycles.entries())l=advance(p,l,c,i).ledger;expect(validateTask(l,p.m)).toBe(true);const packet=reviewPacket(p.m,l,289);expect(packet.candidate_shas).toHaveLength(2);expect(packet.ci_run_ids).toHaveLength(2);expect(packet.human_approval).toBe('NOT GRANTED');expect(packet.release_authorization).toBe('NOT GRANTED');});
 });
+
+// Native suite contains adversarial cases for clock backdating, terminal revisions, and packet risk summaries.

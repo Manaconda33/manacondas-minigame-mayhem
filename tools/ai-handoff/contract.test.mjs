@@ -1,13 +1,14 @@
 // Executed by existing PR CI's `vitest run --coverage`; no workflow modifications.
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import {
   manifestDigest, validateManifest, assertApproval, authorizeScope, eventRouter,
   queueItem, beginTask, advanceCycle, applyOwnerDecision, transition,
   validateTask, reviewPacket, assertPaths
 } from './contract.mjs';
-const fixtures = JSON.parse(readFileSync(new URL('../../tests/ai-handoff/fixtures.json',import.meta.url),'utf8'));
+const fixtures = JSON.parse(readFileSync(resolve(process.cwd(), 'tests/ai-handoff/fixtures.json'), 'utf8'));
 function prepared(index=0){
   const fixture=structuredClone(fixtures[index]),m=fixture.manifest;
   m.manifest_sha256=manifestDigest(m);m.approval.approved_digest=m.manifest_sha256;
@@ -21,7 +22,7 @@ function start(p){
 }
 function advance(p,ledger,cycle,i=0){return advanceCycle(ledger,cycle,p.m,{expectedRevision:ledger.revision,nowMs:p.fixture.now_ms+i*1000});}
 describe('Stage B approved fixture contracts (CI)',()=>{
-  it('runs full native Node negative-test matrix in hosted PR CI',()=>{const output=execFileSync(process.execPath,['--test',new URL('./contract.node-check.mjs',import.meta.url).pathname],{encoding:'utf8',timeout:15000});expect(output).toMatch(/# tests 60/);expect(output).toMatch(/# pass 60/);expect(output).toMatch(/# fail 0/);console.log('Stage B native Node matrix: 60 passed, 0 failed');});
+  it('runs full native Node negative-test matrix in hosted PR CI',()=>{const output=execFileSync(process.execPath,['--test',resolve(process.cwd(), 'tools/ai-handoff/contract.node-check.mjs')],{encoding:'utf8',timeout:15000});expect(output).toMatch(/# tests 60/);expect(output).toMatch(/# pass 60/);expect(output).toMatch(/# fail 0/);console.log('Stage B native Node matrix: 60 passed, 0 failed');});
   it('accepts a valid versioned manifest and bound synthetic scope record',()=>{const p=prepared();expect(validateManifest(p.m)).toBe(true);expect(assertApproval(p.m,p.trusted,p.m.base_sha)).toBe(true);});
   it('rejects missing synthetic trust, changed manifest digest and stale main',()=>{const p=prepared();expect(()=>assertApproval(p.m,{},p.m.base_sha)).toThrow();p.m.objective+=' changed';expect(()=>assertApproval(p.m,p.trusted,p.m.base_sha)).toThrow();const q=prepared();expect(()=>assertApproval(q.m,q.trusted,'f'.repeat(40))).toThrow();});
   it('forbids privileged graph edges even via the otherwise allowed release sequence',()=>{expect(()=>transition('review_ready','implementation_accepted')).toThrow();expect(()=>transition('implementation_accepted','release_authorized')).toThrow();expect(()=>transition('release_authorized','delivered')).toThrow();});

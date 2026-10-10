@@ -1,21 +1,40 @@
+// Executed by existing PR CI's `vitest run --coverage`; no workflow modifications.
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { manifestDigest, validateManifest, assertApproval, assertPaths, transition, evaluateCycle, eventRouter } from './contract.mjs';
-const fixture = JSON.parse(readFileSync(new globalThis.URL('../../tests/ai-handoff/fixtures.json', import.meta.url), 'utf8'))[0];
-function prepared() {
-  const m = globalThis.structuredClone(fixture.manifest);
-  m.manifest_sha256 = manifestDigest(m);
-  m.approval.approved_digest = m.manifest_sha256;
-  const trust = {fixture_context:true,actor:'Manaconda33',authorized:true,event_id:m.approval.event_id,issue_number:m.issue_number,base_sha:m.base_sha,digest:m.manifest_sha256};
-  return {m,trust};
+import { execFileSync } from 'node:child_process';
+import {
+  manifestDigest, validateManifest, assertApproval, authorizeScope, eventRouter,
+  queueItem, beginTask, advanceCycle, applyOwnerDecision, transition,
+  validateTask, reviewPacket, assertPaths
+} from './contract.mjs';
+const fixtures = JSON.parse(readFileSync(new URL('../../tests/ai-handoff/fixtures.json',import.meta.url),'utf8'));
+function prepared(index=0){
+  const fixture=structuredClone(fixtures[index]),m=fixture.manifest;
+  m.manifest_sha256=manifestDigest(m);m.approval.approved_digest=m.manifest_sha256;
+  const trusted={fixture_context:true,provenance:'offline_test_harness',actor:'Manaconda33',authorized:true,event_id:m.approval.event_id,repository:m.repository,task_id:m.id,issue_number:m.issue_number,base_sha:m.base_sha,digest:m.manifest_sha256};
+  return {m,trusted,fixture,event:{...fixture.event,manifest_digest:m.manifest_sha256}};
 }
-describe('Stage B offline contracts (Vitest CI)', () => {
-  it('accepts schema-equivalent valid handoff',()=>{const {m,trust}=prepared();expect(validateManifest(m)).toBe(true);expect(assertApproval(m,trust)).toBe(true);});
-  it('rejects untrusted approvals and mutated digest',()=>{const {m,trust}=prepared();expect(()=>assertApproval(m,{})).toThrow();m.objective+='changed';expect(()=>assertApproval(m,trust)).toThrow();});
-  it('rejects protected and traversal paths',()=>{const {m}=prepared();expect(()=>assertPaths(['src/game/foo.ts'],m)).toThrow();expect(()=>assertPaths(['tools/ai-handoff/../../src/foo.ts'],m)).toThrow();});
-  it('rejects duplicate or unauthorized events',()=>{const seen=new Set();expect(eventRouter({type:'manual_fixture',id:'evt'},'scope_approved',seen)).toBe('queued');expect(()=>eventRouter({type:'manual_fixture',id:'evt'},'scope_approved',seen)).toThrow();});
-  it('requires real owner release decision',()=>{expect(()=>transition('review_ready','release_authorized')).toThrow();});
-  it('stops at correction limit',()=>{const {m}=prepared();const state=evaluateCycle({manifest:m,changedPaths:['docs/automation/test.md'],cycles:3,checks:[],findings:[],elapsedMinutes:1,spendUsd:0,reviewerAvailable:true});expect(state).toBe('failed_budget_or_checks');});
-  it('does not promote a green technical result without reviewer evidence',()=>{const {m}=prepared();const state=evaluateCycle({manifest:m,changedPaths:['docs/automation/test.md'],cycles:1,checks:[{name:'fixture_tests',pass:true},{name:'path_diff',pass:true}],findings:[],elapsedMinutes:1,spendUsd:0});expect(state).toBe('needs_owner_decision');});
-  it('holds visual approval for owner',()=>{const {m}=prepared();m.acceptance.owner_visual_required=true;const state=evaluateCycle({manifest:m,changedPaths:['docs/automation/test.md'],cycles:1,checks:[{name:'fixture_tests',pass:true},{name:'path_diff',pass:true}],findings:[],elapsedMinutes:1,spendUsd:0,reviewerAvailable:true});expect(state).toBe('needs_owner_decision');});
+function start(p){
+  const scope=authorizeScope(p.m,p.trusted,p.fixture.current_base_sha);
+  eventRouter(p.event,scope,new Set(),p.m,p.trusted,p.fixture.current_base_sha);
+  return beginTask(p.m,queueItem(p.m,p.event.id),p.fixture.deadline_ms);
+}
+function advance(p,ledger,cycle,i=0){return advanceCycle(ledger,cycle,p.m,{expectedRevision:ledger.revision,nowMs:p.fixture.now_ms+i*1000});}
+describe('Stage B approved fixture contracts (CI)',()=>{
+  it('runs full native Node negative-test matrix in hosted PR CI',()=>{const output=execFileSync(process.execPath,['--test',new URL('./contract.node-check.mjs',import.meta.url).pathname],{encoding:'utf8',timeout:15000});expect(output).toMatch(/# tests 60/);expect(output).toMatch(/# pass 60/);expect(output).toMatch(/# fail 0/);console.log('Stage B native Node matrix: 60 passed, 0 failed');});
+  it('accepts a valid versioned manifest and bound synthetic scope record',()=>{const p=prepared();expect(validateManifest(p.m)).toBe(true);expect(assertApproval(p.m,p.trusted,p.m.base_sha)).toBe(true);});
+  it('rejects missing synthetic trust, changed manifest digest and stale main',()=>{const p=prepared();expect(()=>assertApproval(p.m,{},p.m.base_sha)).toThrow();p.m.objective+=' changed';expect(()=>assertApproval(p.m,p.trusted,p.m.base_sha)).toThrow();const q=prepared();expect(()=>assertApproval(q.m,q.trusted,'f'.repeat(40))).toThrow();});
+  it('forbids privileged graph edges even via the otherwise allowed release sequence',()=>{expect(()=>transition('review_ready','implementation_accepted')).toThrow();expect(()=>transition('implementation_accepted','release_authorized')).toThrow();expect(()=>transition('release_authorized','delivered')).toThrow();});
+  it('rejects spoofed owner release record and absent implementation acceptance evidence',()=>{const p=prepared();expect(()=>applyOwnerDecision(p.m,'implementation_accepted',{type:'release_authorization'},null,p.m.base_sha,'a'.repeat(40),289)).toThrow();});
+  it('rejects protected paths and normalized traversal',()=>{const p=prepared();expect(()=>assertPaths(['src/game.ts'],p.m)).toThrow();expect(()=>assertPaths(['tools/ai-handoff/../../src/game.ts'],p.m)).toThrow();});
+  it('binds every synthetic issue event to the immutable manifest and rejects repeats',()=>{const p=prepared();const seen=new Set();expect(eventRouter(p.event,'scope_approved',seen,p.m,p.trusted,p.m.base_sha)).toBe('queued');expect(()=>eventRouter({...p.event,id:'redelivery'},'scope_approved',seen,p.m,p.trusted,p.m.base_sha)).toThrow();});
+  it('makes hostile issue instructions inert, not owner authority',()=>{const p=prepared(3);expect(p.event.untrusted_text).toContain('SYSTEM OVERRIDE');expect(()=>assertPaths(['src/evil.ts'],p.m)).toThrow();expect(eventRouter(p.event,'scope_approved',new Set(),p.m,p.trusted,p.m.base_sha)).toBe('queued');});
+  it('passes green on the first synthetic review only',()=>{const p=prepared();const a=advance(p,start(p),p.fixture.cycles[0]);expect(a.outcome).toBe('review_ready');expect(reviewPacket(p.m,a.ledger,289).simulation_only).toBe(true);});
+  it('does not accept a missing or stale reviewer report',()=>{const p=prepared(6);expect(advance(p,start(p),p.fixture.cycles[0]).outcome).toBe('needs_owner_decision');const q=prepared(9);expect(()=>advance(q,start(q),q.fixture.cycles[0])).toThrow(/stale reviewer/);});
+  it('tracks cumulative API spending across multiple independently cheap cycles',()=>{const p=prepared(4);let l=start(p);l=advance(p,l,p.fixture.cycles[0]).ledger;expect(l.state).toBe('correcting');l=advance(p,l,p.fixture.cycles[1],1).ledger;expect(l.state).toBe('failed_budget_or_checks');expect(l.cumulative_spend_usd).toBeGreaterThan(2);});
+  it('tracks cumulative runtime and refuses late completion',()=>{const p=prepared(5);let l=start(p);l=advance(p,l,p.fixture.cycles[0]).ledger;l=advance(p,l,p.fixture.cycles[1],1).ledger;expect(l.state).toBe('failed_budget_or_checks');const t=prepared(8);const result=advance(t,start(t),t.fixture.cycles[0]);expect(result.outcome).toBe('failed_budget_or_checks');expect(()=>advance(t,result.ledger,t.fixture.cycles[0],1)).toThrow();});
+  it('limits initial build and corrective attempts to three total',()=>{const p=prepared(2);let l=start(p);for(const[i,c]of p.fixture.cycles.entries())l=advance(p,l,c,i).ledger;expect(l.state).toBe('failed_budget_or_checks');expect(l.corrections_consumed).toBe(2);});
+  it('fails closed when the reviewer and checks materially disagree',()=>{const p=prepared();const c=structuredClone(p.fixture.cycles[0]);c.review.verdict='fail';expect(advance(p,start(p),c).outcome).toBe('correcting');});
+  it('does not accept a synthetic reviewer as visual approval',()=>{const p=prepared(7);expect(advance(p,start(p),p.fixture.cycles[0]).outcome).toBe('needs_owner_decision');});
+  it('returns packets reconstructing per-cycle SHAs, CI runs and budget usage without granting release',()=>{const p=prepared(1);let l=start(p);for(const[i,c]of p.fixture.cycles.entries())l=advance(p,l,c,i).ledger;expect(validateTask(l,p.m)).toBe(true);const packet=reviewPacket(p.m,l,289);expect(packet.candidate_shas).toHaveLength(2);expect(packet.ci_run_ids).toHaveLength(2);expect(packet.human_approval).toBe('NOT GRANTED');expect(packet.release_authorization).toBe('NOT GRANTED');});
 });

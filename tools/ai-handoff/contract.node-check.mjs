@@ -1,52 +1,138 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { canonical, manifestDigest, validateManifest, assertApproval, assertPaths, safePath, transition, eventRouter, leaseAcquire, leaseRelease, evaluateCycle, reviewPacket, noticeKey } from './contract.mjs';
-const fixtures = JSON.parse(readFileSync(new globalThis.URL('../../tests/ai-handoff/fixtures.json', import.meta.url), 'utf8'));
-function setup() {
-  const m = globalThis.structuredClone(fixtures[0].manifest);
-  m.manifest_sha256 = manifestDigest(m); m.approval.approved_digest = m.manifest_sha256;
-  const trusted = {fixture_context:true, actor:'Manaconda33', authorized:true, event_id:m.approval.event_id, issue_number:m.issue_number, base_sha:m.base_sha, digest:m.manifest_sha256};
-  return {m,trusted};
+import {
+  REPOSITORY, CONTRACT_VERSION, canonical, manifestDigest, validateManifest, assertApproval,
+  safePath, assertPaths, TRANSITIONS, transition, authorizeScope, verifyOwnerDecision,
+  applyOwnerDecision, validateEvent, eventRouter, queueItem, validateQueueItem,
+  validateLease, leaseAcquire, leaseRelease, validateReview, validateCycle,
+  beginTask, validateTask, advanceCycle, terminateTask, reviewPacket, noticeKey
+} from './contract.mjs';
+
+const fixtures = JSON.parse(readFileSync(new URL('../../tests/ai-handoff/fixtures.json', import.meta.url), 'utf8'));
+const schema = JSON.parse(readFileSync(new URL('./contracts.schema.json', import.meta.url), 'utf8'));
+const routing = JSON.parse(readFileSync(new URL('./event-routing.json', import.meta.url), 'utf8'));
+const manifestSchema = JSON.parse(readFileSync(new URL('./manifest.schema.json', import.meta.url), 'utf8'));
+const cloned = obj => structuredClone(obj);
+function prepared(i=0) {
+  const fixture=cloned(fixtures[i]);const m=fixture.manifest;
+  m.manifest_sha256=manifestDigest(m);m.approval.approved_digest=m.manifest_sha256;
+  const trusted={fixture_context:true,provenance:'offline_test_harness',actor:'Manaconda33',authorized:true,event_id:m.approval.event_id,repository:m.repository,task_id:m.id,issue_number:m.issue_number,base_sha:m.base_sha,digest:m.manifest_sha256};
+  const event={...fixture.event,manifest_digest:m.manifest_sha256};
+  return {m,trusted,fixture,event};
 }
-const check = [{name:'fixture_tests',pass:true},{name:'path_diff',pass:true}];
-const args = (m, overrides={}) => ({manifest:m, changedPaths:['tools/ai-handoff/contract.mjs'], cycles:1,checks:check,findings:[],elapsedMinutes:1,spendUsd:0,reviewerAvailable:true,...overrides});
-test('canonical JSON is order independent and digest is stable', () => {
-  assert.equal(canonical({b:1,a:{d:true,c:null}}),canonical({a:{c:null,d:true},b:1}));
-  const {m}=setup(); assert.equal(manifestDigest({...m,manifest_sha256:'f'.repeat(64)}),m.manifest_sha256);
+function queued(p){const state=authorizeScope(p.m,p.trusted,p.fixture.current_base_sha);assert.equal(state,'scope_approved');assert.equal(eventRouter(p.event,state,new Set(),p.m,p.trusted,p.fixture.current_base_sha),'queued');return queueItem(p.m,p.event.id);}
+function ledger(p){return beginTask(p.m,queued(p),p.fixture.deadline_ms);}
+function take(p,l,c,i=0){return advanceCycle(l,c,p.m,{expectedRevision:l.revision,nowMs:p.fixture.now_ms+i*1000});}
+function decision(p,type,candidateSha='a'.repeat(40),prNumber=289){return {type,task_id:p.m.id,repository:p.m.repository,issue_number:p.m.issue_number,manifest_digest:p.m.manifest_sha256,base_sha:p.m.base_sha,candidate_sha:candidateSha,pr_number:prNumber,event_id:`fixture-decision-${type}`,approved_by:'Manaconda33',destination:type==='release_authorization'?'main':'implementation_only'};}
+function decisionTrust(p,d){return {fixture_context:true,provenance:'offline_test_harness',authorized:true,actor:'Manaconda33',event_id:d.event_id,type:d.type,task_id:d.task_id,repository:d.repository,issue_number:d.issue_number,manifest_digest:d.manifest_digest,candidate_sha:d.candidate_sha,pr_number:d.pr_number,destination:d.destination,base_sha:d.base_sha};}
+
+// Schema and identity.
+test('canonical digest ignores field order, mutable proof and runtime state',()=>{const {m}=prepared();assert.equal(canonical({b:1,a:{b:3,a:2}}),canonical({a:{a:2,b:3},b:1}));assert.equal(manifestDigest({...m,manifest_sha256:'f'.repeat(64),state:'running'}),m.manifest_sha256);});
+test('manifest and proposed JSON Schema version remain compatible',()=>{const {m}=prepared();assert.equal(validateManifest(m),true);assert.equal(manifestSchema.properties.schema_version.const,'1.2');});
+test('reject unknown manifest fields and missing required fields',()=>{const {m}=prepared();m.admin=true;assert.throws(()=>validateManifest(m),/unknown/);delete m.admin;delete m.issue_number;assert.throws(()=>validateManifest(m),/missing/);});
+test('reject invalid task, repo and baseline',()=>{const {m}=prepared();m.repository='elsewhere/repo';assert.throws(()=>validateManifest(m),/repository/);m.repository=REPOSITORY;m.base_sha='f';assert.throws(()=>validateManifest(m),/SHA/);});
+test('reject widened allowlist and budget caps',()=>{const {m}=prepared();m.scope.allowed_paths.push('src/**');assert.throws(()=>validateManifest(m),/widen/);m.scope.allowed_paths.pop();m.quality_loop.max_corrective_attempts=3;assert.throws(()=>validateManifest(m),/budget/);});
+test('versioned queue, lease, event, cycle, review, decision and packet schemas exist',()=>{for(const name of ['queue_item','lease','event','cycle','review','decision','task_ledger','review_packet'])assert.ok(schema.$defs[name],name);assert.equal(schema.$schema,'https://json-schema.org/draft/2020-12/schema');assert.equal(routing.contract_version,CONTRACT_VERSION);});
+test('event routing map describes accepted and rejected event types and owner gates',()=>{assert.deepEqual(routing.event_routes.map(x=>x.event_type),['manual_fixture','issue_labeled']);assert.ok(routing.rejected_events.includes('pull_request_comment'));assert.deepEqual(routing.human_gates.map(x=>x.to),['scope_approved','implementation_accepted','release_authorized']);});
+
+// Approval and guarded authority.
+test('synthetic scope approval only with fully matching fixture context',()=>{const p=prepared();assert.equal(assertApproval(p.m,p.trusted,p.m.base_sha),true);assert.equal(authorizeScope(p.m,p.trusted,p.m.base_sha),'scope_approved');});
+test('missing adapter, unknown actor, unauthorized and provenance mismatch rejected',()=>{const p=prepared();for(const x of [{},{...p.trusted,actor:'attacker'},{...p.trusted,authorized:false},{...p.trusted,provenance:'github_automatic'}])assert.throws(()=>assertApproval(p.m,x,p.m.base_sha));});
+test('changed digest or objective requires fresh scope approval',()=>{const p=prepared();p.m.objective+=' tampered';assert.throws(()=>authorizeScope(p.m,p.trusted,p.m.base_sha),/digest/);});
+test('internally consistent approval still expires when current main changes',()=>{const p=prepared();assert.throws(()=>assertApproval(p.m,p.trusted,'f'.repeat(40)),/stale baseline/);});
+test('wrong issue, task ID, event ID, and repository rejected',()=>{const p=prepared();for(const x of [{issue_number:999},{task_id:'MAYHEM-AUTO-999'},{event_id:'forged-event'},{repository:'spoofed/repo'}])assert.throws(()=>authorizeScope(p.m,{...p.trusted,...x},p.m.base_sha),/mismatch/);});
+test('graph retains ordinary lifecycle edges but forbids privilege gates',()=>{assert.equal(transition('draft','validated'),'validated');assert.equal(transition('running','validating'),'validating');assert.ok(TRANSITIONS.implementation_accepted.includes('release_authorized'));for(const [a,b]of [['validated','scope_approved'],['scope_approved','queued'],['review_ready','implementation_accepted'],['implementation_accepted','release_authorized'],['release_authorized','delivered']])assert.throws(()=>transition(a,b),/privileged/);});
+test('direct illegal release and self approval also rejected',()=>{for(const[a,b]of [['draft','release_authorized'],['review_ready','release_authorized'],['closed','running']])assert.throws(()=>transition(a,b),/illegal/);});
+test('proper fixture implementation then separate release decisions can be modeled, but never delivered',()=>{
+  const p=prepared();const c='a'.repeat(40);
+  const reviewed=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  const d1=decision(p,'implementation_acceptance',c);
+  const accepted=applyOwnerDecision(p.m,reviewed,d1,decisionTrust(p,d1),p.m.base_sha,c,289);
+  assert.equal(accepted.state,'implementation_accepted');
+  const d2=decision(p,'release_authorization',c);
+  const release=applyOwnerDecision(p.m,accepted,d2,decisionTrust(p,d2),p.m.base_sha,c,289,{decision:d1,trusted:decisionTrust(p,d1)});
+  assert.equal(release.state,'release_authorized');
+  assert.throws(()=>transition(release.state,'delivered'),/privileged/);
 });
-test('valid manifest passes schema-equivalent checks', () => {const {m}=setup(); assert.equal(validateManifest(m),true);});
-test('unknown field rejected', () => {const {m}=setup(); m.admin=true;assert.throws(()=>validateManifest(m),/unknown field/);});
-test('unsupported repository and schema rejected', () => {const {m}=setup();m.repository='evil/repo';assert.throws(()=>validateManifest(m),/repository/);m.repository=fixtures[0].manifest.repository;m.schema_version='999';assert.throws(()=>validateManifest(m),/schema/);});
-test('missing and invalid cost/time ceilings fail closed',()=>{const {m}=setup();delete m.quality_loop.api_spend_usd_limit;assert.throws(()=>validateManifest(m),/missing/);m.quality_loop.api_spend_usd_limit=-1;assert.throws(()=>validateManifest(m),/budget/);});
-test('three cycles and two corrections are immutable',()=>{const {m}=setup();m.quality_loop.total_build_cycles=4;assert.throws(()=>validateManifest(m),/quality budget/);});
-test('scope cannot expand to source or workflow',()=>{const {m}=setup();m.scope.allowed_paths.push('src/**');assert.throws(()=>validateManifest(m),/widen/);});
-test('unconfigured trusted adapter cannot issue authorization',()=>{const {m}=setup();assert.throws(()=>assertApproval(m,{}),/no trusted adapter/);});
-test('unknown actor, unapproved event and mismatch rejected',()=>{const {m,trusted}=setup();for(const change of [{actor:'attacker'},{authorized:false},{event_id:'evt-other'},{issue_number:999},{base_sha:'a'.repeat(40)}])assert.throws(()=>assertApproval(m,{...trusted,...change}));});
-test('manifest digest mutation invalidates approval',()=>{const {m,trusted}=setup();m.objective+=' changed';assert.throws(()=>assertApproval(m,trusted),/digest/);});
-test('claimed approval alone is not trusted',()=>{const {m,trusted}=setup();m.approval.approver='attacker';assert.throws(()=>assertApproval(m,trusted),/claimed/);});
-test('stale approved base fails closed',()=>{const {m,trusted}=setup();m.approval.approved_base_sha='b'.repeat(40);assert.throws(()=>assertApproval(m,trusted),/baseline/);});
-test('unexpected event and arbitrary PR comment rejected',()=>{assert.throws(()=>eventRouter({id:'xyz',type:'pull_request_comment'},'scope_approved',new Set()),/untrusted event/);});
-test('unapproved label and incorrect state rejected',()=>{assert.throws(()=>eventRouter({id:'xyz',type:'issue_labeled',label:'run-now'},'scope_approved',new Set()),/unexpected label/);assert.throws(()=>eventRouter({id:'xyz',type:'manual_fixture'},'draft',new Set()),/not approved/);});
-test('duplicate event is rejected without another state transition',()=>{const seen=new Set();assert.equal(eventRouter({id:'webhook1',type:'manual_fixture'},'scope_approved',seen),'queued');assert.throws(()=>eventRouter({id:'webhook1',type:'manual_fixture'},'scope_approved',seen),/duplicate/);});
-test('manifest cannot modify production assets or CI workflows',()=>{const {m}=setup();for(const p of ['src/game/index.ts','public/index.html','assets/music.wav','.github/workflows/ci.yml','AGENTS.md','docs/DECISIONS.md','package-lock.json'])assert.throws(()=>assertPaths([p],m),/protected/);});
-test('path traversal, absolute, drive and encoded path rejected',()=>{for(const p of ['../src/foo','docs/automation/../PRD.md','/etc/passwd','C:/windows','docs//automation/x','docs/automation/%2e%2e','tools\\ai-handoff\\x'])assert.throws(()=>safePath(p));});
-test('out of scope path rejected',()=>{const {m}=setup();assert.throws(()=>assertPaths(['docs/random.md'],m),/outside approved scope/);});
-test('valid paths accepted',()=>{const {m}=setup();assert.equal(assertPaths(['tools/ai-handoff/contract.mjs','tests/ai-handoff/check.mjs','docs/automation/stage-b-runbook.md'],m),true);});
-test('illegal state and self-approval rejected',()=>{assert.equal(transition('draft','validated'),'validated');for(const [a,b] of [['reviewing','release_authorized'],['draft','running'],['closed','running'],['changes_requested','running'],['review_ready','release_authorized']])assert.throws(()=>transition(a,b),/illegal/);});
-test('one occupied workstream and stale leases require operator',()=>{const held=leaseAcquire({owner:null,expiresAt:0,generation:0},'A',1000,50);assert.throws(()=>leaseAcquire(held,'B',1020,50),/occupied/);assert.throws(()=>leaseAcquire(held,'B',1100,50),/stale lease/);assert.throws(()=>leaseRelease(held,'B',1),/ownership/);assert.equal(leaseRelease(held,'A',1).owner,null);});
-test('green first cycle reports owner review only',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m)),'review_ready');});
-test('one correction then technical pass',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{checks:[],findings:[{severity:'high'}]})),'correcting');assert.equal(evaluateCycle(args(m,{cycles:2})),'review_ready');});
-test('three-cycle exhaustion fails, not requeues',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{cycles:3,checks:[]})),'failed_budget_or_checks');assert.equal(evaluateCycle(args(m,{cycles:4})),'failed_budget_or_checks');});
-test('time, cost limits halt',()=>{const {m}=setup();for(const fields of [{elapsedMinutes:30},{spendUsd:2}])assert.equal(evaluateCycle(args(m,fields)),'failed_budget_or_checks');});
-test('reviewer unavailable and material disagreement fail closed',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{reviewerAvailable:false})),'needs_owner_decision');assert.equal(evaluateCycle(args(m,{checks:check,findings:[{severity:'high'}]})),'correcting');});
-test('protected scope change blocks before checks',()=>{const {m}=setup();assert.throws(()=>evaluateCycle(args(m,{changedPaths:['.github/workflows/ci.yml']})),/protected/);});
-test('fake AI owner visual acceptance not sufficient',()=>{const {m}=setup();m.acceptance.owner_visual_required=true;assert.equal(evaluateCycle(args(m)),'needs_owner_decision');});
-test('out-of-scope review finding escalates immediately',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{findings:[{severity:'high',type:'out_of_scope'}]})),'needs_owner_decision');});
-test('missing mandatory check fails closed',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{checks:[]})),'correcting');});
-test('review packet cannot grant release, deduplicates',()=>{const packet=reviewPacket({taskId:'MAYHEM-AUTO-001',sha:'a'.repeat(40),cycles:1,state:'review_ready',checks:check,findings:[]});assert.equal(packet.release_authorization,'NOT GRANTED');assert.equal(noticeKey(packet),noticeKey({...packet}));assert.throws(()=>reviewPacket({...packet,state:'implementation_accepted'}));});
-test('fixture simulations cover green, correction, exhaustion',()=>{const expected=['review_ready','review_ready','failed_budget_or_checks'];fixtures.forEach((fixture,i)=>{const {m}=setup();const outcomes=fixture.cycles.map((cycle,n)=>evaluateCycle(args(m,{...cycle,cycles:n+1,changedPaths:fixture.changed_paths})));assert.equal(outcomes.at(-1),expected[i]);});});
-test('missing time or cost evidence cannot pass',()=>{const {m}=setup();assert.throws(()=>evaluateCycle(args(m,{elapsedMinutes:undefined})),/time\/cost/);assert.throws(()=>evaluateCycle(args(m,{spendUsd:undefined})),/time\/cost/);});
-test('duplicate issue labels with different delivery IDs do not requeue',()=>{const seen=new Set();assert.equal(eventRouter({id:'one',type:'issue_labeled',issue_number:9001,label:'approved-for-agent'},'scope_approved',seen),'queued');assert.throws(()=>eventRouter({id:'two',type:'issue_labeled',issue_number:9001,label:'approved-for-agent'},'scope_approved',seen),/duplicate/);});
-test('unclassified findings fail closed',()=>{const {m}=setup();assert.throws(()=>evaluateCycle(args(m,{findings:[{severity:'not_a_severity'}]})),/unclassified/);});
-test('missing independent reviewer evidence never defaults to PASS',()=>{const {m}=setup();assert.equal(evaluateCycle(args(m,{reviewerAvailable:undefined})),'needs_owner_decision');});
+test('missing owner decision, forged review ready string, and unreviewed ledger cannot accept implementation',()=>{
+  const p=prepared();const d=decision(p,'implementation_acceptance');
+  assert.throws(()=>applyOwnerDecision(p.m,'review_ready',d,decisionTrust(p,d),p.m.base_sha,d.candidate_sha,289));
+  assert.throws(()=>applyOwnerDecision(p.m,ledger(p),d,decisionTrust(p,d),p.m.base_sha,d.candidate_sha,289),/reviewed task state/);
+  assert.throws(()=>applyOwnerDecision(p.m,ledger(p),null,null,p.m.base_sha,d.candidate_sha,289));
+});
+test('release requires exact PR and candidate SHA, not merely two allowed graph edges',()=>{const p=prepared();const d=decision(p,'release_authorization');for(const [sha,pr] of [['b'.repeat(40),289],[d.candidate_sha,290]])assert.throws(()=>verifyOwnerDecision(p.m,d,decisionTrust(p,d),p.m.base_sha,sha,pr),/wrong decision candidate/);});
+test('scope approval event cannot be replayed as an implementation or release decision',()=>{const p=prepared();for(const type of ['implementation_acceptance','release_authorization']){const d=decision(p,type);d.event_id=p.m.approval.event_id;assert.throws(()=>verifyOwnerDecision(p.m,d,decisionTrust(p,d),p.m.base_sha,d.candidate_sha,289),/scope approval cannot/);}});
+test('wrong release destination/scope and spoofed trusted record rejected',()=>{const p=prepared();const d=decision(p,'release_authorization');for(const dest of ['dev','implementation_only'])assert.throws(()=>verifyOwnerDecision(p.m,{...d,destination:dest},decisionTrust(p,d),p.m.base_sha,d.candidate_sha,289),/scope\/destination/);assert.throws(()=>verifyOwnerDecision(p.m,d,{...decisionTrust(p,d),actor:'attacker'},p.m.base_sha,d.candidate_sha,289),/adapter/);});
+test('release approval tied to stale main, wrong issue and altered manifest fails',()=>{const p=prepared();const d=decision(p,'release_authorization');assert.throws(()=>verifyOwnerDecision(p.m,d,decisionTrust(p,d),'f'.repeat(40),d.candidate_sha,289),/stale/);assert.throws(()=>verifyOwnerDecision(p.m,{...d,issue_number:123},decisionTrust(p,d),p.m.base_sha,d.candidate_sha,289),/identity/);});
+test('implementation decision and release decision must use distinct events',()=>{
+  const p=prepared();const c='a'.repeat(40);const reviewed=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  const d=decision(p,'implementation_acceptance');
+  const accepted=applyOwnerDecision(p.m,reviewed,d,decisionTrust(p,d),p.m.base_sha,c,289);
+  const rel=decision(p,'release_authorization');rel.event_id=d.event_id;
+  assert.throws(()=>applyOwnerDecision(p.m,accepted,rel,decisionTrust(p,rel),p.m.base_sha,c,289,{decision:d,trusted:decisionTrust(p,d)}),/distinct events/);
+});
+test('release cannot be authorized without authentic prior implementation acceptance',()=>{
+  const p=prepared();const c='a'.repeat(40);const reviewed=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  const d=decision(p,'implementation_acceptance');const accepted=applyOwnerDecision(p.m,reviewed,d,decisionTrust(p,d),p.m.base_sha,c,289);
+  const rel=decision(p,'release_authorization');
+  assert.throws(()=>applyOwnerDecision(p.m,accepted,rel,decisionTrust(p,rel),p.m.base_sha,c,289),/distinct implementation acceptance proof/);
+  assert.throws(()=>applyOwnerDecision(p.m,{...accepted,implementation_event_id:'forged'},rel,decisionTrust(p,rel),p.m.base_sha,c,289,{decision:d,trusted:decisionTrust(p,d)}),/implementation event/);
+});
+
+// Scope paths, input isolation, events, duplicates.
+test('allowed paths pass and protected source/assets/workflows are rejected',()=>{const p=prepared();assert.equal(assertPaths(['tools/ai-handoff/contract.mjs','tests/ai-handoff/fixtures.json','docs/automation/report.md'],p.m),true);for(const path of ['src/index.ts','public/game.js','assets/sfx.wav','.github/workflows/ci.yml','AGENTS.md','docs/PRD.md','package-lock.json'])assert.throws(()=>assertPaths([path],p.m),/protected/);});
+test('traversal, percent-encoded, drive, slash, nul, and dots rejected',()=>{for(const path of ['../src/a','tools/ai-handoff/../src','/etc/passwd','C:/windows','docs//automation/x','docs/automation/%2e%2e','docs\\automation\\hi','docs/automation/\0'])assert.throws(()=>safePath(path));});
+test('out-of-scope paths and widened manifest allowlist are not valid',()=>{const p=prepared();assert.throws(()=>assertPaths(['docs/release.md'],p.m),/outside/);p.m.scope.allowed_paths.push('docs/**');assert.throws(()=>validateManifest(p.m),/widen/);});
+test('valid event must bind the exact approval identity and baseline',()=>{const p=prepared();assert.equal(validateEvent(p.event),true);assert.equal(eventRouter(p.event,'scope_approved',new Set(),p.m,p.trusted,p.m.base_sha),'queued');});
+test('router rejects state faked as approved without trusted scope record',()=>{const p=prepared();assert.throws(()=>eventRouter(p.event,'scope_approved',new Set(),p.m,{},p.m.base_sha),/trusted adapter/);});
+test('unexpected PR comment or unapproved issue label rejected',()=>{const p=prepared();assert.throws(()=>eventRouter({...p.event,type:'pull_request_comment'},'scope_approved',new Set(),p.m,p.trusted,p.m.base_sha),/untrusted event/);assert.throws(()=>eventRouter({...p.event,label:'run-now'},'scope_approved',new Set(),p.m,p.trusted,p.m.base_sha),/unexpected label/);});
+test('stale or forged digest, actor, issue and base all blocked at event entry',()=>{const p=prepared();for(const fields of [{manifest_digest:'f'.repeat(64)},{actor:'attacker'},{issue_number:55},{base_sha:'f'.repeat(40)},{task_id:'MAYHEM-AUTO-999'}])assert.throws(()=>eventRouter({...p.event,...fields},'scope_approved',new Set(),p.m,p.trusted,p.m.base_sha),/event not bound/);});
+test('duplicate webhook delivery and repeated label with new delivery ID blocked',()=>{const p=prepared();const seen=new Set();assert.equal(eventRouter(p.event,'scope_approved',seen,p.m,p.trusted,p.m.base_sha),'queued');assert.throws(()=>eventRouter(p.event,'scope_approved',seen,p.m,p.trusted,p.m.base_sha),/duplicate/);assert.throws(()=>eventRouter({...p.event,id:'new-delivery'},'scope_approved',seen,p.m,p.trusted,p.m.base_sha),/duplicate/);});
+test('hostile issue body stays untrusted data, cannot modify approved scope',()=>{const p=prepared(3);const original=manifestDigest(p.m);assert.match(p.event.untrusted_text,/SYSTEM OVERRIDE/);assert.equal(eventRouter(p.event,'scope_approved',new Set(),p.m,p.trusted,p.m.base_sha),'queued');assert.equal(manifestDigest(p.m),original);assert.throws(()=>assertPaths(['src/evil.ts'],p.m),/protected/);});
+test('queue contract binds event and all immutable task identity fields',()=>{const p=prepared();const item=queueItem(p.m,p.event.id);assert.equal(validateQueueItem(item,p.m),true);for(const x of [{task_id:'MAYHEM-AUTO-999'},{manifest_digest:'f'.repeat(64)},{base_sha:'f'.repeat(40)}])assert.throws(()=>validateQueueItem({...item,...x},p.m),/identity/);});
+test('queue contract rejects undocumented fields and unauthorized state',()=>{const p=prepared();const item=queueItem(p.m,p.event.id);assert.throws(()=>validateQueueItem({...item,state:'running'},p.m),/contract/);assert.throws(()=>validateQueueItem({...item,elevated:true},p.m),/unknown/);});
+
+// Lease and cumulative budget evidence.
+const emptyLease=()=>({version:CONTRACT_VERSION,workstream:'pilot-automation',owner:null,expires_at_ms:0,generation:0});
+test('lease schema and same-workstream exclusivity',()=>{const l=emptyLease();assert.equal(validateLease(l),true);const held=leaseAcquire(l,'MAYHEM-AUTO-001',1000,50,0);assert.equal(held.generation,1);assert.throws(()=>leaseAcquire(held,'MAYHEM-AUTO-002',1010,50,1),/occupied/);});
+test('stale lease cannot silently transfer ownership and CAS generation protected',()=>{const held=leaseAcquire(emptyLease(),'MAYHEM-AUTO-001',1000,50,0);assert.throws(()=>leaseAcquire(held,'MAYHEM-AUTO-002',1100,50,1),/stale lease/);assert.throws(()=>leaseRelease(held,'MAYHEM-AUTO-001',0),/ownership/);assert.equal(leaseRelease(held,'MAYHEM-AUTO-001',1).owner,null);});
+test('malformed lease missing owner or forged generation rejected',()=>{const l=emptyLease();delete l.owner;assert.throws(()=>validateLease(l),/missing/);assert.throws(()=>leaseAcquire(emptyLease(),'MAYHEM-AUTO-001',1000,50,1),/stale lease version/);});
+test('first-cycle green produces only simulated review readiness',()=>{const p=prepared();const {ledger:l,outcome}=take(p,ledger(p),p.fixture.cycles[0]);assert.equal(outcome,'review_ready');assert.equal(l.cycles.length,1);assert.equal(l.revision,1);});
+test('correction cycle passes only after fresh reviewer evidence on changed SHA',()=>{const p=prepared(1);let l=ledger(p);assert.equal((l=take(p,l,p.fixture.cycles[0],0).ledger).state,'correcting');assert.equal((l=take(p,l,p.fixture.cycles[1],1).ledger).state,'review_ready');assert.deepEqual(l.cycles.map(c=>c.candidate_sha),['b'.repeat(40),'c'.repeat(40)]);});
+test('exhausting three attempts and two corrective attempts stops',()=>{const p=prepared(2);let l=ledger(p);for(const[i,c]of p.fixture.cycles.entries())l=take(p,l,c,i).ledger;assert.equal(l.state,'failed_budget_or_checks');assert.equal(l.revision,3);assert.equal(l.corrections_consumed,2);assert.throws(()=>take(p,l,{...p.fixture.cycles[2],cycle:4},3),/late result/);});
+test('repeating cycle 1 cannot reset attempts or metering',()=>{const p=prepared(1);let l=take(p,ledger(p),p.fixture.cycles[0]).ledger;assert.throws(()=>take(p,l,p.fixture.cycles[0],1),/retry cycle mismatch/);});
+test('task revision is compare-and-swap and stale writes are rejected',()=>{const p=prepared();const l=take(p,ledger(p),p.fixture.cycles[0]).ledger;assert.throws(()=>advanceCycle(l,{...p.fixture.cycles[0],cycle:2},p.m,{expectedRevision:0,nowMs:2000}),/stale task revision/);});
+test('two individually cheap cycles exceed cumulative API budget',()=>{const p=prepared(4);let l=ledger(p);l=take(p,l,p.fixture.cycles[0]).ledger;assert.ok(l.cumulative_spend_usd<p.m.quality_loop.api_spend_usd_limit);l=take(p,l,p.fixture.cycles[1],1).ledger;assert.equal(l.state,'failed_budget_or_checks');assert.ok(l.cumulative_spend_usd>p.m.quality_loop.api_spend_usd_limit);});
+test('two individually short cycles exceed cumulative elapsed budget',()=>{const p=prepared(5);let l=ledger(p);l=take(p,l,p.fixture.cycles[0]).ledger;l=take(p,l,p.fixture.cycles[1],1).ledger;assert.equal(l.state,'failed_budget_or_checks');assert.equal(l.cumulative_elapsed_minutes,32);});
+test('tampering with cumulative total/correction history is rejected',()=>{const p=prepared(1);let l=take(p,ledger(p),p.fixture.cycles[0]).ledger;assert.throws(()=>validateTask({...l,cumulative_spend_usd:0},p.m),/cumulative metering/);assert.throws(()=>validateTask({...l,corrections_consumed:2},p.m),/counter mismatch/);});
+test('missing budget value cannot be interpreted as free',()=>{const p=prepared();const c={...p.fixture.cycles[0],spend_usd:undefined};assert.throws(()=>take(p,ledger(p),c),/API spend/);});
+test('timeout/late result is recorded as terminal failure, cannot be accepted afterward',()=>{const p=prepared(8);const first=take(p,ledger(p),p.fixture.cycles[0]);assert.equal(first.outcome,'failed_budget_or_checks');assert.throws(()=>take(p,first.ledger,{...p.fixture.cycles[0],cycle:2}),/late result/);});
+test('cancellation and supersession reject late job results',()=>{for(const status of ['cancelled','superseded']){const p=prepared();const l=terminateTask(ledger(p),p.m,status,0);assert.throws(()=>take(p,l,p.fixture.cycles[0]),/late result/);}});
+test('duplicate mandatory checks and partial mandatory results are never ready',()=>{const p=prepared();const c=p.fixture.cycles[0];const duplicate={...c,checks:[...c.checks,c.checks[0]]};assert.equal(take(p,ledger(p),duplicate).outcome,'correcting');const missing={...c,checks:c.checks.slice(0,1)};assert.equal(take(p,ledger(p),missing).outcome,'correcting');});
+test('reviewer-pass with high finding and test/reviewer disagreement cannot pass',()=>{const p=prepared();const c=cloned(p.fixture.cycles[0]);c.review.findings=[{severity:'high',code:'CRITICAL_SIM',description:'unresolved blocker'}];assert.equal(take(p,ledger(p),c).outcome,'correcting');c.review={...c.review,verdict:'fail',findings:[]};assert.equal(take(p,ledger(p),c).outcome,'correcting');});
+test('review missing yields owner decision, not review readiness',()=>{const p=prepared(6);assert.equal(take(p,ledger(p),p.fixture.cycles[0]).outcome,'needs_owner_decision');});
+test('review for another candidate is rejected before state advances',()=>{const p=prepared(9);assert.throws(()=>take(p,ledger(p),p.fixture.cycles[0]),/stale reviewer candidate/);});
+test('out of scope high finding escalates instead of new correction',()=>{const p=prepared();const c=cloned(p.fixture.cycles[0]);c.review.findings=[{severity:'high',code:'SCOPE',description:'protected file requested',type:'out_of_scope'}];assert.equal(take(p,ledger(p),c).outcome,'needs_owner_decision');});
+test('fake reviewer flag cannot grant review readiness and fake owner visual cannot grant acceptance',()=>{const p=prepared(7);assert.equal(take(p,ledger(p),p.fixture.cycles[0]).outcome,'needs_owner_decision');const bad=cloned(p.fixture.cycles[0]);bad.review={source:'ai-approved',review_id:'fake',reviewer_id:'fake',candidate_sha:bad.candidate_sha,verdict:'pass',findings:[]};assert.throws(()=>take(p,ledger(p),bad),/not an independent review fixture/);});
+test('new Task ledger must come from a matching queue record',()=>{const p=prepared();const q=queued(p);assert.equal(validateTask(beginTask(p.m,q,600000),p.m),true);assert.throws(()=>beginTask(p.m,{...q,task_id:'MAYHEM-AUTO-999'},600000),/identity/);});
+test('review packet is immutable-identity complete, reconstructable, labeled synthetic, and cannot grant release',()=>{const p=prepared(1);let l=ledger(p);for(const[i,c]of p.fixture.cycles.entries())l=take(p,l,c,i).ledger;const packet=reviewPacket(p.m,l,p.fixture.pr_number);assert.equal(packet.simulation_only,true);assert.match(packet.evidence_source,/SYNTHETIC/);assert.equal(packet.release_authorization,'NOT GRANTED');assert.equal(packet.human_approval,'NOT GRANTED');assert.deepEqual(packet.candidate_shas,l.cycles.map(c=>c.candidate_sha));assert.deepEqual(packet.ci_run_ids,l.cycles.map(c=>c.ci_run_id));assert.equal(packet.manifest_digest,p.m.manifest_sha256);assert.equal(packet.base_sha,p.m.base_sha);assert.equal(packet.cumulative_elapsed_minutes,l.cumulative_elapsed_minutes);assert.equal(packet.cumulative_spend_usd,l.cumulative_spend_usd);assert.equal(packet.attempts_consumed,2);assert.equal(noticeKey(packet),noticeKey({...packet}));});
+test('packet cannot be created from active work or without committed evidence',()=>{const p=prepared();assert.throws(()=>reviewPacket(p.m,ledger(p),289),/active work/);});
+test('all 11 fixtures match explicit expected results including negative error scenarios',()=>{for(let i=0;i<fixtures.length;i++){const p=prepared(i);try{const l0=ledger(p);let l=l0;const outcomes=[];for(const[j,c]of p.fixture.cycles.entries()){const a=take(p,l,c,j);l=a.ledger;outcomes.push(a.outcome);}assert.equal(p.fixture.expected_error,undefined);assert.deepEqual(outcomes,p.fixture.expected_outcomes);}catch(e){if(!p.fixture.expected_error)throw e;assert.match(e.message,new RegExp(p.fixture.expected_error));}}});
+test('cannot forge review_ready by editing recorded state without successful review evidence',()=>{
+  const p=prepared(1);const first=take(p,ledger(p),p.fixture.cycles[0]).ledger;
+  assert.equal(first.state,'correcting');
+  assert.throws(()=>validateTask({...first,state:'review_ready'},p.m),/not supported by evidence/);
+  assert.throws(()=>reviewPacket(p.m,{...first,state:'review_ready'},289),/not supported by evidence/);
+});
+test('cannot insert another cycle after a successful prior cycle and falsify counters',()=>{
+  const p=prepared(1);const good=prepared();let l=take(good,ledger(good),good.fixture.cycles[0]).ledger;
+  const c={...p.fixture.cycles[1],cycle:2};
+  assert.throws(()=>take(good,l,c,1),/late result/);
+  const forged={...l,revision:2,corrections_consumed:1,cycles:[...l.cycles,c],state:'review_ready',cumulative_elapsed_minutes:l.cumulative_elapsed_minutes+c.elapsed_minutes,cumulative_spend_usd:l.cumulative_spend_usd+c.spend_usd};
+  assert.throws(()=>validateTask(forged,good.m),/task continued after terminal cycle/);
+});
+test('cycle time evidence is bound to supplied observation clock, not resettable by caller',()=>{
+  const p=prepared();const c={...p.fixture.cycles[0],observed_at_ms:1200};
+  assert.throws(()=>take(p,ledger(p),c),/observation clock mismatch/);
+});

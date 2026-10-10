@@ -1,0 +1,37 @@
+{
+  "contract_version": "stage-b-1",
+  "simulation_only": true,
+  "event_routes": [
+    {
+      "event_type": "manual_fixture",
+      "source": "offline_test_harness_only",
+      "entry_state": "scope_approved",
+      "required_identity": ["repository", "task_id", "issue_number", "manifest_digest", "base_sha", "actor", "id"],
+      "authority_check": "assertApproval(manifest, syntheticTrustedRecord, currentBaseSha)",
+      "deduplication": "event id and task+manifest+event type",
+      "result": "queued (in memory only)", "external_actions": 0
+    },
+    {
+      "event_type": "issue_labeled",
+      "source": "synthetic_issue_event_only",
+      "required_label": "approved-for-agent", "entry_state": "scope_approved",
+      "required_identity": ["repository", "task_id", "issue_number", "manifest_digest", "base_sha", "actor", "id"],
+      "authority_check": "assertApproval(manifest, syntheticTrustedRecord, currentBaseSha)",
+      "deduplication": "event id and task+manifest+label",
+      "result": "queued (in memory only)", "external_actions": 0
+    }
+  ],
+  "rejected_events": ["pull_request_comment", "pull_request_review", "push", "workflow_dispatch", "issue_labeled_with_unapproved_label", "unauthorized_actor", "stale_digest", "stale_baseline", "duplicate_delivery"],
+  "human_gates": [
+    {"from":"validated", "to":"scope_approved", "operation":"authorizeScope", "proof":"synthetic bound scope approval"},
+    {"from":"review_ready", "to":"implementation_accepted", "operation":"applyOwnerDecision", "proof":"distinct synthetic owner implementation decision bound to exact candidate SHA and PR"},
+    {"from":"implementation_accepted", "to":"release_authorized", "operation":"applyOwnerDecision", "proof":"separate synthetic owner release decision bound to exact candidate SHA, PR and destination main"}
+  ],
+  "notes": [
+    "No handler subscribes to actual GitHub events; this map is a design-time artifact.",
+    "Issue text is untrusted data, not a source of instructions or authority.",
+    "Synthetic trusted records can be forged by a caller: replace them with a real GitHub trust adapter only under separate Stage C authorization.",
+    "State and lease storage are not persistent, no live CAS transaction is claimed.",
+    "No workflow_dispatch file is installed on the default branch, no Codex or Work tasks are triggered."
+  ]
+}

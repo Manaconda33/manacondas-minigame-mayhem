@@ -7,7 +7,7 @@
 
 ## Status
 
-The history-preserving integration is complete at merge commit `c51110b62aa3631bc7c7cd947ad055834b277ec5`; candidate `74fcf2192d5b471ff3a90660698785cd1a96d773` is pushed to the development branch. GitHub Actions run [38028270864](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38028270864) is still running on that commit; the final documentation-only update will trigger CI again. The owner-approved T9.7 gameplay source remains exactly `75c6c62c865ec3b546f3f2512e649de9ea6d52bc`. **Production readiness is BLOCKED** by the representative-hardware G-05 evidence gap, the Node 22 full-suite timeout failures, and the pending exact-final-commit hosted Actions results. The authenticated PR body update is unavailable because GitHub API GraphQL and REST calls both returned HTTP 403; the complete proposed replacement body is preserved in [`pr-242-description.md`](pr-242-description.md). Do not merge PR #242 into `main`, deploy Neon Grid gameplay, mark T9.8 complete, or claim G-05 certification.
+The history-preserving integration is complete at merge commit `c51110b62aa3631bc7c7cd947ad055834b277ec5`; GitHub reports PR #285 merged into the development branch at this commit. PR #242 remains Draft and unmerged into `main`. The documentation candidate `74fcf21` started Actions run [38028270864](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38028270864), which was canceled after a subsequent documentation-only update; run [38028403667](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38028403667) was queued for the next doc candidate and is superseded by this PR-state reconciliation. The latest status must be checked at the [PR #242 Checks tab](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/242/checks) and reported with the final remote SHA. The owner-approved T9.7 gameplay source remains exactly `75c6c62c865ec3b546f3f2512e649de9ea6d52bc`. **Production readiness is BLOCKED** by the representative-hardware G-05 evidence gap, the Node 22 full-suite timeout failures, and the latest exact-head hosted Actions result. GitHub API GraphQL and REST calls both returned HTTP 403, so PR #242 metadata could not be updated; the full prepared replacement body is preserved in [`pr-242-description.md`](pr-242-description.md). Do not merge PR #242 into `main`, deploy Neon Grid gameplay, mark T9.8 complete, or claim G-05 certification.
 
 ## Verified baseline and pull requests
 
@@ -15,12 +15,12 @@ The history-preserving integration is complete at merge commit `c51110b62aa3631b
 | --- | --- |
 | `main` before integration | `f16173c562911df0020aef22dce1521d104d521e` |
 | PR #242 original development head | `f4672ef55d6697fb3d205abd03633faa0f821874` on `design/neon-grid-circuit-02`; public PR page reported Draft, base `main` |
-| PR #285 approved correction head | `75c6c62c865ec3b546f3f2512e649de9ea6d52bc` on `fix/neon-grid-t9-7-city-ground`; public PR page reported Open, base `design/neon-grid-circuit-02` |
+| PR #285 approved correction head | `75c6c62c865ec3b546f3f2512e649de9ea6d52bc` on `fix/neon-grid-t9-7-city-ground`; now **MERGED** into `design/neon-grid-circuit-02` at `c51110b62aa3631bc7c7cd947ad055834b277ec5` |
 | PR #288 preview-publication head | `32f10ed7f0d449f9738ca3f1f1a96bc35e633167`; PR is Merged into `main` at `b7b26d1a1afaa88a47ecd7a14759b004bd932b5b` |
 | Owner approval record on `main` | `f16173c562911df0020aef22dce1521d104d521e` records Manny's approval of the immutable preview pinned to `75c6c62` |
 | Consolidation merge | `c51110b62aa3631bc7c7cd947ad055834b277ec5`, parents `75c6c62c865ec3b546f3f2512e649de9ea6d52bc` and `f16173c562911df0020aef22dce1521d104d521e` |
 
-The public GitHub PR pages were read before the development-branch push. The PR #288 page displayed **27 checks passed**. The PR #285 Checks page did not expose a completed check summary for its current head. Refresh the public PR pages after the final branch push; the attempted unauthenticated GitHub API access is blocked by the environment's network tunnel.
+The public PR pages showed PR #242 Draft, PR #285 Open, and PR #288 Merged before the development-branch push. Once the integration merge commit was pushed to the base branch, GitHub marked PR #285 **Merged** at `c51110b`; this is its integration into the development branch, not production. PR #242 remains Draft and unmerged to `main`; PR #288 remains merged and its page displayed **27 checks passed**. PR #285's Checks tab did not expose a completed check summary. The latest candidate-specific CI state is linked from [PR #242 Checks](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/242/checks).
 
 ## Recovery refs and restoration
 

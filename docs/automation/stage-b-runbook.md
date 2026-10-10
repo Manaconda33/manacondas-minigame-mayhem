@@ -16,13 +16,13 @@
 - `tools/ai-handoff/contract.mjs`: canonical digest, scope/path checks, *offline injected* approval verifier, guarded state transitions, duplicate-event prevention, mock queue lease, bounded quality decision, owner review packet.
 - `tools/ai-handoff/simulate.mjs`: **read-only** local fixture processor. Prints JSON only; it writes nothing, calls no API and runs no commands.
 - `tests/ai-handoff/fixtures.json`: synthetic test records, not real GitHub issue or owner-approval events; numbers, SHAs and actor assertions exist only for simulation.
-- `tests/ai-handoff/contract.node-check.mjs`: expanded native Node tests, run with `node --test tests/ai-handoff/contract.node-check.mjs`.
-- `tests/ai-handoff/contract.test.js`: Vitest subset designed to run under existing PR CI's `npm run test:ci` without editing `.github/workflows/ci.yml`.
+- `tools/ai-handoff/contract.node-check.mjs`: expanded native Node tests, run with `node --test tools/ai-handoff/contract.node-check.mjs`.
+- `tools/ai-handoff/contract.test.mjs`: Vitest subset designed to run under existing PR CI's `npm run test:ci` without editing `.github/workflows/ci.yml`.
 
-From the repo root:
+The two `.mjs` test runners live under `tools/ai-handoff/` because the existing ESLint configuration deliberately excludes `tools/**/*.mjs`. This avoids type-aware TypeScript lint rules being invoked on non-TypeScript test files, without changing or weakening the repository's lint configuration. Vitest discovers `contract.test.mjs` by its normal filename pattern, while the standalone Node suite remains an explicit command.\n\nFrom the repo root:
 
 ```sh
-node --test tests/ai-handoff/contract.node-check.mjs
+node --test tools/ai-handoff/contract.node-check.mjs
 node tools/ai-handoff/simulate.mjs tests/ai-handoff/fixtures.json
 npm run validate
 git diff --check

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { manifestDigest, validateManifest, assertApproval, assertPaths, transition, evaluateCycle, eventRouter } from '../../tools/ai-handoff/contract.mjs';
-const fixture = JSON.parse(readFileSync(new globalThis.URL('./fixtures.json', import.meta.url), 'utf8'))[0];
+import { manifestDigest, validateManifest, assertApproval, assertPaths, transition, evaluateCycle, eventRouter } from './contract.mjs';
+const fixture = JSON.parse(readFileSync(new globalThis.URL('../../tests/ai-handoff/fixtures.json', import.meta.url), 'utf8'))[0];
 function prepared() {
   const m = globalThis.structuredClone(fixture.manifest);
   m.manifest_sha256 = manifestDigest(m);

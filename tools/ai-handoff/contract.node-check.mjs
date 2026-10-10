@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { canonical, manifestDigest, validateManifest, assertApproval, assertPaths, safePath, transition, eventRouter, leaseAcquire, leaseRelease, evaluateCycle, reviewPacket, noticeKey } from '../../tools/ai-handoff/contract.mjs';
-const fixtures = JSON.parse(readFileSync(new globalThis.URL('./fixtures.json', import.meta.url), 'utf8'));
+import { canonical, manifestDigest, validateManifest, assertApproval, assertPaths, safePath, transition, eventRouter, leaseAcquire, leaseRelease, evaluateCycle, reviewPacket, noticeKey } from './contract.mjs';
+const fixtures = JSON.parse(readFileSync(new globalThis.URL('../../tests/ai-handoff/fixtures.json', import.meta.url), 'utf8'));
 function setup() {
   const m = globalThis.structuredClone(fixtures[0].manifest);
   m.manifest_sha256 = manifestDigest(m); m.approval.approved_digest = m.manifest_sha256;

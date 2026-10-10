@@ -1,0 +1,9 @@
+{
+  "task_id": "MAYHEM-AUTO-SMOKE-001",
+  "description": "A deliberately seeded single incorrect expected value. Not loaded by application runtime.",
+  "cases": [
+    { "input": 3, "expected": 6 },
+    { "input": 6, "expected": 20 },
+    { "input": 8, "expected": 36 }
+  ]
+}

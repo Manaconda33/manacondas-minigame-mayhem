@@ -1,6 +1,6 @@
 # Base: f16173c562911df0020aef22dce1521d104d521e (pre-consolidation main)
-# Comparison: final release-candidate tree, rename detection disabled
-# Totals: 1084 added, 55 modified, 0 removed; includes this manifest
+# Comparison: release-candidate tree, rename detection disabled
+# Totals: 1085 added, 55 modified, 0 removed; includes this manifest
 status	path
 M	.gitattributes
 M	.github/workflows/ci.yml
@@ -995,6 +995,7 @@ A	docs/evidence/2026-10-09-neon-grid-t9-7/before/undercity-chase-desktop-medium.
 A	docs/evidence/2026-10-09-neon-grid-t9-7/before/undercity-chase-desktop-medium.png
 A	docs/evidence/2026-10-10-neon-grid-release-consolidation/README.md
 A	docs/evidence/2026-10-10-neon-grid-release-consolidation/file-manifest.tsv
+A	docs/evidence/2026-10-10-neon-grid-release-consolidation/pr-242-description.md
 A	docs/superpowers/plans/2026-10-02-neon-grid.md
 A	docs/superpowers/plans/2026-10-03-neon-residual-turn-repair.md
 A	public/assets/track/neon-grid/billboard/arin-v1.webp

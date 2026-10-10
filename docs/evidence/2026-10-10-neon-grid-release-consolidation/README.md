@@ -7,7 +7,7 @@
 
 ## Status
 
-The history-preserving integration is complete locally at merge commit `c51110b62aa3631bc7c7cd947ad055834b277ec5`. Documentation reconciliation is in progress. The owner-approved T9.7 gameplay source remains exactly `75c6c62c865ec3b546f3f2512e649de9ea6d52bc`. **Production readiness is BLOCKED** by the representative-hardware G-05 evidence gap, the Node 22 full-suite timeout failures, and candidate-specific hosted Actions / PR-description verification still pending. Do not merge PR #242 into `main`, deploy Neon Grid gameplay, mark T9.8 complete, or claim G-05 certification.
+The history-preserving integration is complete at merge commit `c51110b62aa3631bc7c7cd947ad055834b277ec5`; candidate `74fcf2192d5b471ff3a90660698785cd1a96d773` is pushed to the development branch. GitHub Actions run [38028270864](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38028270864) is still running on that commit; the final documentation-only update will trigger CI again. The owner-approved T9.7 gameplay source remains exactly `75c6c62c865ec3b546f3f2512e649de9ea6d52bc`. **Production readiness is BLOCKED** by the representative-hardware G-05 evidence gap, the Node 22 full-suite timeout failures, and the pending exact-final-commit hosted Actions results. The authenticated PR body update is unavailable because GitHub API GraphQL and REST calls both returned HTTP 403; the complete proposed replacement body is preserved in [`pr-242-description.md`](pr-242-description.md). Do not merge PR #242 into `main`, deploy Neon Grid gameplay, mark T9.8 complete, or claim G-05 certification.
 
 ## Verified baseline and pull requests
 
@@ -63,7 +63,7 @@ The approved runtime includes the complete Neon Grid route and three existing sh
 
 ## Full file manifest
 
-[`file-manifest.tsv`](file-manifest.tsv) lists every path added, modified, or removed from the pre-consolidation `main` head `f16173c` to the staged candidate tree. It is generated with rename detection disabled so each added/removed path is explicit. It records **1,084 added, 55 modified, and 0 removed** paths, including the consolidation record and manifest itself. These counts are rechecked against the final commit before push.
+[`file-manifest.tsv`](file-manifest.tsv) lists every path added, modified, or removed from the pre-consolidation `main` head `f16173c` to the staged candidate tree. It is generated with rename detection disabled so each added/removed path is explicit. It records **1,085 added, 55 modified, and 0 removed** paths, including the consolidation record, proposed PR description, and manifest itself. These counts are rechecked against the final commit before push.
 
 ## Existing visual evidence for the exact approved runtime
 
@@ -100,7 +100,7 @@ Node 22 and 24 local checks were run with the repository's existing dependency t
 
 - **G-05: BLOCKED.** There are no original representative-hardware captures or matching device metadata for three full-race runs. Owner-reported desktop FPS and all software-renderer timings are not certification.
 - **Node 22 full suite / hosted CI: BLOCKED.** The full serial run ended at 1,069/1,072 because three real-camera integration tests exceeded unchanged 5-second limits. An earlier parallel run ended at 1,067/1,072 with five timeouts; the isolated city-ground test passed in 4.37 seconds, which does not clear the full-suite gate. Do not change timeout criteria to force a pass. Candidate-specific hosted Actions results must still be read after push.
-- **PR #242 description update: BLOCKED** until GitHub API write authentication is available. The public PR is Draft and its existing description is outdated. No PR metadata was changed. A replacement summary should report the merge provenance, features, exact approved pin, actual validation results, G-05/CI blockers, and no production release authorization.
+- **PR #242 description update: BLOCKED** because both `gh pr edit` (GraphQL) and an authorized REST PATCH returned HTTP 403 from the environment's outbound GitHub API route. The public PR remains Draft with its existing description; no PR metadata changed. The full prepared replacement is preserved in [`pr-242-description.md`](pr-242-description.md) and can be applied when the API is reachable.
 - **T9.8: NOT COMPLETE.** Stage 4 closure remains blocked by G-05 and current candidate CI verification.
 - **Production release: BLOCKED / do not merge.** PR #242 remains unmerged into production `main`; no production gameplay was deployed; final production approval remains a separate owner decision.
 

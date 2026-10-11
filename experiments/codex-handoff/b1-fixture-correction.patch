@@ -1,0 +1,10 @@
+diff --git a/tests/ai-handoff/stage-c-smoke-fixture.json b/tests/ai-handoff/stage-c-smoke-fixture.json
+--- a/tests/ai-handoff/stage-c-smoke-fixture.json
++++ b/tests/ai-handoff/stage-c-smoke-fixture.json
+@@ -4,5 +4,5 @@
+   "cases": [
+     { "input": 3, "expected": 6 },
+-    { "input": 6, "expected": 20 },
++    { "input": 6, "expected": 21 },
+     { "input": 8, "expected": 36 }
+   ]

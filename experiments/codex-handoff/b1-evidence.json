@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "experiment_id": "B1",
+  "title": "Durable Codex Engineering Handoff",
+  "repository": "Manaconda33/manacondas-minigame-mayhem",
+  "observed_at_utc": "2026-10-11T19:20:57.584Z",
+  "checkpoint": {
+    "source_branch": "experiment/a2-durable-chat-handoff-001",
+    "source_commit_sha": "79fffd9474d12f90c055027068bc5bf9d46e821a",
+    "current_main_sha": "f09e961b1c7ec65fce82e223f5ed6f288dd195e4",
+    "b1_branch": "experiment/b1-durable-codex-handoff-001",
+    "b1_branch_created_from_sha": "79fffd9474d12f90c055027068bc5bf9d46e821a"
+  },
+  "commits": {
+    "original_commit_sha": "79fffd9474d12f90c055027068bc5bf9d46e821a",
+    "final_commit_sha": "014c1c364e62eab02da48e35392022199e7418a6",
+    "final_commit_sha_scope": "Final substantive B1 experiment change: the one-line correction proposal artifact. This evidence report is recorded in its direct child commit; the final branch tip is independently resolved from the GitHub branch ref.",
+    "evidence_report_parent_sha": "014c1c364e62eab02da48e35392022199e7418a6"
+  },
+  "scope": {
+    "changed_paths": [
+      "experiments/codex-handoff/b1-fixture-correction.patch",
+      "experiments/codex-handoff/b1-evidence.json"
+    ],
+    "stage_c_fixture_modified": false,
+    "production_code_modified": false,
+    "main_modified": false,
+    "merge_performed": false,
+    "deployment_performed": false,
+    "workflow_dispatch_performed": false,
+    "stage_c_activated": false,
+    "reason": "Stage C's fixture is deliberately seeded so the later smoke can detect the defect. The proposed correction was tested in a disposable local copy and preserved as a patch artifact."
+  },
+  "fixture": {
+    "path": "tests/ai-handoff/stage-c-smoke-fixture.json",
+    "task_id": "MAYHEM-AUTO-SMOKE-001",
+    "failure": {
+      "input": 6,
+      "actual": 20,
+      "expected": 21
+    },
+    "proposed_correction": {
+      "json_pointer": "/cases/1/expected",
+      "before": 20,
+      "after": 21,
+      "rationale": "The deterministic checker uses n*(n+1)/2; at n=6 the value is 21."
+    },
+    "applied_to_shared_fixture": false,
+    "patch_artifact": "experiments/codex-handoff/b1-fixture-correction.patch",
+    "patch_blob_sha": "f213f487cf99e7537ab254ceec7aeb22ac4842bc"
+  },
+  "source_integrity": {
+    "retrieval": "GitHub connector at the exact B1 checkpoint",
+    "exact_git_blob_sha_matches": "7/7",
+    "files": {
+      "tests/ai-handoff/stage-c-smoke-fixture.json": "6bd36505e3b17309c46b5a4b34be74f033e576ff",
+      "tools/ai-handoff/stage-c-fixture-check.mjs": "e3b6aa70c2e5b05091c8b527a5334f01e8166f22",
+      "tools/ai-handoff/stage-c-candidate.mjs": "2661d35ad64a532d86f4b7e229310939b368c49c",
+      "tools/ai-handoff/stage-c-guard.mjs": "de03ac17a03154e6a41b628f8597f8259e991f6d",
+      "tools/ai-handoff/stage-c-guard.node-check.mjs": "83878fd7693c226fc94c2266c2cf42bfe0269321",
+      "tools/ai-handoff/stage-c-guard.test.mjs": "d9e532c7054fc9c1630f71985cdc6aca3e266998",
+      "tools/ai-handoff/stage-c-manifest.json": "c99b10ed4c0c8fba256ec567787ec7ffe6e44758"
+    }
+  },
+  "automated_checks": [
+    {
+      "name": "native offline matrix, direct execution",
+      "command": "node tools/ai-handoff/stage-c-guard.node-check.mjs",
+      "workdir": "/tmp/mayhem-b1-codex-handoff",
+      "exit_code": 0,
+      "result": "PASS: 25 tests, 25 passed, 0 failed."
+    },
+    {
+      "name": "documented node test-runner invocation",
+      "command": "node --test tools/ai-handoff/stage-c-guard.node-check.mjs",
+      "workdir": "/tmp/mayhem-b1-codex-handoff",
+      "exit_code": 0,
+      "result": "PASS at file level; Node v24.19.0 reported 1 top-level file test, not the 25 internal cases. The direct invocation above is the 25-case result."
+    },
+    {
+      "name": "syntax",
+      "command": "node --check tools/ai-handoff/stage-c-guard.mjs",
+      "workdir": "/tmp/mayhem-b1-codex-handoff",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "syntax",
+      "command": "node --check tools/ai-handoff/stage-c-fixture-check.mjs",
+      "workdir": "/tmp/mayhem-b1-codex-handoff",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "syntax",
+      "command": "node --check tools/ai-handoff/stage-c-candidate.mjs",
+      "workdir": "/tmp/mayhem-b1-codex-handoff",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "seeded defect reproduction",
+      "command": "node tools/ai-handoff/stage-c-fixture-check.mjs",
+      "workdir": "/tmp/mayhem-b1-codex-handoff",
+      "exit_code": 1,
+      "result": "EXPECTED FAILURE",
+      "stderr": "fixture check failed at input 6: actual 20, expected 21"
+    },
+    {
+      "name": "correction patch check",
+      "command": "git apply --check /tmp/b1-fixture-correction.patch",
+      "workdir": "/tmp/mayhem-b1-codex-handoff-correction-verified",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "apply correction to disposable copy",
+      "command": "git apply /tmp/b1-fixture-correction.patch",
+      "workdir": "/tmp/mayhem-b1-codex-handoff-correction-verified",
+      "exit_code": 0,
+      "result": "PASS; shared Stage C fixture was not changed"
+    },
+    {
+      "name": "corrected copy checker",
+      "command": "node tools/ai-handoff/stage-c-fixture-check.mjs",
+      "workdir": "/tmp/mayhem-b1-codex-handoff-correction-verified",
+      "exit_code": 0,
+      "result": "PASS",
+      "stdout": "Stage C seeded fixture: PASS"
+    },
+    {
+      "name": "disabled Stage C gate",
+      "command": "node tools/ai-handoff/stage-c-guard.mjs preflight",
+      "workdir": "/tmp/mayhem-b1-codex-handoff",
+      "exit_code": 1,
+      "result": "EXPECTED FAIL-CLOSED BLOCK",
+      "stderr": "Stage C preflight denied: manifest prepared but not activated"
+    },
+    {
+      "name": "typed offline candidate validation",
+      "command": "CODEX_FINAL_MESSAGE='{\"task_id\":\"MAYHEM-AUTO-SMOKE-001\",\"repaired_expected\":21,\"rationale\":\"triangular sum\"}' node tools/ai-handoff/stage-c-candidate.mjs validate-only",
+      "workdir": "/tmp/mayhem-b1-codex-handoff",
+      "exit_code": 0,
+      "result": "PASS",
+      "stdout": "{\"candidate\":\"valid\",\"task\":\"MAYHEM-AUTO-SMOKE-001\",\"proposed_expected\":21,\"external_actions\":0}"
+    }
+  ],
+  "limitations": {
+    "git_transport": {
+      "command": "git ls-remote https://github.com/Manaconda33/manacondas-minigame-mayhem.git refs/heads/experiment/a2-durable-chat-handoff-001 refs/heads/main",
+      "exit_code": 128,
+      "error": "Failed to connect to browser-proxy port 8889; no local repository clone was available."
+    },
+    "execution_environment": "Node.js v24.19.0; repository CI config specifies Node 22.",
+    "full_project_validation": "Not run: the scratch workspace had no complete checkout or node_modules, and Git transport was blocked. The focused Stage C files were retrieved via GitHub and their local Git blob SHA-1 values matched the returned GitHub blob SHAs.",
+    "vitest_wrapper": {
+      "status": "NOT RUN",
+      "reason": "The Vitest wrapper/full npm test suite requires the complete project dependencies. A probe spawning the Node test runner from a Node child process was blocked by EPERM in this execution sandbox."
+    },
+    "child_process_probe": {
+      "command": "node --input-type=module -e \"import {execFileSync} from 'node:child_process'; const o=execFileSync(process.execPath,['--test','tools/ai-handoff/stage-c-guard.node-check.mjs'],{encoding:'utf8'}); console.log(JSON.stringify({matches25:/# tests 25/.test(o),tail:o.slice(-220)})); process.exitCode=/# tests 25/.test(o)?0:1\"",
+      "exit_code": 1,
+      "error": "spawnSync Node EPERM"
+    }
+  },
+  "github_state": {
+    "stage_c_workflow_blob_sha": "f452b5e6fb1123247192e4c2a4b3fb73f294e1b3",
+    "stage_c_workflow_trigger": "workflow_dispatch only",
+    "stage_c_manifest_activation_state": "PREPARED_DISABLED",
+    "related_plan_pr": 287,
+    "related_plan_pr_state": "open draft; unchanged",
+    "no_pr_created": true,
+    "no_actions_dispatched": true
+  }
+}

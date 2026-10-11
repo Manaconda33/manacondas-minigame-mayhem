@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id": "MAYHEM-CHAT-HANDOFF-001",
+  "experiment": "A2",
+  "base_sha": "f09e961b1c7ec65fce82e223f5ed6f288dd195e4",
+  "status": "interrupted",
+  "attempt": 1,
+  "lease": {
+    "holder": "chat-execution-1",
+    "expires_at": "2026-10-11T18:05:00Z"
+  },
+  "completed_operations": [],
+  "synthetic_operation": {
+    "id": "SYNTHETIC-VALIDATION-001",
+    "effect": "none",
+    "status": "pending"
+  },
+  "instructions": "Successor may recover only after lease expiration. Compare-and-swap using current Git blob SHA. Never repeat a completed operation. No main writes, PRs, workflow dispatch, or production actions."
+}

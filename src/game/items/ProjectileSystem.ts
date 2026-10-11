@@ -1,3 +1,4 @@
+import { projectTrackSurface, sameTrackLayer } from '../track/TrackSurface';
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import { itemImpactCue } from '../../audio/itemSoundCues';
 import * as THREE from 'three';
@@ -29,7 +30,7 @@ import { frostCrystal } from './FrostVisual';
 import { ItemPhysicsCapacity, MAX_ITEM_PHYSICS_OBJECTS } from './ItemPhysicsCapacity';
 import { steerSeeker } from './SeekerGuidance';
 import { guardrailContact } from '../track/GuardrailSystem';
-import { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import { SEEKER_GUIDANCE, type ItemId, type ItemProjectileConfig } from './itemDefinitions';
 import type { ItemUseDirection } from './ItemSystem';
 
@@ -230,7 +231,7 @@ export class ProjectileSystem {
   private readonly blazeBursts: BlazeBurst[] = [];
 
   public constructor(
-    private readonly track: CircuitAlpha,
+    private readonly track: TrackDefinition,
     public readonly capacity = new ItemPhysicsCapacity(),
     private readonly onArcEvent?: (event: ArcEvent) => void,
     private readonly surfaceQuery?: ProjectileSurfaceQuery,
@@ -287,7 +288,9 @@ export class ProjectileSystem {
     const spawnPosition = request.launch.position
       .clone()
       .addScaledVector(launchDirection, 1.75 + request.config.radiusMeters);
-    spawnPosition.y = Math.max(0.55, request.launch.position.y);
+    const floor =
+      this.track.id === 'neon-grid' ? projectTrackSurface(this.track, spawnPosition).point.y : 0;
+    spawnPosition.y = Math.max(floor + 0.55, request.launch.position.y);
     if (
       (request.itemId === 'arc-blade' || request.itemId === 'arc-hammers') &&
       guardrailContact(this.track, spawnPosition, request.config.radiusMeters)
@@ -300,14 +303,17 @@ export class ProjectileSystem {
     const spinner = new THREE.Group();
     const core = new THREE.Mesh(
       new THREE.CircleGeometry(request.config.radiusMeters * 0.7, 20),
-      markBloomMaterial(new THREE.MeshBasicMaterial({
-        color: 0xa7f3ff,
-        transparent: true,
-        opacity: 0.9,
-        side: THREE.DoubleSide,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      }), 'color'),
+      markBloomMaterial(
+        new THREE.MeshBasicMaterial({
+          color: 0xa7f3ff,
+          transparent: true,
+          opacity: 0.9,
+          side: THREE.DoubleSide,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        }),
+        'color',
+      ),
     );
     const ring = new THREE.Mesh(
       new THREE.TorusGeometry(
@@ -316,13 +322,16 @@ export class ProjectileSystem {
         7,
         24,
       ),
-      markBloomMaterial(new THREE.MeshBasicMaterial({
-        color: 0x48d8ff,
-        transparent: true,
-        opacity: 0.95,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      }), 'color'),
+      markBloomMaterial(
+        new THREE.MeshBasicMaterial({
+          color: 0x48d8ff,
+          transparent: true,
+          opacity: 0.95,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        }),
+        'color',
+      ),
     );
     spinner.add(core, ring);
     if (request.itemId === 'seeker-drone') {
@@ -356,13 +365,16 @@ export class ProjectileSystem {
       ring.scale.set(1.1, 1.1, 1.1);
       const glow = new THREE.Mesh(
         new THREE.SphereGeometry(request.config.radiusMeters * 1.05, 14, 10),
-        markBloomMaterial(new THREE.MeshBasicMaterial({
-          color: 0xff861c,
-          transparent: true,
-          opacity: 0.48,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-        }), 'color'),
+        markBloomMaterial(
+          new THREE.MeshBasicMaterial({
+            color: 0xff861c,
+            transparent: true,
+            opacity: 0.48,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending,
+          }),
+          'color',
+        ),
       );
       glow.name = 'blaze-orb-glow';
       const hotCore = new THREE.Mesh(
@@ -540,8 +552,25 @@ export class ProjectileSystem {
           }
         }
 
+        // Ordinary flat-course shots retain their approved Alpha motion. On
+        // elevated roads they follow the local support selected by the scene
+        // query; no global floor or horizontal hit authority is introduced.
+        if (this.track.id === 'neon-grid') {
+          const support = this.hammerSurfaceAt(projectile.group.position);
+          if (support === null) {
+            this.remove(projectile.id, true);
+            break;
+          }
+          projectile.group.position.y =
+            support.point.y + Math.max(0.55, projectile.config.radiusMeters + 0.05);
+        }
+
         for (const target of targets) {
-          if (target.finished) continue;
+          if (
+            target.finished ||
+            !sameTrackLayer(this.track, projectile.group.position, target.position)
+          )
+            continue;
           if (
             target.id === projectile.ownerId &&
             projectile.ownerArmSeconds > (projectile.itemId === 'frost-orbs' ? 1e-9 : 0)
@@ -918,7 +947,7 @@ export class ProjectileSystem {
       return null;
     }
 
-    const projection = this.track.project(position);
+    const projection = projectTrackSurface(this.track, position);
     return {
       point: projection.point.clone(),
       normal: new THREE.Vector3(0, 1, 0),
@@ -975,7 +1004,12 @@ export class ProjectileSystem {
       }
       if (projectile.ownerArmSeconds > 1e-9) continue;
       for (const racer of targets) {
-        if (racer.finished || !finiteVector(racer.position)) continue;
+        if (
+          racer.finished ||
+          !finiteVector(racer.position) ||
+          !sameTrackLayer(this.track, projectile.group.position, racer.position)
+        )
+          continue;
         if (
           squaredHorizontalDistance(projectile.group.position, racer.position) >
           (RACER_HIT_RADIUS_METERS + projectile.config.radiusMeters) ** 2
@@ -1010,7 +1044,8 @@ export class ProjectileSystem {
       if (
         this.clears.some(
           ({ center, radius }) =>
-            squaredHorizontalDistance(center, projectile.group.position) <= radius * radius,
+            squaredHorizontalDistance(center, projectile.group.position) <= radius * radius &&
+            sameTrackLayer(this.track, center, projectile.group.position),
         )
       )
         this.remove(projectile.id, projectile.itemId === 'arc-hammers', 'cleared');
@@ -1072,19 +1107,22 @@ export class ProjectileSystem {
         frost
           ? new THREE.OctahedronGeometry(0.06)
           : new THREE.SphereGeometry(0.045 + (index % 2) * 0.012, 6, 4),
-        markBloomMaterial(new THREE.MeshBasicMaterial({
-          color: frost
-            ? index % 2 === 0
-              ? 0xffffff
-              : 0x9ae5ff
-            : index % 2 === 0
-              ? 0xffb23e
-              : 0xff6a18,
-          transparent: true,
-          opacity: 0.85,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-        }), 'color'),
+        markBloomMaterial(
+          new THREE.MeshBasicMaterial({
+            color: frost
+              ? index % 2 === 0
+                ? 0xffffff
+                : 0x9ae5ff
+              : index % 2 === 0
+                ? 0xffb23e
+                : 0xff6a18,
+            transparent: true,
+            opacity: 0.85,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending,
+          }),
+          'color',
+        ),
       );
       spark.position.set(Math.cos(angle) * 0.28, (index % 3) * 0.05, Math.sin(angle) * 0.28);
       group.add(spark);

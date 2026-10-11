@@ -20,7 +20,10 @@ export interface ContactRacer {
 export class PrismaticSystem {
   private readonly owners = new Set<string>();
   private readonly overlaps = new Map<string, readonly [string, string]>();
-  public constructor(private readonly effects: RacerEffects) {}
+  public constructor(
+    private readonly effects: RacerEffects,
+    private readonly contactFilter?: (a: Vector3, b: Vector3) => boolean,
+  ) {}
 
   public activate(ownerId: string, commit: () => boolean): boolean {
     const activated = this.effects.activateProtection(
@@ -54,7 +57,12 @@ export class PrismaticSystem {
         if (!a || !b) continue;
         if (a.finished || b.finished || a.id === b.id) continue;
         const distance = Math.hypot(a.position.x - b.position.x, a.position.z - b.position.z);
-        if (!Number.isFinite(distance) || distance >= PRISMATIC.contactRadius) continue;
+        if (
+          !Number.isFinite(distance) ||
+          distance >= PRISMATIC.contactRadius ||
+          this.contactFilter?.(a.position, b.position) === false
+        )
+          continue;
         const pair = [a.id, b.id].sort() as [string, string];
         const key = JSON.stringify(pair);
         activePairs.add(key);

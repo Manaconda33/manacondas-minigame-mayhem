@@ -1,0 +1,91 @@
+{
+  "checkpoint": "Stage 4 Task 9 T9.0",
+  "date": "2026-10-07 America/Chicago",
+  "runtime_source_commit": "da16aa42cec7808c8e1e855621e02eba5f622b3c",
+  "runtime_change": false,
+  "comparison_base": "2632e6ec865c533c1c794353c7efa6171034357e",
+  "changed_before_red_proof": [
+    "tests/neon-grid-billboard-visual.test.ts",
+    "tests/neon-grid-stage4-task9.test.ts"
+  ],
+  "task8": {
+    "progress_range": [
+      0.7,
+      0.85
+    ],
+    "medium_instances": {
+      "falls-run-pylons": 12,
+      "falls-run-cross-braces": 22,
+      "falls-run-city-towers": 24,
+      "falls-run-city-windows": 320,
+      "falls-run-city-roof-lights": 24,
+      "falls-run-ambient-waterfalls": 12,
+      "falls-run-waterfall-lips": 12,
+      "falls-run-ambient-mist": 32,
+      "falls-run-plunge-spray": 12,
+      "falls-run-neon-signage": 18,
+      "falls-run-dive-rail-debris": 10
+    },
+    "quality_scaled": {
+      "low": {
+        "windows": 160,
+        "mist": 16,
+        "wet_asphalt": false
+      },
+      "medium": {
+        "windows": 320,
+        "mist": 32,
+        "wet_asphalt": true
+      },
+      "high": {
+        "windows": 480,
+        "mist": 48,
+        "wet_asphalt": true
+      }
+    },
+    "wet_asphalt": {
+      "render_order": -10,
+      "transparent": true,
+      "depth_write": false,
+      "depth_test": true
+    }
+  },
+  "red_contract_proof": {
+    "workflow_run": 37639361779,
+    "validate_job": 112854508315,
+    "typecheck": "pass",
+    "lint": "pass",
+    "passing_tests": 1004,
+    "failing_tests": 4,
+    "failures": [
+      "presentation owner explicit owned-resource disposal missing",
+      "hidden Falls Run visual continues animation time",
+      "Task 9 sector owners absent",
+      "Task 9 sector wet-road passes absent"
+    ]
+  },
+  "render_baseline": {
+    "workflow_run": 37639361779,
+    "job": 112854508990,
+    "artifact_id": 11491920972,
+    "artifact_zip_sha256": "b2be62b89d5c2aadac749abafa53787d40984a95a48644f7aba2d8094817eb91",
+    "environment": "GitHub Actions Chromium software WebGL / SwiftShader",
+    "authority": "structural render-readiness and scene-budget evidence; frame timing diagnostic-only",
+    "desktop_medium_1920x1080": {
+      "draw_calls": 91,
+      "visible_triangles": 66520,
+      "geometries": 79,
+      "textures": 6
+    },
+    "maximum_draw_calls": 125,
+    "maximum_visible_triangles": 88912,
+    "task9_engineering_ceiling": {
+      "draw_calls": 200,
+      "visible_triangles": 300000
+    },
+    "prd_hard_cap": {
+      "draw_calls": 250,
+      "visible_triangles": 750000
+    }
+  }
+}

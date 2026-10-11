@@ -1,0 +1,9 @@
+One-bit corruption rejected with nonzero exit and approved-byte hash failure.
+file:///workspace/scratch/768197ea282d/game/tools/verify-billboard-assets.mjs:33
+    throw new Error(`Approved ad bytes differ: ${path}`);
+          ^
+
+Error: Approved ad bytes differ: public/assets/track/neon-grid/billboard/paprika-v1.webp
+    at file:///workspace/scratch/768197ea282d/game/tools/verify-billboard-assets.mjs:33:11
+
+Node.js v24.19.0

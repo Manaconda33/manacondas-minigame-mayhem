@@ -1,0 +1,44 @@
+{
+  "source": "1b99df944381827cb927a21cf679b37be849aefb",
+  "marker": {
+    "feature": "Neon Grid Circuit 02 main-route blockout",
+    "source": "1b99df944381827cb927a21cf679b37be849aefb",
+    "base": "/manacondas-minigame-mayhem/previews/neon-grid/",
+    "status": "Stage 2 review only; no tokens or shortcuts; production acceptance pending"
+  },
+  "previewUrl": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid/?review=1b99df9",
+  "ci": 37077662262,
+  "previewPr": 244,
+  "previewMerge": "8f1dd9840702842cd04a806a88c9168ea9ce54b0",
+  "pagesRun": 37077846211,
+  "checks": [
+    {
+      "path": "index.html",
+      "bytes": 776,
+      "sha256": "89dffd68a567fa34b624ab6b9eb85e21e90ad1f2fcca9c042286f2f2fa3137f9",
+      "actualSha256": "89dffd68a567fa34b624ab6b9eb85e21e90ad1f2fcca9c042286f2f2fa3137f9",
+      "match": true
+    },
+    {
+      "path": "assets/KartTimeTrial-C-13fKL0.js",
+      "bytes": 3133670,
+      "sha256": "66b1088be2b4e321ad77681680d004e9256e73a6711f707af508d37691e6283b",
+      "actualSha256": "66b1088be2b4e321ad77681680d004e9256e73a6711f707af508d37691e6283b",
+      "match": true
+    },
+    {
+      "path": "assets/index-DSPxs0Os.js",
+      "bytes": 807347,
+      "sha256": "27ea336e972e7652ff78d31d9da5baf96f64a7848ed5072d4e39bb8b1d15bdef",
+      "actualSha256": "27ea336e972e7652ff78d31d9da5baf96f64a7848ed5072d4e39bb8b1d15bdef",
+      "match": true
+    },
+    {
+      "path": "assets/index-KLiXI-1N.css",
+      "bytes": 85082,
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "actualSha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "match": true
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import { ItemBoxLifecycle, type ItemBoxPresentation } from './ItemBoxLifecycle';
 import { ITEM_BOX_LAYOUT } from './itemDefinitions';
 
@@ -44,10 +44,8 @@ const ITEM_BOX_TRIGGER_RADIUS = 1.65;
 const ITEM_BOX_BASE_Y = 1.55;
 const ITEM_BOX_LATERAL_HALF_SPAN = 4.4;
 
-export function createItemBoxPlacements(track: CircuitAlpha): ItemBoxPlacement[] {
+export function createItemBoxPlacements(track: TrackDefinition): ItemBoxPlacement[] {
   const placements: ItemBoxPlacement[] = [];
-  const columnStep =
-    (ITEM_BOX_LATERAL_HALF_SPAN * 2) / (ITEM_BOX_LAYOUT.boxesPerRow - 1);
 
   for (let row = 0; row < ITEM_BOX_LAYOUT.rowProgress.length; row += 1) {
     const progress = ITEM_BOX_LAYOUT.rowProgress[row];
@@ -56,12 +54,17 @@ export function createItemBoxPlacements(track: CircuitAlpha): ItemBoxPlacement[]
     const tangent = track.curve.getTangentAt(progress).normalize();
     const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
 
+    const halfSpan =
+      track.id === 'circuit-alpha'
+        ? ITEM_BOX_LATERAL_HALF_SPAN
+        : Math.min(ITEM_BOX_LATERAL_HALF_SPAN, track.halfWidthAt(progress) - 0.5);
+    const columnStep = (halfSpan * 2) / (ITEM_BOX_LAYOUT.boxesPerRow - 1);
     for (let column = 0; column < ITEM_BOX_LAYOUT.boxesPerRow; column += 1) {
-      const lateralOffset = -ITEM_BOX_LATERAL_HALF_SPAN + column * columnStep;
+      const lateralOffset = -halfSpan + column * columnStep;
       const position = center
         .clone()
         .addScaledVector(right, lateralOffset)
-        .setY(ITEM_BOX_BASE_Y);
+        .setY((track.id === 'neon-grid' ? center.y : 0) + ITEM_BOX_BASE_Y);
       placements.push({
         index: placements.length,
         row,
@@ -143,7 +146,7 @@ export class ItemBoxSystem {
   private readonly boxes: RuntimeItemBox[];
   private elapsed = 0;
 
-  public constructor(track: CircuitAlpha) {
+  public constructor(track: TrackDefinition) {
     this.group.name = 'slice-5-item-boxes';
     this.placements = createItemBoxPlacements(track);
     this.boxes = this.placements.map((placement) => {

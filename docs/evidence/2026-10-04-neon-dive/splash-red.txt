@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/be55d24ec46a/manacondas-minigame-mayhem
+
+ ❯ tests/neon-grid-dive.test.ts (12 tests | 1 failed | 11 skipped) 436ms
+   × pools at most eight splash rings and freezes them with race time 415ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-dive.test.ts > pools at most eight splash rings and freezes them with race time
+TypeError: scene.dive.splash is not a function
+ ❯ tests/neon-grid-dive.test.ts:194:35
+    192|   const {createNeonGridScene}=await import('../src/game/track/createNe…
+    193|   const track=new NeonGrid(),scene=createNeonGridScene(track);
+    194|   for(let i=0;i<30;i++)scene.dive.splash(track.waterfallDive.pointAtDi…
+       |                                   ^
+    195|   scene.dive.update(2.3);const rings=scene.getObjectByName('dive-splas…
+    196|   expect(rings.count).toBe(8);const a=new THREE.Matrix4(),b=new THREE.…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 skipped (12)
+   Start at  01:05:35
+   Duration  1.33s (transform 223ms, setup 0ms, import 259ms, tests 436ms, environment 493ms)
+

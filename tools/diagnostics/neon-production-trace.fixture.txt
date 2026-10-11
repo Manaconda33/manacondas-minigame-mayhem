@@ -1,0 +1,307 @@
+// @ts-nocheck — opt-in diagnostic fixture, not part of active suite.
+import { requireValue } from './requireValue';
+import type { KartFeedback } from '../src/game/physics/KartController';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import * as THREE from 'three';
+import { KartTimeTrial } from '../src/game/KartTimeTrial';
+import { characterById } from '../src/characters/manifest';
+import type { RaceCaptureMetadata } from '../src/game/diagnostics/raceDiagnostics';
+
+const harness = vi.hoisted(() => ({
+  raf: null as FrameRequestCallback | null,
+  reads: [] as string[],
+  compiledDrift: false,
+  compiledDust: false,
+  modeledDustWheels: false,
+  loadedKarts: false,
+  animatedKarts: false,
+  deferAi: false,
+  loaderCalls: 0,
+  pendingAi: [] as (() => void)[],
+  shadowCenterAtRender: null as number[] | null,
+}));
+vi.mock('three', async (importOriginal) => {
+  const actual = await importOriginal<typeof THREE>();
+  return {
+    ...actual,
+    WebGLRenderer: class {
+      info = { render: { calls: 1, triangles: 2 }, memory: { geometries: 3, textures: 4 } };
+      shadowMap = { enabled: false, type: 0 };
+      compile(group: THREE.Object3D) {
+        const mesh = group.getObjectByName('drift-spark-pool') as THREE.InstancedMesh | undefined;
+        harness.compiledDrift ||=
+          mesh !== undefined && mesh.instanceColor !== null && mesh.count === 0;
+        const dust = group.getObjectByName('wheel-dust-pool') as THREE.InstancedMesh | undefined;
+        harness.compiledDust ||=
+          dust?.count === 0 &&
+          dust.instanceColor !== null &&
+          dust.geometry.hasAttribute('dustOpacity');
+        return new Set();
+      }
+
+      setPixelRatio() {
+        /* External renderer/audio/UI behavior is outside this diagnostic test. */
+      }
+      setSize() {
+        /* External renderer/audio/UI behavior is outside this diagnostic test. */
+      }
+      dispose() {
+        /* External renderer/audio/UI behavior is outside this diagnostic test. */
+      }
+      getPixelRatio() {
+        return 1;
+      }
+      getDrawingBufferSize(target: THREE.Vector2) {
+        harness.reads.push('read');
+        return target.set(1920, 1080);
+      }
+      render(scene?: THREE.Scene) {
+        const sun = scene?.children.find(
+          (object): object is THREE.DirectionalLight => object instanceof actual.DirectionalLight,
+        );
+        if (sun !== undefined) harness.shadowCenterAtRender = sun.target.position.toArray();
+        harness.reads.push('render');
+        this.info.render.calls = 22;
+      }
+      copyFramebufferToTexture() {
+        /* GPU copy boundary only. */
+      }
+    },
+    TextureLoader: class {
+      load() {
+        return new actual.Texture();
+      }
+    },
+  };
+});
+vi.mock('three/examples/jsm/loaders/GLTFLoader.js', async () => {
+  const actual = await vi.importActual<typeof THREE>('three');
+  return {
+    GLTFLoader: class {
+      loadAsync() {
+        const scene = new actual.Group();
+        if (harness.modeledDustWheels) {
+          const parent = new actual.Group();
+          parent.position.set(0.3, 0, 0.4);
+          parent.rotation.y = Math.PI / 2;
+          const material = new actual.MeshStandardMaterial();
+          for (const [name, x, z] of [
+            ['Wheel_FL', -0.8, -1.1],
+            ['Wheel_FR', 0.8, -1.1],
+            ['Wheel_RL', -0.8, 1.1],
+            ['Wheel_RR', 0.8, 1.1],
+          ] as const) {
+            const wheel = new actual.Mesh(new actual.BoxGeometry(0.2, 0.2, 0.2), material);
+            wheel.name = name;
+            wheel.position.set(x, 0.4, z);
+            parent.add(wheel);
+          }
+          scene.add(parent);
+        }
+        if (harness.loadedKarts) {
+          const material = new actual.MeshStandardMaterial();
+          for (let i = 0; i < 3; i += 1) {
+            const mesh = new actual.Mesh(new actual.BoxGeometry(), material);
+            mesh.position.x = i;
+            scene.add(mesh);
+          }
+          const wheel = new actual.Mesh(new actual.BoxGeometry(), material);
+          wheel.name = 'SteeringWheel';
+          scene.add(wheel);
+        }
+        const result = {
+          scene,
+          animations: harness.animatedKarts ? [new actual.AnimationClip()] : [],
+        };
+        harness.loaderCalls += 1;
+        if (harness.deferAi && harness.loaderCalls <= 7)
+          return new Promise<typeof result>((resolve) => {
+            harness.pendingAi.push(() => {
+              resolve(result);
+            });
+          });
+        return Promise.resolve(result);
+      }
+    },
+  };
+});
+const metadata: RaceCaptureMetadata = {
+  schemaVersion: 1,
+  sourceCommit: null,
+  capturedAt: 'test',
+  quality: 'medium',
+  userAgent: 'test',
+  hardwareDescription: null,
+  scenario: 'unit',
+  racerCount: 8,
+  nominalViewport: { width: 1920, height: 1080 },
+  gpuFrameMs: null,
+  jsHeapBytes: null,
+  estimatedTextureBytes: null,
+};
+interface Runtime {
+  fixedStep: { advance: (dt: number, simulate: (dt: number) => void) => void };
+  raceDirector: { phase: () => 'countdown' | 'racing' | 'finished' };
+  updateVisuals: () => void;
+  updateHud: () => void;
+  world: { free: () => void };
+}
+const games: KartTimeTrial[] = [];
+async function setup(
+  query = '?testRacePerf=1',
+  trackId: 'circuit-alpha' | 'neon-grid' = 'circuit-alpha',
+  characterId = 'aa-02',
+  mobileSession = false,
+) {
+  history.replaceState(null, '', query || '/');
+  let phase: 'countdown' | 'racing' | 'finished' = 'racing';
+  const callback = vi.fn();
+  const game = await KartTimeTrial.create({
+    trackId,
+    canvas: document.createElement('canvas'),
+    character: characterById(characterId),
+    graphicsQuality: 'medium',
+    mobileSession,
+    onHud: () => {
+      /* External renderer/audio/UI behavior is outside this diagnostic test. */
+    },
+    onFinish: () => {
+      /* External renderer/audio/UI behavior is outside this diagnostic test. */
+    },
+    onDiagnostics: callback,
+  });
+  games.push(game);
+  // Buffer sizing at startup is independent of opt-in frame-counter capture.
+  harness.reads.length = 0;
+  const internals = game as unknown as Runtime;
+  vi.spyOn(internals, 'updateVisuals').mockImplementation(() => {
+    /* External renderer/audio/UI behavior is outside this diagnostic test. */
+  });
+  vi.spyOn(internals, 'updateHud').mockImplementation(() => {
+    /* External renderer/audio/UI behavior is outside this diagnostic test. */
+  });
+  const advance = vi.spyOn(internals.fixedStep, 'advance').mockImplementation(() => {
+    /* External renderer/audio/UI behavior is outside this diagnostic test. */
+  });
+  vi.spyOn(internals.raceDirector, 'phase').mockImplementation(() => phase);
+  let now = 0;
+  game.start();
+  const tick = (dt = 16) => {
+    now += dt;
+    if (!harness.raf) throw new Error('No scheduled frame');
+    harness.raf(now);
+  };
+  tick();
+  for (let i = 0; i < 120; i++) tick();
+  return {
+    game,
+    tick,
+    callback,
+    advance,
+    phase: (p: typeof phase) => {
+      phase = p;
+    },
+  };
+}
+beforeEach(() => {
+  harness.reads.length = 0;
+  harness.compiledDrift = false;
+  harness.compiledDust = false;
+  harness.modeledDustWheels = false;
+  harness.loadedKarts = false;
+  harness.animatedKarts = false;
+  harness.deferAi = false;
+  harness.loaderCalls = 0;
+  harness.pendingAi.length = 0;
+  harness.shadowCenterAtRender = null;
+  vi.spyOn(performance, 'now').mockReturnValue(0);
+  vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+    harness.raf = cb;
+    return 1;
+  });
+  vi.stubGlobal('cancelAnimationFrame', () => {
+    /* External renderer/audio/UI behavior is outside this diagnostic test. */
+  });
+  Object.defineProperty(document, 'hidden', { configurable: true, value: false });
+});
+afterEach(() => {
+  for (const game of games.splice(0)) {
+    game.dispose();
+  }
+  history.replaceState(null, '', '/');
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
+
+import { writeFileSync } from 'node:fs';
+import { AiDriver } from '../src/game/ai/AiDriver';
+import { createKartTuning } from '../src/config/kartTuning';
+import { guardrailContact } from '../src/game/track/GuardrailSystem';
+it('DIAGNOSTIC production staged trace and recovery observation', async () => {
+  const reports=[];
+  for(const policy of ['ai-steering','held-straight','left','right']) {
+    const {game}=await setup('', 'neon-grid','aa-09');
+    const runtime=game;
+    for(const opponent of runtime.opponents) runtime.world.removeRigidBody(opponent.controller.body);
+    runtime.opponents=[]; // isolated no-rival experiment, real player production simulate remains.
+    const track=runtime.track,kart=runtime.kart,world=runtime.world;
+    const p=track.curve.getPointAt(0.81),t=track.curve.getTangentAt(0.81).setY(0).normalize();
+    kart.respawn(p,Math.atan2(t.x,t.z));
+    for(let i=0;i<90;i++)world.step();
+    kart.body.setLinvel({x:t.x*29.7,y:0,z:t.z*29.7},true);
+    const spawn={position:kart.position().toArray(),velocity:kart.velocity().toArray()};
+    const driver=new AiDriver(track,{laneOffset:0,pace:0.55,aggression:0.3},createKartTuning(characterById('aa-09').stats).maxSpeed);
+    const rows=[],recoveries=[];
+    let i=-1,current=null,trigger=null;
+    const state=()=>({position:kart.position().toArray(),velocity:kart.velocity().toArray(),speed:kart.speedMetersPerSecond(),rotation:kart.body.rotation(),feedback:kart.feedback(),projection:(()=>{const pr=track.project(kart.position());return {progress:pr.progress,offset:pr.lateralOffset,roadY:pr.point.y,surface:pr.surface};})()});
+    const origUpdate=kart.update.bind(kart);
+    const update=vi.spyOn(kart,'update').mockImplementation((input,surface,dt)=>{
+      current.input={...input};current.surface=surface;current.before=state();
+      origUpdate(input,surface,dt);current.controller=state();
+    });
+    const origStep=world.step.bind(world);
+    const step=vi.spyOn(world,'step').mockImplementation((...args)=>{origStep(...args);current.native=state();});
+    const origBarrier=kart.resolveStaticBarrierCollision.bind(kart);
+    const barrier=vi.spyOn(kart,'resolveStaticBarrierCollision').mockImplementation((normal,penetration,retention,restitution)=>{
+      const event={normal:normal.toArray(),penetration,retention,restitution,before:state()};
+      origBarrier(normal,penetration,retention,restitution);event.after=state();
+      (current.barrierCalls??=[]).push(event);
+    });
+    const origGuard=runtime.resolveGuardrailContacts.bind(runtime);
+    const guard=vi.spyOn(runtime,'resolveGuardrailContacts').mockImplementation(dt=>{
+      const contact=guardrailContact(track,kart.position(),1.15);
+      current.boundary=contact?{offset:contact.projection.lateralOffset,normal:contact.inwardNormal.toArray(),penetration:contact.penetration,cooldownBefore:runtime.guardrailContactCooldowns.get('player')??0,outwardSpeed:Math.max(0,-kart.velocity().dot(contact.inwardNormal))}:null;
+      origGuard(dt);current.afterBoundary=state();current.cooldownAfter=runtime.guardrailContactCooldowns.get('player')??0;
+    });
+    const origRecovery=runtime.respawn.bind(runtime);
+    const recovery=vi.spyOn(runtime,'respawn').mockImplementation(()=>{
+      const pr=track.project(kart.position());
+      const reason=trigger??(!kart.isFinite()?'non-finite':runtime.outOfBoundsSeconds>1?'out-of-bounds-duration':kart.position().y<pr.point.y-4?'below-road':'unclassified');
+      recoveries.push({i,caller:'KartTimeTrial.respawn',reason,before:state(),earnedCheckpoint:runtime.lapTracker.snapshot(),recoveryIndex:runtime.lastRecoveryIndex});
+      origRecovery();recoveries.at(-1).after=state();
+    });
+    const origBodyRespawn=kart.respawn.bind(kart);
+    const bodyRespawn=vi.spyOn(kart,'respawn').mockImplementation((...args)=>{
+      recoveries.push({i,caller:'KartController.respawn',reason:trigger??'called-by-production-recovery',requestedPose:{position:args[0].toArray(),yaw:args[1]},before:state(),earnedCheckpoint:runtime.lapTracker.snapshot()});
+      origBodyRespawn(...args);recoveries.at(-1).after=state();
+    });
+    runtime.pressed.add('KeyW');
+    for(i=0;i<240;i++){
+      current={i,time:i/60};
+      const ai=driver.input(kart.position(),kart.forward(),kart.speedMetersPerSecond());
+      runtime.touchWheel={held:true,steering:policy==='ai-steering'?ai.steering:policy==='left'?1:policy==='right'?-1:0};
+      runtime.simulate(1/60);current.after=state();rows.push(current);
+    }
+    const automaticRecoveries=[...recoveries];
+    // Instrumentation positive controls, clearly separate from incident simulation.
+    i=240;trigger='explicit-manual-positive-control';runtime.respawn();
+    i=241;trigger=null;kart.body.setTranslation({x:p.x,y:p.y-5,z:p.z},true);
+    current={i,time:i/60};runtime.simulate(1/60);
+    reports.push({policy,spawn,timestep:1/60,rows,automaticRecoveries,positiveControls:recoveries.slice(automaticRecoveries.length),summary:{minSpeed:Math.min(...rows.map(r=>r.after.speed)),maxNativeLoss:Math.max(...rows.map(r=>r.controller.speed-r.native.speed)),maxBoundaryLoss:Math.max(...rows.map(r=>r.native.speed-r.afterBoundary.speed)),maxVy:Math.max(...rows.map(r=>r.native.velocity[1])),railSteps:rows.filter(r=>r.boundary).length,automaticRecoveryCount:automaticRecoveries.length}});
+    update.mockRestore();step.mockRestore();guard.mockRestore();barrier.mockRestore();recovery.mockRestore();bodyRespawn.mockRestore();game.dispose();
+  }
+  const round=x=>typeof x==='number'?Math.round(x*1e6)/1e6:Array.isArray(x)?x.map(round):x&&typeof x==='object'?Object.fromEntries(Object.entries(x).map(([k,v])=>[k,round(v)])):x;
+  writeFileSync('/tmp/neon-production-trace.json',JSON.stringify(round({scope:'real player KartTimeTrial.simulate; no rivals; WebGL/assets/RAF boundaries mocked as existing integration harness',reports})));
+  expect(reports.every(r=>r.positiveControls.some(e=>e.reason==='explicit-manual-positive-control'))).toBe(true);
+  expect(reports.every(r=>r.positiveControls.some(e=>e.reason==='below-road'))).toBe(true);
+},30000);

@@ -1,0 +1,252 @@
+{
+  "source": "Actual Neon Grid KartTimeTrial scene; Medium quality, four course sectors, chase/rear views",
+  "environment": "Local Chromium software WebGL / SwiftShader; bloom comparison is visual only",
+  "regions": [
+    {
+      "name": "skyline",
+      "progress": 0.075
+    },
+    {
+      "name": "undercity",
+      "progress": 0.37
+    },
+    {
+      "name": "falls-run",
+      "progress": 0.72
+    },
+    {
+      "name": "falls-extension",
+      "progress": 0.92
+    }
+  ],
+  "bloomModes": [
+    "on",
+    "off"
+  ],
+  "visuallyDifferingPairs": [
+    "skyline-chase",
+    "skyline-rear",
+    "undercity-chase",
+    "undercity-rear",
+    "falls-run-rear",
+    "falls-extension-chase",
+    "falls-extension-rear"
+  ],
+  "errors": [],
+  "captures": [
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "camera": "chase",
+      "bloom": "on",
+      "filename": "skyline-chase-bloom-on.png",
+      "calls": 176,
+      "triangles": 134999,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": true,
+      "sha256": "0c0673b52c89c3e9f971449b816ae2255e5a84bf1a4895267ae35e607b431d5b"
+    },
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "camera": "rear",
+      "bloom": "on",
+      "filename": "skyline-rear-bloom-on.png",
+      "calls": 322,
+      "triangles": 385303,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": true,
+      "sha256": "44290643af9bc122c8ebdb19aeb1db1136421a70ad425e356b2fa68bc3800fc3"
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "camera": "chase",
+      "bloom": "on",
+      "filename": "undercity-chase-bloom-on.png",
+      "calls": 306,
+      "triangles": 170811,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": true,
+      "sha256": "fb5174b15eafb7966a61784cad5c2b9de1b2be9903f35474eb441d2184ee8539"
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "camera": "rear",
+      "bloom": "on",
+      "filename": "undercity-rear-bloom-on.png",
+      "calls": 274,
+      "triangles": 384731,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": true,
+      "sha256": "3494399f646b3ed7a930ddadf6e1a10f6c0384963bd86cf423c203912f8f6f43"
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "camera": "chase",
+      "bloom": "on",
+      "filename": "falls-run-chase-bloom-on.png",
+      "calls": 110,
+      "triangles": 105775,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": true,
+      "sha256": "0d8e6ecb04a4bc73320bfa1b48df6e94fc6e7bdc56c909593ef8cdb4d9fe66fb"
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "camera": "rear",
+      "bloom": "on",
+      "filename": "falls-run-rear-bloom-on.png",
+      "calls": 386,
+      "triangles": 402819,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": true,
+      "sha256": "6dac207af275568b29a03dc82fac1f71931c1400fb127e1cea17c8aacc2bb979"
+    },
+    {
+      "region": "falls-extension",
+      "progress": 0.92,
+      "camera": "chase",
+      "bloom": "on",
+      "filename": "falls-extension-chase-bloom-on.png",
+      "calls": 188,
+      "triangles": 124823,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": true,
+      "sha256": "42a479264603c18598569805626b55b65044eeee32ab8bb51b01a14edb8879ea"
+    },
+    {
+      "region": "falls-extension",
+      "progress": 0.92,
+      "camera": "rear",
+      "bloom": "on",
+      "filename": "falls-extension-rear-bloom-on.png",
+      "calls": 274,
+      "triangles": 355703,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": true,
+      "sha256": "388dce3d97444c65280e196318fb30cd74d0a4236be95076d196b0fe71e50592"
+    },
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "camera": "chase",
+      "bloom": "off",
+      "filename": "skyline-chase-bloom-off.png",
+      "calls": 86,
+      "triangles": 67450,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": false,
+      "sha256": "aeb2f06a23c2cd6548778ccf6e0736869140652e3384b7398022bff2455c462a"
+    },
+    {
+      "region": "skyline",
+      "progress": 0.075,
+      "camera": "rear",
+      "bloom": "off",
+      "filename": "skyline-rear-bloom-off.png",
+      "calls": 159,
+      "triangles": 192602,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": false,
+      "sha256": "e201f8e749b41bf196c91a6daf422e2895d8e529383b286c0c27f61a9e068326"
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "camera": "chase",
+      "bloom": "off",
+      "filename": "undercity-chase-bloom-off.png",
+      "calls": 151,
+      "triangles": 85356,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": false,
+      "sha256": "427033c48bd4fc8f019570438a02fca8e5c0e17066580a07f0ef163bf67269e1"
+    },
+    {
+      "region": "undercity",
+      "progress": 0.37,
+      "camera": "rear",
+      "bloom": "off",
+      "filename": "undercity-rear-bloom-off.png",
+      "calls": 135,
+      "triangles": 192316,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": false,
+      "sha256": "86d1860a67e5947abbe5f6b1aadc5469e7aa8c2c0314f2f4674fecb557d6a3fa"
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "camera": "chase",
+      "bloom": "off",
+      "filename": "falls-run-chase-bloom-off.png",
+      "calls": 53,
+      "triangles": 52838,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": false,
+      "sha256": "0d8e6ecb04a4bc73320bfa1b48df6e94fc6e7bdc56c909593ef8cdb4d9fe66fb"
+    },
+    {
+      "region": "falls-run",
+      "progress": 0.72,
+      "camera": "rear",
+      "bloom": "off",
+      "filename": "falls-run-rear-bloom-off.png",
+      "calls": 191,
+      "triangles": 201360,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": false,
+      "sha256": "85558edf348e4aa2ad921f90c13c08912c843e4fb34f7243aee3ed5fd2bc8c4a"
+    },
+    {
+      "region": "falls-extension",
+      "progress": 0.92,
+      "camera": "chase",
+      "bloom": "off",
+      "filename": "falls-extension-chase-bloom-off.png",
+      "calls": 92,
+      "triangles": 62362,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": false,
+      "sha256": "283801d199bcc51869f7b70a0bb90c80da99dfcebb456d77818b19a373e3a8be"
+    },
+    {
+      "region": "falls-extension",
+      "progress": 0.92,
+      "camera": "rear",
+      "bloom": "off",
+      "filename": "falls-extension-rear-bloom-off.png",
+      "calls": 135,
+      "triangles": 177802,
+      "width": 1280,
+      "height": 720,
+      "bloomEnabled": false,
+      "sha256": "f7ebb0c2a7302b2b6391e3b65ba1981c357c5680c77a21cc4a75e7039c361125"
+    }
+  ],
+  "maximumCalls": 386,
+  "maximumTriangles": 402819,
+  "engineeringCeilings": {
+    "calls": 500,
+    "triangles": 425000
+  }
+}

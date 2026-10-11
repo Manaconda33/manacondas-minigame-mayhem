@@ -1,0 +1,425 @@
+{
+  "label": "skyline-citybase-desktop-medium",
+  "source": "working tree T9.7 candidate; local Chromium SwiftShader diagnostic",
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "dpr": 1.5,
+    "buffer": [
+      1920,
+      1080
+    ]
+  },
+  "render": {
+    "calls": 202,
+    "triangles": 141967,
+    "geometries": 95,
+    "textures": 10,
+    "width": 1920,
+    "height": 1080,
+    "pixelRatio": 1.5,
+    "racers": 8,
+    "quality": "medium",
+    "view": "chase",
+    "skylineVisible": true,
+    "skyline": {
+      "windows": 240,
+      "pylons": 14,
+      "braces": 24,
+      "proceduralSigns": 18,
+      "manacondaAds": 7,
+      "tacoBellAds": 7,
+      "maskBillboards": 8,
+      "raisedBillboardPosts": 4,
+      "facadeMountedBillboards": 4,
+      "wet": true
+    },
+    "undercity": {
+      "windows": 160,
+      "buildings": 16,
+      "pipes": 26,
+      "utilityBoxes": 20,
+      "workLights": 24,
+      "serviceBays": 14,
+      "nightshiftAds": 2,
+      "voltlineAds": 2,
+      "wet": true
+    },
+    "fallsExtension": {
+      "windows": 160,
+      "towers": 16,
+      "pylons": 16,
+      "footings": 16,
+      "waterfalls": 24,
+      "mist": 14,
+      "wet": true
+    },
+    "actualCameraShortcutSightline": {
+      "shortcut": "billboard-gap",
+      "cameraWorld": [
+        66.92360744374214,
+        18.250000002851557,
+        -126.16434276867076
+      ],
+      "viewportTargets": 9,
+      "blockedTargets": 9,
+      "interiorTargetsEvaluated": 9,
+      "interiorTargetsInView": 9,
+      "interiorExposed": 0,
+      "entranceTargetsInView": 0,
+      "samples": [
+        {
+          "fraction": 0.12,
+          "interior": true,
+          "sharedMouth": false,
+          "mainEdgeMargin": 3.118616258631535,
+          "occluded": true,
+          "distance": 91.51364475277812,
+          "targetWorld": [
+            157.50379114266437,
+            14.299096860171923,
+            -113.73985640647687
+          ],
+          "targetNdc": [
+            0.12170033048173265,
+            0.3917222914876053,
+            0.9979589037817312
+          ],
+          "blockerDistance": 47.19309287962021
+        },
+        {
+          "fraction": 0.22,
+          "interior": true,
+          "sharedMouth": false,
+          "mainEdgeMargin": 11.53133783754052,
+          "occluded": true,
+          "distance": 99.85717154672056,
+          "targetWorld": [
+            163.4576220649204,
+            13.87680633130219,
+            -100.99464059442082
+          ],
+          "targetNdc": [
+            0.23984623772599933,
+            0.3888755727855307,
+            0.998102158659848
+          ],
+          "blockerDistance": 27.188974634775676
+        },
+        {
+          "fraction": 0.32,
+          "interior": true,
+          "sharedMouth": false,
+          "mainEdgeMargin": 18.3713698455228,
+          "occluded": true,
+          "distance": 108.57821274961569,
+          "targetWorld": [
+            168.3889237562019,
+            13.404793760947552,
+            -87.81669817364109
+          ],
+          "targetNdc": [
+            0.3514486144899317,
+            0.3846984318937031,
+            0.9982089649840736
+          ],
+          "blockerDistance": 18.894702091411673
+        },
+        {
+          "fraction": 0.42,
+          "interior": true,
+          "sharedMouth": false,
+          "mainEdgeMargin": 20.95004826383422,
+          "occluded": true,
+          "distance": 117.84402310446364,
+          "targetWorld": [
+            172.65915271055275,
+            12.886667989445646,
+            -74.41066736015914
+          ],
+          "targetNdc": [
+            0.4571755257101074,
+            0.37962551813648737,
+            0.9982940428876672
+          ],
+          "blockerDistance": 15.03004005479279
+        },
+        {
+          "fraction": 0.52,
+          "interior": true,
+          "sharedMouth": false,
+          "mainEdgeMargin": 17.81907356184974,
+          "occluded": true,
+          "distance": 127.61278749493988,
+          "targetWorld": [
+            176.39273250165866,
+            12.317522294894246,
+            -60.84711763220689
+          ],
+          "targetNdc": [
+            0.5583285278191189,
+            0.373706251441424,
+            0.998363607601169
+          ],
+          "blockerDistance": 12.823852605856867
+        },
+        {
+          "fraction": 0.62,
+          "interior": true,
+          "sharedMouth": false,
+          "mainEdgeMargin": 13.865921476953652,
+          "occluded": true,
+          "distance": 137.78346100155585,
+          "targetWorld": [
+            179.61239340760244,
+            11.685585339308515,
+            -47.1553046547714
+          ],
+          "targetNdc": [
+            0.6563622980118663,
+            0.36678873049336386,
+            0.9984206313285293
+          ],
+          "blockerDistance": 11.15863113230325
+        },
+        {
+          "fraction": 0.72,
+          "interior": true,
+          "sharedMouth": false,
+          "mainEdgeMargin": 10.34288211308743,
+          "occluded": true,
+          "distance": 148.2232740258528,
+          "targetWorld": [
+            182.25683979697766,
+            10.968179680718075,
+            -33.345381501622526
+          ],
+          "targetNdc": [
+            0.7530575440919317,
+            0.3584802673425666,
+            0.9984661378369177
+          ],
+          "blockerDistance": 10.422043639020211
+        },
+        {
+          "fraction": 0.82,
+          "interior": true,
+          "sharedMouth": false,
+          "mainEdgeMargin": 6.379126773955699,
+          "occluded": true,
+          "distance": 158.7359110124075,
+          "targetWorld": [
+            184.12534356586366,
+            10.117708396210539,
+            -19.418343648684477
+          ],
+          "targetNdc": [
+            0.8511631138498289,
+            0.34787479259812076,
+            0.9984989310724839
+          ],
+          "blockerDistance": 9.68817586549244
+        },
+        {
+          "fraction": 0.92,
+          "interior": true,
+          "sharedMouth": false,
+          "mainEdgeMargin": -0.8266532497144823,
+          "occluded": true,
+          "distance": 168.85024768877187,
+          "targetWorld": [
+            184.57428408415117,
+            9.00136630094982,
+            -5.403474912971868
+          ],
+          "targetNdc": [
+            0.9569505155449918,
+            0.33227419752631177,
+            0.9985118130537071
+          ],
+          "blockerDistance": 9.097121853258695
+        }
+      ]
+    },
+    "sponsorArtworkSightline": {
+      "samples": [
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "world": [
+            75.31371307373047,
+            15.699999809265137,
+            -119.93482208251953
+          ],
+          "ndc": [
+            0.651331007257546,
+            -0.030394426517388242,
+            0.9775663634099145
+          ],
+          "inViewport": true,
+          "imageLoaded": true,
+          "faceHit": true,
+          "visibleArtwork": true,
+          "fasciaDistance": null,
+          "imageDistance": 10.756546911013729
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "world": [
+            110.35816192626953,
+            15.699999809265137,
+            -119.93083953857422
+          ],
+          "ndc": [
+            0.12725008785739345,
+            0.3654180408184298,
+            0.9955222031549437
+          ],
+          "inViewport": true,
+          "imageLoaded": true,
+          "faceHit": true,
+          "visibleArtwork": true,
+          "fasciaDistance": null,
+          "imageDistance": 43.9536072080842
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "world": [
+            183.45004272460938,
+            19.450000762939453,
+            -98.15791320800781
+          ],
+          "ndc": [
+            0.22381656953030338,
+            0.4875331086523459,
+            0.9984379984658449
+          ],
+          "inViewport": true,
+          "imageLoaded": true,
+          "faceHit": true,
+          "visibleArtwork": true,
+          "fasciaDistance": null,
+          "imageDistance": 119.85078313397338
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "world": [
+            192.47264099121094,
+            18.919734954833984,
+            -34.49979782104492
+          ],
+          "ndc": [
+            0.6958800780672778,
+            0.47855036363380415,
+            0.9985768498926647
+          ],
+          "inViewport": true,
+          "imageLoaded": true,
+          "faceHit": true,
+          "visibleArtwork": false,
+          "fasciaDistance": 11.086118263401373,
+          "imageDistance": 155.45223436819643
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 3,
+          "world": [
+            87.07501220703125,
+            15.699999809265137,
+            -119.74077606201172
+          ],
+          "ndc": [
+            0.2887484499869034,
+            0.2502084039591623,
+            0.9902957741077432
+          ],
+          "inViewport": true,
+          "imageLoaded": true,
+          "faceHit": true,
+          "visibleArtwork": true,
+          "fasciaDistance": null,
+          "imageDistance": 21.303610589665304
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "world": [
+            123.37200164794922,
+            15.699999809265137,
+            -120.40513610839844
+          ],
+          "ndc": [
+            0.08797842632837154,
+            0.38897017447273713,
+            0.9965906342238201
+          ],
+          "inViewport": true,
+          "imageLoaded": true,
+          "faceHit": true,
+          "visibleArtwork": true,
+          "fasciaDistance": null,
+          "imageDistance": 56.79869866974571
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "world": [
+            190.85023498535156,
+            19.456451416015625,
+            -86.36668395996094
+          ],
+          "ndc": [
+            0.30213250564831895,
+            0.4865040560173357,
+            0.9985462082764927
+          ],
+          "inViewport": true,
+          "imageLoaded": true,
+          "faceHit": true,
+          "visibleArtwork": true,
+          "fasciaDistance": null,
+          "imageDistance": 130.16573353038652
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "world": [
+            190.87872314453125,
+            17.46713638305664,
+            -21.05335807800293
+          ],
+          "ndc": [
+            0.8062257135929016,
+            0.457795999114002,
+            0.9985631138024854
+          ],
+          "inViewport": true,
+          "imageLoaded": true,
+          "faceHit": true,
+          "visibleArtwork": true,
+          "fasciaDistance": null,
+          "imageDistance": 162.5232373738753
+        }
+      ],
+      "inViewport": 8,
+      "readable": 7
+    },
+    "tunnelKartSightline": null
+  },
+  "details": {
+    "bloom": {
+      "enabled": true,
+      "quality": "medium",
+      "maskWidth": 768,
+      "maskHeight": 432,
+      "fallbackReason": null
+    },
+    "towers": 22,
+    "foundations": 22,
+    "roofCaps": 22
+  },
+  "errors": []
+}

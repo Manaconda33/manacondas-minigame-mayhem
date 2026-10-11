@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <link rel="icon" href="data:," />
+  <style>
+    body {
+      margin: 0;
+      background: #080f1d;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }</style
+  ><canvas></canvas>
+  <script type="module">
+    import * as THREE from 'three';
+    import { KartTimeTrial } from '../../src/game/KartTimeTrial.ts';
+    import { characterById } from '../../src/characters/manifest.ts';
+    const g = await KartTimeTrial.create({
+      canvas: document.querySelector('canvas'),
+      character: characterById('aa-09'),
+      trackId: 'neon-grid',
+      graphicsQuality: 'medium',
+      motionBlur: false,
+      mobileSession: false,
+      onHud() {},
+      onFinish() {},
+    });
+    window.game = g;
+    window.draw = (view = 'chase', distance = 7, time = 2) => {
+      const d = g.track.waterfallDive;
+      const p = d.pointAtDistance(distance);
+      const ray = new THREE.Raycaster(p.clone().setY(40), new THREE.Vector3(0, -1, 0));
+      const hit = ray.intersectObjects([
+        g.trackScene.getObjectByName('dive-ramp'),
+        g.trackScene.getObjectByName('track-road'),
+      ])[0];
+      p.y = (hit?.point.y ?? 10.3) + 1.2;
+      g.kart.respawn(p, Math.atan2(d.direction.x, d.direction.z));
+      g.opponents.forEach((o, i) => {
+        const q = d.pointAtDistance(3 - i * 0.9).addScaledVector(d.right, ((i % 3) - 1) * 1.8);
+        q.y = p.y - 2;
+        o.controller.respawn(q, Math.atan2(d.direction.x, d.direction.z));
+      });
+      for (let i = 0; i < 90; i++) g.updateVisuals(1 / 60);
+      g.trackScene.dive.update(time);
+      if (view === 'overview') {
+        g.camera.position.copy(d.pointAtDistance(23)).addScaledVector(d.right, -20).setY(22);
+        g.camera.lookAt(d.pointAtDistance(12).setY(7));
+      }
+      if (view === 'falls') {
+        g.camera.position.copy(d.pointAtDistance(25)).addScaledVector(d.right, 13).setY(10);
+        g.camera.lookAt(d.pointAtDistance(15).setY(6));
+      }
+      g.renderer.info.autoReset = false;
+      g.renderer.info.reset();
+      g.bloom.render(g.scene, g.camera);
+      g.motionBlur.render(false);
+      return {
+        calls: g.renderer.info.render.calls,
+        triangles: g.renderer.info.render.triangles,
+        geometries: g.renderer.info.memory.geometries,
+        textures: g.renderer.info.memory.textures,
+        racers: g.opponents.length + 1,
+      };
+    };
+    window.draw();
+    window.ready = true;
+  </script>
+</html>

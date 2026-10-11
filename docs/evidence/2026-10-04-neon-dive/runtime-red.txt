@@ -1,0 +1,36 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/be55d24ec46a/manacondas-minigame-mayhem
+
+ ❯ tests/race-diagnostics-routing.test.ts (40 tests | 2 failed | 38 skipped) 2026ms
+   × keeps player dive splash recovery once-only, paused, before gate 9 and earned-gates-only in the real race 1185ms
+   × keeps ai dive splash recovery once-only, paused, before gate 9 and earned-gates-only in the real race 840ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > keeps player dive splash recovery once-only, paused, before gate 9 and earned-gates-only in the real race
+ FAIL  tests/race-diagnostics-routing.test.ts > keeps ai dive splash recovery once-only, paused, before gate 9 and earned-gates-only in the real race
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/race-diagnostics-routing.test.ts:1285:37
+    1283|   kart.respawn(d.pointAtDistance(19).setY(0),0);
+    1284|   const earned=laps.snapshot().nextCheckpoint;tick(1000/60);
+    1285|   expect(route.diveState.splashing).toBe(true);
+       |                                     ^
+    1286|   const spy=vi.spyOn(kart,'respawn');
+    1287|   window.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyP'}));con…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 38 skipped (40)
+   Start at  00:49:24
+   Duration  3.44s (transform 639ms, setup 0ms, import 817ms, tests 2.03s, environment 470ms)
+

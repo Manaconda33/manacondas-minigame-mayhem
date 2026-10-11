@@ -1,0 +1,27 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/cf841ec4cf2f/repo
+
+ ❯ tests/neon-grid-dive-visual.test.ts (3 tests | 1 failed) 175ms
+   × bonds the flowing water to the supported ramp and carries it from a left waterway to the pool 94ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-dive-visual.test.ts > bonds the flowing water to the supported ramp and carries it from a left waterway to the pool
+AssertionError: expected -1.7999157817711244 to be greater than 20
+ ❯ tests/neon-grid-dive-visual.test.ts:30:56
+     28|   };
+     29|   const source = vertices(feed);
+     30|   expect(Math.max(...source.map((p) => dive.lane(p)))).toBeGreaterThan…
+       |                                                        ^
+     31|   expect(source.some((p) => Math.abs(dive.lane(p)) < 2.8)).toBe(true);
+     32|   const sheet = vertices(falls);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  16:44:58
+   Duration  866ms (transform 77ms, setup 0ms, import 117ms, tests 175ms, environment 452ms)
+

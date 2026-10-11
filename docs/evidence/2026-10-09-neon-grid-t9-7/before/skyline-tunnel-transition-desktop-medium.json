@@ -1,0 +1,272 @@
+{
+  "calls": 160,
+  "triangles": 78562,
+  "geometries": 146,
+  "textures": 9,
+  "width": 1280,
+  "height": 720,
+  "pixelRatio": 1,
+  "racers": 8,
+  "quality": "medium",
+  "view": "chase",
+  "skylineVisible": true,
+  "skyline": {
+    "windows": 240,
+    "pylons": 14,
+    "braces": 24,
+    "proceduralSigns": 18,
+    "manacondaAds": 7,
+    "tacoBellAds": 7,
+    "maskBillboards": 8,
+    "raisedBillboardPosts": 4,
+    "facadeMountedBillboards": 4,
+    "wet": true
+  },
+  "undercity": {
+    "windows": 160,
+    "buildings": 16,
+    "pipes": 26,
+    "utilityBoxes": 20,
+    "workLights": 24,
+    "serviceBays": 14,
+    "nightshiftAds": 2,
+    "voltlineAds": 2,
+    "wet": true
+  },
+  "fallsExtension": {
+    "windows": 160,
+    "towers": 16,
+    "pylons": 16,
+    "footings": 16,
+    "waterfalls": 24,
+    "mist": 14,
+    "wet": true
+  },
+  "actualCameraShortcutSightline": {
+    "shortcut": "service-tunnel",
+    "cameraWorld": [
+      168.51247504526873,
+      6.719401969146495,
+      14.273832466524215
+    ],
+    "viewportTargets": 11,
+    "blockedTargets": 5,
+    "interiorTargetsEvaluated": 6,
+    "interiorTargetsInView": 4,
+    "interiorExposed": 0,
+    "entranceTargetsInView": 7,
+    "samples": [
+      {
+        "fraction": 0.01,
+        "interior": false,
+        "sharedMouth": true,
+        "mainEdgeMargin": -4.515814964861867,
+        "occluded": false,
+        "distance": 29.02332075941253,
+        "targetWorld": [
+          140.41189542580062,
+          0.6620408094102167,
+          18.276200357435606
+        ],
+        "targetNdc": [
+          0.24402016979114177,
+          0.09551512488196498,
+          0.9930892148639759
+        ],
+        "blockerDistance": null
+      },
+      {
+        "fraction": 0.03,
+        "interior": false,
+        "sharedMouth": true,
+        "mainEdgeMargin": -2.9954558942370326,
+        "occluded": false,
+        "distance": 28.55102746022379,
+        "targetWorld": [
+          141.18104950638906,
+          0.6617954400508089,
+          19.882731662069308
+        ],
+        "targetNdc": [
+          0.18512008838415545,
+          0.09448022651642984,
+          0.9930697407838376
+        ],
+        "blockerDistance": null
+      },
+      {
+        "fraction": 0.06,
+        "interior": false,
+        "sharedMouth": true,
+        "mainEdgeMargin": -0.7506499385275331,
+        "occluded": false,
+        "distance": 28.040510499596625,
+        "targetWorld": [
+          142.3347806272717,
+          0.6614273860116973,
+          22.29252861901985
+        ],
+        "targetNdc": [
+          0.09616446911424692,
+          0.09291724013697966,
+          0.9930403294686573
+        ],
+        "blockerDistance": null
+      },
+      {
+        "fraction": 0.09,
+        "interior": false,
+        "sharedMouth": true,
+        "mainEdgeMargin": 1.4334284188816966,
+        "occluded": false,
+        "distance": 27.782966910591075,
+        "targetWorld": [
+          143.48840344995128,
+          0.6415454011123659,
+          24.70209937362959
+        ],
+        "targetNdc": [
+          0.006481469780191151,
+          0.09019727185868671,
+          0.993012054066133
+        ],
+        "blockerDistance": null
+      },
+      {
+        "fraction": 0.12,
+        "interior": false,
+        "sharedMouth": true,
+        "mainEdgeMargin": 3.608060530537931,
+        "occluded": false,
+        "distance": 27.82433109135736,
+        "targetWorld": [
+          144.63803528095394,
+          0.425880441293819,
+          27.10333414819664
+        ],
+        "targetNdc": [
+          -0.08343613432836616,
+          0.0759656625753004,
+          0.992997543949902
+        ],
+        "blockerDistance": null
+      },
+      {
+        "fraction": 0.15,
+        "interior": true,
+        "sharedMouth": false,
+        "mainEdgeMargin": 5.744049533978627,
+        "occluded": true,
+        "distance": 28.16176607392236,
+        "targetWorld": [
+          145.77829763160855,
+          0.02144246761000479,
+          29.484998899192192
+        ],
+        "targetNdc": [
+          -0.1726561765516589,
+          0.050652599428688494,
+          0.9929966095345132
+        ],
+        "blockerDistance": 23.116877425639238
+      },
+      {
+        "fraction": 0.18,
+        "interior": true,
+        "sharedMouth": false,
+        "mainEdgeMargin": 5.79331355581124,
+        "occluded": true,
+        "distance": 28.77125702494895,
+        "targetWorld": [
+          146.90884390238938,
+          -0.5106940163098445,
+          31.84636968455781
+        ],
+        "targetNdc": [
+          -0.26080357958593287,
+          0.017935827606275455,
+          0.9930049586527508
+        ],
+        "blockerDistance": 23.61717712796171
+      },
+      {
+        "fraction": 0.22,
+        "interior": true,
+        "sharedMouth": false,
+        "mainEdgeMargin": 2.5327389507778513,
+        "occluded": true,
+        "distance": 29.957387175215313,
+        "targetWorld": [
+          148.4066788003883,
+          -1.3222383640718949,
+          34.97489583235792
+        ],
+        "targetNdc": [
+          -0.3768824579448403,
+          -0.031408852203059424,
+          0.9930234848228645
+        ],
+        "blockerDistance": 24.590830345478064
+      },
+      {
+        "fraction": 0.28,
+        "interior": false,
+        "sharedMouth": true,
+        "mainEdgeMargin": -2.3519297241549566,
+        "occluded": true,
+        "distance": 32.390455352834046,
+        "targetWorld": [
+          150.65653628988596,
+          -2.5071826432574333,
+          39.674170761871906
+        ],
+        "targetNdc": [
+          -0.5503081271518317,
+          -0.10313235244303051,
+          0.993048758761584
+        ],
+        "blockerDistance": 26.588035556324762
+      },
+      {
+        "fraction": 0.32,
+        "interior": false,
+        "sharedMouth": true,
+        "mainEdgeMargin": -3.3569911931243626,
+        "occluded": false,
+        "distance": 34.34247578863342,
+        "targetWorld": [
+          152.17368065697943,
+          -3.091330665359165,
+          42.843028577096256
+        ],
+        "targetNdc": [
+          -0.6679613521691196,
+          -0.13918792459492868,
+          0.9930507451336594
+        ],
+        "blockerDistance": null
+      },
+      {
+        "fraction": 0.42,
+        "interior": true,
+        "sharedMouth": false,
+        "mainEdgeMargin": 4.866397578274974,
+        "occluded": true,
+        "distance": 39.95682367758426,
+        "targetWorld": [
+          156.01463153652614,
+          -3.35,
+          50.86561856690865
+        ],
+        "targetNdc": [
+          -0.9771200592073916,
+          -0.16227308415342473,
+          0.9929697639092658
+        ],
+        "blockerDistance": 24.238893700149287
+      }
+    ]
+  },
+  "sponsorArtworkSightline": null,
+  "tunnelKartSightline": null
+}

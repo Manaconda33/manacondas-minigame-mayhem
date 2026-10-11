@@ -1,0 +1,30 @@
+{
+  "sourceSha256": "e98f64e993c1050e593708d30026e0e51a95bb106e4036b8d5fa2c21ff554cc9",
+  "sourceParent": "35de0d48e31c088471ef23eb03af023e5c01c7b3",
+  "runtimeChangedFiles": [
+    "src/game/track/NeonGridGeometry.ts"
+  ],
+  "fullSuite": {
+    "files": 111,
+    "tests": 850,
+    "typecheck": "pass",
+    "lint": "zero warnings",
+    "build": "pass"
+  },
+  "focusedChecks": 19,
+  "matrix": {
+    "runs": 18,
+    "worstNativeLoss": 0.426449,
+    "airSteps": 0,
+    "maxVy": 4.675679
+  },
+  "geometry": {
+    "patchedFaces": 193,
+    "insideFaces": 89,
+    "insideMaxSlope": 7.967327,
+    "allPatchMaxSlope": 11.84552,
+    "originalSurroundingEnvelope": 11.84552,
+    "overEnvelopeFaces": 0
+  },
+  "gate": "STOP for Paprika verification; no preview/release/Stage3"
+}

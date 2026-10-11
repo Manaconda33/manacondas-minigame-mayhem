@@ -1,0 +1,31 @@
+{
+  "runtime": "1a1e3ad9d0c5825130d392681c89f1f6ad521a51",
+  "previewPR": 252,
+  "previewMerge": "19f617e82cbaf2104e81ca8446aede6e60774cdd",
+  "pagesRun": 37177890409,
+  "pagesRunURL": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37177890409",
+  "deploymentStatus": "success",
+  "validationJob": 111364254902,
+  "deployJob": 111365173381,
+  "reviewURL": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-billboard/?review=1a1e3ad",
+  "verifiedAtUTC": "2026-10-04T04:58:17.124801+00:00",
+  "filesVerified": 22,
+  "billboardFilesVerified": 8,
+  "preservedFilesMatched": 14,
+  "servedReviewSource": "1a1e3ad9d0c5825130d392681c89f1f6ad521a51",
+  "checks": [
+    "HTTP 200",
+    "byte count",
+    "SHA-256 against Pages build delivery inventory",
+    "owner URL matches deployed index",
+    "Billboard, tunnel and 5.3 source markers",
+    "14 prior production/tunnel/5.3 hashes unchanged"
+  ],
+  "verification": "delivery-reverification.json",
+  "priorRecord": "relocation-delivery.json",
+  "ownerValidation": "pending",
+  "step4": "pending; not started",
+  "runtimePR242": "draft/open/unmerged",
+  "workflowFixNeeded": false,
+  "scope": "documentation-only; no runtime, asset, workflow, main or production changes"
+}

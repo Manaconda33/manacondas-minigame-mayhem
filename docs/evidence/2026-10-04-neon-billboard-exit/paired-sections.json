@@ -1,0 +1,344 @@
+{
+  "method": "Real production NeonGrid/RacerTrack/AiDriver/KartController/native colliders. Two profiles, three initial speeds at .07, 1/60, same settings and common downstream plane .236. Fixed ON/OFF entry states; no route adapter, items, pack, player input, hidden speed/progress writes or full-lap savings claim. Initial velocity is identical within each paired scenario.",
+  "geometry": {
+    "entry": 0.101,
+    "rejoin": 0.215,
+    "length": 140.80337709759127,
+    "bypassedMain": 165.17898275011024,
+    "mouthDistance": 19
+  },
+  "pairs": [
+    {
+      "character": "aa-01",
+      "speed": 12,
+      "offSaving": 0.5333333333333332,
+      "onSaving": 0.5,
+      "onOffDelta": 0.033333333333333215
+    },
+    {
+      "character": "aa-01",
+      "speed": 22,
+      "offSaving": 0.5499999999999989,
+      "onSaving": 0.5166666666666657,
+      "onOffDelta": 0.033333333333333215
+    },
+    {
+      "character": "aa-01",
+      "speed": 30,
+      "offSaving": 0.5833333333333339,
+      "onSaving": 0.5499999999999989,
+      "onOffDelta": 0.03333333333333499
+    },
+    {
+      "character": "aa-09",
+      "speed": 12,
+      "offSaving": 0.5166666666666657,
+      "onSaving": 0.4833333333333325,
+      "onOffDelta": 0.033333333333333215
+    },
+    {
+      "character": "aa-09",
+      "speed": 22,
+      "offSaving": 0.5499999999999989,
+      "onSaving": 0.5166666666666657,
+      "onOffDelta": 0.033333333333333215
+    },
+    {
+      "character": "aa-09",
+      "speed": 30,
+      "offSaving": 0.6499999999999986,
+      "onSaving": 0.6333333333333329,
+      "onOffDelta": 0.01666666666666572
+    }
+  ],
+  "reports": [
+    {
+      "character": "aa-01",
+      "speed": 12,
+      "mode": "main",
+      "seconds": 11.8,
+      "entered": false,
+      "exits": 0,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": null
+    },
+    {
+      "character": "aa-01",
+      "speed": 12,
+      "mode": "off",
+      "seconds": 11.266666666666667,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.29508355811288745
+    },
+    {
+      "character": "aa-01",
+      "speed": 12,
+      "mode": "on",
+      "seconds": 11.3,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.29508355811288745
+    },
+    {
+      "character": "aa-01",
+      "speed": 22,
+      "mode": "main",
+      "seconds": 11.383333333333333,
+      "entered": false,
+      "exits": 0,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": null
+    },
+    {
+      "character": "aa-01",
+      "speed": 22,
+      "mode": "off",
+      "seconds": 10.833333333333334,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.3014831160902247
+    },
+    {
+      "character": "aa-01",
+      "speed": 22,
+      "mode": "on",
+      "seconds": 10.866666666666667,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.3014831160902247
+    },
+    {
+      "character": "aa-01",
+      "speed": 30,
+      "mode": "main",
+      "seconds": 11.316666666666666,
+      "entered": false,
+      "exits": 0,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": null
+    },
+    {
+      "character": "aa-01",
+      "speed": 30,
+      "mode": "off",
+      "seconds": 10.733333333333333,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.3013727304282128
+    },
+    {
+      "character": "aa-01",
+      "speed": 30,
+      "mode": "on",
+      "seconds": 10.766666666666667,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.3013727304282128
+    },
+    {
+      "character": "aa-09",
+      "speed": 12,
+      "mode": "main",
+      "seconds": 11.95,
+      "entered": false,
+      "exits": 0,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": null
+    },
+    {
+      "character": "aa-09",
+      "speed": 12,
+      "mode": "off",
+      "seconds": 11.433333333333334,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.29242627630884144
+    },
+    {
+      "character": "aa-09",
+      "speed": 12,
+      "mode": "on",
+      "seconds": 11.466666666666667,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.29242627630884144
+    },
+    {
+      "character": "aa-09",
+      "speed": 22,
+      "mode": "main",
+      "seconds": 11.566666666666666,
+      "entered": false,
+      "exits": 0,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": null
+    },
+    {
+      "character": "aa-09",
+      "speed": 22,
+      "mode": "off",
+      "seconds": 11.016666666666667,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.3014021203894597
+    },
+    {
+      "character": "aa-09",
+      "speed": 22,
+      "mode": "on",
+      "seconds": 11.05,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.3014021203894597
+    },
+    {
+      "character": "aa-09",
+      "speed": 30,
+      "mode": "main",
+      "seconds": 11.416666666666666,
+      "entered": false,
+      "exits": 0,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": null
+    },
+    {
+      "character": "aa-09",
+      "speed": 30,
+      "mode": "off",
+      "seconds": 10.766666666666667,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.29903122808122085
+    },
+    {
+      "character": "aa-09",
+      "speed": 30,
+      "mode": "on",
+      "seconds": 10.783333333333333,
+      "entered": true,
+      "exits": 1,
+      "contacts": 0,
+      "crossed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "minimumHeightAbovePlaza": 0.29903122808122085
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
 import type { KartController } from '../physics/KartController';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import { DriftVisual, type DriftEmitter } from './DriftVisual';
 import { WheelDustVisual, type DustEmitter } from './WheelDustVisual';
 
@@ -51,7 +51,7 @@ export class AiDrivingVisual {
   public update(
     racers: readonly Racer[],
     world: RAPIER.World,
-    track: CircuitAlpha,
+    track: TrackDefinition,
     camera: THREE.PerspectiveCamera,
     seconds: number,
     enabled: boolean,

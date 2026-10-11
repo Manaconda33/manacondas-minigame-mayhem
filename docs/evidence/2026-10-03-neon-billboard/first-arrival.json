@@ -1,0 +1,85 @@
+{
+  "method": "Eight independent real Rapier reference approaches at 1/60; same center lane/pace0.6/aggression0.6/grid-progress0.001; profile aa01..08; billboard choice1/tunnel0; no pack, items, player input or wall clock; first physical mouth entry only, not balance or manual acceptance.",
+  "reports": [
+    {
+      "index": 0,
+      "entered": true,
+      "seconds": 28.883333333333333,
+      "state": {
+        "on": false,
+        "tellIntensity": 0
+      },
+      "speed": 10.650636691865271
+    },
+    {
+      "index": 1,
+      "entered": true,
+      "seconds": 30.5,
+      "state": {
+        "on": true,
+        "tellIntensity": 0
+      },
+      "speed": 10.50674158052441
+    },
+    {
+      "index": 2,
+      "entered": true,
+      "seconds": 30.416666666666668,
+      "state": {
+        "on": true,
+        "tellIntensity": 0
+      },
+      "speed": 10.712019383496417
+    },
+    {
+      "index": 3,
+      "entered": true,
+      "seconds": 31.45,
+      "state": {
+        "on": true,
+        "tellIntensity": 0
+      },
+      "speed": 10.46775120654724
+    },
+    {
+      "index": 4,
+      "entered": true,
+      "seconds": 30.483333333333334,
+      "state": {
+        "on": true,
+        "tellIntensity": 0
+      },
+      "speed": 10.326006273436029
+    },
+    {
+      "index": 5,
+      "entered": true,
+      "seconds": 34.083333333333336,
+      "state": {
+        "on": false,
+        "tellIntensity": 0
+      },
+      "speed": 10.441378775271142
+    },
+    {
+      "index": 6,
+      "entered": true,
+      "seconds": 32.61666666666667,
+      "state": {
+        "on": true,
+        "tellIntensity": 0
+      },
+      "speed": 10.403111005729642
+    },
+    {
+      "index": 7,
+      "entered": true,
+      "seconds": 32.31666666666667,
+      "state": {
+        "on": true,
+        "tellIntensity": 0
+      },
+      "speed": 10.19588209612709
+    }
+  ]
+}

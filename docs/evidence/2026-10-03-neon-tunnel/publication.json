@@ -1,0 +1,21 @@
+{
+  "runtime": "4367961d5e2471480d09ccee97cceb0223b258e0",
+  "implementation": "0f1922845e70e82055f4327fc89c022d51a6b4d6",
+  "runtimeCi": 37148627462,
+  "runtimeJob": 111277631089,
+  "previewPr": 249,
+  "previewPrHead": "d4a518231853842f8eefcf7817218cfac5c94a9e",
+  "previewPrCi": 37148666225,
+  "previewMerge": "96d5b5b52ff493a9d2a7f73590ea2bd346ef5043",
+  "pagesCi": 37148818476,
+  "pagesValidateJob": 111278188330,
+  "pagesDeployJob": 111279341968,
+  "allConclusions": "success",
+  "expectedArtifact": 11282179220,
+  "verifiedArtifact": 11282508948,
+  "verifiedFiles": 14,
+  "previewUrl": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-tunnel/?review=4367961",
+  "runtimePr242": "draft/open/unmerged",
+  "ownerTunnelPlaytest": "pending",
+  "productionPreserved": true
+}

@@ -1,0 +1,634 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/61d51c8ba221/neon-grid
+
+stdout | tests/neon-grid-residual-bend.test.ts
+NEON_REGRESSION_TRACE {
+  "dt": 0.016666666666666666,
+  "settleSteps": 90,
+  "initialSpeed": 29.7,
+  "profile": "aa-09",
+  "policy": "AiDriver steering, full throttle, no brake/drift",
+  "scope": "real native road/controller; no rivals/items/scripted correction/recovery; first 18 steps",
+  "runs": [
+    {
+      "start": 0.001,
+      "spawn": [
+        1.3677499294281006,
+        14.339961051940918,
+        -125.81434631347656
+      ],
+      "rows": [
+        {
+          "step": 0,
+          "speedBeforePhysics": 29.666665747052296,
+          "speedAfterPhysics": 29.666665747052296,
+          "nativeVy": -4.802132025361061e-10,
+          "planarDeficit": 2.1277960937648999e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 1,
+          "speedBeforePhysics": 29.66666607628434,
+          "speedAfterPhysics": 29.66666607628434,
+          "nativeVy": 1.269986112800714e-11,
+          "planarDeficit": 7.077405295152772e-8,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 2,
+          "speedBeforePhysics": 29.66666701685002,
+          "speedAfterPhysics": 29.66666701685002,
+          "nativeVy": 1.058356527416926e-12,
+          "planarDeficit": 4.0821037594618304e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 3,
+          "speedBeforePhysics": 29.666666950538946,
+          "speedAfterPhysics": 29.666666950538946,
+          "nativeVy": -1.058207341197992e-12,
+          "planarDeficit": 4.123646391018809e-8,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 4,
+          "speedBeforePhysics": 29.66666652280537,
+          "speedAfterPhysics": 29.66666652280537,
+          "nativeVy": 5.292793113509386e-13,
+          "planarDeficit": 1.5562385352607677e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 5,
+          "speedBeforePhysics": 29.666665985699943,
+          "speedAfterPhysics": 29.666665985699943,
+          "nativeVy": 5.290685424486075e-13,
+          "planarDeficit": 2.3804385501646763e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 6,
+          "speedBeforePhysics": 29.666666894843658,
+          "speedAfterPhysics": 29.666666894843658,
+          "nativeVy": -7.938198709478428e-13,
+          "planarDeficit": 3.144234682617153e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 7,
+          "speedBeforePhysics": 29.666667052722985,
+          "speedAfterPhysics": 29.666667052722985,
+          "nativeVy": -7.938198709478428e-13,
+          "planarDeficit": 3.4813745658501816e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 8,
+          "speedBeforePhysics": 29.666666227147378,
+          "speedAfterPhysics": 29.666666227147378,
+          "nativeVy": -3.966618700168567e-13,
+          "planarDeficit": 3.3531597176672534e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 9,
+          "speedBeforePhysics": 29.66666614782332,
+          "speedAfterPhysics": 29.66666614782332,
+          "nativeVy": 7.936264492802714e-13,
+          "planarDeficit": -1.8400000029172858e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 10,
+          "speedBeforePhysics": 29.666666685106286,
+          "speedAfterPhysics": 29.666666685106286,
+          "nativeVy": -1.1905112312637911e-12,
+          "planarDeficit": -2.419305182854714e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 11,
+          "speedBeforePhysics": 29.66666585710961,
+          "speedAfterPhysics": 29.66666585710961,
+          "nativeVy": -1.0581145334920272e-12,
+          "planarDeficit": -8.584991509352768e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 12,
+          "speedBeforePhysics": 29.66666745216706,
+          "speedAfterPhysics": 29.66666745216706,
+          "nativeVy": -1.0581951981336601e-12,
+          "planarDeficit": 9.404546058022767e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 13,
+          "speedBeforePhysics": 29.666667364992687,
+          "speedAfterPhysics": 29.666667364992687,
+          "nativeVy": -1.455555511190032e-12,
+          "planarDeficit": -1.793940379579695e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 14,
+          "speedBeforePhysics": 29.666666314685386,
+          "speedAfterPhysics": 29.666666314685386,
+          "nativeVy": -6.613294981083762e-13,
+          "planarDeficit": 5.616304403766037e-7,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 15,
+          "speedBeforePhysics": 29.666666895738548,
+          "speedAfterPhysics": 29.666666895738548,
+          "nativeVy": -1.1905112312637911e-12,
+          "planarDeficit": -0.0000015608886710927194,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 16,
+          "speedBeforePhysics": 29.66666594645254,
+          "speedAfterPhysics": 29.66666594645254,
+          "nativeVy": -1.1905112312637911e-12,
+          "planarDeficit": 7.504916410550067e-8,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 17,
+          "speedBeforePhysics": 29.66666598622843,
+          "speedAfterPhysics": 29.66666598622843,
+          "nativeVy": -1.0581145334920272e-12,
+          "planarDeficit": -0.0000015658199885026924,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        }
+      ]
+    },
+    {
+      "start": 0.48,
+      "spawn": [
+        196.73243713378906,
+        0.339964896440506,
+        115.85238647460938
+      ],
+      "rows": [
+        {
+          "step": 0,
+          "speedBeforePhysics": 29.666667308069844,
+          "speedAfterPhysics": 29.666667308069844,
+          "nativeVy": 6.085409953726639e-12,
+          "planarDeficit": -0.000015995826125270174,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 1,
+          "speedBeforePhysics": 29.666666343966185,
+          "speedAfterPhysics": 29.666666343966185,
+          "nativeVy": -1.5873552472456254e-12,
+          "planarDeficit": -0.000006998261993518273,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 2,
+          "speedBeforePhysics": 29.666666900056033,
+          "speedAfterPhysics": 29.666666900056033,
+          "nativeVy": -7.28583859910259e-17,
+          "planarDeficit": 0.000004524321909615825,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 3,
+          "speedBeforePhysics": 29.666667012867997,
+          "speedAfterPhysics": 29.666667012867997,
+          "nativeVy": -5.293751548229864e-13,
+          "planarDeficit": 0.0000046203816663203945,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 4,
+          "speedBeforePhysics": 29.666665953236464,
+          "speedAfterPhysics": 29.666665953236464,
+          "nativeVy": -1.0583131593300266e-12,
+          "planarDeficit": 0.000005547343092993096,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 5,
+          "speedBeforePhysics": 29.666666507265592,
+          "speedAfterPhysics": 29.666666507265592,
+          "nativeVy": -7.936264492802714e-13,
+          "planarDeficit": -0.000005650685872993222,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 6,
+          "speedBeforePhysics": 29.66666641126411,
+          "speedAfterPhysics": 29.66666641126411,
+          "nativeVy": -1.4552831596043037e-12,
+          "planarDeficit": -0.000016128492421718654,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 7,
+          "speedBeforePhysics": 29.666667220416468,
+          "speedAfterPhysics": 29.666667220416468,
+          "nativeVy": -1.8519942523997912e-12,
+          "planarDeficit": -0.00000940494836715322,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 8,
+          "speedBeforePhysics": 29.666666181228308,
+          "speedAfterPhysics": 29.666666181228308,
+          "nativeVy": 1.2569639339793381e-12,
+          "planarDeficit": 0.000005359016312156406,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 9,
+          "speedBeforePhysics": 29.666666996565258,
+          "speedAfterPhysics": 29.666666996565258,
+          "nativeVy": -3.3062962090379955e-13,
+          "planarDeficit": 0.00001763589733122517,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 10,
+          "speedBeforePhysics": 29.666666772646604,
+          "speedAfterPhysics": 29.666666772646604,
+          "nativeVy": -9.922091360331509e-13,
+          "planarDeficit": -0.000002318956645486203,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 11,
+          "speedBeforePhysics": 29.666667618559863,
+          "speedAfterPhysics": 29.666667618559863,
+          "nativeVy": -6.944833163408104e-13,
+          "planarDeficit": -0.00001032124534572354,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 12,
+          "speedBeforePhysics": 29.66666691564051,
+          "speedAfterPhysics": 29.66666691564051,
+          "nativeVy": -2.977396974801483e-13,
+          "planarDeficit": 0.000013218372191203809,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 13,
+          "speedBeforePhysics": 29.66666623355181,
+          "speedAfterPhysics": 29.66666623355181,
+          "nativeVy": 7.44065833252483e-13,
+          "planarDeficit": 0.000017418805443814023,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 14,
+          "speedBeforePhysics": 29.66666620488126,
+          "speedAfterPhysics": 29.66666620488126,
+          "nativeVy": -5.457301277544957e-13,
+          "planarDeficit": -0.0000019705419396220947,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 15,
+          "speedBeforePhysics": 29.66666673685993,
+          "speedAfterPhysics": 29.66666673685993,
+          "nativeVy": 1.159176921117222e-13,
+          "planarDeficit": 0.000008544968649659701,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 16,
+          "speedBeforePhysics": 29.66666669984606,
+          "speedAfterPhysics": 29.66666669984606,
+          "nativeVy": 3.471615356298585e-13,
+          "planarDeficit": 0.0000058272571379358595,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 17,
+          "speedBeforePhysics": 29.666666058620144,
+          "speedAfterPhysics": 29.666666058620144,
+          "nativeVy": 4.878666914898133e-13,
+          "planarDeficit": 0.000005605607338643459,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        }
+      ]
+    },
+    {
+      "start": 0.81,
+      "spawn": [
+        -174.9456787109375,
+        8.491372108459473,
+        43.4511833190918
+      ],
+      "rows": [
+        {
+          "step": 0,
+          "speedBeforePhysics": 29.666666930665567,
+          "speedAfterPhysics": 29.620766983946147,
+          "nativeVy": 1.0383522510528564,
+          "planarDeficit": 0.34086567871624857,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 1,
+          "speedBeforePhysics": 29.65510501563951,
+          "speedAfterPhysics": 29.645629650532886,
+          "nativeVy": 1.0145204067230225,
+          "planarDeficit": 0.49232327836014156,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 2,
+          "speedBeforePhysics": 29.666666732190293,
+          "speedAfterPhysics": 29.656321001679405,
+          "nativeVy": 1.015777587890625,
+          "planarDeficit": 0.4911197076235219,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 3,
+          "speedBeforePhysics": 29.666667474011277,
+          "speedAfterPhysics": 29.656319355834285,
+          "nativeVy": 1.0168107748031616,
+          "planarDeficit": 0.4902818557692221,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 4,
+          "speedBeforePhysics": 29.666668100179855,
+          "speedAfterPhysics": 29.656304280151875,
+          "nativeVy": 1.0179287195205688,
+          "planarDeficit": 0.48952861403905235,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 5,
+          "speedBeforePhysics": 29.666668297712526,
+          "speedAfterPhysics": 29.65629252196791,
+          "nativeVy": 1.0190786123275757,
+          "planarDeficit": 0.48883633209692806,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 6,
+          "speedBeforePhysics": 29.666666916541825,
+          "speedAfterPhysics": 29.6562773983734,
+          "nativeVy": 1.0202149152755737,
+          "planarDeficit": 0.4882254097691586,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 7,
+          "speedBeforePhysics": 29.666667751369484,
+          "speedAfterPhysics": 29.656268867100454,
+          "nativeVy": 1.0212981700897217,
+          "planarDeficit": 0.48761793093346517,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 8,
+          "speedBeforePhysics": 29.66666764066831,
+          "speedAfterPhysics": 29.656263797791674,
+          "nativeVy": 1.022293210029602,
+          "planarDeficit": 0.4871022356434293,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 9,
+          "speedBeforePhysics": 29.666666963128407,
+          "speedAfterPhysics": 29.656253851186488,
+          "nativeVy": 1.0231716632843018,
+          "planarDeficit": 0.48659485810580594,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 10,
+          "speedBeforePhysics": 29.666667686528914,
+          "speedAfterPhysics": 29.656253817861103,
+          "nativeVy": 1.0239094495773315,
+          "planarDeficit": 0.4861257051872704,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 11,
+          "speedBeforePhysics": 29.66666777432627,
+          "speedAfterPhysics": 29.656248594299555,
+          "nativeVy": 1.02448570728302,
+          "planarDeficit": 0.48567309762246796,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 12,
+          "speedBeforePhysics": 29.666667447108612,
+          "speedAfterPhysics": 29.656251499656005,
+          "nativeVy": 1.024883508682251,
+          "planarDeficit": 0.48526307071090974,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 13,
+          "speedBeforePhysics": 29.666668115780286,
+          "speedAfterPhysics": 29.656257275914093,
+          "nativeVy": 1.0250095129013062,
+          "planarDeficit": 0.48492041392691304,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 14,
+          "speedBeforePhysics": 29.66666682295447,
+          "speedAfterPhysics": 29.656025603675005,
+          "nativeVy": 1.0318093299865723,
+          "planarDeficit": 0.4840009171057567,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 15,
+          "speedBeforePhysics": 29.666667427997204,
+          "speedAfterPhysics": 17.887793456306674,
+          "nativeVy": 14.049756050109863,
+          "planarDeficit": 0.18674183811976747,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 16,
+          "speedBeforePhysics": 17.97747971423143,
+          "speedAfterPhysics": 17.97747971423143,
+          "nativeVy": 13.749756813049316,
+          "planarDeficit": -0.000016356269319339756,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        },
+        {
+          "step": 17,
+          "speedBeforePhysics": 18.066874311308865,
+          "speedAfterPhysics": 18.066874311308865,
+          "nativeVy": 13.44975757598877,
+          "planarDeficit": -0.000012180455542576407,
+          "wheelHits": 4,
+          "boundaryBefore": false,
+          "boundaryAfter": false
+        }
+      ]
+    }
+  ]
+}
+
+ ❯ tests/neon-grid-residual-bend.test.ts (11 tests | 3 failed) 130ms
+   × retains supported planar travel at progress 0.81 3ms
+   × avoids an uncommanded road launch at progress 0.81 0ms
+   × avoids abrupt native speed collapse at progress 0.81 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-residual-bend.test.ts > retains supported planar travel at progress 0.81
+AssertionError: expected 0.49232327836014156 to be less than 0.05
+ ❯ tests/neon-grid-residual-bend.test.ts:139:70
+    137|   expect(run).toBeDefined();
+    138|   // 5cm tolerance is >25x the existing flat-road 2mm error allowance.
+    139|   expect(Math.max(...(run?.rows ?? []).map((r) => r.planarDeficit))).t…
+       |                                                                      ^
+    140| });
+    141|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/neon-grid-residual-bend.test.ts > avoids an uncommanded road launch at progress 0.81
+AssertionError: expected 11.223186808165922 to be less than 1
+ ❯ tests/neon-grid-residual-bend.test.ts:153:5
+    151|       ),
+    152|     ),
+    153|   ).toBeLessThan(1);
+       |     ^
+    154| });
+    155|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/neon-grid-residual-bend.test.ts > avoids abrupt native speed collapse at progress 0.81
+AssertionError: expected 11.77887397169053 to be less than 2
+ ❯ tests/neon-grid-residual-bend.test.ts:161:5
+    159|   expect(
+    160|     Math.max(...(run?.rows ?? []).map((r) => r.speedBeforePhysics - r.…
+    161|   ).toBeLessThan(2);
+       |     ^
+    162| });
+    163|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 8 passed (11)
+   Start at  10:14:04
+   Duration  952ms (transform 129ms, setup 0ms, import 195ms, tests 130ms, environment 494ms)

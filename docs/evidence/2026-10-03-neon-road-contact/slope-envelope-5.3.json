@@ -1,0 +1,175 @@
+{
+  "envelopeSource": "exact original faces at immediate patch entry row1219 and exit rows1270/1271; includes existing entry cross-grade, excludes defective interior faces",
+  "surroundingOriginalFaces": [
+    {
+      "triangle": 2435,
+      "face": [
+        2438,
+        2440,
+        2439
+      ],
+      "patched": false,
+      "slopeDegrees": 3.010058,
+      "positions": [
+        [
+          -152.696289,
+          6.110894,
+          55.12751
+        ],
+        [
+          -153.518219,
+          6.18885,
+          53.891739
+        ],
+        [
+          -162.988983,
+          6.110894,
+          61.296829
+        ]
+      ]
+    },
+    {
+      "triangle": 2436,
+      "face": [
+        2439,
+        2440,
+        2441
+      ],
+      "patched": false,
+      "slopeDegrees": 11.84552,
+      "positions": [
+        [
+          -162.988983,
+          6.110894,
+          61.296829
+        ],
+        [
+          -153.518219,
+          6.18885,
+          53.891739
+        ],
+        [
+          -163.195587,
+          6.18885,
+          60.987431
+        ]
+      ]
+    },
+    {
+      "triangle": 2532,
+      "face": [
+        2540,
+        2542,
+        2541
+      ],
+      "patched": false,
+      "slopeDegrees": 1.748722,
+      "positions": [
+        [
+          -152.269531,
+          8.993979,
+          29.218641
+        ],
+        [
+          -151.666763,
+          9.029293,
+          28.231174
+        ],
+        [
+          -162.393845,
+          8.993979,
+          22.776728
+        ]
+      ]
+    },
+    {
+      "triangle": 2533,
+      "face": [
+        2541,
+        2542,
+        2543
+      ],
+      "patched": false,
+      "slopeDegrees": 2.592487,
+      "positions": [
+        [
+          -162.393845,
+          8.993979,
+          22.776728
+        ],
+        [
+          -151.666763,
+          9.029293,
+          28.231174
+        ],
+        [
+          -161.988388,
+          9.029293,
+          22.110397
+        ]
+      ]
+    },
+    {
+      "triangle": 2534,
+      "face": [
+        2542,
+        2544,
+        2543
+      ],
+      "patched": false,
+      "slopeDegrees": 1.806987,
+      "positions": [
+        [
+          -151.666763,
+          9.029293,
+          28.231174
+        ],
+        [
+          -151.105927,
+          9.064665,
+          27.260246
+        ],
+        [
+          -161.988388,
+          9.029293,
+          22.110397
+        ]
+      ]
+    },
+    {
+      "triangle": 2535,
+      "face": [
+        2543,
+        2544,
+        2545
+      ],
+      "patched": false,
+      "slopeDegrees": 2.389147,
+      "positions": [
+        [
+          -161.988388,
+          9.029293,
+          22.110397
+        ],
+        [
+          -151.105927,
+          9.064665,
+          27.260246
+        ],
+        [
+          -161.564331,
+          9.064665,
+          21.376228
+        ]
+      ]
+    }
+  ],
+  "originalEnvelopeDegrees": 11.84552,
+  "patchedFaceCount": 193,
+  "maxPatchedSlopeDegrees": 11.84552,
+  "toleranceDegrees": 0.001,
+  "facesOverEnvelope": [],
+  "insidePolygonMaxSlopeDegrees": 7.967327,
+  "upward": true,
+  "matrixMaxLoss": 0.426449
+}

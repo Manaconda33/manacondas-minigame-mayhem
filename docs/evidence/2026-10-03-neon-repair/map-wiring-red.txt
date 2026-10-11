@@ -1,0 +1,26 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/add544ab7370/neon-repair
+
+ ❯ tests/race-diagnostics-routing.test.ts (29 tests | 1 failed | 28 skipped) 250ms
+   × selects the approved Neon map orientation in the real race and keeps Alpha orientation 248ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > selects the approved Neon map orientation in the real race and keeps Alpha orientation
+AssertionError: expected -63.12799999999999 to be greater than 0
+ ❯ tests/race-diagnostics-routing.test.ts:1099:54
+    1097|     const highZ = samples.reduce((best, p, i) => p.z > samples[best]!.…
+    1098|     const delta = runtime.minimapTrack[highZ]!.y - runtime.minimapTrac…
+    1099|     expect(delta * (route === 'neon-grid' ? 1 : -1)).toBeGreaterThan(0…
+       |                                                      ^
+    1100|   }
+    1101| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 28 skipped (29)
+   Start at  11:32:08
+   Duration  2.16s (transform 828ms, setup 0ms, import 1.07s, tests 250ms, environment 650ms)

@@ -27,13 +27,9 @@ const MATERIAL_TEXTURE_KEYS: readonly MaterialTextureKey[] = [
   'roughnessMap',
 ];
 
-type TexturedMaterial = THREE.Material &
-  Partial<Record<MaterialTextureKey, THREE.Texture | null>>;
+type TexturedMaterial = THREE.Material & Partial<Record<MaterialTextureKey, THREE.Texture | null>>;
 
-type DisposableMesh = THREE.Mesh<
-  THREE.BufferGeometry,
-  THREE.Material | THREE.Material[]
->;
+type DisposableMesh = THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]>;
 
 function addMaterial(
   material: THREE.Material | THREE.Material[],
@@ -62,7 +58,7 @@ function collectMaterialTextures(material: THREE.Material, textures: Set<THREE.T
 }
 
 function isDisposableMesh(object: THREE.Object3D): object is DisposableMesh {
-  return object instanceof THREE.Mesh;
+  return object instanceof THREE.Mesh || object instanceof THREE.Line;
 }
 
 export function disposeTrackScene(root: THREE.Object3D): void {

@@ -1,0 +1,31 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+ ❯ tests/neon-grid-billboard-relocation.test.ts (9 tests | 1 failed | 8 skipped) 37ms
+   × keeps the supported plaza approach asphalt without selecting a route before the ad 19ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-billboard-relocation.test.ts > keeps the supported plaza approach asphalt without selecting a route before the ad
+AssertionError: expected 'grass' to be 'asphalt' // Object.is equality
+
+Expected: "asphalt"
+Received: "grass"
+
+ ❯ tests/neon-grid-billboard-relocation.test.ts:207:36
+    205|   const p = gap.curve.getPointAt((gap.mouthDistance - 1) / gap.curve.g…
+    206|   expect(route.project(p).pathId).toBeUndefined();
+    207|   expect(route.project(p).surface).toBe('asphalt');
+       |                                    ^
+    208| });
+    209|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  13:28:35
+   Duration  902ms (transform 159ms, setup 0ms, import 223ms, tests 37ms, environment 479ms)
+

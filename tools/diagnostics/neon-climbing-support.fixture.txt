@@ -1,0 +1,69 @@
+import RAPIER from '@dimforge/rapier3d-compat';
+import * as THREE from 'three';
+import { beforeAll, expect, it } from 'vitest';
+import { NeonGrid } from '../src/game/track/NeonGrid';
+import { neonGridRibbon } from '../src/game/track/NeonGridGeometry';
+import { createNeonGridColliders } from '../src/game/track/NeonGridCollision';
+
+beforeAll(async () => {
+  await RAPIER.init();
+});
+
+it('has one road height at the independently measured climbing overlap', () => {
+  const geometry = neonGridRibbon(new NeonGrid());
+  try {
+    const vertices = geometry.getAttribute('position');
+    const indices = geometry.getIndex();
+    expect(indices).not.toBeNull();
+    // Literal world point from the original independent 2.3 cross-section.
+    // The original road has two sheets separated by about 5.4cm here.
+    const ray = new THREE.Ray(
+      new THREE.Vector3(-175.047049, 25, 45.332848),
+      new THREE.Vector3(0, -1, 0),
+    );
+    const heights: number[] = [];
+    for (let i = 0; i < (indices?.count ?? 0); i += 3) {
+      const triangle = [0, 1, 2].map((corner) =>
+        new THREE.Vector3().fromBufferAttribute(vertices, indices?.getX(i + corner) ?? 0),
+      );
+      const hit = ray.intersectTriangle(
+        triangle[0] ?? new THREE.Vector3(),
+        triangle[1] ?? new THREE.Vector3(),
+        triangle[2] ?? new THREE.Vector3(),
+        false,
+        new THREE.Vector3(),
+      );
+      if (hit && !heights.some((height) => Math.abs(height - hit.y) < 0.00001)) heights.push(hit.y);
+    }
+    expect(heights).toHaveLength(1);
+  } finally {
+    geometry.dispose();
+  }
+});
+
+it('retains native support across legal climbing lines and the authored centerline elevation', () => {
+  const track = new NeonGrid();
+  const world = new RAPIER.World({ x: 0, y: -18, z: 0 });
+  const cleanup = createNeonGridColliders(world, track);
+  try {
+    world.step();
+    for (const progress of [0.7936, 0.799, 0.803, 0.808, 0.813, 0.819, 0.827, 0.828]) {
+      const center = track.curve.getPointAt(progress);
+      const tangent = track.curve.getTangentAt(progress);
+      const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
+      for (const lane of [-4.85, 0, 4.85]) {
+        const point = center.clone().addScaledVector(right, lane);
+        const hit = world.castRay(
+          new RAPIER.Ray({ x: point.x, y: center.y + 5, z: point.z }, { x: 0, y: -1, z: 0 }),
+          10,
+          true,
+        );
+        expect(hit, `progress ${String(progress)} lane ${String(lane)}`).not.toBeNull();
+        if (lane === 0) expect(Math.abs((hit?.timeOfImpact ?? 0) - 5)).toBeLessThan(0.01);
+      }
+    }
+  } finally {
+    cleanup();
+    world.free();
+  }
+});

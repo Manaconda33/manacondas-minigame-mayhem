@@ -1,0 +1,186 @@
+{
+  "nativeEvents": [
+    {
+      "step": 0,
+      "seconds": 0.0,
+      "progress": 0.809673,
+      "controllerSpeed": 29.666667,
+      "nativeSpeed": 29.620767,
+      "nativeVy": 1.038352,
+      "groundedBefore": true,
+      "driveSupportedBefore": true,
+      "airborneFeedback": false,
+      "boundary": null
+    },
+    {
+      "step": 1,
+      "seconds": 0.016666666666666666,
+      "progress": 0.809768,
+      "controllerSpeed": 29.655105,
+      "nativeSpeed": 29.64563,
+      "nativeVy": 1.01452,
+      "groundedBefore": true,
+      "driveSupportedBefore": true,
+      "airborneFeedback": false,
+      "boundary": null
+    },
+    {
+      "step": 14,
+      "seconds": 0.23333333333333334,
+      "progress": 0.809818,
+      "controllerSpeed": 29.666667,
+      "nativeSpeed": 29.656026,
+      "nativeVy": 1.031809,
+      "groundedBefore": true,
+      "driveSupportedBefore": true,
+      "airborneFeedback": false,
+      "boundary": null
+    },
+    {
+      "step": 15,
+      "seconds": 0.25,
+      "progress": 0.809823,
+      "controllerSpeed": 29.666667,
+      "nativeSpeed": 17.887793,
+      "nativeVy": 14.049756,
+      "groundedBefore": true,
+      "driveSupportedBefore": true,
+      "airborneFeedback": false,
+      "boundary": null
+    },
+    {
+      "step": 19,
+      "seconds": 0.31666666666666665,
+      "progress": 0.810574,
+      "controllerSpeed": 18.244763,
+      "nativeSpeed": 18.244763,
+      "nativeVy": 12.849759,
+      "groundedBefore": true,
+      "driveSupportedBefore": true,
+      "airborneFeedback": false,
+      "boundary": null
+    },
+    {
+      "step": 20,
+      "seconds": 0.3333333333333333,
+      "progress": 0.810796,
+      "controllerSpeed": 18.048132,
+      "nativeSpeed": 18.048132,
+      "nativeVy": 12.54976,
+      "groundedBefore": false,
+      "driveSupportedBefore": false,
+      "airborneFeedback": false,
+      "boundary": null
+    },
+    {
+      "step": 24,
+      "seconds": 0.4,
+      "progress": 0.811659,
+      "controllerSpeed": 17.282643,
+      "nativeSpeed": 17.282643,
+      "nativeVy": 11.349763,
+      "groundedBefore": false,
+      "driveSupportedBefore": false,
+      "airborneFeedback": true,
+      "boundary": null
+    },
+    {
+      "step": 102,
+      "seconds": 1.7,
+      "progress": 0.821997,
+      "controllerSpeed": 7.423852,
+      "nativeSpeed": 7.423852,
+      "nativeVy": -12.050201,
+      "groundedBefore": false,
+      "driveSupportedBefore": false,
+      "airborneFeedback": true,
+      "boundary": null
+    },
+    {
+      "step": 103,
+      "seconds": 1.7166666666666666,
+      "progress": 0.822078,
+      "controllerSpeed": 7.540033,
+      "nativeSpeed": 7.540033,
+      "nativeVy": -12.350201,
+      "groundedBefore": true,
+      "driveSupportedBefore": true,
+      "airborneFeedback": false,
+      "boundary": null
+    },
+    {
+      "step": 104,
+      "seconds": 1.7333333333333334,
+      "progress": 0.82216,
+      "controllerSpeed": 7.656041,
+      "nativeSpeed": 7.656041,
+      "nativeVy": -12.6502,
+      "groundedBefore": true,
+      "driveSupportedBefore": true,
+      "airborneFeedback": false,
+      "boundary": null
+    }
+  ],
+  "productionAttributions": [
+    {
+      "policy": "ai-steering",
+      "fourSecondNetSpeedChange": {
+        "controller": 3.564750999999995,
+        "native": -13.771836999999994,
+        "boundary": 0.0,
+        "remainingProduction": 0.0,
+        "observedTotal": -10.207086,
+        "closureError": 0.0
+      },
+      "firstRailStep": null,
+      "minimumSpeedStep": 103,
+      "minimumSpeed": 7.294858,
+      "automaticRecoveries": 0
+    },
+    {
+      "policy": "held-straight",
+      "fourSecondNetSpeedChange": {
+        "controller": -1.306784999999997,
+        "native": -2.961214000000002,
+        "boundary": -22.306487,
+        "remainingProduction": 0.0,
+        "observedTotal": -26.574486,
+        "closureError": 0.0
+      },
+      "firstRailStep": 23,
+      "minimumSpeedStep": 137,
+      "minimumSpeed": 1.961268,
+      "automaticRecoveries": 0
+    },
+    {
+      "policy": "left",
+      "fourSecondNetSpeedChange": {
+        "controller": 3.2692270000000048,
+        "native": -0.16075300000000775,
+        "boundary": -20.409231999999996,
+        "remainingProduction": 0.0,
+        "observedTotal": -17.300758000000002,
+        "closureError": 3.552713678800501e-15
+      },
+      "firstRailStep": 20,
+      "minimumSpeedStep": 67,
+      "minimumSpeed": 0.024679,
+      "automaticRecoveries": 0
+    },
+    {
+      "policy": "right",
+      "fourSecondNetSpeedChange": {
+        "controller": -2.8609259999999987,
+        "native": -11.539175,
+        "boundary": -12.935679,
+        "remainingProduction": 0.0,
+        "observedTotal": -27.33578,
+        "closureError": 0.0
+      },
+      "firstRailStep": 91,
+      "minimumSpeedStep": 158,
+      "minimumSpeed": 0.011542,
+      "automaticRecoveries": 0
+    }
+  ]
+}

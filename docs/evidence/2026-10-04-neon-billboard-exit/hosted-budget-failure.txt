@@ -1,0 +1,62 @@
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-tunnel.test.ts > service tunnel native support and scene > supports every ramp and underground crossing at its own height and removes owned colliders
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-tunnel.test.ts:20:3
+     18| });
+     19| describe('service tunnel native support and scene', () => {
+     20|   it('supports every ramp and underground crossing at its own height a…
+       |   ^
+     21|     const track = new NeonGrid(),
+     22|       tunnel = track.serviceTunnel;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 121 passed (122)
+      Tests  1 failed | 957 passed (958)
+   Start at  05:21:55
+   Duration  164.06s (transform 3.78s, setup 0ms, import 20.68s, tests 307.00s, environment 118.10s)
+
+
+##[error]Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-tunnel.test.ts:20:3
+
+
+##[error]Process completed with exit code 1.
+
+
+ATTEMPT 2
+Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+2026-10-04T05:30:54.8092270Z 
+2026-10-04T05:30:54.8094128Z [41m[1m FAIL [22m[49m tests/neon-grid-tunnel.test.ts[2m > [22mservice tunnel native support and scene[2m > [22msupports every ramp and underground crossing at its own height and removes owned colliders
+2026-10-04T05:30:54.8099209Z [31m[1mError[22m: Test timed out in 5000ms.
+2026-10-04T05:30:54.8100569Z If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+2026-10-04T05:30:54.8102174Z [36m [2m❯[22m tests/neon-grid-tunnel.test.ts:[2m20:3[22m[39m
+2026-10-04T05:30:54.8139599Z     [90m 18|[39m })[33m;[39m
+2026-10-04T05:30:54.8140351Z     [90m 19|[39m [34mdescribe[39m([32m'service tunnel native support and scene'[39m[33m,[39m () [33m=>[39m {
+2026-10-04T05:30:54.8141557Z     [90m 20|[39m   it('supports every ramp and underground crossing at its own height a…
+2026-10-04T05:30:54.8142262Z     [90m   |[39m   [31m^[39m
+2026-10-04T05:30:54.8142915Z     [90m 21|[39m     [35mconst[39m track [33m=[39m [35mnew[39m [33mNeonGrid[39m()[33m,[39m
+2026-10-04T05:30:54.8143707Z     [90m 22|[39m       tunnel [33m=[39m track[33m.[39mserviceTunnel[33m;[39m
+2026-10-04T05:30:54.8144191Z 
+2026-10-04T05:30:54.8144476Z [31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+2026-10-04T05:30:54.8144721Z 
+2026-10-04T05:30:54.8147645Z 
+2026-10-04T05:30:54.8157412Z [2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m121 passed[39m[22m[90m (122)[39m
+2026-10-04T05:30:54.8163744Z [2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m957 passed[39m[22m[90m (958)[39m
+2026-10-04T05:30:54.8164747Z [2m   Start at [22m 05:28:12
+2026-10-04T05:30:54.8166687Z [2m   Duration [22m 162.14s[2m (transform 3.90s, setup 0ms, import 19.96s, tests 302.65s, environment 117.37s)[22m
+2026-10-04T05:30:54.8168411Z 
+2026-10-04T05:30:54.8191166Z 
+2026-10-04T05:30:54.8220001Z ##[error]Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-tunnel.test.ts:20:3
+
+
+2026-10-04T05:30:54.8786701Z ##[error]Process completed with exit code 1.
+2026-10-04T05:30:54.9040126Z 

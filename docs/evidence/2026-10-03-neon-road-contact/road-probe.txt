@@ -1,0 +1,19 @@
+import RAPIER from '@dimforge/rapier3d-compat';
+import { it } from 'vitest';
+import { writeFileSync } from 'node:fs';
+import { neonGridRibbon } from '../src/game/track/NeonGridGeometry';
+import { NeonGrid } from '../src/game/track/NeonGrid';
+import { createSelectedTrackColliders } from '../src/game/track/trackCatalog';
+import { KartController } from '../src/game/physics/KartController';
+import { AiDriver } from '../src/game/ai/AiDriver';
+import { createKartTuning } from '../src/config/kartTuning';
+import { characterById } from '../src/characters/manifest';
+import { guardrailContact } from '../src/game/track/GuardrailSystem';
+it('DIAGNOSTIC road response',async()=>{
+ await RAPIER.init(); const track=new NeonGrid(); const stats=characterById('aa-13').stats;const tuning=createKartTuning(stats);const reports=[];
+ for(const mode of ['144','152'])for(const start of [.001,.19,.21,.23,.27,.35,.48,.72,.8,.85,.9,.95]){
+ const world=new RAPIER.World({x:0,y:-18,z:0});if(mode==='original')createSelectedTrackColliders(world,track);else if(mode==='box')world.createCollider(RAPIER.ColliderDesc.cuboid(450,.1,450).setTranslation(0,13.9,0));else {const g=neonGridRibbon(track);world.createCollider(RAPIER.ColliderDesc.trimesh(new Float32Array(g.getAttribute('position').array),new Uint32Array(g.index!.array),Number(mode)));g.dispose();}const p=track.curve.getPointAt(start);const t=track.curve.getTangentAt(start);const kart=new KartController(world,tuning,stats,p,Math.atan2(t.x,t.z));for(let i=0;i<90;i++)world.step(); kart.body.setLinvel({x:t.x*25,y:t.y*25,z:t.z*25},true);const driver=new AiDriver(track,{laneOffset:0,pace:.55,aggression:.3},tuning.maxSpeed);const rows=[];
+ for(let i=0;i<180;i++){const before=kart.position();const pr=track.project(before);const input=driver.input(before,kart.forward(),kart.speedMetersPerSecond());input.throttle=1;input.brake=false;kart.update(input,pr.surface,1/60);const v=kart.velocity();world.step();const after=kart.position();const vv=kart.velocity();const contact=guardrailContact(track,after,1.15);if(contact)kart.resolveStaticBarrierCollision(contact.inwardNormal,contact.penetration+.02,1,.22);rows.push({i,progress:pr.progress,y:before.y,road:pr.point.y,dy:after.y-before.y,vy:vv.y,dv:Math.hypot(v.x,v.z)-Math.hypot(vv.x,vv.z),expected:v.clone().setY(0).multiplyScalar(1/60).length(),error:after.clone().sub(before).setY(0).sub(v.clone().setY(0).multiplyScalar(1/60)).length(),distance:after.distanceTo(before),back:after.clone().sub(before).dot(kart.forward()),wall:contact?.penetration??0,air:kart.feedback().airborne});}
+ reports.push({mode,start,maxLoss:Math.max(...rows.map(r=>r.dv)),maxDy:Math.max(...rows.map(r=>Math.abs(r.dy))),maxVy:Math.max(...rows.map(r=>Math.abs(r.vy))),wall:rows.filter(r=>r.wall>0).length,air:rows.filter(r=>r.air).length,rows});world.free();}
+ writeFileSync('/tmp/neon-road-comparison.json',JSON.stringify(reports,null,2));
+},120000);

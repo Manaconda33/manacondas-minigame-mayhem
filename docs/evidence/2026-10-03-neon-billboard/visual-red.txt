@@ -1,0 +1,52 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+ ❯ tests/neon-grid-billboard-visual.test.ts (3 tests | 3 failed) 376ms
+     × renders the exact supported plaza and a 16:9 passable mouth with posts outside the route 239ms
+     × shows Paprika only OFF, rotates ON sponsors, and freezes cues when race time freezes 133ms
+     × announces a crossing once at the physical mouth, independently of the exit penalty 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-billboard-visual.test.ts > Billboard visible route and race-time cues > renders the exact supported plaza and a 16:9 passable mouth with posts outside the route
+AssertionError: expected undefined to be defined
+ ❯ tests/neon-grid-billboard-visual.test.ts:11:19
+      9|     const scene = createNeonGridScene(new NeonGrid());
+     10|     const floor = scene.getObjectByName('billboard-plaza') as THREE.Me…
+     11|     expect(floor).toBeDefined();
+       |                   ^
+     12|     const bounds = new THREE.Box3().setFromObject(scene.getObjectByNam…
+     13|     const size = bounds.getSize(new THREE.Vector3());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/neon-grid-billboard-visual.test.ts > Billboard visible route and race-time cues > shows Paprika only OFF, rotates ON sponsors, and freezes cues when race time freezes
+AssertionError: expected undefined to be defined
+ ❯ tests/neon-grid-billboard-visual.test.ts:20:20
+     18|     const scene = createNeonGridScene(new NeonGrid());
+     19|     const visual = scene.billboard;
+     20|     expect(visual).toBeDefined();
+       |                    ^
+     21|     visual.update(0);
+     22|     expect(scene.getObjectByName('billboard-ad-arin')?.visible).toBe(t…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/neon-grid-billboard-visual.test.ts > Billboard visible route and race-time cues > announces a crossing once at the physical mouth, independently of the exit penalty
+TypeError: route.takeBillboardCrossing is not a function
+ ❯ tests/neon-grid-billboard-visual.test.ts:49:18
+     47|     const at=(distance:number)=>gap.curve.getPointAt(distance/gap.curv…
+     48|     route.advance(at(6),at(8),0);
+     49|     expect(route.takeBillboardCrossing()).toBe(true);
+       |                  ^
+     50|     expect(route.takeBillboardCrossing()).toBeNull();
+     51|     route.advance(at(8),at(9),4);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  19:32:51
+   Duration  1.49s (transform 104ms, setup 0ms, import 160ms, tests 376ms, environment 761ms)

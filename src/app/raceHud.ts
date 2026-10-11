@@ -2,9 +2,9 @@ import { routeNightAssetUrl, routeNightRaceHudMarkup } from '../ui/routeNight';
 import { itemHudMarkup } from './itemHud';
 import { raceMinimapMarkup } from './raceMinimap';
 
-export function raceHudMarkup(touchControls: string): string {
+export function raceHudMarkup(touchControls: string, circuitLabel = 'Circuit Alpha'): string {
   const touchSession = touchControls.trim() !== '';
-  return `<section class="game-shell route-night-race"${touchSession ? ' data-touch-session="true"' : ''} aria-label="Circuit Alpha Grand Prix">
+  return `<section class="game-shell route-night-race"${touchSession ? ' data-touch-session="true"' : ''} aria-label="${circuitLabel} Grand Prix">
     <canvas id="game-canvas" tabindex="0"></canvas>
     <div class="race-hud-atmosphere" data-route-asset="race-hud-atmosphere" aria-hidden="true" style="--race-hud-atmosphere: url('${routeNightAssetUrl('race-hud-atmosphere')}')"></div>
     <div id="ink-overlay" class="ink-overlay" aria-hidden="true" hidden>
@@ -54,7 +54,7 @@ export function raceHudMarkup(touchControls: string): string {
       <div id="item-use-message" class="item-use-message" role="status" hidden></div>
       <div id="item-test-mode" class="item-test-mode" hidden></div>
     </div>
-    <div id="loading" class="loading-card"><span class="spinner"></span><h2>Initializing Circuit Alpha</h2><p>Loading Rapier physics and the procedural track…</p></div>
+    <div id="loading" class="loading-card"><span class="spinner"></span><h2>Initializing ${circuitLabel}</h2><p>Loading Rapier physics and the procedural track…</p></div>
     <div id="finish" hidden></div>
     <div class="game-help">WASD / arrows drive · Space + steer drift · Shift/E item · C rear view · R recover · Esc pause</div>
     ${touchControls}

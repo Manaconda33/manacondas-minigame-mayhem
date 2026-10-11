@@ -1,0 +1,104 @@
+{
+  "method": "Production native colliders/controller; real mouth ownership, held throttle curve/line follower, no drift/items/rivals. 90 settle and 180 drive steps at 1/60. OFF isolates physics from intended retention.",
+  "reports": [
+    {
+      "lane": -2,
+      "speed": 12,
+      "summary": {
+        "maxNativeLoss": 0,
+        "minMovementRatio": 0.999189427808105,
+        "maxVy": -17.699989318847656,
+        "airSteps": 122,
+        "boundarySteps": 1
+      }
+    },
+    {
+      "lane": -2,
+      "speed": 24,
+      "summary": {
+        "maxNativeLoss": 0,
+        "minMovementRatio": 0.9995950001685168,
+        "maxVy": -8.099991798400879,
+        "airSteps": 154,
+        "boundarySteps": 1
+      }
+    },
+    {
+      "lane": -2,
+      "speed": 30,
+      "summary": {
+        "maxNativeLoss": 0,
+        "minMovementRatio": 0.9982230538571101,
+        "maxVy": -6.2999958992004395,
+        "airSteps": 160,
+        "boundarySteps": 1
+      }
+    },
+    {
+      "lane": 0,
+      "speed": 12,
+      "summary": {
+        "maxNativeLoss": 0,
+        "minMovementRatio": 0.9993624159635918,
+        "maxVy": -18.29999542236328,
+        "airSteps": 120,
+        "boundarySteps": 1
+      }
+    },
+    {
+      "lane": 0,
+      "speed": 24,
+      "summary": {
+        "maxNativeLoss": 0,
+        "minMovementRatio": 0.999729276046069,
+        "maxVy": -8.399991035461426,
+        "airSteps": 153,
+        "boundarySteps": 0
+      }
+    },
+    {
+      "lane": 0,
+      "speed": 30,
+      "summary": {
+        "maxNativeLoss": 0,
+        "minMovementRatio": 0.9981864462920081,
+        "maxVy": -6.599995136260986,
+        "airSteps": 159,
+        "boundarySteps": 1
+      }
+    },
+    {
+      "lane": 2,
+      "speed": 12,
+      "summary": {
+        "maxNativeLoss": 0,
+        "minMovementRatio": 0.9993336524379348,
+        "maxVy": -18.599998474121094,
+        "airSteps": 119,
+        "boundarySteps": 1
+      }
+    },
+    {
+      "lane": 2,
+      "speed": 24,
+      "summary": {
+        "maxNativeLoss": 0,
+        "minMovementRatio": 0.9997222205150421,
+        "maxVy": -8.699990272521973,
+        "airSteps": 152,
+        "boundarySteps": 0
+      }
+    },
+    {
+      "lane": 2,
+      "speed": 30,
+      "summary": {
+        "maxNativeLoss": 0,
+        "minMovementRatio": 0.999708463842836,
+        "maxVy": -6.599995136260986,
+        "airSteps": 159,
+        "boundarySteps": 0
+      }
+    }
+  ]
+}

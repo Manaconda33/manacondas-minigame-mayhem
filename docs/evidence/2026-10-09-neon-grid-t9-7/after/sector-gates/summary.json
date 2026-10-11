@@ -1,0 +1,136 @@
+{
+  "environment": "Local Chromium software WebGL / SwiftShader; FPS/p95 are software-only.",
+  "approvedSceneBudget": {
+    "calls": 500,
+    "triangles": 350000
+  },
+  "approvedSectorBudgets": {
+    "skylineCallDelta": 36,
+    "undercityCallDelta": 30,
+    "fallsExtensionCallDelta": 28
+  },
+  "authorization": "PRD amendment 2.27, approved 2026-10-09.",
+  "result": "PASS: all three current sector scene and amended A/B budgets pass. G-05 hardware certification, preview publication, and owner visual review remain open.",
+  "measurementReadiness": "Each capture waited for all seven asynchronous AI GLTF kart models to replace fallback meshes before measuring. Falls hidden/visible reverse-order readiness was stable.",
+  "previousBudgetCapture": {
+    "environment": "Local Chromium SwiftShader diagnostics; FPS/p95 are software-only.",
+    "approvedSceneBudget": {
+      "calls": 500,
+      "triangles": 350000
+    },
+    "result": "BLOCKED: all scene limits pass; all three preserved per-sector incremental limits fail. Falls readiness was unstable in the initial sample and stable on recheck.",
+    "sectors": [
+      {
+        "name": "skyline",
+        "errors": [],
+        "maxCalls": 288,
+        "maxTriangles": 262487,
+        "sceneLimits": {
+          "calls": 500,
+          "triangles": 350000,
+          "skylineCallDelta": 18
+        },
+        "delta": 36,
+        "deltaLimit": 18,
+        "sceneLimitsPass": true,
+        "incrementalPass": false
+      },
+      {
+        "name": "undercity",
+        "errors": [],
+        "maxCalls": 314,
+        "maxTriangles": 307391,
+        "sceneLimits": {
+          "calls": 500,
+          "triangles": 350000,
+          "undercityCallDelta": 20
+        },
+        "delta": 30,
+        "deltaLimit": 20,
+        "sceneLimitsPass": true,
+        "incrementalPass": false
+      },
+      {
+        "name": "fallsExtension",
+        "errors": [],
+        "maxCalls": 266,
+        "maxTriangles": 298147,
+        "sceneLimits": {
+          "calls": 500,
+          "triangles": 350000,
+          "extensionCallDelta": 12
+        },
+        "delta": 24,
+        "deltaLimit": 12,
+        "sceneLimitsPass": true,
+        "incrementalPass": false,
+        "runs": [
+          {
+            "file": "task9-falls-extension-render-check.json",
+            "delta": 28,
+            "readinessStable": false
+          },
+          {
+            "file": "task9-falls-extension-render-check-recheck.json",
+            "delta": 24,
+            "readinessStable": true
+          }
+        ]
+      }
+    ]
+  },
+  "sectors": [
+    {
+      "name": "skyline",
+      "errors": [],
+      "maxCalls": 286,
+      "maxTriangles": 311199,
+      "sceneLimits": {
+        "calls": 500,
+        "triangles": 350000,
+        "skylineCallDelta": 36
+      },
+      "delta": 36,
+      "deltaTriangles": 18956,
+      "deltaLimit": 36,
+      "sceneLimitsPass": true,
+      "incrementalPass": true,
+      "report": "docs/evidence/2026-10-09-neon-grid-t9-7/after/sector-gates/task9-skyline-render-check-amended.json"
+    },
+    {
+      "name": "undercity",
+      "errors": [],
+      "maxCalls": 314,
+      "maxTriangles": 313135,
+      "sceneLimits": {
+        "calls": 500,
+        "triangles": 350000,
+        "undercityCallDelta": 30
+      },
+      "delta": 30,
+      "deltaTriangles": 25552,
+      "deltaLimit": 30,
+      "sceneLimitsPass": true,
+      "incrementalPass": true,
+      "report": "docs/evidence/2026-10-09-neon-grid-t9-7/after/sector-gates/task9-undercity-render-check-amended.json"
+    },
+    {
+      "name": "fallsExtension",
+      "errors": [],
+      "maxCalls": 266,
+      "maxTriangles": 329723,
+      "sceneLimits": {
+        "calls": 500,
+        "triangles": 350000,
+        "extensionCallDelta": 28
+      },
+      "delta": 24,
+      "deltaTriangles": 17532,
+      "deltaLimit": 28,
+      "readinessStable": true,
+      "sceneLimitsPass": true,
+      "incrementalPass": true,
+      "report": "docs/evidence/2026-10-09-neon-grid-t9-7/after/sector-gates/task9-falls-extension-render-check-amended.json"
+    }
+  ]
+}

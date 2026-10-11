@@ -1,0 +1,25 @@
+# Residual climbing-bend causal sequence — Step 3.3
+
+## Established by native measurement
+
+The original production ribbon is unchanged. AA-09 / The Wayfinder is held on throttle with no brake/drift, rivals or items. Pose/input/timestep and every stage are in the 1.2/3.1/3.2 records. This is controlled causal evidence, not recovered original keyboard input.
+
+1. **Local motion deficit first.** The settled approach begins at progress 0.809673. Step 1 moves only 0.001928 m while pre-physics planar velocity predicts 0.494252 m. Wheel/center support exists. This is physical body motion, before scripted rail correction; speed alone hides the local sticking. The fixture starts adjacent to the transition and does not measure its earlier approach history.
+2. **Large native launch and speed drop at step 15 (0.25 s).** Progress 0.809823, actual offset close to center. Controller delivers 29.666667 m/s; world.step returns 17.887793 m/s and vy=14.049756 m/s. No barrier, item, drift/ramp activation, respawn or loss of wheel support precedes this. Road manifold identifies steep retained face 2482, original span1245, leading lower cuboid corner. Normal [-0.266732,0.749017,0.606489] matches the gravity-adjusted velocity change within 0.000025m/s. Face slope41.494728° sharply exceeds authored grade2–5.666647°. This establishes the native road transition as the launch/speed-loss source in this scenario. Engine-internal positional solver details are not independently decomposed.
+3. **Support loss follows.** All four native wheel queries still hit through step18. After step19 they miss; step20 is the first controller call with driveSupported=false. AIRBORNE first displays step24 (0.40s). The support-loss gap is between a launched body and the road, not an uncovered sampled footprint.
+4. **Airborne controller decay follows the impulse.** Held throttle cannot accelerate while driveSupported=false. The existing exp(-0.65*dt) damping gradually takes about18.24→7.42m/s through step102. It does not produce the abrupt11.778874m/s native loss at step15. Wheel-ray reacquisition at step103 resumes driving before actual body landing; ray reach is grounding evidence, not proof of physical contact.
+5. **Boundary correction can add a separate near-stop.** In real KartTimeTrial.simulate, sustained right steering launches at step15 (29.666667→17.816017m/s). At step91 it contacts the boundary while still airborne: 8.330914→2.473474m/s with retention0.82/restitution0.22, penetration+slop0.137931m and zero incoming cooldown. Vertical velocity is unchanged. Subsequent controller/ordinary contact/boundary behavior under continuing steering reaches0.011542m/s; do not assign this entire later reduction to a single wall impulse. All recovery methods were observed, and no automatic recovery occurs in these incident runs. Manual and below-road positive controls are separately labeled and reset velocity as expected.
+
+## Attribution and alternatives
+
+`event-sequence-3.3.json` independently sums each production stage over four seconds. Controller, native physics, boundary and remaining-production deltas telescope to the observed endpoint within serialization precision. Net stage sums include acceleration and deceleration; they are not peak losses or independent hypothetical trajectories.
+
+Missing-support hypothesis: not supported by 65,408 legal grid rays or17,874 footprint rays. Deleted inverted faces overlap retained support; deletion span is not a hole dimension. Exact-rim tessellation discrepancies are outside the tested driving center allowance. Native contact supplies an upward impulse while supported, then support is lost.
+
+Rival/item/ramp/drift/recovery alternatives: excluded in controlled native onset; no scripted boundary at onset. Production isolation confirms the same native mechanism and later height-independent barrier response. Device frame pacing and GPU behavior are not measured by these native experiments; the recording HUD is not independent performance evidence.
+
+## Comparison to recording and remaining limits
+
+MP4 hash matches the preserved source f85841ef…; lap-2 frame125.6s shows lift/99km/h at the same gold return landmark. The recorded repeated crease/hop/slowdown, AIRBORNE and subsequent boundary near-stop are consistent with the measured sequence. We cannot prove the original exact line, controls, collision IDs, item state or internal telemetry from footage. Held-right is a reproduction of launch followed by near-stop at this location, not an exact107→22→1km/h replay. No original video or binary derivatives were published.
+
+Other three deletion clusters are flat with tested support, not shown to cause this uphill launch. Overlapping road sheets at different heights and steep retained connector triangle are measured; corrective triangulation must address folded geometry, not blindly restore deleted faces. No corrective mesh or other runtime change has been made. Proceed to Step4 diagnosis review; repair, preview and production remain separate approval gates.

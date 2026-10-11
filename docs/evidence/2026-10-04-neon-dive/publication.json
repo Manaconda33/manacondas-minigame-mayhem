@@ -1,0 +1,39 @@
+{
+  "previewUrl": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-dive/?review=fbff249",
+  "runtimeSource": "fbff2491076542092de6b30a81646ec7b6ae84a6",
+  "runtimeBranch": "feature/neon-grid-waterfall-dive",
+  "exactSourceCi": {
+    "run": 37240133047,
+    "job": 111547033248,
+    "conclusion": "success",
+    "tests": 992,
+    "files": 124
+  },
+  "publicationPr": 256,
+  "publicationMainCommit": "f4167110bc5aca9470dc21c4bf3d0b5436b01984",
+  "pagesCi": {
+    "run": 37240788760,
+    "validateJob": 111548924217,
+    "deployJob": 111549957900,
+    "conclusion": "success",
+    "expectedArtifact": 11317432756,
+    "verifiedArtifact": 11317662504
+  },
+  "scope": {
+    "productionDiff": [
+      ".github/workflows/ci.yml"
+    ],
+    "gameplayMerged": false,
+    "acceptedPreviewPinsChanged": false,
+    "balanceWork": false,
+    "ownerAcceptance": "pending"
+  },
+  "pr242": {
+    "initialHead": "b4de20a42d1ec81945340c24b45233ca1aafde08",
+    "finalObservedHead": "b89c788890cd9c895194cf5299760c1ec45107ae",
+    "draft": true,
+    "merged": false,
+    "modifiedByThisTask": false,
+    "independentUpdate": "2026-10-04T22:43:35Z docs: add approved Stage 4 visual design input [skip ci]; only docs/design/neon-grid/stage-4-visual-design.md"
+  }
+}

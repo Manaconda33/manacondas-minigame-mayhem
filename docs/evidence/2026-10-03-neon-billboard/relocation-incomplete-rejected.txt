@@ -1,0 +1,10 @@
+file:///workspace/scratch/768197ea282d/game/tools/diagnostics/neon-billboard-incomplete-probe.mjs:130
+        throw new Error(`Incomplete paired run: ${main.character} at ${main.speed} m/s`);
+              ^
+
+Error: Incomplete paired run: aa-01 at 12 m/s
+    at file:///workspace/scratch/768197ea282d/game/tools/diagnostics/neon-billboard-incomplete-probe.mjs:130:15
+    at Array.map (<anonymous>)
+    at file:///workspace/scratch/768197ea282d/game/tools/diagnostics/neon-billboard-incomplete-probe.mjs:122:6
+
+Node.js v24.19.0

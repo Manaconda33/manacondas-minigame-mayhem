@@ -467,3 +467,39 @@ Runtime root: `public/assets/track/materials/terrain-v1/`; revision `slice6-terr
 | `gravel_floor_02_arm_1k.jpg` | `53101410122574a22e3982748bec9edfbd0ba1608b9bff16de76f46fe80a17a9` |
 
 Payload: 9,298,938 bytes; conservative nine-texture decoded RGBA+mip estimate 48 MiB. Runtime JPGs follow existing normal-Git track-JPG policy; LFS-governed formats retain their policy. Build validation checks every reviewed JPEG signature/hash/size. Accepted asphalt maps and hashes are untouched.
+
+
+## Neon Grid Task 9 Skyline masking billboards — approved runtime integration, 2026-10-07
+
+Manny separately approved both review assets before runtime integration. T9.2 copies the already-approved 1024 × 512 WebP derivatives byte-for-byte into the Skyline Straight runtime signage path. They are static city-advertising masks only: no gameplay information, shortcut state, route arrows, tell cadence or gold directional treatment. The existing Paprika/Arin/Raven Billboard Gap hologram remains the gameplay-readable tell.
+
+| Runtime file | Preserved review derivative | Source PNG SHA-256 | Runtime WebP SHA-256 |
+| --- | --- | --- | --- |
+| `public/assets/track/neon-grid/signage/manaconda-racing-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/manaconda-racing-v1.webp` | `2f8cacacb6c2cefc4f4ef28fcb2cf0a36fd27a10f4cb6650e5cad014b5fc007f` | `481feb4ff34635abad29dd4f65b39975e73c227eb0a53901a51028c5e9fe7d22` |
+| `public/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/taco-bell-live-mas-v1.webp` | `7e66ea3fda8d8db1fdc5dc33d7f7a734eb63fbe22a69641a2b5aec6c5e849b14` | `d289bc4dbc10872d6c75aa4ae650aaf716bf83a9ea36da12ce0cdc021e7bea7e` |
+
+`tools/verify-task9-skyline-assets.mjs` enforces exact hashes, byte counts, RIFF/WebP signatures and 1024 × 512 dimensions. These two runtime derivatives use the narrow normal-Git exception approved in the 2026-10-07 ADR-106 Task 9 addendum; other track PNG/WebP assets retain the repository's LFS policy.
+
+
+## Neon Grid Task 9 Undercity masking billboards — runtime integration, 2026-10-07
+
+Manny reviewed and approved both standalone Undercity billboard candidates one at a time before runtime integration. T9.3 copies the already-approved 1024 × 512 WebP derivatives byte-for-byte into the runtime signage path. They are static environmental advertising only and carry no gameplay information, shortcut state, route arrows, ON/OFF semantics, flicker cadence or gold directional treatment.
+
+| Runtime file | Preserved review derivative | Source PNG SHA-256 | Runtime WebP SHA-256 | Bytes |
+| --- | --- | --- | --- | ---: |
+| `public/assets/track/neon-grid/signage/nightshift-noodles-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/nightshift-noodles-v1.webp` | `cff2b17cdae290746564689e63351f01bd7eef0cdda25b5ade0ebc3560e7e2f7` | `76fc1f75778c757cd979ff78641844cbf1d3955ec6dff7cc8145289dda45373a` | 220,026 |
+| `public/assets/track/neon-grid/signage/voltline-industrial-v1.webp` | `docs/design/neon-grid/assets/task9/billboards/voltline-industrial-v1.webp` | `87dc1584b0c38eb459eb81086fa26721130439022cfb79826901cd9799fde95f` | `19b32b71ee59a0f52860c4a6003057b46e4fde890c4e2d4d390b78ed2ea67863` | 238,228 |
+
+`tools/verify-task9-undercity-assets.mjs` enforces RIFF/WebP signatures, 1024 × 512 dimensions, exact byte counts and SHA-256 hashes through the existing runtime-asset validation chain. These two files use the same narrow owner-approved normal-Git delivery treatment as the already-integrated Task 9 Skyline masking derivatives; other track PNG/WebP policy remains unchanged.
+
+
+## T9.5 Service Tunnel hologram "DO NOT ENTER" (2026-10-08)
+
+- **Artwork:** Owner-approved, author-supplied transparent RGBA warning artwork, not third-party stock.
+- **Provenance:** Approved in Manaconda's Minigame Mayhem ChatGPT owner review on 2026-10-08 specifically for both Undercity Service Tunnel portals.
+- **Master:** `docs/design/neon-grid/assets/task9/billboards/service-tunnel-do-not-enter-v1-source.png` (1024×512, 147,958 bytes).
+- **Runtime:** `public/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png` (byte-identical master, no conversion/recolor or asset substitution).
+- **Git blob SHA-1:** `6d1275e9266dc5bd16a78de0a8d91aeead463369` for both paths.
+- **SHA-256:** `11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4` for both paths.
+- **Use restriction:** two non-colliding, depth-tested, semi-transparent warning images over genuine legal portal openings; locally fade for player/road/camera readability. Not a physical blockade, gameplay gate, directional route aid, or production-release authorization.
+- **Asset handling:** Approved exception in `.gitattributes` permits this fixed-size runtime PNG as a direct normal-Git object, avoiding LFS pointers in browser delivery. Runtime integration/validation and owner playtest remain independently gated.

@@ -1,0 +1,220 @@
+4:25:41 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+[
+  {
+    "start": 0.8,
+    "lane": -3,
+    "boosted": false,
+    "summary": {
+      "minSpeed": 0.12572398172959143,
+      "maxVy": 4.177794933319092,
+      "airSteps": 0,
+      "boundarySteps": 3,
+      "maxNativeLoss": 0.30705724775456034
+    }
+  },
+  {
+    "start": 0.8,
+    "lane": -3,
+    "boosted": true,
+    "summary": {
+      "minSpeed": 0.10643782958224624,
+      "maxVy": 4.675678730010986,
+      "airSteps": 0,
+      "boundarySteps": 3,
+      "maxNativeLoss": 0.3350611146125573
+    }
+  },
+  {
+    "start": 0.8,
+    "lane": 0,
+    "boosted": false,
+    "summary": {
+      "minSpeed": 3.249922968856138,
+      "maxVy": 4.070145130157471,
+      "airSteps": 0,
+      "boundarySteps": 10,
+      "maxNativeLoss": 0.2855548502905805
+    }
+  },
+  {
+    "start": 0.8,
+    "lane": 0,
+    "boosted": true,
+    "summary": {
+      "minSpeed": 3.1915923871626437,
+      "maxVy": 4.593000888824463,
+      "airSteps": 0,
+      "boundarySteps": 8,
+      "maxNativeLoss": 0.3193137371234869
+    }
+  },
+  {
+    "start": 0.8,
+    "lane": 3,
+    "boosted": false,
+    "summary": {
+      "minSpeed": 5.656471698986283,
+      "maxVy": 2.845916271209717,
+      "airSteps": 0,
+      "boundarySteps": 17,
+      "maxNativeLoss": 0.20722824349798685
+    }
+  },
+  {
+    "start": 0.8,
+    "lane": 3,
+    "boosted": true,
+    "summary": {
+      "minSpeed": 5.436582385664469,
+      "maxVy": 3.0909535884857178,
+      "airSteps": 0,
+      "boundarySteps": 19,
+      "maxNativeLoss": 0.22938945429491042
+    }
+  },
+  {
+    "start": 0.805,
+    "lane": -3,
+    "boosted": false,
+    "summary": {
+      "minSpeed": 1.9455230671293813,
+      "maxVy": 3.1282732486724854,
+      "airSteps": 0,
+      "boundarySteps": 2,
+      "maxNativeLoss": 0.24149007102139564
+    }
+  },
+  {
+    "start": 0.805,
+    "lane": -3,
+    "boosted": true,
+    "summary": {
+      "minSpeed": 1.89548887823826,
+      "maxVy": 3.5279109477996826,
+      "airSteps": 0,
+      "boundarySteps": 3,
+      "maxNativeLoss": 0.26746116858633684
+    }
+  },
+  {
+    "start": 0.805,
+    "lane": 0,
+    "boosted": false,
+    "summary": {
+      "minSpeed": 3.7517398734604157,
+      "maxVy": 3.2413175106048584,
+      "airSteps": 0,
+      "boundarySteps": 11,
+      "maxNativeLoss": 0.3842675907835371
+    }
+  },
+  {
+    "start": 0.805,
+    "lane": 0,
+    "boosted": true,
+    "summary": {
+      "minSpeed": 3.4162290609056174,
+      "maxVy": 3.630018949508667,
+      "airSteps": 0,
+      "boundarySteps": 10,
+      "maxNativeLoss": 0.4264485530281448
+    }
+  },
+  {
+    "start": 0.805,
+    "lane": 3,
+    "boosted": false,
+    "summary": {
+      "minSpeed": 5.931419258420497,
+      "maxVy": 2.771908760070801,
+      "airSteps": 0,
+      "boundarySteps": 16,
+      "maxNativeLoss": 0.23628791104326297
+    }
+  },
+  {
+    "start": 0.805,
+    "lane": 3,
+    "boosted": true,
+    "summary": {
+      "minSpeed": 5.7287524785298505,
+      "maxVy": 3.1130402088165283,
+      "airSteps": 0,
+      "boundarySteps": 16,
+      "maxNativeLoss": 0.26171259171034933
+    }
+  },
+  {
+    "start": 0.81,
+    "lane": -3,
+    "boosted": false,
+    "summary": {
+      "minSpeed": 18.98369165014854,
+      "maxVy": 2.5429539680480957,
+      "airSteps": 0,
+      "boundarySteps": 3,
+      "maxNativeLoss": 0.2401510022460691
+    }
+  },
+  {
+    "start": 0.81,
+    "lane": -3,
+    "boosted": true,
+    "summary": {
+      "minSpeed": 19.06750646708126,
+      "maxVy": 2.8485567569732666,
+      "airSteps": 0,
+      "boundarySteps": 3,
+      "maxNativeLoss": 0.26597085264516096
+    }
+  },
+  {
+    "start": 0.81,
+    "lane": 0,
+    "boosted": false,
+    "summary": {
+      "minSpeed": 22.834371623663365,
+      "maxVy": 2.358062982559204,
+      "airSteps": 0,
+      "boundarySteps": 1,
+      "maxNativeLoss": 0.2073664727636526
+    }
+  },
+  {
+    "start": 0.81,
+    "lane": 0,
+    "boosted": true,
+    "summary": {
+      "minSpeed": 24.22750410518282,
+      "maxVy": 2.641190767288208,
+      "airSteps": 0,
+      "boundarySteps": 1,
+      "maxNativeLoss": 0.22945539083264066
+    }
+  },
+  {
+    "start": 0.81,
+    "lane": 3,
+    "boosted": false,
+    "summary": {
+      "minSpeed": 20.131040656177902,
+      "maxVy": 3.7303926944732666,
+      "airSteps": 0,
+      "boundarySteps": 4,
+      "maxNativeLoss": 0.37979496146842706
+    }
+  },
+  {
+    "start": 0.81,
+    "lane": 3,
+    "boosted": true,
+    "summary": {
+      "minSpeed": 17.805793781957078,
+      "maxVy": 1.1633862257003784,
+      "airSteps": 0,
+      "boundarySteps": 5,
+      "maxNativeLoss": 0.05018446019366962
+    }
+  }
+]
+4:25:44 PM [vite] (client) [optimizer] bundling dependencies...

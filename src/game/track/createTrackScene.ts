@@ -1,6 +1,6 @@
 import { markBloomMaterial } from '../rendering/bloomEligibility';
 import * as THREE from 'three';
-import { CircuitAlpha } from './CircuitAlpha';
+import type { TrackDefinition } from './TrackDefinition';
 import { createGuardrailVisual } from './GuardrailSystem';
 import { createLoopStripGeometry, createSegmentStripGeometry } from './TrackMaterialCoordinates';
 import { createCircuitAlphaAsphaltMaterials } from './TrackMaterials';
@@ -38,7 +38,7 @@ const COLORS = {
 } as const;
 
 function createStrip(
-  track: CircuitAlpha,
+  track: TrackDefinition,
   halfWidth: number,
   material: THREE.Material,
   y: number,
@@ -47,7 +47,7 @@ function createStrip(
 }
 
 function createSegmentStrip(
-  track: CircuitAlpha,
+  track: TrackDefinition,
   startProgress: number,
   endProgress: number,
   centerOffset: number,
@@ -70,7 +70,7 @@ function createSegmentStrip(
   );
 }
 
-function poseAt(track: CircuitAlpha, progress: number, lateralOffset = 0, y = 0): TrackPose {
+function poseAt(track: TrackDefinition, progress: number, lateralOffset = 0, y = 0): TrackPose {
   const point = track.curve.getPointAt(progress);
   const tangent = track.curve.getTangentAt(progress).normalize();
   const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
@@ -128,7 +128,7 @@ function createSky(): THREE.Mesh {
   return sky;
 }
 
-function createRoadsideCurbs(track: CircuitAlpha): THREE.InstancedMesh {
+function createRoadsideCurbs(track: TrackDefinition): THREE.InstancedMesh {
   const step = 8;
   const count = Math.floor(track.sampleCount / step) * 2;
   const geometry = new THREE.BoxGeometry(0.62, 0.18, 1.7);
@@ -171,7 +171,7 @@ function createRoadsideCurbs(track: CircuitAlpha): THREE.InstancedMesh {
   return curbs;
 }
 
-function createRoadsideReflectors(track: CircuitAlpha): THREE.InstancedMesh {
+function createRoadsideReflectors(track: TrackDefinition): THREE.InstancedMesh {
   const step = 16;
   const count = Math.floor(track.sampleCount / step) * 2;
   const geometry = new THREE.BoxGeometry(0.14, 0.7, 0.14);
@@ -215,7 +215,7 @@ function createRoadsideReflectors(track: CircuitAlpha): THREE.InstancedMesh {
   return reflectors;
 }
 
-function createForest(track: CircuitAlpha): THREE.Group {
+function createForest(track: TrackDefinition): THREE.Group {
   const group = new THREE.Group();
   group.name = 'trackside-forest';
   const count = 64;
@@ -274,7 +274,7 @@ function createForest(track: CircuitAlpha): THREE.Group {
   return group;
 }
 
-function createTracksideRocks(track: CircuitAlpha): THREE.InstancedMesh {
+function createTracksideRocks(track: TrackDefinition): THREE.InstancedMesh {
   const count = 36;
   const geometry = new THREE.DodecahedronGeometry(1, 0);
   const material = new THREE.MeshStandardMaterial({
@@ -435,7 +435,7 @@ function createCenterMesa(): THREE.Group {
   return group;
 }
 
-function createStartFinishGate(track: CircuitAlpha): THREE.Group {
+function createStartFinishGate(track: TrackDefinition): THREE.Group {
   const visualProgress = 22 / track.curve.getLength();
   const pose = poseAt(track, visualProgress);
   const gate = new THREE.Group();
@@ -500,7 +500,7 @@ function createStartFinishGate(track: CircuitAlpha): THREE.Group {
   return gate;
 }
 
-function createUnderpass(track: CircuitAlpha): THREE.Group {
+function createUnderpass(track: TrackDefinition): THREE.Group {
   const pose = poseAt(track, 0.745);
   const underpass = new THREE.Group();
   underpass.name = 'underpass-gate';
@@ -559,7 +559,7 @@ function createUnderpass(track: CircuitAlpha): THREE.Group {
   return underpass;
 }
 
-function createBoostPad(track: CircuitAlpha, progress: number): THREE.Group {
+function createBoostPad(track: TrackDefinition, progress: number): THREE.Group {
   const pose = poseAt(track, progress, 0, 0.08);
   const pad = new THREE.Group();
   pad.name = `boost-pad-${progress.toFixed(3)}`;
@@ -595,7 +595,7 @@ function createBoostPad(track: CircuitAlpha, progress: number): THREE.Group {
   return pad;
 }
 
-function createRamp(track: CircuitAlpha): THREE.Group {
+function createRamp(track: TrackDefinition): THREE.Group {
   const pose = poseAt(track, 0.5, 0, 0.04);
   const ramp = new THREE.Group();
   ramp.name = 'crest-ramp-visual';
@@ -677,7 +677,7 @@ function createRamp(track: CircuitAlpha): THREE.Group {
   return ramp;
 }
 
-function createCheckpointPylons(track: CircuitAlpha): THREE.InstancedMesh {
+function createCheckpointPylons(track: TrackDefinition): THREE.InstancedMesh {
   const count = track.checkpointIndices.length * 2;
   const geometry = new THREE.CylinderGeometry(0.24, 0.36, 3.2, 8);
   const material = new THREE.MeshStandardMaterial({
@@ -717,7 +717,7 @@ function createCheckpointPylons(track: CircuitAlpha): THREE.InstancedMesh {
   return pylons;
 }
 
-function createLandmarkBeacons(track: CircuitAlpha): THREE.Group {
+function createLandmarkBeacons(track: TrackDefinition): THREE.Group {
   const group = new THREE.Group();
   group.name = 'landmark-beacons';
   const frameMaterial = new THREE.MeshStandardMaterial({
@@ -751,7 +751,7 @@ function createLandmarkBeacons(track: CircuitAlpha): THREE.Group {
   return group;
 }
 
-export function createTrackScene(track: CircuitAlpha): THREE.Group {
+export function createTrackScene(track: TrackDefinition): THREE.Group {
   const group = new THREE.Group();
   group.name = 'circuit-alpha-environment';
   group.add(createSky());

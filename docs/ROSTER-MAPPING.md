@@ -2,6 +2,10 @@
 
 This ledger is the source of truth for mapping approved Manaconda's Minigame Mayhem characters to the thirteen approved PRD balance profiles. Each internal profile may be assigned to one active production character only. An assigned profile is unavailable to every later character unless Manny explicitly approves a remap or retires the assigned character from production.
 
+## Billboard sponsor art — 2026-10-03
+
+Paprika, Arin and Raven are approved in-world Neon Grid advertisers only. No profile allocation, playable-character addition, roster-slot or stat change. Character identity locks/concepts/references and artwork approval: docs/assets/NEON-GRID-BILLBOARD-ASSET-BRIEF.md.
+
 ## Allocation rules
 
 **Lunarcrystal intake, 2026-10-01:** Fourteen 2D images are individually approved and authorized for an asset-only review upload under the delivery namespace `lunarcrystal`. Page-two placement beside Archer is requested. All thirteen existing profiles remain assigned; no new profile is reserved or allocated. Balance, roster-capacity amendment, kart and runtime integration await separate approval. See `docs/avatars/LUNARCRYSTAL.md`.

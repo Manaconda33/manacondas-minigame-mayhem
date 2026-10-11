@@ -1,0 +1,52 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/be55d24ec46a/manacondas-minigame-mayhem
+
+ ❯ tests/neon-grid-lap-routes.test.ts (16 tests | 8 failed) 16621ms
+   × earns three physical laps: 'player' tunnel=+0 billboard=+0 dive=1 1064ms
+   × earns three physical laps: 'ai' tunnel=+0 billboard=+0 dive=1 1024ms
+   × earns three physical laps: 'player' tunnel=+0 billboard=1 dive=1 1055ms
+   × earns three physical laps: 'ai' tunnel=+0 billboard=1 dive=1 1098ms
+   × earns three physical laps: 'player' tunnel=1 billboard=+0 dive=1 958ms
+   × earns three physical laps: 'ai' tunnel=1 billboard=+0 dive=1 899ms
+   × earns three physical laps: 'player' tunnel=1 billboard=1 dive=1 1122ms
+   × earns three physical laps: 'ai' tunnel=1 billboard=1 dive=1 1066ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-lap-routes.test.ts > earns three physical laps: 'player' tunnel=+0 billboard=+0 dive=1
+ FAIL  tests/neon-grid-lap-routes.test.ts > earns three physical laps: 'ai' tunnel=+0 billboard=+0 dive=1
+ FAIL  tests/neon-grid-lap-routes.test.ts > earns three physical laps: 'player' tunnel=+0 billboard=1 dive=1
+ FAIL  tests/neon-grid-lap-routes.test.ts > earns three physical laps: 'ai' tunnel=+0 billboard=1 dive=1
+ FAIL  tests/neon-grid-lap-routes.test.ts > earns three physical laps: 'player' tunnel=1 billboard=+0 dive=1
+ FAIL  tests/neon-grid-lap-routes.test.ts > earns three physical laps: 'ai' tunnel=1 billboard=+0 dive=1
+ FAIL  tests/neon-grid-lap-routes.test.ts > earns three physical laps: 'player' tunnel=1 billboard=1 dive=1
+ FAIL  tests/neon-grid-lap-routes.test.ts > earns three physical laps: 'ai' tunnel=1 billboard=1 dive=1
+AssertionError: expected { …(5) } to match object { …(3) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -35,8 +35,8 @@
+      9,
+      10,
+      11,
+      0,
+    ],
+-   "landings": 3,
++   "landings": 0,
+    "recoveries": 0,
+  }
+
+ ❯ tests/neon-grid-lap-routes.test.ts:36:86
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 8 passed (16)
+   Start at  00:47:22
+   Duration  17.55s (transform 189ms, setup 0ms, import 277ms, tests 16.62s, environment 501ms)
+

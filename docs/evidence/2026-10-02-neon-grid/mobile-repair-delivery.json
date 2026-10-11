@@ -1,0 +1,69 @@
+{
+  "source": "52093b35aa6b44440c6ddb112c4de713b109a86d",
+  "marker": {
+    "feature": "Neon Grid Circuit 02 main-route blockout",
+    "source": "52093b35aa6b44440c6ddb112c4de713b109a86d",
+    "base": "/manacondas-minigame-mayhem/previews/neon-grid/",
+    "status": "Stage 2 review only; no tokens or shortcuts; production acceptance pending"
+  },
+  "verifiedAt": "2026-10-03T02:55:25.853801+00:00",
+  "runtimeCi": 37090765229,
+  "previewCi": 37090768372,
+  "previewPr": 245,
+  "previewMerge": "ab2f0c1fdfa213d66083d982f3f593c376a4bac9",
+  "pagesRun": 37090970443,
+  "checks": [
+    {
+      "path": "index.html",
+      "bytes": 776,
+      "sha256": "96497dd464428381f42c341417193a480de234cc6a6fb0476da1b6c8637879ba",
+      "match": true
+    },
+    {
+      "path": "assets/KartTimeTrial-mtBKXN08.js",
+      "bytes": 3133740,
+      "sha256": "62dc227735eaea36a67806d18873af43bf1be9c8f719b8145b1e5c6c83517111",
+      "match": true
+    },
+    {
+      "path": "assets/index-DXt0uo0S.js",
+      "bytes": 807347,
+      "sha256": "e362a1096148f5f6a2e69ce4b50b0747152e519cadf157d13b22e5e9df7f2a73",
+      "match": true
+    },
+    {
+      "path": "assets/index-KLiXI-1N.css",
+      "bytes": 85082,
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "match": true
+    }
+  ],
+  "productionPreservation": [
+    {
+      "path": "index.html",
+      "bytes": 719,
+      "sha256": "0805ea2fcb30e514284d344f2381862925a87468e9f87edd0e3197ad4bc5739f",
+      "unchanged": true
+    },
+    {
+      "path": "assets/index-DS-2a4hq.js",
+      "bytes": 806526,
+      "sha256": "6657ae60358211b5fc69831f318eb9396fd62e04bd1c311f1b1f39ea2aa8d377",
+      "unchanged": true
+    },
+    {
+      "path": "assets/index-KLiXI-1N.css",
+      "bytes": 85082,
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "unchanged": true
+    },
+    {
+      "path": "assets/KartTimeTrial-DQ8owGNr.js",
+      "bytes": 3125918,
+      "sha256": "de1c85120ba7c442ab009aea93d7a812d27d8d91e47791bd609f688c1979b927",
+      "unchanged": true
+    }
+  ],
+  "ownerReview": "pending; original mobile failure not accepted",
+  "inputEvidence": "real mobile pointer binding through countdown and eight-body physics moves AA-02, Archer and Lunarcrystal; separate device input failure remains unconfirmed"
+}

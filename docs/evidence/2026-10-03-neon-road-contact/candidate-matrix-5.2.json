@@ -1,0 +1,899 @@
+{
+  "base": "754c0ff72862472779cdd86759599cd05c6cc22d",
+  "command": "node tools/diagnostics/neon-residual.mjs /tmp/candidate.json --matrix; candidate copied temporarily to src/game/track/NeonGridGeometry.ts",
+  "scope": "opt-in native safety checks; not original input replay or full Step5.3 validation",
+  "variants": [
+    {
+      "sourceFile": "candidate-5.2-short.fixture.txt",
+      "sourceSha256": "d86ef6f6ed57d50884c456f9de51fb18f5320635f4f47af690b31efa123282b0",
+      "reports": [
+        {
+          "start": 0.8,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 0.211188,
+            "maxVy": 11.037986,
+            "airSteps": 51,
+            "boundarySteps": 4,
+            "maxNativeLoss": 3.583022
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 0.161047,
+            "maxVy": 12.507771,
+            "airSteps": 64,
+            "boundarySteps": 2,
+            "maxNativeLoss": 4.041938
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 2.520321,
+            "maxVy": 10.65987,
+            "airSteps": 49,
+            "boundarySteps": 11,
+            "maxNativeLoss": 3.4328
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.22711,
+            "maxVy": 13.785551,
+            "airSteps": 77,
+            "boundarySteps": 0,
+            "maxNativeLoss": 18.330071
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.715083,
+            "maxVy": 2.808562,
+            "airSteps": 0,
+            "boundarySteps": 16,
+            "maxNativeLoss": 0.258234
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.439029,
+            "maxVy": 3.093736,
+            "airSteps": 0,
+            "boundarySteps": 19,
+            "maxNativeLoss": 0.286097
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.244762,
+            "maxVy": 12.138848,
+            "airSteps": 65,
+            "boundarySteps": 0,
+            "maxNativeLoss": 16.6447
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.261191,
+            "maxVy": 13.640721,
+            "airSteps": 76,
+            "boundarySteps": 0,
+            "maxNativeLoss": 18.656442
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 4.147706,
+            "maxVy": 2.82658,
+            "airSteps": 0,
+            "boundarySteps": 12,
+            "maxNativeLoss": 0.237983
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.072559,
+            "maxVy": 3.17364,
+            "airSteps": 0,
+            "boundarySteps": 11,
+            "maxNativeLoss": 0.263408
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.931771,
+            "maxVy": 2.771909,
+            "airSteps": 0,
+            "boundarySteps": 16,
+            "maxNativeLoss": 0.236288
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.72885,
+            "maxVy": 3.11304,
+            "airSteps": 0,
+            "boundarySteps": 16,
+            "maxNativeLoss": 0.261713
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 18.020908,
+            "maxVy": 8.912917,
+            "airSteps": 32,
+            "boundarySteps": 1,
+            "maxNativeLoss": 2.21204
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 18.851684,
+            "maxVy": 9.995242,
+            "airSteps": 42,
+            "boundarySteps": 0,
+            "maxNativeLoss": 2.465295
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 22.842349,
+            "maxVy": 2.358065,
+            "airSteps": 0,
+            "boundarySteps": 1,
+            "maxNativeLoss": 0.207363
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 24.238105,
+            "maxVy": 2.641193,
+            "airSteps": 0,
+            "boundarySteps": 1,
+            "maxNativeLoss": 0.229455
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 20.131081,
+            "maxVy": 3.730393,
+            "airSteps": 0,
+            "boundarySteps": 4,
+            "maxNativeLoss": 0.379795
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 17.805688,
+            "maxVy": 1.163386,
+            "airSteps": 0,
+            "boundarySteps": 5,
+            "maxNativeLoss": 0.053721
+          }
+        }
+      ],
+      "traceFile": "candidate-matrix-5.2-short.json"
+    },
+    {
+      "sourceFile": "candidate-5.2-long-low.fixture.txt",
+      "sourceSha256": "187690df83e7b8f87214c4947ab37f6c86ffb19449716fe4209ef0f86bb67dc8",
+      "reports": [
+        {
+          "start": 0.8,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 0.104838,
+            "maxVy": 5.49794,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.599476
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 0.076039,
+            "maxVy": 5.866124,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.578472
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 3.71776,
+            "maxVy": 3.00631,
+            "airSteps": 0,
+            "boundarySteps": 11,
+            "maxNativeLoss": 0.261475
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 3.162035,
+            "maxVy": 3.376462,
+            "airSteps": 0,
+            "boundarySteps": 10,
+            "maxNativeLoss": 0.289846
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.656473,
+            "maxVy": 2.845917,
+            "airSteps": 0,
+            "boundarySteps": 17,
+            "maxNativeLoss": 0.20723
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.436582,
+            "maxVy": 3.090959,
+            "airSteps": 0,
+            "boundarySteps": 19,
+            "maxNativeLoss": 0.229389
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 0.011915,
+            "maxVy": 5.573059,
+            "airSteps": 0,
+            "boundarySteps": 4,
+            "maxNativeLoss": 0.631186
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 0.033649,
+            "maxVy": 5.961436,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.613431
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 3.863147,
+            "maxVy": 2.830441,
+            "airSteps": 0,
+            "boundarySteps": 12,
+            "maxNativeLoss": 0.170982
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 4.954088,
+            "maxVy": 3.170414,
+            "airSteps": 0,
+            "boundarySteps": 11,
+            "maxNativeLoss": 0.188911
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.931771,
+            "maxVy": 2.771909,
+            "airSteps": 0,
+            "boundarySteps": 16,
+            "maxNativeLoss": 0.236288
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.72885,
+            "maxVy": 3.11304,
+            "airSteps": 0,
+            "boundarySteps": 16,
+            "maxNativeLoss": 0.261713
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 19.220179,
+            "maxVy": 5.000759,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.722277
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 16.092274,
+            "maxVy": 5.257467,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.80533
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 23.414685,
+            "maxVy": 2.341441,
+            "airSteps": 0,
+            "boundarySteps": 1,
+            "maxNativeLoss": 0.206072
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 24.71298,
+            "maxVy": 2.623191,
+            "airSteps": 0,
+            "boundarySteps": 1,
+            "maxNativeLoss": 0.228054
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 20.131182,
+            "maxVy": 3.730393,
+            "airSteps": 0,
+            "boundarySteps": 4,
+            "maxNativeLoss": 0.379795
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 17.80607,
+            "maxVy": 1.163386,
+            "airSteps": 0,
+            "boundarySteps": 5,
+            "maxNativeLoss": 0.050184
+          }
+        }
+      ],
+      "traceFile": "candidate-matrix-5.2-long-low.json"
+    },
+    {
+      "sourceFile": "candidate-5.2-local-grade.fixture.txt",
+      "sourceSha256": "e1b8050c2df2d352b6ae96e6b6002a86fdcbcaed34c24fc5e69f177bfbe061df",
+      "reports": [
+        {
+          "start": 0.8,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 0.379758,
+            "maxVy": 5.426433,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.597117
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 0.342192,
+            "maxVy": 6.262207,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.72811
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 3.736003,
+            "maxVy": 2.999598,
+            "airSteps": 0,
+            "boundarySteps": 11,
+            "maxNativeLoss": 0.245806
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 3.176818,
+            "maxVy": 3.156122,
+            "airSteps": 0,
+            "boundarySteps": 10,
+            "maxNativeLoss": 0.276832
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.656473,
+            "maxVy": 2.845917,
+            "airSteps": 0,
+            "boundarySteps": 17,
+            "maxNativeLoss": 0.20723
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.436582,
+            "maxVy": 3.090959,
+            "airSteps": 0,
+            "boundarySteps": 19,
+            "maxNativeLoss": 0.229389
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 1.437743,
+            "maxVy": 5.504413,
+            "airSteps": 0,
+            "boundarySteps": 2,
+            "maxNativeLoss": 0.619626
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 1.714631,
+            "maxVy": 6.113584,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.672397
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 4.084924,
+            "maxVy": 2.821303,
+            "airSteps": 0,
+            "boundarySteps": 10,
+            "maxNativeLoss": 0.310617
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 3.568378,
+            "maxVy": 3.170331,
+            "airSteps": 0,
+            "boundarySteps": 10,
+            "maxNativeLoss": 0.26323
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.931771,
+            "maxVy": 2.771909,
+            "airSteps": 0,
+            "boundarySteps": 16,
+            "maxNativeLoss": 0.236288
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.72885,
+            "maxVy": 3.11304,
+            "airSteps": 0,
+            "boundarySteps": 16,
+            "maxNativeLoss": 0.261713
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 15.533032,
+            "maxVy": 6.682702,
+            "airSteps": 0,
+            "boundarySteps": 4,
+            "maxNativeLoss": 1.639501
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 18.942169,
+            "maxVy": 7.488292,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 1.82871
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 23.414685,
+            "maxVy": 2.341441,
+            "airSteps": 0,
+            "boundarySteps": 1,
+            "maxNativeLoss": 0.206072
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 24.71298,
+            "maxVy": 2.623191,
+            "airSteps": 0,
+            "boundarySteps": 1,
+            "maxNativeLoss": 0.228054
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 20.131182,
+            "maxVy": 3.730393,
+            "airSteps": 0,
+            "boundarySteps": 4,
+            "maxNativeLoss": 0.379795
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 17.80607,
+            "maxVy": 1.163386,
+            "airSteps": 0,
+            "boundarySteps": 5,
+            "maxNativeLoss": 0.050184
+          }
+        }
+      ],
+      "traceFile": "candidate-matrix-5.2-local-grade.json"
+    },
+    {
+      "sourceFile": "candidate-5.2-dense.fixture.txt",
+      "sourceSha256": "572afc97ae6cca621423762b7e78ba03881b6a235c428837465b42221d204e35",
+      "reports": [
+        {
+          "start": 0.8,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 0.137303,
+            "maxVy": 4.174039,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.305027
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 0.10856,
+            "maxVy": 4.669233,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.3357
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 4.293042,
+            "maxVy": 14.731738,
+            "airSteps": 83,
+            "boundarySteps": 1,
+            "maxNativeLoss": 7.978506
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 2.874269,
+            "maxVy": 4.64819,
+            "airSteps": 0,
+            "boundarySteps": 9,
+            "maxNativeLoss": 0.32552
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.656472,
+            "maxVy": 2.845916,
+            "airSteps": 0,
+            "boundarySteps": 17,
+            "maxNativeLoss": 0.207228
+          }
+        },
+        {
+          "start": 0.8,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.436582,
+            "maxVy": 3.090954,
+            "airSteps": 0,
+            "boundarySteps": 19,
+            "maxNativeLoss": 0.229389
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 3.968365,
+            "maxVy": 14.326459,
+            "airSteps": 80,
+            "boundarySteps": 1,
+            "maxNativeLoss": 7.913598
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 2.126129,
+            "maxVy": 15.660089,
+            "airSteps": 90,
+            "boundarySteps": 1,
+            "maxNativeLoss": 8.359622
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.315677,
+            "maxVy": 3.023544,
+            "airSteps": 0,
+            "boundarySteps": 2,
+            "maxNativeLoss": 0.169908
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.275906,
+            "maxVy": 3.381632,
+            "airSteps": 0,
+            "boundarySteps": 4,
+            "maxNativeLoss": 0.187946
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 5.931771,
+            "maxVy": 2.771909,
+            "airSteps": 0,
+            "boundarySteps": 16,
+            "maxNativeLoss": 0.236288
+          }
+        },
+        {
+          "start": 0.805,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 5.72885,
+            "maxVy": 3.11304,
+            "airSteps": 0,
+            "boundarySteps": 16,
+            "maxNativeLoss": 0.261713
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": -3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 19.098587,
+            "maxVy": 4.57928,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.359667
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": -3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 19.124738,
+            "maxVy": 5.15456,
+            "airSteps": 0,
+            "boundarySteps": 3,
+            "maxNativeLoss": 0.397692
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 0,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 22.835057,
+            "maxVy": 2.358065,
+            "airSteps": 0,
+            "boundarySteps": 1,
+            "maxNativeLoss": 0.207363
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 0,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 24.231806,
+            "maxVy": 2.641193,
+            "airSteps": 0,
+            "boundarySteps": 1,
+            "maxNativeLoss": 0.229455
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 3,
+          "boosted": false,
+          "summary": {
+            "minSpeed": 20.131041,
+            "maxVy": 3.730393,
+            "airSteps": 0,
+            "boundarySteps": 4,
+            "maxNativeLoss": 0.379795
+          }
+        },
+        {
+          "start": 0.81,
+          "lane": 3,
+          "boosted": true,
+          "summary": {
+            "minSpeed": 17.805794,
+            "maxVy": 1.163386,
+            "airSteps": 0,
+            "boundarySteps": 5,
+            "maxNativeLoss": 0.050184
+          }
+        }
+      ],
+      "traceFile": "candidate-matrix-5.2-dense.json"
+    }
+  ]
+}

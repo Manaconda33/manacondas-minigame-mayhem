@@ -1,0 +1,88 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/768197ea282d/game
+
+ ❯ tests/neon-grid-billboard.test.ts (12 tests | 12 failed) 24ms
+     × resolves phase 0 without wall-clock state 3ms
+     × resolves phase 3.2 without wall-clock state 0ms
+     × resolves phase 3.6 without wall-clock state 0ms
+     × resolves phase 4 without wall-clock state 0ms
+     × resolves phase 5.2 without wall-clock state 0ms
+     × resolves phase 5.6 without wall-clock state 0ms
+     × resolves phase 6 without wall-clock state 0ms
+     × resolves phase 10 without wall-clock state 0ms
+     × defines static as 0.82 retention with asphalt acceleration and no floor 3ms
+     × owns physical entry until rejoin and emits a once-only exit at phase 0 8ms
+     × owns physical entry until rejoin and emits a once-only exit at phase 4 4ms
+     × rejects sideways, reverse and elevated entries and resets a reversed traversal 2ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 12 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > resolves phase 0 without wall-clock state
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > resolves phase 3.2 without wall-clock state
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > resolves phase 3.6 without wall-clock state
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > resolves phase 4 without wall-clock state
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > resolves phase 5.2 without wall-clock state
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > resolves phase 5.6 without wall-clock state
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > resolves phase 6 without wall-clock state
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > resolves phase 10 without wall-clock state
+Error: Billboard timing not implemented
+ ❯ Module.billboardStateAt src/game/track/NeonGridBillboard.ts:2:9
+      1| export function billboardStateAt(_raceSeconds: number): { on: boolean;…
+      2|   throw new Error('Billboard timing not implemented');
+       |         ^
+      3| }
+      4|
+ ❯ tests/neon-grid-billboard.test.ts:10:29
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/12]⎯
+
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > defines static as 0.82 retention with asphalt acceleration and no floor
+AssertionError: expected 1 to be 0.82 // Object.is equality
+
+- Expected
++ Received
+
+- 0.82
++ 1
+
+ ❯ tests/neon-grid-billboard.test.ts:15:49
+     13|   });
+     14|   it('defines static as 0.82 retention with asphalt acceleration and n…
+     15|     expect(surfaceSpeedMultiplier('static', 5)).toBe(0.82);
+       |                                                 ^
+     16|     expect(surfaceAccelerationMultiplier('static', 5)).toBe(1);
+     17|     expect(surfaceMinimumPlayableSpeed('static')).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/12]⎯
+
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > owns physical entry until rejoin and emits a once-only exit at phase 0
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > owns physical entry until rejoin and emits a once-only exit at phase 4
+TypeError: Cannot read properties of undefined (reading 'mouthDistance')
+ ❯ tests/neon-grid-billboard.test.ts:22:23
+     20|     const track = new NeonGrid(), route = new RacerTrack(track), gap =…
+     21|     const at = (d: number) => gap.curve.getPointAt(d / gap.curve.getLe…
+     22|     const mouth = gap.mouthDistance;
+       |                       ^
+     23|     expect(route.project(at(40)).pathId).toBeUndefined();
+     24|     expect(route.advance(at(mouth - 1), at(mouth + 1), time)).toBeNull…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/12]⎯
+
+ FAIL  tests/neon-grid-billboard.test.ts > authoritative billboard timing and crossing > rejects sideways, reverse and elevated entries and resets a reversed traversal
+TypeError: Cannot read properties of undefined (reading 'curve')
+ ❯ tests/neon-grid-billboard.test.ts:40:19
+     38|   it('rejects sideways, reverse and elevated entries and resets a reve…
+     39|     const track = new NeonGrid(), gap = track.billboardGap, route = ne…
+     40|     const p = gap.curve.getPointAt(gap.mouthDistance / gap.curve.getLe…
+       |                   ^
+     41|     const before = p.clone().addScaledVector(t, -1), after = p.clone()…
+     42|     route.advance(after, before, 0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/12]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  12 failed (12)
+   Start at  18:13:47
+   Duration  738ms (transform 62ms, setup 0ms, import 107ms, tests 24ms, environment 467ms)

@@ -1,0 +1,6385 @@
+{
+  "topLevel": [
+    {
+      "name": "DriftVisual",
+      "type": "Group",
+      "children": 1,
+      "visible": false
+    },
+    {
+      "name": "WheelDustVisual",
+      "type": "Group",
+      "children": 1,
+      "visible": false
+    },
+    {
+      "name": "AiDrivingVisual",
+      "type": "Group",
+      "children": 2,
+      "visible": true
+    },
+    {
+      "name": "ExhaustVisual",
+      "type": "Group",
+      "children": 1,
+      "visible": false
+    },
+    {
+      "name": "PlayerSpeedVisual",
+      "type": "Group",
+      "children": 1,
+      "visible": false
+    },
+    {
+      "name": "neon-grid-blockout",
+      "type": "Group",
+      "children": 29,
+      "visible": true
+    },
+    {
+      "name": "slice-5-item-boxes",
+      "type": "Group",
+      "children": 32,
+      "visible": true
+    },
+    {
+      "name": "projectile-runtime",
+      "type": "Group",
+      "children": 0,
+      "visible": true
+    },
+    {
+      "name": "hazard-runtime",
+      "type": "Group",
+      "children": 0,
+      "visible": true
+    },
+    {
+      "name": "shockwave-runtime",
+      "type": "Group",
+      "children": 0,
+      "visible": true
+    },
+    {
+      "name": "prismatic-visual",
+      "type": "Group",
+      "children": 19,
+      "visible": false
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 0,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 0,
+      "visible": false
+    },
+    {
+      "name": "prismatic-test-rival-marker",
+      "type": "Group",
+      "children": 0,
+      "visible": false
+    },
+    {
+      "name": "ink-splat-counter-fixture",
+      "type": "Group",
+      "children": 0,
+      "visible": false
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 0,
+      "visible": true
+    },
+    {
+      "name": "apex-presentation",
+      "type": "Group",
+      "children": 3,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "HemisphereLight",
+      "children": 0,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "DirectionalLight",
+      "children": 0,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Object3D",
+      "children": 0,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 3,
+      "visible": true
+    },
+    {
+      "name": "racer-item-visuals-world",
+      "type": "Group",
+      "children": 1,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 3,
+      "visible": true
+    },
+    {
+      "name": "racer-item-visuals-world",
+      "type": "Group",
+      "children": 1,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 3,
+      "visible": true
+    },
+    {
+      "name": "racer-item-visuals-world",
+      "type": "Group",
+      "children": 1,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 3,
+      "visible": true
+    },
+    {
+      "name": "racer-item-visuals-world",
+      "type": "Group",
+      "children": 1,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 3,
+      "visible": true
+    },
+    {
+      "name": "racer-item-visuals-world",
+      "type": "Group",
+      "children": 1,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 3,
+      "visible": true
+    },
+    {
+      "name": "racer-item-visuals-world",
+      "type": "Group",
+      "children": 1,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 3,
+      "visible": true
+    },
+    {
+      "name": "racer-item-visuals-world",
+      "type": "Group",
+      "children": 1,
+      "visible": true
+    },
+    {
+      "name": "",
+      "type": "Group",
+      "children": 7,
+      "visible": true
+    }
+  ],
+  "trackSceneKeys": [
+    "isObject3D",
+    "uuid",
+    "name",
+    "type",
+    "parent",
+    "children",
+    "up",
+    "position",
+    "rotation",
+    "quaternion",
+    "scale",
+    "matrix",
+    "matrixWorld",
+    "matrixAutoUpdate",
+    "matrixWorldAutoUpdate",
+    "matrixWorldNeedsUpdate",
+    "layers",
+    "visible",
+    "castShadow",
+    "receiveShadow",
+    "frustumCulled",
+    "renderOrder",
+    "animations",
+    "customDepthMaterial",
+    "customDistanceMaterial",
+    "static",
+    "userData",
+    "pivot",
+    "isGroup",
+    "billboard",
+    "dive",
+    "fallsRun",
+    "fallsRunExtension",
+    "skyline",
+    "undercity",
+    "tunnelWarnings"
+  ],
+  "kart": [
+    165.02032470703125,
+    15.390026092529297,
+    -97.0727310180664
+  ],
+  "camera": [
+    162.99962324358086,
+    17.340025737748835,
+    -102.29544818538587
+  ],
+  "objects": [
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 0.01,
+      "bounds": [
+        [
+          163.58,
+          14.97,
+          -98.58
+        ],
+        [
+          166.45,
+          15.78,
+          -95.58
+        ]
+      ],
+      "vertices": 1344,
+      "triangles": 2688,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "Chassis_1",
+      "type": "Mesh",
+      "dist": 0.03,
+      "bounds": [
+        [
+          163.75,
+          15.27,
+          -98.6
+        ],
+        [
+          166.31,
+          15.91,
+          -95.49
+        ]
+      ],
+      "vertices": 722,
+      "triangles": 1176,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "Chassis",
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 0.04,
+      "bounds": [
+        [
+          163.52,
+          15.21,
+          -98.82
+        ],
+        [
+          166.5,
+          16.16,
+          -95.4
+        ]
+      ],
+      "vertices": 3816,
+      "triangles": 5436,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 0.1,
+      "bounds": [
+        [
+          164.17,
+          14.59,
+          -97.36
+        ],
+        [
+          165.94,
+          16.45,
+          -96.6
+        ]
+      ],
+      "vertices": 296,
+      "triangles": 504,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 0.44,
+      "bounds": [
+        [
+          164.4,
+          15.36,
+          -97.24
+        ],
+        [
+          164.86,
+          15.61,
+          -96.49
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 0.44,
+      "bounds": [
+        [
+          165.22,
+          15.36,
+          -97.56
+        ],
+        [
+          165.68,
+          15.61,
+          -96.81
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 0.78,
+      "bounds": [
+        [
+          164.55,
+          15.09,
+          -97.31
+        ],
+        [
+          166.06,
+          16.05,
+          -95.38
+        ]
+      ],
+      "vertices": 51,
+      "triangles": 24,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.03,
+      "bounds": [
+        [
+          164.11,
+          15.4,
+          -98.32
+        ],
+        [
+          164.61,
+          15.58,
+          -97.42
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.03,
+      "bounds": [
+        [
+          164.73,
+          15.4,
+          -98.56
+        ],
+        [
+          165.22,
+          15.58,
+          -97.65
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.1,
+      "bounds": [
+        [
+          163.92,
+          15.29,
+          -98.61
+        ],
+        [
+          164.75,
+          15.69,
+          -97.26
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.1,
+      "bounds": [
+        [
+          164.54,
+          15.29,
+          -98.85
+        ],
+        [
+          165.36,
+          15.69,
+          -97.5
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual"
+      ]
+    },
+    {
+      "name": "AccentMesh_2",
+      "type": "Mesh",
+      "dist": 1.24,
+      "bounds": [
+        [
+          165.22,
+          15.42,
+          -96.17
+        ],
+        [
+          165.72,
+          15.7,
+          -95.67
+        ]
+      ],
+      "vertices": 36,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "AccentMesh",
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.51,
+      "bounds": [
+        [
+          163.84,
+          15.38,
+          -98.6
+        ],
+        [
+          164.28,
+          15.57,
+          -97.86
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.51,
+      "bounds": [
+        [
+          164.73,
+          15.38,
+          -98.95
+        ],
+        [
+          165.17,
+          15.57,
+          -98.21
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.51,
+      "bounds": [
+        [
+          163.81,
+          15.37,
+          -98.66
+        ],
+        [
+          164.3,
+          15.57,
+          -97.81
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.51,
+      "bounds": [
+        [
+          164.71,
+          15.37,
+          -99.01
+        ],
+        [
+          165.2,
+          15.57,
+          -98.15
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.57,
+      "bounds": [
+        [
+          163.61,
+          15.25,
+          -98.96
+        ],
+        [
+          164.45,
+          15.69,
+          -97.64
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.57,
+      "bounds": [
+        [
+          164.51,
+          15.25,
+          -99.3
+        ],
+        [
+          165.35,
+          15.69,
+          -97.99
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.59,
+      "bounds": [
+        [
+          163.66,
+          15.27,
+          -98.88
+        ],
+        [
+          164.39,
+          15.67,
+          -97.76
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.59,
+      "bounds": [
+        [
+          164.55,
+          15.27,
+          -99.22
+        ],
+        [
+          165.29,
+          15.67,
+          -98.11
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.92,
+      "bounds": [
+        [
+          163.51,
+          14.67,
+          -99.21
+        ],
+        [
+          165.15,
+          16.4,
+          -98.51
+        ]
+      ],
+      "vertices": 231,
+      "triangles": 384,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 1.98,
+      "bounds": [
+        [
+          163.49,
+          14.65,
+          -99.27
+        ],
+        [
+          165.13,
+          16.38,
+          -98.57
+        ]
+      ],
+      "vertices": 203,
+      "triangles": 336,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 12.66,
+      "bounds": [
+        [
+          155.6,
+          13.39,
+          -112.93
+        ],
+        [
+          164.5,
+          13.64,
+          -104.51
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "billboard-boost-pad",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 19.19,
+      "bounds": [
+        [
+          160.49,
+          13.67,
+          -115.86
+        ],
+        [
+          160.72,
+          20.97,
+          -115.64
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "billboard-frame",
+        "billboard-portal-entrance"
+      ]
+    },
+    {
+      "name": "billboard-ad-raven",
+      "type": "Mesh",
+      "dist": 22.75,
+      "bounds": [
+        [
+          148.99,
+          13.77,
+          -119.39
+        ],
+        [
+          161.03,
+          20.87,
+          -115.62
+        ]
+      ],
+      "vertices": 4,
+      "triangles": 2,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "billboard-portal-entrance",
+        "billboard-hologram"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 22.75,
+      "bounds": [
+        [
+          149.31,
+          20.88,
+          -119.37
+        ],
+        [
+          160.72,
+          21.06,
+          -115.64
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "billboard-frame",
+        "billboard-portal-entrance"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 27.12,
+      "bounds": [
+        [
+          149.31,
+          13.67,
+          -119.37
+        ],
+        [
+          149.53,
+          20.97,
+          -119.15
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "billboard-frame",
+        "billboard-portal-entrance"
+      ]
+    },
+    {
+      "name": "billboard-plaza",
+      "type": "Mesh",
+      "dist": 31.26,
+      "bounds": [
+        [
+          145.9,
+          7.64,
+          -129.82
+        ],
+        [
+          188.59,
+          14,
+          -1.97
+        ]
+      ],
+      "vertices": 950,
+      "triangles": 948,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 37.51,
+      "bounds": [
+        [
+          138.86,
+          16,
+          -125.37
+        ],
+        [
+          140.65,
+          16.96,
+          -124.23
+        ]
+      ],
+      "vertices": 51,
+      "triangles": 24,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "SteeringWheel",
+      "type": "Mesh",
+      "dist": 37.74,
+      "bounds": [
+        [
+          139.17,
+          16.43,
+          -125.11
+        ],
+        [
+          139.73,
+          17.09,
+          -124.56
+        ]
+      ],
+      "vertices": 368,
+      "triangles": 420,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 37.77,
+      "bounds": [
+        [
+          138.61,
+          16.27,
+          -124.58
+        ],
+        [
+          139.35,
+          16.52,
+          -124.29
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 38.02,
+      "bounds": [
+        [
+          138.93,
+          15.5,
+          -125.8
+        ],
+        [
+          139.23,
+          17.36,
+          -123.94
+        ]
+      ],
+      "vertices": 296,
+      "triangles": 504,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 38.09,
+      "bounds": [
+        [
+          137.73,
+          15.88,
+          -126.03
+        ],
+        [
+          140.25,
+          17,
+          -123.73
+        ]
+      ],
+      "vertices": 1160,
+      "triangles": 2060,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 38.09,
+      "bounds": [
+        [
+          137.84,
+          15.98,
+          -125.93
+        ],
+        [
+          140.14,
+          16.95,
+          -123.83
+        ]
+      ],
+      "vertices": 1010,
+      "triangles": 1728,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 38.13,
+      "bounds": [
+        [
+          137.46,
+          16.13,
+          -126.07
+        ],
+        [
+          140.42,
+          16.86,
+          -123.7
+        ]
+      ],
+      "vertices": 2710,
+      "triangles": 3116,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 38.28,
+      "bounds": [
+        [
+          137.32,
+          16.06,
+          -126.1
+        ],
+        [
+          140.17,
+          16.95,
+          -123.71
+        ]
+      ],
+      "vertices": 2148,
+      "triangles": 3072,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 38.35,
+      "bounds": [
+        [
+          138.71,
+          16.27,
+          -125.46
+        ],
+        [
+          139.45,
+          16.52,
+          -125.17
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 38.64,
+      "bounds": [
+        [
+          137.51,
+          16.31,
+          -124.8
+        ],
+        [
+          138.43,
+          16.49,
+          -124.52
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 38.69,
+      "bounds": [
+        [
+          137.24,
+          16.2,
+          -124.93
+        ],
+        [
+          138.57,
+          16.6,
+          -124.41
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 38.89,
+      "bounds": [
+        [
+          137.14,
+          16.28,
+          -124.69
+        ],
+        [
+          137.88,
+          16.47,
+          -124.43
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 38.89,
+      "bounds": [
+        [
+          137.08,
+          16.28,
+          -124.7
+        ],
+        [
+          137.94,
+          16.48,
+          -124.41
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 38.94,
+      "bounds": [
+        [
+          136.79,
+          16.16,
+          -124.84
+        ],
+        [
+          138.08,
+          16.6,
+          -124.29
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 38.96,
+      "bounds": [
+        [
+          136.88,
+          16.18,
+          -124.81
+        ],
+        [
+          137.96,
+          16.58,
+          -124.32
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 39.06,
+      "bounds": [
+        [
+          137.59,
+          16.31,
+          -125.45
+        ],
+        [
+          138.5,
+          16.49,
+          -125.18
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 39.11,
+      "bounds": [
+        [
+          137.31,
+          16.2,
+          -125.58
+        ],
+        [
+          138.64,
+          16.6,
+          -125.06
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 39.5,
+      "bounds": [
+        [
+          137.24,
+          16.28,
+          -125.65
+        ],
+        [
+          137.98,
+          16.47,
+          -125.38
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 39.5,
+      "bounds": [
+        [
+          137.18,
+          16.28,
+          -125.66
+        ],
+        [
+          138.04,
+          16.48,
+          -125.37
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 39.55,
+      "bounds": [
+        [
+          136.9,
+          16.16,
+          -125.8
+        ],
+        [
+          138.19,
+          16.6,
+          -125.25
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 39.57,
+      "bounds": [
+        [
+          136.98,
+          16.18,
+          -125.77
+        ],
+        [
+          138.06,
+          16.58,
+          -125.28
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 39.57,
+      "bounds": [
+        [
+          136.94,
+          15.57,
+          -125.95
+        ],
+        [
+          137.2,
+          17.3,
+          -124.22
+        ]
+      ],
+      "vertices": 231,
+      "triangles": 384,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 39.62,
+      "bounds": [
+        [
+          136.88,
+          15.55,
+          -125.96
+        ],
+        [
+          137.14,
+          17.28,
+          -124.23
+        ]
+      ],
+      "vertices": 203,
+      "triangles": 336,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 40.09,
+      "bounds": [
+        [
+          136.88,
+          16,
+          -127.05
+        ],
+        [
+          138.67,
+          16.96,
+          -125.91
+        ]
+      ],
+      "vertices": 51,
+      "triangles": 24,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 40.36,
+      "bounds": [
+        [
+          136.63,
+          16.27,
+          -126.27
+        ],
+        [
+          137.37,
+          16.52,
+          -125.98
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "SteeringWheel_2",
+      "type": "Mesh",
+      "dist": 40.45,
+      "bounds": [
+        [
+          137,
+          16.27,
+          -126.67
+        ],
+        [
+          137.54,
+          16.9,
+          -126.33
+        ]
+      ],
+      "vertices": 410,
+      "triangles": 400,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "SteeringWheel",
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "Chassis_1",
+      "type": "Mesh",
+      "dist": 40.47,
+      "bounds": [
+        [
+          136,
+          16.22,
+          -127.45
+        ],
+        [
+          138.56,
+          16.79,
+          -125.63
+        ]
+      ],
+      "vertices": 144,
+      "triangles": 48,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "Chassis",
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "SteeringWheel_1",
+      "type": "Mesh",
+      "dist": 40.61,
+      "bounds": [
+        [
+          136.97,
+          16.54,
+          -126.79
+        ],
+        [
+          137.23,
+          16.96,
+          -126.32
+        ]
+      ],
+      "vertices": 200,
+      "triangles": 400,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "SteeringWheel",
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 40.61,
+      "bounds": [
+        [
+          135.54,
+          15.88,
+          -127.81
+        ],
+        [
+          138.65,
+          16.92,
+          -125.31
+        ]
+      ],
+      "vertices": 2456,
+      "triangles": 3100,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 40.61,
+      "bounds": [
+        [
+          136.95,
+          15.5,
+          -127.49
+        ],
+        [
+          137.25,
+          17.36,
+          -125.63
+        ]
+      ],
+      "vertices": 296,
+      "triangles": 504,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 40.62,
+      "bounds": [
+        [
+          135.55,
+          16.03,
+          -127.82
+        ],
+        [
+          138.61,
+          16.83,
+          -125.29
+        ]
+      ],
+      "vertices": 7528,
+      "triangles": 7588,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 40.72,
+      "bounds": [
+        [
+          135.55,
+          16.17,
+          -127.63
+        ],
+        [
+          138.34,
+          16.6,
+          -125.52
+        ]
+      ],
+      "vertices": 708,
+      "triangles": 552,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 40.93,
+      "bounds": [
+        [
+          136.73,
+          16.27,
+          -127.14
+        ],
+        [
+          137.47,
+          16.52,
+          -126.85
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 41.23,
+      "bounds": [
+        [
+          135.53,
+          16.31,
+          -126.48
+        ],
+        [
+          136.45,
+          16.49,
+          -126.21
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 41.28,
+      "bounds": [
+        [
+          135.25,
+          16.2,
+          -126.61
+        ],
+        [
+          136.59,
+          16.6,
+          -126.09
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 41.48,
+      "bounds": [
+        [
+          135.16,
+          16.28,
+          -126.38
+        ],
+        [
+          135.89,
+          16.47,
+          -126.11
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 41.48,
+      "bounds": [
+        [
+          135.1,
+          16.28,
+          -126.39
+        ],
+        [
+          135.95,
+          16.48,
+          -126.1
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 41.54,
+      "bounds": [
+        [
+          134.81,
+          16.16,
+          -126.53
+        ],
+        [
+          136.1,
+          16.6,
+          -125.98
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 41.55,
+      "bounds": [
+        [
+          134.89,
+          16.18,
+          -126.5
+        ],
+        [
+          135.98,
+          16.58,
+          -126.01
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 41.65,
+      "bounds": [
+        [
+          135.6,
+          16.31,
+          -127.14
+        ],
+        [
+          136.52,
+          16.49,
+          -126.86
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 41.7,
+      "bounds": [
+        [
+          135.32,
+          16.2,
+          -127.27
+        ],
+        [
+          136.66,
+          16.6,
+          -126.75
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.09,
+      "bounds": [
+        [
+          135.26,
+          16.28,
+          -127.33
+        ],
+        [
+          136,
+          16.47,
+          -127.06
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.09,
+      "bounds": [
+        [
+          135.2,
+          16.28,
+          -127.34
+        ],
+        [
+          136.06,
+          16.48,
+          -127.05
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.14,
+      "bounds": [
+        [
+          134.92,
+          16.16,
+          -127.48
+        ],
+        [
+          136.2,
+          16.6,
+          -126.93
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.16,
+      "bounds": [
+        [
+          135,
+          16.18,
+          -127.45
+        ],
+        [
+          136.08,
+          16.58,
+          -126.96
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.17,
+      "bounds": [
+        [
+          134.96,
+          15.57,
+          -127.64
+        ],
+        [
+          135.22,
+          17.3,
+          -125.91
+        ]
+      ],
+      "vertices": 231,
+      "triangles": 384,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.21,
+      "bounds": [
+        [
+          134.9,
+          15.55,
+          -127.64
+        ],
+        [
+          135.16,
+          17.28,
+          -125.92
+        ]
+      ],
+      "vertices": 203,
+      "triangles": 336,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.31,
+      "bounds": [
+        [
+          132.32,
+          16,
+          -125.55
+        ],
+        [
+          134.11,
+          16.96,
+          -124.42
+        ]
+      ],
+      "vertices": 51,
+      "triangles": 24,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "SteeringWheel",
+      "type": "Mesh",
+      "dist": 42.59,
+      "bounds": [
+        [
+          132.61,
+          16.52,
+          -125.28
+        ],
+        [
+          133.16,
+          17.17,
+          -124.76
+        ]
+      ],
+      "vertices": 434,
+      "triangles": 484,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.67,
+      "bounds": [
+        [
+          134.87,
+          16,
+          -128.7
+        ],
+        [
+          136.66,
+          16.96,
+          -127.57
+        ]
+      ],
+      "vertices": 51,
+      "triangles": 24,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.67,
+      "bounds": [
+        [
+          132.07,
+          16.27,
+          -124.77
+        ],
+        [
+          132.81,
+          16.52,
+          -124.48
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.82,
+      "bounds": [
+        [
+          128.87,
+          13.71,
+          -124.11
+        ],
+        [
+          131.93,
+          17.39,
+          -120.42
+        ]
+      ],
+      "vertices": 24,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-0",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.82,
+      "bounds": [
+        [
+          130.04,
+          15.19,
+          -122.62
+        ],
+        [
+          130.76,
+          15.91,
+          -121.91
+        ]
+      ],
+      "vertices": 60,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-0",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.82,
+      "bounds": [
+        [
+          129.58,
+          15.47,
+          -123.08
+        ],
+        [
+          131.22,
+          15.63,
+          -121.44
+        ]
+      ],
+      "vertices": 189,
+      "triangles": 320,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-0",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.87,
+      "bounds": [
+        [
+          132.39,
+          15.5,
+          -125.99
+        ],
+        [
+          132.69,
+          17.36,
+          -124.13
+        ]
+      ],
+      "vertices": 296,
+      "triangles": 504,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "Chassis_1",
+      "type": "Mesh",
+      "dist": 42.88,
+      "bounds": [
+        [
+          131.25,
+          16.13,
+          -125.85
+        ],
+        [
+          133.82,
+          16.75,
+          -124.27
+        ]
+      ],
+      "vertices": 1071,
+      "triangles": 1792,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "Chassis",
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "SteeringWheel",
+      "type": "Mesh",
+      "dist": 42.93,
+      "bounds": [
+        [
+          135.15,
+          16.44,
+          -128.42
+        ],
+        [
+          135.71,
+          17.09,
+          -127.92
+        ]
+      ],
+      "vertices": 521,
+      "triangles": 676,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 42.93,
+      "bounds": [
+        [
+          131.03,
+          16.12,
+          -126.14
+        ],
+        [
+          133.91,
+          16.72,
+          -123.99
+        ]
+      ],
+      "vertices": 5467,
+      "triangles": 8832,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 42.94,
+      "bounds": [
+        [
+          130.96,
+          16.31,
+          -125.81
+        ],
+        [
+          133.97,
+          16.84,
+          -124.32
+        ]
+      ],
+      "vertices": 3667,
+      "triangles": 6080,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 42.95,
+      "bounds": [
+        [
+          134.62,
+          16.27,
+          -127.92
+        ],
+        [
+          135.36,
+          16.52,
+          -127.63
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 42.97,
+      "bounds": [
+        [
+          131.32,
+          15.88,
+          -126.09
+        ],
+        [
+          133.52,
+          16.64,
+          -124.05
+        ]
+      ],
+      "vertices": 1536,
+      "triangles": 3072,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.17,
+      "bounds": [
+        [
+          132.17,
+          16.27,
+          -125.65
+        ],
+        [
+          132.91,
+          16.52,
+          -125.36
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "Chassis_1",
+      "type": "Mesh",
+      "dist": 43.19,
+      "bounds": [
+        [
+          133.73,
+          16.19,
+          -129.07
+        ],
+        [
+          136.46,
+          16.78,
+          -127.34
+        ]
+      ],
+      "vertices": 1224,
+      "triangles": 2048,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "Chassis",
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.19,
+      "bounds": [
+        [
+          134.94,
+          15.5,
+          -129.14
+        ],
+        [
+          135.24,
+          17.36,
+          -127.28
+        ]
+      ],
+      "vertices": 296,
+      "triangles": 504,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 43.23,
+      "bounds": [
+        [
+          133.54,
+          16.13,
+          -129.33
+        ],
+        [
+          136.53,
+          16.78,
+          -127.1
+        ]
+      ],
+      "vertices": 3363,
+      "triangles": 3808,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 43.25,
+      "bounds": [
+        [
+          133.47,
+          16.25,
+          -129.26
+        ],
+        [
+          136.55,
+          16.71,
+          -127.17
+        ]
+      ],
+      "vertices": 1377,
+      "triangles": 2304,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 43.29,
+      "bounds": [
+        [
+          133.76,
+          15.88,
+          -129.3
+        ],
+        [
+          136.17,
+          16.86,
+          -127.15
+        ]
+      ],
+      "vertices": 1789,
+      "triangles": 3328,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "skyline-deck-fascia",
+      "type": "Mesh",
+      "dist": 43.34,
+      "bounds": [
+        [
+          -1.23,
+          -14.33,
+          -212.66
+        ],
+        [
+          286.27,
+          18.73,
+          92.61
+        ]
+      ],
+      "vertices": 10104,
+      "triangles": 5184,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "skyline-visual",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.51,
+      "bounds": [
+        [
+          134.72,
+          16.27,
+          -128.8
+        ],
+        [
+          135.46,
+          16.52,
+          -128.51
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.57,
+      "bounds": [
+        [
+          128.87,
+          13.71,
+          -125.37
+        ],
+        [
+          131.92,
+          17.39,
+          -121.68
+        ]
+      ],
+      "vertices": 24,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-1",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.57,
+      "bounds": [
+        [
+          130.04,
+          15.19,
+          -123.88
+        ],
+        [
+          130.75,
+          15.91,
+          -123.16
+        ]
+      ],
+      "vertices": 60,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-1",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.57,
+      "bounds": [
+        [
+          129.58,
+          15.47,
+          -124.34
+        ],
+        [
+          131.22,
+          15.63,
+          -122.7
+        ]
+      ],
+      "vertices": 189,
+      "triangles": 320,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-1",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.58,
+      "bounds": [
+        [
+          130.97,
+          16.31,
+          -124.98
+        ],
+        [
+          131.89,
+          16.49,
+          -124.71
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.64,
+      "bounds": [
+        [
+          130.7,
+          16.2,
+          -125.11
+        ],
+        [
+          132.03,
+          16.6,
+          -124.59
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.81,
+      "bounds": [
+        [
+          133.52,
+          16.31,
+          -128.13
+        ],
+        [
+          134.44,
+          16.49,
+          -127.86
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.87,
+      "bounds": [
+        [
+          133.24,
+          16.2,
+          -128.26
+        ],
+        [
+          134.58,
+          16.6,
+          -127.74
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.88,
+      "bounds": [
+        [
+          130.6,
+          16.28,
+          -124.88
+        ],
+        [
+          131.34,
+          16.47,
+          -124.61
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.88,
+      "bounds": [
+        [
+          130.54,
+          16.28,
+          -124.89
+        ],
+        [
+          131.4,
+          16.48,
+          -124.6
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.94,
+      "bounds": [
+        [
+          130.25,
+          16.16,
+          -125.03
+        ],
+        [
+          131.54,
+          16.6,
+          -124.48
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.95,
+      "bounds": [
+        [
+          130.34,
+          16.18,
+          -125
+        ],
+        [
+          131.42,
+          16.58,
+          -124.51
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 43.95,
+      "bounds": [
+        [
+          131.05,
+          16.31,
+          -125.64
+        ],
+        [
+          131.96,
+          16.49,
+          -125.36
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.01,
+      "bounds": [
+        [
+          130.77,
+          16.2,
+          -125.77
+        ],
+        [
+          132.1,
+          16.6,
+          -125.25
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.07,
+      "bounds": [
+        [
+          133.15,
+          16.28,
+          -128.03
+        ],
+        [
+          133.89,
+          16.47,
+          -127.76
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.07,
+      "bounds": [
+        [
+          133.09,
+          16.28,
+          -128.04
+        ],
+        [
+          133.95,
+          16.48,
+          -127.75
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.13,
+      "bounds": [
+        [
+          132.8,
+          16.16,
+          -128.18
+        ],
+        [
+          134.09,
+          16.6,
+          -127.63
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.14,
+      "bounds": [
+        [
+          132.89,
+          16.18,
+          -128.15
+        ],
+        [
+          133.97,
+          16.58,
+          -127.66
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.23,
+      "bounds": [
+        [
+          133.59,
+          16.31,
+          -128.79
+        ],
+        [
+          134.51,
+          16.49,
+          -128.51
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.28,
+      "bounds": [
+        [
+          133.32,
+          16.2,
+          -128.92
+        ],
+        [
+          134.65,
+          16.6,
+          -128.4
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.35,
+      "bounds": [
+        [
+          128.87,
+          13.71,
+          -126.62
+        ],
+        [
+          131.92,
+          17.39,
+          -122.94
+        ]
+      ],
+      "vertices": 24,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-2",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.35,
+      "bounds": [
+        [
+          130.04,
+          15.19,
+          -125.14
+        ],
+        [
+          130.75,
+          15.91,
+          -124.42
+        ]
+      ],
+      "vertices": 60,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-2",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.35,
+      "bounds": [
+        [
+          129.57,
+          15.47,
+          -125.6
+        ],
+        [
+          131.21,
+          15.63,
+          -123.96
+        ]
+      ],
+      "vertices": 189,
+      "triangles": 320,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-2",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.41,
+      "bounds": [
+        [
+          130.7,
+          16.28,
+          -125.83
+        ],
+        [
+          131.44,
+          16.47,
+          -125.57
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.41,
+      "bounds": [
+        [
+          130.64,
+          16.28,
+          -125.84
+        ],
+        [
+          131.5,
+          16.48,
+          -125.56
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.47,
+      "bounds": [
+        [
+          130.36,
+          16.16,
+          -125.98
+        ],
+        [
+          131.65,
+          16.6,
+          -125.43
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.48,
+      "bounds": [
+        [
+          130.44,
+          16.18,
+          -125.95
+        ],
+        [
+          131.52,
+          16.58,
+          -125.46
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.55,
+      "bounds": [
+        [
+          130.4,
+          15.57,
+          -126.14
+        ],
+        [
+          130.66,
+          17.3,
+          -124.41
+        ]
+      ],
+      "vertices": 231,
+      "triangles": 384,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.6,
+      "bounds": [
+        [
+          130.34,
+          15.55,
+          -126.15
+        ],
+        [
+          130.6,
+          17.28,
+          -124.42
+        ]
+      ],
+      "vertices": 203,
+      "triangles": 336,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.67,
+      "bounds": [
+        [
+          133.25,
+          16.28,
+          -128.98
+        ],
+        [
+          133.99,
+          16.47,
+          -128.72
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.67,
+      "bounds": [
+        [
+          133.19,
+          16.28,
+          -128.99
+        ],
+        [
+          134.05,
+          16.48,
+          -128.71
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.73,
+      "bounds": [
+        [
+          132.91,
+          16.16,
+          -129.13
+        ],
+        [
+          134.19,
+          16.6,
+          -128.58
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.74,
+      "bounds": [
+        [
+          132.99,
+          16.18,
+          -129.1
+        ],
+        [
+          134.07,
+          16.58,
+          -128.61
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.76,
+      "bounds": [
+        [
+          132.95,
+          15.57,
+          -129.29
+        ],
+        [
+          133.21,
+          17.3,
+          -127.56
+        ]
+      ],
+      "vertices": 231,
+      "triangles": 384,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.8,
+      "bounds": [
+        [
+          132.89,
+          15.55,
+          -129.3
+        ],
+        [
+          133.15,
+          17.28,
+          -127.57
+        ]
+      ],
+      "vertices": 203,
+      "triangles": 336,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 44.91,
+      "bounds": [
+        [
+          130.27,
+          16,
+          -127.15
+        ],
+        [
+          132.06,
+          16.96,
+          -126.01
+        ]
+      ],
+      "vertices": 51,
+      "triangles": 24,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.15,
+      "bounds": [
+        [
+          128.86,
+          13.71,
+          -127.88
+        ],
+        [
+          131.92,
+          17.39,
+          -124.19
+        ]
+      ],
+      "vertices": 24,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-3",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.15,
+      "bounds": [
+        [
+          130.03,
+          15.19,
+          -126.39
+        ],
+        [
+          130.75,
+          15.91,
+          -125.68
+        ]
+      ],
+      "vertices": 60,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-3",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.15,
+      "bounds": [
+        [
+          129.57,
+          15.47,
+          -126.86
+        ],
+        [
+          131.21,
+          15.63,
+          -125.22
+        ]
+      ],
+      "vertices": 189,
+      "triangles": 320,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-3",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.2,
+      "bounds": [
+        [
+          126.07,
+          14,
+          -120.41
+        ],
+        [
+          126.37,
+          16.8,
+          -120.11
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "checkpoint-2",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "SteeringWheel",
+      "type": "Mesh",
+      "dist": 45.25,
+      "bounds": [
+        [
+          130.7,
+          16.61,
+          -126.88
+        ],
+        [
+          130.81,
+          17.12,
+          -126.37
+        ]
+      ],
+      "vertices": 266,
+      "triangles": 488,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.27,
+      "bounds": [
+        [
+          130.02,
+          16.27,
+          -126.37
+        ],
+        [
+          130.76,
+          16.52,
+          -126.08
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.47,
+      "bounds": [
+        [
+          130.34,
+          15.5,
+          -127.58
+        ],
+        [
+          130.63,
+          17.36,
+          -125.72
+        ]
+      ],
+      "vertices": 296,
+      "triangles": 504,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "AccentMesh",
+      "type": "Mesh",
+      "dist": 45.51,
+      "bounds": [
+        [
+          128.94,
+          16.19,
+          -127.39
+        ],
+        [
+          131.94,
+          17.23,
+          -125.93
+        ]
+      ],
+      "vertices": 1120,
+      "triangles": 1368,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "Chassis",
+      "type": "Mesh",
+      "dist": 45.54,
+      "bounds": [
+        [
+          129.05,
+          15.98,
+          -127.56
+        ],
+        [
+          131.76,
+          16.8,
+          -125.77
+        ]
+      ],
+      "vertices": 180,
+      "triangles": 60,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 45.55,
+      "bounds": [
+        [
+          128.88,
+          15.88,
+          -127.88
+        ],
+        [
+          131.89,
+          16.47,
+          -125.45
+        ]
+      ],
+      "vertices": 4200,
+      "triangles": 2240,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.76,
+      "bounds": [
+        [
+          130.11,
+          16.27,
+          -127.24
+        ],
+        [
+          130.85,
+          16.52,
+          -126.95
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.97,
+      "bounds": [
+        [
+          128.86,
+          13.71,
+          -129.14
+        ],
+        [
+          131.91,
+          17.39,
+          -125.45
+        ]
+      ],
+      "vertices": 24,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-4",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.97,
+      "bounds": [
+        [
+          130.03,
+          15.19,
+          -127.65
+        ],
+        [
+          130.74,
+          15.91,
+          -126.94
+        ]
+      ],
+      "vertices": 60,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-4",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 45.97,
+      "bounds": [
+        [
+          129.56,
+          15.47,
+          -128.11
+        ],
+        [
+          131.2,
+          15.63,
+          -126.47
+        ]
+      ],
+      "vertices": 189,
+      "triangles": 320,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-4",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.18,
+      "bounds": [
+        [
+          128.92,
+          16.31,
+          -126.58
+        ],
+        [
+          129.83,
+          16.49,
+          -126.3
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.24,
+      "bounds": [
+        [
+          128.64,
+          16.2,
+          -126.71
+        ],
+        [
+          129.97,
+          16.6,
+          -126.19
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.48,
+      "bounds": [
+        [
+          128.55,
+          16.28,
+          -126.47
+        ],
+        [
+          129.28,
+          16.47,
+          -126.21
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.48,
+      "bounds": [
+        [
+          128.48,
+          16.28,
+          -126.49
+        ],
+        [
+          129.34,
+          16.48,
+          -126.2
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.54,
+      "bounds": [
+        [
+          128.2,
+          16.16,
+          -126.62
+        ],
+        [
+          129.49,
+          16.6,
+          -126.07
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.55,
+      "bounds": [
+        [
+          128.99,
+          16.31,
+          -127.24
+        ],
+        [
+          129.9,
+          16.49,
+          -126.96
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.56,
+      "bounds": [
+        [
+          128.28,
+          16.18,
+          -126.6
+        ],
+        [
+          129.37,
+          16.58,
+          -126.11
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.61,
+      "bounds": [
+        [
+          128.71,
+          16.2,
+          -127.36
+        ],
+        [
+          130.04,
+          16.6,
+          -126.85
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.81,
+      "bounds": [
+        [
+          128.85,
+          13.71,
+          -130.39
+        ],
+        [
+          131.91,
+          17.39,
+          -126.71
+        ]
+      ],
+      "vertices": 24,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-5",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.81,
+      "bounds": [
+        [
+          130.02,
+          15.19,
+          -128.91
+        ],
+        [
+          130.74,
+          15.91,
+          -128.19
+        ]
+      ],
+      "vertices": 60,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-5",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 46.81,
+      "bounds": [
+        [
+          129.56,
+          15.47,
+          -129.37
+        ],
+        [
+          131.2,
+          15.63,
+          -127.73
+        ]
+      ],
+      "vertices": 189,
+      "triangles": 320,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-5",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.01,
+      "bounds": [
+        [
+          128.65,
+          16.28,
+          -127.43
+        ],
+        [
+          129.38,
+          16.47,
+          -127.16
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.01,
+      "bounds": [
+        [
+          128.59,
+          16.28,
+          -127.44
+        ],
+        [
+          129.44,
+          16.48,
+          -127.15
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.07,
+      "bounds": [
+        [
+          128.3,
+          16.16,
+          -127.58
+        ],
+        [
+          129.59,
+          16.6,
+          -127.03
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.08,
+      "bounds": [
+        [
+          128.38,
+          16.18,
+          -127.55
+        ],
+        [
+          129.47,
+          16.58,
+          -127.06
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.15,
+      "bounds": [
+        [
+          128.35,
+          15.57,
+          -127.74
+        ],
+        [
+          128.61,
+          17.3,
+          -126.01
+        ]
+      ],
+      "vertices": 231,
+      "triangles": 384,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.2,
+      "bounds": [
+        [
+          128.29,
+          15.55,
+          -127.74
+        ],
+        [
+          128.55,
+          17.28,
+          -126.01
+        ]
+      ],
+      "vertices": 203,
+      "triangles": 336,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.38,
+      "bounds": [
+        [
+          125.8,
+          16,
+          -125.51
+        ],
+        [
+          127.6,
+          16.96,
+          -124.37
+        ]
+      ],
+      "vertices": 51,
+      "triangles": 24,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.43,
+      "bounds": [
+        [
+          128.3,
+          16,
+          -128.72
+        ],
+        [
+          130.09,
+          16.96,
+          -127.59
+        ]
+      ],
+      "vertices": 51,
+      "triangles": 24,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.66,
+      "bounds": [
+        [
+          128.85,
+          13.71,
+          -131.65
+        ],
+        [
+          131.9,
+          17.39,
+          -127.96
+        ]
+      ],
+      "vertices": 24,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-6",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.66,
+      "bounds": [
+        [
+          130.02,
+          15.19,
+          -130.16
+        ],
+        [
+          130.73,
+          15.91,
+          -129.45
+        ]
+      ],
+      "vertices": 60,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-6",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.66,
+      "bounds": [
+        [
+          129.56,
+          15.47,
+          -130.63
+        ],
+        [
+          131.2,
+          15.63,
+          -128.99
+        ]
+      ],
+      "vertices": 189,
+      "triangles": 320,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-6",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "SteeringWheel",
+      "type": "Mesh",
+      "dist": 47.78,
+      "bounds": [
+        [
+          128.7,
+          16.77,
+          -128.5
+        ],
+        [
+          128.84,
+          17.36,
+          -127.9
+        ]
+      ],
+      "vertices": 250,
+      "triangles": 456,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.78,
+      "bounds": [
+        [
+          128.05,
+          16.27,
+          -127.94
+        ],
+        [
+          128.79,
+          16.52,
+          -127.65
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "SteeringWheel",
+      "type": "Mesh",
+      "dist": 47.78,
+      "bounds": [
+        [
+          126.01,
+          16.53,
+          -125.23
+        ],
+        [
+          126.47,
+          17.07,
+          -124.74
+        ]
+      ],
+      "vertices": 204,
+      "triangles": 204,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.8,
+      "bounds": [
+        [
+          125.56,
+          16.27,
+          -124.72
+        ],
+        [
+          126.3,
+          16.52,
+          -124.43
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 47.88,
+      "bounds": [
+        [
+          124.74,
+          15.88,
+          -126.04
+        ],
+        [
+          127.51,
+          16.74,
+          -123.96
+        ]
+      ],
+      "vertices": 5301,
+      "triangles": 8064,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "AccentMesh_1",
+      "type": "Mesh",
+      "dist": 47.9,
+      "bounds": [
+        [
+          124.56,
+          16.18,
+          -126.17
+        ],
+        [
+          127.65,
+          17.28,
+          -123.83
+        ]
+      ],
+      "vertices": 8480,
+      "triangles": 12720,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "AccentMesh",
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.97,
+      "bounds": [
+        [
+          125.87,
+          15.5,
+          -125.94
+        ],
+        [
+          126.17,
+          17.36,
+          -124.08
+        ]
+      ],
+      "vertices": 296,
+      "triangles": 504,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 47.99,
+      "bounds": [
+        [
+          128.37,
+          15.5,
+          -129.16
+        ],
+        [
+          128.67,
+          17.36,
+          -127.3
+        ]
+      ],
+      "vertices": 296,
+      "triangles": 504,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "Chassis_1",
+      "type": "Mesh",
+      "dist": 48.01,
+      "bounds": [
+        [
+          127.06,
+          16.07,
+          -129.31
+        ],
+        [
+          129.9,
+          17.11,
+          -127.12
+        ]
+      ],
+      "vertices": 2701,
+      "triangles": 5184,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "Chassis",
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 48.07,
+      "bounds": [
+        [
+          127.05,
+          15.88,
+          -129.55
+        ],
+        [
+          129.79,
+          16.74,
+          -126.93
+        ]
+      ],
+      "vertices": 2120,
+      "triangles": 960,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "Chassis",
+      "type": "Mesh",
+      "dist": 48.07,
+      "bounds": [
+        [
+          124.85,
+          16.23,
+          -125.72
+        ],
+        [
+          126.98,
+          16.74,
+          -124.33
+        ]
+      ],
+      "vertices": 364,
+      "triangles": 576,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "AccentMesh",
+      "type": "Mesh",
+      "dist": 48.2,
+      "bounds": [
+        [
+          127.18,
+          16.23,
+          -129.28
+        ],
+        [
+          129.35,
+          17.3,
+          -127.24
+        ]
+      ],
+      "vertices": 1222,
+      "triangles": 1848,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "KartRoot"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 48.23,
+      "bounds": [
+        [
+          125.65,
+          16.27,
+          -125.6
+        ],
+        [
+          126.39,
+          16.52,
+          -125.31
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 48.28,
+      "bounds": [
+        [
+          128.15,
+          16.27,
+          -128.82
+        ],
+        [
+          128.89,
+          16.52,
+          -128.53
+        ]
+      ],
+      "vertices": 23,
+      "triangles": 10,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 48.3,
+      "bounds": [
+        [
+          126.78,
+          16.16,
+          -129.57
+        ],
+        [
+          129.51,
+          16.53,
+          -126.97
+        ]
+      ],
+      "vertices": 908,
+      "triangles": 1104,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 48.54,
+      "bounds": [
+        [
+          128.85,
+          13.71,
+          -132.91
+        ],
+        [
+          131.9,
+          17.39,
+          -129.22
+        ]
+      ],
+      "vertices": 24,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-7",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 48.54,
+      "bounds": [
+        [
+          130.02,
+          15.19,
+          -131.42
+        ],
+        [
+          130.73,
+          15.91,
+          -130.71
+        ]
+      ],
+      "vertices": 60,
+      "triangles": null,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-7",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 48.54,
+      "bounds": [
+        [
+          129.55,
+          15.47,
+          -131.88
+        ],
+        [
+          131.19,
+          15.63,
+          -130.24
+        ]
+      ],
+      "vertices": 189,
+      "triangles": 320,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "item-box-7",
+        "slice-5-item-boxes"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 48.7,
+      "bounds": [
+        [
+          126.95,
+          16.31,
+          -128.15
+        ],
+        [
+          127.87,
+          16.49,
+          -127.88
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 48.76,
+      "bounds": [
+        [
+          126.68,
+          16.2,
+          -128.28
+        ],
+        [
+          128.01,
+          16.6,
+          -127.76
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 48.76,
+      "bounds": [
+        [
+          124.46,
+          16.31,
+          -124.94
+        ],
+        [
+          125.37,
+          16.49,
+          -124.66
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 48.82,
+      "bounds": [
+        [
+          124.18,
+          16.2,
+          -125.07
+        ],
+        [
+          125.51,
+          16.6,
+          -124.55
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49,
+      "bounds": [
+        [
+          126.58,
+          16.28,
+          -128.05
+        ],
+        [
+          127.32,
+          16.47,
+          -127.78
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49,
+      "bounds": [
+        [
+          126.52,
+          16.28,
+          -128.06
+        ],
+        [
+          127.38,
+          16.48,
+          -127.77
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.06,
+      "bounds": [
+        [
+          126.23,
+          16.16,
+          -128.2
+        ],
+        [
+          127.52,
+          16.6,
+          -127.65
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "batched-static-kart-parts",
+      "type": "Mesh",
+      "dist": 49.06,
+      "bounds": [
+        [
+          124.62,
+          16.32,
+          -125.54
+        ],
+        [
+          124.95,
+          16.48,
+          -124.75
+        ]
+      ],
+      "vertices": 282,
+      "triangles": 384,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": []
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.07,
+      "bounds": [
+        [
+          126.32,
+          16.18,
+          -128.17
+        ],
+        [
+          127.4,
+          16.58,
+          -127.68
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.07,
+      "bounds": [
+        [
+          127.03,
+          16.31,
+          -128.81
+        ],
+        [
+          127.94,
+          16.49,
+          -128.53
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.08,
+      "bounds": [
+        [
+          124.08,
+          16.28,
+          -124.83
+        ],
+        [
+          124.82,
+          16.47,
+          -124.57
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.08,
+      "bounds": [
+        [
+          124.02,
+          16.28,
+          -124.84
+        ],
+        [
+          124.88,
+          16.48,
+          -124.55
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.08,
+      "bounds": [
+        [
+          124.53,
+          16.31,
+          -125.59
+        ],
+        [
+          125.44,
+          16.49,
+          -125.32
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.13,
+      "bounds": [
+        [
+          126.75,
+          16.2,
+          -128.94
+        ],
+        [
+          128.08,
+          16.6,
+          -128.42
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.14,
+      "bounds": [
+        [
+          123.74,
+          16.16,
+          -124.98
+        ],
+        [
+          125.02,
+          16.6,
+          -124.43
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.14,
+      "bounds": [
+        [
+          124.25,
+          16.2,
+          -125.72
+        ],
+        [
+          125.58,
+          16.6,
+          -125.2
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "HyperDriveRocketVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.16,
+      "bounds": [
+        [
+          123.82,
+          16.18,
+          -124.95
+        ],
+        [
+          124.9,
+          16.58,
+          -124.46
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.52,
+      "bounds": [
+        [
+          126.68,
+          16.28,
+          -129
+        ],
+        [
+          127.42,
+          16.47,
+          -128.74
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.52,
+      "bounds": [
+        [
+          126.62,
+          16.28,
+          -129.01
+        ],
+        [
+          127.48,
+          16.48,
+          -128.72
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.54,
+      "bounds": [
+        [
+          124.19,
+          16.28,
+          -125.79
+        ],
+        [
+          124.92,
+          16.47,
+          -125.52
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.54,
+      "bounds": [
+        [
+          124.13,
+          16.28,
+          -125.8
+        ],
+        [
+          124.98,
+          16.48,
+          -125.51
+        ]
+      ],
+      "vertices": 35,
+      "triangles": 16,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.58,
+      "bounds": [
+        [
+          126.34,
+          16.16,
+          -129.15
+        ],
+        [
+          127.63,
+          16.6,
+          -128.6
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.6,
+      "bounds": [
+        [
+          126.42,
+          16.18,
+          -129.12
+        ],
+        [
+          127.5,
+          16.58,
+          -128.63
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.6,
+      "bounds": [
+        [
+          123.84,
+          16.16,
+          -125.94
+        ],
+        [
+          125.13,
+          16.6,
+          -125.39
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.62,
+      "bounds": [
+        [
+          123.92,
+          16.18,
+          -125.91
+        ],
+        [
+          125.01,
+          16.58,
+          -125.42
+        ]
+      ],
+      "vertices": 43,
+      "triangles": 20,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.67,
+      "bounds": [
+        [
+          126.38,
+          15.57,
+          -129.31
+        ],
+        [
+          126.64,
+          17.3,
+          -127.58
+        ]
+      ],
+      "vertices": 231,
+      "triangles": 384,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.72,
+      "bounds": [
+        [
+          126.32,
+          15.55,
+          -129.32
+        ],
+        [
+          126.58,
+          17.28,
+          -127.59
+        ]
+      ],
+      "vertices": 203,
+      "triangles": 336,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.74,
+      "bounds": [
+        [
+          123.88,
+          15.57,
+          -126.09
+        ],
+        [
+          124.15,
+          17.3,
+          -124.36
+        ]
+      ],
+      "vertices": 231,
+      "triangles": 384,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroOverdriveVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 49.79,
+      "bounds": [
+        [
+          123.82,
+          15.55,
+          -126.1
+        ],
+        [
+          124.09,
+          17.28,
+          -124.37
+        ]
+      ],
+      "vertices": 203,
+      "triangles": 336,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "NitroSurgeVisual",
+        "racer-item-visuals-local"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 51.16,
+      "bounds": [
+        [
+          112.21,
+          14.01,
+          -131.35
+        ],
+        [
+          134.19,
+          14.04,
+          -121.74
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "boost-pad-0.085",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 53.04,
+      "bounds": [
+        [
+          125.82,
+          14,
+          -133.11
+        ],
+        [
+          126.12,
+          16.8,
+          -132.81
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "checkpoint-2",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 63.3,
+      "bounds": [
+        [
+          105.7,
+          14,
+          -119.71
+        ],
+        [
+          106,
+          16.8,
+          -119.41
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "checkpoint-1",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 69.19,
+      "bounds": [
+        [
+          105.3,
+          14,
+          -132.41
+        ],
+        [
+          105.6,
+          16.8,
+          -132.11
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "checkpoint-1",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "skyline-cyan-edges",
+      "type": "Mesh",
+      "dist": 75.44,
+      "bounds": [
+        [
+          -0.08,
+          0.06,
+          -132.58
+        ],
+        [
+          206.19,
+          14.42,
+          24.48
+        ]
+      ],
+      "vertices": 324,
+      "triangles": 304,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "skyline-visual",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 82.98,
+      "bounds": [
+        [
+          76.25,
+          14.01,
+          -130.61
+        ],
+        [
+          98.17,
+          14.04,
+          -121.15
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "boost-pad-0.06",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 88.46,
+      "bounds": [
+        [
+          187.69,
+          8.4,
+          -11.73
+        ],
+        [
+          187.94,
+          15.77,
+          -11.48
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "billboard-exit-frame",
+        "billboard-portal-exit"
+      ]
+    },
+    {
+      "name": "billboard-exit-ad-raven",
+      "type": "Mesh",
+      "dist": 92.12,
+      "bounds": [
+        [
+          180.17,
+          8.5,
+          -11.95
+        ],
+        [
+          188.09,
+          15.67,
+          -1.96
+        ]
+      ],
+      "vertices": 4,
+      "triangles": 2,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "billboard-portal-exit",
+        "billboard-hologram"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 92.12,
+      "bounds": [
+        [
+          180.32,
+          15.68,
+          -11.73
+        ],
+        [
+          187.94,
+          15.86,
+          -2.19
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "billboard-exit-frame",
+        "billboard-portal-exit"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 96,
+      "bounds": [
+        [
+          180.32,
+          8.4,
+          -2.44
+        ],
+        [
+          180.58,
+          15.77,
+          -2.19
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "billboard-exit-frame",
+        "billboard-portal-exit"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 102.87,
+      "bounds": [
+        [
+          169.75,
+          4.72,
+          5.53
+        ],
+        [
+          170.05,
+          7.52,
+          5.83
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "checkpoint-3",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 107.34,
+      "bounds": [
+        [
+          161.64,
+          2.68,
+          10.07
+        ],
+        [
+          161.94,
+          5.48,
+          10.37
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "checkpoint-4",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 113.98,
+      "bounds": [
+        [
+          176.72,
+          4.72,
+          16.14
+        ],
+        [
+          177.02,
+          7.52,
+          16.44
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "checkpoint-3",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 117.96,
+      "bounds": [
+        [
+          39.85,
+          14.01,
+          -130.71
+        ],
+        [
+          61.59,
+          14.04,
+          -121.7
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "boost-pad-0.035",
+        "neon-grid-blockout"
+      ]
+    },
+    {
+      "name": "(unnamed)",
+      "type": "Mesh",
+      "dist": 118.87,
+      "bounds": [
+        [
+          166.89,
+          2.68,
+          21.63
+        ],
+        [
+          167.19,
+          5.48,
+          21.93
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "drawRange": {
+        "start": 0,
+        "count": null
+      },
+      "parents": [
+        "checkpoint-4",
+        "neon-grid-blockout"
+      ]
+    }
+  ]
+}

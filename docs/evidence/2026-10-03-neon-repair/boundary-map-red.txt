@@ -1,0 +1,40 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/add544ab7370/neon-repair
+
+ ❯ tests/minimap.test.ts (5 tests | 1 failed) 91ms
+   × matches Neon drawing orientation and puts eight racer markers on the same oriented road 53ms
+ ❯ tests/neon-grid-boundary-response.test.ts (6 tests | 1 failed) 533ms
+   × uses the accepted scripted barrier response without a second native wall impulse at Falls Run 127ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/minimap.test.ts > matches Neon drawing orientation and puts eight racer markers on the same oriented road
+AssertionError: expected 81.564 to be less than 18.436
+ ❯ tests/minimap.test.ts:82:27
+     80|   const lowZ = neon.samples.reduce((best, p, i, all) => p.z < all[best…
+     81|   const highZ = neon.samples.reduce((best, p, i, all) => p.z > all[bes…
+     82|   expect(points[lowZ]!.y).toBeLessThan(points[highZ]!.y);
+       |                           ^
+     83|   const host = document.createElement('div'); host.innerHTML = raceMin…
+     84|   const element = host.querySelector<HTMLElement>('[data-race-minimap]…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/neon-grid-boundary-response.test.ts > uses the accepted scripted barrier response without a second native wall impulse at Falls Run
+AssertionError: expected 22.03118549062622 to be greater than 30
+ ❯ tests/neon-grid-boundary-response.test.ts:25:17
+     23|   const after = kart.speedMetersPerSecond();
+     24|   cleanup(); world.free();
+     25|   expect(after).toBeGreaterThan(30);
+       |                 ^
+     26| });
+     27| it.each([0.1, 0.35, 0.55, 0.8154, 0.9])('contains both edges at %s wit…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 9 passed (11)
+   Start at  11:27:20
+   Duration  1.44s (transform 194ms, setup 0ms, import 275ms, tests 624ms, environment 1.14s)

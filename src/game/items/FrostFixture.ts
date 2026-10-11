@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import { FROST, FROST_ORB_CONFIG } from './FrostOrbs';
 import { ProjectileSystem, type ProjectileTarget } from './ProjectileSystem';
 import { disposeFrostGroup, frostCrystal } from './FrostVisual';
@@ -29,7 +29,7 @@ export function frostTestFromSearch(search: string): FrostTest | null {
 }
 
 export interface FrostFixtureContext {
-  track: CircuitAlpha;
+  track: TrackDefinition;
   projectiles: ProjectileSystem;
   player: ProjectileTarget;
   held: string | null;

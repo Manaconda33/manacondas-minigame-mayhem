@@ -1,0 +1,40 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.10 /workspace/scratch/add544ab7370/neon-repair
+
+ ❯ tests/neon-grid-road-motion.test.ts (2 tests | 2 failed) 106ms
+   × moves continuously on the flat road at 0.001 63ms
+   × moves continuously on the flat road at 0.48 25ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-road-motion.test.ts > moves continuously on the flat road at 0.001
+AssertionError: step 0: expected 0.28010649283140276 to be less than 0.002
+ ❯ tests/neon-grid-road-motion.test.ts:51:70
+     49|       world.step();
+     50|       const displacement = kart.position().sub(before).setY(0);
+     51|       expect(displacement.distanceTo(expected), `step ${String(i)}`).t…
+       |                                                                      ^
+     52|       expect(kart.position().y).toBeGreaterThan(point.y + 0.3);
+     53|       const projection = track.project(kart.position());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/neon-grid-road-motion.test.ts > moves continuously on the flat road at 0.48
+AssertionError: step 1: expected 0.38312064602042084 to be less than 0.002
+ ❯ tests/neon-grid-road-motion.test.ts:51:70
+     49|       world.step();
+     50|       const displacement = kart.position().sub(before).setY(0);
+     51|       expect(displacement.distanceTo(expected), `step ${String(i)}`).t…
+       |                                                                      ^
+     52|       expect(kart.position().y).toBeGreaterThan(point.y + 0.3);
+     53|       const projection = track.project(kart.position());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  07:53:13
+   Duration  852ms (transform 112ms, setup 0ms, import 165ms, tests 106ms, environment 456ms)
+

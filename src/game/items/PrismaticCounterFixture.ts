@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { RacerProgress } from '../race/RaceDirector';
 import type { ProjectileSystem } from './ProjectileSystem';
 import type { HazardSystem } from './HazardSystem';
@@ -47,7 +47,7 @@ export interface PrismaticFixtureRuntime {
   finished: boolean;
   held: boolean;
   remaining: number;
-  track: CircuitAlpha;
+  track: TrackDefinition;
   racers: readonly RacerProgress[];
   projectiles: ProjectileSystem;
   hazards: HazardSystem;
@@ -101,7 +101,7 @@ export class PrismaticCounterFixture {
   public activationAllowed(
     position: THREE.Vector3,
     speed: number,
-    track: CircuitAlpha,
+    track: TrackDefinition,
     racers: readonly RacerProgress[],
   ): boolean {
     if (!this.test || this.stage === 'done' || this.test.mode === 'blaze-hit') return true;

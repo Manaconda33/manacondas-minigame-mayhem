@@ -49,3 +49,25 @@ public/assets/audio/music-v2/05-finish-celebration-results-podium-loop.wav -filt
 public/assets/characters/lunarcrystal/kart.glb -filter -diff -merge -text
 public/assets/characters/lunarcrystal/lod/kart-lod1.glb -filter -diff -merge -text
 public/assets/characters/lunarcrystal/lod/kart-lod2.glb -filter -diff -merge -text
+
+# Manny explicitly directed direct upload for these three approved sponsor ads (2026-10-03).
+# Exact fixed-size runtime derivatives; hash inventory visual-assets.json; ADR-106.
+public/assets/track/neon-grid/billboard/paprika-v1.webp -filter -diff -merge -text
+public/assets/track/neon-grid/billboard/arin-v1.webp -filter -diff -merge -text
+public/assets/track/neon-grid/billboard/raven-v1.webp -filter -diff -merge -text
+
+
+# Manny approved direct normal-Git runtime delivery for the two Task 9 Skyline mask ads (2026-10-07).
+# Fixed 1024x512 derivatives; ADR-106 Task 9 addendum and ASSET-PROVENANCE.md.
+public/assets/track/neon-grid/signage/manaconda-racing-v1.webp -filter -diff -merge -text
+public/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp -filter -diff -merge -text
+
+
+# Manny approved direct normal-Git runtime delivery for the two Task 9 Undercity mask ads (2026-10-07).
+# Fixed 1024x512 derivatives; Task 9 owner-review gate and ASSET-PROVENANCE.md.
+public/assets/track/neon-grid/signage/nightshift-noodles-v1.webp -filter -diff -merge -text
+public/assets/track/neon-grid/signage/voltline-industrial-v1.webp -filter -diff -merge -text
+
+# Exact approved T9.5 holographic warning PNG, direct normal Git runtime delivery (2026-10-08).
+# Master and runtime binary are identical: Git blob 6d1275e9266dc5bd16a78de0a8d91aeead463369.
+public/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png -filter -diff -merge -text

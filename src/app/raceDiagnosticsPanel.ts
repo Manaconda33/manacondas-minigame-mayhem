@@ -1,3 +1,5 @@
+import type { TrackId } from '../game/track/TrackDefinition';
+import type { GraphicsQuality } from '../config/graphicsQuality';
 import type {
   RaceCaptureMetadata,
   RacePerformanceCapture,
@@ -8,6 +10,7 @@ import type {
 export function mountRaceDiagnosticsPanel(
   root: HTMLElement,
   capture: (metadata: RaceCaptureMetadata) => RacePerformanceCapture | null,
+  context: Readonly<{ trackId: TrackId; quality: GraphicsQuality }>,
 ): { update: (snapshot: RacePerformanceSnapshot) => void; dispose: () => void } {
   const panel = document.createElement('details');
   panel.dataset.raceDiagnostics = '';
@@ -30,10 +33,10 @@ export function mountRaceDiagnosticsPanel(
       schemaVersion: 1,
       sourceCommit: typeof sourceCommit === 'string' && sourceCommit !== '' ? sourceCommit : null,
       capturedAt: new Date().toISOString(),
-      quality: 'medium',
+      quality: context.quality,
       userAgent: navigator.userAgent,
       hardwareDescription: hardwareDescription === '' ? null : (hardwareDescription ?? null),
-      scenario: `Circuit Alpha three-lap race; query=${window.location.search}`,
+      scenario: `${context.trackId} three-lap race; query=${window.location.search}`,
       racerCount: 8,
       nominalViewport: { width: window.innerWidth, height: window.innerHeight },
       gpuFrameMs: null,

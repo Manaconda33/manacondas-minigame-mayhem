@@ -3,17 +3,26 @@
   "task_id": "MAYHEM-CHAT-HANDOFF-001",
   "experiment": "A2",
   "base_sha": "f09e961b1c7ec65fce82e223f5ed6f288dd195e4",
-  "status": "interrupted",
-  "attempt": 1,
+  "status": "completed",
+  "attempt": 2,
   "lease": {
-    "holder": "chat-execution-1",
-    "expires_at": "2026-10-11T18:05:00Z"
+    "holder": "chat-execution-2",
+    "expires_at": null
   },
-  "completed_operations": [],
+  "completed_operations": [
+    "SYNTHETIC-VALIDATION-001"
+  ],
   "synthetic_operation": {
     "id": "SYNTHETIC-VALIDATION-001",
     "effect": "none",
-    "status": "pending"
+    "status": "completed"
   },
-  "instructions": "Successor may recover only after lease expiration. Compare-and-swap using current Git blob SHA. Never repeat a completed operation. No main writes, PRs, workflow dispatch, or production actions."
+  "instructions": "Successor may recover only after lease expiration. Compare-and-swap using current Git blob SHA. Never repeat a completed operation. No main writes, PRs, workflow dispatch, or production actions.",
+  "recovery_evidence": {
+    "previous_blob_sha": "e62277b8b6a3cf0c7734ce7e22106362a8544763",
+    "previous_status": "interrupted",
+    "recovered_operation": "SYNTHETIC-VALIDATION-001",
+    "method": "GitHub contents API current-blob-SHA conditional update",
+    "external_effects": 0
+  }
 }

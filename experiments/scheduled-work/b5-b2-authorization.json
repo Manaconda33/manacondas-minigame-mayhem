@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "experiment_id": "B5-B2",
+  "task_id": "MAYHEM-WORK-SCHEDULED-ENGINEERING-001",
+  "repository": "Manaconda33/manacondas-minigame-mayhem",
+  "preparation_branch": "experiment/b5-b2-unattended-work-001",
+  "starting_commit_sha": "f5c8e3a2d0fd5ac068d3bc8b710c8412a39e6bda",
+  "authorization_record_path": "experiments/scheduled-work/b5-b2-authorization.json",
+  "allowed_path_prefix": "experiments/scheduled-work/",
+  "allowed_paths": [
+    "experiments/scheduled-work/b5-b2-regression.test.mjs",
+    "experiments/scheduled-work/b5-b2-evidence.json"
+  ],
+  "allowed_operation": "Add one self-contained synthetic Node.js regression test for triangular numbers at inputs 3, 6, and 8, execute it, and add machine-readable execution evidence.",
+  "maximum_successful_engineering_executions": 1,
+  "authorization_status": "AUTHORIZED",
+  "restrictions": {
+    "stage_c_activation_prohibited": true,
+    "merges_prohibited": true,
+    "deployments_prohibited": true,
+    "workflow_dispatches_prohibited": true,
+    "pull_request_creation_prohibited": true,
+    "production_code_modification_prohibited": true,
+    "existing_stage_c_fixture_modification_prohibited": true,
+    "openai_platform_project_or_api_key_creation_prohibited": true,
+    "separately_billed_api_usage_prohibited": true,
+    "changes_outside_allowed_paths_prohibited": true
+  },
+  "authorized_at_utc": "2026-10-11T22:00:49.868Z"
+}

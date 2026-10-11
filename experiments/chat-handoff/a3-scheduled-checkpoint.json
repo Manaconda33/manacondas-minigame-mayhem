@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task_id": "MAYHEM-CHAT-SCHEDULED-WRITE-002",
+  "experiment": "A3-scheduled-vs-interactive",
+  "status": "pending",
+  "attempt": 0,
+  "completed_operations": [],
+  "synthetic_operation": {
+    "id": "SYNTHETIC-SCHEDULED-WRITE-002",
+    "effect": "none",
+    "status": "pending"
+  },
+  "authorization": {
+    "scope": "single file update on isolated experiment branch",
+    "max_writes": 1,
+    "forbidden": "main, PRs, issues, workflows, deployments, Stage C"
+  },
+  "created_for": "independent scheduled Chat write comparison"
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["task_id", "repaired_expected", "rationale"],
+  "properties": {
+    "task_id": { "const": "MAYHEM-AUTO-SMOKE-001" },
+    "repaired_expected": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "rationale": { "type": "string", "minLength": 1, "maxLength": 300 }
+  }
+}

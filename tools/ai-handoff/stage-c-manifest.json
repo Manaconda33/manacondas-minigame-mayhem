@@ -1,0 +1,15 @@
+{
+  "version": "stage-c-prep-1",
+  "activation_state": "PREPARED_DISABLED",
+  "repository": "Manaconda33/manacondas-minigame-mayhem",
+  "owner": "Manaconda33",
+  "task_id": "MAYHEM-AUTO-SMOKE-001",
+  "base_ref": "refs/heads/main",
+  "fixture_path": "tests/ai-handoff/stage-c-smoke-fixture.json",
+  "allowed_paths": ["tests/ai-handoff/stage-c-smoke-fixture.json"],
+  "max_build_cycles": 3,
+  "max_runtime_minutes": 60,
+  "max_api_spend_usd": 5,
+  "publication": "draft_pr_only",
+  "no_gameplay_or_deployment": true
+}

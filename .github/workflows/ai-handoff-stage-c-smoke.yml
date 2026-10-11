@@ -1,0 +1,101 @@
+# PREPARATION ONLY. Branch-only workflow_dispatch is inert until separately approved
+# installation on default branch. Even then, PREPARED_DISABLED in the trusted task
+# manifest prevents execution until a distinct exact-SHA owner activation change.
+name: AI handoff Stage C smoke (manual, gated)
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: 'Exact approved task ID (no free-form prompt)'
+        required: true
+        type: string
+      manifest_sha256:
+        description: 'Owner-approved SHA-256 of the committed Stage C manifest bytes'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-handoff-stage-c-smoke-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout trusted workflow commit (read only)
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Set up Node 22
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Fail closed until exact owner and budget gates are verified
+        env:
+          GITHUB_REF_PROTECTED: ${{ github.ref_protected }}
+          TASK_ID: ${{ inputs.task_id }}
+          MANIFEST_SHA256: ${{ inputs.manifest_sha256 }}
+          APPROVED_BASE_SHA: ${{ vars.AI_HANDOFF_APPROVED_BASE_SHA }}
+          APPROVED_MANIFEST_SHA256: ${{ vars.AI_HANDOFF_APPROVED_MANIFEST_SHA256 }}
+          AI_HANDOFF_STAGE_C_ENABLED: ${{ vars.AI_HANDOFF_STAGE_C_ENABLED }}
+          AI_HANDOFF_HARD_SPEND_LIMIT_VERIFIED: ${{ vars.AI_HANDOFF_HARD_SPEND_LIMIT_VERIFIED }}
+        run: node tools/ai-handoff/stage-c-guard.mjs preflight
+
+  propose:
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    outputs:
+      candidate: ${{ steps.codex.outputs.final-message }}
+    steps:
+      - name: Checkout without GitHub write credentials
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Run one isolated Codex proposal (no deploy, no GitHub push)
+        id: codex
+        uses: openai/codex-action@bdf19a4a223ec2549a3e2274a0cf61556bc07675 # reviewed v1 tag Oct 2026
+        with:
+          openai-api-key: ${{ secrets.AI_HANDOFF_OPENAI_API_KEY }}
+          prompt-file: tools/ai-handoff/stage-c-smoke-prompt.md
+          output-schema-file: tools/ai-handoff/stage-c-candidate.schema.json
+          permission-profile: ':workspace'
+          safety-strategy: drop-sudo
+
+  publish-draft-only:
+    needs: [preflight, propose]
+    if: ${{ needs.propose.result == 'success' && vars.AI_HANDOFF_DRAFT_PR_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Fresh trusted checkout, separate from untrusted agent environment
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Set up Node 22
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Verify typed proposal, single allowlisted path, then create draft PR only
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CODEX_FINAL_MESSAGE: ${{ needs.propose.outputs.candidate }}
+          GITHUB_REF_PROTECTED: ${{ github.ref_protected }}
+          TASK_ID: ${{ inputs.task_id }}
+          MANIFEST_SHA256: ${{ inputs.manifest_sha256 }}
+          APPROVED_BASE_SHA: ${{ vars.AI_HANDOFF_APPROVED_BASE_SHA }}
+          APPROVED_MANIFEST_SHA256: ${{ vars.AI_HANDOFF_APPROVED_MANIFEST_SHA256 }}
+          AI_HANDOFF_STAGE_C_ENABLED: ${{ vars.AI_HANDOFF_STAGE_C_ENABLED }}
+          AI_HANDOFF_HARD_SPEND_LIMIT_VERIFIED: ${{ vars.AI_HANDOFF_HARD_SPEND_LIMIT_VERIFIED }}
+          AI_HANDOFF_DRAFT_PR_ENABLED: ${{ vars.AI_HANDOFF_DRAFT_PR_ENABLED }}
+        run: node tools/ai-handoff/stage-c-candidate.mjs publish

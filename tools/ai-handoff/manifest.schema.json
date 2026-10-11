@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/main/tools/ai-handoff/manifest.schema.json",
+  "title": "AI handoff manifest: design contract only (v1.2)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "repository", "issue_number", "base_sha", "objective", "approval", "scope", "quality_loop", "acceptance"],
+  "properties": {
+    "schema_version": { "const": "1.2" },
+    "id": { "type": "string", "pattern": "^[A-Z][A-Z0-9-]{3,63}$" },
+    "repository": { "const": "Manaconda33/manacondas-minigame-mayhem" },
+    "issue_number": { "type": "integer", "minimum": 1 },
+    "base_sha": { "$ref": "#/$defs/sha" },
+    "objective": { "type": "string", "minLength": 8, "maxLength": 500 },
+    "manifest_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "approval": {
+      "type": "object", "additionalProperties": false,
+      "required": ["scope", "approver", "event_id", "approved_digest", "approved_base_sha"],
+      "properties": {
+        "scope": { "const": "implementation_only" },
+        "approver": { "type": "string", "minLength": 1 },
+        "event_id": { "type": "string", "minLength": 8 },
+        "approved_digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "approved_base_sha": { "$ref": "#/$defs/sha" }
+      }
+    },
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["allowed_paths", "forbidden_paths", "workstream_lock"],
+      "properties": {
+        "allowed_paths": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 2 } },
+        "forbidden_paths": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 2 } },
+        "workstream_lock": { "const": "pilot-automation" }
+      }
+    },
+    "quality_loop": {
+      "type": "object", "additionalProperties": false,
+      "required": ["total_build_cycles", "max_corrective_attempts", "elapsed_minutes_limit", "api_spend_usd_limit", "reviewer_required_for_final_ready"],
+      "properties": {
+        "total_build_cycles": { "const": 3 },
+        "max_corrective_attempts": { "const": 2 },
+        "elapsed_minutes_limit": { "type": "number", "exclusiveMinimum": 0 },
+        "api_spend_usd_limit": { "type": "number", "exclusiveMinimum": 0 },
+        "reviewer_required_for_final_ready": { "const": true }
+      }
+    },
+    "acceptance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mandatory_checks", "owner_visual_required"],
+      "properties": {
+        "mandatory_checks": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "owner_visual_required": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": { "sha": { "type": "string", "pattern": "^[a-f0-9]{40}$" } }
+}

@@ -1,0 +1,686 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Manaconda33/manacondas-minigame-mayhem/tree/main/tools/ai-handoff/contracts.schema.json",
+  "title": "Stage B simulation-only queue, events, decisions, evidence and reports",
+  "description": "Design schema, not a production authentication adapter. Runtime verifies a strict subset and identity relationships explicitly.",
+  "$defs": {
+    "sha": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9-]{3,63}$"
+    },
+    "identity": {
+      "type": "object",
+      "properties": {
+        "repository": {
+          "const": "Manaconda33/manacondas-minigame-mayhem"
+        },
+        "task_id": {
+          "$ref": "#/$defs/task_id"
+        },
+        "issue_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "base_sha": {
+          "$ref": "#/$defs/sha"
+        }
+      },
+      "required": [
+        "repository",
+        "task_id",
+        "issue_number",
+        "manifest_digest",
+        "base_sha"
+      ]
+    },
+    "queue_item": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/identity"
+        }
+      ],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "repository",
+        "task_id",
+        "issue_number",
+        "manifest_digest",
+        "base_sha",
+        "event_id",
+        "state",
+        "workstream"
+      ],
+      "properties": {
+        "version": {
+          "const": "stage-b-1"
+        },
+        "repository": {
+          "const": "Manaconda33/manacondas-minigame-mayhem"
+        },
+        "task_id": {
+          "$ref": "#/$defs/task_id"
+        },
+        "issue_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "base_sha": {
+          "$ref": "#/$defs/sha"
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "const": "queued"
+        },
+        "workstream": {
+          "const": "pilot-automation"
+        }
+      }
+    },
+    "lease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "workstream",
+        "owner",
+        "expires_at_ms",
+        "generation"
+      ],
+      "properties": {
+        "version": {
+          "const": "stage-b-1"
+        },
+        "workstream": {
+          "const": "pilot-automation"
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/task_id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expires_at_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "id",
+        "type",
+        "repository",
+        "task_id",
+        "issue_number",
+        "manifest_digest",
+        "base_sha",
+        "actor"
+      ],
+      "properties": {
+        "version": {
+          "const": "stage-b-1"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "manual_fixture",
+            "issue_labeled"
+          ]
+        },
+        "repository": {
+          "const": "Manaconda33/manacondas-minigame-mayhem"
+        },
+        "task_id": {
+          "$ref": "#/$defs/task_id"
+        },
+        "issue_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "base_sha": {
+          "$ref": "#/$defs/sha"
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "const": "approved-for-agent"
+        },
+        "untrusted_text": {
+          "type": "string"
+        }
+      },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "issue_labeled"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "label"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "label"
+          ]
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "severity",
+        "code",
+        "description"
+      ],
+      "properties": {
+        "severity": {
+          "enum": [
+            "info",
+            "low",
+            "medium",
+            "high",
+            "critical",
+            "blocker"
+          ]
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "review_id",
+        "reviewer_id",
+        "candidate_sha",
+        "verdict",
+        "findings"
+      ],
+      "properties": {
+        "source": {
+          "const": "synthetic_independent_review_fixture"
+        },
+        "review_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewer_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_sha": {
+          "$ref": "#/$defs/sha"
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "needs_owner"
+          ]
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/finding"
+          }
+        }
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "pass"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pass": {
+          "type": "boolean"
+        }
+      }
+    },
+    "cycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cycle",
+        "candidate_sha",
+        "ci_run_id",
+        "observed_at_ms",
+        "elapsed_minutes",
+        "spend_usd",
+        "changed_paths",
+        "checks",
+        "review"
+      ],
+      "properties": {
+        "cycle": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "candidate_sha": {
+          "$ref": "#/$defs/sha"
+        },
+        "ci_run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "elapsed_minutes": {
+          "type": "number",
+          "minimum": 0
+        },
+        "spend_usd": {
+          "type": "number",
+          "minimum": 0
+        },
+        "changed_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/check"
+          }
+        },
+        "review": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/review"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed_at_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "task_id",
+        "repository",
+        "issue_number",
+        "manifest_digest",
+        "base_sha",
+        "candidate_sha",
+        "pr_number",
+        "event_id",
+        "approved_by",
+        "destination"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "implementation_acceptance",
+            "release_authorization"
+          ]
+        },
+        "task_id": {
+          "$ref": "#/$defs/task_id"
+        },
+        "repository": {
+          "const": "Manaconda33/manacondas-minigame-mayhem"
+        },
+        "issue_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "base_sha": {
+          "$ref": "#/$defs/sha"
+        },
+        "candidate_sha": {
+          "$ref": "#/$defs/sha"
+        },
+        "pr_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_by": {
+          "const": "Manaconda33"
+        },
+        "destination": {
+          "enum": [
+            "implementation_only",
+            "main"
+          ]
+        }
+      }
+    },
+    "task_ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "repository",
+        "task_id",
+        "issue_number",
+        "manifest_digest",
+        "base_sha",
+        "scope_approval_event_id",
+        "routed_event_id",
+        "routed_event_evidence",
+        "state",
+        "revision",
+        "deadline_ms",
+        "cycles",
+        "cumulative_elapsed_minutes",
+        "cumulative_spend_usd",
+        "corrections_consumed",
+        "simulation_only"
+      ],
+      "properties": {
+        "version": {
+          "const": "stage-b-1"
+        },
+        "repository": {
+          "const": "Manaconda33/manacondas-minigame-mayhem"
+        },
+        "task_id": {
+          "$ref": "#/$defs/task_id"
+        },
+        "issue_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "base_sha": {
+          "$ref": "#/$defs/sha"
+        },
+        "state": {
+          "enum": [
+            "running",
+            "correcting",
+            "review_ready",
+            "needs_owner_decision",
+            "failed_budget_or_checks",
+            "cancelled",
+            "superseded"
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "deadline_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "cycles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cycle"
+          }
+        },
+        "cumulative_elapsed_minutes": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cumulative_spend_usd": {
+          "type": "number",
+          "minimum": 0
+        },
+        "corrections_consumed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "simulation_only": {
+          "const": true
+        },
+        "scope_approval_event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "routed_event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "routed_event_evidence": {
+          "$ref": "#/$defs/event"
+        }
+      }
+    },
+    "review_packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "simulation_only",
+        "evidence_source",
+        "repository",
+        "task_id",
+        "issue_number",
+        "pr_number",
+        "manifest_digest",
+        "base_sha",
+        "scope_approval_event_id",
+        "routed_event_id",
+        "routed_event_evidence",
+        "candidate_sha",
+        "state",
+        "cycles",
+        "deadline_ms",
+        "ci_run_ids",
+        "candidate_shas",
+        "changed_paths",
+        "attempts_consumed",
+        "corrections_consumed",
+        "cumulative_elapsed_minutes",
+        "cumulative_spend_usd",
+        "unresolved_risks",
+        "human_approval",
+        "release_authorization"
+      ],
+      "properties": {
+        "version": {
+          "const": "stage-b-1"
+        },
+        "simulation_only": {
+          "const": true
+        },
+        "evidence_source": {
+          "const": "SYNTHETIC_FIXTURES_NOT_LIVE_REVIEW"
+        },
+        "repository": {
+          "const": "Manaconda33/manacondas-minigame-mayhem"
+        },
+        "task_id": {
+          "$ref": "#/$defs/task_id"
+        },
+        "issue_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "pr_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "base_sha": {
+          "$ref": "#/$defs/sha"
+        },
+        "candidate_sha": {
+          "$ref": "#/$defs/sha"
+        },
+        "state": {
+          "enum": [
+            "review_ready",
+            "needs_owner_decision",
+            "failed_budget_or_checks"
+          ]
+        },
+        "cycles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cycle"
+          }
+        },
+        "ci_run_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "candidate_shas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sha"
+          }
+        },
+        "changed_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attempts_consumed": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "corrections_consumed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cumulative_elapsed_minutes": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cumulative_spend_usd": {
+          "type": "number",
+          "minimum": 0
+        },
+        "unresolved_risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "human_approval": {
+          "const": "NOT GRANTED"
+        },
+        "release_authorization": {
+          "const": "NOT GRANTED"
+        },
+        "deadline_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "scope_approval_event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "routed_event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "routed_event_evidence": {
+          "$ref": "#/$defs/event"
+        }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/queue_item"
+    },
+    {
+      "$ref": "#/$defs/lease"
+    },
+    {
+      "$ref": "#/$defs/event"
+    },
+    {
+      "$ref": "#/$defs/cycle"
+    },
+    {
+      "$ref": "#/$defs/decision"
+    },
+    {
+      "$ref": "#/$defs/task_ledger"
+    },
+    {
+      "$ref": "#/$defs/review_packet"
+    }
+  ]
+}

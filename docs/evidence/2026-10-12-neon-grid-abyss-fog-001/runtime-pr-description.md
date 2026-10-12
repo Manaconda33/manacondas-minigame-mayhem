@@ -26,6 +26,6 @@
 
 - Owner review of the attached A/B contact sheets and exact pinned preview is required before replacing A or removing its implementation.
 - This PR must remain separate from `main`; it is not production deployment authorization.
-- Candidate hosted CI and the immutable Pages preview have not been produced because GitHub write authentication is unavailable in the current environment.
+- The branch is pushed, but the GitHub API rejected draft-PR creation with HTTP 403, so candidate hosted CI and the immutable Pages preview do not yet exist. The preview workflow-only branch is separately pushed and must be reviewed/merged only after Manny approves that publication step.
 
 See [`README.md`](README.md) for the full report and evidence links.

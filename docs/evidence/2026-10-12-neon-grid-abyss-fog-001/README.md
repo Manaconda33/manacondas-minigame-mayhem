@@ -64,9 +64,11 @@ NEON_GRID_COURSE_PLAYWRIGHT=/tmp/neon-grid-course-webgl NEON_GRID_COURSE_CHROME=
 NEON_GRID_COURSE_PLAYWRIGHT=/tmp/neon-grid-course-webgl NEON_GRID_COURSE_CHROME=/usr/bin/chromium NEON_GRID_COURSE_BASE_URL=http://127.0.0.1:5173/manacondas-minigame-mayhem NEON_GRID_VISUAL_VARIANT=abyss-fog-001 node tools/diagnostics/neon-grid-course-sweep.mjs /tmp/neon-grid-abyss-fog-001-sweep-b-final5
 ```
 
-The repository's last known public Actions result is not candidate CI. This experiment has not been pushed, so no Actions run exists for its source.
+The experiment branch has been pushed, but there is no candidate Actions run because GitHub PR creation failed before the pull-request workflow could start. The last known public Actions result on the repository's existing Neon Grid development PR is not candidate CI.
 
-The local GitHub CLI reports `GH_TOKEN` as invalid. Therefore no remote branch push, draft runtime PR, GitHub Actions run, preview-publication PR, or live preview URL can be created from this environment. This authentication blocker does not affect local artifacts or the existing T9.7 preview.
+Both review branches were pushed and their remote refs verified with `git ls-remote`. Runtime/evidence pin: `b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65`. Workflow-only branch `preview/neon-grid-abyss-fog-001` is at `5ef0bcf9d9ab038e2e520815bf1581a8b4bc2aae`, based on `main` `f09e961b1c7ec65fce82e223f5ed6f288dd195e4`. Git push succeeded, but `gh pr create` was denied with HTTP 403 from `api.github.com/graphql` and `gh auth status` reports an invalid `GH_TOKEN` / no stored login. No PRs, candidate Actions run, or live B preview exist yet. The existing T9.7 preview remains untouched.
+
+Ready-to-open links: [runtime draft PR to `design/neon-grid-circuit-02`](https://github.com/Manaconda33/manacondas-minigame-mayhem/compare/design/neon-grid-circuit-02...experiment/neon-grid-abyss-fog-001?expand=1) and [workflow-only preview PR to `main`](https://github.com/Manaconda33/manacondas-minigame-mayhem/compare/main...preview/neon-grid-abyss-fog-001?expand=1). The prepared PR body and workflow change are in the linked branch commits.
 
 ## Review and publication plan
 
@@ -74,4 +76,4 @@ The runtime draft PR should target `design/neon-grid-circuit-02`, keep this expe
 
 The local prototype is not owner-approved. Keep the approved T9.7 rendering as the default and preserve its implementation until Manny reviews the actual B captures or a pinned Pages preview and approves a replacement explicitly.
 
-Prepared for GitHub write access: the [draft runtime PR body](runtime-pr-description.md) and the [separate preview-publication plan](preview-publication-plan.md).
+Prepared for PR creation: the [draft runtime PR body](runtime-pr-description.md), the [preview-publication PR body](preview-publication-pr-description.md), and the [preview-publication plan](preview-publication-plan.md).

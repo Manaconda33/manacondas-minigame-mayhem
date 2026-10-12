@@ -6,7 +6,7 @@ Node 22.23.3 typecheck, zero-warning lint, production asset checks/build, Git LF
 
 The final B matrix captured 22 desktop/mobile, Low/Medium/High, chase/rear cases with zero browser errors. The B course sweep covered 182 samples over 1,448.938 m, max spacing 7.962 m, and all nine owner anchors, with zero browser errors. Peak rear view: 500 calls / 413,103 triangles; it reaches the approved 500-call ceiling and remains below the 425,000 Task 9 triangle cap. The A/B software renderer reports are runner diagnostics only: B median +5.3%, p95 −0.7%, maximum −0.8% versus A. No phone or representative G-05 device was measured.
 
-**Hosted CI and owner review are pending.** No candidate Actions result or immutable Pages URL exists because `GH_TOKEN` is invalid and no stored GitHub CLI account is configured. Do not treat the accepted T9.7 preview as review of this different visual variant; do not replace A without Manny's explicit review/approval.
+**Hosted CI and owner review are pending.** Both branches are pushed, but the GitHub API rejected PR creation with HTTP 403 because `GH_TOKEN` is invalid and no stored GitHub CLI account is configured. No candidate Actions result or immutable Pages URL exists. Do not treat the accepted T9.7 preview as review of this different visual variant; do not replace A without Manny's explicit review/approval.
 
 ## T9.7 comprehensive city-environment correction — owner-approved gate, 2026-10-09
 

@@ -2030,3 +2030,25 @@ Node 24.19.0 `npm run test:ci -- --maxWorkers=1` passed **133/133 files and 1,08
 All measurements so far are Chromium/SwiftShader diagnostics. No representative physical device or G-05 evidence is available; G-05 remains BLOCKED. Automated checks and screenshots do not establish owner visual acceptance. Do not replace A, merge runtime, merge preview-publication changes, deploy production gameplay, or declare T9.8 complete.
 
 ---
+
+## Neon Grid Abyss Fog v3 — Stage 1 correction evidence (2026-10-12)
+
+**Scope:** isolated branch `experiment/neon-grid-abyss-fog-003`, runtime commit `6e133c71c8671123d597c61fcba6bc0186246e5e`, starting from rejected B2 `6dc9b862e8d5d05dfe6cd17ce2f62018bae7d999`. Approved T9.7 A remains `75c6c62c865ec3b546f3f2512e649de9ea6d52bc`, the default renderer and baseline. V3 is opt-in at `?neonGridVisual=abyss-fog-003`. No PR, push, new preview, production deployment, runtime merge or Stage 2 geometry was produced.
+
+**Executed in Node 24.19.0:**
+
+- `npm run typecheck` — PASS, exit 0.
+- `npm run lint` — PASS, zero warnings/errors, exit 0.
+- `npm run test -- --run tests/neon-grid-fog-experiment.test.ts -t 'Stage 1 v3'` — PASS, 1 test; 10 unrelated tests skipped, exit 0.
+- `npm run test -- --run --maxWorkers=1 tests/neon-grid-fog-experiment.test.ts tests/neon-grid-stage4-t9-7-city-ground.test.ts tests/neon-grid-collision.test.ts tests/neon-grid-lap-routes.test.ts tests/neon-grid-tunnel-navigation.test.ts tests/shortcut-traversal.test.ts tests/track-scene.test.ts tests/neon-grid-dive-visual.test.ts tests/neon-grid-dive.test.ts` — PASS, 9 files / 90 tests, exit 0, 63.45 s.
+- `npm run build` — PASS, exit 0. It verified approved SFX/music hashes, sponsor/billboard artwork, terrain, runtime textures/GLBs/character PNGs and other packaged assets. Vite emitted its existing warning that the 3.3 MB `KartTimeTrial` chunk exceeds 500 kB.
+- `git lfs fsck --objects HEAD` — PASS; `git diff --check` — PASS.
+- `NEON_GRID_COURSE_PLAYWRIGHT=/workspace/mayhem-browser-tools NEON_GRID_COURSE_CHROME=/usr/bin/chromium NEON_GRID_COURSE_BASE_URL=http://127.0.0.1:5175/manacondas-minigame-mayhem NEON_GRID_AUDIT_SOURCE=experiment/neon-grid-abyss-fog-003 NEON_GRID_VISUAL_QUERY=abyss-fog-003 node tools/diagnostics/neon-grid-background-source-audit.mjs /tmp/neon-grid-v3-ab-comparison/v3-source-audit-final.json` — PASS, all eight owner anchors inspected; zero browser errors, zero city-floor pixels, no reported ground-probe intersections/near-coincident pairs, no unsupported fog target materials.
+
+`npm run test:ci -- --maxWorkers=1` was interrupted after 12 minutes before Vitest produced a summary (exit 130). Treat full-suite coverage as **incomplete**, not a pass. No thresholds were changed. The focused nine-file regression set above covers the new variant plus city-ground geometry, collisions, route/lap authority, tunnel navigation, shortcut traversal, scene lifecycle, and Falls Run dive.
+
+**Actual-render evidence:** A, rejected B2 and v3 were rendered in local Chromium/WebGL SwiftShader at the actual medium-quality `KartTimeTrial` chase camera, at progress 0.075 (start), 0.355 (Undercity), 0.239 (open curved bridge) and 0.792717 (Waterfall Dive), with a deterministic eight-racer roster. Each A/B2/v3 trio has identical camera transforms and roster. V3 mobile portrait viewport captures cover the same four locations. Browser errors: zero. See [three-way desktop and v3 mobile comparison images](evidence/2026-10-12-neon-grid-abyss-fog-003/comparison/) and exact [capture report](evidence/2026-10-12-neon-grid-abyss-fog-003/diagnostics/final-capture-report.json).
+
+Four-view desktop maxima: A **300 calls / 167,755 triangles**; B2 **296 / 151,327**; v3 **296 / 152,047**. This is a target-view comparison, not a full-course maximum. The same-anchor 120-scored-frame timing sample at 1280×720, Medium is A **361.5 ms median / 499.4 ms p95 / 670.4 ms max**, B2 **300.5 / 454.9 / 631.0 ms**, and v3 **261.3 / 293.9 / 321.4 ms**. Every sample exceeded 50 ms in SwiftShader; these timings do not represent hardware FPS or G-05. No physical device or CI Actions run was used.
+
+The owner screenshots, source audit, capture report and timing report are retained in [`docs/evidence/2026-10-12-neon-grid-abyss-fog-003/`](evidence/2026-10-12-neon-grid-abyss-fog-003/). Visual acceptance remains pending Manny's review; Stage 2 is not authorized until that review.

@@ -1,0 +1,4740 @@
+{
+  "renderer": "Local Chromium WebGL / SwiftShader",
+  "viewport": "1280x720",
+  "quality": "medium",
+  "progress": 0.075,
+  "scoredFrameCount": 120,
+  "warmupFrameCount": 30,
+  "results": [
+    {
+      "name": "A-t97",
+      "variant": "approved",
+      "frame": {
+        "calls": 176,
+        "triangles": 134999,
+        "geometries": 155,
+        "textures": 15,
+        "width": 1280,
+        "height": 720,
+        "pixelRatio": 1,
+        "racers": 8,
+        "quality": "medium",
+        "view": "chase",
+        "skylineVisible": true,
+        "skyline": {
+          "windows": 240,
+          "pylons": 14,
+          "braces": 24,
+          "proceduralSigns": 18,
+          "manacondaAds": 7,
+          "tacoBellAds": 7,
+          "maskBillboards": 8,
+          "raisedBillboardPosts": 4,
+          "facadeMountedBillboards": 4,
+          "wet": true
+        },
+        "undercity": {
+          "windows": 160,
+          "buildings": 16,
+          "pipes": 26,
+          "utilityBoxes": 20,
+          "workLights": 24,
+          "serviceBays": 14,
+          "nightshiftAds": 2,
+          "voltlineAds": 2,
+          "wet": true
+        },
+        "fallsExtension": {
+          "windows": 160,
+          "towers": 16,
+          "pylons": 16,
+          "footings": 16,
+          "waterfalls": 24,
+          "mist": 14,
+          "wet": true
+        },
+        "actualCameraShortcutSightline": {
+          "shortcut": "billboard-gap",
+          "cameraWorld": [
+            103.07936965299392,
+            18.250000001473794,
+            -125.81140199186672
+          ],
+          "viewportTargets": 5,
+          "blockedTargets": 5,
+          "interiorTargetsEvaluated": 9,
+          "interiorTargetsInView": 5,
+          "interiorExposed": 0,
+          "entranceTargetsInView": 0,
+          "samples": [
+            {
+              "fraction": 0.12,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 3.118616258631535,
+              "occluded": true,
+              "distance": 55.886934993228934,
+              "targetWorld": [
+                157.50379114266437,
+                14.299096860171923,
+                -113.73985640647687
+              ],
+              "targetNdc": [
+                0.24768106422549072,
+                0.3401355320683868,
+                0.9964484816961768
+              ],
+              "blockerDistance": 25.783821844564752
+            },
+            {
+              "fraction": 0.22,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 11.53133783754052,
+              "occluded": true,
+              "distance": 65.42575818019151,
+              "targetWorld": [
+                163.4576220649204,
+                13.87680633130219,
+                -100.99464059442082
+              ],
+              "targetNdc": [
+                0.432380840073879,
+                0.33954967195706204,
+                0.9967973922204617
+              ],
+              "blockerDistance": 15.571879146121177
+            },
+            {
+              "fraction": 0.32,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 18.3713698455228,
+              "occluded": true,
+              "distance": 75.71268981424299,
+              "targetWorld": [
+                168.3889237562019,
+                13.404793760947552,
+                -87.81669817364109
+              ],
+              "targetNdc": [
+                0.6008999167312313,
+                0.3356563845738704,
+                0.9970380839079344
+              ],
+              "blockerDistance": 12.075405780737631
+            },
+            {
+              "fraction": 0.42,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 20.95004826383422,
+              "occluded": true,
+              "distance": 86.6726430962355,
+              "targetWorld": [
+                172.65915271055275,
+                12.886667989445646,
+                -74.41066736015914
+              ],
+              "targetNdc": [
+                0.7572404553190776,
+                0.32978102983343877,
+                0.997218967492574
+              ],
+              "blockerDistance": 10.355596702703256
+            },
+            {
+              "fraction": 0.52,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 17.81907356184974,
+              "occluded": true,
+              "distance": 98.13461013466033,
+              "targetWorld": [
+                176.39273250165866,
+                12.317522294894246,
+                -60.84711763220689
+              ],
+              "targetNdc": [
+                0.9051404231744045,
+                0.32222480431221623,
+                0.9973597523518462
+              ],
+              "blockerDistance": 9.352578924445103
+            }
+          ]
+        },
+        "sponsorArtworkSightline": {
+          "samples": [
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 3,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    76.9135950088501,
+                    16.7,
+                    -119.91538764387369
+                  ],
+                  "ndc": [
+                    -0.18571787917287724,
+                    0.5764336600371608,
+                    1.0082384225985985
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    75.31371307373047,
+                    16.7,
+                    -119.93482208251953
+                  ],
+                  "ndc": [
+                    -0.17221182858858974,
+                    0.5701967128465261,
+                    1.0077729470924897
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    73.71383113861084,
+                    16.7,
+                    -119.95425652116538
+                  ],
+                  "ndc": [
+                    -0.16018821004297504,
+                    0.5646443366399257,
+                    1.0073585624511132
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    76.9135950088501,
+                    17.5,
+                    -119.91538764387369
+                  ],
+                  "ndc": [
+                    -0.1841166792046317,
+                    0.5205484401187142,
+                    1.008169309703787
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    75.31371307373047,
+                    17.5,
+                    -119.93482208251953
+                  ],
+                  "ndc": [
+                    -0.17081258826553583,
+                    0.5175808908000018,
+                    1.0077115968110346
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    73.71383113861084,
+                    17.5,
+                    -119.95425652116538
+                  ],
+                  "ndc": [
+                    -0.1589575434832593,
+                    0.5149365590506171,
+                    1.0073037367876896
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    76.9135950088501,
+                    18.3,
+                    -119.91538764387369
+                  ],
+                  "ndc": [
+                    -0.18254285329086117,
+                    0.4656186318195124,
+                    1.0081013783604276
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    75.31371307373047,
+                    18.3,
+                    -119.93482208251953
+                  ],
+                  "ndc": [
+                    -0.169435902650473,
+                    0.46581319647136626,
+                    1.0076512354502538
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    73.71383113861084,
+                    18.3,
+                    -119.95425652116538
+                  ],
+                  "ndc": [
+                    -0.1577456422651576,
+                    0.4659867312243652,
+                    1.007249747112126
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 4,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": true,
+              "visibleFraction": 1,
+              "areaSamplesInViewport": 6,
+              "areaSamplesVisible": 6,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    111.95703439712524,
+                    16.7,
+                    -119.99089676141739
+                  ],
+                  "ndc": [
+                    0.6559242137551485,
+                    0.16300591006954987,
+                    0.9773835050766676
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    110.35816192626953,
+                    16.7,
+                    -119.93083953857422
+                  ],
+                  "ndc": [
+                    0.7961881771825451,
+                    0.09771483986220607,
+                    0.9725107054488632
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    108.75928945541382,
+                    16.7,
+                    -119.87078231573105
+                  ],
+                  "ndc": [
+                    1.0125381238246123,
+                    -0.002993276537731946,
+                    0.9649946627411534
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    111.95703439712524,
+                    17.5,
+                    -119.99089676141739
+                  ],
+                  "ndc": [
+                    0.6725892912208464,
+                    0.31718874032281164,
+                    0.9768032407808919
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    110.35816192626953,
+                    17.5,
+                    -119.93083953857422
+                  ],
+                  "ndc": [
+                    0.820866663370883,
+                    0.2837895043444919,
+                    0.97165176416719
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    108.75928945541382,
+                    17.5,
+                    -119.87078231573105
+                  ],
+                  "ndc": [
+                    1.0527730138196458,
+                    0.23155297754880402,
+                    0.9635948359684833
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    111.95703439712524,
+                    18.3,
+                    -119.99089676141739
+                  ],
+                  "ndc": [
+                    0.6901232645416736,
+                    0.47941046642968627,
+                    0.9761927222458232
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    110.35816192626953,
+                    18.3,
+                    -119.93083953857422
+                  ],
+                  "ndc": [
+                    0.8471239441943552,
+                    0.4817682086360702,
+                    0.9707378725179353
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    108.75928945541382,
+                    18.3,
+                    -119.87078231573105
+                  ],
+                  "ndc": [
+                    1.0963378245977944,
+                    0.4855107534807394,
+                    0.9620791567040169
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 5,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 9,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    184.5232769012451,
+                    18.650000762939452,
+                    -96.969730758667
+                  ],
+                  "ndc": [
+                    0.38491901303392445,
+                    0.477979667939009,
+                    0.997632346545206
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    183.4960479736328,
+                    18.650000762939452,
+                    -98.1964340209961
+                  ],
+                  "ndc": [
+                    0.37419228846718394,
+                    0.4780906706643277,
+                    0.9976002447523425
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    182.4688190460205,
+                    18.650000762939452,
+                    -99.42313728332519
+                  ],
+                  "ndc": [
+                    0.36319631119769186,
+                    0.4782044596813623,
+                    0.9975673371688171
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-taco-bell-live-mas"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    184.5232769012451,
+                    19.450000762939453,
+                    -96.969730758667
+                  ],
+                  "ndc": [
+                    0.38600358809144275,
+                    0.4959662341884576,
+                    0.9976250490585951
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    183.4960479736328,
+                    19.450000762939453,
+                    -98.1964340209961
+                  ],
+                  "ndc": [
+                    0.3752597450948174,
+                    0.4963011328944022,
+                    0.9975927649787772
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    182.4688190460205,
+                    19.450000762939453,
+                    -99.42313728332519
+                  ],
+                  "ndc": [
+                    0.36424544069879705,
+                    0.49664446221243724,
+                    0.997559668191867
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-taco-bell-live-mas"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    184.5232769012451,
+                    20.250000762939454,
+                    -96.969730758667
+                  ],
+                  "ndc": [
+                    0.3870942923699948,
+                    0.514054447289749,
+                    0.9976177103319535
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    183.4960479736328,
+                    20.250000762939454,
+                    -98.1964340209961
+                  ],
+                  "ndc": [
+                    0.3763333094030696,
+                    0.5146157901656054,
+                    0.9975852424080933
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    182.4688190460205,
+                    20.250000762939454,
+                    -99.42313728332519
+                  ],
+                  "ndc": [
+                    0.3653006487931688,
+                    0.5151913050097553,
+                    0.9975519547813256
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-taco-bell-live-mas"
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 6,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    192.42668758630754,
+                    18.119734954833984,
+                    -32.8993332862854
+                  ],
+                  "ndc": [
+                    1.086736136162388,
+                    0.46630249954375375,
+                    0.9978052741284853
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    192.53250122070312,
+                    18.119734954833984,
+                    -34.49583053588867
+                  ],
+                  "ndc": [
+                    1.0667062213468363,
+                    0.4663076566306594,
+                    0.997809853786152
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    192.6383148550987,
+                    18.119734954833984,
+                    -36.092327785491946
+                  ],
+                  "ndc": [
+                    1.0467520679735927,
+                    0.4663127942113242,
+                    0.9978144161216548
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    192.42668758630754,
+                    18.919734954833984,
+                    -32.8993332862854
+                  ],
+                  "ndc": [
+                    1.0895932093250147,
+                    0.4830542460865776,
+                    0.997798919809477
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    192.53250122070312,
+                    18.919734954833984,
+                    -34.49583053588867
+                  ],
+                  "ndc": [
+                    1.069505307334275,
+                    0.48302759236164133,
+                    0.9978035235560738
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    192.6383148550987,
+                    18.919734954833984,
+                    -36.092327785491946
+                  ],
+                  "ndc": [
+                    1.0494935851163618,
+                    0.48300103971618624,
+                    0.9978081098437858
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    192.42668758630754,
+                    19.719734954833985,
+                    -32.8993332862854
+                  ],
+                  "ndc": [
+                    1.0924653448084032,
+                    0.4998943068465653,
+                    0.9977925319908748
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    192.53250122070312,
+                    19.719734954833985,
+                    -34.49583053588867
+                  ],
+                  "ndc": [
+                    1.0723191218296915,
+                    0.49983550670703425,
+                    0.9977971600169641
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    192.6383148550987,
+                    19.719734954833985,
+                    -36.092327785491946
+                  ],
+                  "ndc": [
+                    1.052249500420602,
+                    0.4997769301420656,
+                    0.9978017704460046
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 3,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    88.67464666366577,
+                    16.7,
+                    -119.7065773665905
+                  ],
+                  "ndc": [
+                    -0.3829365323091769,
+                    0.6654158285549936,
+                    1.0148793349968481
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    87.07501220703125,
+                    16.7,
+                    -119.74077606201172
+                  ],
+                  "ndc": [
+                    -0.3385045475560649,
+                    0.6455302629493574,
+                    1.0133952365378385
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    85.47537775039673,
+                    16.7,
+                    -119.77497475743294
+                  ],
+                  "ndc": [
+                    -0.30224314430776617,
+                    0.6293014467654043,
+                    1.0121840484043043
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    88.67464666366577,
+                    17.5,
+                    -119.7065773665905
+                  ],
+                  "ndc": [
+                    -0.3769426502866752,
+                    0.5625649958152652,
+                    1.0146499161523772
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    87.07501220703125,
+                    17.5,
+                    -119.74077606201172
+                  ],
+                  "ndc": [
+                    -0.3337350635101498,
+                    0.5532270075548159,
+                    1.013209630866392
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    85.47537775039673,
+                    17.5,
+                    -119.77497475743294
+                  ],
+                  "ndc": [
+                    -0.2983711154824903,
+                    0.5455841800756185,
+                    1.012030806085873
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    88.67464666366577,
+                    18.3,
+                    -119.7065773665905
+                  ],
+                  "ndc": [
+                    -0.371133514020102,
+                    0.46288427132442495,
+                    1.0144275685444917
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    87.07501220703125,
+                    18.3,
+                    -119.74077606201172
+                  ],
+                  "ndc": [
+                    -0.32909811484978696,
+                    0.4634886936557657,
+                    1.0130291828428144
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    85.47537775039673,
+                    18.3,
+                    -119.77497475743294
+                  ],
+                  "ndc": [
+                    -0.2945970406858914,
+                    0.46398478076547595,
+                    1.011881440469587
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 4,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": true,
+              "visibleFraction": 1,
+              "areaSamplesInViewport": 9,
+              "areaSamplesVisible": 9,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    124.97136869430543,
+                    16.7,
+                    -120.45013803243637
+                  ],
+                  "ndc": [
+                    0.270221126682802,
+                    0.3431512321717714,
+                    0.990828101032941
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    123.37200164794922,
+                    16.7,
+                    -120.40513610839844
+                  ],
+                  "ndc": [
+                    0.2906909740294065,
+                    0.333337666686425,
+                    0.9900956955432995
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    121.77263460159301,
+                    16.7,
+                    -120.3601341843605
+                  ],
+                  "ndc": [
+                    0.3146225341236268,
+                    0.32186450188091825,
+                    0.9892394309267682
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    124.97136869430543,
+                    17.5,
+                    -120.45013803243637
+                  ],
+                  "ndc": [
+                    0.273003469761444,
+                    0.40749081038058343,
+                    0.9907313738188286
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    123.37200164794922,
+                    17.5,
+                    -120.40513610839844
+                  ],
+                  "ndc": [
+                    0.29392003295956143,
+                    0.40264012733934035,
+                    0.9899832075953956
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    121.77263460159301,
+                    17.5,
+                    -120.3601341843605
+                  ],
+                  "ndc": [
+                    0.31841650940892946,
+                    0.39695923981696535,
+                    0.9891069911683019
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    124.97136869430543,
+                    18.3,
+                    -120.45013803243637
+                  ],
+                  "ndc": [
+                    0.2758437059616664,
+                    0.47316912321643434,
+                    0.9906326339699658
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    123.37200164794922,
+                    18.3,
+                    -120.40513610839844
+                  ],
+                  "ndc": [
+                    0.2972216359105186,
+                    0.4734995367057974,
+                    0.9898681924938507
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    121.77263460159301,
+                    18.3,
+                    -120.3601341843605
+                  ],
+                  "ndc": [
+                    0.322303103265185,
+                    0.4738871914116957,
+                    0.988971318288836
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 5,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 9,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    191.50311999320985,
+                    18.656451416015624,
+                    -84.90471534729004
+                  ],
+                  "ndc": [
+                    0.49386797056385323,
+                    0.47743838121996796,
+                    0.9978275047655467
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    190.90589904785156,
+                    18.656451416015624,
+                    -86.38907623291016
+                  ],
+                  "ndc": [
+                    0.4800066910473722,
+                    0.47749140080923136,
+                    0.997812414941206
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    190.30867810249327,
+                    18.656451416015624,
+                    -87.87343711853028
+                  ],
+                  "ndc": [
+                    0.46596961755399846,
+                    0.47754509281293045,
+                    0.9977971337420193
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    191.50311999320985,
+                    19.456451416015625,
+                    -84.90471534729004
+                  ],
+                  "ndc": [
+                    0.49515439597584665,
+                    0.4940646552624932,
+                    0.9978212669502975
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    190.90589904785156,
+                    19.456451416015625,
+                    -86.38907623291016
+                  ],
+                  "ndc": [
+                    0.4812649098559593,
+                    0.49422285444705316,
+                    0.9978060981627671
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    190.30867810249327,
+                    19.456451416015625,
+                    -87.87343711853028
+                  ],
+                  "ndc": [
+                    0.46719880735858055,
+                    0.4943830652659285,
+                    0.9977907364914765
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    191.50311999320985,
+                    20.256451416015626,
+                    -84.90471534729004
+                  ],
+                  "ndc": [
+                    0.4964475406421725,
+                    0.5107777716223791,
+                    0.9978149965537056
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    190.90589904785156,
+                    20.256451416015626,
+                    -86.38907623291016
+                  ],
+                  "ndc": [
+                    0.4825297422191042,
+                    0.5110422533458334,
+                    0.9977997481815506
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    190.30867810249327,
+                    20.256451416015626,
+                    -87.87343711853028
+                  ],
+                  "ndc": [
+                    0.4684344993200034,
+                    0.5113101070696149,
+                    0.9977843054008172
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 6,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    190.61283354759217,
+                    16.66713638305664,
+                    -19.474466609954835
+                  ],
+                  "ndc": [
+                    1.2655312567912855,
+                    0.43521037661121625,
+                    0.9977510492883334
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    190.93748474121094,
+                    16.66713638305664,
+                    -21.041183471679688
+                  ],
+                  "ndc": [
+                    1.2419332591176564,
+                    0.4353628233476293,
+                    0.9977621904659734
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    191.2621359348297,
+                    16.66713638305664,
+                    -22.60790033340454
+                  ],
+                  "ndc": [
+                    1.2185470854572846,
+                    0.4355139016679606,
+                    0.997773231636444
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    190.61283354759217,
+                    17.46713638305664,
+                    -19.474466609954835
+                  ],
+                  "ndc": [
+                    1.2689332344995232,
+                    0.4522553779919272,
+                    0.9977444062605946
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    190.93748474121094,
+                    17.46713638305664,
+                    -21.041183471679688
+                  ],
+                  "ndc": [
+                    1.2452567093232016,
+                    0.45233118114553567,
+                    0.9977556072820097
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    191.2621359348297,
+                    17.46713638305664,
+                    -22.60790033340454
+                  ],
+                  "ndc": [
+                    1.2217932792251753,
+                    0.45240630205042565,
+                    0.9977667074912273
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    190.61283354759217,
+                    18.26713638305664,
+                    -19.474466609954835
+                  ],
+                  "ndc": [
+                    1.272353551774902,
+                    0.46939226649655647,
+                    0.9977377274212594
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    190.93748474121094,
+                    18.26713638305664,
+                    -21.041183471679688
+                  ],
+                  "ndc": [
+                    1.248597994558292,
+                    0.46939059827755253,
+                    0.997748988769916
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    191.2621359348297,
+                    18.26713638305664,
+                    -22.60790033340454
+                  ],
+                  "ndc": [
+                    1.22505681482841,
+                    0.4693889451130719,
+                    0.9977601484926836
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                }
+              ]
+            }
+          ],
+          "inViewport": 4,
+          "readable": 2
+        },
+        "tunnelKartSightline": null
+      },
+      "performance": {
+        "scoredFrames": 120,
+        "medianFrameMs": 361.5,
+        "p95FrameMs": 499.39999997615814,
+        "maxFrameMs": 670.3999999761581,
+        "medianFps": 2.7662728968386823,
+        "over50msFrames": 120
+      },
+      "errors": []
+    },
+    {
+      "name": "B2-rejected",
+      "variant": "fog-experiment-v2",
+      "frame": {
+        "calls": 172,
+        "triangles": 122571,
+        "geometries": 153,
+        "textures": 15,
+        "width": 1280,
+        "height": 720,
+        "pixelRatio": 1,
+        "racers": 8,
+        "quality": "medium",
+        "visualVariant": "fog-experiment-v2",
+        "view": "chase",
+        "skylineVisible": true,
+        "skyline": {
+          "windows": 240,
+          "pylons": 14,
+          "braces": 24,
+          "proceduralSigns": 18,
+          "manacondaAds": 7,
+          "tacoBellAds": 7,
+          "maskBillboards": 8,
+          "raisedBillboardPosts": 4,
+          "facadeMountedBillboards": 4,
+          "wet": true
+        },
+        "undercity": {
+          "windows": 160,
+          "buildings": 16,
+          "pipes": 26,
+          "utilityBoxes": 20,
+          "workLights": 24,
+          "serviceBays": 14,
+          "nightshiftAds": 2,
+          "voltlineAds": 2,
+          "wet": true
+        },
+        "fallsExtension": {
+          "windows": 160,
+          "towers": 16,
+          "pylons": 16,
+          "footings": 16,
+          "waterfalls": 24,
+          "mist": 14,
+          "wet": true
+        },
+        "actualCameraShortcutSightline": {
+          "shortcut": "billboard-gap",
+          "cameraWorld": [
+            103.07936965299392,
+            18.250000001473794,
+            -125.81140199186672
+          ],
+          "viewportTargets": 5,
+          "blockedTargets": 5,
+          "interiorTargetsEvaluated": 9,
+          "interiorTargetsInView": 5,
+          "interiorExposed": 0,
+          "entranceTargetsInView": 0,
+          "samples": [
+            {
+              "fraction": 0.12,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 3.118616258631535,
+              "occluded": true,
+              "distance": 55.886934993228934,
+              "targetWorld": [
+                157.50379114266437,
+                14.299096860171923,
+                -113.73985640647687
+              ],
+              "targetNdc": [
+                0.24768106422549072,
+                0.3401355320683868,
+                0.9964484816961768
+              ],
+              "blockerDistance": 25.783821844564752
+            },
+            {
+              "fraction": 0.22,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 11.53133783754052,
+              "occluded": true,
+              "distance": 65.42575818019151,
+              "targetWorld": [
+                163.4576220649204,
+                13.87680633130219,
+                -100.99464059442082
+              ],
+              "targetNdc": [
+                0.432380840073879,
+                0.33954967195706204,
+                0.9967973922204617
+              ],
+              "blockerDistance": 15.571879146121177
+            },
+            {
+              "fraction": 0.32,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 18.3713698455228,
+              "occluded": true,
+              "distance": 75.71268981424299,
+              "targetWorld": [
+                168.3889237562019,
+                13.404793760947552,
+                -87.81669817364109
+              ],
+              "targetNdc": [
+                0.6008999167312313,
+                0.3356563845738704,
+                0.9970380839079344
+              ],
+              "blockerDistance": 12.075405780737631
+            },
+            {
+              "fraction": 0.42,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 20.95004826383422,
+              "occluded": true,
+              "distance": 86.6726430962355,
+              "targetWorld": [
+                172.65915271055275,
+                12.886667989445646,
+                -74.41066736015914
+              ],
+              "targetNdc": [
+                0.7572404553190776,
+                0.32978102983343877,
+                0.997218967492574
+              ],
+              "blockerDistance": 10.355596702703256
+            },
+            {
+              "fraction": 0.52,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 17.81907356184974,
+              "occluded": true,
+              "distance": 98.13461013466033,
+              "targetWorld": [
+                176.39273250165866,
+                12.317522294894246,
+                -60.84711763220689
+              ],
+              "targetNdc": [
+                0.9051404231744045,
+                0.32222480431221623,
+                0.9973597523518462
+              ],
+              "blockerDistance": 9.352578924445103
+            }
+          ]
+        },
+        "sponsorArtworkSightline": {
+          "samples": [
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 3,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    76.9135950088501,
+                    16.7,
+                    -119.91538764387369
+                  ],
+                  "ndc": [
+                    -0.18571787917287724,
+                    0.5764336600371608,
+                    1.0082384225985985
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    75.31371307373047,
+                    16.7,
+                    -119.93482208251953
+                  ],
+                  "ndc": [
+                    -0.17221182858858974,
+                    0.5701967128465261,
+                    1.0077729470924897
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    73.71383113861084,
+                    16.7,
+                    -119.95425652116538
+                  ],
+                  "ndc": [
+                    -0.16018821004297504,
+                    0.5646443366399257,
+                    1.0073585624511132
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    76.9135950088501,
+                    17.5,
+                    -119.91538764387369
+                  ],
+                  "ndc": [
+                    -0.1841166792046317,
+                    0.5205484401187142,
+                    1.008169309703787
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    75.31371307373047,
+                    17.5,
+                    -119.93482208251953
+                  ],
+                  "ndc": [
+                    -0.17081258826553583,
+                    0.5175808908000018,
+                    1.0077115968110346
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    73.71383113861084,
+                    17.5,
+                    -119.95425652116538
+                  ],
+                  "ndc": [
+                    -0.1589575434832593,
+                    0.5149365590506171,
+                    1.0073037367876896
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    76.9135950088501,
+                    18.3,
+                    -119.91538764387369
+                  ],
+                  "ndc": [
+                    -0.18254285329086117,
+                    0.4656186318195124,
+                    1.0081013783604276
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    75.31371307373047,
+                    18.3,
+                    -119.93482208251953
+                  ],
+                  "ndc": [
+                    -0.169435902650473,
+                    0.46581319647136626,
+                    1.0076512354502538
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    73.71383113861084,
+                    18.3,
+                    -119.95425652116538
+                  ],
+                  "ndc": [
+                    -0.1577456422651576,
+                    0.4659867312243652,
+                    1.007249747112126
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 4,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": true,
+              "visibleFraction": 1,
+              "areaSamplesInViewport": 6,
+              "areaSamplesVisible": 6,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    111.95703439712524,
+                    16.7,
+                    -119.99089676141739
+                  ],
+                  "ndc": [
+                    0.6559242137551485,
+                    0.16300591006954987,
+                    0.9773835050766676
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    110.35816192626953,
+                    16.7,
+                    -119.93083953857422
+                  ],
+                  "ndc": [
+                    0.7961881771825451,
+                    0.09771483986220607,
+                    0.9725107054488632
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    108.75928945541382,
+                    16.7,
+                    -119.87078231573105
+                  ],
+                  "ndc": [
+                    1.0125381238246123,
+                    -0.002993276537731946,
+                    0.9649946627411534
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    111.95703439712524,
+                    17.5,
+                    -119.99089676141739
+                  ],
+                  "ndc": [
+                    0.6725892912208464,
+                    0.31718874032281164,
+                    0.9768032407808919
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    110.35816192626953,
+                    17.5,
+                    -119.93083953857422
+                  ],
+                  "ndc": [
+                    0.820866663370883,
+                    0.2837895043444919,
+                    0.97165176416719
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    108.75928945541382,
+                    17.5,
+                    -119.87078231573105
+                  ],
+                  "ndc": [
+                    1.0527730138196458,
+                    0.23155297754880402,
+                    0.9635948359684833
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    111.95703439712524,
+                    18.3,
+                    -119.99089676141739
+                  ],
+                  "ndc": [
+                    0.6901232645416736,
+                    0.47941046642968627,
+                    0.9761927222458232
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    110.35816192626953,
+                    18.3,
+                    -119.93083953857422
+                  ],
+                  "ndc": [
+                    0.8471239441943552,
+                    0.4817682086360702,
+                    0.9707378725179353
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    108.75928945541382,
+                    18.3,
+                    -119.87078231573105
+                  ],
+                  "ndc": [
+                    1.0963378245977944,
+                    0.4855107534807394,
+                    0.9620791567040169
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 5,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 9,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    184.5232769012451,
+                    18.650000762939452,
+                    -96.969730758667
+                  ],
+                  "ndc": [
+                    0.38491901303392445,
+                    0.477979667939009,
+                    0.997632346545206
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    183.4960479736328,
+                    18.650000762939452,
+                    -98.1964340209961
+                  ],
+                  "ndc": [
+                    0.37419228846718394,
+                    0.4780906706643277,
+                    0.9976002447523425
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    182.4688190460205,
+                    18.650000762939452,
+                    -99.42313728332519
+                  ],
+                  "ndc": [
+                    0.36319631119769186,
+                    0.4782044596813623,
+                    0.9975673371688171
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-taco-bell-live-mas"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    184.5232769012451,
+                    19.450000762939453,
+                    -96.969730758667
+                  ],
+                  "ndc": [
+                    0.38600358809144275,
+                    0.4959662341884576,
+                    0.9976250490585951
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    183.4960479736328,
+                    19.450000762939453,
+                    -98.1964340209961
+                  ],
+                  "ndc": [
+                    0.3752597450948174,
+                    0.4963011328944022,
+                    0.9975927649787772
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    182.4688190460205,
+                    19.450000762939453,
+                    -99.42313728332519
+                  ],
+                  "ndc": [
+                    0.36424544069879705,
+                    0.49664446221243724,
+                    0.997559668191867
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-taco-bell-live-mas"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    184.5232769012451,
+                    20.250000762939454,
+                    -96.969730758667
+                  ],
+                  "ndc": [
+                    0.3870942923699948,
+                    0.514054447289749,
+                    0.9976177103319535
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    183.4960479736328,
+                    20.250000762939454,
+                    -98.1964340209961
+                  ],
+                  "ndc": [
+                    0.3763333094030696,
+                    0.5146157901656054,
+                    0.9975852424080933
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    182.4688190460205,
+                    20.250000762939454,
+                    -99.42313728332519
+                  ],
+                  "ndc": [
+                    0.3653006487931688,
+                    0.5151913050097553,
+                    0.9975519547813256
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-taco-bell-live-mas"
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 6,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    192.42668758630754,
+                    18.119734954833984,
+                    -32.8993332862854
+                  ],
+                  "ndc": [
+                    1.086736136162388,
+                    0.46630249954375375,
+                    0.9978052741284853
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    192.53250122070312,
+                    18.119734954833984,
+                    -34.49583053588867
+                  ],
+                  "ndc": [
+                    1.0667062213468363,
+                    0.4663076566306594,
+                    0.997809853786152
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    192.6383148550987,
+                    18.119734954833984,
+                    -36.092327785491946
+                  ],
+                  "ndc": [
+                    1.0467520679735927,
+                    0.4663127942113242,
+                    0.9978144161216548
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    192.42668758630754,
+                    18.919734954833984,
+                    -32.8993332862854
+                  ],
+                  "ndc": [
+                    1.0895932093250147,
+                    0.4830542460865776,
+                    0.997798919809477
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    192.53250122070312,
+                    18.919734954833984,
+                    -34.49583053588867
+                  ],
+                  "ndc": [
+                    1.069505307334275,
+                    0.48302759236164133,
+                    0.9978035235560738
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    192.6383148550987,
+                    18.919734954833984,
+                    -36.092327785491946
+                  ],
+                  "ndc": [
+                    1.0494935851163618,
+                    0.48300103971618624,
+                    0.9978081098437858
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    192.42668758630754,
+                    19.719734954833985,
+                    -32.8993332862854
+                  ],
+                  "ndc": [
+                    1.0924653448084032,
+                    0.4998943068465653,
+                    0.9977925319908748
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    192.53250122070312,
+                    19.719734954833985,
+                    -34.49583053588867
+                  ],
+                  "ndc": [
+                    1.0723191218296915,
+                    0.49983550670703425,
+                    0.9977971600169641
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    192.6383148550987,
+                    19.719734954833985,
+                    -36.092327785491946
+                  ],
+                  "ndc": [
+                    1.052249500420602,
+                    0.4997769301420656,
+                    0.9978017704460046
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 3,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    88.67464666366577,
+                    16.7,
+                    -119.7065773665905
+                  ],
+                  "ndc": [
+                    -0.3829365323091769,
+                    0.6654158285549936,
+                    1.0148793349968481
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    87.07501220703125,
+                    16.7,
+                    -119.74077606201172
+                  ],
+                  "ndc": [
+                    -0.3385045475560649,
+                    0.6455302629493574,
+                    1.0133952365378385
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    85.47537775039673,
+                    16.7,
+                    -119.77497475743294
+                  ],
+                  "ndc": [
+                    -0.30224314430776617,
+                    0.6293014467654043,
+                    1.0121840484043043
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    88.67464666366577,
+                    17.5,
+                    -119.7065773665905
+                  ],
+                  "ndc": [
+                    -0.3769426502866752,
+                    0.5625649958152652,
+                    1.0146499161523772
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    87.07501220703125,
+                    17.5,
+                    -119.74077606201172
+                  ],
+                  "ndc": [
+                    -0.3337350635101498,
+                    0.5532270075548159,
+                    1.013209630866392
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    85.47537775039673,
+                    17.5,
+                    -119.77497475743294
+                  ],
+                  "ndc": [
+                    -0.2983711154824903,
+                    0.5455841800756185,
+                    1.012030806085873
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    88.67464666366577,
+                    18.3,
+                    -119.7065773665905
+                  ],
+                  "ndc": [
+                    -0.371133514020102,
+                    0.46288427132442495,
+                    1.0144275685444917
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    87.07501220703125,
+                    18.3,
+                    -119.74077606201172
+                  ],
+                  "ndc": [
+                    -0.32909811484978696,
+                    0.4634886936557657,
+                    1.0130291828428144
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    85.47537775039673,
+                    18.3,
+                    -119.77497475743294
+                  ],
+                  "ndc": [
+                    -0.2945970406858914,
+                    0.46398478076547595,
+                    1.011881440469587
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 4,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": true,
+              "visibleFraction": 1,
+              "areaSamplesInViewport": 9,
+              "areaSamplesVisible": 9,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    124.97136869430543,
+                    16.7,
+                    -120.45013803243637
+                  ],
+                  "ndc": [
+                    0.270221126682802,
+                    0.3431512321717714,
+                    0.990828101032941
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    123.37200164794922,
+                    16.7,
+                    -120.40513610839844
+                  ],
+                  "ndc": [
+                    0.2906909740294065,
+                    0.333337666686425,
+                    0.9900956955432995
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    121.77263460159301,
+                    16.7,
+                    -120.3601341843605
+                  ],
+                  "ndc": [
+                    0.3146225341236268,
+                    0.32186450188091825,
+                    0.9892394309267682
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    124.97136869430543,
+                    17.5,
+                    -120.45013803243637
+                  ],
+                  "ndc": [
+                    0.273003469761444,
+                    0.40749081038058343,
+                    0.9907313738188286
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    123.37200164794922,
+                    17.5,
+                    -120.40513610839844
+                  ],
+                  "ndc": [
+                    0.29392003295956143,
+                    0.40264012733934035,
+                    0.9899832075953956
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    121.77263460159301,
+                    17.5,
+                    -120.3601341843605
+                  ],
+                  "ndc": [
+                    0.31841650940892946,
+                    0.39695923981696535,
+                    0.9891069911683019
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    124.97136869430543,
+                    18.3,
+                    -120.45013803243637
+                  ],
+                  "ndc": [
+                    0.2758437059616664,
+                    0.47316912321643434,
+                    0.9906326339699658
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    123.37200164794922,
+                    18.3,
+                    -120.40513610839844
+                  ],
+                  "ndc": [
+                    0.2972216359105186,
+                    0.4734995367057974,
+                    0.9898681924938507
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    121.77263460159301,
+                    18.3,
+                    -120.3601341843605
+                  ],
+                  "ndc": [
+                    0.322303103265185,
+                    0.4738871914116957,
+                    0.988971318288836
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 5,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 9,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    191.50311999320985,
+                    18.656451416015624,
+                    -84.90471534729004
+                  ],
+                  "ndc": [
+                    0.49386797056385323,
+                    0.47743838121996796,
+                    0.9978275047655467
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    190.90589904785156,
+                    18.656451416015624,
+                    -86.38907623291016
+                  ],
+                  "ndc": [
+                    0.4800066910473722,
+                    0.47749140080923136,
+                    0.997812414941206
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    190.30867810249327,
+                    18.656451416015624,
+                    -87.87343711853028
+                  ],
+                  "ndc": [
+                    0.46596961755399846,
+                    0.47754509281293045,
+                    0.9977971337420193
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    191.50311999320985,
+                    19.456451416015625,
+                    -84.90471534729004
+                  ],
+                  "ndc": [
+                    0.49515439597584665,
+                    0.4940646552624932,
+                    0.9978212669502975
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    190.90589904785156,
+                    19.456451416015625,
+                    -86.38907623291016
+                  ],
+                  "ndc": [
+                    0.4812649098559593,
+                    0.49422285444705316,
+                    0.9978060981627671
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    190.30867810249327,
+                    19.456451416015625,
+                    -87.87343711853028
+                  ],
+                  "ndc": [
+                    0.46719880735858055,
+                    0.4943830652659285,
+                    0.9977907364914765
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    191.50311999320985,
+                    20.256451416015626,
+                    -84.90471534729004
+                  ],
+                  "ndc": [
+                    0.4964475406421725,
+                    0.5107777716223791,
+                    0.9978149965537056
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    190.90589904785156,
+                    20.256451416015626,
+                    -86.38907623291016
+                  ],
+                  "ndc": [
+                    0.4825297422191042,
+                    0.5110422533458334,
+                    0.9977997481815506
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    190.30867810249327,
+                    20.256451416015626,
+                    -87.87343711853028
+                  ],
+                  "ndc": [
+                    0.4684344993200034,
+                    0.5113101070696149,
+                    0.9977843054008172
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 6,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    190.61283354759217,
+                    16.66713638305664,
+                    -19.474466609954835
+                  ],
+                  "ndc": [
+                    1.2655312567912855,
+                    0.43521037661121625,
+                    0.9977510492883334
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    190.93748474121094,
+                    16.66713638305664,
+                    -21.041183471679688
+                  ],
+                  "ndc": [
+                    1.2419332591176564,
+                    0.4353628233476293,
+                    0.9977621904659734
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    191.2621359348297,
+                    16.66713638305664,
+                    -22.60790033340454
+                  ],
+                  "ndc": [
+                    1.2185470854572846,
+                    0.4355139016679606,
+                    0.997773231636444
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    190.61283354759217,
+                    17.46713638305664,
+                    -19.474466609954835
+                  ],
+                  "ndc": [
+                    1.2689332344995232,
+                    0.4522553779919272,
+                    0.9977444062605946
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    190.93748474121094,
+                    17.46713638305664,
+                    -21.041183471679688
+                  ],
+                  "ndc": [
+                    1.2452567093232016,
+                    0.45233118114553567,
+                    0.9977556072820097
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    191.2621359348297,
+                    17.46713638305664,
+                    -22.60790033340454
+                  ],
+                  "ndc": [
+                    1.2217932792251753,
+                    0.45240630205042565,
+                    0.9977667074912273
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    190.61283354759217,
+                    18.26713638305664,
+                    -19.474466609954835
+                  ],
+                  "ndc": [
+                    1.272353551774902,
+                    0.46939226649655647,
+                    0.9977377274212594
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    190.93748474121094,
+                    18.26713638305664,
+                    -21.041183471679688
+                  ],
+                  "ndc": [
+                    1.248597994558292,
+                    0.46939059827755253,
+                    0.997748988769916
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    191.2621359348297,
+                    18.26713638305664,
+                    -22.60790033340454
+                  ],
+                  "ndc": [
+                    1.22505681482841,
+                    0.4693889451130719,
+                    0.9977601484926836
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                }
+              ]
+            }
+          ],
+          "inViewport": 4,
+          "readable": 2
+        },
+        "tunnelKartSightline": null
+      },
+      "performance": {
+        "scoredFrames": 120,
+        "medianFrameMs": 300.5,
+        "p95FrameMs": 454.89999997615814,
+        "maxFrameMs": 631,
+        "medianFps": 3.3277929180351484,
+        "over50msFrames": 120
+      },
+      "errors": []
+    },
+    {
+      "name": "v3-stage1",
+      "variant": "fog-experiment-v3",
+      "frame": {
+        "calls": 172,
+        "triangles": 122907,
+        "geometries": 153,
+        "textures": 15,
+        "width": 1280,
+        "height": 720,
+        "pixelRatio": 1,
+        "racers": 8,
+        "quality": "medium",
+        "visualVariant": "fog-experiment-v3",
+        "view": "chase",
+        "skylineVisible": true,
+        "skyline": {
+          "windows": 240,
+          "pylons": 14,
+          "braces": 24,
+          "proceduralSigns": 18,
+          "manacondaAds": 7,
+          "tacoBellAds": 7,
+          "maskBillboards": 8,
+          "raisedBillboardPosts": 4,
+          "facadeMountedBillboards": 4,
+          "wet": true
+        },
+        "undercity": {
+          "windows": 160,
+          "buildings": 16,
+          "pipes": 26,
+          "utilityBoxes": 20,
+          "workLights": 24,
+          "serviceBays": 14,
+          "nightshiftAds": 2,
+          "voltlineAds": 2,
+          "wet": true
+        },
+        "fallsExtension": {
+          "windows": 160,
+          "towers": 16,
+          "pylons": 16,
+          "footings": 16,
+          "waterfalls": 24,
+          "mist": 14,
+          "wet": true
+        },
+        "actualCameraShortcutSightline": {
+          "shortcut": "billboard-gap",
+          "cameraWorld": [
+            103.07936965299392,
+            18.250000001473794,
+            -125.81140199186672
+          ],
+          "viewportTargets": 5,
+          "blockedTargets": 5,
+          "interiorTargetsEvaluated": 9,
+          "interiorTargetsInView": 5,
+          "interiorExposed": 0,
+          "entranceTargetsInView": 0,
+          "samples": [
+            {
+              "fraction": 0.12,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 3.118616258631535,
+              "occluded": true,
+              "distance": 55.886934993228934,
+              "targetWorld": [
+                157.50379114266437,
+                14.299096860171923,
+                -113.73985640647687
+              ],
+              "targetNdc": [
+                0.24768106422549072,
+                0.3401355320683868,
+                0.9964484816961768
+              ],
+              "blockerDistance": 25.783821844564752
+            },
+            {
+              "fraction": 0.22,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 11.53133783754052,
+              "occluded": true,
+              "distance": 65.42575818019151,
+              "targetWorld": [
+                163.4576220649204,
+                13.87680633130219,
+                -100.99464059442082
+              ],
+              "targetNdc": [
+                0.432380840073879,
+                0.33954967195706204,
+                0.9967973922204617
+              ],
+              "blockerDistance": 15.571879146121177
+            },
+            {
+              "fraction": 0.32,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 18.3713698455228,
+              "occluded": true,
+              "distance": 75.71268981424299,
+              "targetWorld": [
+                168.3889237562019,
+                13.404793760947552,
+                -87.81669817364109
+              ],
+              "targetNdc": [
+                0.6008999167312313,
+                0.3356563845738704,
+                0.9970380839079344
+              ],
+              "blockerDistance": 12.075405780737631
+            },
+            {
+              "fraction": 0.42,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 20.95004826383422,
+              "occluded": true,
+              "distance": 86.6726430962355,
+              "targetWorld": [
+                172.65915271055275,
+                12.886667989445646,
+                -74.41066736015914
+              ],
+              "targetNdc": [
+                0.7572404553190776,
+                0.32978102983343877,
+                0.997218967492574
+              ],
+              "blockerDistance": 10.355596702703256
+            },
+            {
+              "fraction": 0.52,
+              "interior": true,
+              "sharedMouth": false,
+              "mainEdgeMargin": 17.81907356184974,
+              "occluded": true,
+              "distance": 98.13461013466033,
+              "targetWorld": [
+                176.39273250165866,
+                12.317522294894246,
+                -60.84711763220689
+              ],
+              "targetNdc": [
+                0.9051404231744045,
+                0.32222480431221623,
+                0.9973597523518462
+              ],
+              "blockerDistance": 9.352578924445103
+            }
+          ]
+        },
+        "sponsorArtworkSightline": {
+          "samples": [
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 3,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    76.9135950088501,
+                    16.7,
+                    -119.91538764387369
+                  ],
+                  "ndc": [
+                    -0.18571787917287724,
+                    0.5764336600371608,
+                    1.0082384225985985
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    75.31371307373047,
+                    16.7,
+                    -119.93482208251953
+                  ],
+                  "ndc": [
+                    -0.17221182858858974,
+                    0.5701967128465261,
+                    1.0077729470924897
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    73.71383113861084,
+                    16.7,
+                    -119.95425652116538
+                  ],
+                  "ndc": [
+                    -0.16018821004297504,
+                    0.5646443366399257,
+                    1.0073585624511132
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    76.9135950088501,
+                    17.5,
+                    -119.91538764387369
+                  ],
+                  "ndc": [
+                    -0.1841166792046317,
+                    0.5205484401187142,
+                    1.008169309703787
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    75.31371307373047,
+                    17.5,
+                    -119.93482208251953
+                  ],
+                  "ndc": [
+                    -0.17081258826553583,
+                    0.5175808908000018,
+                    1.0077115968110346
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    73.71383113861084,
+                    17.5,
+                    -119.95425652116538
+                  ],
+                  "ndc": [
+                    -0.1589575434832593,
+                    0.5149365590506171,
+                    1.0073037367876896
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    76.9135950088501,
+                    18.3,
+                    -119.91538764387369
+                  ],
+                  "ndc": [
+                    -0.18254285329086117,
+                    0.4656186318195124,
+                    1.0081013783604276
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    75.31371307373047,
+                    18.3,
+                    -119.93482208251953
+                  ],
+                  "ndc": [
+                    -0.169435902650473,
+                    0.46581319647136626,
+                    1.0076512354502538
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    73.71383113861084,
+                    18.3,
+                    -119.95425652116538
+                  ],
+                  "ndc": [
+                    -0.1577456422651576,
+                    0.4659867312243652,
+                    1.007249747112126
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 4,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": true,
+              "visibleFraction": 1,
+              "areaSamplesInViewport": 6,
+              "areaSamplesVisible": 6,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    111.95703439712524,
+                    16.7,
+                    -119.99089676141739
+                  ],
+                  "ndc": [
+                    0.6559242137551485,
+                    0.16300591006954987,
+                    0.9773835050766676
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    110.35816192626953,
+                    16.7,
+                    -119.93083953857422
+                  ],
+                  "ndc": [
+                    0.7961881771825451,
+                    0.09771483986220607,
+                    0.9725107054488632
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    108.75928945541382,
+                    16.7,
+                    -119.87078231573105
+                  ],
+                  "ndc": [
+                    1.0125381238246123,
+                    -0.002993276537731946,
+                    0.9649946627411534
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    111.95703439712524,
+                    17.5,
+                    -119.99089676141739
+                  ],
+                  "ndc": [
+                    0.6725892912208464,
+                    0.31718874032281164,
+                    0.9768032407808919
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    110.35816192626953,
+                    17.5,
+                    -119.93083953857422
+                  ],
+                  "ndc": [
+                    0.820866663370883,
+                    0.2837895043444919,
+                    0.97165176416719
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    108.75928945541382,
+                    17.5,
+                    -119.87078231573105
+                  ],
+                  "ndc": [
+                    1.0527730138196458,
+                    0.23155297754880402,
+                    0.9635948359684833
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    111.95703439712524,
+                    18.3,
+                    -119.99089676141739
+                  ],
+                  "ndc": [
+                    0.6901232645416736,
+                    0.47941046642968627,
+                    0.9761927222458232
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    110.35816192626953,
+                    18.3,
+                    -119.93083953857422
+                  ],
+                  "ndc": [
+                    0.8471239441943552,
+                    0.4817682086360702,
+                    0.9707378725179353
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    108.75928945541382,
+                    18.3,
+                    -119.87078231573105
+                  ],
+                  "ndc": [
+                    1.0963378245977944,
+                    0.4855107534807394,
+                    0.9620791567040169
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 5,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 9,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    184.5232769012451,
+                    18.650000762939452,
+                    -96.969730758667
+                  ],
+                  "ndc": [
+                    0.38491901303392445,
+                    0.477979667939009,
+                    0.997632346545206
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    183.4960479736328,
+                    18.650000762939452,
+                    -98.1964340209961
+                  ],
+                  "ndc": [
+                    0.37419228846718394,
+                    0.4780906706643277,
+                    0.9976002447523425
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    182.4688190460205,
+                    18.650000762939452,
+                    -99.42313728332519
+                  ],
+                  "ndc": [
+                    0.36319631119769186,
+                    0.4782044596813623,
+                    0.9975673371688171
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-taco-bell-live-mas"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    184.5232769012451,
+                    19.450000762939453,
+                    -96.969730758667
+                  ],
+                  "ndc": [
+                    0.38600358809144275,
+                    0.4959662341884576,
+                    0.9976250490585951
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    183.4960479736328,
+                    19.450000762939453,
+                    -98.1964340209961
+                  ],
+                  "ndc": [
+                    0.3752597450948174,
+                    0.4963011328944022,
+                    0.9975927649787772
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    182.4688190460205,
+                    19.450000762939453,
+                    -99.42313728332519
+                  ],
+                  "ndc": [
+                    0.36424544069879705,
+                    0.49664446221243724,
+                    0.997559668191867
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-taco-bell-live-mas"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    184.5232769012451,
+                    20.250000762939454,
+                    -96.969730758667
+                  ],
+                  "ndc": [
+                    0.3870942923699948,
+                    0.514054447289749,
+                    0.9976177103319535
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    183.4960479736328,
+                    20.250000762939454,
+                    -98.1964340209961
+                  ],
+                  "ndc": [
+                    0.3763333094030696,
+                    0.5146157901656054,
+                    0.9975852424080933
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    182.4688190460205,
+                    20.250000762939454,
+                    -99.42313728332519
+                  ],
+                  "ndc": [
+                    0.3653006487931688,
+                    0.5151913050097553,
+                    0.9975519547813256
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-taco-bell-live-mas"
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-manaconda-racing",
+              "index": 6,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    192.42668758630754,
+                    18.119734954833984,
+                    -32.8993332862854
+                  ],
+                  "ndc": [
+                    1.086736136162388,
+                    0.46630249954375375,
+                    0.9978052741284853
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    192.53250122070312,
+                    18.119734954833984,
+                    -34.49583053588867
+                  ],
+                  "ndc": [
+                    1.0667062213468363,
+                    0.4663076566306594,
+                    0.997809853786152
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    192.6383148550987,
+                    18.119734954833984,
+                    -36.092327785491946
+                  ],
+                  "ndc": [
+                    1.0467520679735927,
+                    0.4663127942113242,
+                    0.9978144161216548
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    192.42668758630754,
+                    18.919734954833984,
+                    -32.8993332862854
+                  ],
+                  "ndc": [
+                    1.0895932093250147,
+                    0.4830542460865776,
+                    0.997798919809477
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    192.53250122070312,
+                    18.919734954833984,
+                    -34.49583053588867
+                  ],
+                  "ndc": [
+                    1.069505307334275,
+                    0.48302759236164133,
+                    0.9978035235560738
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    192.6383148550987,
+                    18.919734954833984,
+                    -36.092327785491946
+                  ],
+                  "ndc": [
+                    1.0494935851163618,
+                    0.48300103971618624,
+                    0.9978081098437858
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    192.42668758630754,
+                    19.719734954833985,
+                    -32.8993332862854
+                  ],
+                  "ndc": [
+                    1.0924653448084032,
+                    0.4998943068465653,
+                    0.9977925319908748
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    192.53250122070312,
+                    19.719734954833985,
+                    -34.49583053588867
+                  ],
+                  "ndc": [
+                    1.0723191218296915,
+                    0.49983550670703425,
+                    0.9977971600169641
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    192.6383148550987,
+                    19.719734954833985,
+                    -36.092327785491946
+                  ],
+                  "ndc": [
+                    1.052249500420602,
+                    0.4997769301420656,
+                    0.9978017704460046
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-supports"
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 3,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    88.67464666366577,
+                    16.7,
+                    -119.7065773665905
+                  ],
+                  "ndc": [
+                    -0.3829365323091769,
+                    0.6654158285549936,
+                    1.0148793349968481
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    87.07501220703125,
+                    16.7,
+                    -119.74077606201172
+                  ],
+                  "ndc": [
+                    -0.3385045475560649,
+                    0.6455302629493574,
+                    1.0133952365378385
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    85.47537775039673,
+                    16.7,
+                    -119.77497475743294
+                  ],
+                  "ndc": [
+                    -0.30224314430776617,
+                    0.6293014467654043,
+                    1.0121840484043043
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    88.67464666366577,
+                    17.5,
+                    -119.7065773665905
+                  ],
+                  "ndc": [
+                    -0.3769426502866752,
+                    0.5625649958152652,
+                    1.0146499161523772
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    87.07501220703125,
+                    17.5,
+                    -119.74077606201172
+                  ],
+                  "ndc": [
+                    -0.3337350635101498,
+                    0.5532270075548159,
+                    1.013209630866392
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    85.47537775039673,
+                    17.5,
+                    -119.77497475743294
+                  ],
+                  "ndc": [
+                    -0.2983711154824903,
+                    0.5455841800756185,
+                    1.012030806085873
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    88.67464666366577,
+                    18.3,
+                    -119.7065773665905
+                  ],
+                  "ndc": [
+                    -0.371133514020102,
+                    0.46288427132442495,
+                    1.0144275685444917
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    87.07501220703125,
+                    18.3,
+                    -119.74077606201172
+                  ],
+                  "ndc": [
+                    -0.32909811484978696,
+                    0.4634886936557657,
+                    1.0130291828428144
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    85.47537775039673,
+                    18.3,
+                    -119.77497475743294
+                  ],
+                  "ndc": [
+                    -0.2945970406858914,
+                    0.46398478076547595,
+                    1.011881440469587
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 4,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": true,
+              "visibleFraction": 1,
+              "areaSamplesInViewport": 9,
+              "areaSamplesVisible": 9,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    124.97136869430543,
+                    16.7,
+                    -120.45013803243637
+                  ],
+                  "ndc": [
+                    0.270221126682802,
+                    0.3431512321717714,
+                    0.990828101032941
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    123.37200164794922,
+                    16.7,
+                    -120.40513610839844
+                  ],
+                  "ndc": [
+                    0.2906909740294065,
+                    0.333337666686425,
+                    0.9900956955432995
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    121.77263460159301,
+                    16.7,
+                    -120.3601341843605
+                  ],
+                  "ndc": [
+                    0.3146225341236268,
+                    0.32186450188091825,
+                    0.9892394309267682
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    124.97136869430543,
+                    17.5,
+                    -120.45013803243637
+                  ],
+                  "ndc": [
+                    0.273003469761444,
+                    0.40749081038058343,
+                    0.9907313738188286
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    123.37200164794922,
+                    17.5,
+                    -120.40513610839844
+                  ],
+                  "ndc": [
+                    0.29392003295956143,
+                    0.40264012733934035,
+                    0.9899832075953956
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    121.77263460159301,
+                    17.5,
+                    -120.3601341843605
+                  ],
+                  "ndc": [
+                    0.31841650940892946,
+                    0.39695923981696535,
+                    0.9891069911683019
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    124.97136869430543,
+                    18.3,
+                    -120.45013803243637
+                  ],
+                  "ndc": [
+                    0.2758437059616664,
+                    0.47316912321643434,
+                    0.9906326339699658
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    123.37200164794922,
+                    18.3,
+                    -120.40513610839844
+                  ],
+                  "ndc": [
+                    0.2972216359105186,
+                    0.4734995367057974,
+                    0.9898681924938507
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    121.77263460159301,
+                    18.3,
+                    -120.3601341843605
+                  ],
+                  "ndc": [
+                    0.322303103265185,
+                    0.4738871914116957,
+                    0.988971318288836
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": true,
+                  "blocker": null
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 5,
+              "inViewport": true,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 9,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    191.50311999320985,
+                    18.656451416015624,
+                    -84.90471534729004
+                  ],
+                  "ndc": [
+                    0.49386797056385323,
+                    0.47743838121996796,
+                    0.9978275047655467
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    190.90589904785156,
+                    18.656451416015624,
+                    -86.38907623291016
+                  ],
+                  "ndc": [
+                    0.4800066910473722,
+                    0.47749140080923136,
+                    0.997812414941206
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    190.30867810249327,
+                    18.656451416015624,
+                    -87.87343711853028
+                  ],
+                  "ndc": [
+                    0.46596961755399846,
+                    0.47754509281293045,
+                    0.9977971337420193
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    191.50311999320985,
+                    19.456451416015625,
+                    -84.90471534729004
+                  ],
+                  "ndc": [
+                    0.49515439597584665,
+                    0.4940646552624932,
+                    0.9978212669502975
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    190.90589904785156,
+                    19.456451416015625,
+                    -86.38907623291016
+                  ],
+                  "ndc": [
+                    0.4812649098559593,
+                    0.49422285444705316,
+                    0.9978060981627671
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    190.30867810249327,
+                    19.456451416015625,
+                    -87.87343711853028
+                  ],
+                  "ndc": [
+                    0.46719880735858055,
+                    0.4943830652659285,
+                    0.9977907364914765
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    191.50311999320985,
+                    20.256451416015626,
+                    -84.90471534729004
+                  ],
+                  "ndc": [
+                    0.4964475406421725,
+                    0.5107777716223791,
+                    0.9978149965537056
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    190.90589904785156,
+                    20.256451416015626,
+                    -86.38907623291016
+                  ],
+                  "ndc": [
+                    0.4825297422191042,
+                    0.5110422533458334,
+                    0.9977997481815506
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    190.30867810249327,
+                    20.256451416015626,
+                    -87.87343711853028
+                  ],
+                  "ndc": [
+                    0.4684344993200034,
+                    0.5113101070696149,
+                    0.9977843054008172
+                  ],
+                  "inViewport": true,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-mask-roadside-billboard-supports"
+                }
+              ]
+            },
+            {
+              "name": "skyline-ad-taco-bell-live-mas",
+              "index": 6,
+              "inViewport": false,
+              "imageLoaded": true,
+              "faceHit": true,
+              "visibleArtwork": false,
+              "visibleFraction": 0,
+              "areaSamplesInViewport": 0,
+              "areaSamplesVisible": 0,
+              "faceSamples": [
+                {
+                  "u": -0.4,
+                  "v": -0.4,
+                  "world": [
+                    190.61283354759217,
+                    16.66713638305664,
+                    -19.474466609954835
+                  ],
+                  "ndc": [
+                    1.2655312567912855,
+                    0.43521037661121625,
+                    0.9977510492883334
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0,
+                  "v": -0.4,
+                  "world": [
+                    190.93748474121094,
+                    16.66713638305664,
+                    -21.041183471679688
+                  ],
+                  "ndc": [
+                    1.2419332591176564,
+                    0.4353628233476293,
+                    0.9977621904659734
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0.4,
+                  "v": -0.4,
+                  "world": [
+                    191.2621359348297,
+                    16.66713638305664,
+                    -22.60790033340454
+                  ],
+                  "ndc": [
+                    1.2185470854572846,
+                    0.4355139016679606,
+                    0.997773231636444
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0,
+                  "world": [
+                    190.61283354759217,
+                    17.46713638305664,
+                    -19.474466609954835
+                  ],
+                  "ndc": [
+                    1.2689332344995232,
+                    0.4522553779919272,
+                    0.9977444062605946
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0,
+                  "v": 0,
+                  "world": [
+                    190.93748474121094,
+                    17.46713638305664,
+                    -21.041183471679688
+                  ],
+                  "ndc": [
+                    1.2452567093232016,
+                    0.45233118114553567,
+                    0.9977556072820097
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0,
+                  "world": [
+                    191.2621359348297,
+                    17.46713638305664,
+                    -22.60790033340454
+                  ],
+                  "ndc": [
+                    1.2217932792251753,
+                    0.45240630205042565,
+                    0.9977667074912273
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": -0.4,
+                  "v": 0.4,
+                  "world": [
+                    190.61283354759217,
+                    18.26713638305664,
+                    -19.474466609954835
+                  ],
+                  "ndc": [
+                    1.272353551774902,
+                    0.46939226649655647,
+                    0.9977377274212594
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0,
+                  "v": 0.4,
+                  "world": [
+                    190.93748474121094,
+                    18.26713638305664,
+                    -21.041183471679688
+                  ],
+                  "ndc": [
+                    1.248597994558292,
+                    0.46939059827755253,
+                    0.997748988769916
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                },
+                {
+                  "u": 0.4,
+                  "v": 0.4,
+                  "world": [
+                    191.2621359348297,
+                    18.26713638305664,
+                    -22.60790033340454
+                  ],
+                  "ndc": [
+                    1.22505681482841,
+                    0.4693889451130719,
+                    0.9977601484926836
+                  ],
+                  "inViewport": false,
+                  "faceHit": true,
+                  "visibleArtwork": false,
+                  "blocker": "skyline-ad-manaconda-racing"
+                }
+              ]
+            }
+          ],
+          "inViewport": 4,
+          "readable": 2
+        },
+        "tunnelKartSightline": null
+      },
+      "performance": {
+        "scoredFrames": 120,
+        "medianFrameMs": 261.30000001192093,
+        "p95FrameMs": 293.90000009536743,
+        "maxFrameMs": 321.40000009536743,
+        "medianFps": 3.8270209942501068,
+        "over50msFrames": 120
+      },
+      "errors": []
+    }
+  ]
+}

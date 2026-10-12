@@ -1,6 +1,6 @@
 # Manaconda's Minigame Mayhem
 
-A modular HTML5 minigame hub built around a 3D kart racer with illustrated 2D avatar drivers, customizable karts, items, AI opponents, and the neon-lit **Route Night** presentation.
+A modular HTML5 minigame hub built around a 3D kart racer with illustrated 2D avatar drivers, character-specific karts, items, AI opponents, and the neon-lit **Route Night** presentation.
 
 **Status updated: October 12, 2026.** The canonical repository is public, but preview publication, runtime merges, asset changes, and product acceptance remain approval-gated. [`docs/PRD.md`](docs/PRD.md) is the product specification (approved v1.1 baseline plus recorded amendments); GitHub code, [implementation status](docs/IMPLEMENTATION-STATUS.md), and [test evidence](docs/TESTING.md) establish what has actually shipped.
 

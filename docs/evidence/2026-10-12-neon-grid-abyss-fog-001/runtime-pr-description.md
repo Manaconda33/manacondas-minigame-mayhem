@@ -26,6 +26,7 @@
 
 - Owner review of the attached A/B contact sheets and exact pinned preview is required before replacing A or removing its implementation.
 - This PR must remain separate from `main`; it is not production deployment authorization.
-- The branch is pushed, but the GitHub API rejected draft-PR creation with HTTP 403, so candidate hosted CI and the immutable Pages preview do not yet exist. The preview workflow-only branch is separately pushed and must be reviewed/merged only after Manny approves that publication step.
+- Runtime PR #292 is open against `design/neon-grid-circuit-02`. The repository workflow filters `pull_request` events to base `main`, so this development-target PR has no hosted checks; local Node 22 results are in `README.md`. Its page currently shows Open without a Draft badge.
+- Preview-publication PR #293 is separate and remains unmerged. Its hosted run is [38209905504](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38209905504); the new pinned build is still running. No live preview exists yet.
 
 See [`README.md`](README.md) for the full report and evidence links.

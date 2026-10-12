@@ -19,7 +19,8 @@
 
 - The workflow YAML parses locally.
 - A local structural check confirmed the unique matrix entry, source pin, base path, cache restore, assembly checks, hash manifest, production-byte allow-list, and expected-source assertion.
-- Hosted workflow validation and Pages deployment have not run because the GitHub API denied PR creation with HTTP 403.
+- Preview-publication PR #293 is open. Hosted run [38209905504](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38209905504) has its three non-matrix jobs and 20/21 preview matrix jobs complete; the new pinned fog-preview build remains in progress, with no failure shown.
+- No Pages deployment has occurred. This PR must remain unmerged until Manny separately approves publication after CI completes.
 
 ## Approval boundary
 

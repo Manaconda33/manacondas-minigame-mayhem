@@ -1,10 +1,10 @@
 # Immutable Pages preview publication plan
 
-**State:** workflow-only change prepared, committed, and pushed; PR creation was rejected with HTTP 403. No PR was created, merged, or published.
+**State (2026-10-12):** workflow-only branch is pushed; [PR #293](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/293) is open to `main`. Hosted run [38209905504](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38209905504) has 20/21 preview matrix jobs complete, with the new pinned build still running. No merge or publication has occurred.
 
 Workflow-only branch: `preview/neon-grid-abyss-fog-001`, based on `main` checkpoint `f09e961b1c7ec65fce82e223f5ed6f288dd195e4`, branch commit `5ef0bcf9d9ab038e2e520815bf1581a8b4bc2aae`. Its only changed file is `.github/workflows/ci.yml`. It adds the pinned preview matrix entry, cache restore, isolated Pages assembly/file/art checks, exact source verification, and production-byte hash allow-list entry. No runtime files or main branch were changed.
 
-The runtime PR and this preview-publication PR still need to be created. GitHub CLI API requests return HTTP 403 because `GH_TOKEN` is invalid and no stored CLI login exists, though Git pushes succeeded. Do not add runtime changes from the experiment branch to the workflow PR.
+The runtime experiment is [PR #292](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/292), targeting `design/neon-grid-circuit-02`. The workflow-only PR #293 contains no runtime changes. Keep both branches separate; do not merge #293 until the hosted run passes and Manny separately approves publication.
 
 The immutable runtime/evidence commit is `b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65`. Pin that exact SHA in a new `.github/workflows/ci.yml` preview entry:
 
@@ -18,7 +18,7 @@ The immutable runtime/evidence commit is `b0f8d6ed0ef1ba92c6e2dace6886ab04232abd
   status: Owner visual review only; no baseline replacement, runtime merge, or production release
 ```
 
-The committed workflow change has been YAML-parsed locally. The normal workflow CI, full preview build, and post-deploy hash verification remain pending because the publication PR could not be opened. Keep the fixed and previously published preview entries unchanged. The PR CI must build and cache the exact SHA; after separate owner approval and merge, Pages assembly must verify existing production bytes and the new preview artifact hash using the existing Node 22 jobs.
+The workflow YAML parsed and passed the earlier local structural assertions. Hosted run #38209905504 is active; the pinned B preview matrix job is the remaining matrix build. The hosted run must finish successfully before requesting publication approval. After Manny approves and the PR merges, the existing Pages workflow must assemble and hash-check the pinned preview while verifying existing production bytes. Post-deployment live-byte verification remains a separate required check. Keep all existing preview entries unchanged.
 
 The eventual review link will be:
 

@@ -3,6 +3,8 @@ import type { GraphicsQuality } from '../../config/graphicsQuality';
 import { neonGridRightAt } from './NeonGridVisualCommon';
 import type { NeonGrid } from './NeonGrid';
 
+export { suppressIndexedGroundTriangles } from './NeonGridVisualExperimentGeometry';
+
 interface FogDistrict {
   readonly name: 'skyline' | 'undercity' | 'falls-run';
   readonly start: number;
@@ -38,94 +40,6 @@ const DISTRICTS: readonly FogDistrict[] = [
     accent: [0.12, 0.68, 0.78],
   },
 ];
-
-/**
- * Remove one complete indexed triangle span while keeping adjacent structural
- * triangles in the same batched draw. This is used only by the opt-in visual
- * experiment; the original buffers and defaults remain intact.
- */
-export function suppressIndexedGroundTriangles(
-  geometry: THREE.BufferGeometry,
-  indexStart: number,
-  indexCount: number,
-): void {
-  const index = geometry.getIndex();
-  if (!index) throw new Error('Fog experiment ground suppression requires indexed geometry');
-  if (geometry.groups.length > 0)
-    throw new Error('Fog experiment cannot safely filter geometry with material groups');
-  if (
-    !Number.isInteger(indexStart) ||
-    !Number.isInteger(indexCount) ||
-    indexStart < 0 ||
-    indexCount < 0 ||
-    indexStart % 3 !== 0 ||
-    indexCount % 3 !== 0 ||
-    indexStart + indexCount > index.count
-  ) {
-    throw new Error('Fog experiment ground suppression range is outside the geometry index');
-  }
-  if (indexCount === 0) return;
-
-  const originalStart = indexStart;
-  const originalCount = indexCount;
-  const originalEnd = originalStart + originalCount;
-  const source = index.array;
-  const kept = new Uint32Array(source.length - originalCount);
-  let cursor = 0;
-  for (let i = 0; i < source.length; i++) {
-    if (i >= originalStart && i < originalEnd) continue;
-    kept[cursor] = index.getX(i);
-    cursor++;
-  }
-  geometry.setIndex(new THREE.BufferAttribute(kept, 1));
-
-  const removedTriangles = originalCount / 3;
-  const removedEndTriangle = originalEnd / 3;
-  const ranges = geometry.userData.geometryRanges as
-    | Record<string, { startTriangle: number; triangleCount: number }>
-    | undefined;
-  if (ranges) {
-    for (const [name, range] of Object.entries(ranges)) {
-      const start = range.startTriangle;
-      const end = start + range.triangleCount;
-      if (start === originalStart / 3 && end === removedEndTriangle) {
-        ranges[name] = { startTriangle: start, triangleCount: 0 };
-      } else if (start >= removedEndTriangle) {
-        ranges[name] = { startTriangle: start - removedTriangles, triangleCount: range.triangleCount };
-      } else if (end > originalStart / 3 && start < removedEndTriangle) {
-        throw new Error(`Fog experiment suppression partially overlaps geometry range ${name}`);
-      }
-    }
-    geometry.userData.geometryRanges = ranges;
-  }
-
-  const rasterRanges = geometry.userData.rasterSurfaceRanges as
-    | readonly { start: number; count: number }[]
-    | undefined;
-  if (rasterRanges) {
-    geometry.userData.rasterSurfaceRanges = rasterRanges
-      .map((range) => {
-        const end = range.start + range.count;
-        if (range.start >= originalEnd) return { start: range.start - originalCount, count: range.count };
-        if (range.start >= originalStart && end <= originalEnd) return { start: 0, count: 0 };
-        if (end <= originalStart) return range;
-        throw new Error('Fog experiment suppression partially overlaps a raster surface range');
-      })
-      .filter((range: { start: number; count: number }) => range.count > 0);
-  }
-
-  geometry.userData.originalFloorIndexStart = originalStart;
-  geometry.userData.originalFloorIndexCount = originalCount;
-  geometry.userData.suppressedGroundIndexStart = originalStart;
-  geometry.userData.suppressedGroundIndexCount = originalCount;
-  geometry.userData.suppressedGroundTriangleCount = removedTriangles;
-  geometry.userData.floorIndexStart = 0;
-  geometry.userData.floorIndexCount = 0;
-  geometry.userData.floorTriangleCount = 0;
-  geometry.userData.rasterSurfaceIndexStart = 0;
-  geometry.userData.rasterSurfaceIndexCount = 0;
-  geometry.userData.cityGroundSuppressed = true;
-}
 
 function ruinedTowerGeometry(): THREE.BufferGeometry {
   const perimeter: readonly (readonly [number, number])[] = [

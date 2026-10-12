@@ -10,6 +10,8 @@ import {
   neonGridTerracedCityGroundGeometry,
 } from './NeonGridCityGround';
 import { suppressIndexedGroundTriangles } from './NeonGridFogCity';
+import { suppressInstancedMeshRange } from './NeonGridVisualExperimentGeometry';
+import { abyssFogBuildingPlacement } from './NeonGridAbyssFogV2';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import {
   NeonGridVisualClock,
@@ -35,6 +37,7 @@ interface UndercityBuilding {
   readonly height: number;
   readonly baseY: number;
   readonly progress: number;
+  readonly fogRoofAboveRoad?: number;
 }
 
 interface AdMaterial {
@@ -260,13 +263,28 @@ function addBuildings(
   track: NeonGrid,
   quality: GraphicsQuality,
   renderedGround: THREE.Mesh,
+  variant: NeonGridVisualVariant,
 ): UndercityBuilding[] {
-  const data = placeBuildings(track, renderedGround);
+  const placedBuildings = placeBuildings(track, renderedGround);
+  const data = variant === 'fog-experiment-v2'
+    ? placedBuildings.map((building, index) => {
+      const placement = abyssFogBuildingPlacement(track, building.position, index, 24, 34, 1.01);
+      return {
+        ...building,
+        baseY: placement.baseY,
+        height: placement.height,
+        fogRoofAboveRoad: placement.roofAboveRoad,
+      };
+    })
+    : placedBuildings;
   const buildingMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
   });
   const buildings = new THREE.InstancedMesh(buildingGeometry(), buildingMaterial, data.length);
   buildings.name = 'undercity-city-buildings';
+  if (variant === 'fog-experiment-v2') {
+    buildings.userData.fogBuriedRoofOffsets = data.map((building) => building.fogRoofAboveRoad);
+  }
   const dummy = new THREE.Object3D();
   const colors = [
     new THREE.Color(0x303b4d),
@@ -345,6 +363,14 @@ function addBuildings(
   });
   industrial.instanceMatrix.needsUpdate = true;
   if (industrial.instanceColor) industrial.instanceColor.needsUpdate = true;
+  if (variant === 'fog-experiment-v2') {
+    suppressInstancedMeshRange(
+      industrial,
+      partRanges.foundations.start,
+      partRanges.foundations.count,
+      'foundations',
+    );
+  }
 
   const windowCount = quality === 'low' ? 80 : quality === 'high' ? 240 : 160;
   const windowMaterial = new THREE.MeshBasicMaterial({
@@ -394,7 +420,10 @@ function addBuildings(
 }
 
 function addUtilityClutter(
-  group: THREE.Group, track: NeonGrid, buildings: UndercityBuilding[],
+  group: THREE.Group,
+  track: NeonGrid,
+  buildings: UndercityBuilding[],
+  variant: NeonGridVisualVariant,
 ): void {
   // The 20 junction boxes and their 20 solid pads share one static batch;
   // colors and exact transforms are retained for every individual piece.
@@ -435,6 +464,11 @@ function addUtilityClutter(
   }
   utility.instanceMatrix.needsUpdate = true;
   if (utility.instanceColor) utility.instanceColor.needsUpdate = true;
+  if (variant === 'fog-experiment-v2') {
+    utility.count = utilityCount;
+    utility.userData.padCount = 0;
+    utility.userData.suppressedDecorativePads = true;
+  }
 
   // Pipes terminate at the foundation and roof of actual buildings. Former
   // road-relative horizontal cylinders had no architectural anchors.
@@ -703,7 +737,7 @@ function addWallsideSightlineScreens(
   );
   screens.geometry.userData.retainingWallTriangleCount = 0;
   screens.geometry.userData.omittedCellsByCorridor = groundOmittedCells;
-  if (variant === 'fog-experiment') {
+  if (variant !== 'approved') {
     suppressIndexedGroundTriangles(screens.geometry, floorIndexStart, floorIndexCount);
   }
   const groundMarker = new THREE.Group();
@@ -908,10 +942,10 @@ export class UndercityVisual {
     this.group.add(edges);
 
     const validationGround = addWallsideSightlineScreens(this.group, track, variant);
-    const buildings = addBuildings(this.group, track, quality, validationGround);
+    const buildings = addBuildings(this.group, track, quality, validationGround, variant);
     validationGround.geometry.dispose();
     (validationGround.material as THREE.Material).dispose();
-    addUtilityClutter(this.group, track, buildings);
+    addUtilityClutter(this.group, track, buildings, variant);
     addFacadeVentilation(this.group, buildings);
     addServiceBayMask(this.group, track);
     addApprovedAds(this.group, buildings, this.adMaterials);

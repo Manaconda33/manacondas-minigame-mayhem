@@ -65,6 +65,7 @@ export function mergeInstancedCityMeshesIntoGround(
   const colors = Array.from(floorColors.array as ArrayLike<number>);
   const indices = Array.from(floorIndex.array as ArrayLike<number>);
   const bakedCityMeshes: string[] = [];
+  const bakedCityGeometryRanges: Record<string, { startTriangle: number; triangleCount: number }> = {};
   const vertex = new THREE.Vector3();
   const instanceMatrix = new THREE.Matrix4();
   const inverseGround = ground.matrixWorld.clone().invert();
@@ -72,6 +73,7 @@ export function mergeInstancedCityMeshesIntoGround(
   ground.updateWorldMatrix(true, false);
   inverseGround.copy(ground.matrixWorld).invert();
   for (const source of sources) {
+    const sourceStartTriangle = indices.length / 3;
     const material = source.material;
     if (
       Array.isArray(material) ||
@@ -123,6 +125,10 @@ export function mergeInstancedCityMeshesIntoGround(
     source.visible = false;
     source.userData.bakedInto = ground.name;
     bakedCityMeshes.push(source.name);
+    bakedCityGeometryRanges[source.name] = {
+      startTriangle: sourceStartTriangle,
+      triangleCount: (sourceIndexCount * source.count) / 3,
+    };
   }
 
   const geometry = new THREE.BufferGeometry()
@@ -132,6 +138,20 @@ export function mergeInstancedCityMeshesIntoGround(
   geometry.computeBoundingBox();
   geometry.computeBoundingSphere();
   geometry.userData = { ...floor.userData };
+  const geometryRanges: Record<string, { startTriangle: number; triangleCount: number }> = {
+    ...(floor.userData.geometryRanges as
+      | Record<string, { startTriangle: number; triangleCount: number }>
+      | undefined),
+    cityGround: { startTriangle: 0, triangleCount: floorIndexCount / 3 },
+  };
+  for (const [sourceName, range] of Object.entries(bakedCityGeometryRanges)) {
+    if (sourceName.includes('foundations')) geometryRanges.cityFoundations = range;
+    else if (sourceName.includes('towers') || sourceName.includes('buildings')) {
+      geometryRanges.cityTowers = range;
+    } else geometryRanges[`baked:${sourceName}`] = range;
+  }
+  geometry.userData.geometryRanges = geometryRanges;
+  geometry.userData.bakedCityGeometryRanges = bakedCityGeometryRanges;
   geometry.userData.floorIndexCount = floorIndexCount;
   geometry.userData.floorTriangleCount = floorIndexCount / 3;
   geometry.userData.bakedCityMeshes = bakedCityMeshes;

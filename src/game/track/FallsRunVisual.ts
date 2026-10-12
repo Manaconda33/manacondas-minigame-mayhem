@@ -14,6 +14,8 @@ import {
   neonGridTerracedCityGroundGeometry,
 } from './NeonGridCityGround';
 import { suppressIndexedGroundTriangles } from './NeonGridFogCity';
+import { suppressIndexedGeometryRange } from './NeonGridVisualExperimentGeometry';
+import { abyssFogBuildingPlacement } from './NeonGridAbyssFogV2';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import { disposeTrackScene } from './TrackSceneResources';
 
@@ -304,7 +306,11 @@ function mistMaterial(): THREE.ShaderMaterial {
   return material;
 }
 
-function addStructure(group: THREE.Group, track: NeonGrid): void {
+function addStructure(
+  group: THREE.Group,
+  track: NeonGrid,
+  variant: NeonGridVisualVariant,
+): void {
   const fasciaMaterial = new THREE.MeshStandardMaterial({
     color: 0x0a1420,
     roughness: 0.82,
@@ -322,6 +328,8 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
   });
   const pylons = new THREE.InstancedMesh(new THREE.BoxGeometry(1.25, 12, 1.25), pylonMaterial, 12);
   pylons.name = 'falls-run-pylons';
+  const abyssFogSupportDepth = variant === 'fog-experiment-v2' ? 40 : 12;
+  pylons.userData.abyssFogSupportDepthMeters = abyssFogSupportDepth;
 
   const braces = new THREE.InstancedMesh(new THREE.BoxGeometry(0.32, 0.32, 8.5), pylonMaterial, 22);
   braces.name = 'falls-run-cross-braces';
@@ -333,13 +341,13 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
     const right = neonGridRightAt(track, progress);
     const side = i % 2 === 0 ? -1 : 1;
     const point = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 2.4));
-    dummy.position.copy(point).add(new THREE.Vector3(0, -6.0, 0));
+    dummy.position.copy(point).add(new THREE.Vector3(0, -abyssFogSupportDepth * 0.5, 0));
     dummy.rotation.set(
       0,
       Math.atan2(track.curve.getTangentAt(progress).x, track.curve.getTangentAt(progress).z),
       0,
     );
-    dummy.scale.set(1, 1, 1);
+    dummy.scale.set(1, abyssFogSupportDepth / 12, 1);
     dummy.updateMatrix();
     pylons.setMatrixAt(i, dummy.matrix);
   }
@@ -409,6 +417,7 @@ function addCity(
     foundationDepth: number;
     foundationWidth: number;
     foundationDepthWidth: number;
+    fogRoofAboveRoad?: number;
   }[] = [];
   for (let attempt = 0; attempt < 360 && towerData.length < towers.count; attempt++) {
     const i = towerData.length;
@@ -455,8 +464,11 @@ function addCity(
           } catch {
             continue;
           }
-          const baseY = footing.topY;
-          const height = Math.max(20, center.y - 11 + originalHeight - baseY);
+          const fogPlacement = variant === 'fog-experiment-v2'
+            ? abyssFogBuildingPlacement(track, position, i, 24, 36, 1)
+            : undefined;
+          const baseY = fogPlacement?.baseY ?? footing.topY;
+          const height = fogPlacement?.height ?? Math.max(20, center.y - 11 + originalHeight - baseY);
           position.y = baseY + height * 0.5;
           towerData.push({
             position,
@@ -468,6 +480,7 @@ function addCity(
             foundationDepth: footing.depth,
             foundationWidth,
             foundationDepthWidth,
+            ...(fogPlacement ? { fogRoofAboveRoad: fogPlacement.roofAboveRoad } : {}),
           });
           towerDummy.position.copy(position).setY(baseY);
           towerDummy.rotation.set(0, 0, 0);
@@ -609,12 +622,16 @@ function addCity(
   if (roofLights.instanceColor) roofLights.instanceColor.needsUpdate = true;
   group.add(ground, foundations, towers, windows, roofLights);
   mergeInstancedCityMeshesIntoGround(ground, [foundations, towers]);
-  if (variant === 'fog-experiment') {
+  if (variant !== 'approved') {
     suppressIndexedGroundTriangles(
       ground.geometry,
       0,
       Number(ground.geometry.userData.floorIndexCount ?? 0),
     );
+  }
+  if (variant === 'fog-experiment-v2') {
+    suppressIndexedGeometryRange(ground.geometry, 'cityFoundations');
+    ground.geometry.userData.fogBuriedRoofOffsets = towerData.map((tower) => tower.fogRoofAboveRoad);
   }
 }
 
@@ -855,7 +872,7 @@ export class FallsRunVisual {
     topRails.name = 'falls-run-luminous-top-rails';
     this.group.add(topRails);
 
-    addStructure(this.group, track);
+    addStructure(this.group, track, variant);
     addCity(this.group, track, quality, variant);
 
     const waterfallMaterial = waterMaterial();

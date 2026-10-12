@@ -5,6 +5,7 @@
 ## Baseline and implementation
 
 - Starting branch/checkpoint: `design/neon-grid-circuit-02` at `6919729ba5e12f48305f543dca153f4ba9c5ae19`.
+- Runtime/evidence implementation commit: `b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65` on `experiment/neon-grid-abyss-fog-001`.
 - The approved T9.7 preview is pinned to `75c6c62c865ec3b546f3f2512e649de9ea6d52bc`. Before edits, `src`, `public/assets`, package manifests, and build configuration at the starting checkpoint were verified equal to that approved runtime tree.
 - A is the unchanged accepted renderer, captured at the same camera anchors, viewport sizes, quality presets, and eight-racer setup as B. A is in [`approved-a/`](approved-a/); its overview is [`owner-views-contact.jpg`](approved-a/owner-views-contact.jpg).
 - B is selected only by `?neonGridVisual=abyss-fog-001`. The normal/default route continues to create the approved scene. The variant is ignored for Circuit Alpha.
@@ -69,6 +70,8 @@ The local GitHub CLI reports `GH_TOKEN` as invalid. Therefore no remote branch p
 
 ## Review and publication plan
 
-The runtime draft PR should target `design/neon-grid-circuit-02`, keep this experiment query opt-in, and link the A/B contact sheets and report. The immutable Pages preview should use ID `neon-grid-abyss-fog-001`, embed the exact experiment source SHA, base path `/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-001/`, and review query `?neonGridVisual=abyss-fog-001`. Following the existing project pattern, a separate workflow-only PR to `main` must pin this exact SHA in the preview matrix/cache, assemble and hash-check the isolated preview, verify the production bytes are unchanged, and publish only after Manny separately approves that publication PR. Never reuse or overwrite the approved T9.7 preview.
+The runtime draft PR should target `design/neon-grid-circuit-02`, keep this experiment query opt-in, and link the A/B contact sheets and report. The immutable Pages preview should use ID `neon-grid-abyss-fog-001`, embed source SHA `b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65`, base path `/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-001/`, and review query `?neonGridVisual=abyss-fog-001`. Following the existing project pattern, a separate workflow-only PR to `main` must pin this exact SHA in the preview matrix/cache, assemble and hash-check the isolated preview, verify the production bytes are unchanged, and publish only after Manny separately approves that publication PR. Never reuse or overwrite the approved T9.7 preview.
 
 The local prototype is not owner-approved. Keep the approved T9.7 rendering as the default and preserve its implementation until Manny reviews the actual B captures or a pinned Pages preview and approves a replacement explicitly.
+
+Prepared for GitHub write access: the [draft runtime PR body](runtime-pr-description.md) and the [separate preview-publication plan](preview-publication-plan.md).

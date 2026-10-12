@@ -4,6 +4,8 @@
 
 **Source:** `experiment/neon-grid-abyss-fog-001`
 
+**Runtime/evidence commit:** `b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65`
+
 **Title:** `feat(neon-grid): add opt-in abyss fog city visual experiment`
 
 ## Summary

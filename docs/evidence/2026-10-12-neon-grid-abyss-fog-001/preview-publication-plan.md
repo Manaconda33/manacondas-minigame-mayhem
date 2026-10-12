@@ -4,12 +4,12 @@
 
 Create a separate workflow-only branch from the current `main`, then a draft publication PR targeting `main`. Do not add runtime changes from the experiment branch to that workflow PR.
 
-After the runtime branch has an immutable commit SHA, pin that SHA in a new `.github/workflows/ci.yml` preview entry:
+The immutable runtime/evidence commit is `b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65`. Pin that exact SHA in a new `.github/workflows/ci.yml` preview entry:
 
 ```yaml
 - id: neon-grid-abyss-fog-001
   embed_source: true
-  sha: <exact runtime experiment commit SHA>
+  sha: b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65
   base: /manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-001/
   marker_type: feature
   marker_name: Neon Grid isolated fog-covered ruined-city A/B experiment

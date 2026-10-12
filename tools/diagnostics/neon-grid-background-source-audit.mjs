@@ -7,16 +7,16 @@ const output = process.argv[2] ?? '/tmp/neon-grid-background-source-audit.json';
 const baseUrl = (process.env.NEON_GRID_COURSE_BASE_URL ??
   'http://127.0.0.1:5173/manacondas-minigame-mayhem').replace(/\/$/, '');
 const source = process.env.NEON_GRID_AUDIT_SOURCE ?? 'unspecified';
+const visualQuery = process.env.NEON_GRID_VISUAL_QUERY ?? '';
 const ownerAnchors = [
-  { name: '0m35-start-billboards', progress: 0.075 },
-  { name: '0m48-skyline-approach', progress: 0.239 },
-  { name: '1m07-undercity-ground', progress: 0.31 },
-  { name: '1m22-undercity-city', progress: 0.37 },
-  { name: '1m38-tunnel-exit', progress: 0.43 },
-  { name: '1m51-falls-approach', progress: 0.54 },
-  { name: '2m12-falls-city', progress: 0.63 },
-  { name: '2m31-falls-run', progress: 0.69 },
-  { name: '2m43-waterfall-zone', progress: 0.72 },
+  { name: 'owner-0m00p27', raceTime: '0:00.27', progress: 0.000570 },
+  { name: 'owner-0m17p68', raceTime: '0:17.68', progress: 0.037300 },
+  { name: 'owner-0m39p03', raceTime: '0:39.03', progress: 0.119657 },
+  { name: 'owner-0m44p35', raceTime: '0:44.35', progress: 0.187926 },
+  { name: 'owner-0m46p92', raceTime: '0:46.92', progress: 0.220906 },
+  { name: 'owner-0m54p38', raceTime: '0:54.38', progress: 0.261644 },
+  { name: 'owner-1m03p88', raceTime: '1:03.88', progress: 0.297200 },
+  { name: 'owner-1m09p68', raceTime: '1:09.68', progress: 0.319507 },
 ];
 const screenSamples = [0.05, 0.25, 0.5, 0.75, 0.95].flatMap((x) =>
   [0.2, 0.3, 0.4, 0.5, 0.6].map((y) => [x, y]),
@@ -32,10 +32,15 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
   page.on('response', (response) => {
     if (response.status() >= 400) errors.push(`HTTP ${response.status()} ${response.url()}`);
   });
-  await page.goto(`${baseUrl}/tools/diagnostics/neon-grid-course.html?quality=medium&sector=course`);
+  const query = new URLSearchParams({ quality: 'medium', sector: 'course' });
+  if (visualQuery) query.set('neonGridVisual', visualQuery);
+  await page.goto(`${baseUrl}/tools/diagnostics/neon-grid-course.html?${query.toString()}`);
   await page.waitForFunction(() => window.ready, undefined, { timeout: 90000 });
 
   const anchors = [];
@@ -54,6 +59,9 @@ try {
           distance: hit?.distance ?? null,
           point: hit?.point ?? null,
           isCityFloorFace: hit?.geometry?.isCityFloorFace ?? false,
+          faceIndex: hit?.faceIndex ?? null,
+          floorIndexStart: hit?.geometry?.floorIndexStart ?? null,
+          floorIndexCount: hit?.geometry?.floorIndexCount ?? null,
           faceColors: hit?.geometry?.faceColors ?? [],
         };
       });
@@ -91,8 +99,7 @@ try {
           const isIndexedCityFloor = metadata.terracedCityGround === true &&
             hit.faceIndex !== null && hit.faceIndex * 3 >= start &&
             hit.faceIndex * 3 < start + count;
-          const isDirectGround = hit.object.name.includes('city-terraced-ground');
-          if ((isIndexedCityFloor || isDirectGround) && !floorsByObject.has(hit.object.uuid)) {
+          if (isIndexedCityFloor && !floorsByObject.has(hit.object.uuid)) {
             floorsByObject.set(hit.object.uuid, hit);
           }
         }
@@ -125,21 +132,71 @@ try {
       }
       return {
         visibleObjects,
-        exposedSkyPixels: pixelHits.filter((sample) => /sky/i.test(sample.object ?? '')),
+        exposedSkyPixels: pixelHits.filter((sample) => /(?:^|[-_])sky(?:[-_]|$)/i.test(sample.object ?? '')),
         cityFloorPixels: pixelHits.filter((sample) => sample.isCityFloorFace),
         groundProbes,
       };
     }, { screenSamples, lateralSamples, progress: anchor.progress });
-    anchors.push({ ...anchor, ...view });
+    anchors.push({
+      ...anchor,
+      progressMapping: 'approximate linear interpolation between the earlier race-time/progress checkpoints in the Abyss Fog v1 evidence; deterministic replay point, not a claim of exact original input replay',
+      ...view,
+    });
+  }
+
+  const meshInventory = await page.evaluate(() => {
+    const matches = /(city|tower|pylon|support|foundation|sightline|fascia|platform|building|base|roof|sky|fog)/i;
+    const inventory = [];
+    window.game.scene.updateMatrixWorld(true);
+    window.game.scene.traverse((object) => {
+      if (!object.isMesh || !matches.test(object.name || object.type)) return;
+      const bounds = new window.THREE.Box3().setFromObject(object);
+      const materials = Array.isArray(object.material) ? object.material : [object.material];
+      const geometryData = object.geometry?.userData ?? {};
+      let visible = true;
+      for (let parent = object; parent; parent = parent.parent) visible = visible && parent.visible;
+      inventory.push({
+        name: object.name || object.type,
+        type: object.type,
+        visible,
+        instanceCount: object.isInstancedMesh ? object.count : null,
+        materialTypes: materials.map((material) => material?.type ?? 'missing'),
+        transparentMaterials: materials
+          .filter((material) => material?.transparent === true)
+          .map((material) => material?.type ?? 'missing'),
+        fogged: object.userData.abyssFogged === true,
+        boundsWorld: { min: bounds.min.toArray(), max: bounds.max.toArray() },
+        indexCount: object.geometry?.index?.count ?? null,
+        floorIndexCount: geometryData.floorIndexCount ?? null,
+        originalFloorIndexStart: geometryData.originalFloorIndexStart ?? null,
+        originalFloorIndexCount: geometryData.originalFloorIndexCount ?? null,
+        suppressedGroundTriangleCount: geometryData.suppressedGroundTriangleCount ?? null,
+        suppressedGeometryRanges: geometryData.suppressedGeometryRanges ?? null,
+        geometryRanges: geometryData.geometryRanges ?? null,
+      });
+    });
+    return inventory;
+  });
+  const fogStatus = await page.evaluate(() => window.game.trackScene?.userData?.abyssFogV2 ?? null);
+  if (visualQuery === 'abyss-fog-002') {
+    if (!fogStatus?.enabled || fogStatus.lowerWorldOnly !== true) {
+      errors.push('Abyss Fog v2 is not active in the rendered track scene');
+    }
+    if (!fogStatus.unsupportedObjects || fogStatus.unsupportedObjects.length > 0) {
+      errors.push(`Unsupported fog materials: ${fogStatus.unsupportedObjects.join(', ')}`);
+    }
   }
 
   const report = {
     source,
+    visualVariantQuery: visualQuery || 'approved/default',
     runtime: 'Neon Grid KartTimeTrial scene, mobile portrait viewport, actual chase camera',
     environment: 'Local Chromium software WebGL / SwiftShader; raycast source audit only',
     screenGrid: { columns: 5, rows: 5, normalizedX: [0.05, 0.25, 0.5, 0.75, 0.95], normalizedY: [0.2, 0.3, 0.4, 0.5, 0.6] },
     lateralCityGroundProbesMeters: lateralSamples,
     errors,
+    fogStatus,
+    meshInventory,
     anchors,
   };
   writeFileSync(output, JSON.stringify(report, null, 2));

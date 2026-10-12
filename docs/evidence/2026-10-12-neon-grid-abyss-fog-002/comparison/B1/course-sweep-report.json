@@ -1,0 +1,377 @@
+{
+  "visualVariant": "fog-experiment",
+  "source": "Actual KartTimeTrial Neon Grid course scene with eight racers and all visual owners mounted",
+  "environment": "Local Chromium software WebGL / SwiftShader; diagnostic structural evidence only",
+  "courseLengthMeters": 1448.9384451764058,
+  "maximumSampleSpacingMeters": null,
+  "courseSweepCompleted": false,
+  "sampleCount": 0,
+  "cameraSweep": [
+    "chase",
+    "rear"
+  ],
+  "ownerViews": [
+    {
+      "name": "owner-failure-0m00p27",
+      "raceTime": "0:00.27",
+      "progress": 0.0005696202531645571,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m17p68",
+      "raceTime": "0:17.68",
+      "progress": 0.037299578059071734,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m39p03",
+      "raceTime": "0:39.03",
+      "progress": 0.1196572769953052,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m44p35",
+      "raceTime": "0:44.35",
+      "progress": 0.1879264475743349,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m46p92",
+      "raceTime": "0:46.92",
+      "progress": 0.220906103286385,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m54p38",
+      "raceTime": "0:54.38",
+      "progress": 0.26164364786505007,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-1m03p88",
+      "raceTime": "1:03.88",
+      "progress": 0.29719978914074857,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-1m09p68",
+      "raceTime": "1:09.68",
+      "progress": 0.31950732356857525,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    }
+  ],
+  "ownerViewCaptures": [
+    {
+      "name": "owner-failure-0m00p27",
+      "raceTime": "0:00.27",
+      "progress": 0.0005696202531645571,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 290,
+        "triangles": 153807
+      },
+      "desktopRear": {
+        "calls": 294,
+        "triangles": 371671
+      },
+      "mobilePortrait": {
+        "calls": 192,
+        "triangles": 130507,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 188,
+        "triangles": 349683,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 300,
+        "triangles": 153935,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 302,
+        "triangles": 371755,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m17p68",
+      "raceTime": "0:17.68",
+      "progress": 0.037299578059071734,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 218,
+        "triangles": 144007
+      },
+      "desktopRear": {
+        "calls": 314,
+        "triangles": 372623
+      },
+      "mobilePortrait": {
+        "calls": 186,
+        "triangles": 111579,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 204,
+        "triangles": 350603,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 236,
+        "triangles": 148247,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 314,
+        "triangles": 372311,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m39p03",
+      "raceTime": "0:39.03",
+      "progress": 0.1196572769953052,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 146,
+        "triangles": 138091
+      },
+      "desktopRear": {
+        "calls": 332,
+        "triangles": 376279
+      },
+      "mobilePortrait": {
+        "calls": 102,
+        "triangles": 95439,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 224,
+        "triangles": 353431,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 156,
+        "triangles": 142463,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 352,
+        "triangles": 379619,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m44p35",
+      "raceTime": "0:44.35",
+      "progress": 0.1879264475743349,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 280,
+        "triangles": 157151
+      },
+      "desktopRear": {
+        "calls": 270,
+        "triangles": 372447
+      },
+      "mobilePortrait": {
+        "calls": 204,
+        "triangles": 121419,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 208,
+        "triangles": 370491,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 310,
+        "triangles": 171075,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 274,
+        "triangles": 372495,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m46p92",
+      "raceTime": "0:46.92",
+      "progress": 0.220906103286385,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 280,
+        "triangles": 163155
+      },
+      "desktopRear": {
+        "calls": 236,
+        "triangles": 378011
+      },
+      "mobilePortrait": {
+        "calls": 224,
+        "triangles": 127863,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 234,
+        "triangles": 378731,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 366,
+        "triangles": 173975,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 236,
+        "triangles": 378011,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m54p38",
+      "raceTime": "0:54.38",
+      "progress": 0.26164364786505007,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 256,
+        "triangles": 159819
+      },
+      "desktopRear": {
+        "calls": 298,
+        "triangles": 385119
+      },
+      "mobilePortrait": {
+        "calls": 190,
+        "triangles": 154199,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 242,
+        "triangles": 379331,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 304,
+        "triangles": 165259,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 304,
+        "triangles": 385219,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-1m03p88",
+      "raceTime": "1:03.88",
+      "progress": 0.29719978914074857,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 224,
+        "triangles": 148179
+      },
+      "desktopRear": {
+        "calls": 366,
+        "triangles": 401767
+      },
+      "mobilePortrait": {
+        "calls": 184,
+        "triangles": 144683,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 264,
+        "triangles": 351579,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 224,
+        "triangles": 148179,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 390,
+        "triangles": 404487,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-1m09p68",
+      "raceTime": "1:09.68",
+      "progress": 0.31950732356857525,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 206,
+        "triangles": 147927
+      },
+      "desktopRear": {
+        "calls": 400,
+        "triangles": 404955
+      },
+      "mobilePortrait": {
+        "calls": 126,
+        "triangles": 112315,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 280,
+        "triangles": 392463,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 208,
+        "triangles": 147951,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 404,
+        "triangles": 404983,
+        "width": 844,
+        "height": 390
+      }
+    }
+  ],
+  "sweep": [],
+  "errors": [],
+  "engineeringCeilings": {
+    "calls": 500,
+    "triangles": 425000
+  },
+  "maximumCalls": 404,
+  "maximumTriangles": 404983
+}

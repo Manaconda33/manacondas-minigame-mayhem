@@ -1,0 +1,3654 @@
+{
+  "visualVariant": "fog-experiment-v2",
+  "source": "Actual KartTimeTrial Neon Grid course scene with eight racers and all visual owners mounted",
+  "environment": "Local Chromium software WebGL / SwiftShader; diagnostic structural evidence only",
+  "courseLengthMeters": 1448.9384451764058,
+  "maximumSampleSpacingMeters": 7.96120024822201,
+  "courseSweepCompleted": true,
+  "sampleCount": 182,
+  "cameraSweep": [
+    "chase",
+    "rear"
+  ],
+  "ownerViews": [
+    {
+      "name": "owner-failure-0m00p27",
+      "raceTime": "0:00.27",
+      "progress": 0.0005696202531645571,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m17p68",
+      "raceTime": "0:17.68",
+      "progress": 0.037299578059071734,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m39p03",
+      "raceTime": "0:39.03",
+      "progress": 0.1196572769953052,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m44p35",
+      "raceTime": "0:44.35",
+      "progress": 0.1879264475743349,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m46p92",
+      "raceTime": "0:46.92",
+      "progress": 0.220906103286385,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-0m54p38",
+      "raceTime": "0:54.38",
+      "progress": 0.26164364786505007,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-1m03p88",
+      "raceTime": "1:03.88",
+      "progress": 0.29719978914074857,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    },
+    {
+      "name": "owner-failure-1m09p68",
+      "raceTime": "1:09.68",
+      "progress": 0.31950732356857525,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point"
+    }
+  ],
+  "ownerViewCaptures": [
+    {
+      "name": "owner-failure-0m00p27",
+      "raceTime": "0:00.27",
+      "progress": 0.0005696202531645571,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 280,
+        "triangles": 142463
+      },
+      "desktopRear": {
+        "calls": 286,
+        "triangles": 359895
+      },
+      "mobilePortrait": {
+        "calls": 182,
+        "triangles": 120027,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 180,
+        "triangles": 339635,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 290,
+        "triangles": 142591,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 294,
+        "triangles": 359979,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m17p68",
+      "raceTime": "0:17.68",
+      "progress": 0.037299578059071734,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 208,
+        "triangles": 132663
+      },
+      "desktopRear": {
+        "calls": 306,
+        "triangles": 360443
+      },
+      "mobilePortrait": {
+        "calls": 176,
+        "triangles": 101099,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 194,
+        "triangles": 340123,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 226,
+        "triangles": 136903,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 306,
+        "triangles": 360439,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m39p03",
+      "raceTime": "0:39.03",
+      "progress": 0.1196572769953052,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 136,
+        "triangles": 127227
+      },
+      "desktopRear": {
+        "calls": 322,
+        "triangles": 364071
+      },
+      "mobilePortrait": {
+        "calls": 96,
+        "triangles": 85727,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 216,
+        "triangles": 343335,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 146,
+        "triangles": 131119,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 346,
+        "triangles": 369267,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m44p35",
+      "raceTime": "0:44.35",
+      "progress": 0.1879264475743349,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 270,
+        "triangles": 144079
+      },
+      "desktopRear": {
+        "calls": 260,
+        "triangles": 361583
+      },
+      "mobilePortrait": {
+        "calls": 194,
+        "triangles": 110075,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 196,
+        "triangles": 357963,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 300,
+        "triangles": 158003,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 262,
+        "triangles": 359711,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m46p92",
+      "raceTime": "0:46.92",
+      "progress": 0.220906103286385,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 270,
+        "triangles": 150083
+      },
+      "desktopRear": {
+        "calls": 226,
+        "triangles": 366667
+      },
+      "mobilePortrait": {
+        "calls": 214,
+        "triangles": 114791,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 224,
+        "triangles": 367387,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 358,
+        "triangles": 160931,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 226,
+        "triangles": 366667,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-0m54p38",
+      "raceTime": "0:54.38",
+      "progress": 0.26164364786505007,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 246,
+        "triangles": 146747
+      },
+      "desktopRear": {
+        "calls": 288,
+        "triangles": 373775
+      },
+      "mobilePortrait": {
+        "calls": 180,
+        "triangles": 141127,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 232,
+        "triangles": 367987,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 294,
+        "triangles": 152187,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 294,
+        "triangles": 373875,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-1m03p88",
+      "raceTime": "1:03.88",
+      "progress": 0.29719978914074857,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 214,
+        "triangles": 136835
+      },
+      "desktopRear": {
+        "calls": 358,
+        "triangles": 388703
+      },
+      "mobilePortrait": {
+        "calls": 176,
+        "triangles": 133675,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 256,
+        "triangles": 338843,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 214,
+        "triangles": 136835,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 386,
+        "triangles": 391787,
+        "width": 844,
+        "height": 390
+      }
+    },
+    {
+      "name": "owner-failure-1m09p68",
+      "raceTime": "1:09.68",
+      "progress": 0.31950732356857525,
+      "progressMapping": "linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point",
+      "desktopChase": {
+        "calls": 196,
+        "triangles": 136583
+      },
+      "desktopRear": {
+        "calls": 390,
+        "triangles": 391883
+      },
+      "mobilePortrait": {
+        "calls": 122,
+        "triangles": 101671,
+        "width": 390,
+        "height": 844
+      },
+      "mobilePortraitRear": {
+        "calls": 270,
+        "triangles": 379391,
+        "width": 390,
+        "height": 844
+      },
+      "mobileLandscape": {
+        "calls": 198,
+        "triangles": 136607,
+        "width": 844,
+        "height": 390
+      },
+      "mobileLandscapeRear": {
+        "calls": 396,
+        "triangles": 391939,
+        "width": 844,
+        "height": 390
+      }
+    }
+  ],
+  "sweep": [
+    {
+      "index": 0,
+      "progress": 0,
+      "distanceMeters": 0,
+      "chase": {
+        "calls": 280,
+        "triangles": 142463
+      },
+      "rear": {
+        "calls": 286,
+        "triangles": 359895
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 1,
+      "progress": 0.005494505494505495,
+      "distanceMeters": 7.961200248222011,
+      "chase": {
+        "calls": 262,
+        "triangles": 143967
+      },
+      "rear": {
+        "calls": 290,
+        "triangles": 359931
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 2,
+      "progress": 0.01098901098901099,
+      "distanceMeters": 15.922400496444022,
+      "chase": {
+        "calls": 228,
+        "triangles": 136947
+      },
+      "rear": {
+        "calls": 290,
+        "triangles": 359931
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 3,
+      "progress": 0.016483516483516484,
+      "distanceMeters": 23.88360074466603,
+      "chase": {
+        "calls": 228,
+        "triangles": 136947
+      },
+      "rear": {
+        "calls": 296,
+        "triangles": 360003
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 4,
+      "progress": 0.02197802197802198,
+      "distanceMeters": 31.844800992888043,
+      "chase": {
+        "calls": 224,
+        "triangles": 136899
+      },
+      "rear": {
+        "calls": 296,
+        "triangles": 360003
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 5,
+      "progress": 0.027472527472527472,
+      "distanceMeters": 39.806001241110046,
+      "chase": {
+        "calls": 220,
+        "triangles": 136851
+      },
+      "rear": {
+        "calls": 302,
+        "triangles": 360079
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 6,
+      "progress": 0.03296703296703297,
+      "distanceMeters": 47.76720148933206,
+      "chase": {
+        "calls": 216,
+        "triangles": 136075
+      },
+      "rear": {
+        "calls": 304,
+        "triangles": 360415
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 7,
+      "progress": 0.038461538461538464,
+      "distanceMeters": 55.72840173755407,
+      "chase": {
+        "calls": 204,
+        "triangles": 131671
+      },
+      "rear": {
+        "calls": 306,
+        "triangles": 360443
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 8,
+      "progress": 0.04395604395604396,
+      "distanceMeters": 63.689601985776086,
+      "chase": {
+        "calls": 204,
+        "triangles": 131671
+      },
+      "rear": {
+        "calls": 306,
+        "triangles": 360443
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 9,
+      "progress": 0.04945054945054945,
+      "distanceMeters": 71.65080223399809,
+      "chase": {
+        "calls": 198,
+        "triangles": 131071
+      },
+      "rear": {
+        "calls": 308,
+        "triangles": 360467
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 10,
+      "progress": 0.054945054945054944,
+      "distanceMeters": 79.61200248222009,
+      "chase": {
+        "calls": 194,
+        "triangles": 130407
+      },
+      "rear": {
+        "calls": 308,
+        "triangles": 360467
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 11,
+      "progress": 0.06043956043956044,
+      "distanceMeters": 87.5732027304421,
+      "chase": {
+        "calls": 192,
+        "triangles": 128391
+      },
+      "rear": {
+        "calls": 308,
+        "triangles": 360467
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 12,
+      "progress": 0.06593406593406594,
+      "distanceMeters": 95.53440297866412,
+      "chase": {
+        "calls": 188,
+        "triangles": 134935
+      },
+      "rear": {
+        "calls": 310,
+        "triangles": 369643
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 13,
+      "progress": 0.07142857142857142,
+      "distanceMeters": 103.49560322688612,
+      "chase": {
+        "calls": 178,
+        "triangles": 122643
+      },
+      "rear": {
+        "calls": 312,
+        "triangles": 369667
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 14,
+      "progress": 0.07692307692307693,
+      "distanceMeters": 111.45680347510815,
+      "chase": {
+        "calls": 172,
+        "triangles": 122571
+      },
+      "rear": {
+        "calls": 318,
+        "triangles": 369739
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 15,
+      "progress": 0.08241758241758242,
+      "distanceMeters": 119.41800372333014,
+      "chase": {
+        "calls": 170,
+        "triangles": 119883
+      },
+      "rear": {
+        "calls": 318,
+        "triangles": 369739
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 16,
+      "progress": 0.08791208791208792,
+      "distanceMeters": 127.37920397155217,
+      "chase": {
+        "calls": 168,
+        "triangles": 119307
+      },
+      "rear": {
+        "calls": 366,
+        "triangles": 375763
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 17,
+      "progress": 0.09340659340659341,
+      "distanceMeters": 135.34040421977417,
+      "chase": {
+        "calls": 116,
+        "triangles": 113819
+      },
+      "rear": {
+        "calls": 374,
+        "triangles": 377123
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 18,
+      "progress": 0.0989010989010989,
+      "distanceMeters": 143.30160446799619,
+      "chase": {
+        "calls": 114,
+        "triangles": 113795
+      },
+      "rear": {
+        "calls": 372,
+        "triangles": 377099
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 19,
+      "progress": 0.1043956043956044,
+      "distanceMeters": 151.2628047162182,
+      "chase": {
+        "calls": 116,
+        "triangles": 116483
+      },
+      "rear": {
+        "calls": 378,
+        "triangles": 377151
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 20,
+      "progress": 0.10989010989010989,
+      "distanceMeters": 159.22400496444018,
+      "chase": {
+        "calls": 116,
+        "triangles": 94059
+      },
+      "rear": {
+        "calls": 360,
+        "triangles": 373731
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 21,
+      "progress": 0.11538461538461539,
+      "distanceMeters": 167.18520521266223,
+      "chase": {
+        "calls": 130,
+        "triangles": 134067
+      },
+      "rear": {
+        "calls": 334,
+        "triangles": 366595
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 22,
+      "progress": 0.12087912087912088,
+      "distanceMeters": 175.1464054608842,
+      "chase": {
+        "calls": 140,
+        "triangles": 130303
+      },
+      "rear": {
+        "calls": 322,
+        "triangles": 364071
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 23,
+      "progress": 0.12637362637362637,
+      "distanceMeters": 183.10760570910622,
+      "chase": {
+        "calls": 146,
+        "triangles": 131119
+      },
+      "rear": {
+        "calls": 270,
+        "triangles": 356879
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 24,
+      "progress": 0.13186813186813187,
+      "distanceMeters": 191.06880595732824,
+      "chase": {
+        "calls": 202,
+        "triangles": 136683
+      },
+      "rear": {
+        "calls": 270,
+        "triangles": 357143
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 25,
+      "progress": 0.13736263736263737,
+      "distanceMeters": 199.03000620555028,
+      "chase": {
+        "calls": 206,
+        "triangles": 136731
+      },
+      "rear": {
+        "calls": 268,
+        "triangles": 357119
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 26,
+      "progress": 0.14285714285714285,
+      "distanceMeters": 206.99120645377224,
+      "chase": {
+        "calls": 208,
+        "triangles": 136755
+      },
+      "rear": {
+        "calls": 262,
+        "triangles": 357047
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 27,
+      "progress": 0.14835164835164835,
+      "distanceMeters": 214.95240670199428,
+      "chase": {
+        "calls": 216,
+        "triangles": 136879
+      },
+      "rear": {
+        "calls": 256,
+        "triangles": 356423
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 28,
+      "progress": 0.15384615384615385,
+      "distanceMeters": 222.9136069502163,
+      "chase": {
+        "calls": 266,
+        "triangles": 142327
+      },
+      "rear": {
+        "calls": 248,
+        "triangles": 355583
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 29,
+      "progress": 0.15934065934065933,
+      "distanceMeters": 230.87480719843828,
+      "chase": {
+        "calls": 266,
+        "triangles": 136375
+      },
+      "rear": {
+        "calls": 232,
+        "triangles": 353543
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 30,
+      "progress": 0.16483516483516483,
+      "distanceMeters": 238.8360074466603,
+      "chase": {
+        "calls": 270,
+        "triangles": 144079
+      },
+      "rear": {
+        "calls": 234,
+        "triangles": 354311
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 31,
+      "progress": 0.17032967032967034,
+      "distanceMeters": 246.79720769488233,
+      "chase": {
+        "calls": 272,
+        "triangles": 144103
+      },
+      "rear": {
+        "calls": 250,
+        "triangles": 356351
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 32,
+      "progress": 0.17582417582417584,
+      "distanceMeters": 254.75840794310434,
+      "chase": {
+        "calls": 276,
+        "triangles": 152807
+      },
+      "rear": {
+        "calls": 254,
+        "triangles": 356951
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 33,
+      "progress": 0.1813186813186813,
+      "distanceMeters": 262.7196081913263,
+      "chase": {
+        "calls": 276,
+        "triangles": 152787
+      },
+      "rear": {
+        "calls": 258,
+        "triangles": 359663
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 34,
+      "progress": 0.18681318681318682,
+      "distanceMeters": 270.68080843954834,
+      "chase": {
+        "calls": 270,
+        "triangles": 144079
+      },
+      "rear": {
+        "calls": 258,
+        "triangles": 359663
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 35,
+      "progress": 0.19230769230769232,
+      "distanceMeters": 278.6420086877704,
+      "chase": {
+        "calls": 278,
+        "triangles": 146247
+      },
+      "rear": {
+        "calls": 258,
+        "triangles": 361559
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 36,
+      "progress": 0.1978021978021978,
+      "distanceMeters": 286.60320893599237,
+      "chase": {
+        "calls": 298,
+        "triangles": 149323
+      },
+      "rear": {
+        "calls": 220,
+        "triangles": 357431
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 37,
+      "progress": 0.2032967032967033,
+      "distanceMeters": 294.56440918421436,
+      "chase": {
+        "calls": 300,
+        "triangles": 149083
+      },
+      "rear": {
+        "calls": 212,
+        "triangles": 359755
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 38,
+      "progress": 0.2087912087912088,
+      "distanceMeters": 302.5256094324364,
+      "chase": {
+        "calls": 326,
+        "triangles": 156891
+      },
+      "rear": {
+        "calls": 210,
+        "triangles": 361719
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 39,
+      "progress": 0.21428571428571427,
+      "distanceMeters": 310.4868096806584,
+      "chase": {
+        "calls": 320,
+        "triangles": 156839
+      },
+      "rear": {
+        "calls": 214,
+        "triangles": 364891
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 40,
+      "progress": 0.21978021978021978,
+      "distanceMeters": 318.44800992888037,
+      "chase": {
+        "calls": 284,
+        "triangles": 151515
+      },
+      "rear": {
+        "calls": 220,
+        "triangles": 366523
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 41,
+      "progress": 0.22527472527472528,
+      "distanceMeters": 326.4092101771024,
+      "chase": {
+        "calls": 312,
+        "triangles": 154843
+      },
+      "rear": {
+        "calls": 226,
+        "triangles": 366667
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 42,
+      "progress": 0.23076923076923078,
+      "distanceMeters": 334.37041042532445,
+      "chase": {
+        "calls": 310,
+        "triangles": 154819
+      },
+      "rear": {
+        "calls": 236,
+        "triangles": 368259
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 43,
+      "progress": 0.23626373626373626,
+      "distanceMeters": 342.33161067354644,
+      "chase": {
+        "calls": 312,
+        "triangles": 156719
+      },
+      "rear": {
+        "calls": 236,
+        "triangles": 368259
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 44,
+      "progress": 0.24175824175824176,
+      "distanceMeters": 350.2928109217684,
+      "chase": {
+        "calls": 270,
+        "triangles": 151351
+      },
+      "rear": {
+        "calls": 288,
+        "triangles": 373775
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 45,
+      "progress": 0.24725274725274726,
+      "distanceMeters": 358.25401116999046,
+      "chase": {
+        "calls": 268,
+        "triangles": 158163
+      },
+      "rear": {
+        "calls": 288,
+        "triangles": 373775
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 46,
+      "progress": 0.25274725274725274,
+      "distanceMeters": 366.21521141821245,
+      "chase": {
+        "calls": 252,
+        "triangles": 147787
+      },
+      "rear": {
+        "calls": 290,
+        "triangles": 373799
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 47,
+      "progress": 0.25824175824175827,
+      "distanceMeters": 374.1764116664345,
+      "chase": {
+        "calls": 248,
+        "triangles": 146775
+      },
+      "rear": {
+        "calls": 292,
+        "triangles": 373871
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 48,
+      "progress": 0.26373626373626374,
+      "distanceMeters": 382.1376119146565,
+      "chase": {
+        "calls": 290,
+        "triangles": 152139
+      },
+      "rear": {
+        "calls": 288,
+        "triangles": 373775
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 49,
+      "progress": 0.2692307692307692,
+      "distanceMeters": 390.09881216287846,
+      "chase": {
+        "calls": 244,
+        "triangles": 150283
+      },
+      "rear": {
+        "calls": 252,
+        "triangles": 368459
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 50,
+      "progress": 0.27472527472527475,
+      "distanceMeters": 398.06001241110056,
+      "chase": {
+        "calls": 238,
+        "triangles": 146631
+      },
+      "rear": {
+        "calls": 310,
+        "triangles": 374019
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 51,
+      "progress": 0.2802197802197802,
+      "distanceMeters": 406.02121265932254,
+      "chase": {
+        "calls": 148,
+        "triangles": 141755
+      },
+      "rear": {
+        "calls": 342,
+        "triangles": 376843
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 52,
+      "progress": 0.2857142857142857,
+      "distanceMeters": 413.9824129075445,
+      "chase": {
+        "calls": 184,
+        "triangles": 133799
+      },
+      "rear": {
+        "calls": 330,
+        "triangles": 385703
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 53,
+      "progress": 0.29120879120879123,
+      "distanceMeters": 421.94361315576657,
+      "chase": {
+        "calls": 196,
+        "triangles": 138083
+      },
+      "rear": {
+        "calls": 336,
+        "triangles": 384855
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 54,
+      "progress": 0.2967032967032967,
+      "distanceMeters": 429.90481340398856,
+      "chase": {
+        "calls": 214,
+        "triangles": 136835
+      },
+      "rear": {
+        "calls": 340,
+        "triangles": 386959
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 55,
+      "progress": 0.3021978021978022,
+      "distanceMeters": 437.86601365221054,
+      "chase": {
+        "calls": 212,
+        "triangles": 136811
+      },
+      "rear": {
+        "calls": 380,
+        "triangles": 391399
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 56,
+      "progress": 0.3076923076923077,
+      "distanceMeters": 445.8272139004326,
+      "chase": {
+        "calls": 208,
+        "triangles": 136803
+      },
+      "rear": {
+        "calls": 386,
+        "triangles": 391787
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 57,
+      "progress": 0.3131868131868132,
+      "distanceMeters": 453.78841414865457,
+      "chase": {
+        "calls": 200,
+        "triangles": 136611
+      },
+      "rear": {
+        "calls": 386,
+        "triangles": 391787
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 58,
+      "progress": 0.31868131868131866,
+      "distanceMeters": 461.74961439687655,
+      "chase": {
+        "calls": 196,
+        "triangles": 136583
+      },
+      "rear": {
+        "calls": 390,
+        "triangles": 391883
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 59,
+      "progress": 0.3241758241758242,
+      "distanceMeters": 469.7108146450986,
+      "chase": {
+        "calls": 178,
+        "triangles": 134247
+      },
+      "rear": {
+        "calls": 396,
+        "triangles": 391915
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 60,
+      "progress": 0.32967032967032966,
+      "distanceMeters": 477.6720148933206,
+      "chase": {
+        "calls": 178,
+        "triangles": 133431
+      },
+      "rear": {
+        "calls": 360,
+        "triangles": 388491
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 61,
+      "progress": 0.33516483516483514,
+      "distanceMeters": 485.63321514154256,
+      "chase": {
+        "calls": 176,
+        "triangles": 132999
+      },
+      "rear": {
+        "calls": 424,
+        "triangles": 394367
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 62,
+      "progress": 0.34065934065934067,
+      "distanceMeters": 493.59441538976466,
+      "chase": {
+        "calls": 170,
+        "triangles": 105911
+      },
+      "rear": {
+        "calls": 364,
+        "triangles": 379531
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 63,
+      "progress": 0.34615384615384615,
+      "distanceMeters": 501.5556156379866,
+      "chase": {
+        "calls": 222,
+        "triangles": 139007
+      },
+      "rear": {
+        "calls": 280,
+        "triangles": 373651
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 64,
+      "progress": 0.3516483516483517,
+      "distanceMeters": 509.5168158862087,
+      "chase": {
+        "calls": 242,
+        "triangles": 147859
+      },
+      "rear": {
+        "calls": 278,
+        "triangles": 373627
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 65,
+      "progress": 0.35714285714285715,
+      "distanceMeters": 517.4780161344306,
+      "chase": {
+        "calls": 306,
+        "triangles": 154767
+      },
+      "rear": {
+        "calls": 264,
+        "triangles": 370839
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 66,
+      "progress": 0.3626373626373626,
+      "distanceMeters": 525.4392163826526,
+      "chase": {
+        "calls": 304,
+        "triangles": 154743
+      },
+      "rear": {
+        "calls": 266,
+        "triangles": 370863
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 67,
+      "progress": 0.36813186813186816,
+      "distanceMeters": 533.4004166308747,
+      "chase": {
+        "calls": 304,
+        "triangles": 154743
+      },
+      "rear": {
+        "calls": 266,
+        "triangles": 370863
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 68,
+      "progress": 0.37362637362637363,
+      "distanceMeters": 541.3616168790967,
+      "chase": {
+        "calls": 300,
+        "triangles": 154691
+      },
+      "rear": {
+        "calls": 268,
+        "triangles": 371439
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 69,
+      "progress": 0.3791208791208791,
+      "distanceMeters": 549.3228171273187,
+      "chase": {
+        "calls": 298,
+        "triangles": 154355
+      },
+      "rear": {
+        "calls": 270,
+        "triangles": 371439
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 70,
+      "progress": 0.38461538461538464,
+      "distanceMeters": 557.2840173755408,
+      "chase": {
+        "calls": 296,
+        "triangles": 154311
+      },
+      "rear": {
+        "calls": 290,
+        "triangles": 373799
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 71,
+      "progress": 0.3901098901098901,
+      "distanceMeters": 565.2452176237628,
+      "chase": {
+        "calls": 234,
+        "triangles": 145687
+      },
+      "rear": {
+        "calls": 294,
+        "triangles": 373875
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 72,
+      "progress": 0.3956043956043956,
+      "distanceMeters": 573.2064178719847,
+      "chase": {
+        "calls": 214,
+        "triangles": 137143
+      },
+      "rear": {
+        "calls": 352,
+        "triangles": 379387
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 73,
+      "progress": 0.4010989010989011,
+      "distanceMeters": 581.1676181202067,
+      "chase": {
+        "calls": 190,
+        "triangles": 141083
+      },
+      "rear": {
+        "calls": 330,
+        "triangles": 375379
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 74,
+      "progress": 0.4065934065934066,
+      "distanceMeters": 589.1288183684287,
+      "chase": {
+        "calls": 120,
+        "triangles": 129095
+      },
+      "rear": {
+        "calls": 342,
+        "triangles": 385815
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 75,
+      "progress": 0.41208791208791207,
+      "distanceMeters": 597.0900186166507,
+      "chase": {
+        "calls": 116,
+        "triangles": 120391
+      },
+      "rear": {
+        "calls": 334,
+        "triangles": 383871
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 76,
+      "progress": 0.4175824175824176,
+      "distanceMeters": 605.0512188648728,
+      "chase": {
+        "calls": 188,
+        "triangles": 142503
+      },
+      "rear": {
+        "calls": 374,
+        "triangles": 388895
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 77,
+      "progress": 0.4230769230769231,
+      "distanceMeters": 613.0124191130948,
+      "chase": {
+        "calls": 192,
+        "triangles": 136299
+      },
+      "rear": {
+        "calls": 368,
+        "triangles": 386927
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 78,
+      "progress": 0.42857142857142855,
+      "distanceMeters": 620.9736193613168,
+      "chase": {
+        "calls": 188,
+        "triangles": 134399
+      },
+      "rear": {
+        "calls": 372,
+        "triangles": 387919
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 79,
+      "progress": 0.4340659340659341,
+      "distanceMeters": 628.9348196095389,
+      "chase": {
+        "calls": 184,
+        "triangles": 137379
+      },
+      "rear": {
+        "calls": 386,
+        "triangles": 391471
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 80,
+      "progress": 0.43956043956043955,
+      "distanceMeters": 636.8960198577607,
+      "chase": {
+        "calls": 156,
+        "triangles": 131035
+      },
+      "rear": {
+        "calls": 384,
+        "triangles": 391447
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 81,
+      "progress": 0.44505494505494503,
+      "distanceMeters": 644.8572201059827,
+      "chase": {
+        "calls": 132,
+        "triangles": 127759
+      },
+      "rear": {
+        "calls": 386,
+        "triangles": 391471
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 82,
+      "progress": 0.45054945054945056,
+      "distanceMeters": 652.8184203542048,
+      "chase": {
+        "calls": 116,
+        "triangles": 121971
+      },
+      "rear": {
+        "calls": 390,
+        "triangles": 391835
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 83,
+      "progress": 0.45604395604395603,
+      "distanceMeters": 660.7796206024268,
+      "chase": {
+        "calls": 110,
+        "triangles": 120311
+      },
+      "rear": {
+        "calls": 396,
+        "triangles": 391911
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 84,
+      "progress": 0.46153846153846156,
+      "distanceMeters": 668.7408208506489,
+      "chase": {
+        "calls": 112,
+        "triangles": 119619
+      },
+      "rear": {
+        "calls": 390,
+        "triangles": 391311
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 85,
+      "progress": 0.46703296703296704,
+      "distanceMeters": 676.7020210988709,
+      "chase": {
+        "calls": 102,
+        "triangles": 118199
+      },
+      "rear": {
+        "calls": 486,
+        "triangles": 399983
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 86,
+      "progress": 0.4725274725274725,
+      "distanceMeters": 684.6632213470929,
+      "chase": {
+        "calls": 96,
+        "triangles": 114611
+      },
+      "rear": {
+        "calls": 490,
+        "triangles": 400031
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 87,
+      "progress": 0.47802197802197804,
+      "distanceMeters": 692.6244215953149,
+      "chase": {
+        "calls": 88,
+        "triangles": 112539
+      },
+      "rear": {
+        "calls": 478,
+        "triangles": 399923
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 88,
+      "progress": 0.4835164835164835,
+      "distanceMeters": 700.5856218435368,
+      "chase": {
+        "calls": 84,
+        "triangles": 105683
+      },
+      "rear": {
+        "calls": 432,
+        "triangles": 386927
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 89,
+      "progress": 0.489010989010989,
+      "distanceMeters": 708.5468220917588,
+      "chase": {
+        "calls": 80,
+        "triangles": 103571
+      },
+      "rear": {
+        "calls": 368,
+        "triangles": 379607
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 90,
+      "progress": 0.4945054945054945,
+      "distanceMeters": 716.5080223399809,
+      "chase": {
+        "calls": 82,
+        "triangles": 105299
+      },
+      "rear": {
+        "calls": 356,
+        "triangles": 379435
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 91,
+      "progress": 0.5,
+      "distanceMeters": 724.4692225882029,
+      "chase": {
+        "calls": 158,
+        "triangles": 116543
+      },
+      "rear": {
+        "calls": 248,
+        "triangles": 369595
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 92,
+      "progress": 0.5054945054945055,
+      "distanceMeters": 732.4304228364249,
+      "chase": {
+        "calls": 170,
+        "triangles": 118807
+      },
+      "rear": {
+        "calls": 224,
+        "triangles": 368135
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 93,
+      "progress": 0.510989010989011,
+      "distanceMeters": 740.3916230846469,
+      "chase": {
+        "calls": 220,
+        "triangles": 150455
+      },
+      "rear": {
+        "calls": 196,
+        "triangles": 359027
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 94,
+      "progress": 0.5164835164835165,
+      "distanceMeters": 748.352823332869,
+      "chase": {
+        "calls": 264,
+        "triangles": 117627
+      },
+      "rear": {
+        "calls": 176,
+        "triangles": 351199
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 95,
+      "progress": 0.521978021978022,
+      "distanceMeters": 756.314023581091,
+      "chase": {
+        "calls": 272,
+        "triangles": 138139
+      },
+      "rear": {
+        "calls": 174,
+        "triangles": 349615
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 96,
+      "progress": 0.5274725274725275,
+      "distanceMeters": 764.275223829313,
+      "chase": {
+        "calls": 276,
+        "triangles": 149403
+      },
+      "rear": {
+        "calls": 176,
+        "triangles": 349639
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 97,
+      "progress": 0.532967032967033,
+      "distanceMeters": 772.2364240775349,
+      "chase": {
+        "calls": 274,
+        "triangles": 146147
+      },
+      "rear": {
+        "calls": 178,
+        "triangles": 349663
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 98,
+      "progress": 0.5384615384615384,
+      "distanceMeters": 780.1976243257569,
+      "chase": {
+        "calls": 270,
+        "triangles": 119587
+      },
+      "rear": {
+        "calls": 178,
+        "triangles": 349663
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 99,
+      "progress": 0.5439560439560439,
+      "distanceMeters": 788.1588245739789,
+      "chase": {
+        "calls": 270,
+        "triangles": 146319
+      },
+      "rear": {
+        "calls": 182,
+        "triangles": 351775
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 100,
+      "progress": 0.5494505494505495,
+      "distanceMeters": 796.1200248222011,
+      "chase": {
+        "calls": 268,
+        "triangles": 142735
+      },
+      "rear": {
+        "calls": 188,
+        "triangles": 355363
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 101,
+      "progress": 0.554945054945055,
+      "distanceMeters": 804.0812250704231,
+      "chase": {
+        "calls": 264,
+        "triangles": 140623
+      },
+      "rear": {
+        "calls": 192,
+        "triangles": 356203
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 102,
+      "progress": 0.5604395604395604,
+      "distanceMeters": 812.0424253186451,
+      "chase": {
+        "calls": 258,
+        "triangles": 136927
+      },
+      "rear": {
+        "calls": 198,
+        "triangles": 357455
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 103,
+      "progress": 0.5659340659340659,
+      "distanceMeters": 820.003625566867,
+      "chase": {
+        "calls": 258,
+        "triangles": 136927
+      },
+      "rear": {
+        "calls": 200,
+        "triangles": 359039
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 104,
+      "progress": 0.5714285714285714,
+      "distanceMeters": 827.964825815089,
+      "chase": {
+        "calls": 250,
+        "triangles": 125067
+      },
+      "rear": {
+        "calls": 204,
+        "triangles": 360431
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 105,
+      "progress": 0.5769230769230769,
+      "distanceMeters": 835.9260260633109,
+      "chase": {
+        "calls": 250,
+        "triangles": 132107
+      },
+      "rear": {
+        "calls": 220,
+        "triangles": 365467
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 106,
+      "progress": 0.5824175824175825,
+      "distanceMeters": 843.8872263115331,
+      "chase": {
+        "calls": 250,
+        "triangles": 131887
+      },
+      "rear": {
+        "calls": 266,
+        "triangles": 370863
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 107,
+      "progress": 0.5879120879120879,
+      "distanceMeters": 851.8484265597551,
+      "chase": {
+        "calls": 204,
+        "triangles": 127063
+      },
+      "rear": {
+        "calls": 270,
+        "triangles": 370911
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 108,
+      "progress": 0.5934065934065934,
+      "distanceMeters": 859.8096268079771,
+      "chase": {
+        "calls": 190,
+        "triangles": 117667
+      },
+      "rear": {
+        "calls": 274,
+        "triangles": 371487
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 109,
+      "progress": 0.5989010989010989,
+      "distanceMeters": 867.7708270561991,
+      "chase": {
+        "calls": 190,
+        "triangles": 117667
+      },
+      "rear": {
+        "calls": 280,
+        "triangles": 373435
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 110,
+      "progress": 0.6043956043956044,
+      "distanceMeters": 875.7320273044211,
+      "chase": {
+        "calls": 188,
+        "triangles": 108491
+      },
+      "rear": {
+        "calls": 288,
+        "triangles": 373775
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 111,
+      "progress": 0.6098901098901099,
+      "distanceMeters": 883.6932275526432,
+      "chase": {
+        "calls": 188,
+        "triangles": 108491
+      },
+      "rear": {
+        "calls": 298,
+        "triangles": 373943
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 112,
+      "progress": 0.6153846153846154,
+      "distanceMeters": 891.6544278008652,
+      "chase": {
+        "calls": 188,
+        "triangles": 108491
+      },
+      "rear": {
+        "calls": 302,
+        "triangles": 373955
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 113,
+      "progress": 0.6208791208791209,
+      "distanceMeters": 899.6156280490871,
+      "chase": {
+        "calls": 188,
+        "triangles": 108491
+      },
+      "rear": {
+        "calls": 350,
+        "triangles": 379395
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 114,
+      "progress": 0.6263736263736264,
+      "distanceMeters": 907.5768282973091,
+      "chase": {
+        "calls": 140,
+        "triangles": 103051
+      },
+      "rear": {
+        "calls": 352,
+        "triangles": 381123
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 115,
+      "progress": 0.6318681318681318,
+      "distanceMeters": 915.5380285455311,
+      "chase": {
+        "calls": 140,
+        "triangles": 103051
+      },
+      "rear": {
+        "calls": 352,
+        "triangles": 381123
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 116,
+      "progress": 0.6373626373626373,
+      "distanceMeters": 923.4992287937531,
+      "chase": {
+        "calls": 140,
+        "triangles": 103051
+      },
+      "rear": {
+        "calls": 352,
+        "triangles": 381123
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 117,
+      "progress": 0.6428571428571429,
+      "distanceMeters": 931.4604290419752,
+      "chase": {
+        "calls": 138,
+        "triangles": 103027
+      },
+      "rear": {
+        "calls": 352,
+        "triangles": 381123
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 118,
+      "progress": 0.6483516483516484,
+      "distanceMeters": 939.4216292901972,
+      "chase": {
+        "calls": 138,
+        "triangles": 103027
+      },
+      "rear": {
+        "calls": 352,
+        "triangles": 381123
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 119,
+      "progress": 0.6538461538461539,
+      "distanceMeters": 947.3828295384192,
+      "chase": {
+        "calls": 136,
+        "triangles": 103003
+      },
+      "rear": {
+        "calls": 352,
+        "triangles": 381123
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 120,
+      "progress": 0.6593406593406593,
+      "distanceMeters": 955.3440297866412,
+      "chase": {
+        "calls": 136,
+        "triangles": 103003
+      },
+      "rear": {
+        "calls": 356,
+        "triangles": 381171
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 121,
+      "progress": 0.6648351648351648,
+      "distanceMeters": 963.3052300348631,
+      "chase": {
+        "calls": 132,
+        "triangles": 102955
+      },
+      "rear": {
+        "calls": 356,
+        "triangles": 381171
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 122,
+      "progress": 0.6703296703296703,
+      "distanceMeters": 971.2664302830851,
+      "chase": {
+        "calls": 136,
+        "triangles": 106543
+      },
+      "rear": {
+        "calls": 360,
+        "triangles": 382035
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 123,
+      "progress": 0.6758241758241759,
+      "distanceMeters": 979.2276305313073,
+      "chase": {
+        "calls": 132,
+        "triangles": 102955
+      },
+      "rear": {
+        "calls": 360,
+        "triangles": 382035
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 124,
+      "progress": 0.6813186813186813,
+      "distanceMeters": 987.1888307795293,
+      "chase": {
+        "calls": 128,
+        "triangles": 110055
+      },
+      "rear": {
+        "calls": 362,
+        "triangles": 383315
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 125,
+      "progress": 0.6868131868131868,
+      "distanceMeters": 995.1500310277513,
+      "chase": {
+        "calls": 108,
+        "triangles": 95631
+      },
+      "rear": {
+        "calls": 372,
+        "triangles": 385551
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 126,
+      "progress": 0.6923076923076923,
+      "distanceMeters": 1003.1112312759732,
+      "chase": {
+        "calls": 108,
+        "triangles": 95631
+      },
+      "rear": {
+        "calls": 380,
+        "triangles": 386103
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 127,
+      "progress": 0.6978021978021978,
+      "distanceMeters": 1011.0724315241952,
+      "chase": {
+        "calls": 108,
+        "triangles": 95631
+      },
+      "rear": {
+        "calls": 382,
+        "triangles": 386391
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 128,
+      "progress": 0.7032967032967034,
+      "distanceMeters": 1019.0336317724174,
+      "chase": {
+        "calls": 108,
+        "triangles": 95631
+      },
+      "rear": {
+        "calls": 382,
+        "triangles": 386391
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 129,
+      "progress": 0.7087912087912088,
+      "distanceMeters": 1026.9948320206393,
+      "chase": {
+        "calls": 106,
+        "triangles": 95607
+      },
+      "rear": {
+        "calls": 380,
+        "triangles": 386367
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 130,
+      "progress": 0.7142857142857143,
+      "distanceMeters": 1034.9560322688612,
+      "chase": {
+        "calls": 102,
+        "triangles": 69047
+      },
+      "rear": {
+        "calls": 380,
+        "triangles": 386367
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 131,
+      "progress": 0.7197802197802198,
+      "distanceMeters": 1042.9172325170832,
+      "chase": {
+        "calls": 108,
+        "triangles": 95631
+      },
+      "rear": {
+        "calls": 382,
+        "triangles": 386391
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 132,
+      "progress": 0.7252747252747253,
+      "distanceMeters": 1050.8784327653052,
+      "chase": {
+        "calls": 120,
+        "triangles": 101335
+      },
+      "rear": {
+        "calls": 352,
+        "triangles": 383355
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 133,
+      "progress": 0.7307692307692307,
+      "distanceMeters": 1058.8396330135272,
+      "chase": {
+        "calls": 134,
+        "triangles": 102979
+      },
+      "rear": {
+        "calls": 282,
+        "triangles": 369939
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 134,
+      "progress": 0.7362637362637363,
+      "distanceMeters": 1066.8008332617494,
+      "chase": {
+        "calls": 132,
+        "triangles": 76443
+      },
+      "rear": {
+        "calls": 260,
+        "triangles": 357995
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 135,
+      "progress": 0.7417582417582418,
+      "distanceMeters": 1074.7620335099714,
+      "chase": {
+        "calls": 182,
+        "triangles": 81907
+      },
+      "rear": {
+        "calls": 246,
+        "triangles": 351203
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 136,
+      "progress": 0.7472527472527473,
+      "distanceMeters": 1082.7232337581934,
+      "chase": {
+        "calls": 182,
+        "triangles": 81907
+      },
+      "rear": {
+        "calls": 196,
+        "triangles": 342043
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 137,
+      "progress": 0.7527472527472527,
+      "distanceMeters": 1090.6844340064154,
+      "chase": {
+        "calls": 182,
+        "triangles": 81907
+      },
+      "rear": {
+        "calls": 186,
+        "triangles": 332163
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 138,
+      "progress": 0.7582417582417582,
+      "distanceMeters": 1098.6456342546373,
+      "chase": {
+        "calls": 198,
+        "triangles": 93787
+      },
+      "rear": {
+        "calls": 184,
+        "triangles": 332139
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 139,
+      "progress": 0.7637362637362637,
+      "distanceMeters": 1106.6068345028593,
+      "chase": {
+        "calls": 220,
+        "triangles": 96839
+      },
+      "rear": {
+        "calls": 184,
+        "triangles": 332139
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 140,
+      "progress": 0.7692307692307693,
+      "distanceMeters": 1114.5680347510815,
+      "chase": {
+        "calls": 284,
+        "triangles": 113471
+      },
+      "rear": {
+        "calls": 184,
+        "triangles": 332139
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 141,
+      "progress": 0.7747252747252747,
+      "distanceMeters": 1122.5292349993035,
+      "chase": {
+        "calls": 294,
+        "triangles": 113571
+      },
+      "rear": {
+        "calls": 184,
+        "triangles": 332139
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 142,
+      "progress": 0.7802197802197802,
+      "distanceMeters": 1130.4904352475255,
+      "chase": {
+        "calls": 286,
+        "triangles": 113475
+      },
+      "rear": {
+        "calls": 188,
+        "triangles": 332187
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 143,
+      "progress": 0.7857142857142857,
+      "distanceMeters": 1138.4516354957475,
+      "chase": {
+        "calls": 218,
+        "triangles": 96815
+      },
+      "rear": {
+        "calls": 188,
+        "triangles": 332187
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 144,
+      "progress": 0.7912087912087912,
+      "distanceMeters": 1146.4128357439695,
+      "chase": {
+        "calls": 194,
+        "triangles": 93739
+      },
+      "rear": {
+        "calls": 192,
+        "triangles": 332235
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 145,
+      "progress": 0.7967032967032966,
+      "distanceMeters": 1154.3740359921915,
+      "chase": {
+        "calls": 126,
+        "triangles": 102863
+      },
+      "rear": {
+        "calls": 384,
+        "triangles": 388039
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 146,
+      "progress": 0.8021978021978022,
+      "distanceMeters": 1162.3352362404135,
+      "chase": {
+        "calls": 102,
+        "triangles": 69303
+      },
+      "rear": {
+        "calls": 410,
+        "triangles": 392715
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 147,
+      "progress": 0.8076923076923077,
+      "distanceMeters": 1170.2964364886354,
+      "chase": {
+        "calls": 100,
+        "triangles": 69063
+      },
+      "rear": {
+        "calls": 310,
+        "triangles": 376263
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 148,
+      "progress": 0.8131868131868132,
+      "distanceMeters": 1178.2576367368574,
+      "chase": {
+        "calls": 364,
+        "triangles": 134091
+      },
+      "rear": {
+        "calls": 172,
+        "triangles": 288151
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 149,
+      "progress": 0.8186813186813187,
+      "distanceMeters": 1186.2188369850794,
+      "chase": {
+        "calls": 382,
+        "triangles": 151815
+      },
+      "rear": {
+        "calls": 200,
+        "triangles": 339867
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 150,
+      "progress": 0.8241758241758241,
+      "distanceMeters": 1194.1800372333014,
+      "chase": {
+        "calls": 320,
+        "triangles": 143451
+      },
+      "rear": {
+        "calls": 214,
+        "triangles": 339999
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 151,
+      "progress": 0.8296703296703297,
+      "distanceMeters": 1202.1412374815236,
+      "chase": {
+        "calls": 266,
+        "triangles": 124855
+      },
+      "rear": {
+        "calls": 216,
+        "triangles": 340023
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 152,
+      "progress": 0.8351648351648352,
+      "distanceMeters": 1210.1024377297456,
+      "chase": {
+        "calls": 258,
+        "triangles": 124495
+      },
+      "rear": {
+        "calls": 216,
+        "triangles": 340023
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 153,
+      "progress": 0.8406593406593407,
+      "distanceMeters": 1218.0636379779676,
+      "chase": {
+        "calls": 194,
+        "triangles": 107883
+      },
+      "rear": {
+        "calls": 220,
+        "triangles": 340071
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 154,
+      "progress": 0.8461538461538461,
+      "distanceMeters": 1226.0248382261896,
+      "chase": {
+        "calls": 186,
+        "triangles": 106531
+      },
+      "rear": {
+        "calls": 220,
+        "triangles": 340071
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 155,
+      "progress": 0.8516483516483516,
+      "distanceMeters": 1233.9860384744115,
+      "chase": {
+        "calls": 174,
+        "triangles": 86307
+      },
+      "rear": {
+        "calls": 222,
+        "triangles": 340095
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 156,
+      "progress": 0.8571428571428571,
+      "distanceMeters": 1241.9472387226335,
+      "chase": {
+        "calls": 170,
+        "triangles": 105063
+      },
+      "rear": {
+        "calls": 224,
+        "triangles": 340119
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 157,
+      "progress": 0.8626373626373627,
+      "distanceMeters": 1249.9084389708557,
+      "chase": {
+        "calls": 166,
+        "triangles": 111835
+      },
+      "rear": {
+        "calls": 224,
+        "triangles": 340119
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 158,
+      "progress": 0.8681318681318682,
+      "distanceMeters": 1257.8696392190777,
+      "chase": {
+        "calls": 152,
+        "triangles": 83987
+      },
+      "rear": {
+        "calls": 224,
+        "triangles": 340119
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 159,
+      "progress": 0.8736263736263736,
+      "distanceMeters": 1265.8308394672997,
+      "chase": {
+        "calls": 148,
+        "triangles": 83251
+      },
+      "rear": {
+        "calls": 224,
+        "triangles": 340119
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 160,
+      "progress": 0.8791208791208791,
+      "distanceMeters": 1273.7920397155215,
+      "chase": {
+        "calls": 148,
+        "triangles": 83251
+      },
+      "rear": {
+        "calls": 224,
+        "triangles": 340119
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 161,
+      "progress": 0.8846153846153846,
+      "distanceMeters": 1281.7532399637435,
+      "chase": {
+        "calls": 154,
+        "triangles": 83639
+      },
+      "rear": {
+        "calls": 224,
+        "triangles": 340119
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 162,
+      "progress": 0.8901098901098901,
+      "distanceMeters": 1289.7144402119654,
+      "chase": {
+        "calls": 160,
+        "triangles": 83711
+      },
+      "rear": {
+        "calls": 268,
+        "triangles": 345511
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 163,
+      "progress": 0.8956043956043956,
+      "distanceMeters": 1297.6756404601877,
+      "chase": {
+        "calls": 114,
+        "triangles": 103103
+      },
+      "rear": {
+        "calls": 268,
+        "triangles": 345511
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 164,
+      "progress": 0.9010989010989011,
+      "distanceMeters": 1305.6368407084096,
+      "chase": {
+        "calls": 112,
+        "triangles": 76567
+      },
+      "rear": {
+        "calls": 272,
+        "triangles": 345559
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 165,
+      "progress": 0.9065934065934066,
+      "distanceMeters": 1313.5980409566316,
+      "chase": {
+        "calls": 160,
+        "triangles": 83247
+      },
+      "rear": {
+        "calls": 272,
+        "triangles": 345559
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 166,
+      "progress": 0.9120879120879121,
+      "distanceMeters": 1321.5592412048536,
+      "chase": {
+        "calls": 176,
+        "triangles": 84027
+      },
+      "rear": {
+        "calls": 272,
+        "triangles": 345559
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 167,
+      "progress": 0.9175824175824175,
+      "distanceMeters": 1329.5204414530756,
+      "chase": {
+        "calls": 182,
+        "triangles": 93515
+      },
+      "rear": {
+        "calls": 272,
+        "triangles": 345559
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 168,
+      "progress": 0.9230769230769231,
+      "distanceMeters": 1337.4816417012978,
+      "chase": {
+        "calls": 184,
+        "triangles": 112395
+      },
+      "rear": {
+        "calls": 272,
+        "triangles": 345559
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 169,
+      "progress": 0.9285714285714286,
+      "distanceMeters": 1345.4428419495198,
+      "chase": {
+        "calls": 186,
+        "triangles": 120075
+      },
+      "rear": {
+        "calls": 272,
+        "triangles": 345559
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 170,
+      "progress": 0.9340659340659341,
+      "distanceMeters": 1353.4040421977418,
+      "chase": {
+        "calls": 192,
+        "triangles": 126347
+      },
+      "rear": {
+        "calls": 270,
+        "triangles": 345535
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 171,
+      "progress": 0.9395604395604396,
+      "distanceMeters": 1361.3652424459638,
+      "chase": {
+        "calls": 212,
+        "triangles": 131767
+      },
+      "rear": {
+        "calls": 270,
+        "triangles": 345535
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 172,
+      "progress": 0.945054945054945,
+      "distanceMeters": 1369.3264426941857,
+      "chase": {
+        "calls": 222,
+        "triangles": 135403
+      },
+      "rear": {
+        "calls": 268,
+        "triangles": 345511
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 173,
+      "progress": 0.9505494505494505,
+      "distanceMeters": 1377.2876429424077,
+      "chase": {
+        "calls": 232,
+        "triangles": 136995
+      },
+      "rear": {
+        "calls": 266,
+        "triangles": 345487
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 174,
+      "progress": 0.9560439560439561,
+      "distanceMeters": 1385.2488431906297,
+      "chase": {
+        "calls": 232,
+        "triangles": 136995
+      },
+      "rear": {
+        "calls": 268,
+        "triangles": 353263
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 175,
+      "progress": 0.9615384615384616,
+      "distanceMeters": 1393.2100434388517,
+      "chase": {
+        "calls": 230,
+        "triangles": 137019
+      },
+      "rear": {
+        "calls": 272,
+        "triangles": 353311
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 176,
+      "progress": 0.967032967032967,
+      "distanceMeters": 1401.1712436870737,
+      "chase": {
+        "calls": 232,
+        "triangles": 137023
+      },
+      "rear": {
+        "calls": 272,
+        "triangles": 354679
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 177,
+      "progress": 0.9725274725274725,
+      "distanceMeters": 1409.1324439352957,
+      "chase": {
+        "calls": 282,
+        "triangles": 146047
+      },
+      "rear": {
+        "calls": 258,
+        "triangles": 349003
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 178,
+      "progress": 0.978021978021978,
+      "distanceMeters": 1417.0936441835177,
+      "chase": {
+        "calls": 284,
+        "triangles": 142559
+      },
+      "rear": {
+        "calls": 256,
+        "triangles": 350019
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 179,
+      "progress": 0.9835164835164835,
+      "distanceMeters": 1425.0548444317396,
+      "chase": {
+        "calls": 286,
+        "triangles": 142563
+      },
+      "rear": {
+        "calls": 256,
+        "triangles": 350019
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 180,
+      "progress": 0.989010989010989,
+      "distanceMeters": 1433.0160446799619,
+      "chase": {
+        "calls": 286,
+        "triangles": 142563
+      },
+      "rear": {
+        "calls": 260,
+        "triangles": 351191
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    },
+    {
+      "index": 181,
+      "progress": 0.9945054945054945,
+      "distanceMeters": 1440.9772449281838,
+      "chase": {
+        "calls": 280,
+        "triangles": 142463
+      },
+      "rear": {
+        "calls": 268,
+        "triangles": 353775
+      },
+      "city": {
+        "skylineTowers": 240,
+        "undercityBuildings": 16,
+        "fallsExtensionTowers": 16
+      }
+    }
+  ],
+  "errors": [],
+  "engineeringCeilings": {
+    "calls": 500,
+    "triangles": 425000
+  },
+  "maximumCalls": 490,
+  "maximumTriangles": 400031
+}

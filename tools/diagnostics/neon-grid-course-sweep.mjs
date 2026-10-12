@@ -7,21 +7,49 @@ const directory = process.argv[2] ?? '/tmp/neon-grid-t9-7-course-sweep';
 mkdirSync(directory, { recursive: true });
 const baseUrl = (process.env.NEON_GRID_COURSE_BASE_URL ??
   'http://127.0.0.1:5173/manacondas-minigame-mayhem').replace(/\/$/, '');
-const visualVariantQuery = process.env.NEON_GRID_VISUAL_VARIANT === 'abyss-fog-001'
-  ? '&neonGridVisual=abyss-fog-001'
+const visualVariant = process.env.NEON_GRID_VISUAL_VARIANT ?? 'approved';
+const ownerViewsOnly = process.env.NEON_GRID_COURSE_OWNER_VIEWS_ONLY === '1';
+const visualVariantQuery = ['abyss-fog-001', 'abyss-fog-002'].includes(visualVariant)
+  ? `&neonGridVisual=${visualVariant}`
   : '';
 const maximumTriangleAiRoster = ['aa-03', 'aa-04', 'aa-05', 'aa-07', 'aa-10', 'aa-12', 'aa-14'];
-const ownerViews = [
-  { name: 'owner-0m35-start-billboards', raceTime: '0:35.55', progress: 0.075 },
-  { name: 'owner-0m48-skyline-approach', raceTime: '0:48.33', progress: 0.239 },
-  { name: 'owner-1m07-undercity-ground', raceTime: '1:07.30', progress: 0.31 },
-  { name: 'owner-1m22-undercity-city', raceTime: '1:22.32', progress: 0.37 },
-  { name: 'owner-1m38-tunnel-exit', raceTime: '1:38.50', progress: 0.43 },
-  { name: 'owner-1m51-falls-approach', raceTime: '1:51.97', progress: 0.54 },
-  { name: 'owner-2m12-falls-city', raceTime: '2:12.02', progress: 0.63 },
-  { name: 'owner-2m31-falls-run', raceTime: '2:31.15', progress: 0.69 },
-  { name: 'owner-2m43-waterfall-zone', raceTime: '2:43.15', progress: 0.72 },
+const progressCheckpoints = [
+  { seconds: 0, progress: 0 },
+  { seconds: 35.55, progress: 0.075 },
+  { seconds: 48.33, progress: 0.239 },
+  { seconds: 67.30, progress: 0.31 },
+  { seconds: 82.32, progress: 0.37 },
+  { seconds: 98.50, progress: 0.43 },
+  { seconds: 111.97, progress: 0.54 },
+  { seconds: 132.02, progress: 0.63 },
+  { seconds: 151.15, progress: 0.69 },
+  { seconds: 163.15, progress: 0.72 },
 ];
+const failureTimes = [
+  '0:00.27', '0:17.68', '0:39.03', '0:44.35',
+  '0:46.92', '0:54.38', '1:03.88', '1:09.68',
+];
+function timeSeconds(value) {
+  const [minutes, seconds] = value.split(':');
+  return Number(minutes) * 60 + Number(seconds);
+}
+function progressAt(seconds) {
+  const upperIndex = progressCheckpoints.findIndex((checkpoint) => checkpoint.seconds >= seconds);
+  if (upperIndex <= 0) return progressCheckpoints[0].progress;
+  const lower = progressCheckpoints[upperIndex - 1];
+  const upper = progressCheckpoints[upperIndex];
+  const fraction = (seconds - lower.seconds) / (upper.seconds - lower.seconds);
+  return lower.progress + (upper.progress - lower.progress) * fraction;
+}
+const ownerViews = failureTimes.map((raceTime) => {
+  const seconds = timeSeconds(raceTime);
+  return {
+    name: `owner-failure-${raceTime.replace(':', 'm').replace('.', 'p')}`,
+    raceTime,
+    progress: progressAt(seconds),
+    progressMapping: 'linear interpolation from the previous owner-view race-time/progress anchors; approximate, deterministic replay point',
+  };
+});
 const errors = [];
 const sweep = [];
 const owners = [];
@@ -69,7 +97,7 @@ try {
   }
 
   const courseLength = await page.evaluate(() => window.game.track.curve.getLength());
-  const sampleCount = Math.ceil(courseLength / 8);
+  const sampleCount = ownerViewsOnly ? 0 : Math.ceil(courseLength / 8);
   for (let i = 0; i < sampleCount; i++) {
     const progress = i / sampleCount;
     await page.evaluate((p) => window.stageCourseAtProgress(p), progress);
@@ -130,9 +158,25 @@ try {
     await page.screenshot({
       path: `${directory}/${owner.name}-mobile-portrait-rear.jpg`, type: 'jpeg', quality: 60,
     });
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() =>
+      requestAnimationFrame(resolve))));
+    await page.evaluate((p) => window.stageCourseAtProgress(p), owner.progress);
+    const landscape = await page.evaluate(() => window.renderFrame(true, 'chase'));
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() =>
+      requestAnimationFrame(resolve))));
+    await page.screenshot({
+      path: `${directory}/${owner.name}-mobile-landscape.jpg`, type: 'jpeg', quality: 60,
+    });
+    const landscapeRear = await page.evaluate(() => window.renderFrame(true, 'rear'));
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() =>
+      requestAnimationFrame(resolve))));
+    await page.screenshot({
+      path: `${directory}/${owner.name}-mobile-landscape-rear.jpg`, type: 'jpeg', quality: 60,
+    });
     owners.push({
       ...owner,
-      progressMapping: 'approximate visual anchor derived from the reported minimap view',
+      progressMapping: owner.progressMapping,
       desktopChase: { calls: desktop.calls, triangles: desktop.triangles },
       desktopRear: { calls: rear.calls, triangles: rear.triangles },
       mobilePortrait: {
@@ -144,6 +188,18 @@ try {
         width: mobileRear.width,
         height: mobileRear.height,
       },
+      mobileLandscape: {
+        calls: landscape.calls,
+        triangles: landscape.triangles,
+        width: landscape.width,
+        height: landscape.height,
+      },
+      mobileLandscapeRear: {
+        calls: landscapeRear.calls,
+        triangles: landscapeRear.triangles,
+        width: landscapeRear.width,
+        height: landscapeRear.height,
+      },
     });
   }
 
@@ -154,6 +210,8 @@ try {
       owner.desktopRear.calls,
       owner.mobilePortrait.calls,
       owner.mobilePortraitRear.calls,
+      owner.mobileLandscape.calls,
+      owner.mobileLandscapeRear.calls,
     ]),
   );
   const maximumTriangles = Math.max(
@@ -163,16 +221,21 @@ try {
       owner.desktopRear.triangles,
       owner.mobilePortrait.triangles,
       owner.mobilePortraitRear.triangles,
+      owner.mobileLandscape.triangles,
+      owner.mobileLandscapeRear.triangles,
     ]),
   );
   const report = {
-    visualVariant: process.env.NEON_GRID_VISUAL_VARIANT === 'abyss-fog-001'
+    visualVariant: visualVariant === 'abyss-fog-001'
       ? 'fog-experiment'
-      : 'approved',
+      : visualVariant === 'abyss-fog-002'
+        ? 'fog-experiment-v2'
+        : 'approved',
     source: 'Actual KartTimeTrial Neon Grid course scene with eight racers and all visual owners mounted',
     environment: 'Local Chromium software WebGL / SwiftShader; diagnostic structural evidence only',
     courseLengthMeters: courseLength,
-    maximumSampleSpacingMeters: courseLength / sampleCount,
+    maximumSampleSpacingMeters: ownerViewsOnly ? null : courseLength / sampleCount,
+    courseSweepCompleted: !ownerViewsOnly,
     sampleCount,
     cameraSweep: ['chase', 'rear'],
     ownerViews,

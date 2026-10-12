@@ -1,0 +1,2271 @@
+{
+  "source": "abyss-fog-002",
+  "visualVariantQuery": "abyss-fog-002",
+  "runtime": "Neon Grid KartTimeTrial scene, mobile portrait viewport, actual chase camera",
+  "environment": "Local Chromium software WebGL / SwiftShader; raycast source audit only",
+  "screenGrid": {
+    "columns": 5,
+    "rows": 5,
+    "normalizedX": [
+      0.05,
+      0.25,
+      0.5,
+      0.75,
+      0.95
+    ],
+    "normalizedY": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6
+    ]
+  },
+  "lateralCityGroundProbesMeters": [
+    -70,
+    -45,
+    -24,
+    24,
+    45,
+    70
+  ],
+  "errors": [],
+  "fogStatus": {
+    "enabled": true,
+    "lowerWorldOnly": true,
+    "depthBands": {
+      "clearToMeters": 5,
+      "visibleByMeters": 15,
+      "strongByMeters": 28,
+      "denseByMeters": 44
+    },
+    "foggedObjects": [
+      "falls-run-city-roof-lights",
+      "falls-run-city-terraced-ground",
+      "falls-run-city-windows",
+      "falls-run-cross-braces",
+      "falls-run-deck-fascia",
+      "falls-run-extension-city-terraced-ground",
+      "falls-run-extension-city-windows",
+      "falls-run-extension-supported-pylons",
+      "falls-run-pylons",
+      "skyline-city-corner-lights",
+      "skyline-city-roof-accents",
+      "skyline-city-roof-caps",
+      "skyline-city-spires",
+      "skyline-city-towers",
+      "skyline-city-windows",
+      "skyline-cross-braces",
+      "skyline-deck-fascia",
+      "skyline-pylons",
+      "undercity-city-buildings",
+      "undercity-city-windows",
+      "undercity-industrial-architecture",
+      "undercity-pipes",
+      "undercity-utility-clutter",
+      "undercity-wallside-sightline-screens",
+      "undercity-work-lights"
+    ],
+    "unsupportedObjects": []
+  },
+  "meshInventory": [
+    {
+      "name": "falls-run-asphalt-base",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -180.7174072265625,
+          -0.18274950981140137,
+          -132.6655731201172
+        ],
+        "max": [
+          206.27139282226562,
+          14.37358570098877,
+          161.06736755371094
+        ]
+      },
+      "indexCount": 1656,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-deck-fascia",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          -180.78140258789062,
+          -8.207086563110352,
+          -6.776632308959961
+        ],
+        "max": [
+          -94.7877426147461,
+          10.055251121520996,
+          156.25782775878906
+        ]
+      },
+      "indexCount": 672,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-pylons",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 12,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          -172.941554620862,
+          -39.571053981781006,
+          2.486014410853386
+        ],
+        "max": [
+          -105.26000001560897,
+          9.705207347869873,
+          155.61835247650743
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-city-terraced-ground",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          -252,
+          -33.483619689941406,
+          -27
+        ],
+        "max": [
+          -54,
+          7.169591426849365,
+          243
+        ]
+      },
+      "indexCount": 2592,
+      "floorIndexCount": 0,
+      "originalFloorIndexStart": 0,
+      "originalFloorIndexCount": 2112,
+      "suppressedGroundTriangleCount": 704,
+      "suppressedGeometryRanges": [
+        {
+          "startTriangle": 0,
+          "triangleCount": 704
+        },
+        {
+          "startTriangle": 0,
+          "triangleCount": 864
+        }
+      ],
+      "geometryRanges": {
+        "cityGround": {
+          "startTriangle": 0,
+          "triangleCount": 0
+        },
+        "cityFoundations": {
+          "startTriangle": 0,
+          "triangleCount": 0
+        },
+        "cityTowers": {
+          "startTriangle": 0,
+          "triangleCount": 864
+        }
+      }
+    },
+    {
+      "name": "falls-run-city-foundations",
+      "type": "Mesh",
+      "visible": false,
+      "instanceCount": 24,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -215.50601387023926,
+          -5.947686166913933,
+          3.7394847869873047
+        ],
+        "max": [
+          -103.60351324081421,
+          7.169591426849365,
+          188.7248182296753
+        ]
+      },
+      "indexCount": 108,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-city-towers",
+      "type": "Mesh",
+      "visible": false,
+      "instanceCount": 24,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -214.3360137939453,
+          -33.48361974716187,
+          5.089485168457031
+        ],
+        "max": [
+          -104.41351318359375,
+          0.5345191955566406,
+          188.09481811523438
+        ]
+      },
+      "indexCount": 108,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-city-windows",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 320,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          -210.9850694515109,
+          -29.297791388362647,
+          18.19498634338379
+        ],
+        "max": [
+          -105.16001897579432,
+          -7.3574086162149905,
+          188.12982177734375
+        ]
+      },
+      "indexCount": 6,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-city-roof-lights",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 24,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          -210.9560136795044,
+          -9.443617895245552,
+          16.399484783411026
+        ],
+        "max": [
+          -106.75351309776306,
+          0.7345197945833206,
+          186.5048254430294
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-extension-asphalt-base",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -180.7174072265625,
+          -0.18274950981140137,
+          -132.6655731201172
+        ],
+        "max": [
+          206.27139282226562,
+          14.37358570098877,
+          161.06736755371094
+        ]
+      },
+      "indexCount": 3567,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-extension-supported-pylons",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 16,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          -143.91745454072952,
+          -45.10458946228027,
+          -134.72461723349988
+        ],
+        "max": [
+          203.63410657644272,
+          13.853947639465332,
+          163.0721255429089
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-extension-pylon-footings",
+      "type": "Mesh",
+      "visible": false,
+      "instanceCount": 16,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -145.3173651099205,
+          -45.10458877682686,
+          -135.85171848535538
+        ],
+        "max": [
+          205.1325957775116,
+          -30.286053389310837,
+          164.24388048052788
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-extension-city-towers",
+      "type": "Mesh",
+      "visible": false,
+      "instanceCount": 16,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -192.71359252929688,
+          -35.659961528778084,
+          -175.68099665641785
+        ],
+        "max": [
+          186.19951248168945,
+          6.154051780700684,
+          206.6178343296051
+        ]
+      },
+      "indexCount": 144,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-extension-city-foundations",
+      "type": "Mesh",
+      "visible": false,
+      "instanceCount": 16,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -194.1135926246643,
+          -7.4097548723220825,
+          -177.93831276893616
+        ],
+        "max": [
+          188.10507369041443,
+          9.577651143074036,
+          208.63117623329163
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-extension-city-windows",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 160,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          -191.68809864479303,
+          -33.67496185004711,
+          -158.67066955566406
+        ],
+        "max": [
+          183.15410802817345,
+          -4.722948744893074,
+          205.7934112548828
+        ]
+      },
+      "indexCount": 6,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "falls-run-extension-city-terraced-ground",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          -234,
+          -35.65996170043945,
+          -216
+        ],
+        "max": [
+          288,
+          13.508541107177734,
+          243
+        ]
+      },
+      "indexCount": 2304,
+      "floorIndexCount": 0,
+      "originalFloorIndexStart": 0,
+      "originalFloorIndexCount": 6336,
+      "suppressedGroundTriangleCount": 2112,
+      "suppressedGeometryRanges": [
+        {
+          "startTriangle": 0,
+          "triangleCount": 2112
+        },
+        {
+          "startTriangle": 768,
+          "triangleCount": 192
+        }
+      ],
+      "geometryRanges": {
+        "cityGround": {
+          "startTriangle": 0,
+          "triangleCount": 0
+        },
+        "cityTowers": {
+          "startTriangle": 0,
+          "triangleCount": 768
+        },
+        "cityFoundations": {
+          "startTriangle": 768,
+          "triangleCount": 0
+        }
+      }
+    },
+    {
+      "name": "skyline-asphalt-base",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -180.7174072265625,
+          -0.18274950981140137,
+          -132.6655731201172
+        ],
+        "max": [
+          206.27139282226562,
+          14.37358570098877,
+          161.06736755371094
+        ]
+      },
+      "indexCount": 2274,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-wet-asphalt",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "ShaderMaterial"
+      ],
+      "transparentMaterials": [
+        "ShaderMaterial"
+      ],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -180.7174072265625,
+          -0.18274950981140137,
+          -132.6655731201172
+        ],
+        "max": [
+          206.27139282226562,
+          14.37358570098877,
+          161.06736755371094
+        ]
+      },
+      "indexCount": 2274,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-cyan-edges",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -0.08435571193695068,
+          0.062163494527339935,
+          -132.57981872558594
+        ],
+        "max": [
+          206.19107055664062,
+          14.422155380249023,
+          24.478782653808594
+        ]
+      },
+      "indexCount": 894,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-deck-fascia",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          -0.08948545157909393,
+          -7.4878363609313965,
+          -216
+        ],
+        "max": [
+          288,
+          18.723386764526367,
+          45
+        ]
+      },
+      "indexCount": 9324,
+      "floorIndexCount": 0,
+      "originalFloorIndexStart": 9324,
+      "originalFloorIndexCount": 3558,
+      "suppressedGroundTriangleCount": 1186,
+      "suppressedGeometryRanges": [
+        {
+          "startTriangle": 3108,
+          "triangleCount": 1186
+        },
+        {
+          "startTriangle": 3108,
+          "triangleCount": 792
+        }
+      ],
+      "geometryRanges": {
+        "outerFascia": {
+          "startTriangle": 0,
+          "triangleCount": 288
+        },
+        "roadsideScreens": {
+          "startTriangle": 288,
+          "triangleCount": 2472
+        },
+        "billboardGapWing": {
+          "startTriangle": 2760,
+          "triangleCount": 348
+        },
+        "cityGround": {
+          "startTriangle": 3108,
+          "triangleCount": 0
+        },
+        "cityFoundations": {
+          "startTriangle": 3108,
+          "triangleCount": 0
+        }
+      }
+    },
+    {
+      "name": "skyline-pylons",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 14,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          10.973287895598467,
+          -39.209158539772034,
+          -135.63889437381889
+        ],
+        "max": [
+          209.3465231763115,
+          14.373373627662659,
+          27.700900687340088
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-cross-braces",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 24,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          4.516741404880671,
+          -4.571510743468485,
+          -128.4059230097813
+        ],
+        "max": [
+          201.0407140397572,
+          11.37546439108201,
+          20.358529784596804
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-city-terraced-ground",
+      "type": "Mesh",
+      "visible": false,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          0,
+          -2.6251564025878906,
+          -216
+        ],
+        "max": [
+          288,
+          13.550000190734863,
+          45
+        ]
+      },
+      "indexCount": 3558,
+      "floorIndexCount": 3558,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-city-towers",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 22,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          5.8653687089681625,
+          -24.408275661468505,
+          -191.35967122018337
+        ],
+        "max": [
+          263.4889099597931,
+          6.285640716552734,
+          9.354719147086143
+        ]
+      },
+      "indexCount": 108,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-city-foundations",
+      "type": "Mesh",
+      "visible": false,
+      "instanceCount": 22,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          5.1375614777207375,
+          0.013599338454531295,
+          -192.10725677013397
+        ],
+        "max": [
+          264.401242852211,
+          11.530288457870483,
+          10.50086759030819
+        ]
+      },
+      "indexCount": 108,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-city-roof-caps",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 22,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          8.989200793206692,
+          -0.4082762578874827,
+          -188.85836052894592
+        ],
+        "max": [
+          259.6973136663437,
+          8.429641084432603,
+          4.478817269206047
+        ]
+      },
+      "indexCount": 144,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-city-spires",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 0,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          null,
+          null,
+          null
+        ],
+        "max": [
+          null,
+          null,
+          null
+        ]
+      },
+      "indexCount": 72,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-city-roof-accents",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 22,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          11.826143944337836,
+          -0.36827627569437027,
+          -187.17135932736562
+        ],
+        "max": [
+          258.9054629548962,
+          6.405641116201878,
+          0.7186287499471193
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-city-corner-lights",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 44,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          7.094203621149063,
+          -22.248275756835938,
+          -179.3173254430294
+        ],
+        "max": [
+          251.33304199576378,
+          0.7656412124633789,
+          2.918205589056015
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-city-windows",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 240,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          5.871939348103382,
+          -18.628276824951172,
+          -185.7430117756099
+        ],
+        "max": [
+          256.30295134895647,
+          2.2156412601470947,
+          7.327844195503875
+        ]
+      },
+      "indexCount": 6,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-procedural-signage",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 18,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          12.639578583965498,
+          -15.634775924444199,
+          -179.2760040656195
+        ],
+        "max": [
+          249.52549661558635,
+          -2.773499918222427,
+          1.7705591571617554
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-ad-manaconda-racing",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 7,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          71.3140082359314,
+          -11.215367317199707,
+          -120.08098259568214
+        ],
+        "max": [
+          235.68661127984524,
+          21.450000762939453,
+          1.0830085277557373
+        ]
+      },
+      "indexCount": 6,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-ad-taco-bell-live-mas",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 7,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          83.07592606544495,
+          -10.880000114440918,
+          -177.33889615535736
+        ],
+        "max": [
+          192.39895141124725,
+          21.456451416015625,
+          -17.124391317367554
+        ]
+      },
+      "indexCount": 6,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-ad-supports",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 14,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          71.08586236587719,
+          -11.440367221832275,
+          -177.55581146897828
+        ],
+        "max": [
+          235.83493662631693,
+          21.681451320648193,
+          1.3415586261038897
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "skyline-mask-roadside-billboard-supports",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 4,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          180.1397422480921,
+          12.017136573791504,
+          -101.50585344221628
+        ],
+        "max": [
+          192.78026661399215,
+          21.806451320648193,
+          -16.789788239350777
+        ]
+      },
+      "indexCount": 108,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-asphalt-base",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -180.7174072265625,
+          -0.18274950981140137,
+          -132.6655731201172
+        ],
+        "max": [
+          206.27139282226562,
+          14.37358570098877,
+          161.06736755371094
+        ]
+      },
+      "indexCount": 1971,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-wet-asphalt",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "ShaderMaterial"
+      ],
+      "transparentMaterials": [
+        "ShaderMaterial"
+      ],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -180.7174072265625,
+          -0.18274950981140137,
+          -132.6655731201172
+        ],
+        "max": [
+          206.27139282226562,
+          14.37358570098877,
+          161.06736755371094
+        ]
+      },
+      "indexCount": 1971,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-magenta-edges",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          94.88285064697266,
+          -0.127749502658844,
+          11.804539680480957
+        ],
+        "max": [
+          181.15740966796875,
+          0.05564315244555473,
+          101.2320327758789
+        ]
+      },
+      "indexCount": 3894,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-wallside-sightline-screens",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          9,
+          -11.680310249328613,
+          -54
+        ],
+        "max": [
+          270,
+          4.349999904632568,
+          126
+        ]
+      },
+      "indexCount": 13764,
+      "floorIndexCount": 0,
+      "originalFloorIndexStart": 13764,
+      "originalFloorIndexCount": 1548,
+      "suppressedGroundTriangleCount": 516,
+      "suppressedGeometryRanges": [
+        {
+          "startTriangle": 4588,
+          "triangleCount": 516
+        }
+      ],
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-city-buildings",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 16,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          68.37583327293396,
+          -34.63999943256378,
+          -13.353466736152768
+        ],
+        "max": [
+          207.55329912794235,
+          -7.988002777099609,
+          123.93438994884491
+        ]
+      },
+      "indexCount": 252,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-industrial-architecture",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 80,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          73.19092547893524,
+          -34.640000343322754,
+          -10.8430055254139
+        ],
+        "max": [
+          204.53288066387177,
+          -6.959999918937683,
+          120.08340575126931
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-city-windows",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 160,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          77.21117587908985,
+          -31.947000234901907,
+          -11.903743423223602
+        ],
+        "max": [
+          203.69351005111463,
+          -19.607000231325628,
+          123.02151961002366
+        ]
+      },
+      "indexCount": 6,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-utility-clutter",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 20,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          89.54190292209387,
+          -0.1784043312072754,
+          7.656144618988037
+        ],
+        "max": [
+          175.81885933876038,
+          2.1500000953674316,
+          103.9226939920336
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-pipes",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 26,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          78.99121795594692,
+          -34.640000343322754,
+          -6.28550685942173
+        ],
+        "max": [
+          200.14727844297886,
+          -9.920000076293945,
+          115.03210510313511
+        ]
+      },
+      "indexCount": 96,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-work-lights",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 24,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": true,
+      "boundsWorld": {
+        "min": [
+          79.40154349098388,
+          -26.551999543488026,
+          -6.210887659799476
+        ],
+        "max": [
+          199.4184878226182,
+          -24.007999922454356,
+          114.9561355959339
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-facade-vent-banks",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 16,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          80.03314596075604,
+          -17.60499918460846,
+          -6.27667206662176
+        ],
+        "max": [
+          199.63491934557123,
+          -13.75499951839447,
+          115.03206277020892
+        ]
+      },
+      "indexCount": 144,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-service-bays",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 14,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          90.66468776429251,
+          -4.133220553398132,
+          -4.73839861544117
+        ],
+        "max": [
+          177.606931202466,
+          2.5500000715255737,
+          110.15071456776863
+        ]
+      },
+      "indexCount": 216,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-ad-nightshift-noodles",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 2,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          83.89375447292937,
+          -29.034999132156372,
+          43.71167960287812
+        ],
+        "max": [
+          93.20494366919169,
+          -24.88499903678894,
+          65.69453741597815
+        ]
+      },
+      "indexCount": 6,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-ad-voltline-industrial",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 2,
+      "materialTypes": [
+        "MeshBasicMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          125.49123562473235,
+          -29.034999132156372,
+          44.36831684946122
+        ],
+        "max": [
+          192.78009031660133,
+          -24.88499903678894,
+          112.10196231831429
+        ]
+      },
+      "indexCount": 6,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "undercity-ad-supports",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": 4,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          83.56606784488804,
+          -29.234999179840088,
+          43.59123537161797
+        ],
+        "max": [
+          193.09156266656117,
+          -24.684998989105225,
+          112.38066829878572
+        ]
+      },
+      "indexCount": 36,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "service-tunnel-roof",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "MeshStandardMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          137.14105224609375,
+          -1.0007257461547852,
+          16.091089248657227
+        ],
+        "max": [
+          181.04222106933594,
+          3.0121634006500244,
+          98.4940414428711
+        ]
+      },
+      "indexCount": 336,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    },
+    {
+      "name": "neon-grid-abyss-fog-v2-backdrop",
+      "type": "Mesh",
+      "visible": true,
+      "instanceCount": null,
+      "materialTypes": [
+        "ShaderMaterial"
+      ],
+      "transparentMaterials": [],
+      "fogged": false,
+      "boundsWorld": {
+        "min": [
+          -1,
+          -1,
+          -1
+        ],
+        "max": [
+          1,
+          1,
+          1
+        ]
+      },
+      "indexCount": 1080,
+      "floorIndexCount": null,
+      "originalFloorIndexStart": null,
+      "originalFloorIndexCount": null,
+      "suppressedGroundTriangleCount": null,
+      "suppressedGeometryRanges": null,
+      "geometryRanges": null
+    }
+  ],
+  "anchors": [
+    {
+      "name": "owner-0m00p27",
+      "raceTime": "0:00.27",
+      "progress": 0.00057,
+      "progressMapping": "approximate linear interpolation between the earlier race-time/progress checkpoints in the Abyss Fog v1 evidence; deterministic replay point, not a claim of exact original input replay",
+      "visibleObjects": {
+        "none": 5,
+        "Mesh": 2,
+        "skyline-asphalt-base": 9,
+        "ManacondaDriverSprite": 5,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "owner-0m17p68",
+      "raceTime": "0:17.68",
+      "progress": 0.0373,
+      "progressMapping": "approximate linear interpolation between the earlier race-time/progress checkpoints in the Abyss Fog v1 evidence; deterministic replay point, not a claim of exact original input replay",
+      "visibleObjects": {
+        "none": 4,
+        "skyline-city-roof-caps": 1,
+        "skyline-asphalt-base": 2,
+        "Mesh": 7,
+        "ManacondaDriverSprite": 5,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1,
+        "skyline-ad-manaconda-racing": 2
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "owner-0m39p03",
+      "raceTime": "0:39.03",
+      "progress": 0.119657,
+      "progressMapping": "approximate linear interpolation between the earlier race-time/progress checkpoints in the Abyss Fog v1 evidence; deterministic replay point, not a claim of exact original input replay",
+      "visibleObjects": {
+        "none": 6,
+        "neon-grid-wall-1": 1,
+        "skyline-asphalt-base": 9,
+        "ManacondaDriverSprite": 5,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "owner-0m44p35",
+      "raceTime": "0:44.35",
+      "progress": 0.187926,
+      "progressMapping": "approximate linear interpolation between the earlier race-time/progress checkpoints in the Abyss Fog v1 evidence; deterministic replay point, not a claim of exact original input replay",
+      "visibleObjects": {
+        "none": 8,
+        "skyline-asphalt-base": 7,
+        "ManacondaDriverSprite": 5,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1,
+        "undercity-wallside-sightline-screens": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "owner-0m46p92",
+      "raceTime": "0:46.92",
+      "progress": 0.220906,
+      "progressMapping": "approximate linear interpolation between the earlier race-time/progress checkpoints in the Abyss Fog v1 evidence; deterministic replay point, not a claim of exact original input replay",
+      "visibleObjects": {
+        "none": 5,
+        "undercity-wallside-sightline-screens": 2,
+        "skyline-deck-fascia": 1,
+        "neon-grid-wall-1": 2,
+        "skyline-asphalt-base": 6,
+        "ManacondaDriverSprite": 5,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "owner-0m54p38",
+      "raceTime": "0:54.38",
+      "progress": 0.261644,
+      "progressMapping": "approximate linear interpolation between the earlier race-time/progress checkpoints in the Abyss Fog v1 evidence; deterministic replay point, not a claim of exact original input replay",
+      "visibleObjects": {
+        "none": 5,
+        "undercity-wallside-sightline-screens": 2,
+        "undercity-asphalt-base": 8,
+        "ManacondaDriverSprite": 5,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1,
+        "neon-grid-wall--1": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "owner-1m03p88",
+      "raceTime": "1:03.88",
+      "progress": 0.2972,
+      "progressMapping": "approximate linear interpolation between the earlier race-time/progress checkpoints in the Abyss Fog v1 evidence; deterministic replay point, not a claim of exact original input replay",
+      "visibleObjects": {
+        "none": 5,
+        "undercity-wallside-sightline-screens": 2,
+        "undercity-asphalt-base": 8,
+        "ManacondaDriverSprite": 5,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1,
+        "neon-grid-wall--1": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    },
+    {
+      "name": "owner-1m09p68",
+      "raceTime": "1:09.68",
+      "progress": 0.319507,
+      "progressMapping": "approximate linear interpolation between the earlier race-time/progress checkpoints in the Abyss Fog v1 evidence; deterministic replay point, not a claim of exact original input replay",
+      "visibleObjects": {
+        "none": 5,
+        "undercity-wallside-sightline-screens": 2,
+        "neon-grid-wall-1": 1,
+        "undercity-asphalt-base": 8,
+        "ManacondaDriverSprite": 5,
+        "batched-static-kart-parts": 3,
+        "Chassis_1": 1
+      },
+      "exposedSkyPixels": [],
+      "cityFloorPixels": [],
+      "groundProbes": [
+        {
+          "lateralOffset": -70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": -24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 24,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 45,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        },
+        {
+          "lateralOffset": 70,
+          "renderedCityFloor": false,
+          "object": null,
+          "height": null,
+          "triangle": null,
+          "allRenderedFloors": [],
+          "nearCoincidentPairs": []
+        }
+      ]
+    }
+  ]
+}

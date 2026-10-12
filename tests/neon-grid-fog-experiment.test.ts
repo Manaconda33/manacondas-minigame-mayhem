@@ -9,7 +9,7 @@ import { disposeTrackScene } from '../src/game/track/TrackSceneResources';
 type FogSceneFactory = (
   track: NeonGrid,
   quality: 'low' | 'medium' | 'high',
-  variant: 'fog-experiment',
+  variant: 'fog-experiment' | 'fog-experiment-v2',
 ) => THREE.Group;
 
 const createFogScene = createNeonGridScene as unknown as FogSceneFactory;
@@ -23,6 +23,7 @@ describe('Neon Grid fog-city experiment isolation', () => {
 
     expect(typeof resolveVariant).toBe('function');
     expect(resolveVariant?.('?neonGridVisual=abyss-fog-001')).toBe('fog-experiment');
+    expect(resolveVariant?.('?neonGridVisual=abyss-fog-002')).toBe('fog-experiment-v2');
     expect(resolveVariant?.('?neonGridVisual=unknown')).toBe('approved');
     expect(resolveVariant?.('')).toBe('approved');
   });
@@ -39,6 +40,164 @@ describe('Neon Grid fog-city experiment isolation', () => {
     } finally {
       disposeTrackScene(scene);
     }
+  }, 30000);
+
+  it('isolates v2 fog from both the approved baseline and the rejected v1 ruins', () => {
+    const scene = createFogScene(new NeonGrid(), 'medium', 'fog-experiment-v2');
+    try {
+      expect(scene.userData.visualVariant).toBe('fog-experiment-v2');
+      expect(scene.getObjectByName('neon-grid-fog-city')).toBeUndefined();
+      expect(scene.getObjectByName('neon-grid-fog-backdrop')).toBeUndefined();
+      expect(scene.getObjectByName('neon-grid-fog-silhouettes-skyline')).toBeUndefined();
+      expect(scene.getObjectByName('neon-grid-fog-silhouettes-undercity')).toBeUndefined();
+      expect(scene.getObjectByName('neon-grid-fog-silhouettes-falls-run')).toBeUndefined();
+      expect(scene.getObjectByName('neon-grid-abyss-fog-v2')).toBeDefined();
+      expect(scene.userData.abyssFogV2).toMatchObject({ enabled: true, lowerWorldOnly: true });
+      const fogBackdrop = scene.getObjectByName('neon-grid-abyss-fog-v2-backdrop') as THREE.Mesh;
+      const fogBackdropMaterial = Array.isArray(fogBackdrop.material)
+        ? fogBackdrop.material[0]
+        : fogBackdrop.material;
+      expect(fogBackdropMaterial?.userData.abyssFogPreservesNightSky).toBe(true);
+      const fogReport = scene.userData.abyssFogV2 as {
+        readonly unsupportedObjects: readonly string[];
+        readonly foggedObjects: readonly string[];
+      };
+      expect(fogReport.unsupportedObjects).toEqual([]);
+      expect(fogReport.foggedObjects).toContain('undercity-wallside-sightline-screens');
+      expect(fogReport.foggedObjects).toContain('skyline-deck-fascia');
+
+      const road = scene.getObjectByName('track-road') as THREE.Mesh;
+      const roadMaterials = Array.isArray(road.material) ? road.material : [road.material];
+      expect(roadMaterials.every((material) => material.userData.abyssVerticalFog !== true)).toBe(true);
+
+      const skylineTowers = scene.getObjectByName('skyline-city-towers') as THREE.InstancedMesh;
+      const towerMaterials = Array.isArray(skylineTowers.material)
+        ? skylineTowers.material
+        : [skylineTowers.material];
+      expect(towerMaterials.some((material) => material.userData.abyssVerticalFog === true)).toBe(true);
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 30000);
+
+  it('removes only decorative bases while preserving the road, screens and supported structures', () => {
+    const scene = createFogScene(new NeonGrid(), 'medium', 'fog-experiment-v2');
+    try {
+      const fascia = scene.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
+      const fasciaRanges = fascia.geometry.userData.geometryRanges as
+        | Record<string, { triangleCount: number }>
+        | undefined;
+      expect(fasciaRanges?.cityGround?.triangleCount).toBe(0);
+      expect(fasciaRanges?.cityFoundations?.triangleCount).toBe(0);
+      expect(fasciaRanges?.roadsideScreens?.triangleCount).toBeGreaterThan(0);
+      expect(fasciaRanges?.billboardGapWing?.triangleCount).toBeGreaterThan(0);
+
+      const undercityScreens = scene.getObjectByName(
+        'undercity-wallside-sightline-screens',
+      ) as THREE.Mesh;
+      expect(undercityScreens.geometry.userData.floorTriangleCount).toBe(0);
+      expect(undercityScreens.userData.sightlinePanels).toBeGreaterThan(0);
+      expect(undercityScreens.userData.abyssFogged).toBe(true);
+
+      const industrial = scene.getObjectByName('undercity-industrial-architecture') as
+        | THREE.InstancedMesh
+        | undefined;
+      const industrialPartRanges = industrial?.userData.partRanges as
+        | { readonly foundations: { readonly start: number; readonly count: number } }
+        | undefined;
+      expect(industrialPartRanges?.foundations).toEqual({ start: 0, count: 0 });
+      expect(industrial?.count).toBe(80);
+
+      const utility = scene.getObjectByName('undercity-utility-clutter') as THREE.InstancedMesh;
+      expect(utility.userData.padCount).toBe(0);
+      expect(utility.count).toBe(20);
+
+      for (const name of [
+        'falls-run-city-terraced-ground',
+        'falls-run-extension-city-terraced-ground',
+      ]) {
+        const mesh = scene.getObjectByName(name) as THREE.Mesh;
+        const ranges = mesh.geometry.userData.geometryRanges as
+          | Record<string, { triangleCount: number }>
+          | undefined;
+        expect(ranges?.cityGround?.triangleCount).toBe(0);
+        expect(ranges?.cityFoundations?.triangleCount).toBe(0);
+        expect(ranges?.cityTowers?.triangleCount).toBeGreaterThan(0);
+      }
+
+      const extensionFootings = scene.getObjectByName(
+        'falls-run-extension-pylon-footings',
+      ) as THREE.InstancedMesh;
+      expect(extensionFootings.visible).toBe(false);
+      expect(scene.getObjectByName('falls-run-extension-supported-pylons')).toBeDefined();
+      expect(scene.getObjectByName('track-road')).toBeDefined();
+      expect(scene.getObjectByName('neon-grid-walls')).toBeDefined();
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 30000);
+
+  it('buries existing city masses and removes high skyline spikes only in the v2 variant', () => {
+    const scene = createFogScene(new NeonGrid(), 'medium', 'fog-experiment-v2');
+    try {
+      expect(
+        (scene.getObjectByName('neon-grid-abyss-fog-v2') as THREE.Group).userData
+          .ruinedSilhouetteCount,
+      ).toBe(0);
+      expect((scene.getObjectByName('skyline-city-spires') as THREE.InstancedMesh).count).toBe(0);
+      for (const name of [
+        'skyline-city-towers',
+        'undercity-city-buildings',
+        'falls-run-city-terraced-ground',
+        'falls-run-extension-city-terraced-ground',
+      ]) {
+        const object = scene.getObjectByName(name) as THREE.Mesh | undefined;
+        const offsets = (
+          object?.userData.fogBuriedRoofOffsets ??
+          object?.geometry.userData.fogBuriedRoofOffsets
+        ) as number[] | undefined;
+        expect(offsets, `${name} has buried roof measurements`).toBeDefined();
+        expect(offsets?.length, `${name} has buried roof measurements`).toBeGreaterThan(0);
+        expect(Math.max(...(offsets ?? [])), `${name} highest roof`).toBeLessThanOrEqual(-8);
+        expect(Math.min(...(offsets ?? [])), `${name} lowest roof`).toBeGreaterThanOrEqual(-12);
+      }
+
+      expect(
+        (scene.getObjectByName('skyline-pylons') as THREE.InstancedMesh).userData
+          .abyssFogSupportDepthMeters,
+      ).toBe(40);
+      expect(
+        (scene.getObjectByName('falls-run-pylons') as THREE.InstancedMesh).userData
+          .abyssFogSupportDepthMeters,
+      ).toBe(40);
+      expect(
+        (scene.getObjectByName('falls-run-extension-supported-pylons') as THREE.InstancedMesh)
+          .userData.abyssFogSupportDepthMeters,
+      ).toBe(45);
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 30000);
+
+  it('disposes v2 atmosphere geometry and cloned fog materials with the track scene', () => {
+    const scene = createFogScene(new NeonGrid(), 'medium', 'fog-experiment-v2');
+    const backdrop = scene.getObjectByName('neon-grid-abyss-fog-v2-backdrop') as THREE.Mesh;
+    const city = scene.getObjectByName('skyline-city-towers') as THREE.InstancedMesh;
+    const cityMaterial = Array.isArray(city.material) ? city.material[0] : city.material;
+    const backdropMaterial = Array.isArray(backdrop.material) ? backdrop.material[0] : backdrop.material;
+    let backdropGeometryDisposals = 0;
+    let backdropMaterialDisposals = 0;
+    let cityMaterialDisposals = 0;
+    backdrop.geometry.addEventListener('dispose', () => backdropGeometryDisposals++);
+    backdropMaterial?.addEventListener('dispose', () => backdropMaterialDisposals++);
+    cityMaterial?.addEventListener('dispose', () => cityMaterialDisposals++);
+
+    disposeTrackScene(scene);
+
+    expect(backdropGeometryDisposals).toBe(1);
+    expect(backdropMaterialDisposals).toBe(1);
+    expect(cityMaterialDisposals).toBe(1);
+    expect(scene.children).toHaveLength(0);
   }, 30000);
 
   it('does not add the experimental atmosphere to Circuit Alpha', () => {

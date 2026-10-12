@@ -140,15 +140,23 @@ export interface NeonRoadsideScreenStrip {
   readonly opening?: (progress: number) => boolean;
 }
 
+export interface NeonRoadsideScreenOptions {
+  readonly wallTop?: number;
+  readonly pilasterTop?: number;
+}
+
 export function neonGridRoadsideScreenGeometry(
   track: NeonGrid,
   strips: readonly NeonRoadsideScreenStrip[],
+  options: NeonRoadsideScreenOptions = {},
 ): THREE.BufferGeometry {
   const vertices: number[] = [];
   const indices: number[] = [];
   const openingIntervals: { start: number; end: number; side: -1 | 1 }[] = [];
   let panels = 0;
   let openings = 0;
+  const wallTop = options.wallTop ?? 3.95;
+  const pilasterTop = options.pilasterTop ?? 4.35;
   function quad(a: THREE.Vector3, b: THREE.Vector3, c: THREE.Vector3, d: THREE.Vector3): void {
     const first = vertices.length / 3;
     vertices.push(...a.toArray(), ...b.toArray(), ...c.toArray(), ...d.toArray());
@@ -185,8 +193,8 @@ export function neonGridRoadsideScreenGeometry(
         THREE.MathUtils.lerp(a, b, 0.75), b];
       if (!samplePoints.some((progress) => strip.opening?.(progress) === true)) {
         // Repeating opaque wall modules and deeper integral pilaster ribs.
-        panel(a, b, strip.side, 0.44, 3.95);
-        if (i % 6 === 0) panel(a, a + (b - a) * 0.38, strip.side, 0.30, 4.35);
+        panel(a, b, strip.side, 0.44, wallTop);
+        if (i % 6 === 0) panel(a, a + (b - a) * 0.38, strip.side, 0.30, pilasterTop);
         panels++;
         continue;
       }
@@ -223,7 +231,7 @@ export function neonGridRoadsideScreenGeometry(
         }
       }
       for (const interval of closedSegments) {
-        panel(interval.start, interval.end, strip.side, 0.44, 3.95);
+        panel(interval.start, interval.end, strip.side, 0.44, wallTop);
         panels++;
       }
     }
@@ -237,6 +245,8 @@ export function neonGridRoadsideScreenGeometry(
   result.userData.openingIntervals = openingIntervals;
   result.userData.presentationOnly = true;
   result.userData.opaqueScreens = true;
+  result.userData.wallTop = wallTop;
+  result.userData.pilasterTop = pilasterTop;
   return result;
 }
 

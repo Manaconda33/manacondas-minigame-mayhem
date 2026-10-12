@@ -164,7 +164,7 @@ try {
         transparentMaterials: materials
           .filter((material) => material?.transparent === true)
           .map((material) => material?.type ?? 'missing'),
-        fogged: object.userData.abyssFogged === true,
+        fogged: object.userData.abyssFogged === true || object.userData.abyssVerticalFog === true,
         boundsWorld: { min: bounds.min.toArray(), max: bounds.max.toArray() },
         indexCount: object.geometry?.index?.count ?? null,
         floorIndexCount: geometryData.floorIndexCount ?? null,
@@ -177,13 +177,33 @@ try {
     });
     return inventory;
   });
-  const fogStatus = await page.evaluate(() => window.game.trackScene?.userData?.abyssFogV2 ?? null);
+  const fogStatus = await page.evaluate((query) => {
+    const userData = window.game.trackScene?.userData;
+    return query === 'abyss-fog-003'
+      ? userData?.abyssFogV3 ?? null
+      : query === 'abyss-fog-002'
+        ? userData?.abyssFogV2 ?? null
+        : null;
+  }, visualQuery);
   if (visualQuery === 'abyss-fog-002') {
     if (!fogStatus?.enabled || fogStatus.lowerWorldOnly !== true) {
       errors.push('Abyss Fog v2 is not active in the rendered track scene');
     }
     if (!fogStatus.unsupportedObjects || fogStatus.unsupportedObjects.length > 0) {
       errors.push(`Unsupported fog materials: ${fogStatus.unsupportedObjects.join(', ')}`);
+    }
+  }
+  if (visualQuery === 'abyss-fog-003') {
+    if (
+      !fogStatus?.enabled ||
+      fogStatus.stage !== 1 ||
+      fogStatus.transparentFogVolumeCount !== 0 ||
+      fogStatus.addedDecorativeStructures !== 0
+    ) {
+      errors.push('Abyss Fog v3 Stage 1 scene contract is not active');
+    }
+    if (!fogStatus.unsupportedObjects || fogStatus.unsupportedObjects.length > 0) {
+      errors.push(`Unsupported v3 fog materials: ${fogStatus.unsupportedObjects.join(', ')}`);
     }
   }
 

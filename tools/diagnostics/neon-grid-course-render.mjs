@@ -11,7 +11,7 @@ const renderEnvironment = process.env.GITHUB_ACTIONS === 'true'
 const courseBaseUrl = (process.env.NEON_GRID_COURSE_BASE_URL ??
   'http://127.0.0.1:5173/manacondas-minigame-mayhem').replace(/\/$/, '');
 const visualVariant = process.env.NEON_GRID_VISUAL_VARIANT ?? 'approved';
-const visualVariantQuery = ['abyss-fog-001', 'abyss-fog-002'].includes(visualVariant)
+const visualVariantQuery = ['abyss-fog-001', 'abyss-fog-002', 'abyss-fog-003'].includes(visualVariant)
   ? `&neonGridVisual=${visualVariant}`
   : '';
 
@@ -209,7 +209,9 @@ try {
       ? 'fog-experiment'
       : visualVariant === 'abyss-fog-002'
         ? 'fog-experiment-v2'
-        : 'approved',
+        : visualVariant === 'abyss-fog-003'
+          ? 'fog-experiment-v3'
+          : 'approved',
     environment:
       `${renderEnvironment}. Actual KartTimeTrial with eight racers staged in Skyline Straight. Frame-time evidence is runner-specific and is not representative-hardware PRD certification.`,
     errors,

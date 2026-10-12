@@ -14,6 +14,7 @@ import { NeonGridBillboardVisual } from './NeonGridBillboardVisual';
 import { neonGridRibbon } from './NeonGridGeometry';
 import { NeonGridFogCityVisual } from './NeonGridFogCity';
 import { addNeonGridAbyssFogV2 } from './NeonGridAbyssFogV2';
+import { addNeonGridAbyssFogV3 } from './NeonGridAbyssFogV3';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 
 export class NeonGridScene extends THREE.Group {
@@ -217,5 +218,6 @@ export function createNeonGridScene(
     group.add(gate);
   }
   if (variant === 'fog-experiment-v2') addNeonGridAbyssFogV2(group, track);
+  if (variant === 'fog-experiment-v3') addNeonGridAbyssFogV3(group, track);
   return group;
 }

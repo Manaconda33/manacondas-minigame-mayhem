@@ -9,7 +9,7 @@ const baseUrl = (process.env.NEON_GRID_COURSE_BASE_URL ??
   'http://127.0.0.1:5173/manacondas-minigame-mayhem').replace(/\/$/, '');
 const visualVariant = process.env.NEON_GRID_VISUAL_VARIANT ?? 'approved';
 const ownerViewsOnly = process.env.NEON_GRID_COURSE_OWNER_VIEWS_ONLY === '1';
-const visualVariantQuery = ['abyss-fog-001', 'abyss-fog-002'].includes(visualVariant)
+const visualVariantQuery = ['abyss-fog-001', 'abyss-fog-002', 'abyss-fog-003'].includes(visualVariant)
   ? `&neonGridVisual=${visualVariant}`
   : '';
 const maximumTriangleAiRoster = ['aa-03', 'aa-04', 'aa-05', 'aa-07', 'aa-10', 'aa-12', 'aa-14'];
@@ -230,7 +230,9 @@ try {
       ? 'fog-experiment'
       : visualVariant === 'abyss-fog-002'
         ? 'fog-experiment-v2'
-        : 'approved',
+        : visualVariant === 'abyss-fog-003'
+          ? 'fog-experiment-v3'
+          : 'approved',
     source: 'Actual KartTimeTrial Neon Grid course scene with eight racers and all visual owners mounted',
     environment: 'Local Chromium software WebGL / SwiftShader; diagnostic structural evidence only',
     courseLengthMeters: courseLength,

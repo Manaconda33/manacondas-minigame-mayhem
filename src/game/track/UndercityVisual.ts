@@ -12,6 +12,7 @@ import {
 import { suppressIndexedGroundTriangles } from './NeonGridFogCity';
 import { suppressInstancedMeshRange } from './NeonGridVisualExperimentGeometry';
 import { abyssFogBuildingPlacement } from './NeonGridAbyssFogV2';
+import { abyssFogV3BuildingPlacement } from './NeonGridAbyssFogV3';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import {
   NeonGridVisualClock,
@@ -276,14 +277,32 @@ function addBuildings(
         fogRoofAboveRoad: placement.roofAboveRoad,
       };
     })
-    : placedBuildings;
+    : variant === 'fog-experiment-v3'
+      ? placedBuildings.map((building, index) => {
+        const placement = abyssFogV3BuildingPlacement(
+          track,
+          building.position,
+          index,
+          'undercity',
+        );
+        return {
+          ...building,
+          baseY: placement.baseY,
+          height: placement.height,
+          fogRoofAboveRoad: placement.roofAboveRoad,
+        };
+      })
+      : placedBuildings;
   const buildingMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
   });
   const buildings = new THREE.InstancedMesh(buildingGeometry(), buildingMaterial, data.length);
   buildings.name = 'undercity-city-buildings';
-  if (variant === 'fog-experiment-v2') {
+  if (variant === 'fog-experiment-v2' || variant === 'fog-experiment-v3') {
     buildings.userData.fogBuriedRoofOffsets = data.map((building) => building.fogRoofAboveRoad);
+    if (variant === 'fog-experiment-v3') {
+      buildings.userData.fogRoofAboveRoadOffsets = data.map((building) => building.fogRoofAboveRoad);
+    }
   }
   const dummy = new THREE.Object3D();
   const colors = [
@@ -397,9 +416,12 @@ function addBuildings(
       : building.tangent.clone().multiplyScalar(i % 10 === 0 ? 1 : -1);
     const horizontal = useInwardFace ? building.tangent : building.right;
     const span = useInwardFace ? building.depth : building.width;
+    const windowHeightFraction = variant === 'fog-experiment-v3'
+      ? 0.42 + (((i * 5) % 13) / 12) * 0.45
+      : 0.12 + (((i * 5) % 13) / 12) * 0.4;
     dummy.position
       .copy(building.position)
-      .setY(building.baseY + building.height * (0.12 + (((i * 5) % 13) / 12) * 0.4));
+      .setY(building.baseY + building.height * windowHeightFraction);
     dummy.position.addScaledVector(
       normal,
       (useInwardFace ? building.width : building.depth) * 0.5 + 0.08,
@@ -464,7 +486,7 @@ function addUtilityClutter(
   }
   utility.instanceMatrix.needsUpdate = true;
   if (utility.instanceColor) utility.instanceColor.needsUpdate = true;
-  if (variant === 'fog-experiment-v2') {
+  if (variant === 'fog-experiment-v2' || variant === 'fog-experiment-v3') {
     utility.count = utilityCount;
     utility.userData.padCount = 0;
     utility.userData.suppressedDecorativePads = true;
@@ -668,7 +690,9 @@ function addWallsideSightlineScreens(
       opening: (progress) => opening(-1, progress) },
     { start: START + 0.009, end: END - 0.006, side: 1,
       opening: (progress) => opening(1, progress) },
-  ]);
+  ], variant === 'fog-experiment-v3'
+    ? { wallTop: 1.8, pilasterTop: 2.5 }
+    : undefined);
   const innerScreens = serviceTunnelApproachScreen(track);
   const groundOptions = neonGridCityGroundOptions(track, SKYLINE_GROUND_START, END);
   const groundGeometry = neonGridTerracedCityGroundGeometry(track, groundOptions);
@@ -679,7 +703,9 @@ function addWallsideSightlineScreens(
     !Array.isArray(rawOmittedCells)
       ? rawOmittedCells as Record<string, number>
       : {};
-  const screenTint = new THREE.Color(0x242637);
+  const screenTint = new THREE.Color(
+    variant === 'fog-experiment-v3' ? 0x303b4d : 0x242637,
+  );
   for (const geometry of [roadScreens, innerScreens]) {
     const color = new Float32Array(geometry.getAttribute('position').count * 3);
     for (let i = 0; i < color.length; i += 3) screenTint.toArray(color, i);
@@ -693,6 +719,8 @@ function addWallsideSightlineScreens(
     (innerScreens.userData.panels as number);
   const mouthCuts = roadScreens.userData.openingSegments as number;
   const innerPanels = innerScreens.userData.panels as number;
+  const wallTop = Number(roadScreens.userData.wallTop);
+  const pilasterTop = Number(roadScreens.userData.pilasterTop);
   roadScreens.dispose();
   innerScreens.dispose();
   const groundValidationMesh = new THREE.Mesh(
@@ -712,6 +740,8 @@ function addWallsideSightlineScreens(
   screens.userData.sightlinePanels = count;
   screens.userData.mouthCuts = mouthCuts;
   screens.userData.innerWingPanels = innerPanels;
+  screens.userData.wallTop = wallTop;
+  screens.userData.pilasterTop = pilasterTop;
   screens.geometry.userData.terracedCityGround = true;
   screens.geometry.userData.cityGroundProgressRange = [groundOptions.start, groundOptions.end];
   screens.geometry.userData.innerOffset = groundOptions.innerOffset;
@@ -831,7 +861,10 @@ function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
 }
 
 function addApprovedAds(
-  group: THREE.Group, buildings: UndercityBuilding[], materials: AdMaterial[],
+  group: THREE.Group,
+  buildings: UndercityBuilding[],
+  materials: AdMaterial[],
+  variant: NeonGridVisualVariant,
 ): void {
   // Spread the approved masks along the actual driving corridor instead of
   // assigning them to arbitrary generation indices that may be behind bends.
@@ -869,7 +902,9 @@ function addApprovedAds(
       used.add(index);
       const inward = building.right.clone().multiplyScalar(-building.side);
       // Both the backing and face are supported against the LOWER facade.
-      const y = building.baseY + Math.min(building.height * 0.32, building.height - 3.5);
+      const y = variant === 'fog-experiment-v3'
+        ? building.baseY + building.height * 0.82
+        : building.baseY + Math.min(building.height * 0.32, building.height - 3.5);
       const facade = building.position.clone()
         .addScaledVector(inward, building.width * 0.5 + 0.26).setY(y);
       dummy.position.copy(facade);
@@ -948,7 +983,7 @@ export class UndercityVisual {
     addUtilityClutter(this.group, track, buildings, variant);
     addFacadeVentilation(this.group, buildings);
     addServiceBayMask(this.group, track);
-    addApprovedAds(this.group, buildings, this.adMaterials);
+    addApprovedAds(this.group, buildings, this.adMaterials, variant);
   }
 
   public async load(): Promise<void> {

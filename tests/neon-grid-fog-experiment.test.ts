@@ -9,7 +9,7 @@ import { disposeTrackScene } from '../src/game/track/TrackSceneResources';
 type FogSceneFactory = (
   track: NeonGrid,
   quality: 'low' | 'medium' | 'high',
-  variant: 'fog-experiment' | 'fog-experiment-v2',
+  variant: 'fog-experiment' | 'fog-experiment-v2' | 'fog-experiment-v3',
 ) => THREE.Group;
 
 const createFogScene = createNeonGridScene as unknown as FogSceneFactory;
@@ -24,6 +24,7 @@ describe('Neon Grid fog-city experiment isolation', () => {
     expect(typeof resolveVariant).toBe('function');
     expect(resolveVariant?.('?neonGridVisual=abyss-fog-001')).toBe('fog-experiment');
     expect(resolveVariant?.('?neonGridVisual=abyss-fog-002')).toBe('fog-experiment-v2');
+    expect(resolveVariant?.('?neonGridVisual=abyss-fog-003')).toBe('fog-experiment-v3');
     expect(resolveVariant?.('?neonGridVisual=unknown')).toBe('approved');
     expect(resolveVariant?.('')).toBe('approved');
   });
@@ -37,6 +38,123 @@ describe('Neon Grid fog-city experiment isolation', () => {
       expect(fascia).toBeInstanceOf(THREE.Mesh);
       expect((fascia as THREE.Mesh).geometry.userData.cityGroundSuppressed).not.toBe(true);
       expect(Number((fascia as THREE.Mesh).geometry.userData.floorIndexCount ?? 0)).toBeGreaterThan(0);
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 30000);
+
+  it('keeps the Stage 1 v3 fog district-specific, grounded, and free of added scenery', () => {
+    const track = new NeonGrid();
+    const scene = createFogScene(track, 'medium', 'fog-experiment-v3');
+    try {
+      expect(scene.userData.visualVariant).toBe('fog-experiment-v3');
+      expect(scene.getObjectByName('neon-grid-abyss-fog-v2')).toBeUndefined();
+      const fogGroup = scene.getObjectByName('neon-grid-abyss-fog-v3') as THREE.Group;
+      expect(fogGroup).toBeDefined();
+      expect(scene.getObjectByName('neon-grid-abyss-fog-v3-volume')).toBeUndefined();
+      expect(fogGroup.children).toHaveLength(1);
+      const backdrop = scene.getObjectByName('neon-grid-abyss-fog-v3-backdrop') as THREE.Mesh;
+      const backdropMaterial = backdrop.material as THREE.ShaderMaterial;
+      expect(backdropMaterial.userData.abyssFogBackdrop).toBe(true);
+      expect(backdrop.userData.abyssFogAtmosphere).toBe('soft-procedural-cloud-bank');
+      expect(backdropMaterial.fragmentShader).toContain('fogValueNoise');
+      expect(backdropMaterial.transparent).toBe(false);
+      expect(
+        (scene.userData.abyssFogV3 as { readonly addedDecorativeStructures: number })
+          .addedDecorativeStructures,
+      ).toBe(0);
+      expect(scene.getObjectByName('neon-grid-fog-city')).toBeUndefined();
+      for (const district of ['skyline', 'undercity', 'falls-run']) {
+        expect(scene.getObjectByName(`neon-grid-fog-silhouettes-${district}`)).toBeUndefined();
+      }
+
+      const fogReport = scene.userData.abyssFogV3 as {
+        readonly enabled: boolean;
+        readonly unsupportedObjects: readonly string[];
+        readonly foggedObjects: readonly string[];
+        readonly depthProfile: { readonly clearUntilMeters: number; readonly denseByMeters: number };
+        readonly districts: Record<string, { readonly treatment: string }>;
+      };
+      expect(fogReport).toMatchObject({
+        enabled: true,
+        unsupportedObjects: [],
+        transparentFogVolumeCount: 0,
+        depthProfile: { clearUntilMeters: 4, denseByMeters: 40 },
+        districts: {
+          skyline: { treatment: 'open-bridge-fog' },
+          undercity: {
+            treatment: 'street-level-enclosure',
+            clearStart: 2,
+            visibleBy: 6,
+            strongBy: 14,
+            denseBy: 26,
+          },
+          'falls-run': { treatment: 'vertical-drop-fog' },
+        },
+      });
+      expect(fogReport.foggedObjects).toEqual(expect.arrayContaining([
+        'undercity-city-windows',
+        'falls-run-deck-fascia',
+        'falls-run-extension-supported-pylons',
+      ]));
+
+      const road = scene.getObjectByName('track-road') as THREE.Mesh;
+      const roadMaterials = Array.isArray(road.material) ? road.material : [road.material];
+      expect(roadMaterials.every((material) => material.userData.abyssVerticalFog !== true)).toBe(true);
+
+      const undercity = scene.getObjectByName('undercity-city-buildings') as THREE.InstancedMesh;
+      const roofOffsets = undercity.userData.fogRoofAboveRoadOffsets as readonly number[];
+      expect(roofOffsets).toHaveLength(undercity.count);
+      expect(Math.min(...roofOffsets)).toBeGreaterThanOrEqual(0);
+      expect(Math.max(...roofOffsets)).toBeLessThanOrEqual(5);
+      expect(undercity.userData.abyssVerticalFog).toBe(true);
+      const undercityArchitecture = scene.getObjectByName(
+        'undercity-industrial-architecture',
+      ) as THREE.InstancedMesh;
+      const undercityParts = undercityArchitecture.userData.partRanges as {
+        readonly foundations: { readonly start: number; readonly count: number };
+      };
+      expect(undercityParts.foundations.count).toBe(undercity.count);
+      expect(undercityArchitecture.userData.suppressedRanges).toBeUndefined();
+      const undercityScreens = scene.getObjectByName(
+        'undercity-wallside-sightline-screens',
+      ) as THREE.Mesh;
+      expect(undercityScreens.userData.wallTop).toBe(1.8);
+      expect(undercityScreens.userData.pilasterTop).toBe(2.5);
+
+      for (const name of [
+        'skyline-city-towers',
+        'skyline-pylons',
+        'undercity-industrial-architecture',
+        'undercity-facade-vent-banks',
+        'falls-run-pylons',
+        'falls-run-city-terraced-ground',
+        'falls-run-extension-supported-pylons',
+      ]) {
+        const object = scene.getObjectByName(name) as THREE.Mesh;
+        expect(object.userData.abyssVerticalFog, `${name} receives world-space fog`).toBe(true);
+      }
+
+      const skylineFascia = scene.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
+      const geometryRanges = skylineFascia.geometry.userData.geometryRanges as
+        | Record<string, { triangleCount: number }>
+        | undefined;
+      expect(geometryRanges?.cityGround?.triangleCount).toBe(0);
+      expect(geometryRanges?.cityFoundations?.triangleCount).toBe(0);
+      expect(scene.getObjectByName('track-road')).toBeDefined();
+      expect(scene.getObjectByName('waterfall-dive')).toBeDefined();
+      expect(
+        (scene.getObjectByName('skyline-pylons') as THREE.InstancedMesh).userData
+          .abyssFogSupportDepthMeters,
+      ).toBe(58);
+      expect(
+        (scene.getObjectByName('falls-run-pylons') as THREE.InstancedMesh).userData
+          .abyssFogSupportDepthMeters,
+      ).toBe(60);
+      expect(
+        (scene.getObjectByName('falls-run-extension-supported-pylons') as THREE.InstancedMesh)
+          .userData.abyssFogSupportDepthMeters,
+      ).toBe(60);
     } finally {
       disposeTrackScene(scene);
     }

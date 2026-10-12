@@ -13,6 +13,7 @@ import {
 import { suppressIndexedGroundTriangles } from './NeonGridFogCity';
 import { suppressIndexedGeometryRange } from './NeonGridVisualExperimentGeometry';
 import { abyssFogBuildingPlacement } from './NeonGridAbyssFogV2';
+import { abyssFogV3BuildingPlacement } from './NeonGridAbyssFogV3';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import {
   NeonGridVisualClock,
@@ -225,7 +226,10 @@ function addDeckStructure(
   });
   const pylons = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), material, 16);
   pylons.name = 'falls-run-extension-supported-pylons';
-  pylons.userData.abyssFogSupportDepthMeters = variant === 'fog-experiment-v2' ? 45 : 13;
+  const supportDepth = variant === 'fog-experiment-v3'
+    ? 60
+    : variant === 'fog-experiment-v2' ? 45 : 13;
+  pylons.userData.abyssFogSupportDepthMeters = supportDepth;
   const footings = new THREE.InstancedMesh(
     new THREE.BoxGeometry(1, 1, 1),
     new THREE.MeshStandardMaterial({ color: 0x1c303c, roughness: 0.92 }),
@@ -242,7 +246,6 @@ function addDeckStructure(
     const right = neonGridRightAt(track, progress);
     const side = i % 2 === 0 ? -1 : 1;
     const support = center.clone().addScaledVector(right, side * (track.halfWidthAt(progress) + 2));
-    const supportDepth = variant === 'fog-experiment-v2' ? 45 : 13;
     const ground = Math.min(0, center.y - supportDepth);
     const top = center.y - 0.3;
     const height = top - ground;
@@ -258,7 +261,7 @@ function addDeckStructure(
   }
   pylons.instanceMatrix.needsUpdate = true;
   footings.instanceMatrix.needsUpdate = true;
-  if (variant === 'fog-experiment-v2') {
+  if (variant === 'fog-experiment-v2' || variant === 'fog-experiment-v3') {
     footings.visible = false;
     footings.userData.suppressedDecorativeFootings = true;
   }
@@ -439,7 +442,9 @@ function addCity(
     }
     const fogPlacement = variant === 'fog-experiment-v2'
       ? abyssFogBuildingPlacement(track, position, i, 24, 36, 1.05)
-      : undefined;
+      : variant === 'fog-experiment-v3'
+        ? abyssFogV3BuildingPlacement(track, position, i, 'falls-run')
+        : undefined;
     data.push({
       position,
       baseY: fogPlacement?.baseY ?? footing.topY,
@@ -456,8 +461,11 @@ function addCity(
   const silhouetteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
   const buildings = new THREE.InstancedMesh(steppedTowerGeometry(), silhouetteMaterial, data.length);
   buildings.name = 'falls-run-extension-city-towers';
-  if (variant === 'fog-experiment-v2') {
+  if (variant === 'fog-experiment-v2' || variant === 'fog-experiment-v3') {
     buildings.userData.fogBuriedRoofOffsets = data.map((tower) => tower.fogRoofAboveRoad);
+    if (variant === 'fog-experiment-v3') {
+      buildings.userData.fogRoofAboveRoadOffsets = data.map((tower) => tower.fogRoofAboveRoad);
+    }
   }
   const dummy = new THREE.Object3D();
   const colors = [new THREE.Color(0x1a3342), new THREE.Color(0x183443),
@@ -527,9 +535,12 @@ function addCity(
       Number(cityGround.geometry.userData.floorIndexCount ?? 0),
     );
   }
-  if (variant === 'fog-experiment-v2') {
+  if (variant === 'fog-experiment-v2' || variant === 'fog-experiment-v3') {
     suppressIndexedGeometryRange(cityGround.geometry, 'cityFoundations');
     cityGround.geometry.userData.fogBuriedRoofOffsets = data.map((tower) => tower.fogRoofAboveRoad);
+    if (variant === 'fog-experiment-v3') {
+      cityGround.geometry.userData.fogRoofAboveRoadOffsets = data.map((tower) => tower.fogRoofAboveRoad);
+    }
   }
 }
 

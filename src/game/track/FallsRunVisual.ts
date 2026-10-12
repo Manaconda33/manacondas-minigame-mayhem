@@ -16,6 +16,7 @@ import {
 import { suppressIndexedGroundTriangles } from './NeonGridFogCity';
 import { suppressIndexedGeometryRange } from './NeonGridVisualExperimentGeometry';
 import { abyssFogBuildingPlacement } from './NeonGridAbyssFogV2';
+import { abyssFogV3BuildingPlacement } from './NeonGridAbyssFogV3';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import { disposeTrackScene } from './TrackSceneResources';
 
@@ -328,7 +329,9 @@ function addStructure(
   });
   const pylons = new THREE.InstancedMesh(new THREE.BoxGeometry(1.25, 12, 1.25), pylonMaterial, 12);
   pylons.name = 'falls-run-pylons';
-  const abyssFogSupportDepth = variant === 'fog-experiment-v2' ? 40 : 12;
+  const abyssFogSupportDepth = variant === 'fog-experiment-v3'
+    ? 60
+    : variant === 'fog-experiment-v2' ? 40 : 12;
   pylons.userData.abyssFogSupportDepthMeters = abyssFogSupportDepth;
 
   const braces = new THREE.InstancedMesh(new THREE.BoxGeometry(0.32, 0.32, 8.5), pylonMaterial, 22);
@@ -466,7 +469,9 @@ function addCity(
           }
           const fogPlacement = variant === 'fog-experiment-v2'
             ? abyssFogBuildingPlacement(track, position, i, 24, 36, 1)
-            : undefined;
+            : variant === 'fog-experiment-v3'
+              ? abyssFogV3BuildingPlacement(track, position, i, 'falls-run')
+              : undefined;
           const baseY = fogPlacement?.baseY ?? footing.topY;
           const height = fogPlacement?.height ?? Math.max(20, center.y - 11 + originalHeight - baseY);
           position.y = baseY + height * 0.5;
@@ -629,9 +634,12 @@ function addCity(
       Number(ground.geometry.userData.floorIndexCount ?? 0),
     );
   }
-  if (variant === 'fog-experiment-v2') {
+  if (variant === 'fog-experiment-v2' || variant === 'fog-experiment-v3') {
     suppressIndexedGeometryRange(ground.geometry, 'cityFoundations');
     ground.geometry.userData.fogBuriedRoofOffsets = towerData.map((tower) => tower.fogRoofAboveRoad);
+    if (variant === 'fog-experiment-v3') {
+      ground.geometry.userData.fogRoofAboveRoadOffsets = towerData.map((tower) => tower.fogRoofAboveRoad);
+    }
   }
 }
 

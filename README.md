@@ -1,34 +1,41 @@
 # Manaconda's Minigame Mayhem
 
-Manaconda's Minigame Mayhem is a modular HTML5 minigame collection whose first playable experience is a 3D kart racer with illustrated 2D drivers inside stylized 3D karts. The approved requirements baseline is Product Requirements Document v1.1.
+A modular HTML5 minigame hub built around a 3D kart racer with illustrated 2D avatar drivers, character-specific karts, items, AI opponents, and the neon-lit **Route Night** presentation.
 
-The canonical repository `Manaconda33/manacondas-minigame-mayhem` is intentionally public. Publication and deployment changes remain approval-gated under the PRD workflow.
+**Status updated: October 12, 2026.** The canonical repository is public, but preview publication, runtime merges, asset changes, and product acceptance remain approval-gated. [`docs/PRD.md`](docs/PRD.md) is the product specification (approved v1.1 baseline plus recorded amendments); GitHub code, [implementation status](docs/IMPLEMENTATION-STATUS.md), and [test evidence](docs/TESTING.md) establish what has actually shipped.
 
-## Current state
+## Play and review
 
-**Current state:** Slice 6 - UI/HUD Polish, Audio, Post Processing & Optimization — Route Night title/hub/settings, Character Select, Race HUD/minimap, and Results/Podium are merged and deployed. Manny has accepted Task 11's complete Title → Hub → Character Select → Race → Results flow on desktop and mobile portrait/landscape. Task 11's plan-level scenario checks are passed; the broader Slice 6 release gates are tracked in [Implementation Status](docs/IMPLEMENTATION-STATUS.md) and [Testing](docs/TESTING.md). Slice 5 is **LIVE ACCEPTED / COMPLETE**.
+| Experience | Link | Status |
+| --- | --- | --- |
+| **Production game / Circuit Alpha** | [Play on GitHub Pages](https://manaconda33.github.io/manacondas-minigame-mayhem/) | Live, owner-accepted game hub and Circuit Alpha racer |
+| **Neon Grid: T9.7 baseline** | [Owner-approved visual preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-7-environment-correction/) | Approved for that exact *preview*; Neon Grid runtime is not published to production |
+| **Neon Grid: Abyss Fog B1** | [First fog experiment](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-001/?neonGridVisual=abyss-fog-001) | Owner-rejected visual experiment; retained for A/B evidence |
+| **Neon Grid: Abyss Fog B2** | [Corrected fog review candidate](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-002/?neonGridVisual=abyss-fog-002) | Opt-in preview published and live-hash verified by [Pages run #38309167409](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38309167409) after workflow-only [PR #294](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/294) merged; owner visual approval remains pending |
 
-Slice 3 Character Selection & Avatar Ingestion is complete and live accepted. The competitive Grand Prix systems defined for Slice 4 were completed earlier because of a documented sequencing error and remain retained. Slice 5 foundation, visible item boxes, roulette, held-item HUD, desktop/mobile ITEM input, Nitro Surge, Ricochet Kinetic Disc, Homing Seeker Drone, Apex Orbital Missile core, Timed Blast Orb, Slick Trap, Acoustic Shockwave Pulse, Prismatic Invincibility, Blaze Orbs, Frost Orbs, Rebounding Arc Blade, Kinetic Arc Hammers, Vision-Obscuring Ink Splat, Continuous Nitro Overdrive, Hyper-Drive Rocket, the bounded Slick/Blast AI hazard response, and full AI item tactics are merged, deployed, and live accepted at their recorded checkpoints.
+**Do not conflate a published preview with production gameplay release.** Only Circuit Alpha is served as the accepted racer at the Pages root. Fog A/B variants do not replace the approved T9.7 default.
 
-Full AI item tactics merged through PR #158 at `cb67183b902e7732b3cab8d95af3e865890b1835`. The first deployed review exposed a bounded lap/finish/standings authority inconsistency and missing racer-owned AI boost/power-up visuals; ADR-084 authorized only those corrections. Corrective PR #159 merged at `e36477022a5fc8363da074dfca302ff263b9758a`, post-merge validation and GitHub Pages run `35265993137` passed, and Manny reported **“all live tests accepted.”** PR #159 comment `5720570319` records the product-owner evidence. No new item balance, AI tactics, audio, assets, race rules, or Slice 6 scope were introduced by the correction.
+## Current engineering status
 
-Issue #106 results synchronization is merged, deployed, live accepted on desktop and mobile, and closed through PR #163 at `5136a002ec1d39b13f8470fd4b5449ce6df5bcf2`; post-merge CI/Pages run `35282030810` passed. The final all-item interaction/counter matrix is complete and published through PR #165 at `8906d5c4fa226f2889c609cf97095dbbde92e803`; post-merge CI/Pages run `35298360643` passed. The final lifecycle/object-count soak is complete and published through PR #167 at `125227cde73512588b3941f4d63cdc9086f15912`; post-merge CI/Pages run `35300715115` passed **61 test files / 502 tests**. Item/VFX rendered-runtime performance evidence passes on two deployed N600 captures at p95 **1.00 ms** against the **1.00 ms** PRD ceiling. The final desktop/mobile whole-slice matrix was published through PR #172 at `fd967afca41366579fe448bcb7c3d9c0631edf1c`; post-merge CI/Pages `35337153793` passed **62 test files / 507 tests**. Manny then completed D1-D3, M1-M3, and cleanup/race-authority checks and reported **“All pass.”** Slice 5 is complete. Manny approved beginning Slice 6 and has now locked **Route Night** as the production visual language. Production Character Select will use the real approved roster; future tracks may use their own authored time-of-day and environmental lighting while retaining the Route Night UI grammar.
+| Workstream | Verified state | Next approval / evidence gate |
+| --- | --- | --- |
+| **Game hub and Circuit Alpha** | Slice 6 work is live: title/hub, settings, character selection, racing HUD/minimap, Results/Podium, Route Night audio and visual polish. Slice 3 character ingestion and Slice 5 item systems are accepted. | Broader Slice 6 validation and outstanding performance gates remain tracked in [implementation status](docs/IMPLEMENTATION-STATUS.md). |
+| **Neon Grid / Circuit 02** | Stage 4, Task 9 visual engineering on [`design/neon-grid-circuit-02`](https://github.com/Manaconda33/manacondas-minigame-mayhem/tree/design/neon-grid-circuit-02); overall [runtime PR #242](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/242) is draft/unmerged. The exact T9.7 environment-correction preview has owner visual approval. | T9.8 / Stage 4 closure, representative-hardware G-05 performance evidence, and separate authorization before any production runtime merge. |
+| **Fog-city replacement experiment** | B1 failed owner visual review (floating ground/platforms, supports and inadequate fog). B2 corrects the presentation in an isolated [experiment branch](https://github.com/Manaconda33/manacondas-minigame-mayhem/tree/experiment/neon-grid-abyss-fog-002), pinned to runtime `7d087f19dfd86bca36b500280309d9c86b4af77d`. Original [B1 PR #292](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/292) remains separate and unmerged. | Manny's actual B2 driving/visual review, followed by any needed corrections and performance certification. Neither experiment is approved to replace T9.7. |
+| **AI engineering handoff pilot** | Stage B experiments and a *disabled* Stage C manual smoke harness are recorded in `main`; preparation is not activation or unattended Codex execution. | Explicit authorization and separately verified prerequisites before any Stage C live execution. See [Stage C preparation](docs/automation/stage-c-preparation.md). |
 
-Slice 5 closure evidence is recorded in `docs/SLICE-5-ITEM-SYSTEM-DESIGN.md`, `docs/SLICE-5-ITEM-INTERACTION-MATRIX-2026-09-17.md`, `docs/SLICE-5-ITEM-LIFECYCLE-SOAK-2026-09-17.md`, `docs/SLICE-5-ITEM-VFX-PERFORMANCE-EVIDENCE-2026-09-17.md`, and `docs/SLICE-5-FINAL-LIVE-ACCEPTANCE-2026-09-17.md`. Slice 6 kickoff is governed by `docs/SLICE-6-BASELINE-AUDIT-AND-ART-DIRECTION-2026-09-18.md`. The current PBR checkpoint is recorded in `docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md`, with external production material rights/provenance in `docs/ASSET-PROVENANCE.md`.
+For the latest authoritative checkpoint, distinguish **production `main`**, the **Neon Grid development branch**, and **independent preview/experiment branches**. Some historical status paragraphs reflect an earlier point in time; verify current PR state and commit SHA in GitHub.
 
-## Live test build
+### Neon Grid visual design and evidence
 
-[Open the latest GitHub Pages checkpoint](https://manaconda33.github.io/manacondas-minigame-mayhem/)
+- [Neon Grid design and build contracts](https://github.com/Manaconda33/manacondas-minigame-mayhem/tree/design/neon-grid-circuit-02/docs/design/neon-grid) live on the development branch, not necessarily `main`.
+- [T9.7 visual approval record](https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/design/neon-grid-circuit-02/docs/design/neon-grid/t9-7-final-visual-polish-plan-2026-10-08.md) covers the accepted baseline and explicitly scoped changes.
+- [Abyss Fog B1 evidence](https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/experiment/neon-grid-abyss-fog-001/docs/evidence/2026-10-12-neon-grid-abyss-fog-001/README.md) documents the rejected first prototype and measured render costs.
+- [Abyss Fog B2 evidence](https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/experiment/neon-grid-abyss-fog-002/docs/evidence/2026-10-12-neon-grid-abyss-fog-002/README.md) documents the corrections, comparison captures, tests, and known limitations. Software-rendered browser results do **not** satisfy the physical-device G-05 gate.
 
-Every Slice 1+ checkpoint is deployed through the repository's `github-pages` environment for product-owner manual confirmation.
+## Local development
 
-## Local setup
-
-Prerequisites:
-
-- Node.js 22 or newer compatible release
-- npm
-- Git LFS before adding production binary assets
+**Prerequisites:** Node.js 22 or newer compatible release, npm, and Git LFS for governed binary assets.
 
 ```bash
 git lfs install
@@ -36,76 +43,47 @@ npm ci
 npm run dev
 ```
 
-Vite prints the local development URL when the server starts.
+Vite prints the local URL. Available checks:
 
-## Commands
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Launch the local Vite development server |
+| `npm run typecheck` | Check TypeScript types |
+| `npm run lint` | ESLint with zero warnings permitted |
+| `npm run test:ci -- --maxWorkers=1` | Serial Vitest coverage run (the hosted CI worker pattern) |
+| `npm run build` | Typecheck, verify audio/branding/runtime assets, and build `dist/` |
+| `npm run validate` | Typecheck, lint, tests, and production build |
+| `npm run format:check` | Check repository formatting without edits |
 
-| Command                | Purpose                                              |
-| ---------------------- | ---------------------------------------------------- |
-| `npm run dev`          | Start the Vite development server.                   |
-| `npm run build`        | Typecheck and create a production build in `dist/`.  |
-| `npm run typecheck`    | Run strict TypeScript validation.                    |
-| `npm run lint`         | Run ESLint with zero warnings permitted.             |
-| `npm run test`         | Run Vitest in watch mode.                            |
-| `npm run test:ci`      | Run Vitest once with coverage for CI.                |
-| `npm run format`       | Apply Prettier formatting.                           |
-| `npm run format:check` | Verify formatting without changing files.            |
-| `npm run validate`     | Run typecheck, lint, CI tests, and production build. |
+Before proposing a completed checkpoint, follow [`docs/TESTING.md`](docs/TESTING.md), including relevant render/physics tests, browser evidence, device measurements where required, and production preservation checks. A successful build is not product-owner acceptance.
 
-## Architecture summary
+## Stack and repository layout
 
-- **Application:** TypeScript single-page application built by Vite.
-- **Rendering baseline:** Three.js.
-- **Physics baseline:** Rapier 3D through `@dimforge/rapier3d-compat`.
-- **Audio baseline:** Howler.js backed by Web Audio.
-- **Testing:** Vitest with jsdom and V8 coverage.
-- **Quality gates:** strict TypeScript, ESLint, Prettier, unit tests, production build, and GitHub Actions.
-- **Asset governance:** Fixed-size runtime avatar PNGs live in normal Git. Git LFS remains required for production 3D models, audio, and high-resolution source art.
-- **Continuity:** repository documents are authoritative; Cowork/chat history is supplemental.
+- **Frontend:** Vite + TypeScript.
+- **Graphics:** Three.js (current WebGL renderer); route-specific 3D scenes and 2D illustrated driver sprites.
+- **Physics:** Rapier via `@dimforge/rapier3d-compat`.
+- **Audio:** Howler.js / Web Audio.
+- **Testing and delivery:** Vitest, TypeScript, ESLint, GitHub Actions, source-pinned GitHub Pages reviews.
 
-The `src/game/` directories define PRD system boundaries. A directory's presence is not evidence that the corresponding slice is complete; completion requires the repository's recorded validation and product-owner acceptance evidence.
+| Path | Responsibility |
+| --- | --- |
+| `src/app/` | Game-hub shell |
+| `src/game/` | Tracks, karts, race/AI systems, collisions, items, effects |
+| `src/ui/` | Character select, menus, HUD, results |
+| `src/audio/` | Audio runtime integration |
+| `src/config/`, `src/schemas/` | Configuration and validation |
+| `public/assets/` | Governed runtime assets |
+| `tests/`, `tools/` | Automated tests, validation and diagnostics |
+| `docs/` | PRD, decisions, evidence, current implementation status |
+| `.github/workflows/` | CI, Pages preview publication and guarded experiments |
 
-## Repository map
+## Governance and canonical references
 
-- `docs/` - approved PRD, working Markdown PRD, decisions, testing rules, slice designs/checklists, and implementation status.
-- `public/assets/` - governed asset roots for characters, karts, track, items, and audio.
-- `src/app/` - game-hub application shell.
-- `src/audio/` - shared audio integration boundary.
-- `src/config/` and `src/schemas/` - configuration and validation boundaries.
-- `src/game/` - gameplay systems organized by domain.
-- `src/ui/` - interface and HUD boundary.
-- `tests/` - automated test suite.
-- `.github/workflows/` - repository CI and deployment workflows.
+1. **Requirements:** [PRD v1.1 and approved amendments](docs/PRD.md) and the [Word baseline](docs/Manacondas_Minigame_Mayhem_PRD_v1.1.docx).
+2. **Implementation truth:** [GitHub history and branches](https://github.com/Manaconda33/manacondas-minigame-mayhem/branches) plus [`docs/IMPLEMENTATION-STATUS.md`](docs/IMPLEMENTATION-STATUS.md).
+3. **Decisions and acceptance:** [`docs/DECISIONS.md`](docs/DECISIONS.md), [`docs/TESTING.md`](docs/TESTING.md), and the linked evidence.
+4. **Contributor instructions:** [`AGENTS.md`](AGENTS.md), [avatar intake](docs/AVATAR-INTAKE.md), [roster mapping](docs/ROSTER-MAPPING.md), and [LFS publication](docs/LFS-PUBLISHING.md).
 
-## Project source of truth
+Use bounded branches, run the relevant checks, and stop at product-owner approval gates. Do not silently merge unapproved runtime changes or replace accepted avatar/sponsor artwork.
 
-- [Approved implementation PRD](docs/PRD.md)
-- [Word PRD v1.1](docs/Manacondas_Minigame_Mayhem_PRD_v1.1.docx)
-- [Architecture decisions](docs/DECISIONS.md)
-- [Current implementation status](docs/IMPLEMENTATION-STATUS.md)
-- [Canonical Route Night visual reference](docs/reference/route-night/ROUTE-NIGHT-CANONICAL-REFERENCE.png)
-- [Production asset provenance ledger](docs/ASSET-PROVENANCE.md)
-- [Route Night UI asset library](docs/ROUTE-NIGHT-UI-ASSET-LIBRARY.md)
-- [Slice 6 Circuit Alpha PBR checkpoint](docs/SLICE-6-CIRCUIT-ALPHA-PBR-PASS-2026-09-18.md)
-- [Slice 6 Route Night UI checkpoint](docs/SLICE-6-ROUTE-NIGHT-UI-CHECKPOINT-2026-09-18.md)
-- [Slice 6 Character Select checkpoint](docs/SLICE-6-CHARACTER-SELECT-CHECKPOINT-2026-09-19.md)
-- [Slice 6 Race HUD / Results-Podium design brief](docs/SLICE-6-RACE-HUD-RESULTS-PODIUM-DESIGN-2026-09-19.md)
-- [Slice 6 Race HUD / Results-Podium implementation plan](docs/superpowers/plans/2026-09-19-race-hud-results-podium.md)
-- [Testing and evidence requirements](docs/TESTING.md)
-- [Approved Slice 5 item-system design and exit checklist](docs/SLICE-5-ITEM-SYSTEM-DESIGN.md)
-- [Approved Slice 5 Shockwave scope](docs/SLICE-5-SHOCKWAVE-SCOPE.md)
-- [Approved Slice 5 Ink Splat scope](docs/SLICE-5-INK-SPLAT-SCOPE.md)
-- [Approved Slice 5 Nitro Overdrive scope](docs/SLICE-5-NITRO-OVERDRIVE-SCOPE.md)
-- [Approved Slice 5 Hyper-Drive Rocket scope](docs/SLICE-5-HYPER-DRIVE-ROCKET-SCOPE.md)
-- [Accepted Slice 5 full AI item tactics scope](docs/SLICE-5-AI-ITEM-TACTICS-SCOPE.md)
-- [Restricted Work Git LFS publication](docs/LFS-PUBLISHING.md)
-- [Avatar intake and approval contract](docs/AVATAR-INTAKE.md)
-- [Roster profile allocation](docs/ROSTER-MAPPING.md)
-
-Future work sessions must read these files before implementation, update them as decisions and evidence change, and execute only the currently approved slice.
-
-## Binary asset policy
-
-`.gitattributes` keeps the PRD's 256 x 256 avatar portraits, 512 x 512 driver frames, and approved Character Select full-body delivery PNGs in normal Git at their runtime paths. Production GLB/GLTF support binaries, common production audio formats, and high-resolution PNG/WebP source art remain in Git LFS. Do not place high-resolution masters in the runtime avatar delivery paths. Policy changes require an approved record in `docs/DECISIONS.md`.
-
-When a hosted Work shell cannot reach GitHub, `docs/LFS-PUBLISHING.md` defines the approved GitHub Actions fallback for assets that committed source can reproduce byte-for-byte. Other LFS assets require an authenticated external handoff.
+**Asset policy:** Follow `.gitattributes`, the provenance ledger, and approved exceptions in [`AGENTS.md`](AGENTS.md). Runtime avatar delivery PNGs are normal Git files; production 3D/audio and other binary formats may require LFS. Do not infer an exemption from a successful local build. Review [asset provenance](docs/ASSET-PROVENANCE.md) and [LFS publication policy](docs/LFS-PUBLISHING.md) before adding or changing binaries.

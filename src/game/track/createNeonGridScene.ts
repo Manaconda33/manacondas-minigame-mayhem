@@ -12,6 +12,8 @@ import { serviceTunnelGeometry } from './ServiceTunnelGeometry';
 import { billboardFloorGeometry } from './NeonGridBillboard';
 import { NeonGridBillboardVisual } from './NeonGridBillboardVisual';
 import { neonGridRibbon } from './NeonGridGeometry';
+import { NeonGridFogCityVisual } from './NeonGridFogCity';
+import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 
 export class NeonGridScene extends THREE.Group {
   public readonly billboard: NeonGridBillboardVisual;
@@ -21,19 +23,28 @@ export class NeonGridScene extends THREE.Group {
   public readonly skyline: SkylineVisual;
   public readonly undercity: UndercityVisual;
   public readonly tunnelWarnings: ServiceTunnelWarningVisual;
-  public constructor(track: NeonGrid, quality: GraphicsQuality = 'medium') {
+  public constructor(
+    track: NeonGrid,
+    quality: GraphicsQuality = 'medium',
+    variant: NeonGridVisualVariant = 'approved',
+  ) {
     super();
+    this.userData.visualVariant = variant;
+    if (variant === 'fog-experiment') {
+      const fogCity = new NeonGridFogCityVisual(track, quality);
+      this.add(fogCity.group);
+    }
     this.billboard = new NeonGridBillboardVisual(track.billboardGap);
     this.add(this.billboard.group);
     this.dive = new NeonGridDiveVisual(track.waterfallDive);
     this.add(this.dive.group);
-    this.fallsRun = new FallsRunVisual(track, quality);
+    this.fallsRun = new FallsRunVisual(track, quality, variant);
     this.add(this.fallsRun.group);
-    this.fallsRunExtension = new FallsRunExtensionVisual(track, quality);
+    this.fallsRunExtension = new FallsRunExtensionVisual(track, quality, variant);
     this.add(this.fallsRunExtension.group);
-    this.skyline = new SkylineVisual(track, quality);
+    this.skyline = new SkylineVisual(track, quality, variant);
     this.add(this.skyline.group);
-    this.undercity = new UndercityVisual(track, quality);
+    this.undercity = new UndercityVisual(track, quality, variant);
     this.add(this.undercity.group);
     this.tunnelWarnings = new ServiceTunnelWarningVisual(track.serviceTunnel);
     this.add(this.tunnelWarnings.group);
@@ -44,8 +55,9 @@ export class NeonGridScene extends THREE.Group {
 export function createNeonGridScene(
   track: NeonGrid,
   quality: GraphicsQuality = 'medium',
+  variant: NeonGridVisualVariant = 'approved',
 ): NeonGridScene {
-  const group = new NeonGridScene(track, quality);
+  const group = new NeonGridScene(track, quality, variant);
   group.name = 'neon-grid-blockout';
   const materials = [0x236b7c, 0x733059, 0x78602d].map(
     (color) => new THREE.MeshStandardMaterial({ color, roughness: 0.8, side: THREE.DoubleSide }),

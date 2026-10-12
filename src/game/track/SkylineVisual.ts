@@ -16,6 +16,8 @@ import {
   neonGridTerracedCityGroundGeometry,
   type TerracedCityGroundOptions,
 } from './NeonGridCityGround';
+import { suppressIndexedGroundTriangles } from './NeonGridFogCity';
+import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import { disposeTrackScene } from './TrackSceneResources';
 
 const START = 0;
@@ -374,6 +376,7 @@ function mergeCityBaseIntoSkylineFascia(
   group: THREE.Group,
   ground: THREE.Mesh,
   foundations: THREE.InstancedMesh,
+  variant: NeonGridVisualVariant,
 ): void {
   const fascia = group.getObjectByName('skyline-deck-fascia');
   if (!(fascia instanceof THREE.Mesh)) {
@@ -458,6 +461,7 @@ function mergeCityBaseIntoSkylineFascia(
     triangleCount: ((foundations.geometry.getIndex()?.count ?? 0) * foundations.count) / 3,
   };
   fascia.userData.geometryRanges = geometryRanges;
+  combined.userData.geometryRanges = geometryRanges;
   combined.userData.terracedCityGround = true;
   combined.userData.terraceCount = groundMetadata.terraceCount;
   combined.userData.progressRange = [...groundMetadata.progressRange];
@@ -487,6 +491,9 @@ function mergeCityBaseIntoSkylineFascia(
 
   fasciaGeometry.dispose();
   fascia.geometry = combined;
+  if (variant === 'fog-experiment') {
+    suppressIndexedGroundTriangles(combined, floorIndexStart, floorIndexCount);
+  }
   fascia.userData.collision = false;
   const material = fascia.material as THREE.Material;
   if (!(material instanceof THREE.MeshStandardMaterial)) {
@@ -680,7 +687,12 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
   group.add(pylons, braces);
 }
 
-function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality): SkylineTower[] {
+function addCity(
+  group: THREE.Group,
+  track: NeonGrid,
+  quality: GraphicsQuality,
+  variant: NeonGridVisualVariant,
+): SkylineTower[] {
   const groundOptions = skylineCityGroundOptions(track);
   const cityGround = new THREE.Mesh(
     neonGridTerracedCityGroundGeometry(track, groundOptions),
@@ -776,7 +788,7 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   });
   foundations.instanceMatrix.needsUpdate = true;
   if (foundations.instanceColor) foundations.instanceColor.needsUpdate = true;
-  mergeCityBaseIntoSkylineFascia(group, cityGround, foundations);
+  mergeCityBaseIntoSkylineFascia(group, cityGround, foundations, variant);
 
   const spireMaterial = new THREE.MeshBasicMaterial({ color: 0x65ecff });
   markBloomMaterial(spireMaterial, 'color');
@@ -1069,7 +1081,11 @@ export class SkylineVisual {
   private readonly clock = new NeonGridVisualClock();
   private disposed = false;
 
-  public constructor(track: NeonGrid, quality: GraphicsQuality) {
+  public constructor(
+    track: NeonGrid,
+    quality: GraphicsQuality,
+    variant: NeonGridVisualVariant = 'approved',
+  ) {
     this.group.name = 'skyline-visual';
     this.group.userData.progressRange = [START, END];
     this.group.userData.quality = quality;
@@ -1107,7 +1123,7 @@ export class SkylineVisual {
     this.group.add(edges);
 
     addStructure(this.group, track);
-    const towers = addCity(this.group, track, quality);
+    const towers = addCity(this.group, track, quality, variant);
     addProceduralSignage(this.group, towers);
     addApprovedAds(this.group, track, towers, this.adMaterials);
   }

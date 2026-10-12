@@ -78,6 +78,7 @@ import {
   createTrack,
   createSelectedTrackScene,
   createSelectedTrackColliders,
+  neonGridVisualVariantFromSearch,
 } from './track/trackCatalog';
 import { NeonGridScene } from './track/createNeonGridScene';
 import { disposeTrackScene } from './track/TrackSceneResources';
@@ -424,7 +425,11 @@ export class KartTimeTrial {
 
   private constructor(private readonly options: TimeTrialOptions) {
     this.track = createTrack(this.options.trackId ?? 'circuit-alpha');
-    this.trackScene = createSelectedTrackScene(this.track, this.options.graphicsQuality);
+    this.trackScene = createSelectedTrackScene(
+      this.track,
+      this.options.graphicsQuality,
+      neonGridVisualVariantFromSearch(window.location.search),
+    );
     this.slickGround = new SlickGroundSurface(this.trackScene, this.track.id === 'neon-grid');
     this.trackLength = this.track.curve.getLength();
     this.minimapTrack = normalizeMinimapTrack(

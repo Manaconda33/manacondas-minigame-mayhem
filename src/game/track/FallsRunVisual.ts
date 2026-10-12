@@ -13,6 +13,8 @@ import {
   neonGridSteppedTowerGeometry,
   neonGridTerracedCityGroundGeometry,
 } from './NeonGridCityGround';
+import { suppressIndexedGroundTriangles } from './NeonGridFogCity';
+import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import { disposeTrackScene } from './TrackSceneResources';
 
 const START = 0.7;
@@ -359,7 +361,12 @@ function addStructure(group: THREE.Group, track: NeonGrid): void {
   group.add(pylons, braces);
 }
 
-function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality): void {
+function addCity(
+  group: THREE.Group,
+  track: NeonGrid,
+  quality: GraphicsQuality,
+  variant: NeonGridVisualVariant,
+): void {
   const groundOptions = neonGridCityGroundOptions(
     track,
     START - CITY_GROUND_SEAM,
@@ -602,6 +609,13 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   if (roofLights.instanceColor) roofLights.instanceColor.needsUpdate = true;
   group.add(ground, foundations, towers, windows, roofLights);
   mergeInstancedCityMeshesIntoGround(ground, [foundations, towers]);
+  if (variant === 'fog-experiment') {
+    suppressIndexedGroundTriangles(
+      ground.geometry,
+      0,
+      Number(ground.geometry.userData.floorIndexCount ?? 0),
+    );
+  }
 }
 
 function addWaterfallDistrict(
@@ -780,11 +794,15 @@ export class FallsRunVisual {
   private readonly clock = new NeonGridVisualClock();
   private disposed = false;
 
-  public constructor(track: NeonGrid, quality: GraphicsQuality) {
+  public constructor(
+    track: NeonGrid,
+    quality: GraphicsQuality,
+    variant: NeonGridVisualVariant = 'approved',
+  ) {
     this.group.name = 'falls-run-visual';
     this.group.userData.progressRange = [START, END];
     this.group.userData.quality = quality;
-    this.group.add(nightSky());
+    if (variant === 'approved') this.group.add(nightSky());
 
     const roadGeometry = neonGridSurfaceSliceGeometry(track, START, END);
     const asphaltBase = new THREE.Mesh(
@@ -838,7 +856,7 @@ export class FallsRunVisual {
     this.group.add(topRails);
 
     addStructure(this.group, track);
-    addCity(this.group, track, quality);
+    addCity(this.group, track, quality, variant);
 
     const waterfallMaterial = waterMaterial();
     this.animatedMaterials.push(waterfallMaterial);

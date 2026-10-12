@@ -7,6 +7,9 @@ const directory = process.argv[2] ?? '/tmp/neon-grid-t9-7-course-sweep';
 mkdirSync(directory, { recursive: true });
 const baseUrl = (process.env.NEON_GRID_COURSE_BASE_URL ??
   'http://127.0.0.1:5173/manacondas-minigame-mayhem').replace(/\/$/, '');
+const visualVariantQuery = process.env.NEON_GRID_VISUAL_VARIANT === 'abyss-fog-001'
+  ? '&neonGridVisual=abyss-fog-001'
+  : '';
 const maximumTriangleAiRoster = ['aa-03', 'aa-04', 'aa-05', 'aa-07', 'aa-10', 'aa-12', 'aa-14'];
 const ownerViews = [
   { name: 'owner-0m35-start-billboards', raceTime: '0:35.55', progress: 0.075 },
@@ -50,7 +53,7 @@ try {
   page.on('console', (message) => {
     if (message.type() === 'error') errors.push(message.text());
   });
-  await page.goto(`${baseUrl}/tools/diagnostics/neon-grid-course.html?quality=medium&sector=course&testRacePerf=1&progress=0`);
+  await page.goto(`${baseUrl}/tools/diagnostics/neon-grid-course.html?quality=medium&sector=course&testRacePerf=1&progress=0${visualVariantQuery}`);
   await page.waitForFunction(() => window.ready, undefined, { timeout: 90000 });
   await page.waitForLoadState('networkidle');
   await page.waitForFunction(
@@ -163,6 +166,9 @@ try {
     ]),
   );
   const report = {
+    visualVariant: process.env.NEON_GRID_VISUAL_VARIANT === 'abyss-fog-001'
+      ? 'fog-experiment'
+      : 'approved',
     source: 'Actual KartTimeTrial Neon Grid course scene with eight racers and all visual owners mounted',
     environment: 'Local Chromium software WebGL / SwiftShader; diagnostic structural evidence only',
     courseLengthMeters: courseLength,

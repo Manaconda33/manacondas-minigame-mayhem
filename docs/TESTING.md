@@ -1,3 +1,13 @@
+## Neon Grid abyss-fog-001 isolated A/B experiment — local results (2026-10-12)
+
+Experiment branch `experiment/neon-grid-abyss-fog-001`, start checkpoint `6919729ba5e12f48305f543dca153f4ba9c5ae19`; accepted A baseline `75c6c62c865ec3b546f3f2512e649de9ea6d52bc`. Complete command results, limits, per-frame reports, and visual evidence are in [`docs/evidence/2026-10-12-neon-grid-abyss-fog-001/README.md`](evidence/2026-10-12-neon-grid-abyss-fog-001/README.md). A remains the default renderer; B requires `?neonGridVisual=abyss-fog-001` and is limited to Neon Grid.
+
+Node 22.23.3 typecheck, zero-warning lint, production asset checks/build, Git LFS, the 6 fog experiment tests, and the 8 T9.6 evidence-checker tests passed. The full CI-equivalent serial coverage suite completed **132/133 files and 1,077/1,078 tests**; the sole failure is `tests/race-diagnostics-routing.test.ts:1094`, which timed out at the existing 5-second test limit. The exact case passed alone in 3.64 seconds. No test timeout or acceptance threshold was changed. Build emitted the existing large JavaScript bundle warning.
+
+The final B matrix captured 22 desktop/mobile, Low/Medium/High, chase/rear cases with zero browser errors. The B course sweep covered 182 samples over 1,448.938 m, max spacing 7.962 m, and all nine owner anchors, with zero browser errors. Peak rear view: 500 calls / 413,103 triangles; it reaches the approved 500-call ceiling and remains below the 425,000 Task 9 triangle cap. The A/B software renderer reports are runner diagnostics only: B median +5.3%, p95 −0.7%, maximum −0.8% versus A. No phone or representative G-05 device was measured.
+
+**Hosted CI and owner review are pending.** No candidate Actions result or immutable Pages URL exists because `GH_TOKEN` is invalid and no stored GitHub CLI account is configured. Do not treat the accepted T9.7 preview as review of this different visual variant; do not replace A without Manny's explicit review/approval.
+
 ## T9.7 comprehensive city-environment correction — owner-approved gate, 2026-10-09
 
 This gate supersedes the earlier narrow city-ground verification record below. The acceptance target is no unexplained brown voids, unfinished ground, floating buildings, obscured approved billboards, or malformed Billboard Gap geometry in any owner-reported or course-wide view.

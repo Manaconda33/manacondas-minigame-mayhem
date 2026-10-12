@@ -10,6 +10,8 @@ import {
   neonGridCityGroundOptions,
   neonGridTerracedCityGroundGeometry,
 } from './NeonGridCityGround';
+import { suppressIndexedGroundTriangles } from './NeonGridFogCity';
+import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import {
   NeonGridVisualClock,
   neonGridRightAt,
@@ -327,7 +329,12 @@ function steppedTowerGeometry(): THREE.BufferGeometry {
   return result;
 }
 
-function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality): void {
+function addCity(
+  group: THREE.Group,
+  track: NeonGrid,
+  quality: GraphicsQuality,
+  variant: NeonGridVisualVariant,
+): void {
   const data: Tower[] = [];
   const terrainGeometries = RANGES.map(([start, end]) =>
     neonGridTerracedCityGroundGeometry(track, neonGridCityGroundOptions(track, start, end)),
@@ -493,6 +500,13 @@ function addCity(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality):
   foundations.instanceMatrix.needsUpdate = true;
   group.add(buildings, foundations, windows, cityGround);
   mergeInstancedCityMeshesIntoGround(cityGround, [buildings, foundations]);
+  if (variant === 'fog-experiment') {
+    suppressIndexedGroundTriangles(
+      cityGround.geometry,
+      0,
+      Number(cityGround.geometry.userData.floorIndexCount ?? 0),
+    );
+  }
 }
 
 function addAmbientFalls(group: THREE.Group, track: NeonGrid, quality: GraphicsQuality, material: THREE.ShaderMaterial): void {
@@ -570,7 +584,11 @@ export class FallsRunExtensionVisual {
   private readonly animatedMaterials: THREE.ShaderMaterial[] = [];
   private disposed = false;
 
-  public constructor(track: NeonGrid, quality: GraphicsQuality) {
+  public constructor(
+    track: NeonGrid,
+    quality: GraphicsQuality,
+    variant: NeonGridVisualVariant = 'approved',
+  ) {
     this.group.name = 'falls-run-extension-visual';
     this.group.userData.progressRange = [START, END];
     this.group.userData.excludedRange = [TASK8_START, TASK8_END];
@@ -609,7 +627,7 @@ export class FallsRunExtensionVisual {
 
     addDeckStructure(this.group, track);
     addDeckServiceFixtures(this.group);
-    addCity(this.group, track, quality);
+    addCity(this.group, track, quality, variant);
     const water = waterMaterial();
     this.animatedMaterials.push(water);
     addAmbientFalls(this.group, track, quality, water);

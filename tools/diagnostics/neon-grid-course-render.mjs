@@ -10,6 +10,9 @@ const renderEnvironment = process.env.GITHUB_ACTIONS === 'true'
   : 'Local Chromium software WebGL / SwiftShader';
 const courseBaseUrl = (process.env.NEON_GRID_COURSE_BASE_URL ??
   'http://127.0.0.1:5173/manacondas-minigame-mayhem').replace(/\/$/, '');
+const visualVariantQuery = process.env.NEON_GRID_VISUAL_VARIANT === 'abyss-fog-001'
+  ? '&neonGridVisual=abyss-fog-001'
+  : '';
 
 const browser = await chromium.launch({
   headless: true,
@@ -68,7 +71,7 @@ async function renderCase({
   });
 
   await page.goto(
-    `${courseBaseUrl}/tools/diagnostics/neon-grid-course.html?quality=${quality}&testRacePerf=1`,
+    `${courseBaseUrl}/tools/diagnostics/neon-grid-course.html?quality=${quality}&testRacePerf=1${visualVariantQuery}`,
   );
   await page.waitForFunction(() => window.ready, undefined, { timeout: 90000 });
   await page.waitForLoadState('networkidle');
@@ -201,6 +204,9 @@ try {
   const maximumDrawCalls = Math.max(...visualFrames.map((frame) => frame.calls));
   const maximumTriangles = Math.max(...visualFrames.map((frame) => frame.triangles));
   const report = {
+    visualVariant: process.env.NEON_GRID_VISUAL_VARIANT === 'abyss-fog-001'
+      ? 'fog-experiment'
+      : 'approved',
     environment:
       `${renderEnvironment}. Actual KartTimeTrial with eight racers staged in Skyline Straight. Frame-time evidence is runner-specific and is not representative-hardware PRD certification.`,
     errors,

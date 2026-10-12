@@ -6,7 +6,10 @@ import { NeonGrid } from './NeonGrid';
 import { createTrackScene } from './createTrackScene';
 import { createNeonGridScene } from './createNeonGridScene';
 import { createNeonGridColliders } from './NeonGridCollision';
+import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import type { TrackDefinition, TrackId } from './TrackDefinition';
+
+export { neonGridVisualVariantFromSearch } from './NeonGridVisualVariant';
 
 export function createTrack(id: TrackId): TrackDefinition {
   return id === 'neon-grid' ? new NeonGrid() : new CircuitAlpha();
@@ -15,8 +18,11 @@ export function createTrack(id: TrackId): TrackDefinition {
 export function createSelectedTrackScene(
   track: TrackDefinition,
   quality: GraphicsQuality = 'medium',
+  variant: NeonGridVisualVariant = 'approved',
 ): THREE.Group {
-  return track instanceof NeonGrid ? createNeonGridScene(track, quality) : createTrackScene(track);
+  return track instanceof NeonGrid
+    ? createNeonGridScene(track, quality, variant)
+    : createTrackScene(track);
 }
 
 export function createSelectedTrackColliders(

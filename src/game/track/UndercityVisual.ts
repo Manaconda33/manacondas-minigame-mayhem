@@ -9,6 +9,8 @@ import {
   neonGridCityGroundOptions,
   neonGridTerracedCityGroundGeometry,
 } from './NeonGridCityGround';
+import { suppressIndexedGroundTriangles } from './NeonGridFogCity';
+import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import {
   NeonGridVisualClock,
   neonGridRightAt,
@@ -605,7 +607,11 @@ function serviceTunnelApproachScreen(track: NeonGrid): THREE.BufferGeometry {
   return geometry;
 }
 
-function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): THREE.Mesh {
+function addWallsideSightlineScreens(
+  group: THREE.Group,
+  track: NeonGrid,
+  variant: NeonGridVisualVariant,
+): THREE.Mesh {
   // Existing false service bays are useful texture but did not occlude the
   // actual shortcut roadway. This continuous opaque facade now does.
   const opening = (side: -1 | 1, progress: number): boolean => {
@@ -697,6 +703,9 @@ function addWallsideSightlineScreens(group: THREE.Group, track: NeonGrid): THREE
   );
   screens.geometry.userData.retainingWallTriangleCount = 0;
   screens.geometry.userData.omittedCellsByCorridor = groundOmittedCells;
+  if (variant === 'fog-experiment') {
+    suppressIndexedGroundTriangles(screens.geometry, floorIndexStart, floorIndexCount);
+  }
   const groundMarker = new THREE.Group();
   groundMarker.name = 'undercity-city-terraced-ground';
   groundMarker.userData.presentationOnly = true;
@@ -852,7 +861,11 @@ export class UndercityVisual {
   private readonly clock = new NeonGridVisualClock();
   private disposed = false;
 
-  public constructor(track: NeonGrid, quality: GraphicsQuality) {
+  public constructor(
+    track: NeonGrid,
+    quality: GraphicsQuality,
+    variant: NeonGridVisualVariant = 'approved',
+  ) {
     this.group.name = 'undercity-visual';
     this.group.userData.progressRange = [START, END];
     this.group.userData.quality = quality;
@@ -894,7 +907,7 @@ export class UndercityVisual {
     edges.name = 'undercity-magenta-edges';
     this.group.add(edges);
 
-    const validationGround = addWallsideSightlineScreens(this.group, track);
+    const validationGround = addWallsideSightlineScreens(this.group, track, variant);
     const buildings = addBuildings(this.group, track, quality, validationGround);
     validationGround.geometry.dispose();
     (validationGround.material as THREE.Material).dispose();

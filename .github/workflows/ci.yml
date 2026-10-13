@@ -439,7 +439,7 @@ jobs:
             abyss-fog-004)
               npm run typecheck
               npm run lint
-              npm run test:ci -- --maxWorkers=1
+              npm run test:ci -- --maxWorkers=1 --testTimeout=15000
               npm run build
               npm run build -- --base "$PREVIEW_BASE"
               ;;

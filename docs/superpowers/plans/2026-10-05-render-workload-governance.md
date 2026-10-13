@@ -1,6 +1,6 @@
 # Cross-Minigame Render Workload Governance Plan
 
-**Status:** DRAFT FOR OWNER REVIEW — documentation phase only  
+**Status:** DRAFT architecture; October 13 post-fog measurement roadmap aligned for documentation only  
 **Date:** 2026-10-05 America/Chicago  
 **Branch:** `docs/render-workload-governance-20261005`  
 **Implementation authority:** NONE. No runtime, gameplay, visual, physics, balance, asset, deployment, or production change is authorized by this document.
@@ -537,3 +537,14 @@ The following remain intentionally reviewable rather than silently decided:
 7. Whether the non-kart fixture is test-only or a tiny hidden development route.
 
 The two owner conditions are **not** open decisions: instrumentation-first sequencing and executable enforcement are mandatory.
+
+
+## 2026-10-13 addendum: Adaptive graphics-performance calibration (roadmap only)
+
+Manny requested that [the post-fog visual and adaptive graphics roadmap](2026-10-13-neon-grid-post-fog-graphics-roadmap.md) supersede further ruined-city decorative-art expansion. Existing I0/I1/I2/V1/V2 sequencing, proof-before-visibility, historic far-plane evidence and future-minigame ownership contract remain intact. This is a documentation update, **not** implementation authority.
+
+The approved *development-branch* PRD amendments 2.26–2.28 currently set 500 race-scene draw calls, 425,000 Task 9 engineering triangles, and unchanged 750,000 project-wide visible triangles. The default-branch PRD has not yet been synchronized from its historical 250-call figure. Phase G0 in the new roadmap addresses documentation reconciliation before any new policy becomes executable. No provisional 550/600/650-call experimental envelope is an approved release limit.
+
+Improve Phase I0 diagnostics to report each render stage's attributable submissions, render-target workload, CPU timing, optional asynchronous non-disjoint GPU timing and trace provenance. Do not confuse total renderer.info multi-pass counters with unique visible meshes. Preserve the ability to audit shadows, base, selective bloom and motion blur without inferring GPU speed from counts.
+
+Only *after* owner approval and I0/I1 evidence may separately authorized physical-device calibration vary real draw submissions and submitted triangles independently, with the original Medium desktop G-05 frame pacing and hardware requirements intact. I2/visibility adoption must remain separate from instrumentation and from textures/billboard placement. No CI budget exceptions, game/renderer changes, PRD hard-cap changes, source-pinned preview replacement, or production release are authorized by this addendum.

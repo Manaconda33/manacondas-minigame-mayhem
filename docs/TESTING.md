@@ -2076,3 +2076,29 @@ V3 and V3.1 draw calls, visible triangles, geometry count, and texture count are
 One local 120-frame synchronous SwiftShader diagnostic sample at Undercity reported desktop median/p95 **4.5/13.5 ms V3** and **3.4/9.0 ms V3.1**, with max **40.5/23.6 ms**; mobile portrait median/p95 **2.3/3.6 ms V3** and **2.4/3.2 ms V3.1**, with max **20.3/16.0 ms**. A single software-render sample is noisy and does not establish hardware FPS, physical-device performance, or G-05 certification. No new shader compilation/browser errors were observed in these captures.
 
 Visual acceptance remains pending Manny's review. These captures do not establish that all remaining structural silhouettes read as grounded. Stage 2, preview publication, runtime merge, production deployment, and T9.8 remain unauthorized.
+
+## Neon Grid Abyss Fog V3.2 — geometry-termination correction (2026-10-13)
+
+**Candidate:** `experiment/neon-grid-abyss-fog-004`, runtime commit `9731adafdaf8e84d5a2c36ceeb035620753befa6`, based on V3.1 checkpoint `f2619565c9a962623dd8c692aa3a3639a2906046`. Test-only review follow-up `c8ed8071e5b4be1f1c34178fc67cb3c8f078dde8` adds explicit terminal-fog material coverage for `skyline-cross-braces`. The variant is opt-in at `?neonGridVisual=abyss-fog-004`; T9.7 remains the default. Manny's visual decision is pending.
+
+**Node 24.19.0 / npm 11.9.0 commands and results:**
+
+- `npm run typecheck` — PASS, exit 0 (`tsc -b --pretty false`).
+- `npm run lint` — PASS with zero warnings, exit 0 (`eslint . --max-warnings 0`).
+- `npm run test:ci -- --maxWorkers=1` — PASS on runtime commit `9731ada`, **133/133 test files and 1,085/1,085 tests**, exit 0, coverage enabled, 835.61 seconds. This run preceded the two-line test-only review follow-up; no runtime source changed afterward. No assertion, timeout, threshold, or budget was changed.
+- `npm run test -- --run --maxWorkers=1 tests/neon-grid-fog-experiment.test.ts tests/neon-grid-stage4-t9-7-city-ground.test.ts tests/neon-grid-collision.test.ts tests/neon-grid-tunnel.test.ts tests/shortcut-traversal.test.ts tests/neon-grid-scene.test.ts tests/track-scene.test.ts tests/neon-grid-lap-routes.test.ts tests/neon-grid-stage4-task9.test.ts` — PASS against follow-up `c8ed807`, **9 files / 96 tests**, exit 0, 87.09 seconds. This includes the V3.2-only fog selector/profile and geometry-buffer/instance-matrix invariants plus city-ground, collision, tunnel-mask, shortcut, route, and lifecycle coverage.
+- `npm run build` — PASS, exit 0. The build verifies 96 approved runtime SFX hashes/WAV signatures, five music hashes/format/loop counts, branding, T9.5 source/runtime RGBA bytes, approved Task 9 and billboard art, nine terrain JPEGs, archived Cleo assets, runtime textures, 42 GLBs, 163 character PNGs, and approved Results/Podium assets. Vite emits the existing 3,309 kB `KartTimeTrial` chunk advisory (>500 kB).
+- `git diff --check` — PASS, exit 0 for the runtime, evidence, and tracked documentation changes.
+- `git lfs fsck --objects HEAD` — PASS, exit 0 on runtime commit `9731adafdaf8e84d5a2c36ceeb035620753befa6`.
+
+**Matched renderer evidence:** [`capture-report.json`](evidence/2026-10-13-neon-grid-abyss-fog-v3-2/capture-report.json) records seven desktop views per variant (four chase views plus three diagnostics) and four mobile portrait chase views per variant, fixed camera transforms, eight-racer roster, Medium preset, renderer counters, timing, and empty capture-error lists. Corresponding camera transforms, draw calls, visible triangles, geometries, textures, and shader programs match exactly. The capture console has only the pre-existing Three.js `PCFSoftShadowMap` deprecation warning; it falls back to `PCFShadowMap`.
+
+| View set | Peak draw calls | Peak visible triangles | Peak geometries | Peak textures |
+|---|---:|---:|---:|---:|
+| Desktop chase | 296 | 152,047 | 204 | 15 |
+| Mobile portrait chase | 234 | 122,563 | 178 | 13 |
+| Fixed desktop diagnostics | 490 | 400,751 | 241 | 33 |
+
+All stay within the unchanged **500-call / 425,000-triangle** Task 9 limits. There is no additional geometry, texture, transparent layer, render call, or shader program. One synchronous 120-scored-frame SwiftShader sample (30 warmup) measured desktop V3.1 median/p95/max **4.2/17.2/34.4 ms** and V3.2 **3.0/6.3/22.0 ms**; mobile portrait V3.1 **3.3/7.7/27.2 ms** and V3.2 **2.7/5.2/28.1 ms**. This single software-render sample is noisy and is not hardware FPS, physical-device evidence, or G-05 certification. No heap/GPU-memory byte measurement was captured; scene-lifecycle and disposal tests passed.
+
+The capture set shows the same Waterfall Dive appearance and road/racer visibility at the matched camera. The three diagnostic pairs are required for Manny's visual review; automated checks do not establish visual acceptance. No preview publication, runtime merge, production deployment, Stage 2 work, or T9.8 completion is recorded. Physical-device performance and G-05 remain unverified.

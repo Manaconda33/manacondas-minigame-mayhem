@@ -18,8 +18,7 @@ const catalogExports = trackCatalog as unknown as Record<string, unknown>;
 describe('Neon Grid fog-city experiment isolation', () => {
   it('selects the experiment only from its explicit review query', () => {
     const resolveVariant = catalogExports.neonGridVisualVariantFromSearch as
-      | ((search: string) => string)
-      | undefined;
+      ((search: string) => string) | undefined;
 
     expect(typeof resolveVariant).toBe('function');
     expect(resolveVariant?.('?neonGridVisual=abyss-fog-001')).toBe('fog-experiment');
@@ -37,7 +36,9 @@ describe('Neon Grid fog-city experiment isolation', () => {
       const fascia = scene.getObjectByName('skyline-deck-fascia');
       expect(fascia).toBeInstanceOf(THREE.Mesh);
       expect((fascia as THREE.Mesh).geometry.userData.cityGroundSuppressed).not.toBe(true);
-      expect(Number((fascia as THREE.Mesh).geometry.userData.floorIndexCount ?? 0)).toBeGreaterThan(0);
+      expect(Number((fascia as THREE.Mesh).geometry.userData.floorIndexCount ?? 0)).toBeGreaterThan(
+        0,
+      );
     } finally {
       disposeTrackScene(scene);
     }
@@ -72,7 +73,10 @@ describe('Neon Grid fog-city experiment isolation', () => {
         readonly enabled: boolean;
         readonly unsupportedObjects: readonly string[];
         readonly foggedObjects: readonly string[];
-        readonly depthProfile: { readonly clearUntilMeters: number; readonly denseByMeters: number };
+        readonly depthProfile: {
+          readonly clearUntilMeters: number;
+          readonly denseByMeters: number;
+        };
         readonly districts: Record<string, { readonly treatment: string }>;
       };
       expect(fogReport).toMatchObject({
@@ -84,23 +88,27 @@ describe('Neon Grid fog-city experiment isolation', () => {
           skyline: { treatment: 'open-bridge-fog' },
           undercity: {
             treatment: 'street-level-enclosure',
-            clearStart: 2,
-            visibleBy: 6,
-            strongBy: 14,
-            denseBy: 26,
+            clearStart: -2,
+            visibleBy: 0,
+            strongBy: 9,
+            denseBy: 20,
           },
           'falls-run': { treatment: 'vertical-drop-fog' },
         },
       });
-      expect(fogReport.foggedObjects).toEqual(expect.arrayContaining([
-        'undercity-city-windows',
-        'falls-run-deck-fascia',
-        'falls-run-extension-supported-pylons',
-      ]));
+      expect(fogReport.foggedObjects).toEqual(
+        expect.arrayContaining([
+          'undercity-city-windows',
+          'falls-run-deck-fascia',
+          'falls-run-extension-supported-pylons',
+        ]),
+      );
 
       const road = scene.getObjectByName('track-road') as THREE.Mesh;
       const roadMaterials = Array.isArray(road.material) ? road.material : [road.material];
-      expect(roadMaterials.every((material) => material.userData.abyssVerticalFog !== true)).toBe(true);
+      expect(roadMaterials.every((material) => material.userData.abyssVerticalFog !== true)).toBe(
+        true,
+      );
 
       const undercity = scene.getObjectByName('undercity-city-buildings') as THREE.InstancedMesh;
       const roofOffsets = undercity.userData.fogRoofAboveRoadOffsets as readonly number[];
@@ -137,8 +145,7 @@ describe('Neon Grid fog-city experiment isolation', () => {
 
       const skylineFascia = scene.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
       const geometryRanges = skylineFascia.geometry.userData.geometryRanges as
-        | Record<string, { triangleCount: number }>
-        | undefined;
+        Record<string, { triangleCount: number }> | undefined;
       expect(geometryRanges?.cityGround?.triangleCount).toBe(0);
       expect(geometryRanges?.cityFoundations?.triangleCount).toBe(0);
       expect(scene.getObjectByName('track-road')).toBeDefined();
@@ -155,6 +162,123 @@ describe('Neon Grid fog-city experiment isolation', () => {
         (scene.getObjectByName('falls-run-extension-supported-pylons') as THREE.InstancedMesh)
           .userData.abyssFogSupportDepthMeters,
       ).toBe(60);
+    } finally {
+      disposeTrackScene(scene);
+    }
+  }, 30000);
+
+  it('integrates existing architecture into the V3.1 fog without changing gameplay meshes', () => {
+    const track = new NeonGrid();
+    const scene = createFogScene(track, 'medium', 'fog-experiment-v3');
+    try {
+      const report = scene.userData.abyssFogV3 as {
+        readonly foggedObjects: readonly string[];
+        readonly unsupportedObjects: readonly string[];
+      };
+      expect(report.unsupportedObjects).toEqual([]);
+      expect(
+        (scene.userData.abyssFogV3 as { readonly palette: { readonly fogColor: string } }).palette
+          .fogColor,
+      ).toBe('3e5266');
+      const backdrop = scene.getObjectByName('neon-grid-abyss-fog-v3-backdrop') as THREE.Mesh;
+      const routeCamera = new THREE.PerspectiveCamera();
+      routeCamera.position.copy(track.curve.getPointAt(0.355)).add(new THREE.Vector3(0, 4.25, 0));
+      routeCamera.updateMatrixWorld(true);
+      backdrop.onBeforeRender(
+        undefined as unknown as THREE.WebGLRenderer,
+        new THREE.Scene(),
+        routeCamera,
+        backdrop.geometry,
+        backdrop.material as THREE.Material,
+        new THREE.Group(),
+      );
+      expect(backdrop.userData.abyssFogRouteReference).toMatchObject({
+        route: 'main-road',
+        district: 'undercity',
+        roadY: track.curve.getPointAt(0.355).y,
+      });
+      expect(report.foggedObjects).toEqual(
+        expect.arrayContaining([
+          'service-tunnel-left-wall',
+          'service-tunnel-right-wall',
+          'undercity-wallside-sightline-screens',
+          'undercity-industrial-architecture',
+        ]),
+      );
+      expect(report.foggedObjects).not.toEqual(
+        expect.arrayContaining(['service-tunnel-floor', 'service-tunnel-roof']),
+      );
+
+      const leftTunnelWall = scene.getObjectByName('service-tunnel-left-wall') as THREE.Mesh;
+      const rightTunnelWall = scene.getObjectByName('service-tunnel-right-wall') as THREE.Mesh;
+      expect(leftTunnelWall.visible).toBe(true);
+      expect(rightTunnelWall.visible).toBe(true);
+      expect((leftTunnelWall.material as THREE.MeshStandardMaterial).color.getHex()).toBe(0x353a4a);
+      expect((rightTunnelWall.material as THREE.MeshStandardMaterial).color.getHex()).toBe(
+        0x353a4a,
+      );
+      expect(leftTunnelWall.userData.abyssFogProfile).toMatchObject({
+        clearStart: -2,
+        denseBy: 18,
+        distanceStart: 0,
+        distanceEnd: 40,
+      });
+      const tunnelFloor = scene.getObjectByName('service-tunnel-floor') as THREE.Mesh;
+      expect((tunnelFloor.material as THREE.MeshStandardMaterial).color.getHex()).toBe(0x27384b);
+      expect(tunnelFloor.geometry.getIndex()?.count).toBeGreaterThan(0);
+      expect(tunnelFloor.userData.abyssTunnelSurfaceTint).toBe('27384b');
+      const sightlineScreens = scene.getObjectByName(
+        'undercity-wallside-sightline-screens',
+      ) as THREE.Mesh;
+      expect(sightlineScreens.userData.abyssFogProfile).toMatchObject({
+        clearStart: -2,
+        denseBy: 16,
+        distanceStart: 8,
+        distanceEnd: 70,
+      });
+      expect(
+        (scene.getObjectByName('service-tunnel-floor') as THREE.Mesh).userData.abyssVerticalFog,
+      ).not.toBe(true);
+      expect(
+        (scene.getObjectByName('service-tunnel-roof') as THREE.Mesh).userData.abyssVerticalFog,
+      ).not.toBe(true);
+
+      const skyline = scene.getObjectByName('skyline-city-towers') as THREE.InstancedMesh;
+      const roofOffsets = skyline.userData.fogRoofAboveRoadOffsets as readonly number[];
+      expect(roofOffsets.filter((offset) => offset >= 12).length).toBeGreaterThanOrEqual(6);
+      expect(Math.min(...roofOffsets)).toBeGreaterThanOrEqual(-8);
+      expect(Math.max(...roofOffsets)).toBeGreaterThanOrEqual(24);
+      expect(Math.max(...roofOffsets)).toBeLessThanOrEqual(34);
+      const towerHeights = skyline.userData.fogTowerHeights as readonly number[];
+      expect(towerHeights).toHaveLength(skyline.count);
+      expect(Math.max(...towerHeights)).toBeGreaterThanOrEqual(58);
+      expect(Math.min(...towerHeights)).toBeGreaterThanOrEqual(32);
+      const skylineFogColor = (skyline.material as THREE.MeshBasicMaterial).userData
+        .abyssFogColor as unknown as string;
+      const undercityFogColor = (
+        (scene.getObjectByName('undercity-wallside-sightline-screens') as THREE.Mesh)
+          .material as THREE.MeshStandardMaterial
+      ).userData.abyssFogColor as unknown as string;
+      expect(skylineFogColor).toBe(undercityFogColor);
+
+      const approved = createNeonGridScene(track, 'medium');
+      try {
+        expect(
+          (
+            (approved.getObjectByName('service-tunnel-left-wall') as THREE.Mesh)
+              .material as THREE.MeshStandardMaterial
+          ).color.getHex(),
+        ).toBe(0x733059);
+        expect(
+          (
+            (approved.getObjectByName('service-tunnel-floor') as THREE.Mesh)
+              .material as THREE.MeshStandardMaterial
+          ).color.getHex(),
+        ).toBe(0x733059);
+        expect(approved.userData.visualVariant).toBe('approved');
+      } finally {
+        disposeTrackScene(approved);
+      }
     } finally {
       disposeTrackScene(scene);
     }
@@ -186,13 +310,17 @@ describe('Neon Grid fog-city experiment isolation', () => {
 
       const road = scene.getObjectByName('track-road') as THREE.Mesh;
       const roadMaterials = Array.isArray(road.material) ? road.material : [road.material];
-      expect(roadMaterials.every((material) => material.userData.abyssVerticalFog !== true)).toBe(true);
+      expect(roadMaterials.every((material) => material.userData.abyssVerticalFog !== true)).toBe(
+        true,
+      );
 
       const skylineTowers = scene.getObjectByName('skyline-city-towers') as THREE.InstancedMesh;
       const towerMaterials = Array.isArray(skylineTowers.material)
         ? skylineTowers.material
         : [skylineTowers.material];
-      expect(towerMaterials.some((material) => material.userData.abyssVerticalFog === true)).toBe(true);
+      expect(towerMaterials.some((material) => material.userData.abyssVerticalFog === true)).toBe(
+        true,
+      );
     } finally {
       disposeTrackScene(scene);
     }
@@ -203,8 +331,7 @@ describe('Neon Grid fog-city experiment isolation', () => {
     try {
       const fascia = scene.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
       const fasciaRanges = fascia.geometry.userData.geometryRanges as
-        | Record<string, { triangleCount: number }>
-        | undefined;
+        Record<string, { triangleCount: number }> | undefined;
       expect(fasciaRanges?.cityGround?.triangleCount).toBe(0);
       expect(fasciaRanges?.cityFoundations?.triangleCount).toBe(0);
       expect(fasciaRanges?.roadsideScreens?.triangleCount).toBeGreaterThan(0);
@@ -218,11 +345,9 @@ describe('Neon Grid fog-city experiment isolation', () => {
       expect(undercityScreens.userData.abyssFogged).toBe(true);
 
       const industrial = scene.getObjectByName('undercity-industrial-architecture') as
-        | THREE.InstancedMesh
-        | undefined;
+        THREE.InstancedMesh | undefined;
       const industrialPartRanges = industrial?.userData.partRanges as
-        | { readonly foundations: { readonly start: number; readonly count: number } }
-        | undefined;
+        { readonly foundations: { readonly start: number; readonly count: number } } | undefined;
       expect(industrialPartRanges?.foundations).toEqual({ start: 0, count: 0 });
       expect(industrial?.count).toBe(80);
 
@@ -236,8 +361,7 @@ describe('Neon Grid fog-city experiment isolation', () => {
       ]) {
         const mesh = scene.getObjectByName(name) as THREE.Mesh;
         const ranges = mesh.geometry.userData.geometryRanges as
-          | Record<string, { triangleCount: number }>
-          | undefined;
+          Record<string, { triangleCount: number }> | undefined;
         expect(ranges?.cityGround?.triangleCount).toBe(0);
         expect(ranges?.cityFoundations?.triangleCount).toBe(0);
         expect(ranges?.cityTowers?.triangleCount).toBeGreaterThan(0);
@@ -270,10 +394,8 @@ describe('Neon Grid fog-city experiment isolation', () => {
         'falls-run-extension-city-terraced-ground',
       ]) {
         const object = scene.getObjectByName(name) as THREE.Mesh | undefined;
-        const offsets = (
-          object?.userData.fogBuriedRoofOffsets ??
-          object?.geometry.userData.fogBuriedRoofOffsets
-        ) as number[] | undefined;
+        const offsets = (object?.userData.fogBuriedRoofOffsets ??
+          object?.geometry.userData.fogBuriedRoofOffsets) as number[] | undefined;
         expect(offsets, `${name} has buried roof measurements`).toBeDefined();
         expect(offsets?.length, `${name} has buried roof measurements`).toBeGreaterThan(0);
         expect(Math.max(...(offsets ?? [])), `${name} highest roof`).toBeLessThanOrEqual(-8);
@@ -302,7 +424,9 @@ describe('Neon Grid fog-city experiment isolation', () => {
     const backdrop = scene.getObjectByName('neon-grid-abyss-fog-v2-backdrop') as THREE.Mesh;
     const city = scene.getObjectByName('skyline-city-towers') as THREE.InstancedMesh;
     const cityMaterial = Array.isArray(city.material) ? city.material[0] : city.material;
-    const backdropMaterial = Array.isArray(backdrop.material) ? backdrop.material[0] : backdrop.material;
+    const backdropMaterial = Array.isArray(backdrop.material)
+      ? backdrop.material[0]
+      : backdrop.material;
     let backdropGeometryDisposals = 0;
     let backdropMaterialDisposals = 0;
     let cityMaterialDisposals = 0;
@@ -319,7 +443,11 @@ describe('Neon Grid fog-city experiment isolation', () => {
   }, 30000);
 
   it('does not add the experimental atmosphere to Circuit Alpha', () => {
-    const scene = trackCatalog.createSelectedTrackScene(new CircuitAlpha(), 'medium', 'fog-experiment');
+    const scene = trackCatalog.createSelectedTrackScene(
+      new CircuitAlpha(),
+      'medium',
+      'fog-experiment',
+    );
     try {
       expect(scene.getObjectByName('neon-grid-fog-backdrop')).toBeUndefined();
       expect(scene.getObjectByName('neon-grid-fog-city')).toBeUndefined();
@@ -344,8 +472,7 @@ describe('Neon Grid fog-city experiment isolation', () => {
       expect(fascia.geometry.userData.suppressedGroundTriangleCount).toBeGreaterThan(0);
       const foundationRange = (
         fascia.geometry.userData.geometryRanges as
-          | Record<string, { triangleCount: number }>
-          | undefined
+          Record<string, { triangleCount: number }> | undefined
       )?.cityFoundations;
       expect(foundationRange?.triangleCount ?? 0).toBeGreaterThan(0);
       expect(fasciaIndexCount).toBeGreaterThan(0);
@@ -386,8 +513,12 @@ describe('Neon Grid fog-city experiment isolation', () => {
           ? materialValue
           : [materialValue];
         expect(materials.every((material) => !material.transparent)).toBe(true);
-        expect(materials.every((material) => material.userData.heightFoggedRuins === true)).toBe(true);
-        expect(materials.every((material) => Number(material.userData.lowerFogHideOffset) < 0)).toBe(true);
+        expect(materials.every((material) => material.userData.heightFoggedRuins === true)).toBe(
+          true,
+        );
+        expect(
+          materials.every((material) => Number(material.userData.lowerFogHideOffset) < 0),
+        ).toBe(true);
       }
       expect(track.curve.getPoints(64).map((point) => point.toArray())).toEqual(routeBefore);
     } finally {
@@ -419,9 +550,11 @@ describe('Neon Grid fog-city experiment isolation', () => {
           const roofY = position.y + scale.y * 1.08;
           expect(roofY - roadY, `${district} roof ${String(i)} height`).toBeLessThan(70);
           expect(roofY - roadY, `${district} roof ${String(i)} height`).toBeGreaterThan(45);
-          const minimumRouteClearance = Math.min(...routeSamples.map((routePoint) =>
-            Math.hypot(position.x - routePoint.x, position.z - routePoint.z),
-          ));
+          const minimumRouteClearance = Math.min(
+            ...routeSamples.map((routePoint) =>
+              Math.hypot(position.x - routePoint.x, position.z - routePoint.z),
+            ),
+          );
           expect(
             minimumRouteClearance,
             `${district} roof ${String(i)} full-course clearance`,

@@ -208,7 +208,8 @@ function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry 
     const projection = track.projectMain(foot);
     const distance = t * gapLength;
     const clear =
-      distance > mouthStart && distance < mouthEnd &&
+      distance > mouthStart &&
+      distance < mouthEnd &&
       projection.lateralDistance - track.halfWidthAt(projection.progress) > 0.4;
     const high = Math.max(road.y + 5.0, projection.point.y + 3.6);
     return {
@@ -238,10 +239,15 @@ function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry 
       const aHigh = a.base.clone().lerp(a.top, high).addScaledVector(a.out, -0.045);
       const bandStart = vertices.length / 3;
       vertices.push(...aLow.toArray(), ...bLow.toArray(), ...bHigh.toArray(), ...aHigh.toArray());
-      for (let vertex = 0; vertex < 4; vertex++)
-        colors.push(guideTone.r, guideTone.g, guideTone.b);
-      indices.push(bandStart, bandStart + 1, bandStart + 2,
-        bandStart, bandStart + 2, bandStart + 3);
+      for (let vertex = 0; vertex < 4; vertex++) colors.push(guideTone.r, guideTone.g, guideTone.b);
+      indices.push(
+        bandStart,
+        bandStart + 1,
+        bandStart + 2,
+        bandStart,
+        bandStart + 2,
+        bandStart + 3,
+      );
       guideBands++;
     };
     pushGuideBand(0.16, 0.19);
@@ -257,8 +263,7 @@ function billboardInteriorScreenGeometry(track: NeonGrid): THREE.BufferGeometry 
         ...aTopBack.toArray(),
         ...aBack.toArray(),
       );
-      for (let vertex = 0; vertex < 4; vertex++)
-        colors.push(ribTone.r, ribTone.g, ribTone.b);
+      for (let vertex = 0; vertex < 4; vertex++) colors.push(ribTone.r, ribTone.g, ribTone.b);
       indices.push(p, p + 1, p + 2, p, p + 2, p + 3);
     }
     panels++;
@@ -418,11 +423,7 @@ function mergeCityBaseIntoSkylineFascia(
   const point = new THREE.Vector3();
   const identity = new THREE.Matrix4();
 
-  const append = (
-    geometry: THREE.BufferGeometry,
-    transform: THREE.Matrix4,
-    tint: THREE.Color,
-  ) => {
+  const append = (geometry: THREE.BufferGeometry, transform: THREE.Matrix4, tint: THREE.Color) => {
     const position = geometry.getAttribute('position');
     const color = geometry.hasAttribute('color')
       ? (geometry.getAttribute('color') as THREE.BufferAttribute)
@@ -481,10 +482,12 @@ function mergeCityBaseIntoSkylineFascia(
   combined.userData.rasterSurfaceIndexStart =
     floorIndexStart + groundMetadata.rasterSurfaceIndexStart;
   combined.userData.rasterSurfaceIndexCount = groundMetadata.rasterSurfaceIndexCount;
-  combined.userData.rasterSurfaceRanges = [{
-    start: floorIndexStart + groundMetadata.rasterSurfaceIndexStart,
-    count: groundMetadata.rasterSurfaceIndexCount,
-  }];
+  combined.userData.rasterSurfaceRanges = [
+    {
+      start: floorIndexStart + groundMetadata.rasterSurfaceIndexStart,
+      count: groundMetadata.rasterSurfaceIndexCount,
+    },
+  ];
   combined.userData.maxRasterCellHeightRange = groundMetadata.maxRasterCellHeightRange;
   combined.userData.retainingWallTriangleCount = 0;
   combined.userData.foldedTriangleCount = groundMetadata.foldedTriangleCount;
@@ -575,11 +578,7 @@ function placeTowers(track: NeonGrid, renderedGround: THREE.Mesh): SkylineTower[
   return towers;
 }
 
-function addStructure(
-  group: THREE.Group,
-  track: NeonGrid,
-  variant: NeonGridVisualVariant,
-): void {
+function addStructure(group: THREE.Group, track: NeonGrid, variant: NeonGridVisualVariant): void {
   // The formerly separate ad supports did not actually hide alternate asphalt.
   // Fuse opaque facade panels into the existing elevated-deck fascia draw call.
   const originalFascia = skylineFasciaGeometry(track);
@@ -644,7 +643,10 @@ function addStructure(
   fascia.userData.mouthCuts = mouthCuts;
   fascia.userData.billboardWallOpenings = (
     wallScreens.userData.openingIntervals as { start: number; end: number; side: -1 | 1 }[]
-  ).filter((interval) => interval.side === billboardScreenSide && interval.start >= 0.038 && interval.end <= 0.224);
+  ).filter(
+    (interval) =>
+      interval.side === billboardScreenSide && interval.start >= 0.038 && interval.end <= 0.224,
+  );
   fascia.userData.presentationOnly = true;
   group.add(fascia);
 
@@ -655,9 +657,8 @@ function addStructure(
   });
   const pylons = new THREE.InstancedMesh(new THREE.BoxGeometry(1.2, 11, 1.2), material, 14);
   pylons.name = 'skyline-pylons';
-  const abyssFogSupportDepth = variant === 'fog-experiment-v3'
-    ? 58
-    : variant === 'fog-experiment-v2' ? 40 : 11;
+  const abyssFogSupportDepth =
+    variant === 'fog-experiment-v3' ? 58 : variant === 'fog-experiment-v2' ? 40 : 11;
   pylons.userData.abyssFogSupportDepthMeters = abyssFogSupportDepth;
   const braces = new THREE.InstancedMesh(new THREE.BoxGeometry(0.3, 0.3, 8), material, 24);
   braces.name = 'skyline-cross-braces';
@@ -724,27 +725,28 @@ function addCity(
   cityGround.userData.collision = false;
   cityGround.userData.progressRange = [groundOptions.start, groundOptions.end];
   const placedTowerData = placeTowers(track, cityGround);
-  const towerData = variant === 'fog-experiment-v2'
-    ? placedTowerData.map((tower, index) => {
-      const placement = abyssFogBuildingPlacement(track, tower.position, index, 24, 36, 1);
-      return {
-        ...tower,
-        baseY: placement.baseY,
-        height: placement.height,
-        fogRoofAboveRoad: placement.roofAboveRoad,
-      };
-    })
-    : variant === 'fog-experiment-v3'
+  const towerData =
+    variant === 'fog-experiment-v2'
       ? placedTowerData.map((tower, index) => {
-        const placement = abyssFogV3BuildingPlacement(track, tower.position, index, 'skyline');
-        return {
-          ...tower,
-          baseY: placement.baseY,
-          height: placement.height,
-          fogRoofAboveRoad: placement.roofAboveRoad,
-        };
-      })
-      : placedTowerData;
+          const placement = abyssFogBuildingPlacement(track, tower.position, index, 24, 36, 1);
+          return {
+            ...tower,
+            baseY: placement.baseY,
+            height: placement.height,
+            fogRoofAboveRoad: placement.roofAboveRoad,
+          };
+        })
+      : variant === 'fog-experiment-v3'
+        ? placedTowerData.map((tower, index) => {
+            const placement = abyssFogV3BuildingPlacement(track, tower.position, index, 'skyline');
+            return {
+              ...tower,
+              baseY: placement.baseY,
+              height: placement.height,
+              fogRoofAboveRoad: placement.roofAboveRoad,
+            };
+          })
+        : placedTowerData;
   const towerMaterial = new THREE.MeshBasicMaterial({
     color: 0xffffff,
   });
@@ -758,6 +760,7 @@ function addCity(
     towers.userData.fogBuriedRoofOffsets = towerData.map((tower) => tower.fogRoofAboveRoad);
     if (variant === 'fog-experiment-v3') {
       towers.userData.fogRoofAboveRoadOffsets = towerData.map((tower) => tower.fogRoofAboveRoad);
+      towers.userData.fogTowerHeights = towerData.map((tower) => tower.height);
     }
   }
   const dummy = new THREE.Object3D();
@@ -853,9 +856,8 @@ function addCity(
     spires.setMatrixAt(spireIndex, dummy.matrix);
     spireIndex++;
   }
-  spires.count = variant === 'fog-experiment-v2' || variant === 'fog-experiment-v3'
-    ? 0
-    : spireIndex;
+  spires.count =
+    variant === 'fog-experiment-v2' || variant === 'fog-experiment-v3' ? 0 : spireIndex;
   if (variant === 'fog-experiment-v2' || variant === 'fog-experiment-v3') {
     spires.userData.suppressedAbyssSkylineSpikes = spireIndex;
   }

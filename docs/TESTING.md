@@ -2052,3 +2052,27 @@ All measurements so far are Chromium/SwiftShader diagnostics. No representative 
 Four-view desktop maxima: A **300 calls / 167,755 triangles**; B2 **296 / 151,327**; v3 **296 / 152,047**. This is a target-view comparison, not a full-course maximum. The same-anchor 120-scored-frame timing sample at 1280×720, Medium is A **361.5 ms median / 499.4 ms p95 / 670.4 ms max**, B2 **300.5 / 454.9 / 631.0 ms**, and v3 **261.3 / 293.9 / 321.4 ms**. Every sample exceeded 50 ms in SwiftShader; these timings do not represent hardware FPS or G-05. No physical device or CI Actions run was used.
 
 The owner screenshots, source audit, capture report and timing report are retained in [`docs/evidence/2026-10-12-neon-grid-abyss-fog-003/`](evidence/2026-10-12-neon-grid-abyss-fog-003/). Visual acceptance remains pending Manny's review; Stage 2 is not authorized until that review.
+
+## Neon Grid Abyss Fog V3.1 — Stage 1 correction validation (2026-10-13)
+
+V3.1 is an isolated change on `experiment/neon-grid-abyss-fog-003`, based on V3 runtime `6e133c71c8671123d597c61fcba6bc0186246e5e`. It fixes route-height selection for the Undercity fog reference, tunes the existing fog on wall-side screens and lower architecture, adjusts only V3 tunnel presentation materials, darkens the fog/backdrop palette, and restores varied heights for the existing Skyline instances. No geometry or textures were added; routes, roads, collision, gameplay, approved artwork and default T9.7 presentation remain unchanged.
+
+**Node 24.19.0 / npm 11.9.0 results:**
+
+- `npm ci` — PASS, exit 0.
+- `npm run typecheck` — PASS, exit 0.
+- `npm run lint` — PASS with zero warnings, exit 0.
+- `npm test -- --run tests/neon-grid-fog-experiment.test.ts` — PASS, **12/12**, exit 0.
+- `npm run test:ci -- --maxWorkers=2` — initially **1,082 passed / 2 timed out** in the existing `neon-grid-stage4-t9-7-city-ground.test.ts` (5-second per-test timeout), exit 1. The two named city-ground cases passed unchanged in isolation via `npx vitest run tests/neon-grid-stage4-t9-7-city-ground.test.ts -t 'records disjoint triangle ranges for the rendered Skyline fascia components|keeps Falls city ground clear of the Waterfall Dive roadway and landing pad' --maxWorkers=1`, **2/2**, exit 0.
+- `npm run test:ci -- --maxWorkers=1` — PASS, **133/133 files and 1,084/1,084 tests**, exit 0; coverage enabled; 826.51 seconds. No timeout, assertion, threshold, or budget was altered. This serial run supersedes the inconclusive two-worker run for full-suite status.
+- `npm run build` — PASS, exit 0; strict TS build plus SFX, music, branding and runtime-asset verifiers and Vite production build. Vite emitted the repository's existing large-chunk advisory.
+- `git lfs fsck --objects HEAD` — PASS, exit 0.
+- `git diff --check` — PASS, exit 0.
+
+**Actual-scene visual and render evidence:** V3 and V3.1 were captured in local Chromium/WebGL SwiftShader using the same Medium `KartTimeTrial` scene, deterministic eight-racer roster, actual chase camera, and progress anchors **0.075 / 0.355 / 0.239 / 0.792717** (Skyline start / Undercity / open curved bridge / Waterfall Dive). Desktop was 1280×720; mobile portrait was 390×844. Camera positions and rotations match at each pair. The eight-anchor source audit recorded zero browser errors, exposed city-floor pixels, probe hits/overlaps, or unsupported fog targets. Diagnostic-only views show the Undercity building bottom, side screens, and Skyline pylon. Evidence and full-resolution comparison images: [V3.1 review packet](evidence/2026-10-13-neon-grid-abyss-fog-v3-1/README.md).
+
+V3 and V3.1 draw calls, visible triangles, geometry count, and texture count are identical at all four matched views. Desktop peaks at **296 calls / 152,047 triangles / 204 geometries / 15 textures**; mobile portrait peaks at **234 / 122,563 / 178 / 13**. No meshes or textures were added. Three presentation materials are cloned for V3-only tunnel tinting and are disposed through the shared scene teardown; the existing scene-resource lifecycle tests pass. No heap or GPU-memory byte measurement was captured.
+
+One local 120-frame synchronous SwiftShader diagnostic sample at Undercity reported desktop median/p95 **4.5/13.5 ms V3** and **3.4/9.0 ms V3.1**, with max **40.5/23.6 ms**; mobile portrait median/p95 **2.3/3.6 ms V3** and **2.4/3.2 ms V3.1**, with max **20.3/16.0 ms**. A single software-render sample is noisy and does not establish hardware FPS, physical-device performance, or G-05 certification. No new shader compilation/browser errors were observed in these captures.
+
+Visual acceptance remains pending Manny's review. These captures do not establish that all remaining structural silhouettes read as grounded. Stage 2, preview publication, runtime merge, production deployment, and T9.8 remain unauthorized.

@@ -1,0 +1,124 @@
+{
+  "renderer": "Local Chromium WebGL / SwiftShader",
+  "purpose": "V3.1 diagnostic angles for city bases, sightline screens, and support pillars",
+  "captures": [
+    {
+      "name": "undercity-building-bottom",
+      "progress": 0.355,
+      "target": "building",
+      "subject": {
+        "object": "undercity-city-buildings",
+        "i": 1,
+        "base": [
+          195.38844299316406,
+          -27.850000381469727,
+          46.99577713012695
+        ],
+        "height": 30,
+        "dist": 39.655184759775054
+      },
+      "camera": {
+        "position": [
+          250.38844299316406,
+          15.149999618530273,
+          101.99577713012695
+        ],
+        "rotation": [
+          -0.5667292175235065,
+          0.7008027019423897,
+          0.3893944871968383,
+          "XYZ"
+        ],
+        "fov": 62,
+        "aspect": 1.7777777777777777
+      },
+      "frame": {
+        "calls": 490,
+        "triangles": 400751,
+        "geometries": 241,
+        "textures": 25,
+        "width": 1280,
+        "height": 720
+      },
+      "file": "/tmp/neon-grid-v31-evidence/v31-diagnostics/undercity-building-bottom.png"
+    },
+    {
+      "name": "undercity-side-screens",
+      "progress": 0.355,
+      "target": "screens",
+      "subject": {
+        "object": "undercity-wallside-sightline-screens",
+        "worldTarget": [
+          159.17337193367337,
+          -3,
+          77.79642930598497
+        ]
+      },
+      "camera": {
+        "position": [
+          193.17337193367337,
+          15,
+          53.79642930598497
+        ],
+        "rotation": [
+          -2.498091544796509,
+          0.8478169733934058,
+          2.6292955772185396,
+          "XYZ"
+        ],
+        "fov": 62,
+        "aspect": 1.7777777777777777
+      },
+      "frame": {
+        "calls": 382,
+        "triangles": 391619,
+        "geometries": 241,
+        "textures": 25,
+        "width": 1280,
+        "height": 720
+      },
+      "file": "/tmp/neon-grid-v31-evidence/v31-diagnostics/undercity-side-screens.png"
+    },
+    {
+      "name": "skyline-support-pylon",
+      "progress": 0.075,
+      "target": "pylon",
+      "subject": {
+        "object": "skyline-pylons",
+        "instance": 6,
+        "center": [
+          168.66575622558594,
+          -15,
+          -128.14712524414062
+        ],
+        "roadY": 14.000001192092896,
+        "bottomY": -44.000001192092896
+      },
+      "camera": {
+        "position": [
+          210.66575622558594,
+          -6,
+          -92.14712524414062
+        ],
+        "rotation": [
+          -0.3465388644339419,
+          0.8317637488134011,
+          0.2608245503248913,
+          "XYZ"
+        ],
+        "fov": 62,
+        "aspect": 1.7777777777777777
+      },
+      "frame": {
+        "calls": 300,
+        "triangles": 360839,
+        "geometries": 241,
+        "textures": 25,
+        "width": 1280,
+        "height": 720
+      },
+      "file": "/tmp/neon-grid-v31-evidence/v31-diagnostics/skyline-support-pylon.png"
+    }
+  ],
+  "errors": []
+}

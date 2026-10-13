@@ -10,41 +10,50 @@ const DEPTH_PROFILE = {
   denseByMeters: 40,
 } as const;
 
-const DISTRICT_FOG: Readonly<Record<FogDistrict, {
-  readonly color: number;
-  readonly clearStart: number;
-  readonly visibleBy: number;
-  readonly strongBy: number;
-  readonly denseBy: number;
-  readonly distanceStart: number;
-  readonly distanceEnd: number;
-}>> = {
+const DISTRICT_FOG: Readonly<
+  Record<
+    FogDistrict,
+    {
+      readonly color: number;
+      readonly clearStart: number;
+      readonly visibleBy: number;
+      readonly strongBy: number;
+      readonly denseBy: number;
+      readonly distanceStart: number;
+      readonly distanceEnd: number;
+      readonly distanceStrength: number;
+    }
+  >
+> = {
   skyline: {
-    color: 0x7893a2,
+    color: 0x3e5266,
     clearStart: 4,
     visibleBy: 11,
     strongBy: 23,
     denseBy: 38,
-    distanceStart: 70,
-    distanceEnd: 250,
+    distanceStart: 62,
+    distanceEnd: 210,
+    distanceStrength: 0.4,
   },
   undercity: {
-    color: 0x756f88,
-    clearStart: 2,
-    visibleBy: 6,
-    strongBy: 14,
-    denseBy: 26,
-    distanceStart: 90,
-    distanceEnd: 220,
+    color: 0x3e5266,
+    clearStart: -2,
+    visibleBy: 0,
+    strongBy: 9,
+    denseBy: 20,
+    distanceStart: 28,
+    distanceEnd: 145,
+    distanceStrength: 0.54,
   },
   'falls-run': {
-    color: 0x819496,
+    color: 0x3e5266,
     clearStart: 4,
     visibleBy: 11,
     strongBy: 22,
     denseBy: 36,
     distanceStart: 68,
     distanceEnd: 235,
+    distanceStrength: 0.38,
   },
 };
 
@@ -70,6 +79,10 @@ const FOG_TARGET_DISTRICT = new Map<string, FogDistrict>([
   ['undercity-work-lights', 'undercity'],
   ['undercity-service-bays', 'undercity'],
   ['undercity-ad-supports', 'undercity'],
+  // V3 exposes these side surfaces at the open bridge. The tunnel floor and
+  // roof stay outside the fog treatment to preserve the drivable aperture.
+  ['service-tunnel-left-wall', 'undercity'],
+  ['service-tunnel-right-wall', 'undercity'],
   ['falls-run-city-terraced-ground', 'falls-run'],
   ['falls-run-deck-fascia', 'falls-run'],
   ['falls-run-city-windows', 'falls-run'],
@@ -95,17 +108,25 @@ export function abyssFogV3BuildingPlacement(
   index: number,
   district: FogDistrict,
 ): AbyssFogV3BuildingPlacement {
+  const skylineRoofOffsets = [
+    18, -3, 26, 3, 14, -6, 22, 5, 11, -2, 28, -5, 8, 20, -3, 16, 0, 24, -6, 13, 6, 19,
+  ];
   const roadY = track.projectMain(position).point.y;
-  const height = district === 'undercity'
-    ? 28 + (index % 5) * 2
-    : district === 'skyline'
-      ? 32 + (index % 6) * 2.2
-      : 34 + (index % 6) * 2.4;
-  const roofAboveRoad = district === 'undercity'
-    ? 1.5 + (index % 5) * 0.65
-    : district === 'skyline'
-      ? -1 - (index % 5) * 0.65
-      : -1.5 - (index % 5) * 0.7;
+  const height =
+    district === 'undercity'
+      ? 28 + (index % 5) * 2
+      : district === 'skyline'
+        ? Math.max(
+            32,
+            38 + (index % 3) * 4 + (skylineRoofOffsets[index % skylineRoofOffsets.length] ?? 0),
+          )
+        : 34 + (index % 6) * 2.4;
+  const roofAboveRoad =
+    district === 'undercity'
+      ? 1.5 + (index % 5) * 0.65
+      : district === 'skyline'
+        ? (skylineRoofOffsets[index % skylineRoofOffsets.length] ?? 0)
+        : -1.5 - (index % 5) * 0.7;
   return {
     baseY: roadY + roofAboveRoad - height,
     height,
@@ -123,11 +144,16 @@ interface FogUniformState {
   readonly denseBy: THREE.IUniform<number>;
   readonly distanceStart: THREE.IUniform<number>;
   readonly distanceEnd: THREE.IUniform<number>;
+  readonly distanceStrength: THREE.IUniform<number>;
   readonly worldCamera: THREE.Vector3;
   readonly routePoint: THREE.Vector3;
 }
 
-function patchFogShader(material: THREE.Material, objectName: string, state: FogUniformState): void {
+function patchFogShader(
+  material: THREE.Material,
+  objectName: string,
+  state: FogUniformState,
+): void {
   const previousCompile = material.onBeforeCompile.bind(material);
   const previousProgramKey = material.customProgramCacheKey.bind(material);
   material.onBeforeCompile = (shader, renderer) => {
@@ -174,6 +200,7 @@ function patchFogShader(material: THREE.Material, objectName: string, state: Fog
           uniform float uAbyssFogV3DenseBy;
           uniform float uAbyssFogV3DistanceStart;
           uniform float uAbyssFogV3DistanceEnd;
+          uniform float uAbyssFogV3DistanceStrength;
           varying float vAbyssFogV3WorldY;
           varying float vAbyssFogV3ViewDepth;`,
       )
@@ -190,7 +217,8 @@ function patchFogShader(material: THREE.Material, objectName: string, state: Fog
           float abyssFogV3Height = clamp(abyssFogV3Early + abyssFogV3Middle +
             abyssFogV3Deep, 0.0, 1.0);
           float abyssFogV3Distance = smoothstep(uAbyssFogV3DistanceStart,
-            uAbyssFogV3DistanceEnd, vAbyssFogV3ViewDepth) * 0.38;
+            uAbyssFogV3DistanceEnd, vAbyssFogV3ViewDepth) *
+            uAbyssFogV3DistanceStrength;
           float abyssFogV3Amount = 1.0 - (1.0 - abyssFogV3Height) *
             (1.0 - abyssFogV3Distance);
           gl_FragColor.rgb = mix(gl_FragColor.rgb, uAbyssFogV3Color,
@@ -204,6 +232,7 @@ function patchFogShader(material: THREE.Material, objectName: string, state: Fog
     shader.uniforms.uAbyssFogV3DenseBy = state.denseBy;
     shader.uniforms.uAbyssFogV3DistanceStart = state.distanceStart;
     shader.uniforms.uAbyssFogV3DistanceEnd = state.distanceEnd;
+    shader.uniforms.uAbyssFogV3DistanceStrength = state.distanceStrength;
   };
   material.customProgramCacheKey = () =>
     `${previousProgramKey()}|neon-grid-abyss-fog-v3:${objectName}`;
@@ -220,20 +249,40 @@ function fogDistrictForProgress(progress: number): FogDistrict {
   return 'falls-run';
 }
 
-function updateFogRoute(track: NeonGrid, state: FogUniformState, camera: THREE.Camera): FogDistrict {
+interface FogRouteReference {
+  readonly route: 'main-road' | 'service-tunnel';
+  readonly district: FogDistrict;
+  readonly roadY: number;
+  readonly mainDistance: number;
+  readonly tunnelDistance: number;
+}
+
+function updateFogRoute(
+  track: NeonGrid,
+  state: FogUniformState,
+  camera: THREE.Camera,
+): FogRouteReference {
   camera.getWorldPosition(state.worldCamera);
+  const main = track.projectMain(state.worldCamera);
   const tunnel = track.serviceTunnel.project(state.worldCamera);
+  const mainDistance = state.worldCamera.distanceTo(main.point);
+  const tunnelDistance = state.worldCamera.distanceTo(tunnel.point);
   let district: FogDistrict;
-  if (tunnel.lateralDistance <= track.serviceTunnel.roadHalfWidth + 8) {
-    state.routePoint.copy(track.serviceTunnel.curve.getPointAt(tunnel.progress));
+  let route: FogRouteReference['route'];
+  if (
+    tunnel.lateralDistance <= track.serviceTunnel.roadHalfWidth + 8 &&
+    tunnelDistance < mainDistance
+  ) {
+    state.routePoint.copy(tunnel.point);
+    route = 'service-tunnel';
     district = 'undercity';
   } else {
-    const main = track.projectMain(state.worldCamera);
-    state.routePoint.copy(track.curve.getPointAt(main.progress));
+    state.routePoint.copy(main.point);
+    route = 'main-road';
     district = fogDistrictForProgress(main.progress);
   }
   state.roadY.value = state.routePoint.y;
-  return district;
+  return { route, district, roadY: state.routePoint.y, mainDistance, tunnelDistance };
 }
 
 function createFogBank(state: FogUniformState, track: NeonGrid): THREE.Mesh {
@@ -274,14 +323,14 @@ function createFogBank(state: FogUniformState, track: NeonGrid): THREE.Mesh {
         float bank = exp(-pow((elevation - bankCenter) / 0.22, 2.0));
         float lowerVeil = 1.0 - smoothstep(-0.68, -0.16, elevation);
         vec3 zenith = vec3(0.002, 0.006, 0.016);
-        vec3 upper = vec3(0.004, 0.014, 0.030);
-        vec3 lowerSky = vec3(0.014, 0.034, 0.050);
-        vec3 denseMist = vec3(0.17, 0.29, 0.36);
+        vec3 upper = vec3(0.004, 0.012, 0.026);
+        vec3 lowerSky = vec3(0.007, 0.019, 0.032);
+        vec3 denseMist = vec3(0.050, 0.084, 0.130);
         vec3 color = mix(lowerSky, upper, smoothstep(-0.08, 0.50, elevation));
         color = mix(color, zenith, smoothstep(0.46, 0.88, elevation));
-        float bankDensity = bank * mix(0.24, 0.94, cloudShape);
-        float lowerDensity = lowerVeil * mix(0.12, 0.30, cloudShape);
-        color = mix(color, denseMist, clamp(bankDensity + lowerDensity, 0.0, 0.94));
+        float bankDensity = bank * mix(0.20, 0.82, cloudShape);
+        float lowerDensity = lowerVeil * mix(0.08, 0.25, cloudShape);
+        color = mix(color, denseMist, clamp(bankDensity + lowerDensity, 0.0, 0.86));
         gl_FragColor = vec4(color, 1.0);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
@@ -299,7 +348,7 @@ function createFogBank(state: FogUniformState, track: NeonGrid): THREE.Mesh {
   mesh.userData.abyssFogBackdrop = true;
   mesh.userData.abyssFogAtmosphere = 'soft-procedural-cloud-bank';
   mesh.onBeforeRender = (_renderer, _scene, camera) => {
-    updateFogRoute(track, state, camera);
+    mesh.userData.abyssFogRouteReference = updateFogRoute(track, state, camera);
   };
   return mesh;
 }
@@ -308,13 +357,14 @@ function createFogBank(state: FogUniformState, track: NeonGrid): THREE.Mesh {
 export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void {
   const state: FogUniformState = {
     roadY: { value: 0 },
-    color: { value: new THREE.Color(0x365b70) },
+    color: { value: new THREE.Color(0x3e5266) },
     clearStart: { value: DISTRICT_FOG.skyline.clearStart },
     visibleBy: { value: DISTRICT_FOG.skyline.visibleBy },
     strongBy: { value: DISTRICT_FOG.skyline.strongBy },
     denseBy: { value: DISTRICT_FOG.skyline.denseBy },
     distanceStart: { value: DISTRICT_FOG.skyline.distanceStart },
     distanceEnd: { value: DISTRICT_FOG.skyline.distanceEnd },
+    distanceStrength: { value: DISTRICT_FOG.skyline.distanceStrength },
     worldCamera: new THREE.Vector3(),
     routePoint: new THREE.Vector3(),
   };
@@ -338,17 +388,51 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
     if (!(object instanceof THREE.Mesh)) return;
     const district = FOG_TARGET_DISTRICT.get(object.name);
     if (!district) return;
-    const fog = DISTRICT_FOG[district];
+    const districtFog = DISTRICT_FOG[district];
+    const fog =
+      object.name === 'undercity-wallside-sightline-screens'
+        ? {
+            ...districtFog,
+            clearStart: -2,
+            visibleBy: 2,
+            strongBy: 7,
+            denseBy: 16,
+            distanceStart: 8,
+            distanceEnd: 70,
+            distanceStrength: 0.68,
+          }
+        : object.name === 'service-tunnel-left-wall' || object.name === 'service-tunnel-right-wall'
+          ? {
+              ...districtFog,
+              clearStart: -2,
+              visibleBy: 2,
+              strongBy: 8,
+              denseBy: 18,
+              distanceStart: 0,
+              distanceEnd: 40,
+              distanceStrength: 0.72,
+            }
+          : districtFog;
     const materialValue = object.material as THREE.Material | THREE.Material[];
     const sourceMaterials: THREE.Material[] = Array.isArray(materialValue)
       ? materialValue
       : [materialValue];
     const nextMaterials = sourceMaterials.map((source) => {
-      if (!(source instanceof THREE.MeshBasicMaterial) && !(source instanceof THREE.MeshStandardMaterial)) {
+      if (
+        !(source instanceof THREE.MeshBasicMaterial) &&
+        !(source instanceof THREE.MeshStandardMaterial)
+      ) {
         unsupportedObjects.push(`${object.name}:${source.type}`);
         return source;
       }
       const material = source.clone();
+      if (
+        (object.name === 'service-tunnel-left-wall' ||
+          object.name === 'service-tunnel-right-wall') &&
+        material instanceof THREE.MeshStandardMaterial
+      ) {
+        material.color.set(0x353a4a);
+      }
       patchFogShader(material, object.name, {
         ...state,
         color: { value: new THREE.Color(fog.color) },
@@ -358,6 +442,7 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
         denseBy: { value: fog.denseBy },
         distanceStart: { value: fog.distanceStart },
         distanceEnd: { value: fog.distanceEnd },
+        distanceStrength: { value: fog.distanceStrength },
       });
       material.userData.abyssFogColor = new THREE.Color(fog.color).getHexString();
       material.userData.abyssFogDistrict = district;
@@ -365,11 +450,42 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
     });
     object.material = Array.isArray(materialValue)
       ? nextMaterials
-      : nextMaterials[0] ?? sourceMaterials[0] ?? new THREE.MeshBasicMaterial();
+      : (nextMaterials[0] ?? sourceMaterials[0] ?? new THREE.MeshBasicMaterial());
     object.userData.abyssVerticalFog = true;
     object.userData.abyssFogDistrict = district;
+    object.userData.abyssFogProfile = {
+      clearStart: fog.clearStart,
+      visibleBy: fog.visibleBy,
+      strongBy: fog.strongBy,
+      denseBy: fog.denseBy,
+      distanceStart: fog.distanceStart,
+      distanceEnd: fog.distanceEnd,
+      distanceStrength: fog.distanceStrength,
+    };
     foggedObjects.push(object.name);
   });
+
+  const tunnelFloorObject = scene.getObjectByName('service-tunnel-floor');
+  const tunnelFloor = tunnelFloorObject instanceof THREE.Mesh ? tunnelFloorObject : undefined;
+  const tunnelFloorMaterials = tunnelFloor?.material as
+    THREE.Material | THREE.Material[] | undefined;
+  const sourceFloorMaterials = Array.isArray(tunnelFloorMaterials)
+    ? tunnelFloorMaterials
+    : tunnelFloorMaterials
+      ? [tunnelFloorMaterials]
+      : [];
+  if (tunnelFloor && sourceFloorMaterials.length > 0) {
+    const tintedFloorMaterials = sourceFloorMaterials.map((source) => {
+      if (!(source instanceof THREE.MeshStandardMaterial)) return source;
+      const material = source.clone();
+      material.color.set(0x27384b);
+      return material;
+    });
+    tunnelFloor.material = Array.isArray(tunnelFloorMaterials)
+      ? tintedFloorMaterials
+      : (tintedFloorMaterials[0] ?? tunnelFloorMaterials);
+    tunnelFloor.userData.abyssTunnelSurfaceTint = '27384b';
+  }
 
   const names = [...new Set(foggedObjects)].sort();
   const unsupported = [...new Set(unsupportedObjects)].sort();
@@ -380,7 +496,17 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
     stage: 1,
     addedDecorativeStructures: 0,
     transparentFogVolumeCount: 0,
-    atmosphere: 'cloud-shaped backdrop with district-local world-height fog on existing city structures',
+    atmosphere:
+      'cloud-shaped backdrop with district-local world-height fog on existing city structures',
+    palette: { fogColor: '3e5266', backdropMistLinear: [0.05, 0.084, 0.13] },
+    distanceBlendStrength: Object.fromEntries(
+      Object.entries(DISTRICT_FOG).map(([district, fog]) => [district, fog.distanceStrength]),
+    ),
+    presentationTintedObjects: [
+      'service-tunnel-left-wall',
+      'service-tunnel-right-wall',
+      'service-tunnel-floor',
+    ],
     depthProfile: DEPTH_PROFILE,
     districts: districtReport,
     foggedObjects: names,

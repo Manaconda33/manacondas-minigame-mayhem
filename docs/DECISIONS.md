@@ -1,3 +1,11 @@
+## 2026-10-13: Post-fog visual priorities and adaptive graphics governance (documentation only)
+
+- **Owner direction:** Manny reports V3.2 owner playtest PASS and explicitly postpones the previously planned *new ruined-city art direction*. Do not delete historical experiments or prior approved art; the new next visual priority is uncovering the existing approved sponsor billboards, followed by measured materials and optimization work.
+- **Visual checkpoint:** Fog V3.2 source `25ea008b15852d593681f5b3b2a17b467a193472`, runtime `9731adafdaf8e84d5a2c36ceeb035620753befa6`; this owner visual/playability decision is **not** G-05 device certification, integration, or production release.
+- **Graphics-budget interpretation:** PRD amendments 2.26–2.28 previously approved on the Neon Grid development branch set 500 all-race-scene draw calls and 425k Task 9 engineering triangles while retaining 750k global triangle protection. Current main PRD 250-call prose is out of date; reconcile by separate governed documentation checkpoint. Experimental 550–650-call and 500k–700k proposals are *not approved allowances* or release exceptions.
+- **Architecture:** Expand the [existing cross-minigame render-governance plan](docs/superpowers/plans/2026-10-05-render-workload-governance.md), using instrumentation-first I0/I1/I2 before visibility/LOD changes. Add per-pass measurement and controlled hardware calibration, while preserving runtime behavior, earlier approvals, and existing CI release gates.
+- **Authority:** The [post-fog roadmap](docs/superpowers/plans/2026-10-13-neon-grid-post-fog-graphics-roadmap.md) authorizes recording the priorities only; each runtime/material/asset/CI/policy change still requires its own bounded approval and tests. No new ruined-city scenery, PR #242 merge, default replacement, or production deployment is authorized.
+
 # Architecture and Product Decisions
 
 ## ADR-101: Bounded quality-dependent peripheral motion blur

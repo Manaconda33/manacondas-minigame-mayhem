@@ -937,6 +937,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: assemble
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -953,30 +954,67 @@ jobs:
         run: |
           python3 - <<'PYTHON'
           import hashlib, json, time, urllib.request
+          from concurrent.futures import ThreadPoolExecutor, as_completed
+
           report = json.load(open('delivery-expected.json'))
-          for attempt in range(12):
-              try:
-                  for item in report:
-                      request = urllib.request.Request(item['url'] + '?delivery=neon-grid-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472', headers={'Cache-Control': 'no-cache'})
+          expected_sources = [
+              ('previews/neon-grid-abyss-fog-004/', '25ea008b15852d593681f5b3b2a17b467a193472'),
+              ('previews/neon-grid-abyss-fog-002/', '7d087f19dfd86bca36b500280309d9c86b4af77d'),
+              ('previews/neon-grid-abyss-fog-001/', 'b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65'),
+              ('previews/neon-grid-t9-7-environment-correction/', '75c6c62c865ec3b546f3f2512e649de9ea6d52bc'),
+              ('previews/neon-grid-t9-7-city-ground/', '90ae7d5ff953fe90d40043de957507d7b79a3ef5'),
+              ('previews/neon-grid-t9-7/', 'f4672ef55d6697fb3d205abd03633faa0f821874'),
+              ('previews/neon-grid-t9-6-diagnostics/', 'c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf'),
+              ('previews/neon-grid-t9-5-owner-correction/', '9b973d48c1115d4b35d3936a3eacbed8dbb7ed76'),
+              ('previews/neon-grid-t9-5-portals/', '64492dfbca7c4a5633880637ddbc5bcc05c34fde'),
+              ('previews/neon-grid-t9-5-sightline/', 'd54a70aefb90bac3051ac28bc02c663431edfb91'),
+              ('previews/neon-grid-t9-5-correction/', 'e31605fa9618df21eaba384d75a056816c95432c'),
+              ('previews/neon-grid-t9-5/', 'a25c4b1788f4930b4e416777c8100284ff3c65a7'),
+              ('previews/neon-grid-t9-4/', 'be47a3d7215867b9b275473fd2640cc626ef5e37'),
+              ('previews/neon-grid-t9-3-correction/', '42781fb5367a146473c49012e0442e953197e480'),
+              ('previews/neon-grid-t9-3/', '722d9db1c1867f2a1516843679bb30a4ca37a2ea'),
+              ('previews/neon-grid-t9-2/', 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0'),
+              ('previews/neon-grid-far300/', 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb'),
+              ('previews/neon-grid-dive/', 'b49d9876f8c6ce87956f8b91675c3c8180e56b55'),
+              ('previews/neon-grid-billboard/', 'b942c912510ec86312a9d0cd393d71d2eb478ea8'),
+              ('previews/neon-grid-tunnel/', '92025b5f241cae7ac208c977f74b24396ce6909b'),
+          ]
+
+          def verify_item(item):
+              for attempt in range(12):
+                  try:
+                      request = urllib.request.Request(
+                          item['url'] + '?delivery=neon-grid-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472',
+                          headers={'Cache-Control': 'no-cache'},
+                      )
                       with urllib.request.urlopen(request, timeout=45) as response:
                           data = response.read()
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = '25ea008b15852d593681f5b3b2a17b467a193472' if item['path'].startswith('previews/neon-grid-abyss-fog-004/') else '7d087f19dfd86bca36b500280309d9c86b4af77d' if item['path'].startswith('previews/neon-grid-abyss-fog-002/') else 'b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65' if item['path'].startswith('previews/neon-grid-abyss-fog-001/') else '75c6c62c865ec3b546f3f2512e649de9ea6d52bc' if item['path'].startswith('previews/neon-grid-t9-7-environment-correction/') else '90ae7d5ff953fe90d40043de957507d7b79a3ef5' if item['path'].startswith('previews/neon-grid-t9-7-city-ground/') else 'f4672ef55d6697fb3d205abd03633faa0f821874' if item['path'].startswith('previews/neon-grid-t9-7/') else 'c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf' if item['path'].startswith('previews/neon-grid-t9-6-diagnostics/') else '9b973d48c1115d4b35d3936a3eacbed8dbb7ed76' if item['path'].startswith('previews/neon-grid-t9-5-owner-correction/') else '64492dfbca7c4a5633880637ddbc5bcc05c34fde' if item['path'].startswith('previews/neon-grid-t9-5-portals/') else 'd54a70aefb90bac3051ac28bc02c663431edfb91' if item['path'].startswith('previews/neon-grid-t9-5-sightline/') else 'e31605fa9618df21eaba384d75a056816c95432c' if item['path'].startswith('previews/neon-grid-t9-5-correction/') else 'a25c4b1788f4930b4e416777c8100284ff3c65a7' if item['path'].startswith('previews/neon-grid-t9-5/') else 'be47a3d7215867b9b275473fd2640cc626ef5e37' if item['path'].startswith('previews/neon-grid-t9-4/') else '42781fb5367a146473c49012e0442e953197e480' if item['path'].startswith('previews/neon-grid-t9-3-correction/') else '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              expected_source = next((sha for prefix, sha in expected_sources if item['path'].startswith(prefix)), '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b')
                               marker = json.loads(data)
                               assert marker['source'] == expected_source
                               if item['path'].startswith('previews/neon-grid-abyss-fog-004/'):
                                   assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/'
                           item['httpStatus'] = response.status
-                  break
-              except Exception as error:
-                  print('Delivery attempt', attempt + 1, str(error), flush=True)
-                  if attempt == 11:
-                      raise
-                  time.sleep(10)
-          print(json.dumps(report, indent=2))
-          open('delivery-verified.json', 'w').write(json.dumps(report, indent=2))
+                          return item
+                  except Exception as error:
+                      print(f"Delivery attempt {attempt + 1} for {item['path']}: {error}", flush=True)
+                      if attempt == 11:
+                          raise
+                      time.sleep(10)
+
+          verified = [None] * len(report)
+          with ThreadPoolExecutor(max_workers=16) as executor:
+              future_indexes = {executor.submit(verify_item, item): index for index, item in enumerate(report)}
+              for future in as_completed(future_indexes):
+                  index = future_indexes[future]
+                  verified[index] = future.result()
+                  print(f"Verified {index + 1}/{len(report)}: {report[index]['path']}", flush=True)
+
+          print(json.dumps(verified, indent=2))
+          open('delivery-verified.json', 'w').write(json.dumps(verified, indent=2))
           PYTHON
 
       - name: Upload verified delivery evidence

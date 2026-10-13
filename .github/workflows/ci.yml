@@ -781,7 +781,43 @@ jobs:
         run: |
           python3 - <<'PYTHON'
           from pathlib import Path
-          import hashlib, json, urllib.request
+          import hashlib, json, time, urllib.error, urllib.request
+
+          TRANSIENT_HTTP_STATUSES = {429, 500, 502, 503, 504}
+          MAX_PRESERVATION_ATTEMPTS = 5
+
+          def verify_published_file(url, relative, expected_sha):
+              for attempt in range(1, MAX_PRESERVATION_ATTEMPTS + 1):
+                  request = urllib.request.Request(url, headers={
+                      'Cache-Control': 'no-cache',
+                      'User-Agent': 'neon-grid-pages-preservation-check',
+                  })
+                  try:
+                      with urllib.request.urlopen(request, timeout=45) as response:
+                          if response.status != 200:
+                              raise RuntimeError(f'Unexpected HTTP {response.status} for {relative}')
+                          data = response.read()
+                      actual_sha = hashlib.sha256(data).hexdigest()
+                      if actual_sha != expected_sha:
+                          raise AssertionError(f'Production bytes differ: {relative}')
+                      return
+                  except urllib.error.HTTPError as error:
+                      if error.code not in TRANSIENT_HTTP_STATUSES:
+                          raise RuntimeError(f'HTTP {error.code} while verifying {relative}') from error
+                      if attempt == MAX_PRESERVATION_ATTEMPTS:
+                          raise RuntimeError(
+                              f'Transient HTTP {error.code} persisted for {relative} '
+                              f'after {MAX_PRESERVATION_ATTEMPTS} attempts'
+                          ) from error
+                      delay = min(2 ** (attempt - 1), 8)
+                      print(
+                          f'Retrying {relative} after transient HTTP {error.code} '
+                          f'(attempt {attempt}/{MAX_PRESERVATION_ATTEMPTS}, wait {delay}s)',
+                          flush=True,
+                      )
+                      error.close()
+                      time.sleep(delay)
+
           root = Path('site-root')
           paths = [*sorted(path for path in root.iterdir() if path.is_file() and not path.name.startswith('.'))]
           paths += [path for path in sorted((root/'assets').rglob('*')) if path.is_file()]
@@ -851,9 +887,7 @@ jobs:
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
               if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/')):
-                  with urllib.request.urlopen(url, timeout=45) as response:
-                      assert response.status == 200
-                      assert hashlib.sha256(response.read()).hexdigest() == sha, 'Production bytes differ: ' + relative
+                  verify_published_file(url, relative, sha)
               report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))
           Path('delivery-expected.json').write_text(json.dumps(report, indent=2))
           print(json.dumps(report, indent=2))

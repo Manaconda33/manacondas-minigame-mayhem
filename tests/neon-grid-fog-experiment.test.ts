@@ -9,7 +9,7 @@ import { disposeTrackScene } from '../src/game/track/TrackSceneResources';
 type FogSceneFactory = (
   track: NeonGrid,
   quality: 'low' | 'medium' | 'high',
-  variant: 'fog-experiment' | 'fog-experiment-v2' | 'fog-experiment-v3',
+  variant: 'fog-experiment' | 'fog-experiment-v2' | 'fog-experiment-v3' | 'fog-experiment-v3-2',
 ) => THREE.Group;
 
 const createFogScene = createNeonGridScene as unknown as FogSceneFactory;
@@ -24,6 +24,7 @@ describe('Neon Grid fog-city experiment isolation', () => {
     expect(resolveVariant?.('?neonGridVisual=abyss-fog-001')).toBe('fog-experiment');
     expect(resolveVariant?.('?neonGridVisual=abyss-fog-002')).toBe('fog-experiment-v2');
     expect(resolveVariant?.('?neonGridVisual=abyss-fog-003')).toBe('fog-experiment-v3');
+    expect(resolveVariant?.('?neonGridVisual=abyss-fog-004')).toBe('fog-experiment-v3-2');
     expect(resolveVariant?.('?neonGridVisual=unknown')).toBe('approved');
     expect(resolveVariant?.('')).toBe('approved');
   });
@@ -281,6 +282,142 @@ describe('Neon Grid fog-city experiment isolation', () => {
       }
     } finally {
       disposeTrackScene(scene);
+    }
+  }, 30000);
+
+  it('buries only V3.2 building, fascia, screen, and support endings into local fog', () => {
+    const track = new NeonGrid();
+    const v31 = createFogScene(track, 'medium', 'fog-experiment-v3');
+    const v32 = createFogScene(track, 'medium', 'fog-experiment-v3-2');
+    try {
+      expect(v32.userData.visualVariant).toBe('fog-experiment-v3-2');
+      expect(v31.userData.visualVariant).toBe('fog-experiment-v3');
+      expect(v32.getObjectByName('neon-grid-abyss-fog-v3')).toBeDefined();
+
+      const v32Report = v32.userData.abyssFogV3_2 as {
+        readonly fullyBlendedObjects: readonly string[];
+        readonly localizedProfileObjects: readonly string[];
+        readonly addedDecorativeStructures: number;
+      };
+      expect(v32Report.addedDecorativeStructures).toBe(0);
+      expect(v32Report.fullyBlendedObjects).toEqual(
+        expect.arrayContaining([
+          'skyline-deck-fascia',
+          'skyline-pylons',
+          'skyline-city-towers',
+          'undercity-city-buildings',
+          'undercity-industrial-architecture',
+          'undercity-wallside-sightline-screens',
+        ]),
+      );
+
+      const maximumBlend = (name: string): number => {
+        const mesh = v32.getObjectByName(name) as THREE.Mesh;
+        const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+        if (!material) throw new Error(`Missing fog material for ${name}`);
+        return Number(material.userData.abyssFogMaximumBlend);
+      };
+      const terminalColor = (scene: THREE.Group, name: string): string => {
+        const mesh = scene.getObjectByName(name) as THREE.Mesh;
+        const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+        if (!material) throw new Error(`Missing fog material for ${name}`);
+        return String(material.userData.abyssFogTerminalColor);
+      };
+      for (const name of [
+        'skyline-deck-fascia',
+        'skyline-pylons',
+        'skyline-city-towers',
+        'undercity-city-buildings',
+        'undercity-industrial-architecture',
+        'undercity-wallside-sightline-screens',
+      ]) {
+        expect(maximumBlend(name), `${name} reaches the matching fog color`).toBe(1);
+        expect(terminalColor(v32, name), `${name} blends into lower haze`).toBe('243543');
+        expect(terminalColor(v31, name), `${name} keeps V3.1 fog`).toBe('3e5266');
+      }
+
+      const v31Screens = v31.getObjectByName('undercity-wallside-sightline-screens') as THREE.Mesh;
+      const v32Screens = v32.getObjectByName('undercity-wallside-sightline-screens') as THREE.Mesh;
+      expect(v31Screens.userData.sightlinePanels).toBe(v32Screens.userData.sightlinePanels);
+      expect(v31Screens.userData.mouthCuts).toBe(v32Screens.userData.mouthCuts);
+      expect(v32Screens.userData.collision).toBe(false);
+      expect(v32Screens.geometry.getAttribute('position').array).toEqual(
+        v31Screens.geometry.getAttribute('position').array,
+      );
+      expect(v32Screens.geometry.getIndex()?.array).toEqual(v31Screens.geometry.getIndex()?.array);
+      expect(v32Screens.userData.abyssFogProfile).toMatchObject({
+        clearStart: -0.5,
+        visibleBy: 0.1,
+        strongBy: 0.5,
+        denseBy: 0.95,
+        maximumBlend: 1,
+      });
+
+      const v31Fascia = v31.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
+      const v32Fascia = v32.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
+      expect(v32Fascia.geometry.getAttribute('position').array).toEqual(
+        v31Fascia.geometry.getAttribute('position').array,
+      );
+      expect(v31Fascia.geometry.getIndex()?.count).toBe(v32Fascia.geometry.getIndex()?.count);
+      expect(v32Fascia.userData.abyssFogProfile).toMatchObject({
+        clearStart: 1,
+        visibleBy: 2.5,
+        strongBy: 5,
+        denseBy: 7.25,
+      });
+
+      const v32Buildings = v32.getObjectByName('undercity-city-buildings') as THREE.InstancedMesh;
+      expect(v32Buildings.count).toBe(
+        (v31.getObjectByName('undercity-city-buildings') as THREE.InstancedMesh).count,
+      );
+      expect(v32Buildings.userData.abyssFogProfile).toMatchObject({ denseBy: 20, maximumBlend: 1 });
+      const v31Buildings = v31.getObjectByName('undercity-city-buildings') as THREE.InstancedMesh;
+      expect(v32Buildings.instanceMatrix.array).toEqual(v31Buildings.instanceMatrix.array);
+      expect(v32Buildings.geometry.getAttribute('position').array).toEqual(
+        v31Buildings.geometry.getAttribute('position').array,
+      );
+      const v32Pylons = v32.getObjectByName('skyline-pylons') as THREE.InstancedMesh;
+      expect(v32Pylons.count).toBe(14);
+      expect(v32Pylons.userData.abyssFogSupportDepthMeters).toBe(58);
+      expect(v32Pylons.instanceMatrix.array).toEqual(
+        (v31.getObjectByName('skyline-pylons') as THREE.InstancedMesh).instanceMatrix.array,
+      );
+      for (const name of [
+        'skyline-city-towers',
+        'skyline-cross-braces',
+        'undercity-industrial-architecture',
+      ]) {
+        const original = v31.getObjectByName(name) as THREE.Mesh;
+        const corrected = v32.getObjectByName(name) as THREE.Mesh;
+        expect(corrected.geometry.getAttribute('position').array).toEqual(
+          original.geometry.getAttribute('position').array,
+        );
+        expect(corrected.geometry.getIndex()?.array).toEqual(original.geometry.getIndex()?.array);
+        if (original instanceof THREE.InstancedMesh && corrected instanceof THREE.InstancedMesh) {
+          expect(corrected.count).toBe(original.count);
+          expect(corrected.instanceMatrix.array).toEqual(original.instanceMatrix.array);
+        }
+      }
+      expect(v32Report.localizedProfileObjects).toEqual([
+        'skyline-deck-fascia',
+        'undercity-wallside-sightline-screens',
+      ]);
+      expect(v32.getObjectByName('skyline-city-towers')?.userData.abyssFogProfile).toMatchObject({
+        denseBy: 38,
+        maximumBlend: 1,
+      });
+
+      const v32RoadMaterials = (v32.getObjectByName('track-road') as THREE.Mesh).material;
+      expect(
+        (Array.isArray(v32RoadMaterials) ? v32RoadMaterials : [v32RoadMaterials]).every(
+          (material) => material.userData.abyssVerticalFog !== true,
+        ),
+      ).toBe(true);
+      expect(v32.getObjectByName('waterfall-dive')).toBeDefined();
+      expect(v31.children.length).toBe(v32.children.length);
+    } finally {
+      disposeTrackScene(v31);
+      disposeTrackScene(v32);
     }
   }, 30000);
 

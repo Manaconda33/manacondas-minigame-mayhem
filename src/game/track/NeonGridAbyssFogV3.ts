@@ -94,6 +94,18 @@ const FOG_TARGET_DISTRICT = new Map<string, FogDistrict>([
   ['falls-run-extension-supported-pylons', 'falls-run'],
 ]);
 
+const V32_FULL_BLEND_TARGETS = new Set([
+  'skyline-deck-fascia',
+  'skyline-city-towers',
+  'skyline-pylons',
+  'skyline-cross-braces',
+  'undercity-city-buildings',
+  'undercity-industrial-architecture',
+  'undercity-wallside-sightline-screens',
+]);
+
+const V32_TERMINAL_FOG_COLOR = 0x243543;
+
 export interface AbyssFogV3BuildingPlacement {
   readonly baseY: number;
   readonly height: number;
@@ -138,6 +150,7 @@ export function abyssFogV3BuildingPlacement(
 interface FogUniformState {
   readonly roadY: THREE.IUniform<number>;
   readonly color: THREE.IUniform<THREE.Color>;
+  readonly lowerColor: THREE.IUniform<THREE.Color>;
   readonly clearStart: THREE.IUniform<number>;
   readonly visibleBy: THREE.IUniform<number>;
   readonly strongBy: THREE.IUniform<number>;
@@ -145,6 +158,7 @@ interface FogUniformState {
   readonly distanceStart: THREE.IUniform<number>;
   readonly distanceEnd: THREE.IUniform<number>;
   readonly distanceStrength: THREE.IUniform<number>;
+  readonly maximumBlend: THREE.IUniform<number>;
   readonly worldCamera: THREE.Vector3;
   readonly routePoint: THREE.Vector3;
 }
@@ -194,6 +208,7 @@ function patchFogShader(
         `#include <common>
           uniform float uAbyssFogV3RoadY;
           uniform vec3 uAbyssFogV3Color;
+          uniform vec3 uAbyssFogV3LowerColor;
           uniform float uAbyssFogV3ClearStart;
           uniform float uAbyssFogV3VisibleBy;
           uniform float uAbyssFogV3StrongBy;
@@ -201,6 +216,7 @@ function patchFogShader(
           uniform float uAbyssFogV3DistanceStart;
           uniform float uAbyssFogV3DistanceEnd;
           uniform float uAbyssFogV3DistanceStrength;
+          uniform float uAbyssFogV3MaximumBlend;
           varying float vAbyssFogV3WorldY;
           varying float vAbyssFogV3ViewDepth;`,
       )
@@ -216,16 +232,21 @@ function patchFogShader(
             uAbyssFogV3DenseBy, abyssFogV3DepthBelowRoad) * 0.24;
           float abyssFogV3Height = clamp(abyssFogV3Early + abyssFogV3Middle +
             abyssFogV3Deep, 0.0, 1.0);
+          float abyssFogV3Terminal = smoothstep(uAbyssFogV3StrongBy,
+            uAbyssFogV3DenseBy, abyssFogV3DepthBelowRoad);
+          vec3 abyssFogV3FogColor = mix(uAbyssFogV3Color,
+            uAbyssFogV3LowerColor, abyssFogV3Terminal);
           float abyssFogV3Distance = smoothstep(uAbyssFogV3DistanceStart,
             uAbyssFogV3DistanceEnd, vAbyssFogV3ViewDepth) *
             uAbyssFogV3DistanceStrength;
           float abyssFogV3Amount = 1.0 - (1.0 - abyssFogV3Height) *
             (1.0 - abyssFogV3Distance);
-          gl_FragColor.rgb = mix(gl_FragColor.rgb, uAbyssFogV3Color,
-            clamp(abyssFogV3Amount, 0.0, 0.97));`,
+          gl_FragColor.rgb = mix(gl_FragColor.rgb, abyssFogV3FogColor,
+            clamp(abyssFogV3Amount, 0.0, uAbyssFogV3MaximumBlend));`,
       );
     shader.uniforms.uAbyssFogV3RoadY = state.roadY;
     shader.uniforms.uAbyssFogV3Color = state.color;
+    shader.uniforms.uAbyssFogV3LowerColor = state.lowerColor;
     shader.uniforms.uAbyssFogV3ClearStart = state.clearStart;
     shader.uniforms.uAbyssFogV3VisibleBy = state.visibleBy;
     shader.uniforms.uAbyssFogV3StrongBy = state.strongBy;
@@ -233,6 +254,7 @@ function patchFogShader(
     shader.uniforms.uAbyssFogV3DistanceStart = state.distanceStart;
     shader.uniforms.uAbyssFogV3DistanceEnd = state.distanceEnd;
     shader.uniforms.uAbyssFogV3DistanceStrength = state.distanceStrength;
+    shader.uniforms.uAbyssFogV3MaximumBlend = state.maximumBlend;
   };
   material.customProgramCacheKey = () =>
     `${previousProgramKey()}|neon-grid-abyss-fog-v3:${objectName}`;
@@ -354,10 +376,16 @@ function createFogBank(state: FogUniformState, track: NeonGrid): THREE.Mesh {
 }
 
 /** Apply the Stage 1 atmosphere to existing city and support materials only. */
-export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void {
+export function addNeonGridAbyssFogV3(
+  scene: THREE.Group,
+  track: NeonGrid,
+  correction: '3' | '3.2' = '3',
+): void {
+  const isV32 = correction === '3.2';
   const state: FogUniformState = {
     roadY: { value: 0 },
     color: { value: new THREE.Color(0x3e5266) },
+    lowerColor: { value: new THREE.Color(0x3e5266) },
     clearStart: { value: DISTRICT_FOG.skyline.clearStart },
     visibleBy: { value: DISTRICT_FOG.skyline.visibleBy },
     strongBy: { value: DISTRICT_FOG.skyline.strongBy },
@@ -365,6 +393,7 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
     distanceStart: { value: DISTRICT_FOG.skyline.distanceStart },
     distanceEnd: { value: DISTRICT_FOG.skyline.distanceEnd },
     distanceStrength: { value: DISTRICT_FOG.skyline.distanceStrength },
+    maximumBlend: { value: 0.97 },
     worldCamera: new THREE.Vector3(),
     routePoint: new THREE.Vector3(),
   };
@@ -384,35 +413,50 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
 
   const foggedObjects: string[] = [];
   const unsupportedObjects: string[] = [];
+  const fullyBlendedObjects: string[] = [];
   scene.traverse((object) => {
     if (!(object instanceof THREE.Mesh)) return;
     const district = FOG_TARGET_DISTRICT.get(object.name);
     if (!district) return;
     const districtFog = DISTRICT_FOG[district];
-    const fog =
-      object.name === 'undercity-wallside-sightline-screens'
-        ? {
-            ...districtFog,
-            clearStart: -2,
-            visibleBy: 2,
-            strongBy: 7,
-            denseBy: 16,
-            distanceStart: 8,
-            distanceEnd: 70,
-            distanceStrength: 0.68,
-          }
-        : object.name === 'service-tunnel-left-wall' || object.name === 'service-tunnel-right-wall'
-          ? {
-              ...districtFog,
-              clearStart: -2,
-              visibleBy: 2,
-              strongBy: 8,
-              denseBy: 18,
-              distanceStart: 0,
-              distanceEnd: 40,
-              distanceStrength: 0.72,
-            }
-          : districtFog;
+    let fog = districtFog;
+    if (object.name === 'undercity-wallside-sightline-screens') {
+      fog = {
+        ...districtFog,
+        clearStart: isV32 ? -0.5 : -2,
+        visibleBy: isV32 ? 0.1 : 2,
+        strongBy: isV32 ? 0.5 : 7,
+        denseBy: isV32 ? 0.95 : 16,
+        distanceStart: 8,
+        distanceEnd: 70,
+        distanceStrength: 0.68,
+      };
+    } else if (object.name === 'skyline-deck-fascia' && isV32) {
+      fog = {
+        ...districtFog,
+        clearStart: 1,
+        visibleBy: 2.5,
+        strongBy: 5,
+        denseBy: 7.25,
+      };
+    } else if (
+      object.name === 'service-tunnel-left-wall' ||
+      object.name === 'service-tunnel-right-wall'
+    ) {
+      fog = {
+        ...districtFog,
+        clearStart: -2,
+        visibleBy: 2,
+        strongBy: 8,
+        denseBy: 18,
+        distanceStart: 0,
+        distanceEnd: 40,
+        distanceStrength: 0.72,
+      };
+    }
+    const maximumBlend = isV32 && V32_FULL_BLEND_TARGETS.has(object.name) ? 1 : 0.97;
+    if (maximumBlend === 1) fullyBlendedObjects.push(object.name);
+    const terminalFogColor = maximumBlend === 1 ? V32_TERMINAL_FOG_COLOR : fog.color;
     const materialValue = object.material as THREE.Material | THREE.Material[];
     const sourceMaterials: THREE.Material[] = Array.isArray(materialValue)
       ? materialValue
@@ -436,6 +480,7 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
       patchFogShader(material, object.name, {
         ...state,
         color: { value: new THREE.Color(fog.color) },
+        lowerColor: { value: new THREE.Color(terminalFogColor) },
         clearStart: { value: fog.clearStart },
         visibleBy: { value: fog.visibleBy },
         strongBy: { value: fog.strongBy },
@@ -443,8 +488,11 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
         distanceStart: { value: fog.distanceStart },
         distanceEnd: { value: fog.distanceEnd },
         distanceStrength: { value: fog.distanceStrength },
+        maximumBlend: { value: maximumBlend },
       });
       material.userData.abyssFogColor = new THREE.Color(fog.color).getHexString();
+      material.userData.abyssFogTerminalColor = new THREE.Color(terminalFogColor).getHexString();
+      material.userData.abyssFogMaximumBlend = maximumBlend;
       material.userData.abyssFogDistrict = district;
       return material;
     });
@@ -461,6 +509,8 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
       distanceStart: fog.distanceStart,
       distanceEnd: fog.distanceEnd,
       distanceStrength: fog.distanceStrength,
+      maximumBlend,
+      terminalColor: new THREE.Color(terminalFogColor).getHexString(),
     };
     foggedObjects.push(object.name);
   });
@@ -512,5 +562,15 @@ export function addNeonGridAbyssFogV3(scene: THREE.Group, track: NeonGrid): void
     foggedObjects: names,
     unsupportedObjects: unsupported,
   };
+  if (isV32) {
+    scene.userData.abyssFogV3_2 = {
+      enabled: true,
+      stage: 1,
+      addedDecorativeStructures: 0,
+      terminalFogColor: new THREE.Color(V32_TERMINAL_FOG_COLOR).getHexString(),
+      fullyBlendedObjects: [...new Set(fullyBlendedObjects)].sort(),
+      localizedProfileObjects: ['skyline-deck-fascia', 'undercity-wallside-sightline-screens'],
+    };
+  }
   scene.add(fogGroup);
 }

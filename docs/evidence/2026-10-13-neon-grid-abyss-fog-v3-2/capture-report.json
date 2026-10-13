@@ -1,0 +1,1170 @@
+{
+  "renderer": "Local Chromium WebGL / SwiftShader",
+  "quality": "medium",
+  "roster": "deterministic 8 racers",
+  "cameraSource": "V3.1 accepted capture report; exact stored world position and Euler transform",
+  "variants": [
+    {
+      "variant": "v3-1",
+      "url": "http://127.0.0.1:5175/manacondas-minigame-mayhem/tools/diagnostics/neon-grid-course.html",
+      "layouts": [
+        {
+          "layout": "desktop",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "roster": [
+            "aa-03",
+            "aa-04",
+            "aa-05",
+            "aa-07",
+            "aa-10",
+            "aa-12",
+            "aa-14"
+          ],
+          "captures": [
+            {
+              "name": "starting-straight",
+              "progress": 0.075,
+              "camera": {
+                "position": [
+                  103.07936965299392,
+                  18.250000001473794,
+                  -125.81140199186672
+                ],
+                "rotation": [
+                  -1.4437289980268617,
+                  -1.2938111391458684,
+                  -1.4387510421805934,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 172,
+                "triangles": 122907,
+                "geometries": 153,
+                "textures": 15,
+                "programs": 152,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3"
+              },
+              "file": "v3-1/desktop/starting-straight.png"
+            },
+            {
+              "name": "undercity",
+              "progress": 0.355,
+              "camera": {
+                "position": [
+                  167.51400380519243,
+                  4.250000001047122,
+                  67.23294363437164
+                ],
+                "rotation": [
+                  -2.236965979110838,
+                  1.2185369055524475,
+                  2.267966475131329,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 296,
+                "triangles": 136195,
+                "geometries": 204,
+                "textures": 15,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3"
+              },
+              "file": "v3-1/desktop/undercity.png"
+            },
+            {
+              "name": "open-curved-bridge",
+              "progress": 0.239,
+              "camera": {
+                "position": [
+                  156.40216452667647,
+                  4.979383255405249,
+                  18.888677141792435
+                ],
+                "rotation": [
+                  -1.2897292833555924,
+                  1.2845732326888584,
+                  1.2784648665105762,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 268,
+                "triangles": 152047,
+                "geometries": 204,
+                "textures": 15,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3"
+              },
+              "file": "v3-1/desktop/open-curved-bridge.png"
+            },
+            {
+              "name": "waterfall-dive",
+              "progress": 0.792717,
+              "camera": {
+                "position": [
+                  -155.06521888842911,
+                  10.271648437680257,
+                  64.27515838227433
+                ],
+                "rotation": [
+                  -0.2993350578932653,
+                  0.4030771580160209,
+                  0.12046551878475392,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 178,
+                "triangles": 82195,
+                "geometries": 204,
+                "textures": 15,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3"
+              },
+              "file": "v3-1/desktop/waterfall-dive.png"
+            },
+            {
+              "name": "undercity-building-bottom",
+              "progress": 0.355,
+              "camera": {
+                "position": [
+                  250.38844299316406,
+                  15.149999618530273,
+                  101.99577713012695
+                ],
+                "rotation": [
+                  -0.5667292175235065,
+                  0.7008027019423897,
+                  0.3893944871968383,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 490,
+                "triangles": 400751,
+                "geometries": 241,
+                "textures": 26,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3",
+                "subject": {
+                  "object": "undercity-city-buildings",
+                  "i": 1,
+                  "base": [
+                    195.38844299316406,
+                    -27.850000381469727,
+                    46.99577713012695
+                  ],
+                  "height": 30,
+                  "dist": 39.655184759775054
+                }
+              },
+              "file": "v3-1/desktop/diagnostics/undercity-building-bottom.png"
+            },
+            {
+              "name": "undercity-side-screens",
+              "progress": 0.355,
+              "camera": {
+                "position": [
+                  193.17337193367337,
+                  15,
+                  53.79642930598497
+                ],
+                "rotation": [
+                  -2.498091544796509,
+                  0.8478169733934058,
+                  2.6292955772185396,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 382,
+                "triangles": 391619,
+                "geometries": 241,
+                "textures": 33,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3",
+                "subject": {
+                  "object": "undercity-wallside-sightline-screens",
+                  "worldTarget": [
+                    159.17337193367337,
+                    -3,
+                    77.79642930598497
+                  ]
+                }
+              },
+              "file": "v3-1/desktop/diagnostics/undercity-side-screens.png"
+            },
+            {
+              "name": "skyline-support-pylon",
+              "progress": 0.075,
+              "camera": {
+                "position": [
+                  210.66575622558594,
+                  -6,
+                  -92.14712524414062
+                ],
+                "rotation": [
+                  -0.3465388644339419,
+                  0.8317637488134011,
+                  0.2608245503248913,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 300,
+                "triangles": 360839,
+                "geometries": 241,
+                "textures": 33,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3",
+                "subject": {
+                  "object": "skyline-pylons",
+                  "instance": 6,
+                  "center": [
+                    168.66575622558594,
+                    -15,
+                    -128.14712524414062
+                  ],
+                  "roadY": 14.000001192092896,
+                  "bottomY": -44.000001192092896
+                }
+              },
+              "file": "v3-1/desktop/diagnostics/skyline-support-pylon.png"
+            }
+          ],
+          "errors": [],
+          "timingAtUndercity": {
+            "method": "synchronous actual KartTimeTrial renderFrame; 30 warmup + 120 scored frames",
+            "scoredFrames": 120,
+            "medianFrameMs": 4.199999928474426,
+            "p95FrameMs": 17.200000047683716,
+            "minFrameMs": 2.4000000953674316,
+            "maxFrameMs": 34.39999997615814,
+            "frame": {
+              "calls": 296,
+              "triangles": 136195,
+              "geometries": 241,
+              "textures": 33,
+              "width": 1280,
+              "height": 720,
+              "pixelRatio": 1,
+              "racers": 8,
+              "quality": "medium",
+              "visualVariant": "fog-experiment-v3",
+              "view": "chase",
+              "skylineVisible": true,
+              "skyline": {
+                "windows": 240,
+                "pylons": 14,
+                "braces": 24,
+                "proceduralSigns": 18,
+                "manacondaAds": 7,
+                "tacoBellAds": 7,
+                "maskBillboards": 8,
+                "raisedBillboardPosts": 4,
+                "facadeMountedBillboards": 4,
+                "wet": true
+              },
+              "undercity": {
+                "windows": 160,
+                "buildings": 16,
+                "pipes": 26,
+                "utilityBoxes": 20,
+                "workLights": 24,
+                "serviceBays": 14,
+                "nightshiftAds": 2,
+                "voltlineAds": 2,
+                "wet": true
+              },
+              "fallsExtension": {
+                "windows": 160,
+                "towers": 16,
+                "pylons": 16,
+                "footings": 16,
+                "waterfalls": 24,
+                "mist": 14,
+                "wet": true
+              },
+              "actualCameraShortcutSightline": {
+                "shortcut": "service-tunnel",
+                "cameraWorld": [
+                  167.51400380522784,
+                  4.250000000100197,
+                  67.2329436343636
+                ],
+                "viewportTargets": 0,
+                "blockedTargets": 0,
+                "interiorTargetsEvaluated": 6,
+                "interiorTargetsInView": 0,
+                "interiorExposed": 0,
+                "entranceTargetsInView": 0,
+                "samples": []
+              },
+              "sponsorArtworkSightline": null,
+              "tunnelKartSightline": null
+            }
+          }
+        },
+        {
+          "layout": "mobile-portrait",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "roster": [
+            "aa-03",
+            "aa-04",
+            "aa-05",
+            "aa-07",
+            "aa-10",
+            "aa-12",
+            "aa-14"
+          ],
+          "captures": [
+            {
+              "name": "starting-straight",
+              "progress": 0.075,
+              "camera": {
+                "position": [
+                  103.47911031293793,
+                  17.75000000185292,
+                  -125.82580353848098
+                ],
+                "rotation": [
+                  -1.4586120727028213,
+                  -1.2594451844953176,
+                  -1.4529969194848757,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 0.46208530805687204
+              },
+              "frame": {
+                "calls": 160,
+                "triangles": 83619,
+                "geometries": 124,
+                "textures": 12,
+                "programs": 148,
+                "width": 390,
+                "height": 844,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3"
+              },
+              "file": "v3-1/mobile-portrait/starting-straight.png"
+            },
+            {
+              "name": "undercity",
+              "progress": 0.355,
+              "camera": {
+                "position": [
+                  167.1239414681961,
+                  3.7500000014262502,
+                  67.32155160813413
+                ],
+                "rotation": [
+                  -2.1769054517250774,
+                  1.191358727686294,
+                  2.2118733866020595,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 0.46208530805687204
+              },
+              "frame": {
+                "calls": 148,
+                "triangles": 104167,
+                "geometries": 140,
+                "textures": 13,
+                "programs": 163,
+                "width": 390,
+                "height": 844,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3"
+              },
+              "file": "v3-1/mobile-portrait/undercity.png"
+            },
+            {
+              "name": "open-curved-bridge",
+              "progress": 0.239,
+              "camera": {
+                "position": [
+                  156.00349073624315,
+                  4.47938325570118,
+                  18.85613165624247
+                ],
+                "rotation": [
+                  -1.3215026438476223,
+                  1.2512560721950876,
+                  1.308796368034556,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 0.46208530805687204
+              },
+              "frame": {
+                "calls": 234,
+                "triangles": 122563,
+                "geometries": 178,
+                "textures": 13,
+                "programs": 167,
+                "width": 390,
+                "height": 844,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3"
+              },
+              "file": "v3-1/mobile-portrait/open-curved-bridge.png"
+            },
+            {
+              "name": "waterfall-dive",
+              "progress": 0.792717,
+              "camera": {
+                "position": [
+                  -155.22823078214446,
+                  9.771648437976188,
+                  63.90988160736211
+                ],
+                "rotation": [
+                  -0.3366459922922985,
+                  0.39866415853871595,
+                  0.13502646384223907,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 0.46208530805687204
+              },
+              "frame": {
+                "calls": 120,
+                "triangles": 76635,
+                "geometries": 178,
+                "textures": 13,
+                "programs": 167,
+                "width": 390,
+                "height": 844,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3"
+              },
+              "file": "v3-1/mobile-portrait/waterfall-dive.png"
+            }
+          ],
+          "errors": [],
+          "timingAtUndercity": {
+            "method": "synchronous actual KartTimeTrial renderFrame; 30 warmup + 120 scored frames",
+            "scoredFrames": 120,
+            "medianFrameMs": 3.299999952316284,
+            "p95FrameMs": 7.700000047683716,
+            "minFrameMs": 1.7999999523162842,
+            "maxFrameMs": 27.200000047683716,
+            "frame": {
+              "calls": 148,
+              "triangles": 104167,
+              "geometries": 178,
+              "textures": 14,
+              "width": 390,
+              "height": 844,
+              "pixelRatio": 1,
+              "racers": 8,
+              "quality": "medium",
+              "visualVariant": "fog-experiment-v3",
+              "view": "chase",
+              "skylineVisible": true,
+              "skyline": {
+                "windows": 240,
+                "pylons": 14,
+                "braces": 24,
+                "proceduralSigns": 18,
+                "manacondaAds": 7,
+                "tacoBellAds": 7,
+                "maskBillboards": 8,
+                "raisedBillboardPosts": 4,
+                "facadeMountedBillboards": 4,
+                "wet": true
+              },
+              "undercity": {
+                "windows": 160,
+                "buildings": 16,
+                "pipes": 26,
+                "utilityBoxes": 20,
+                "workLights": 24,
+                "serviceBays": 14,
+                "nightshiftAds": 2,
+                "voltlineAds": 2,
+                "wet": true
+              },
+              "fallsExtension": {
+                "windows": 160,
+                "towers": 16,
+                "pylons": 16,
+                "footings": 16,
+                "waterfalls": 24,
+                "mist": 14,
+                "wet": true
+              },
+              "actualCameraShortcutSightline": {
+                "shortcut": "service-tunnel",
+                "cameraWorld": [
+                  167.1239414679683,
+                  3.7500000001419465,
+                  67.32155160818587
+                ],
+                "viewportTargets": 0,
+                "blockedTargets": 0,
+                "interiorTargetsEvaluated": 6,
+                "interiorTargetsInView": 0,
+                "interiorExposed": 0,
+                "entranceTargetsInView": 0,
+                "samples": []
+              },
+              "sponsorArtworkSightline": null,
+              "tunnelKartSightline": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "variant": "v3-2",
+      "url": "http://127.0.0.1:5181/manacondas-minigame-mayhem/tools/diagnostics/neon-grid-course.html",
+      "layouts": [
+        {
+          "layout": "desktop",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "roster": [
+            "aa-03",
+            "aa-04",
+            "aa-05",
+            "aa-07",
+            "aa-10",
+            "aa-12",
+            "aa-14"
+          ],
+          "captures": [
+            {
+              "name": "starting-straight",
+              "progress": 0.075,
+              "camera": {
+                "position": [
+                  103.07936965299392,
+                  18.250000001473794,
+                  -125.81140199186672
+                ],
+                "rotation": [
+                  -1.4437289980268617,
+                  -1.2938111391458684,
+                  -1.4387510421805934,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 172,
+                "triangles": 122907,
+                "geometries": 153,
+                "textures": 15,
+                "programs": 152,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2"
+              },
+              "file": "v3-2/desktop/starting-straight.png"
+            },
+            {
+              "name": "undercity",
+              "progress": 0.355,
+              "camera": {
+                "position": [
+                  167.51400380519243,
+                  4.250000001047122,
+                  67.23294363437164
+                ],
+                "rotation": [
+                  -2.236965979110838,
+                  1.2185369055524475,
+                  2.267966475131329,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 296,
+                "triangles": 136195,
+                "geometries": 204,
+                "textures": 15,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2"
+              },
+              "file": "v3-2/desktop/undercity.png"
+            },
+            {
+              "name": "open-curved-bridge",
+              "progress": 0.239,
+              "camera": {
+                "position": [
+                  156.40216452667647,
+                  4.979383255405249,
+                  18.888677141792435
+                ],
+                "rotation": [
+                  -1.2897292833555924,
+                  1.2845732326888584,
+                  1.2784648665105762,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 268,
+                "triangles": 152047,
+                "geometries": 204,
+                "textures": 15,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2"
+              },
+              "file": "v3-2/desktop/open-curved-bridge.png"
+            },
+            {
+              "name": "waterfall-dive",
+              "progress": 0.792717,
+              "camera": {
+                "position": [
+                  -155.06521888842911,
+                  10.271648437680257,
+                  64.27515838227433
+                ],
+                "rotation": [
+                  -0.2993350578932653,
+                  0.4030771580160209,
+                  0.12046551878475392,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 178,
+                "triangles": 82195,
+                "geometries": 204,
+                "textures": 15,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2"
+              },
+              "file": "v3-2/desktop/waterfall-dive.png"
+            },
+            {
+              "name": "undercity-building-bottom",
+              "progress": 0.355,
+              "camera": {
+                "position": [
+                  250.38844299316406,
+                  15.149999618530273,
+                  101.99577713012695
+                ],
+                "rotation": [
+                  -0.5667292175235065,
+                  0.7008027019423897,
+                  0.3893944871968383,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 490,
+                "triangles": 400751,
+                "geometries": 241,
+                "textures": 26,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2",
+                "subject": {
+                  "object": "undercity-city-buildings",
+                  "i": 1,
+                  "base": [
+                    195.38844299316406,
+                    -27.850000381469727,
+                    46.99577713012695
+                  ],
+                  "height": 30,
+                  "dist": 39.655184759775054
+                }
+              },
+              "file": "v3-2/desktop/diagnostics/undercity-building-bottom.png"
+            },
+            {
+              "name": "undercity-side-screens",
+              "progress": 0.355,
+              "camera": {
+                "position": [
+                  193.17337193367337,
+                  15,
+                  53.79642930598497
+                ],
+                "rotation": [
+                  -2.498091544796509,
+                  0.8478169733934058,
+                  2.6292955772185396,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 382,
+                "triangles": 391619,
+                "geometries": 241,
+                "textures": 33,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2",
+                "subject": {
+                  "object": "undercity-wallside-sightline-screens",
+                  "worldTarget": [
+                    159.17337193367337,
+                    -3,
+                    77.79642930598497
+                  ]
+                }
+              },
+              "file": "v3-2/desktop/diagnostics/undercity-side-screens.png"
+            },
+            {
+              "name": "skyline-support-pylon",
+              "progress": 0.075,
+              "camera": {
+                "position": [
+                  210.66575622558594,
+                  -6,
+                  -92.14712524414062
+                ],
+                "rotation": [
+                  -0.3465388644339419,
+                  0.8317637488134011,
+                  0.2608245503248913,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 1.7777777777777777
+              },
+              "frame": {
+                "calls": 300,
+                "triangles": 360839,
+                "geometries": 241,
+                "textures": 33,
+                "programs": 169,
+                "width": 1280,
+                "height": 720,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2",
+                "subject": {
+                  "object": "skyline-pylons",
+                  "instance": 6,
+                  "center": [
+                    168.66575622558594,
+                    -15,
+                    -128.14712524414062
+                  ],
+                  "roadY": 14.000001192092896,
+                  "bottomY": -44.000001192092896
+                }
+              },
+              "file": "v3-2/desktop/diagnostics/skyline-support-pylon.png"
+            }
+          ],
+          "errors": [],
+          "timingAtUndercity": {
+            "method": "synchronous actual KartTimeTrial renderFrame; 30 warmup + 120 scored frames",
+            "scoredFrames": 120,
+            "medianFrameMs": 3,
+            "p95FrameMs": 6.299999952316284,
+            "minFrameMs": 2.299999952316284,
+            "maxFrameMs": 22,
+            "frame": {
+              "calls": 296,
+              "triangles": 136195,
+              "geometries": 241,
+              "textures": 33,
+              "width": 1280,
+              "height": 720,
+              "pixelRatio": 1,
+              "racers": 8,
+              "quality": "medium",
+              "visualVariant": "fog-experiment-v3-2",
+              "view": "chase",
+              "skylineVisible": true,
+              "skyline": {
+                "windows": 240,
+                "pylons": 14,
+                "braces": 24,
+                "proceduralSigns": 18,
+                "manacondaAds": 7,
+                "tacoBellAds": 7,
+                "maskBillboards": 8,
+                "raisedBillboardPosts": 4,
+                "facadeMountedBillboards": 4,
+                "wet": true
+              },
+              "undercity": {
+                "windows": 160,
+                "buildings": 16,
+                "pipes": 26,
+                "utilityBoxes": 20,
+                "workLights": 24,
+                "serviceBays": 14,
+                "nightshiftAds": 2,
+                "voltlineAds": 2,
+                "wet": true
+              },
+              "fallsExtension": {
+                "windows": 160,
+                "towers": 16,
+                "pylons": 16,
+                "footings": 16,
+                "waterfalls": 24,
+                "mist": 14,
+                "wet": true
+              },
+              "actualCameraShortcutSightline": {
+                "shortcut": "service-tunnel",
+                "cameraWorld": [
+                  167.51400380522784,
+                  4.250000000100197,
+                  67.2329436343636
+                ],
+                "viewportTargets": 0,
+                "blockedTargets": 0,
+                "interiorTargetsEvaluated": 6,
+                "interiorTargetsInView": 0,
+                "interiorExposed": 0,
+                "entranceTargetsInView": 0,
+                "samples": []
+              },
+              "sponsorArtworkSightline": null,
+              "tunnelKartSightline": null
+            }
+          }
+        },
+        {
+          "layout": "mobile-portrait",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "roster": [
+            "aa-03",
+            "aa-04",
+            "aa-05",
+            "aa-07",
+            "aa-10",
+            "aa-12",
+            "aa-14"
+          ],
+          "captures": [
+            {
+              "name": "starting-straight",
+              "progress": 0.075,
+              "camera": {
+                "position": [
+                  103.47911031293793,
+                  17.75000000185292,
+                  -125.82580353848098
+                ],
+                "rotation": [
+                  -1.4586120727028213,
+                  -1.2594451844953176,
+                  -1.4529969194848757,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 0.46208530805687204
+              },
+              "frame": {
+                "calls": 160,
+                "triangles": 83619,
+                "geometries": 124,
+                "textures": 12,
+                "programs": 148,
+                "width": 390,
+                "height": 844,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2"
+              },
+              "file": "v3-2/mobile-portrait/starting-straight.png"
+            },
+            {
+              "name": "undercity",
+              "progress": 0.355,
+              "camera": {
+                "position": [
+                  167.1239414681961,
+                  3.7500000014262502,
+                  67.32155160813413
+                ],
+                "rotation": [
+                  -2.1769054517250774,
+                  1.191358727686294,
+                  2.2118733866020595,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 0.46208530805687204
+              },
+              "frame": {
+                "calls": 148,
+                "triangles": 104167,
+                "geometries": 140,
+                "textures": 13,
+                "programs": 163,
+                "width": 390,
+                "height": 844,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2"
+              },
+              "file": "v3-2/mobile-portrait/undercity.png"
+            },
+            {
+              "name": "open-curved-bridge",
+              "progress": 0.239,
+              "camera": {
+                "position": [
+                  156.00349073624315,
+                  4.47938325570118,
+                  18.85613165624247
+                ],
+                "rotation": [
+                  -1.3215026438476223,
+                  1.2512560721950876,
+                  1.308796368034556,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 0.46208530805687204
+              },
+              "frame": {
+                "calls": 234,
+                "triangles": 122563,
+                "geometries": 178,
+                "textures": 13,
+                "programs": 167,
+                "width": 390,
+                "height": 844,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2"
+              },
+              "file": "v3-2/mobile-portrait/open-curved-bridge.png"
+            },
+            {
+              "name": "waterfall-dive",
+              "progress": 0.792717,
+              "camera": {
+                "position": [
+                  -155.22823078214446,
+                  9.771648437976188,
+                  63.90988160736211
+                ],
+                "rotation": [
+                  -0.3366459922922985,
+                  0.39866415853871595,
+                  0.13502646384223907,
+                  "XYZ"
+                ],
+                "fov": 62,
+                "aspect": 0.46208530805687204
+              },
+              "frame": {
+                "calls": 120,
+                "triangles": 76635,
+                "geometries": 178,
+                "textures": 13,
+                "programs": 167,
+                "width": 390,
+                "height": 844,
+                "pixelRatio": 1,
+                "racers": 8,
+                "quality": "medium",
+                "visualVariant": "fog-experiment-v3-2"
+              },
+              "file": "v3-2/mobile-portrait/waterfall-dive.png"
+            }
+          ],
+          "errors": [],
+          "timingAtUndercity": {
+            "method": "synchronous actual KartTimeTrial renderFrame; 30 warmup + 120 scored frames",
+            "scoredFrames": 120,
+            "medianFrameMs": 2.6999999284744263,
+            "p95FrameMs": 5.200000047683716,
+            "minFrameMs": 1.7000000476837158,
+            "maxFrameMs": 28.100000023841858,
+            "frame": {
+              "calls": 148,
+              "triangles": 104167,
+              "geometries": 178,
+              "textures": 14,
+              "width": 390,
+              "height": 844,
+              "pixelRatio": 1,
+              "racers": 8,
+              "quality": "medium",
+              "visualVariant": "fog-experiment-v3-2",
+              "view": "chase",
+              "skylineVisible": true,
+              "skyline": {
+                "windows": 240,
+                "pylons": 14,
+                "braces": 24,
+                "proceduralSigns": 18,
+                "manacondaAds": 7,
+                "tacoBellAds": 7,
+                "maskBillboards": 8,
+                "raisedBillboardPosts": 4,
+                "facadeMountedBillboards": 4,
+                "wet": true
+              },
+              "undercity": {
+                "windows": 160,
+                "buildings": 16,
+                "pipes": 26,
+                "utilityBoxes": 20,
+                "workLights": 24,
+                "serviceBays": 14,
+                "nightshiftAds": 2,
+                "voltlineAds": 2,
+                "wet": true
+              },
+              "fallsExtension": {
+                "windows": 160,
+                "towers": 16,
+                "pylons": 16,
+                "footings": 16,
+                "waterfalls": 24,
+                "mist": 14,
+                "wet": true
+              },
+              "actualCameraShortcutSightline": {
+                "shortcut": "service-tunnel",
+                "cameraWorld": [
+                  167.1239414679683,
+                  3.7500000001419465,
+                  67.32155160818587
+                ],
+                "viewportTargets": 0,
+                "blockedTargets": 0,
+                "interiorTargetsEvaluated": 6,
+                "interiorTargetsInView": 0,
+                "interiorExposed": 0,
+                "entranceTargetsInView": 0,
+                "samples": []
+              },
+              "sponsorArtworkSightline": null,
+              "tunnelKartSightline": null
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "baselineBranch": "experiment/neon-grid-abyss-fog-003",
+  "baselineCheckpoint": "f2619565c9a962623dd8c692aa3a3639a2906046",
+  "candidateBranch": "experiment/neon-grid-abyss-fog-004",
+  "matchedCameraAndRenderBudgetCheck": "PASS: exact camera transforms, draw calls, visible triangles, geometry counts, and texture counts match across all paired views."
+}

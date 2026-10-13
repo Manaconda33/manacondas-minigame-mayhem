@@ -237,6 +237,13 @@ jobs:
             marker_type: feature
             marker_name: 'Neon Grid Abyss Fog v2 downward atmospheric correction'
             status: 'Experimental B2 visual review only; Manny approval pending; preserve T9.7 A and rejected B1; no runtime merge or production release'
+          - id: neon-grid-abyss-fog-004
+            embed_source: true
+            sha: 25ea008b15852d593681f5b3b2a17b467a193472
+            base: /manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/
+            marker_type: feature
+            marker_name: 'Neon Grid Abyss Fog V3.2 geometry-termination review'
+            status: 'Stage 1 visual review only; T9.7 remains default; owner acceptance pending; no Stage 2 or production gameplay release'
 
     steps:
       - name: Restore immutable preview build
@@ -342,7 +349,7 @@ jobs:
     if: github.event_name == 'pull_request'
     needs: preview-plan
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -356,6 +363,9 @@ jobs:
           - id: far300
             sha: ce6a64cf36b1f110af028536d3ff9c7a306ccbdb
             base: /manacondas-minigame-mayhem/previews/neon-grid-far300/
+          - id: abyss-fog-004
+            sha: 25ea008b15852d593681f5b3b2a17b467a193472
+            base: /manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/
 
     steps:
       - name: Restore successful pinned-runtime validation
@@ -424,6 +434,13 @@ jobs:
               npm run test:ci -- --testTimeout=15000
               npm run build
               git diff --check
+              npm run build -- --base "$PREVIEW_BASE"
+              ;;
+            abyss-fog-004)
+              npm run typecheck
+              npm run lint
+              npm run test:ci -- --maxWorkers=1
+              npm run build
               npm run build -- --base "$PREVIEW_BASE"
               ;;
             *)
@@ -582,6 +599,12 @@ jobs:
         with:
           path: preview-output/neon-grid-abyss-fog-002
           key: preview-dist-v1-neon-grid-abyss-fog-002-7d087f19dfd86bca36b500280309d9c86b4af77d-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+      - name: Restore source-pinned V3.2 geometry-termination preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-abyss-fog-004
+          key: preview-dist-v1-neon-grid-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
@@ -744,6 +767,15 @@ jobs:
           done
           echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-abyss-fog-002/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
 
+          mkdir -p site-root/previews/neon-grid-abyss-fog-004
+          cp -a preview-output/neon-grid-abyss-fog-004/. site-root/previews/neon-grid-abyss-fog-004/
+          test -f site-root/previews/neon-grid-abyss-fog-004/index.html
+          test -f site-root/previews/neon-grid-abyss-fog-004/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
+            test -f "site-root/previews/neon-grid-abyss-fog-004/assets/track/neon-grid/signage/$art"
+          done
+          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-abyss-fog-004/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -751,7 +783,8 @@ jobs:
           from pathlib import Path
           import hashlib, json, urllib.request
           root = Path('site-root')
-          paths = [root/'index.html', *sorted((root/'assets').glob('*.js')), *sorted((root/'assets').glob('*.css'))]
+          paths = [*sorted(path for path in root.iterdir() if path.is_file() and not path.name.startswith('.'))]
+          paths += [path for path in sorted((root/'assets').rglob('*')) if path.is_file()]
           preview = root/'previews/neon-grid-5-3'
           paths += [preview/'index.html', preview/'review-build.json', *sorted((preview/'assets').glob('*.js')), *sorted((preview/'assets').glob('*.css'))]
           tunnel = root/'previews/neon-grid-tunnel'
@@ -809,13 +842,15 @@ jobs:
           abyss_v2 = root/'previews/neon-grid-abyss-fog-002'
           paths += [abyss_v2/'index.html', abyss_v2/'review-build.json', *sorted((abyss_v2/'assets').glob('*.js')), *sorted((abyss_v2/'assets').glob('*.css'))]
           paths += [abyss_v2/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
+          abyss_v32 = root/'previews/neon-grid-abyss-fog-004'
+          paths += [item for item in sorted(abyss_v32.rglob('*')) if item.is_file()]
           report = []
           for path in paths:
               relative = str(path.relative_to(root))
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/')):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/')):
                   with urllib.request.urlopen(url, timeout=45) as response:
                       assert response.status == 200
                       assert hashlib.sha256(response.read()).hexdigest() == sha, 'Production bytes differ: ' + relative
@@ -922,14 +957,17 @@ jobs:
           for attempt in range(12):
               try:
                   for item in report:
-                      request = urllib.request.Request(item['url'] + '?delivery=dive-b49d9876f8c6ce87956f8b91675c3c8180e56b55', headers={'Cache-Control': 'no-cache'})
+                      request = urllib.request.Request(item['url'] + '?delivery=neon-grid-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472', headers={'Cache-Control': 'no-cache'})
                       with urllib.request.urlopen(request, timeout=45) as response:
                           data = response.read()
                           assert response.status == 200
                           assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
                           if item['path'].endswith('review-build.json'):
-                              expected_source = '7d087f19dfd86bca36b500280309d9c86b4af77d' if item['path'].startswith('previews/neon-grid-abyss-fog-002/') else 'b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65' if item['path'].startswith('previews/neon-grid-abyss-fog-001/') else '75c6c62c865ec3b546f3f2512e649de9ea6d52bc' if item['path'].startswith('previews/neon-grid-t9-7-environment-correction/') else '90ae7d5ff953fe90d40043de957507d7b79a3ef5' if item['path'].startswith('previews/neon-grid-t9-7-city-ground/') else 'f4672ef55d6697fb3d205abd03633faa0f821874' if item['path'].startswith('previews/neon-grid-t9-7/') else 'c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf' if item['path'].startswith('previews/neon-grid-t9-6-diagnostics/') else '9b973d48c1115d4b35d3936a3eacbed8dbb7ed76' if item['path'].startswith('previews/neon-grid-t9-5-owner-correction/') else '64492dfbca7c4a5633880637ddbc5bcc05c34fde' if item['path'].startswith('previews/neon-grid-t9-5-portals/') else 'd54a70aefb90bac3051ac28bc02c663431edfb91' if item['path'].startswith('previews/neon-grid-t9-5-sightline/') else 'e31605fa9618df21eaba384d75a056816c95432c' if item['path'].startswith('previews/neon-grid-t9-5-correction/') else 'a25c4b1788f4930b4e416777c8100284ff3c65a7' if item['path'].startswith('previews/neon-grid-t9-5/') else 'be47a3d7215867b9b275473fd2640cc626ef5e37' if item['path'].startswith('previews/neon-grid-t9-4/') else '42781fb5367a146473c49012e0442e953197e480' if item['path'].startswith('previews/neon-grid-t9-3-correction/') else '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
-                              assert json.loads(data)['source'] == expected_source
+                              expected_source = '25ea008b15852d593681f5b3b2a17b467a193472' if item['path'].startswith('previews/neon-grid-abyss-fog-004/') else '7d087f19dfd86bca36b500280309d9c86b4af77d' if item['path'].startswith('previews/neon-grid-abyss-fog-002/') else 'b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65' if item['path'].startswith('previews/neon-grid-abyss-fog-001/') else '75c6c62c865ec3b546f3f2512e649de9ea6d52bc' if item['path'].startswith('previews/neon-grid-t9-7-environment-correction/') else '90ae7d5ff953fe90d40043de957507d7b79a3ef5' if item['path'].startswith('previews/neon-grid-t9-7-city-ground/') else 'f4672ef55d6697fb3d205abd03633faa0f821874' if item['path'].startswith('previews/neon-grid-t9-7/') else 'c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf' if item['path'].startswith('previews/neon-grid-t9-6-diagnostics/') else '9b973d48c1115d4b35d3936a3eacbed8dbb7ed76' if item['path'].startswith('previews/neon-grid-t9-5-owner-correction/') else '64492dfbca7c4a5633880637ddbc5bcc05c34fde' if item['path'].startswith('previews/neon-grid-t9-5-portals/') else 'd54a70aefb90bac3051ac28bc02c663431edfb91' if item['path'].startswith('previews/neon-grid-t9-5-sightline/') else 'e31605fa9618df21eaba384d75a056816c95432c' if item['path'].startswith('previews/neon-grid-t9-5-correction/') else 'a25c4b1788f4930b4e416777c8100284ff3c65a7' if item['path'].startswith('previews/neon-grid-t9-5/') else 'be47a3d7215867b9b275473fd2640cc626ef5e37' if item['path'].startswith('previews/neon-grid-t9-4/') else '42781fb5367a146473c49012e0442e953197e480' if item['path'].startswith('previews/neon-grid-t9-3-correction/') else '722d9db1c1867f2a1516843679bb30a4ca37a2ea' if item['path'].startswith('previews/neon-grid-t9-3/') else 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0' if item['path'].startswith('previews/neon-grid-t9-2/') else 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb' if item['path'].startswith('previews/neon-grid-far300/') else 'b49d9876f8c6ce87956f8b91675c3c8180e56b55' if item['path'].startswith('previews/neon-grid-dive/') else 'b942c912510ec86312a9d0cd393d71d2eb478ea8' if item['path'].startswith('previews/neon-grid-billboard/') else '92025b5f241cae7ac208c977f74b24396ce6909b' if item['path'].startswith('previews/neon-grid-tunnel/') else '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b'
+                              marker = json.loads(data)
+                              assert marker['source'] == expected_source
+                              if item['path'].startswith('previews/neon-grid-abyss-fog-004/'):
+                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/'
                           item['httpStatus'] = response.status
                   break
               except Exception as error:

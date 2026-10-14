@@ -38,7 +38,7 @@ const expected = {
   sourceSha: '25ea008b15852d593681f5b3b2a17b467a193472',
   sourceTree: 'b'.repeat(40),
   runtimeLockSha256: '2'.repeat(64),
-  lfsInventorySha256: '6e084bd177f53ac87a15642acf0054e7fe398a22387274e80fb0565f1e1a293c',
+  lfsInventorySha256: '234d0e7336e2d824e9af54f107a2628ce544b42a2260bafb2d32d8e807c765bc',
   contractSha256: 'c'.repeat(64),
   workflowBlob: 'd'.repeat(40),
   contractLockSha256: 'e'.repeat(64),
@@ -427,5 +427,17 @@ describe('trusted immutable-runtime validation evidence', () => {
     expect(workflow).toContain("always() &&\n      (github.event_name == 'pull_request' ||");
     expect(workflow).not.toContain('pinned-runtime-validation-v1-');
     expect(workflow).toContain('actions: read');
+  });
+
+  it('uses the verified LFS inventory digest for all pinned runtime checks', () => {
+    const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
+    const digests = [...workflow.matchAll(/^\s+lfs_inventory_sha256: ([0-9a-f]{64})$/gm)].map(
+      (match) => match[1],
+    );
+
+    expect(digests).toHaveLength(4);
+    expect(digests).toEqual(
+      Array(4).fill('234d0e7336e2d824e9af54f107a2628ce544b42a2260bafb2d32d8e807c765bc'),
+    );
   });
 });

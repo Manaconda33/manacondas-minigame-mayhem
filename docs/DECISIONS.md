@@ -1064,3 +1064,6 @@ The stable `validate` check remains the only status required by the active rules
 
 The corrected producer and its real artifact hit cannot be exercised until a separately approved merge because it runs only on `main`. After that merge, verify the independent producer run/artifacts, then use a temporary `docs/TESTING.md` PR to demonstrate evidence reuse and a separate README-only PR to measure the fast path; do not merge either fixture. If validation fails, reuse remains a miss and full tests continue. If an unsafe reuse or docs classification is observed, revert CI-1 through a protected revert PR. PR #301 remains unmerged; neither a real artifact hit nor the under-five-minute target is claimed.
 
+
+
+The exact-head PR correction run `38506526760` passed the stable `validate` check and all but one pinned-runtime child; the Dive child failed with exit code 1 in its combined source-preflight/full-validation step. Local replay of the exact Dive pin passed 125 files / 995 tests under Node 22, but the hosted log is not readable here, so root cause remains unknown and hosted validation is BLOCKED pending an actionable rerun or log review. Do not treat the green `validate` check as covering this separate matrix failure.

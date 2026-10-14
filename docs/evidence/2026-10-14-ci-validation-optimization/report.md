@@ -171,3 +171,8 @@ Under Node `22.23.3` / npm `10.9.9`, a clean `npm ci` and `npm run validate` pas
 ## Release / approval state
 
 CI-1 full validation is **PASS; merge remains unapproved and the PR is open**. CI-2 is **design only**. Production deployment, PR #242, Neon Grid runtime, G-05, and gameplay acceptance are unaffected. The docs-only hosted fast path, trusted artifact hit, GitHub-required-check configuration, and <5-minute target remain unverified pending a separately approved merge and post-merge fixture. Do not merge without Manny's separate approval.
+
+
+### Exact-head hosted correction run
+
+Hosted correction run [38506526760](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38506526760) on `9bbc8e4e2ceff0dbe453830a18e9253f5da1f1c1` completed with `validate`, `preview-plan`, all preview-build children, `spillway-render`, and pinned Billboard, Far300, and Abyss Fog validation successful; assemble/deploy were skipped as expected on a PR. The pinned Dive child failed in `run full validation on miss (exact pinned runtime)` with exit code 1. That step combines source/LFS preflight and `npm run validate`, and the accessible public check page does not expose its detailed log, so the failing subcommand is unknown. A separate local checkout of the exact Dive source `b49d9876f8c6ce87956f8b91675c3c8180e56b55` passed `git lfs pull && git lfs fsck`, `npm ci`, and `npm run validate` under Node `22.23.3` / npm `10.9.9` (125 files / 995 tests, typecheck, lint, assets, build). This local pass does not clear the hosted failure. Keep hosted validation marked BLOCKED until the failed job is rerun or its logs identify and resolve the cause.

@@ -1,5 +1,4 @@
 import {
-  fingerprintValidationInputs,
   writeValidationManifest,
   validationCommands,
   validationEvidenceName,
@@ -10,6 +9,7 @@ import {
   runtimeSourceTree,
   trustedValidationJobName,
 } from './pinned-validation-evidence.mjs';
+import { fingerprintValidationInputs } from './validation-input-fingerprint.mjs';
 import { execFileSync } from 'node:child_process';
 import { appendFileSync } from 'node:fs';
 

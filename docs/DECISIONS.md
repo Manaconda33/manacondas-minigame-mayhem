@@ -1067,3 +1067,9 @@ The corrected producer and its real artifact hit cannot be exercised until a sep
 
 
 The exact-head PR correction run `38506526760` passed the stable `validate` check and all but one pinned-runtime child; the Dive child failed with exit code 1 in its combined source-preflight/full-validation step. Local replay of the exact Dive pin passed 125 files / 995 tests under Node 22, but the hosted log is not readable here, so root cause remains unknown and hosted validation is BLOCKED pending an actionable rerun or log review. Do not treat the green `validate` check as covering this separate matrix failure.
+
+### Required-check failure propagation correction — 2026-10-14
+
+The reviewed `validate` job uses `needs: preview-plan` with `if: always()` so GitHub emits the required check even when planning fails. Its prior full-validation conditions treated `preview-plan.result != success` as a reason to run the full suite, allowing that check to pass while planning or the documentation diff check had failed. Preserve `if: always()` and the `validate` identity, but add an explicit always-run gate that exits unsuccessfully for every plan result other than `success`. Gate later full-validation steps on a successful plan. A successful conservative `docs_only=false` classification continues through full validation; a successful allowlisted docs-only plan keeps its documented fast path.
+
+The active ruleset remains owner-reported as requiring only `validate`. `preview-plan`, preview builds, pinned-runtime checks, and spillway rendering are not individually required contexts. No branch protection or required-check setting changed. This correction hardens the sole required context against unsuccessful planning; it does not make `validate` an aggregate of the other jobs. CI-1 remains unmerged pending exact-head hosted validation. This does not authorize CI-2 or production changes.

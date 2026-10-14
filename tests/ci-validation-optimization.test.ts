@@ -628,6 +628,121 @@ describe('trusted immutable-runtime validation evidence', () => {
     ).toBe(false);
   });
 
+  it('fails the stable required check closed when preview planning is unsuccessful', () => {
+    const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
+    const validate = workflow.slice(
+      workflow.indexOf('  validate:\n'),
+      workflow.indexOf('\n  preview-plan:', workflow.indexOf('  validate:\n')),
+    );
+    const plan = workflow.slice(
+      workflow.indexOf('  preview-plan:\n'),
+      workflow.indexOf('\n  preview-build:', workflow.indexOf('  preview-plan:\n')),
+    );
+
+    const gateIndex = validate.indexOf('      - name: Require successful preview plan');
+    const checkoutIndex = validate.indexOf('      - name: Check out repository');
+    const lfsIndex = validate.indexOf('      - name: Verify Git LFS runtime assets');
+    expect(validate).toContain('    if: always()');
+    expect(gateIndex).toBeGreaterThan(checkoutIndex);
+    expect(gateIndex).toBeLessThan(lfsIndex);
+    const gate = validate.slice(gateIndex, validate.indexOf('      - name:', gateIndex + 1));
+    expect(gate).toContain('        if: always()');
+    expect(gate).toContain('PREVIEW_PLAN_RESULT: ${{ needs.preview-plan.result }}');
+    expect(gate).toContain('node tools/ci/require-successful-preview-plan.mjs');
+
+    const fullValidationCondition =
+      "needs.preview-plan.result == 'success' && (github.event_name != 'pull_request' || needs.preview-plan.outputs.docs_only != 'true')";
+    for (const stepName of [
+      'Verify Git LFS runtime assets',
+      'Set up Node.js',
+      'Restore installed dependencies',
+      'Install from lockfile',
+      'Typecheck',
+      'Lint',
+      'Test',
+      'Production build',
+    ]) {
+      const stepIndex = validate.indexOf(`      - name: ${stepName}`);
+      const nextStepIndex = validate.indexOf('      - name:', stepIndex + 1);
+      const validationStep = validate.slice(stepIndex, nextStepIndex);
+      expect(validationStep, stepName).toContain(fullValidationCondition);
+      expect(validationStep, stepName).not.toContain("needs.preview-plan.result != 'success'");
+    }
+
+    const docsDiff = plan.slice(
+      plan.indexOf('      - name: Check documentation-only diff'),
+      plan.indexOf('      - name: Fingerprint validation contract'),
+    );
+    expect(docsDiff).toContain('run: git diff --check');
+    expect(docsDiff).not.toContain('continue-on-error');
+    expect(docsDiff).not.toContain('|| true');
+
+    const docsFastPath = validate.slice(
+      validate.indexOf('      - name: Report docs-only fast path'),
+      validate.indexOf('      - name: Set up Node.js'),
+    );
+    expect(docsFastPath).toContain("needs.preview-plan.result == 'success'");
+    expect(docsFastPath).toContain("needs.preview-plan.outputs.docs_only == 'true'");
+  });
+
+  it('keeps a failing documentation diff from producing a passing validate result', () => {
+    const runGate = (result?: string): number => {
+      try {
+        execFileSync('sh', [
+          '-c',
+          'PREVIEW_PLAN_RESULT="$1" node tools/ci/require-successful-preview-plan.mjs >/dev/null 2>&1',
+          'ci-plan-gate',
+          result ?? '',
+        ]);
+        return 0;
+      } catch (error) {
+        return (error as { status?: number }).status ?? -1;
+      }
+    };
+
+    expect(runGate('success')).toBe(0);
+    for (const unsuccessfulResult of ['failure', 'cancelled', 'skipped', 'timed_out', undefined]) {
+      expect(runGate(unsuccessfulResult)).toBe(1);
+    }
+
+    const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
+    const plan = workflow.slice(
+      workflow.indexOf('  preview-plan:\n'),
+      workflow.indexOf('\n  preview-build:', workflow.indexOf('  preview-plan:\n')),
+    );
+    const docsDiff = plan.slice(
+      plan.indexOf('      - name: Check documentation-only diff'),
+      plan.indexOf('      - name: Fingerprint validation contract'),
+    );
+    expect(docsDiff).toContain('run: git diff --check');
+    expect(docsDiff).not.toContain('continue-on-error');
+
+    const root = mkdtempSync(join(tmpdir(), 'failed-doc-diff-gate-'));
+    const git = (...args: string[]): void => {
+      execFileSync('git', ['-C', root, ...args]);
+    };
+    try {
+      git('init', '-q');
+      git('config', 'user.name', 'CI gate test');
+      git('config', 'user.email', 'ci-gate@example.invalid');
+      writeFileSync(join(root, 'README.md'), 'clean documentation\n');
+      git('add', 'README.md');
+      git('commit', '-qm', 'clean documentation');
+      writeFileSync(join(root, 'README.md'), 'bad documentation  \n');
+
+      let diffCheckStatus = 0;
+      try {
+        git('diff', '--check');
+      } catch (error) {
+        diffCheckStatus = (error as { status?: number }).status ?? -1;
+      }
+      expect(diffCheckStatus).not.toBe(0);
+      expect(runGate('failure')).toBe(1);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
   it('keeps existing check identities and avoids path-filter or privileged PR triggers', () => {
     const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
     const producer = readFileSync(

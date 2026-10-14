@@ -29,8 +29,14 @@ jobs:
           fetch-depth: 2
           lfs: false
 
+      - name: Require successful preview plan
+        if: always()
+        env:
+          PREVIEW_PLAN_RESULT: ${{ needs.preview-plan.result }}
+        run: node tools/ci/require-successful-preview-plan.mjs
+
       - name: Verify Git LFS runtime assets
-        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        if: needs.preview-plan.result == 'success' && (github.event_name != 'pull_request' || needs.preview-plan.outputs.docs_only != 'true')
         run: git lfs pull && git lfs fsck
 
       - name: Report docs-only fast path
@@ -49,14 +55,14 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Set up Node.js
-        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        if: needs.preview-plan.result == 'success' && (github.event_name != 'pull_request' || needs.preview-plan.outputs.docs_only != 'true')
         uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
       - name: Restore installed dependencies
-        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        if: needs.preview-plan.result == 'success' && (github.event_name != 'pull_request' || needs.preview-plan.outputs.docs_only != 'true')
         id: validate-deps
         uses: actions/cache@v4
         with:
@@ -64,23 +70,23 @@ jobs:
           key: node-modules-v1-${{ runner.os }}-node22-${{ hashFiles('package-lock.json') }}
 
       - name: Install from lockfile
-        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.validate-deps.outputs.cache-hit != 'true'
+        if: needs.preview-plan.result == 'success' && (github.event_name != 'pull_request' || needs.preview-plan.outputs.docs_only != 'true') && steps.validate-deps.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Typecheck
-        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        if: needs.preview-plan.result == 'success' && (github.event_name != 'pull_request' || needs.preview-plan.outputs.docs_only != 'true')
         run: npm run typecheck
 
       - name: Lint
-        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        if: needs.preview-plan.result == 'success' && (github.event_name != 'pull_request' || needs.preview-plan.outputs.docs_only != 'true')
         run: npm run lint
 
       - name: Test
-        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        if: needs.preview-plan.result == 'success' && (github.event_name != 'pull_request' || needs.preview-plan.outputs.docs_only != 'true')
         run: npm run test:ci
 
       - name: Production build
-        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        if: needs.preview-plan.result == 'success' && (github.event_name != 'pull_request' || needs.preview-plan.outputs.docs_only != 'true')
         run: npm run build
 
       - name: Upload production build for Pages assembly

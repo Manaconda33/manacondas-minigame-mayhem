@@ -32,7 +32,9 @@ export class NeonGridScene extends THREE.Group {
   ) {
     super();
     this.userData.visualVariant = variant;
-    const compositionVariant = variant === 'fog-experiment-v3-2' ? 'fog-experiment-v3' : variant;
+    const recoverSponsors = variant === 'fog-experiment-task-a';
+    const compositionVariant = variant === 'fog-experiment-v3-2' || recoverSponsors
+      ? 'fog-experiment-v3' : variant;
     if (variant === 'fog-experiment') {
       const fogCity = new NeonGridFogCityVisual(track, quality);
       this.add(fogCity.group);
@@ -45,9 +47,9 @@ export class NeonGridScene extends THREE.Group {
     this.add(this.fallsRun.group);
     this.fallsRunExtension = new FallsRunExtensionVisual(track, quality, compositionVariant);
     this.add(this.fallsRunExtension.group);
-    this.skyline = new SkylineVisual(track, quality, compositionVariant);
+    this.skyline = new SkylineVisual(track, quality, compositionVariant, recoverSponsors);
     this.add(this.skyline.group);
-    this.undercity = new UndercityVisual(track, quality, compositionVariant);
+    this.undercity = new UndercityVisual(track, quality, compositionVariant, recoverSponsors);
     this.add(this.undercity.group);
     this.tunnelWarnings = new ServiceTunnelWarningVisual(track.serviceTunnel);
     this.add(this.tunnelWarnings.group);
@@ -220,6 +222,7 @@ export function createNeonGridScene(
   }
   if (variant === 'fog-experiment-v2') addNeonGridAbyssFogV2(group, track);
   if (variant === 'fog-experiment-v3') addNeonGridAbyssFogV3(group, track);
-  if (variant === 'fog-experiment-v3-2') addNeonGridAbyssFogV3(group, track, '3.2');
+  if (variant === 'fog-experiment-v3-2' || variant === 'fog-experiment-task-a')
+    addNeonGridAbyssFogV3(group, track, '3.2');
   return group;
 }

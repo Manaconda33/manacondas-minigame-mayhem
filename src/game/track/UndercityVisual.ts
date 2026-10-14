@@ -860,21 +860,65 @@ function addServiceBayMask(group: THREE.Group, track: NeonGrid): void {
   group.add(bays);
 }
 
+// Validate against the same physical wall ribbon used by scene composition.
+// Temporary query meshes never enter the render scene and always release ownership.
+function taskASponsorGuardMount(track: NeonGrid, target: number, preferredSide: number, wall: THREE.Object3D): {
+  center: THREE.Vector3; inward: THREE.Vector3;
+} {
+  const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+  const guards = [-1, 1].map((side) => new THREE.Mesh(
+    neonGridRibbon(track, side as -1 | 1, true), material,
+  ));
+  const ray = new THREE.Raycaster();
+  try {
+    for (let offset = 0; offset <= 20; offset++) {
+      for (const direction of offset === 0 ? [0] : [-1, 1]) {
+        const progress = target + direction * offset * 0.001;
+        for (const side of [preferredSide, -preferredSide]) {
+          const right = neonGridRightAt(track, progress);
+          const inward = right.clone().multiplyScalar(-side);
+          const center = track.curve.getPointAt(progress)
+            .addScaledVector(right, side * (track.halfWidthAt(progress) + 0.27))
+            .add(new THREE.Vector3(0, 2.35, 0));
+          const tangent = track.curve.getTangentAt(progress).setY(0).normalize();
+          // The retained backing overlaps the supported screen below 1.8m.
+          // Both structural layers must exist; never bridge a shortcut opening.
+          const supported = [-2.2, 0, 2.2].every((x) => {
+            const point = center.clone().addScaledVector(tangent, x);
+            point.y = track.curve.getPointAt(progress).y + 1.3;
+            ray.set(point, inward.clone()); ray.far = 0.9;
+            if (ray.intersectObjects(guards, false).length === 0) return false;
+            ray.set(point, inward.clone().negate()); ray.far = 0.9;
+            return ray.intersectObject(wall, false).length > 0;
+          });
+          if (supported) return { center, inward };
+        }
+      }
+    }
+    throw new Error('Task A ad cannot cover a shortcut or unsupported guardrail');
+  } finally {
+    for (const guard of guards) guard.geometry.dispose();
+    material.dispose();
+  }
+}
+
 function addApprovedAds(
   group: THREE.Group,
+  track: NeonGrid,
   buildings: UndercityBuilding[],
   materials: AdMaterial[],
   variant: NeonGridVisualVariant,
+  recoverSponsors: boolean,
 ): void {
   // Spread the approved masks along the actual driving corridor instead of
   // assigning them to arbitrary generation indices that may be behind bends.
   const definitions = [
     { name: 'undercity-ad-nightshift-noodles',
       path: 'assets/track/neon-grid/signage/nightshift-noodles-v1.webp',
-      targets: [0.29, 0.39] },
+      targets: [0.29, 0.39], reviewTargets: [0.283, 0.407], reviewSides: [-1, -1] },
     { name: 'undercity-ad-voltline-industrial',
       path: 'assets/track/neon-grid/signage/voltline-industrial-v1.webp',
-      targets: [0.34, 0.43] },
+      targets: [0.34, 0.43], reviewTargets: [0.345, 0.43], reviewSides: [1, -1] },
   ] as const;
   const used = new Set<number>();
   const frameMaterial = new THREE.MeshStandardMaterial({
@@ -893,7 +937,8 @@ function addApprovedAds(
     materials.push({ path: definition.path, material });
     const ads = new THREE.InstancedMesh(new THREE.PlaneGeometry(8.55, 4.15), material, 2);
     ads.name = definition.name;
-    definition.targets.forEach((target, i) => {
+    definition.targets.forEach((authoredTarget, i) => {
+      const target = recoverSponsors ? definition.reviewTargets[i] ?? authoredTarget : authoredTarget;
       const candidate = buildings.map((building, index) => ({ building, index }))
         .filter(({ index }) => !used.has(index))
         .sort((a, b) => Math.abs(a.building.progress - target) - Math.abs(b.building.progress - target))[0];
@@ -907,12 +952,21 @@ function addApprovedAds(
         : building.baseY + Math.min(building.height * 0.32, building.height - 3.5);
       const facade = building.position.clone()
         .addScaledVector(inward, building.width * 0.5 + 0.26).setY(y);
+      if (recoverSponsors) {
+        const wall = group.getObjectByName('undercity-wallside-sightline-screens');
+        if (!(wall instanceof THREE.Mesh)) throw new Error('Task A backing screen is missing');
+        wall.updateMatrixWorld(true);
+        const mount = taskASponsorGuardMount(track, target, definition.reviewSides[i] ?? building.side, wall);
+        facade.copy(mount.center); inward.copy(mount.inward);
+      }
       dummy.position.copy(facade);
       dummy.rotation.set(0, Math.atan2(inward.x, inward.z), 0);
-      dummy.scale.set(1, 1, 1);
+      dummy.scale.set(recoverSponsors ? 0.50 : 1, recoverSponsors ? 0.50 : 1, 1);
       dummy.updateMatrix();
       ads.setMatrixAt(i, dummy.matrix);
-      dummy.position.copy(facade).addScaledVector(inward, -0.15);
+      dummy.position.copy(facade).addScaledVector(inward, recoverSponsors ? -0.20 : -0.15);
+      // The existing backing intersects the unchanged wallside screen; its face stays behind art.
+      if (recoverSponsors) dummy.scale.set(0.50, 0.50, 1.6);
       dummy.updateMatrix();
       frames.setMatrixAt(frameIndex++, dummy.matrix);
     });
@@ -934,6 +988,7 @@ export class UndercityVisual {
     track: NeonGrid,
     quality: GraphicsQuality,
     variant: NeonGridVisualVariant = 'approved',
+    recoverSponsors = false,
   ) {
     this.group.name = 'undercity-visual';
     this.group.userData.progressRange = [START, END];
@@ -983,7 +1038,7 @@ export class UndercityVisual {
     addUtilityClutter(this.group, track, buildings, variant);
     addFacadeVentilation(this.group, buildings);
     addServiceBayMask(this.group, track);
-    addApprovedAds(this.group, buildings, this.adMaterials, variant);
+    addApprovedAds(this.group, track, buildings, this.adMaterials, variant, recoverSponsors);
   }
 
   public async load(): Promise<void> {

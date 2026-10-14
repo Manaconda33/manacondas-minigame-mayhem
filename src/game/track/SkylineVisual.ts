@@ -995,6 +995,7 @@ function addApprovedAds(
   track: NeonGrid,
   towers: SkylineTower[],
   materials: AdMaterial[],
+  recoverSponsors: boolean,
 ): void {
   const definitions = [
     {
@@ -1048,6 +1049,7 @@ function addApprovedAds(
   let frameIndex = 0;
   let supportIndex = 0;
   let sponsorIndex = 0;
+  const usedFacadeTowers = new Set<SkylineTower>();
 
   for (const definition of definitions) {
     const material = new THREE.MeshBasicMaterial({
@@ -1060,13 +1062,31 @@ function addApprovedAds(
     const ads = new THREE.InstancedMesh(new THREE.PlaneGeometry(8, 4), material, 7);
     ads.name = definition.name;
     definition.towerIndices.forEach((towerIndex, i) => {
-      const tower = towers[towerIndex];
-      if (!tower) throw new Error('Skyline ad requires an authored tower mount');
-      const inward = tower.right.clone().multiplyScalar(-tower.side);
-      const y = tower.baseY + Math.min(tower.height * 0.48, tower.height - 5.5);
+      const authored = towers[towerIndex];
+      if (!authored) throw new Error('Skyline ad requires an authored tower mount');
+      // The accepted tall silhouettes remain untouched. Only signs move to a
+      // flat upper tier wide enough to support the entire existing frame.
+      const tower = recoverSponsors ? towers
+        .filter((candidate) => {
+          const roadY = track.projectMain(candidate.position).point.y;
+          const y = roadY + 4.5;
+          return !usedFacadeTowers.has(candidate) && candidate.width * 0.74 >= 8.65 && candidate.depth * 0.74 >= 8.65 &&
+            y - 2.225 >= candidate.baseY + candidate.height * 0.62 &&
+            y + 2.225 <= candidate.baseY + candidate.height * 0.89;
+        })
+        .sort((a, b) => a.position.distanceToSquared(authored.position) -
+          b.position.distanceToSquared(authored.position))[0] : authored;
+      if (!tower) throw new Error('Task A requires an existing supported upper tower facade');
+      usedFacadeTowers.add(tower);
+      const inward = recoverSponsors && i !== 1
+        ? tower.tangent.clone().multiplyScalar(i === 0 ? -1 : 1)
+        : tower.right.clone().multiplyScalar(-tower.side);
+      const faceWidth = recoverSponsors && i !== 1 ? tower.depth : tower.width;
+      const y = recoverSponsors ? track.projectMain(tower.position).point.y + 4.5
+        : tower.baseY + Math.min(tower.height * 0.48, tower.height - 5.5);
       const facade = tower.position
         .clone()
-        .addScaledVector(inward, tower.width * 0.5 + 0.085)
+        .addScaledVector(inward, faceWidth * (recoverSponsors ? 0.37 : 0.5) + 0.085)
         .setY(y);
       dummy.position.copy(facade);
       dummy.rotation.set(0, Math.atan2(inward.x, inward.z), 0);
@@ -1136,6 +1156,7 @@ export class SkylineVisual {
     track: NeonGrid,
     quality: GraphicsQuality,
     variant: NeonGridVisualVariant = 'approved',
+    recoverSponsors = false,
   ) {
     this.group.name = 'skyline-visual';
     this.group.userData.progressRange = [START, END];
@@ -1176,7 +1197,7 @@ export class SkylineVisual {
     addStructure(this.group, track, variant);
     const towers = addCity(this.group, track, quality, variant);
     addProceduralSignage(this.group, towers);
-    addApprovedAds(this.group, track, towers, this.adMaterials);
+    addApprovedAds(this.group, track, towers, this.adMaterials, recoverSponsors);
   }
 
   public async load(): Promise<void> {

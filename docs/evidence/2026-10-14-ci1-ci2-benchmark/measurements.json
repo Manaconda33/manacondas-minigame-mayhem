@@ -1,0 +1,204 @@
+{
+  "date": "2026-10-14",
+  "source": {
+    "main": "669e227a1c0bcff3fa7a1d403eb379311500f1e4",
+    "runtime": "25ea008b15852d593681f5b3b2a17b467a193472",
+    "tree": "92e6cb7571f9b4ddbb25c6754c6216e3533f534b",
+    "packageLockSha256": "f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1",
+    "lfsInventorySha256": "234d0e7336e2d824e9af54f107a2628ce544b42a2260bafb2d32d8e807c765bc"
+  },
+  "toolchain": {
+    "node": "v22.23.3",
+    "npm": "10.9.9",
+    "nodeArchiveSha256": "df450af89261115ef9f9e3830c3eeb2cc9213b63c720b1af623cb5dcbe2e02de",
+    "platform": "Linux shared container, 4 CPU quota, 34359738368-byte memory limit",
+    "hostedRunner": false,
+    "concurrentBackgroundProcesses": "Multiple pre-existing Vite servers were active and left untouched."
+  },
+  "commands": {
+    "install": "npm ci",
+    "test": "npm run test:ci -- --maxWorkers=N --testTimeout=15000",
+    "profiledTest": "npm run test:ci -- --maxWorkers=N --testTimeout=15000 --reporter=json --outputFile=/tmp/ci-v32-<trial>.json",
+    "fullSequence": "npm run typecheck && npm run lint && npm run test:ci -- --maxWorkers=2 --testTimeout=15000 --reporter=json --outputFile=/tmp/ci-v32-worker2-trial3-full-validation.json && npm run build"
+  },
+  "install": {
+    "exitCode": 0,
+    "elapsedSeconds": 3.64,
+    "packagesAdded": 198
+  },
+  "trials": [
+    {
+      "workers": 1,
+      "trial": 1,
+      "exitCode": 0,
+      "vitestSuiteSeconds": 919.91,
+      "wrapperElapsedSeconds": 920.67,
+      "testFilesPassed": 133,
+      "testFilesTotal": 133,
+      "testsPassed": 1085,
+      "testsTotal": 1085,
+      "coveragePercent": {
+        "statements": 92.53,
+        "branches": 82.56,
+        "functions": 92.84,
+        "lines": 94.39
+      },
+      "peakRssKiB": 1059788,
+      "peakRssSampling": "process-group sampler; not method-identical to worker 2/4 descendant-tree sampling",
+      "childCpuSeconds": 1137.42,
+      "log": "/tmp/ci-v32-worker1-trial1.log"
+    },
+    {
+      "workers": 2,
+      "trial": 1,
+      "exitCode": 0,
+      "vitestSuiteSeconds": 478.37,
+      "wrapperElapsedSeconds": 480.37,
+      "testFilesPassed": 133,
+      "testFilesTotal": 133,
+      "testsPassed": 1085,
+      "testsTotal": 1085,
+      "coveragePercent": {
+        "statements": 92.53,
+        "branches": 82.56,
+        "functions": 92.84,
+        "lines": 94.39
+      },
+      "peakRssKiB": 1468396,
+      "childCpuSeconds": 1120.35,
+      "json": "/tmp/ci-v32-worker2-trial1.json",
+      "log": "/tmp/ci-v32-worker2-trial1.log"
+    },
+    {
+      "workers": 2,
+      "trial": 2,
+      "exitCode": 0,
+      "vitestSuiteSeconds": 486.49,
+      "wrapperElapsedSeconds": 488.56,
+      "testFilesPassed": 133,
+      "testFilesTotal": 133,
+      "testsPassed": 1085,
+      "testsTotal": 1085,
+      "coveragePercent": {
+        "statements": 92.73,
+        "branches": 82.88,
+        "functions": 93.15,
+        "lines": 94.59
+      },
+      "peakRssKiB": 1410128,
+      "childCpuSeconds": 1138.51,
+      "json": "/tmp/ci-v32-worker2-trial2.json",
+      "log": "/tmp/ci-v32-worker2-trial2.log"
+    },
+    {
+      "workers": 2,
+      "trial": 3,
+      "exitCode": 0,
+      "sequence": "typecheck, lint, full test, build",
+      "vitestSuiteSeconds": 461.1,
+      "wrapperElapsedSeconds": 494.65,
+      "testFilesPassed": 133,
+      "testFilesTotal": 133,
+      "testsPassed": 1085,
+      "testsTotal": 1085,
+      "coveragePercent": {
+        "statements": 92.53,
+        "branches": 82.56,
+        "functions": 92.84,
+        "lines": 94.39
+      },
+      "peakRssKiB": 1629020,
+      "childCpuSeconds": 1112.37,
+      "json": "/tmp/ci-v32-worker2-trial3-full-validation.json",
+      "log": "/tmp/ci-v32-worker2-trial3-full-validation.log"
+    },
+    {
+      "workers": 4,
+      "trial": 1,
+      "exitCode": 1,
+      "vitestSuiteSeconds": 299.51,
+      "wrapperElapsedSeconds": 301.56,
+      "testFilesPassed": 132,
+      "testFilesTotal": 133,
+      "testsPassed": 1084,
+      "testsTotal": 1085,
+      "failure": {
+        "file": "tests/neon-grid-scene.test.ts",
+        "test": "quality-scales only the approved expensive dressing and skips wet streaks on Low",
+        "elapsedMilliseconds": 15934.89,
+        "timeoutMilliseconds": 15000
+      },
+      "coveragePercent": {
+        "statements": 92.62,
+        "branches": 82.74,
+        "functions": 92.84,
+        "lines": null
+      },
+      "peakRssKiB": 2156708,
+      "childCpuSeconds": 1192.2,
+      "json": "/tmp/ci-v32-worker4-trial1.json",
+      "log": "/tmp/ci-v32-worker4-trial1.log"
+    }
+  ],
+  "slowTestFilesAtTwoWorkersSeconds": {
+    "neon-grid-stage4-t9-7-city-ground.test.ts": [
+      115.18,
+      121.75,
+      108.1
+    ],
+    "race-diagnostics-routing.test.ts": [
+      104.68,
+      106.36,
+      91.8
+    ],
+    "neon-grid-stage4-task9.test.ts": [
+      102.46,
+      104.36,
+      94.6
+    ],
+    "neon-grid-stage4-t9-5.test.ts": [
+      74.2,
+      73.3,
+      66.8
+    ],
+    "neon-grid-stage4-task9-skyline.test.ts": [
+      61.69,
+      63.23,
+      58.7
+    ],
+    "neon-grid-fog-experiment.test.ts": [
+      56.84,
+      57.55,
+      55.8
+    ]
+  },
+  "focusedCiRegression": {
+    "command": "npm run test:ci -- tests/ci-validation-optimization.test.ts",
+    "exitCode": 0,
+    "files": "1/1",
+    "tests": "32/32",
+    "durationSeconds": 1.43,
+    "node": "v22.23.3"
+  },
+  "integrity": {
+    "gitLfsFsck": "PASS",
+    "productionBuildAndAssetChecks": "PASS",
+    "gitDiffCheck": "PASS after documentation changes"
+  },
+  "hostedEvidence": {
+    "readmeFastPathRun": "38515094890",
+    "readmeFastPathWallSeconds": 41,
+    "fullFallbackRun": "38571799430",
+    "fullFallbackWallSeconds": 1198,
+    "trustedProducerRun": "38580406017",
+    "runAttempt": 2,
+    "artifactCount": 4,
+    "fourRuntimeReuseHits": 0
+  },
+  "limitations": [
+    "No GitHub-hosted worker benchmark; local results are not a hosted improvement claim.",
+    "No eligible coherent four-artifact producer set; no real reuse fixture.",
+    "GH_TOKEN invalid and GitHub API proxy returned 403, preventing reruns, artifact downloads, and PR create/close.",
+    "Coverage varied in one of three two-worker runs despite identical test count; investigate time-sensitive coverage paths."
+  ]
+}

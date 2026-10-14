@@ -3,11 +3,12 @@
 **Date:** 2026-10-14<br>
 **Branch:** `engineering/ci-validation-optimization-001`<br>
 **Starting `main`:** `e5a49a7f94387b26c1ae91221bdf2217df273448`<br>
+**Pushed implementation checkpoint:** `8e29aaaf63184332e9f6624b18f9bf3505c9ee2c`<br>
 **Scope:** CI-1 implementation only; CI-2 deployment design/evidence only. No merge or production deployment is authorized.
 
 ## Status
 
-**Local implementation: PASS. Hosted acceptance: BLOCKED.** The isolated candidate passes Node 22 local validation. No CI-1 PR or GitHub Actions run has been created or observed from this environment because `gh` has no authenticated account, the configured `GH_TOKEN` is rejected, and the environment proxy denies `api.github.com`. Therefore the documentation fast path, trusted artifact reuse, required-check behavior, hosted Node 22 validation, and the under-five-minute target have not been demonstrated in hosted CI. Do not treat this report as approval to merge.
+**Local implementation: PASS. Hosted acceptance: BLOCKED.** The isolated candidate passes Node 22 local validation and was pushed to the authorized branch. No CI-1 PR or GitHub Actions run has been created or observed from this environment because `gh` has no authenticated account, the configured `GH_TOKEN` is rejected, and the environment proxy denies `api.github.com`. Therefore the documentation fast path, trusted artifact reuse, required-check behavior, hosted Node 22 validation, and the under-five-minute target have not been demonstrated in hosted CI. Do not treat this report as approval to merge.
 
 The original `/workspace/manacondas-minigame-mayhem` worktree remains on `design/neon-grid-circuit-02` at `6919729ba5e12f48305f543dca153f4ba9c5ae19`; implementation took place in a separate worktree based on the exact `main` checkpoint above.
 
@@ -115,7 +116,7 @@ Prettier caveat: a full-file check of the modified workflow and governance Markd
 ## GitHub, permissions, and required-check limitations
 
 - GitHub write ability is not available: `gh auth status` reports no authenticated host and the configured `GH_TOKEN` is invalid. The GitHub API tunnel is denied by the environment proxy. Branch rulesets and required-check settings also return unavailable/404 to this identity.
-- No push, PR, Actions run, branch-protection mutation, or hosted docs-only fixture is claimed. Hosted cross-run artifact API access, artifact digest format, status-check identities, Node 22 Actions behavior and wall-clock improvement remain unverified.
+- The isolated branch push succeeded and remote `main` still points to the verified base SHA. No PR, Actions run, branch-protection mutation, or hosted docs-only fixture is claimed. Hosted cross-run artifact API access, artifact digest format, status-check identities, Node 22 Actions behavior and wall-clock improvement remain unverified.
 - The CI-1 implementation PR's first run should run full validation because target `main` lacks the trusted helpers. It cannot be called the warmed documentation-only measurement. To establish the target, merge approval would be needed after review, then a separate docs-only test PR and hosted evidence-hit test; merge is outside this authorization.
 - Keep this item **BLOCKED** until a hosted PR confirms all original required status checks finish and the warmed docs-only path is below five minutes (target 2–3 minutes). Do not infer protection behavior from workflow YAML alone.
 

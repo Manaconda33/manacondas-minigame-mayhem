@@ -44,7 +44,9 @@ describe('Pages delivery manifest', () => {
     const assembleJob = workflow.slice(assembleStart, assembleEnd);
     const filter = script
       .split('\n')
-      .find((line) => line.trim() === "paths = [path for path in paths if path.name != '.gitkeep']");
+      .find(
+        (line) => line.trim() === "paths = [path for path in paths if path.name != '.gitkeep']",
+      );
 
     expect(assembleStart).toBeGreaterThanOrEqual(0);
     expect(assembleEnd).toBeGreaterThan(assembleStart);

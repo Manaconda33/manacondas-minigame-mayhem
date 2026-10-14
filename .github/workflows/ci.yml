@@ -17,24 +17,45 @@ concurrency:
 
 jobs:
   validate:
+    needs: preview-plan
+    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
         with:
-          lfs: true
+          fetch-depth: 2
+          lfs: false
 
       - name: Verify Git LFS runtime assets
-        run: git lfs fsck
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        run: git lfs pull && git lfs fsck
+
+      - name: Report docs-only fast path
+        if: github.event_name == 'pull_request' && needs.preview-plan.result == 'success' && needs.preview-plan.outputs.docs_only == 'true'
+        env:
+          CHANGE_REASON: ${{ needs.preview-plan.outputs.docs_reason }}
+          CHANGE_COUNT: ${{ needs.preview-plan.outputs.changed_count }}
+        run: |
+          {
+            echo '### Documentation-only fast path: PASS'
+            echo
+            echo "Classified $CHANGE_COUNT changed file record(s): $CHANGE_REASON."
+            echo 'Ran `git diff --check` on the allowlisted documentation paths.'
+            echo 'Intentionally not run: Git LFS verification, typecheck, lint, application tests, production build, pinned-runtime validation, spillway render, and immutable preview builds.'
+            echo 'This result does not claim that the runtime suite was executed. Any uncertain or non-allowlisted change uses full validation.'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Set up Node.js
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
       - name: Restore installed dependencies
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         id: validate-deps
         uses: actions/cache@v4
         with:
@@ -42,19 +63,23 @@ jobs:
           key: node-modules-v1-${{ runner.os }}-node22-${{ hashFiles('package-lock.json') }}
 
       - name: Install from lockfile
-        if: steps.validate-deps.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.validate-deps.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Typecheck
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         run: npm run typecheck
 
       - name: Lint
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         run: npm run lint
 
       - name: Test
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         run: npm run test:ci
 
       - name: Production build
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         run: npm run build
 
       - name: Upload production build for Pages assembly
@@ -69,9 +94,64 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       toolchain: ${{ steps.toolchain.outputs.value }}
+      docs_only: ${{ steps.classify.outputs.docs_only }}
+      docs_reason: ${{ steps.classify.outputs.reason }}
+      changed_count: ${{ steps.classify.outputs.changed_count }}
+      validation_contract: ${{ steps.validation-contract.outputs.contract_sha256 }}
+      validation_workflow_blob: ${{ steps.validation-contract.outputs.workflow_blob }}
+      validation_lock_sha256: ${{ steps.validation-contract.outputs.lock_sha256 }}
     steps:
       - name: Check out current tree for toolchain fingerprint
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+
+      - name: Check out trusted target-branch CI helpers
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: trusted-ci
+          fetch-depth: 1
+          lfs: false
+
+      - name: Set up Node.js for CI planning scripts
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Classify pull-request changes conservatively
+        id: classify
+        if: github.event_name == 'pull_request'
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CI_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CI_PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if [ -f trusted-ci/tools/ci/pr-change-classifier.mjs ]; then
+            node trusted-ci/tools/ci/pr-change-classifier.mjs
+          else
+            echo 'docs_only=false' >> "$GITHUB_OUTPUT"
+            echo 'reason=trusted classifier is not present on the target branch' >> "$GITHUB_OUTPUT"
+            echo 'changed_count=0' >> "$GITHUB_OUTPUT"
+            echo 'No trusted target-branch classifier is available; full validation required.'
+          fi
+
+      - name: Check documentation-only diff
+        if: github.event_name == 'pull_request' && steps.classify.outputs.docs_only == 'true'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: git diff --check "$BASE_SHA" "$HEAD_SHA" -- README.md docs/design/ docs/superpowers/plans/
+
+      - name: Fingerprint validation contract
+        id: validation-contract
+        run: |
+          if [ -f trusted-ci/tools/ci/validation-input-fingerprint.mjs ]; then
+            node trusted-ci/tools/ci/validation-input-fingerprint.mjs
+          else
+            node tools/ci/validation-input-fingerprint.mjs
+          fi
 
       - name: Fingerprint preview build toolchain
         id: toolchain
@@ -80,7 +160,10 @@ jobs:
           echo "value=$value" >> "$GITHUB_OUTPUT"
 
   preview-build:
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: >-
+      always() &&
+      (github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main'))
     needs: preview-plan
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -246,15 +329,22 @@ jobs:
             status: 'Stage 1 visual review only; T9.7 remains default; owner acceptance pending; no Stage 2 or production gameplay release'
 
     steps:
+      - name: Report documentation-only preview-build skip
+        if: github.event_name == 'pull_request' && needs.preview-plan.result == 'success' && needs.preview-plan.outputs.docs_only == 'true'
+        env:
+          PREVIEW_ID: ${{ matrix.id }}
+        run: echo "Immutable preview $PREVIEW_ID was intentionally not rebuilt because this pull request changes only allowlisted documentation." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Restore immutable preview build
         id: preview-cache
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         uses: actions/cache@v4
         with:
           path: preview-output/${{ matrix.id }}
           key: preview-dist-v1-${{ matrix.id }}-${{ matrix.sha }}-${{ needs.preview-plan.outputs.toolchain }}
 
       - name: Check out pinned preview source
-        if: steps.preview-cache.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v5
         with:
           ref: ${{ matrix.sha }}
@@ -262,7 +352,7 @@ jobs:
           lfs: true
 
       - name: Verify pinned preview source
-        if: steps.preview-cache.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true'
         working-directory: preview-src
         env:
           VITE_SOURCE_COMMIT: ${{ matrix.sha }}
@@ -271,7 +361,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "$VITE_SOURCE_COMMIT"
 
       - name: Set up Node.js
-        if: steps.preview-cache.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true'
         uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -279,7 +369,7 @@ jobs:
           cache-dependency-path: preview-src/package-lock.json
 
       - name: Restore installed preview dependencies
-        if: steps.preview-cache.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true'
         id: preview-deps
         uses: actions/cache@v4
         with:
@@ -287,19 +377,19 @@ jobs:
           key: node-modules-v1-${{ runner.os }}-node22-${{ hashFiles('preview-src/package-lock.json') }}
 
       - name: Install preview dependencies
-        if: steps.preview-cache.outputs.cache-hit != 'true' && steps.preview-deps.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true' && steps.preview-deps.outputs.cache-hit != 'true'
         working-directory: preview-src
         run: npm ci
 
       - name: Build pinned preview without source marker
-        if: steps.preview-cache.outputs.cache-hit != 'true' && matrix.embed_source == false
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true' && matrix.embed_source == false
         working-directory: preview-src
         env:
           PREVIEW_BASE: ${{ matrix.base }}
         run: npm run build -- --base "$PREVIEW_BASE"
 
       - name: Build pinned preview with source marker
-        if: steps.preview-cache.outputs.cache-hit != 'true' && matrix.embed_source == true
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true' && matrix.embed_source == true
         working-directory: preview-src
         env:
           PREVIEW_BASE: ${{ matrix.base }}
@@ -307,7 +397,7 @@ jobs:
         run: npm run build -- --base "$PREVIEW_BASE"
 
       - name: Write preview review marker
-        if: steps.preview-cache.outputs.cache-hit != 'true' && matrix.marker_type != ''
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true' && matrix.marker_type != ''
         working-directory: preview-src
         env:
           MARKER_TYPE: ${{ matrix.marker_type }}
@@ -327,12 +417,13 @@ jobs:
           JS
 
       - name: Stage immutable preview output
-        if: steps.preview-cache.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p "preview-output/${{ matrix.id }}"
           cp -a preview-src/dist/. "preview-output/${{ matrix.id }}/"
 
       - name: Verify preview output contract
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         env:
           OUTPUT: preview-output/${{ matrix.id }}
           EXPECTED_SOURCE: ${{ matrix.sha }}
@@ -346,8 +437,14 @@ jobs:
           fi
 
   pinned-runtime-validation:
-    if: github.event_name == 'pull_request'
+    if: >-
+      always() &&
+      (github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main'))
     needs: preview-plan
+    permissions:
+      actions: read
+      contents: read
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -356,27 +453,78 @@ jobs:
         include:
           - id: billboard
             sha: b942c912510ec86312a9d0cd393d71d2eb478ea8
+            tree: 76213c1dff2b434861bf6364ec7c8c9cb003908b
+            lock_sha256: f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1
+            lfs_inventory_sha256: 6e084bd177f53ac87a15642acf0054e7fe398a22387274e80fb0565f1e1a293c
             base: /manacondas-minigame-mayhem/previews/neon-grid-billboard/
           - id: dive
             sha: b49d9876f8c6ce87956f8b91675c3c8180e56b55
+            tree: 095bc5185ab5790efed5681dc228442b771b683c
+            lock_sha256: f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1
+            lfs_inventory_sha256: 6e084bd177f53ac87a15642acf0054e7fe398a22387274e80fb0565f1e1a293c
             base: /manacondas-minigame-mayhem/previews/neon-grid-dive/
           - id: far300
             sha: ce6a64cf36b1f110af028536d3ff9c7a306ccbdb
+            tree: c3193b2f1c67635504b5fd410e81e9b5d92ccf4e
+            lock_sha256: f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1
+            lfs_inventory_sha256: 6e084bd177f53ac87a15642acf0054e7fe398a22387274e80fb0565f1e1a293c
             base: /manacondas-minigame-mayhem/previews/neon-grid-far300/
           - id: abyss-fog-004
             sha: 25ea008b15852d593681f5b3b2a17b467a193472
+            tree: 92e6cb7571f9b4ddbb25c6754c6216e3533f534b
+            lock_sha256: f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1
+            lfs_inventory_sha256: 6e084bd177f53ac87a15642acf0054e7fe398a22387274e80fb0565f1e1a293c
             base: /manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/
 
     steps:
-      - name: Restore successful pinned-runtime validation
-        id: validation-cache
-        uses: actions/cache@v4
+      - name: Report documentation-only pinned-validation skip
+        if: github.event_name == 'pull_request' && needs.preview-plan.result == 'success' && needs.preview-plan.outputs.docs_only == 'true'
+        env:
+          PIN_ID: ${{ matrix.id }}
+        run: echo "Pinned runtime $PIN_ID was intentionally not revalidated because this pull request changes only allowlisted documentation; trusted evidence remains scoped to the immutable source and validation contract." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check out current CI contract
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        uses: actions/checkout@v5
         with:
-          path: validation-cache/${{ matrix.id }}
-          key: pinned-runtime-validation-v1-${{ matrix.id }}-${{ matrix.sha }}-${{ needs.preview-plan.outputs.toolchain }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.sha }}
+          path: ci-src
+          fetch-depth: 1
+
+      - name: Set up validation Node.js
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ci-src/package-lock.json
+
+      - name: Look up trusted pinned-runtime evidence
+        id: validation-evidence
+        if: github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
+        working-directory: ci-src
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PIN_ID: ${{ matrix.id }}
+          PIN_SHA: ${{ matrix.sha }}
+          PIN_TREE_SHA: ${{ matrix.tree }}
+          PIN_LOCK_SHA256: ${{ matrix.lock_sha256 }}
+          PIN_LFS_INVENTORY_SHA256: ${{ matrix.lfs_inventory_sha256 }}
+          PREVIEW_BASE: ${{ matrix.base }}
+          VALIDATION_CONTRACT_SHA256: ${{ needs.preview-plan.outputs.validation_contract }}
+          VALIDATION_WORKFLOW_BLOB: ${{ needs.preview-plan.outputs.validation_workflow_blob }}
+          VALIDATION_LOCK_SHA256: ${{ needs.preview-plan.outputs.validation_lock_sha256 }}
+        run: |
+          if [ -f tools/ci/restore-pinned-validation-evidence.mjs ]; then
+            node tools/ci/restore-pinned-validation-evidence.mjs
+          else
+            echo 'reuse=false' >> "$GITHUB_OUTPUT"
+            echo 'reason=trusted evidence verifier is not present on the target branch' >> "$GITHUB_OUTPUT"
+            echo 'Trusted evidence verifier unavailable; exact pinned runtime will run full validation.' >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Check out pinned runtime
-        if: steps.validation-cache.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.validation-evidence.outputs.reuse != 'true'
         uses: actions/checkout@v5
         with:
           ref: ${{ matrix.sha }}
@@ -384,7 +532,7 @@ jobs:
           lfs: true
 
       - name: Set up Node.js
-        if: steps.validation-cache.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.validation-evidence.outputs.reuse != 'true'
         uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -392,7 +540,7 @@ jobs:
           cache-dependency-path: runtime-src/package-lock.json
 
       - name: Restore installed pinned-runtime dependencies
-        if: steps.validation-cache.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.validation-evidence.outputs.reuse != 'true'
         id: runtime-deps
         uses: actions/cache@v4
         with:
@@ -400,20 +548,26 @@ jobs:
           key: node-modules-v1-${{ runner.os }}-node22-${{ hashFiles('runtime-src/package-lock.json') }}
 
       - name: Install pinned-runtime dependencies
-        if: steps.validation-cache.outputs.cache-hit != 'true' && steps.runtime-deps.outputs.cache-hit != 'true'
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.validation-evidence.outputs.reuse != 'true' && steps.runtime-deps.outputs.cache-hit != 'true'
         working-directory: runtime-src
         run: npm ci
 
-      - name: Validate exact pinned runtime
-        if: steps.validation-cache.outputs.cache-hit != 'true'
+      - name: run full validation on miss (exact pinned runtime)
+        if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.validation-evidence.outputs.reuse != 'true'
         working-directory: runtime-src
         env:
           PIN_ID: ${{ matrix.id }}
           PIN_SHA: ${{ matrix.sha }}
+          PIN_TREE_SHA: ${{ matrix.tree }}
+          PIN_LOCK_SHA256: ${{ matrix.lock_sha256 }}
+          PIN_LFS_INVENTORY_SHA256: ${{ matrix.lfs_inventory_sha256 }}
           PREVIEW_BASE: ${{ matrix.base }}
         run: |
           git lfs fsck
           test "$(git rev-parse HEAD)" = "$PIN_SHA"
+          test "$(git rev-parse 'HEAD^{tree}')" = "$PIN_TREE_SHA"
+          echo "$PIN_LOCK_SHA256  package-lock.json" | sha256sum --check
+          test "$(git lfs ls-files -l | sed -E 's/^([0-9a-f]{64}) [*+-] /\1 /' | sha256sum | cut -d' ' -f1)" = "$PIN_LFS_INVENTORY_SHA256"
           case "$PIN_ID" in
             billboard)
               # Retained native mobile fixture needs the same runner allowance as Dive fbff249.
@@ -448,11 +602,31 @@ jobs:
               exit 1
               ;;
           esac
-          mkdir -p "../validation-cache/$PIN_ID"
-          printf '%s\n' "$PIN_SHA" > "../validation-cache/$PIN_ID/passed"
 
-      - name: Verify pinned-runtime validation marker
-        run: test -f "validation-cache/${{ matrix.id }}/passed"
+      - name: Write trusted validation evidence
+        id: write-validation-evidence
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.preview-plan.result == 'success' && steps.validation-evidence.outputs.reuse != 'true'
+        working-directory: ci-src
+        env:
+          PIN_ID: ${{ matrix.id }}
+          PIN_SHA: ${{ matrix.sha }}
+          PIN_TREE_SHA: ${{ matrix.tree }}
+          PIN_LOCK_SHA256: ${{ matrix.lock_sha256 }}
+          PIN_LFS_INVENTORY_SHA256: ${{ matrix.lfs_inventory_sha256 }}
+          PREVIEW_BASE: ${{ matrix.base }}
+          RUNTIME_ROOT: ../runtime-src
+          VALIDATION_CONTRACT_SHA256: ${{ needs.preview-plan.outputs.validation_contract }}
+          VALIDATION_WORKFLOW_BLOB: ${{ needs.preview-plan.outputs.validation_workflow_blob }}
+          VALIDATION_LOCK_SHA256: ${{ needs.preview-plan.outputs.validation_lock_sha256 }}
+        run: node tools/ci/write-pinned-validation-evidence.mjs
+
+      - name: Publish trusted validation evidence
+        if: steps.write-validation-evidence.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.write-validation-evidence.outputs.artifact_name }}
+          path: ci-src/validation-evidence/manifest.json
+          retention-days: 30
 
   assemble:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -913,22 +1087,31 @@ jobs:
           path: site-root
 
   spillway-render:
-    if: github.event_name == 'pull_request'
+    if: >-
+      always() && github.event_name == 'pull_request'
+    needs: preview-plan
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Report documentation-only spillway skip
+        if: needs.preview-plan.result == 'success' && needs.preview-plan.outputs.docs_only == 'true'
+        run: echo 'The spillway render was intentionally not repeated because this pull request changes only allowlisted documentation.' >> "$GITHUB_STEP_SUMMARY"
+
       - name: Check out exact waterfall runtime
+        if: needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         uses: actions/checkout@v5
         with:
           ref: b49d9876f8c6ce87956f8b91675c3c8180e56b55
           lfs: true
       - name: Set up Node.js
+        if: needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
 
       - name: Restore installed spillway dependencies
+        if: needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         id: spillway-deps
         uses: actions/cache@v4
         with:
@@ -936,10 +1119,10 @@ jobs:
           key: node-modules-v1-${{ runner.os }}-node22-${{ hashFiles('package-lock.json') }}
 
       - name: Install exact runtime dependencies
-        if: steps.spillway-deps.outputs.cache-hit != 'true'
+        if: (needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.spillway-deps.outputs.cache-hit != 'true'
         run: npm ci
       - name: Render the pinned waterfall spillway and verify draw-call budget
-        if: github.event_name == 'pull_request'
+        if: needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true'
         env:
           WATERFALL_PLAYWRIGHT: /tmp/waterfall-webgl
         run: |
@@ -961,7 +1144,7 @@ jobs:
           JS
 
       - name: Upload waterfall rendered evidence
-        if: always() && github.event_name == 'pull_request'
+        if: always() && github.event_name == 'pull_request' && (needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true')
         uses: actions/upload-artifact@v4
         with:
           name: waterfall-spillway-render

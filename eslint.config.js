@@ -10,7 +10,7 @@ export default tseslint.config(
   ...tseslint.configs.stylisticTypeChecked,
   prettier,
   {
-    files: ['**/*.ts'],
+    files: ['**/*.ts', '**/*.mts'],
     languageOptions: {
       ecmaVersion: 2023,
       globals: globals.browser,

@@ -743,6 +743,26 @@ describe('trusted immutable-runtime validation evidence', () => {
     }
   });
 
+  it('verifies the trusted evidence writer can resolve its named ESM helper imports', () => {
+    const writer = readFileSync('tools/ci/write-pinned-validation-evidence.mjs', 'utf8');
+    const imports = [
+      ...writer.matchAll(/import\s*\{([^}]+)\}\s*from\s*['"](\.[^'"]+)['"]/g),
+    ];
+    expect(imports).toHaveLength(2);
+    for (const match of imports) {
+      const names = match[1];
+      const relativePath = match[2];
+      if (names === undefined || relativePath === undefined) {
+        throw new Error('trusted evidence writer import could not be parsed');
+      }
+      const specifier = `./${join('tools/ci', relativePath).replaceAll('\\', '/')}`;
+      const command = `import { ${names.trim()} } from ${JSON.stringify(specifier)};`;
+      expect(() => {
+        execFileSync('node', ['--input-type=module', '--eval', command]);
+      }).not.toThrow();
+    }
+  });
+
   it('keeps existing check identities and avoids path-filter or privileged PR triggers', () => {
     const workflow = readFileSync('.github/workflows/ci.yml', 'utf8');
     const producer = readFileSync(

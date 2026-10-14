@@ -1,9 +1,9 @@
 # Neon Grid Post-Fog Visual Polish & Adaptive Graphics Performance Roadmap
 
-**Status:** OWNER-ALIGNED ROADMAP, DOCUMENTATION ONLY; individual implementation/release gates remain closed  
-**Date:** 2026-10-13 (America/Chicago)  
-**Repository authority:** `docs/PRD.md`, approved amendments on `design/neon-grid-circuit-02`, and verified tests/evidence  
-**Baseline candidate:** Abyss Fog V3.2 source `experiment/neon-grid-abyss-fog-004` at `25ea008b15852d593681f5b3b2a17b467a193472`; runtime `9731adafdaf8e84d5a2c36ceeb035620753befa6`  
+**Status:** OWNER-ALIGNED ROADMAP, DOCUMENTATION ONLY; individual implementation/release gates remain closed<br>
+**Date:** 2026-10-13 (America/Chicago)<br>
+**Repository authority:** `docs/PRD.md`, approved amendments on `design/neon-grid-circuit-02`, and verified tests/evidence<br>
+**Baseline candidate:** Abyss Fog V3.2 source `experiment/neon-grid-abyss-fog-004` at `25ea008b15852d593681f5b3b2a17b467a193472`; runtime `9731adafdaf8e84d5a2c36ceeb035620753befa6`<br>
 **Rendering architecture foundation:** [Cross-Minigame Render Workload Governance Plan](2026-10-05-render-workload-governance.md)
 
 ## 1. Scope change and historical preservation

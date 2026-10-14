@@ -85,7 +85,8 @@
     },
     {
       "command": "git diff --check",
-      "exit_code": 0
+      "exit_code": 0,
+      "note": "Initial staged check found four inherited roadmap trailing-space line breaks; documentation-only cleanup retains explicit line breaks. Final complete baseline-to-candidate check passes."
     },
     {
       "command": "VITE_SOURCE_COMMIT=692e9424c2cbf15decbb467b230c02c2e10452a0 npm run build -- --base=/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/",

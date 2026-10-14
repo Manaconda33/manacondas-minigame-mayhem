@@ -17,6 +17,7 @@ concurrency:
 
 jobs:
   validate:
+    name: validate
     needs: preview-plan
     if: always()
     runs-on: ubuntu-latest
@@ -160,6 +161,7 @@ jobs:
           echo "value=$value" >> "$GITHUB_OUTPUT"
 
   preview-build:
+    name: preview-build (${{ matrix.id }})
     if: >-
       always() &&
       (github.event_name == 'pull_request' ||
@@ -437,10 +439,8 @@ jobs:
           fi
 
   pinned-runtime-validation:
-    if: >-
-      always() &&
-      (github.event_name == 'pull_request' ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/main'))
+    name: pinned-runtime-validation (${{ matrix.id }})
+    if: always() && github.event_name == 'pull_request'
     needs: preview-plan
     permissions:
       actions: read
@@ -602,31 +602,6 @@ jobs:
               exit 1
               ;;
           esac
-
-      - name: Write trusted validation evidence
-        id: write-validation-evidence
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.preview-plan.result == 'success' && steps.validation-evidence.outputs.reuse != 'true'
-        working-directory: ci-src
-        env:
-          PIN_ID: ${{ matrix.id }}
-          PIN_SHA: ${{ matrix.sha }}
-          PIN_TREE_SHA: ${{ matrix.tree }}
-          PIN_LOCK_SHA256: ${{ matrix.lock_sha256 }}
-          PIN_LFS_INVENTORY_SHA256: ${{ matrix.lfs_inventory_sha256 }}
-          PREVIEW_BASE: ${{ matrix.base }}
-          RUNTIME_ROOT: ../runtime-src
-          VALIDATION_CONTRACT_SHA256: ${{ needs.preview-plan.outputs.validation_contract }}
-          VALIDATION_WORKFLOW_BLOB: ${{ needs.preview-plan.outputs.validation_workflow_blob }}
-          VALIDATION_LOCK_SHA256: ${{ needs.preview-plan.outputs.validation_lock_sha256 }}
-        run: node tools/ci/write-pinned-validation-evidence.mjs
-
-      - name: Publish trusted validation evidence
-        if: steps.write-validation-evidence.outcome == 'success'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.write-validation-evidence.outputs.artifact_name }}
-          path: ci-src/validation-evidence/manifest.json
-          retention-days: 30
 
   assemble:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

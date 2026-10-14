@@ -8,6 +8,7 @@ import {
   lfsInventoryDigest,
   runtimeLockDigest,
   runtimeSourceTree,
+  trustedValidationJobName,
 } from './pinned-validation-evidence.mjs';
 import { execFileSync } from 'node:child_process';
 import { appendFileSync } from 'node:fs';
@@ -24,6 +25,9 @@ if (actualSha !== sourceSha)
   throw new Error(`pinned source mismatch: ${actualSha} != ${sourceSha}`);
 if (process.env.GITHUB_EVENT_NAME !== 'push' || process.env.GITHUB_REF !== 'refs/heads/main') {
   throw new Error('trusted validation evidence may only be written by a main push');
+}
+if (process.env.TRUSTED_PRODUCER_JOB_NAME !== trustedValidationJobName(runtimeId)) {
+  throw new Error('trusted validation evidence must be written by the exact pinned-runtime job');
 }
 const ciSourceSha = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
 if (ciSourceSha !== process.env.GITHUB_SHA)

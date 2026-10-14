@@ -4,8 +4,24 @@ import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-const WORKFLOW_PATH = '.github/workflows/ci.yml';
+const WORKFLOW_PATH = '.github/workflows/trusted-pinned-runtime-validation.yml';
 const EVIDENCE_SCHEMA = 1;
+
+export function trustedValidationJobName(runtimeId) {
+  return `trusted-pinned-runtime-validation (${runtimeId})`;
+}
+
+const REQUIRED_PRODUCER_STEPS = [
+  'Check out trusted validation source',
+  'Fingerprint main validation contract',
+  'Check out exact pinned runtime',
+  'Verify exact pinned source and LFS assets',
+  'Set up validation Node.js',
+  'Install pinned runtime dependencies',
+  'Run full validation (exact pinned runtime)',
+  'Write trusted validation evidence',
+  'Publish trusted validation evidence',
+];
 
 export function validationToolchainFingerprint({ nodeVersion, npmVersion, runnerImage }) {
   return createHash('sha256')
@@ -25,6 +41,7 @@ export function validationCommands(runtimeId, previewBase) {
     'test "$(git rev-parse \'HEAD^{tree}\')" = "$PIN_TREE_SHA"',
     'echo "$PIN_LOCK_SHA256  package-lock.json" | sha256sum --check',
     'test "$(git lfs ls-files -l | sed -E \'s/^([0-9a-f]{64}) [*+-] /\\1 /\' | sha256sum | cut -d\' \' -f1)" = "$PIN_LFS_INVENTORY_SHA256"',
+    'npm ci',
   ];
   const commands = {
     billboard: [
@@ -60,7 +77,7 @@ const isSha = (value, length = 40) =>
 const isSha256 = (value) => isSha(value, 64);
 const normalizeWorkflowPath = (value) => (typeof value === 'string' ? value.split('@', 1)[0] : '');
 
-export function decideValidationReuse({ artifact, evidence, run, expected }) {
+export function decideValidationReuse({ artifact, evidence, run, producerJob, expected }) {
   const miss = (reason) => ({ reuse: false, reason });
   if (!artifact || !evidence || !run || !expected) return miss('trusted evidence is missing');
   if (!Number.isSafeInteger(artifact.id) || artifact.expired !== false)
@@ -78,10 +95,28 @@ export function decideValidationReuse({ artifact, evidence, run, expected }) {
     run.status !== 'completed' ||
     run.conclusion !== 'success'
   ) {
-    return miss('workflow run is not a completed successful push to main');
+    return miss('trusted validation workflow run is not a completed successful push to main');
   }
   if (normalizeWorkflowPath(run.workflowPath) !== WORKFLOW_PATH || !isSha(run.headSha)) {
     return miss('workflow path or main-run commit is not trusted');
+  }
+  if (
+    !producerJob ||
+    producerJob.runId !== run.id ||
+    producerJob.runAttempt !== run.attempt ||
+    producerJob.name !== expected.producerJobName ||
+    producerJob.status !== 'completed' ||
+    producerJob.conclusion !== 'success'
+  ) {
+    return miss('exact pinned-runtime producer job is missing or unsuccessful');
+  }
+  const successfulSteps = new Set(
+    (Array.isArray(producerJob.steps) ? producerJob.steps : [])
+      .filter((step) => step?.status === 'completed' && step?.conclusion === 'success')
+      .map((step) => step.name),
+  );
+  if (REQUIRED_PRODUCER_STEPS.some((name) => !successfulSteps.has(name))) {
+    return miss('trusted producer did not complete every required source, test, and evidence step');
   }
 
   if (
@@ -140,18 +175,18 @@ export function decideValidationReuse({ artifact, evidence, run, expected }) {
     manifestRun.event !== 'push' ||
     manifestRun.branch !== 'main' ||
     manifestRun.ref !== 'refs/heads/main' ||
-    manifestRun.status !== 'completed' ||
-    manifestRun.conclusion !== 'success' ||
     manifestRun.workflowPath !== WORKFLOW_PATH ||
     manifestRun.sha !== run.headSha ||
-    manifestRun.attempt !== run.attempt
+    manifestRun.attempt !== run.attempt ||
+    manifestRun.producerJobName !== expected.producerJobName
   ) {
-    return miss('manifest does not bind to this trusted GitHub Actions run');
+    return miss('manifest does not bind to this exact trusted validation workflow and job');
   }
 
   return {
     reuse: true,
-    reason: 'exact validation artifact verified against successful trusted main-run provenance',
+    reason:
+      'exact validation artifact verified against successful independent main validation provenance',
   };
 }
 
@@ -180,6 +215,24 @@ function mapRun(run) {
   };
 }
 
+function mapProducerJob(job) {
+  return {
+    id: job.id,
+    runId: job.run_id,
+    runAttempt: job.run_attempt,
+    name: job.name,
+    status: job.status,
+    conclusion: job.conclusion,
+    steps: Array.isArray(job.steps)
+      ? job.steps.map((step) => ({
+          name: step.name,
+          status: step.status,
+          conclusion: step.conclusion,
+        }))
+      : [],
+  };
+}
+
 function githubApi(repository, path) {
   return `https://api.github.com/repos/${repository}/${path}`;
 }
@@ -193,6 +246,22 @@ async function inspectArtifact({ fetchImpl, repository, token, artifact, expecte
     token,
   );
   const run = mapRun(runData);
+  const jobsData = await getJson(
+    fetchImpl,
+    githubApi(repository, `actions/runs/${artifact.workflow_run.id}/jobs?per_page=100`),
+    token,
+  );
+  if (!Array.isArray(jobsData.jobs)) throw new Error('trusted producer job list is malformed');
+  const matchingJobs = jobsData.jobs.filter((job) => job.name === expected.producerJobName);
+  if (matchingJobs.length !== 1) {
+    return {
+      metadata: null,
+      run,
+      producerJob: null,
+      reason: 'exact pinned-runtime producer job is missing or ambiguous',
+    };
+  }
+  const producerJob = mapProducerJob(matchingJobs[0]);
   const metadata = {
     id: artifact.id,
     name: artifact.name,
@@ -223,21 +292,21 @@ async function inspectArtifact({ fetchImpl, repository, token, artifact, expecte
       event: run.event,
       branch: run.branch,
       ref: run.branch === 'main' ? 'refs/heads/main' : '',
-      status: run.status,
-      conclusion: run.conclusion,
       workflowPath: WORKFLOW_PATH,
       sha: run.headSha,
       attempt: run.attempt,
+      producerJobName: producerJob.name,
     },
   };
   const provenance = decideValidationReuse({
     artifact: metadata,
     evidence: candidateEvidence,
     run,
+    producerJob,
     expected: { ...expected, artifactName: expected.artifactName },
   });
-  if (!provenance.reuse) return { metadata, run, reason: provenance.reason };
-  return { metadata, run };
+  if (!provenance.reuse) return { metadata, run, producerJob, reason: provenance.reason };
+  return { metadata, run, producerJob };
 }
 
 export async function findTrustedValidationArtifact({
@@ -250,6 +319,7 @@ export async function findTrustedValidationArtifact({
     return {
       artifact: null,
       run: null,
+      producerJob: null,
       reason: 'read-only GitHub Actions credentials are unavailable',
     };
   try {
@@ -277,6 +347,7 @@ export async function findTrustedValidationArtifact({
         return {
           artifact: inspected.metadata,
           run: inspected.run,
+          producerJob: inspected.producerJob,
           reason: 'matching trusted main artifact is available',
         };
       }
@@ -285,12 +356,18 @@ export async function findTrustedValidationArtifact({
     return {
       artifact: null,
       run: null,
+      producerJob: null,
       reason: rejectedReason
         ? `candidate evidence rejected: ${rejectedReason}`
-        : 'no completed successful main-run artifact matches this source and validation contract',
+        : 'no completed successful independent main-validation artifact matches this source and contract',
     };
   } catch (error) {
-    return { artifact: null, run: null, reason: `evidence lookup failed closed: ${error.message}` };
+    return {
+      artifact: null,
+      run: null,
+      producerJob: null,
+      reason: `evidence lookup failed closed: ${error.message}`,
+    };
   }
 }
 
@@ -302,7 +379,7 @@ export async function restoreTrustedValidationEvidence({
   fetchImpl = fetch,
 }) {
   const found = await findTrustedValidationArtifact({ repository, token, expected, fetchImpl });
-  if (!found.artifact || !found.run) return { ...found, evidence: null };
+  if (!found.artifact || !found.run || !found.producerJob) return { ...found, evidence: null };
   try {
     const response = await fetchImpl(
       githubApi(repository, `actions/artifacts/${found.artifact.id}/zip`),
@@ -341,6 +418,7 @@ export async function restoreTrustedValidationEvidence({
       artifact: found.artifact,
       evidence,
       run: found.run,
+      producerJob: found.producerJob,
       expected,
     });
     if (!decision.reuse)
@@ -418,9 +496,8 @@ export function validationRunFromEnvironment(env = process.env) {
     branch: env.GITHUB_REF_NAME,
     ref: env.GITHUB_REF,
     sha: env.GITHUB_SHA,
-    status: 'completed',
-    conclusion: 'success',
     workflowPath: WORKFLOW_PATH,
+    producerJobName: env.TRUSTED_PRODUCER_JOB_NAME,
   };
 }
 

@@ -4,6 +4,7 @@ import {
   validationCommands,
   validationEvidenceName,
   validationToolchainFingerprint,
+  trustedValidationJobName,
 } from './pinned-validation-evidence.mjs';
 import { appendFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -35,6 +36,7 @@ const expected = {
   runnerImage,
   toolchainSha256,
   commands: validationCommands(runtimeId, previewBase),
+  producerJobName: trustedValidationJobName(runtimeId),
   artifactName: validationEvidenceName(runtimeId, sourceSha, contractSha256, toolchainSha256),
 };
 

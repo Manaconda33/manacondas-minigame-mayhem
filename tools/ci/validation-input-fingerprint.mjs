@@ -26,7 +26,11 @@ function included(path) {
 export function fingerprintValidationInputs(root = process.cwd()) {
   const tracked = execFileSync('git', ['ls-files', '-z'], { cwd: root, encoding: 'buffer' });
   const paths = tracked.toString('utf8').split('\0').filter(Boolean).filter(included).sort();
-  if (!paths.includes('package-lock.json') || !paths.includes('.github/workflows/ci.yml')) {
+  if (
+    !paths.includes('package-lock.json') ||
+    !paths.includes('.github/workflows/ci.yml') ||
+    !paths.includes('.github/workflows/trusted-pinned-runtime-validation.yml')
+  ) {
     throw new Error('required validation inputs are missing from the tracked tree');
   }
 
@@ -37,10 +41,14 @@ export function fingerprintValidationInputs(root = process.cwd()) {
     hash.update(path).update('\0').update(String(mode)).update('\0').update(content).update('\0');
   }
 
-  const workflowBlob = execFileSync('git', ['rev-parse', `HEAD:.github/workflows/ci.yml`], {
-    cwd: root,
-    encoding: 'utf8',
-  }).trim();
+  const workflowBlob = execFileSync(
+    'git',
+    ['rev-parse', `HEAD:.github/workflows/trusted-pinned-runtime-validation.yml`],
+    {
+      cwd: root,
+      encoding: 'utf8',
+    },
+  ).trim();
   const lockSha256 = createHash('sha256')
     .update(readFileSync(`${root}/package-lock.json`))
     .digest('hex');

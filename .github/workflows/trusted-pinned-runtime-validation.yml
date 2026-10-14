@@ -1,0 +1,166 @@
+name: Trusted pinned-runtime validation
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trusted-pinned-validation-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  trusted-pinned-runtime-validation:
+    name: trusted-pinned-runtime-validation (${{ matrix.id }})
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - id: billboard
+            sha: b942c912510ec86312a9d0cd393d71d2eb478ea8
+            tree: 76213c1dff2b434861bf6364ec7c8c9cb003908b
+            lock_sha256: f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1
+            lfs_inventory_sha256: 234d0e7336e2d824e9af54f107a2628ce544b42a2260bafb2d32d8e807c765bc
+            base: /manacondas-minigame-mayhem/previews/neon-grid-billboard/
+          - id: dive
+            sha: b49d9876f8c6ce87956f8b91675c3c8180e56b55
+            tree: 095bc5185ab5790efed5681dc228442b771b683c
+            lock_sha256: f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1
+            lfs_inventory_sha256: 234d0e7336e2d824e9af54f107a2628ce544b42a2260bafb2d32d8e807c765bc
+            base: /manacondas-minigame-mayhem/previews/neon-grid-dive/
+          - id: far300
+            sha: ce6a64cf36b1f110af028536d3ff9c7a306ccbdb
+            tree: c3193b2f1c67635504b5fd410e81e9b5d92ccf4e
+            lock_sha256: f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1
+            lfs_inventory_sha256: 234d0e7336e2d824e9af54f107a2628ce544b42a2260bafb2d32d8e807c765bc
+            base: /manacondas-minigame-mayhem/previews/neon-grid-far300/
+          - id: abyss-fog-004
+            sha: 25ea008b15852d593681f5b3b2a17b467a193472
+            tree: 92e6cb7571f9b4ddbb25c6754c6216e3533f534b
+            lock_sha256: f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1
+            lfs_inventory_sha256: 234d0e7336e2d824e9af54f107a2628ce544b42a2260bafb2d32d8e807c765bc
+            base: /manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/
+
+    steps:
+      - name: Check out trusted validation source
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          ref: ${{ github.sha }}
+          path: ci-src
+          fetch-depth: 1
+          lfs: false
+
+      - name: Check out exact pinned runtime
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          ref: ${{ matrix.sha }}
+          path: runtime-src
+          fetch-depth: 1
+          lfs: true
+
+      - name: Set up validation Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: runtime-src/package-lock.json
+
+      - name: Fingerprint main validation contract
+        id: validation-contract
+        working-directory: ci-src
+        run: node tools/ci/validation-input-fingerprint.mjs
+
+      - name: Verify exact pinned source and LFS assets
+        working-directory: runtime-src
+        env:
+          PIN_SHA: ${{ matrix.sha }}
+          PIN_TREE_SHA: ${{ matrix.tree }}
+          PIN_LOCK_SHA256: ${{ matrix.lock_sha256 }}
+          PIN_LFS_INVENTORY_SHA256: ${{ matrix.lfs_inventory_sha256 }}
+        run: |
+          git lfs pull
+          git lfs fsck
+          test "$(git rev-parse HEAD)" = "$PIN_SHA"
+          test "$(git rev-parse 'HEAD^{tree}')" = "$PIN_TREE_SHA"
+          echo "$PIN_LOCK_SHA256  package-lock.json" | sha256sum --check
+          test "$(git lfs ls-files -l | sed -E 's/^([0-9a-f]{64}) [*+-] /\1 /' | sha256sum | cut -d' ' -f1)" = "$PIN_LFS_INVENTORY_SHA256"
+
+      - name: Install pinned runtime dependencies
+        working-directory: runtime-src
+        run: npm ci
+
+      - name: Run full validation (exact pinned runtime)
+        working-directory: runtime-src
+        env:
+          PIN_ID: ${{ matrix.id }}
+          PIN_SHA: ${{ matrix.sha }}
+          PIN_TREE_SHA: ${{ matrix.tree }}
+          PIN_LOCK_SHA256: ${{ matrix.lock_sha256 }}
+          PIN_LFS_INVENTORY_SHA256: ${{ matrix.lfs_inventory_sha256 }}
+          PREVIEW_BASE: ${{ matrix.base }}
+        run: |
+          case "$PIN_ID" in
+            billboard)
+              # Retained native mobile fixture needs the same runner allowance as Dive fbff249.
+              npm run typecheck
+              npm run lint
+              npm run test:ci -- --testTimeout=15000
+              npm run build
+              npm run build -- --base "$PREVIEW_BASE"
+              ;;
+            dive)
+              npm run validate
+              npm run build -- --base "$PREVIEW_BASE"
+              ;;
+            far300)
+              # Keep the full validation phases while allowing the CPU-heavy render tests the same CI timeout as Billboard.
+              npm run typecheck
+              npm run lint
+              npm run test:ci -- --testTimeout=15000
+              npm run build
+              git diff --check
+              npm run build -- --base "$PREVIEW_BASE"
+              ;;
+            abyss-fog-004)
+              npm run typecheck
+              npm run lint
+              npm run test:ci -- --maxWorkers=1 --testTimeout=15000
+              npm run build
+              npm run build -- --base "$PREVIEW_BASE"
+              ;;
+            *)
+              echo "Unknown pinned runtime: $PIN_ID" >&2
+              exit 1
+              ;;
+          esac
+
+      - name: Write trusted validation evidence
+        id: write-validation-evidence
+        working-directory: ci-src
+        env:
+          PIN_ID: ${{ matrix.id }}
+          PIN_SHA: ${{ matrix.sha }}
+          PIN_TREE_SHA: ${{ matrix.tree }}
+          PIN_LOCK_SHA256: ${{ matrix.lock_sha256 }}
+          PIN_LFS_INVENTORY_SHA256: ${{ matrix.lfs_inventory_sha256 }}
+          PREVIEW_BASE: ${{ matrix.base }}
+          RUNTIME_ROOT: ../runtime-src
+          VALIDATION_CONTRACT_SHA256: ${{ steps.validation-contract.outputs.contract_sha256 }}
+          VALIDATION_WORKFLOW_BLOB: ${{ steps.validation-contract.outputs.workflow_blob }}
+          VALIDATION_LOCK_SHA256: ${{ steps.validation-contract.outputs.lock_sha256 }}
+          TRUSTED_PRODUCER_JOB_NAME: ${{ format('trusted-pinned-runtime-validation ({0})', matrix.id) }}
+        run: node tools/ci/write-pinned-validation-evidence.mjs
+
+      - name: Publish trusted validation evidence
+        if: steps.write-validation-evidence.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ steps.write-validation-evidence.outputs.artifact_name }}
+          path: ci-src/validation-evidence/manifest.json
+          retention-days: 30

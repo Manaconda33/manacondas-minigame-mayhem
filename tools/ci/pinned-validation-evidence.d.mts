@@ -13,6 +13,7 @@ export interface ValidationExpectation {
   toolchainSha256: string;
   commands: string[];
   artifactName: string;
+  producerJobName: string;
 }
 
 export function validationToolchainFingerprint(input: {
@@ -29,21 +30,34 @@ export function validationEvidenceName(
 ): string;
 
 export function validationCommands(runtimeId: string, previewBase: string): string[];
+export function trustedValidationJobName(runtimeId: string): string;
 export function normalizeLfsInventory(output: string): string;
 
 export function decideValidationReuse(input: {
   artifact: unknown;
   evidence: unknown;
   run: unknown;
+  producerJob: unknown;
   expected: ValidationExpectation;
 }): { reuse: boolean; reason: string };
+
+export function validationRunFromEnvironment(env?: Record<string, string | undefined>): {
+  id: number;
+  attempt: number;
+  event: string | undefined;
+  branch: string | undefined;
+  ref: string | undefined;
+  sha: string | undefined;
+  workflowPath: string;
+  producerJobName: string | undefined;
+};
 
 export function findTrustedValidationArtifact(input: {
   repository: string;
   token: string;
   expected: ValidationExpectation;
   fetchImpl?: typeof fetch;
-}): Promise<{ artifact: unknown; run: unknown; reason: string }>;
+}): Promise<{ artifact: unknown; run: unknown; producerJob: unknown; reason: string }>;
 
 export function restoreTrustedValidationEvidence(input: {
   repository: string;
@@ -54,6 +68,7 @@ export function restoreTrustedValidationEvidence(input: {
 }): Promise<{
   artifact: unknown;
   run: unknown;
+  producerJob: unknown;
   evidence: unknown;
   reason: string;
 }>;

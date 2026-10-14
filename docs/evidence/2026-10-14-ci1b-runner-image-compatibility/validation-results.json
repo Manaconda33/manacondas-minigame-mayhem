@@ -1,0 +1,151 @@
+{
+  "node": "v22.23.3",
+  "npm": "10.9.9",
+  "environment": "local managed cloud container; not GitHub-hosted",
+  "commands": [
+    {
+      "command": [
+        "npm",
+        "ci",
+        "--cache",
+        "/workspace/.npm-cache"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exitCode": 0,
+      "maxWarnings": 0
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "test:ci",
+        "--",
+        "tests/ci-validation-optimization.test.ts",
+        "--maxWorkers=1"
+      ],
+      "exitCode": 0,
+      "testFiles": 1,
+      "tests": 37,
+      "vitestSeconds": 1.21
+    },
+    {
+      "name": "full-suite",
+      "command": [
+        "npm",
+        "run",
+        "test:ci",
+        "--",
+        "--maxWorkers=1"
+      ],
+      "exitCode": 0,
+      "seconds": 114.791,
+      "log": "logs.json",
+      "outputKey": "full-suite",
+      "outputSha256": "79d927709212f9fab903c509d9d5c25fecb78353034f8052e04d43bf18f3463b"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "seconds": 8.374,
+      "log": "logs.json",
+      "outputKey": "build",
+      "outputSha256": "f76304266fbfdad77b9586da6ec552a782855f682645afd4f86ebf00a47ed7da"
+    },
+    {
+      "name": "lfs",
+      "command": [
+        "git",
+        "lfs",
+        "fsck"
+      ],
+      "exitCode": 0,
+      "seconds": 0.082,
+      "log": "logs.json",
+      "outputKey": "lfs",
+      "outputSha256": "81f6819612dfaf9af7854c05c501e2a69e3852e47f0bfb0a82dfce8f3f6c5db9"
+    },
+    {
+      "name": "diff",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0,
+      "seconds": 0.01,
+      "log": "logs.json",
+      "outputKey": "diff",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "PyYAML safe_load for both current CI workflow files"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "npx",
+        "prettier",
+        "--check",
+        "tools/ci/diagnose-runner-image-evidence.mjs",
+        "tests/ci-validation-optimization.test.ts"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "tools/ci/diagnose-runner-image-evidence.mjs"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "node",
+        "tools/ci/diagnose-runner-image-evidence.mjs"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "fullSuite": {
+    "files": 105,
+    "tests": 839,
+    "coverage": {
+      "statements": 88.66,
+      "branches": 80.16,
+      "functions": 89.82,
+      "lines": 90.88
+    }
+  },
+  "hostedCandidateRuns": [],
+  "gitHubAuthentication": {
+    "gitFetchPush": "available",
+    "cliAuthStatus": "invalid GH_TOKEN",
+    "rulesetApi": "proxy CONNECT failed (curl 56, HTTP status 000)"
+  },
+  "compatibilityImplementation": "not enabled; owner-gated design only"
+}

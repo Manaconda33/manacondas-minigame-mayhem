@@ -1,0 +1,55 @@
+{
+  "purpose": "Reproduce legacy exact artifact keys; no compatibility policy is enabled",
+  "assignmentsProvenance": "Owner supplied ImageVersion assignments; expanded hosted setup logs unavailable here",
+  "producerRun": 38634108940,
+  "consumerRun": 38638418993,
+  "nodeVersion": "v22.23.3",
+  "npmVersion": "10.9.9",
+  "contractSha256": "76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42",
+  "records": [
+    {
+      "runtimeId": "billboard",
+      "sourceSha": "b942c912510ec86312a9d0cd393d71d2eb478ea8",
+      "producerImage": "ubuntu24/20261004.327.1",
+      "consumerImage": "ubuntu24/20261012.334.1",
+      "producerFingerprint": "78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "consumerFingerprint": "02e97030c6713c011b2995e049482488a486bb1dcf7af3c1b63a967094c73687",
+      "producerArtifactName": "pinned-validation-v1-billboard-b942c912510ec86312a9d0cd393d71d2eb478ea8-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "requestedArtifactName": "pinned-validation-v1-billboard-b942c912510ec86312a9d0cd393d71d2eb478ea8-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-02e97030c6713c011b2995e049482488a486bb1dcf7af3c1b63a967094c73687",
+      "exactKeyMatches": false
+    },
+    {
+      "runtimeId": "far300",
+      "sourceSha": "ce6a64cf36b1f110af028536d3ff9c7a306ccbdb",
+      "producerImage": "ubuntu24/20261012.334.1",
+      "consumerImage": "ubuntu24/20261004.327.1",
+      "producerFingerprint": "02e97030c6713c011b2995e049482488a486bb1dcf7af3c1b63a967094c73687",
+      "consumerFingerprint": "78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "producerArtifactName": "pinned-validation-v1-far300-ce6a64cf36b1f110af028536d3ff9c7a306ccbdb-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-02e97030c6713c011b2995e049482488a486bb1dcf7af3c1b63a967094c73687",
+      "requestedArtifactName": "pinned-validation-v1-far300-ce6a64cf36b1f110af028536d3ff9c7a306ccbdb-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "exactKeyMatches": false
+    },
+    {
+      "runtimeId": "dive",
+      "sourceSha": "b49d9876f8c6ce87956f8b91675c3c8180e56b55",
+      "producerImage": "ubuntu24/20261004.327.1",
+      "consumerImage": "ubuntu24/20261004.327.1",
+      "producerFingerprint": "78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "consumerFingerprint": "78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "producerArtifactName": "pinned-validation-v1-dive-b49d9876f8c6ce87956f8b91675c3c8180e56b55-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "requestedArtifactName": "pinned-validation-v1-dive-b49d9876f8c6ce87956f8b91675c3c8180e56b55-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "exactKeyMatches": true
+    },
+    {
+      "runtimeId": "abyss-fog-004",
+      "sourceSha": "25ea008b15852d593681f5b3b2a17b467a193472",
+      "producerImage": "ubuntu24/20261004.327.1",
+      "consumerImage": "ubuntu24/20261004.327.1",
+      "producerFingerprint": "78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "consumerFingerprint": "78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "producerArtifactName": "pinned-validation-v1-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "requestedArtifactName": "pinned-validation-v1-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "exactKeyMatches": true
+    }
+  ]
+}

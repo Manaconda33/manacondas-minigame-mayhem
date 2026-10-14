@@ -282,6 +282,123 @@ describe('trusted immutable-runtime validation evidence', () => {
     workflowRunId: trustedRun.id,
   };
 
+  it('reproduces both observed runner-image toolchain fingerprints exactly', () => {
+    const fingerprint = (runnerImage: string) =>
+      validationToolchainFingerprint({
+        nodeVersion: 'v22.23.3',
+        npmVersion: '10.9.9',
+        runnerImage,
+      });
+    expect(fingerprint('ubuntu24/20261004.327.1')).toBe(
+      '78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c',
+    );
+    expect(fingerprint('ubuntu24/20261012.334.1')).toBe(
+      '02e97030c6713c011b2995e049482488a486bb1dcf7af3c1b63a967094c73687',
+    );
+  });
+
+  it.each([
+    ['billboard', 'ubuntu24/20261004.327.1', 'ubuntu24/20261012.334.1', false],
+    ['far300', 'ubuntu24/20261012.334.1', 'ubuntu24/20261004.327.1', false],
+    ['dive', 'ubuntu24/20261004.327.1', 'ubuntu24/20261004.327.1', true],
+    ['abyss-fog-004', 'ubuntu24/20261004.327.1', 'ubuntu24/20261004.327.1', true],
+  ])(
+    'reproduces the %s exact-name lookup decision without relaxing manifest checks',
+    async (runtimeId, producerImage, consumerImage, shouldFind) => {
+      const producerJobName = `trusted-pinned-runtime-validation (${runtimeId})`;
+      const key = (runnerImage: string) =>
+        validationToolchainFingerprint({
+          nodeVersion: 'v22.23.3',
+          npmVersion: '10.9.9',
+          runnerImage,
+        });
+      const consumerExpected = {
+        ...expected,
+        runtimeId,
+        producerJobName,
+        nodeVersion: 'v22.23.3',
+        npmVersion: '10.9.9',
+        runnerImage: consumerImage,
+        toolchainSha256: key(consumerImage),
+        artifactName: validationEvidenceName(
+          runtimeId,
+          expected.sourceSha,
+          expected.contractSha256,
+          key(consumerImage),
+        ),
+      };
+      const producerName = validationEvidenceName(
+        runtimeId,
+        expected.sourceSha,
+        expected.contractSha256,
+        key(producerImage),
+      );
+      const producerArtifact = {
+        id: completeArtifact.id,
+        name: producerName,
+        expired: false,
+        digest: completeArtifact.digest,
+        workflow_run: { id: trustedRun.id },
+      };
+      let requestedKey = '';
+      const fetchImpl = (url: string | URL | Request) => {
+        const href = requestUrl(url);
+        let data: unknown;
+        if (href.includes('/actions/artifacts?')) {
+          requestedKey = new URL(href).searchParams.get('name') ?? '';
+          const artifacts = requestedKey === producerName ? [producerArtifact] : [];
+          data = { artifacts, total_count: artifacts.length };
+        } else if (href.endsWith('/jobs?per_page=100')) {
+          data = { jobs: [{ ...trustedApiProducerJob, name: producerJobName }] };
+        } else {
+          data = {
+            id: trustedRun.id,
+            event: 'push',
+            head_branch: 'main',
+            status: 'completed',
+            conclusion: 'success',
+            path: trustedRun.workflowPath,
+            head_sha: trustedRun.headSha,
+            run_attempt: trustedRun.attempt,
+          };
+        }
+        return Promise.resolve(new Response(JSON.stringify(data), { status: 200 }));
+      };
+      const result = await findTrustedValidationArtifact({
+        repository: 'Manaconda33/manacondas-minigame-mayhem',
+        token: 'read-only-fixture',
+        expected: consumerExpected,
+        fetchImpl,
+      });
+      expect(requestedKey).toBe(consumerExpected.artifactName);
+      expect(Boolean(result.artifact)).toBe(shouldFind);
+      if (!shouldFind) {
+        expect(result.reason).toContain(
+          'no completed successful independent main-validation artifact',
+        );
+        // Relabeling an artifact cannot evade the second, actual manifest check.
+        const producerEvidence = {
+          ...evidence,
+          runtimeId,
+          nodeVersion: 'v22.23.3',
+          npmVersion: '10.9.9',
+          runnerImage: producerImage,
+          toolchainSha256: key(producerImage),
+          workflowRun: { ...evidence.workflowRun, producerJobName },
+        };
+        expect(
+          decideValidationReuse({
+            artifact: { ...completeArtifact, name: consumerExpected.artifactName },
+            evidence: producerEvidence,
+            run: trustedRun,
+            producerJob: { ...trustedProducerJob, name: producerJobName },
+            expected: consumerExpected,
+          }).reuse,
+        ).toBe(false);
+      }
+    },
+  );
+
   it('normalizes LFS inventory independently of local materialization markers', () => {
     const oid = 'a'.repeat(64);
     const materialized = `${oid} * public/assets/track/test.glb\n`;
@@ -549,9 +666,11 @@ describe('trusted immutable-runtime validation evidence', () => {
   it('rejects wrong source, fingerprint, lockfile, workflow, toolchain, artifact, or asset inventory', () => {
     for (const patch of [
       { evidence: { ...evidence, sourceSha: 'f'.repeat(40) } },
+      { evidence: { ...evidence, sourceTree: 'f'.repeat(40) } },
       { evidence: { ...evidence, contractSha256: 'f'.repeat(64) } },
       { evidence: { ...evidence, contractLockSha256: 'f'.repeat(64) } },
       { evidence: { ...evidence, runtimeLockSha256: '' } },
+      { evidence: { ...evidence, runtimeLockSha256: 'f'.repeat(64) } },
       { evidence: { ...evidence, lfsInventorySha256: 'f'.repeat(64) } },
       { evidence: { ...evidence, workflowBlob: 'f'.repeat(40) } },
       {
@@ -562,9 +681,16 @@ describe('trusted immutable-runtime validation evidence', () => {
       },
       { evidence: { ...evidence, nodeVersion: 'v22.24.0' } },
       { evidence: { ...evidence, npmVersion: '11.0.0' } },
+      { evidence: { ...evidence, runnerImage: 'ubuntu24/unverified-future' } },
+      { evidence: { ...evidence, runnerImage: 'windows/20261010.1' } },
+      { evidence: { ...evidence, toolchainSha256: 'f'.repeat(64) } },
+      { evidence: { ...evidence, commands: [...evidence.commands, 'unapproved command'] } },
+      { evidence: { ...evidence, workflowRun: { ...evidence.workflowRun, attempt: 2 } } },
+      { producerJob: { ...trustedProducerJob, runAttempt: 2 } },
       { evidence: { ...evidence, lfsInventorySha256: '' } },
       { artifact: { ...completeArtifact, name: 'user-supplied-passed-marker' } },
       { artifact: { ...completeArtifact, expired: true } },
+      { artifact: { ...completeArtifact, digest: 'unverified' } },
       { artifact: { ...completeArtifact, workflowRunId: trustedRun.id + 1 } },
     ]) {
       expect(
@@ -745,9 +871,7 @@ describe('trusted immutable-runtime validation evidence', () => {
 
   it('verifies the trusted evidence writer can resolve its named ESM helper imports', () => {
     const writer = readFileSync('tools/ci/write-pinned-validation-evidence.mjs', 'utf8');
-    const imports = [
-      ...writer.matchAll(/import\s*\{([^}]+)\}\s*from\s*['"](\.[^'"]+)['"]/g),
-    ];
+    const imports = [...writer.matchAll(/import\s*\{([^}]+)\}\s*from\s*['"](\.[^'"]+)['"]/g)];
     expect(imports).toHaveLength(2);
     for (const match of imports) {
       const names = match[1];

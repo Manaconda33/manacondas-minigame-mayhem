@@ -1,0 +1,16 @@
+[
+  {
+    "mobile": false,
+    "maxSpeed": 24,
+    "errors": [],
+    "failed": [],
+    "canvas": 1
+  },
+  {
+    "mobile": true,
+    "maxSpeed": 37,
+    "errors": [],
+    "failed": [],
+    "canvas": 1
+  }
+]

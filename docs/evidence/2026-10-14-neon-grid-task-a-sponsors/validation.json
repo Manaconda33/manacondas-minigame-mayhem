@@ -1,0 +1,131 @@
+{
+  "source": "692e9424c2cbf15decbb467b230c02c2e10452a0",
+  "node": "22.23.3",
+  "npm": "10.9.9",
+  "renderer": "Chromium software WebGL/SwiftShader; not physical hardware/G-05",
+  "commands": [
+    {
+      "command": "npm ci --cache /workspace/.npm-cache",
+      "exit_code": 0,
+      "note": "clean locked install, observed earlier in this execution"
+    },
+    {
+      "command": "npm run typecheck",
+      "exit_code": 0
+    },
+    {
+      "command": "npm run lint",
+      "exit_code": 0,
+      "warnings": 0
+    },
+    {
+      "command": "npx vitest run tests/neon-grid-task-a-sponsors.test.ts",
+      "exit_code": 0,
+      "files_passed": 1,
+      "tests_passed": 4,
+      "duration_seconds": 8.29
+    },
+    {
+      "command": "npm run test:ci -- --maxWorkers=1 --testTimeout=15000",
+      "exit_code": 0,
+      "files_passed": 134,
+      "tests_passed": 1089,
+      "duration_seconds": 964.65,
+      "test_execution_seconds": 848.29,
+      "coverage": {
+        "lines": {
+          "total": 13055,
+          "covered": 12325,
+          "skipped": 0,
+          "pct": 94.4
+        },
+        "statements": {
+          "total": 14459,
+          "covered": 13380,
+          "skipped": 0,
+          "pct": 92.53
+        },
+        "functions": {
+          "total": 1654,
+          "covered": 1536,
+          "skipped": 0,
+          "pct": 92.86
+        },
+        "branches": {
+          "total": 7802,
+          "covered": 6444,
+          "skipped": 0,
+          "pct": 82.59
+        },
+        "branchesTrue": {
+          "total": 0,
+          "covered": 0,
+          "skipped": 0,
+          "pct": 100
+        }
+      }
+    },
+    {
+      "command": "npm run build",
+      "exit_code": 0
+    },
+    {
+      "command": "node tools/verify-task9-skyline-assets.mjs",
+      "exit_code": 0,
+      "approved_assets_passed": 2
+    },
+    {
+      "command": "node tools/verify-task9-undercity-assets.mjs",
+      "exit_code": 0,
+      "approved_assets_passed": 2
+    },
+    {
+      "command": "git lfs fsck",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    },
+    {
+      "command": "VITE_SOURCE_COMMIT=692e9424c2cbf15decbb467b230c02c2e10452a0 npm run build -- --base=/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/",
+      "exit_code": 0
+    },
+    {
+      "command": "node tools/diagnostics/neon-grid-task-a-sponsors.mjs <base> <variant> <out> <layout>",
+      "exit_code": 0,
+      "completed_combinations": 4,
+      "stations_each": 182,
+      "screenshots": 54
+    },
+    {
+      "command": "node /tmp/task-a-smoke.mjs (pinned preview-relative build)",
+      "exit_code": 0,
+      "desktop_mobile_results": [
+        {
+          "mobile": false,
+          "maxSpeed": 24,
+          "errors": [],
+          "failed": [],
+          "canvas": 1
+        },
+        {
+          "mobile": true,
+          "maxSpeed": 37,
+          "errors": [],
+          "failed": [],
+          "canvas": 1
+        }
+      ]
+    },
+    {
+      "command": "exact preview marker / embedded source / HTML-relative asset path verification",
+      "exit_code": 0
+    }
+  ],
+  "hosted_ci": "NOT EXECUTED: GitHub API Forbidden; inherited PR workflow targets only main-base PRs",
+  "draft_pr": "NOT CREATED: GitHub API unavailable; prepared comparison and description provided",
+  "preview_publication": "NOT AUTHORIZED / NOT EXECUTED",
+  "owner_visual_acceptance": "PENDING",
+  "prd_deviations": "NONE; existing amendment discrepancy explicitly deferred"
+}

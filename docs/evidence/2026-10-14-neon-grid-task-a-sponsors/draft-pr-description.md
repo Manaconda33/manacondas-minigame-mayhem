@@ -1,0 +1,7 @@
+Recover the four existing Neon Grid sponsor designs in an opt-in Task A presentation based on approved Abyss Fog V3.2. Baseline composition already activates the lifted-ad guard; the defect is sub-road/occluded mounting. Move six existing Skyline facade ads to fully supported upper tower faces and four Undercity ads to supported screen-backed roadside mounts. Preserve original roadside mask boards, fog, art, gameplay and default/previous selectors.
+
+Runtime/source pin: `692e9424c2cbf15decbb467b230c02c2e10452a0`. Branch: `fix/neon-grid-task-a-sponsor-visibility-20261014`. Base: `experiment/neon-grid-abyss-fog-004` at `25ea008b15852d593681f5b3b2a17b467a193472`.
+
+Evidence packet: `docs/evidence/2026-10-14-neon-grid-task-a-sponsors/README.md`. Includes 54 matched desktop chase/rear and portrait captures, all 18 instance inventories, loaded-asset hashes, 182-station workload sweep and built-app control smoke tests. Desktop maxima remain 490 calls /400,751 triangles; portrait 232 /142,911. No budget, asset, CI workflow or gameplay change. CI research pause is recorded without merging research work.
+
+Local validation results are recorded in the packet. Hosted validation is not claimed. This base does not trigger the main-only PR CI filter. Do not merge or publish from this PR. Separate owner approval is required for a workflow-only immutable preview publication, followed by owner visual/playability review. No Tasks B/C/D or production release.

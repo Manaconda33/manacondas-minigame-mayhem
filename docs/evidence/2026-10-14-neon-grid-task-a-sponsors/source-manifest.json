@@ -1,0 +1,30 @@
+{
+  "baseline": "25ea008b15852d593681f5b3b2a17b467a193472",
+  "runtime": "692e9424c2cbf15decbb467b230c02c2e10452a0",
+  "changed_runtime_and_validation_files": {
+    "src/game/track/NeonGridVisualVariant.ts": {
+      "sha256": "c615796f9fd0367222e5404b64e55635a2f8b11d24070aeeb2dcb00d2ca0c94e",
+      "git_blob": "83eb198327e803415d166c81d2318b7371c40fea"
+    },
+    "src/game/track/SkylineVisual.ts": {
+      "sha256": "9e3f6ffd6e5b5d640af651b861c92f8c0c49139a9b8dc5b17dd6e22a6510a62d",
+      "git_blob": "6e1e601227670dad7396573ce27daa4d3b17a488"
+    },
+    "src/game/track/UndercityVisual.ts": {
+      "sha256": "b70472e9df8647846f615300c5912fc03936590b2ecd852926d5ce35b0a7996c",
+      "git_blob": "b3e5a61ce3de8c7dbd5de7a17269caa6b7ebc434"
+    },
+    "src/game/track/createNeonGridScene.ts": {
+      "sha256": "d59a06926e0b26f7c80d23be0dcea0841f18815efc014671cb0fc2743c70d94d",
+      "git_blob": "000e8f4dd24658b527e6be47a4733d0a558ed2e2"
+    },
+    "tests/neon-grid-task-a-sponsors.test.ts": {
+      "sha256": "3772176b2ff607f41f82eafc3cbb704d13c715dfee44a5091f02a98381671437",
+      "git_blob": "dcb2e0b428219fbad808366302180cc266d6d5b5"
+    },
+    "tools/diagnostics/neon-grid-task-a-sponsors.mjs": {
+      "sha256": "19abc529563485f6cf6aac48b5c7116c83700d12c8b0ab8a0a7bbea95b347771",
+      "git_blob": "1a98d861cbb76cb17cc0d4a2a9045315a4a94223"
+    }
+  }
+}

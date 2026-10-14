@@ -1,0 +1,3047 @@
+{
+  "baseline": "25ea008b15852d593681f5b3b2a17b467a193472",
+  "inventoryBeforeCorrection": [
+    {
+      "name": "skyline-ad-manaconda-racing",
+      "index": 0,
+      "center": [
+        144.365966796875,
+        2.559999942779541,
+        -91.86399841308594
+      ],
+      "progress": 0.1033745898272148,
+      "roadY": 14,
+      "heightAboveRoad": -11.440000057220459,
+      "normal": [
+        0.1797244059021928,
+        0,
+        -0.9837170009322315
+      ],
+      "matrix": [
+        -0.9837170243263245,
+        0,
+        -0.17972441017627716,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.17972441017627716,
+        0,
+        -0.9837170243263245,
+        0,
+        144.365966796875,
+        2.559999942779541,
+        -91.86399841308594,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/manaconda-racing-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 0,
+          "visibleSamples": 3,
+          "totalSamples": 5,
+          "widthPx": 3.33026257722711,
+          "heightPx": 18.74457143372903,
+          "blockers": [
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 6.064789349915536,
+          "heightPx": 23.137273881977034,
+          "blockers": [
+            "skyline-deck-fascia",
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 15.369181914458103,
+          "heightPx": 34.8029983172292,
+          "blockers": [
+            "skyline-ad-supports",
+            "neon-grid-wall--1",
+            "skyline-ad-taco-bell-live-mas"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 65.92882525592962,
+          "heightPx": 77.88960150487546,
+          "blockers": [
+            "skyline-ad-manaconda-racing",
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.076,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 66.8710031064331,
+          "heightPx": 28.602215969636234,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.194,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 34.88624883845315,
+          "heightPx": 16.920399242833728,
+          "blockers": [
+            "skyline-city-towers",
+            "undercity-city-buildings"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 23.724270898974538,
+          "heightPx": 13.414418227064388,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Move to an existing supported upper tower tier",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-manaconda-racing",
+      "index": 1,
+      "center": [
+        235.53680419921875,
+        -6.348669052124023,
+        -56.85544204711914
+      ],
+      "progress": 0.16724206267781383,
+      "roadY": 14.371193792617028,
+      "heightAboveRoad": -20.71986284474105,
+      "normal": [
+        -0.9992984363841012,
+        0,
+        -0.03745176952148523
+      ],
+      "matrix": [
+        -0.03745177015662193,
+        0,
+        0.9992984533309937,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.9992984533309937,
+        0,
+        -0.03745177015662193,
+        0,
+        235.53680419921875,
+        -6.348669052124023,
+        -56.85544204711914,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/manaconda-racing-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 18.669072418180548,
+          "heightPx": 8.977472071332041,
+          "blockers": [
+            "skyline-city-windows",
+            "skyline-city-towers"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 20.682295366184853,
+          "heightPx": 9.879382446505046,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 24.432939813878107,
+          "heightPx": 11.536507760340319,
+          "blockers": [
+            "skyline-ad-taco-bell-live-mas"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 32.84463023941143,
+          "heightPx": 14.933716841373517,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.076,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 35.845483456055476,
+          "heightPx": 19.36696181790796,
+          "blockers": [
+            "billboard-ad-raven"
+          ],
+          "progress": 0.105,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 38.63372911017456,
+          "heightPx": 36.832946362283415,
+          "blockers": [
+            "Chassis_1",
+            "batched-static-kart-parts"
+          ],
+          "progress": 0.135,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 55.7235739655669,
+          "heightPx": 62.54367070452185,
+          "blockers": [
+            "skyline-asphalt-base"
+          ],
+          "progress": 0.194,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 1,
+          "totalSamples": 5,
+          "widthPx": 23.359531079445617,
+          "heightPx": 14.421387498488487,
+          "blockers": [
+            "batched-static-kart-parts",
+            "undercity-service-bays"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 37.32162531243006,
+          "heightPx": 19.270346443169156,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "neon-grid-wall-1"
+          ],
+          "progress": 0.315,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 24.326709718199382,
+          "heightPx": 23.592751152164347,
+          "blockers": [],
+          "progress": 0.34,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 18.444507156813756,
+          "heightPx": 12.511533604135504,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "neon-grid-wall-1",
+            "service-tunnel-left-wall"
+          ],
+          "progress": 0.39,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 33.74795276013856,
+          "heightPx": 16.90968961832327,
+          "blockers": [
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.43,
+          "view": "chase"
+        }
+      ],
+      "proposedCorrection": "Move to an existing supported upper tower tier",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-manaconda-racing",
+      "index": 2,
+      "center": [
+        226.88267517089844,
+        -10.575366973876953,
+        -2.6939501762390137
+      ],
+      "progress": 0.19991427223096123,
+      "roadY": 10.835892411500973,
+      "heightAboveRoad": -21.411259385377925,
+      "normal": [
+        -0.9442396568470103,
+        0,
+        -0.32925897168860907
+      ],
+      "matrix": [
+        -0.3292589783668518,
+        0,
+        0.9442396759986877,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.9442396759986877,
+        0,
+        -0.3292589783668518,
+        0,
+        226.88267517089844,
+        -10.575366973876953,
+        -2.6939501762390137,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/manaconda-racing-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 22.25303488904487,
+          "heightPx": 9.996918710553171,
+          "blockers": [],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 25.133233327619706,
+          "heightPx": 11.10558961804168,
+          "blockers": [
+            "skyline-city-towers"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 30.65230289370021,
+          "heightPx": 13.173664267057887,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 45.75668604428927,
+          "heightPx": 18.142353467245833,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.076,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 44.2143357403603,
+          "heightPx": 18.36399119675978,
+          "blockers": [
+            "billboard-ad-raven"
+          ],
+          "progress": 0.105,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 25.95513388724971,
+          "heightPx": 21.39407755565687,
+          "blockers": [
+            "skyline-asphalt-base"
+          ],
+          "progress": 0.135,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 33.83000345073608,
+          "heightPx": 40.219046509370976,
+          "blockers": [
+            "skyline-asphalt-base"
+          ],
+          "progress": 0.16,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 40.74663428565138,
+          "heightPx": 22.85225005170636,
+          "blockers": [
+            "neon-grid-wall-1"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 1,
+          "totalSamples": 5,
+          "widthPx": 56.110438715399766,
+          "heightPx": 22.637536242205908,
+          "blockers": [
+            "service-tunnel-left-wall"
+          ],
+          "progress": 0.29,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 33.752774961571674,
+          "heightPx": 23.690272886067536,
+          "blockers": [
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.315,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 45.79229879624222,
+          "heightPx": 54.168897452716,
+          "blockers": [],
+          "progress": 0.34,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 34.398746025308995,
+          "heightPx": 23.016181419174416,
+          "blockers": [
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.37,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 18.515976665639187,
+          "heightPx": 16.04813622308243,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "undercity-utility-clutter"
+          ],
+          "progress": 0.39,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 25.726501286106682,
+          "heightPx": 20.037271467009823,
+          "blockers": [
+            "undercity-service-bays",
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.43,
+          "view": "chase"
+        }
+      ],
+      "proposedCorrection": "Move to an existing supported upper tower tier",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-manaconda-racing",
+      "index": 3,
+      "center": [
+        75.31371307373047,
+        17.5,
+        -119.93482208251953
+      ],
+      "progress": 0.051995726172236405,
+      "roadY": 14,
+      "heightAboveRoad": 3.5,
+      "normal": [
+        0.012146524382043358,
+        0,
+        -0.999926228251583
+      ],
+      "matrix": [
+        -0.9999262094497681,
+        0,
+        -0.012146524153649807,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.012146524153649807,
+        0,
+        -0.9999262094497681,
+        0,
+        75.31371307373047,
+        17.5,
+        -119.93482208251953,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/manaconda-racing-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 7.095777502364742,
+          "heightPx": 36.64443455728619,
+          "blockers": [],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 18.938726897749394,
+          "heightPx": 59.6939597767178,
+          "blockers": [],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 2,
+          "totalSamples": 5,
+          "widthPx": 1365.1580847932023,
+          "heightPx": 750.7439933223502,
+          "blockers": [],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 2,
+          "totalSamples": 5,
+          "widthPx": 1671.6387357284502,
+          "heightPx": 868.0207087294916,
+          "blockers": [],
+          "progress": 0.052,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 18.40277961605527,
+          "heightPx": 55.27766223647969,
+          "blockers": [],
+          "progress": 0.076,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 4.906666684123593,
+          "heightPx": 27.042862572679223,
+          "blockers": [],
+          "progress": 0.105,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 14.84865232088616,
+          "heightPx": 23.100995473138653,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.135,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 67.80010081976727,
+          "heightPx": 25.6929650344253,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-ad-supports"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 61.04608785996959,
+          "heightPx": 23.98239898218069,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-ad-supports"
+          ],
+          "progress": 0.29,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 3,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 19.266188558629374,
+          "heightPx": 11.225961450410562,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-ad-supports"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Retain exact T9.5 roadside camouflage placement",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-manaconda-racing",
+      "index": 4,
+      "center": [
+        110.35816192626953,
+        17.5,
+        -119.93083953857422
+      ],
+      "progress": 0.07599748479102197,
+      "roadY": 14,
+      "heightAboveRoad": 3.5,
+      "normal": [
+        -0.037535763924527225,
+        0,
+        -0.9992952849016161
+      ],
+      "matrix": [
+        -0.9992952942848206,
+        0,
+        0.037535764276981354,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.037535764276981354,
+        0,
+        -0.9992952942848206,
+        0,
+        110.35816192626953,
+        17.5,
+        -119.93083953857422,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/manaconda-racing-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 4.732760961307125,
+          "heightPx": 22.612734207954748,
+          "blockers": [],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 7.466662010399769,
+          "heightPx": 29.684590022732113,
+          "blockers": [],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 20.56366068041296,
+          "heightPx": 54.65617700304501,
+          "blockers": [],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 2,
+          "totalSamples": 5,
+          "widthPx": 1365.1572188820574,
+          "heightPx": 750.7438498438107,
+          "blockers": [],
+          "progress": 0.076,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 2,
+          "totalSamples": 5,
+          "widthPx": 1671.638912415603,
+          "heightPx": 868.020969124365,
+          "blockers": [],
+          "progress": 0.076,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 7.818563479591383,
+          "heightPx": 48.92049154250464,
+          "blockers": [],
+          "progress": 0.105,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 26.62540314223733,
+          "heightPx": 30.779995811817727,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.135,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 67.27016154801092,
+          "heightPx": 24.5946910940187,
+          "blockers": [
+            "skyline-ad-taco-bell-live-mas"
+          ],
+          "progress": 0.194,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 43.94666472194821,
+          "heightPx": 20.42516014951125,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-ad-supports"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 4,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 20.844267582249394,
+          "heightPx": 11.664331752797228,
+          "blockers": [
+            "skyline-city-towers"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Retain exact T9.5 roadside camouflage placement",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-manaconda-racing",
+      "index": 5,
+      "center": [
+        183.4960479736328,
+        19.450000762939453,
+        -98.1964340209961
+      ],
+      "progress": 0.13491940407630895,
+      "roadY": 14,
+      "heightAboveRoad": 5.450000762939453,
+      "normal": [
+        0.7666895144676877,
+        0,
+        -0.6420180592516858
+      ],
+      "matrix": [
+        -0.6420180797576904,
+        0,
+        -0.7666895389556885,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.7666895389556885,
+        0,
+        -0.6420180797576904,
+        0,
+        183.4960479736328,
+        19.450000762939453,
+        -98.1964340209961,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/manaconda-racing-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 16.372009417150633,
+          "heightPx": 12.579284191276685,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 18.409157761537305,
+          "heightPx": 14.488109509482133,
+          "blockers": [
+            "skyline-ad-supports",
+            "skyline-deck-fascia",
+            "skyline-ad-manaconda-racing",
+            "skyline-mask-roadside-billboard-supports"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 22.415139380551015,
+          "heightPx": 18.597897896339532,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 31.04637783965046,
+          "heightPx": 27.508490930765035,
+          "blockers": [
+            "skyline-ad-taco-bell-live-mas"
+          ],
+          "progress": 0.076,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 30.098881780361282,
+          "heightPx": 53.54904802274729,
+          "blockers": [
+            "billboard-ad-raven",
+            ""
+          ],
+          "progress": 0.105,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 1,
+          "totalSamples": 5,
+          "widthPx": 1956.4183565761818,
+          "heightPx": 1227.0565276027946,
+          "blockers": [],
+          "progress": 0.135,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 37.15199397982435,
+          "heightPx": 64.44775670841005,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.16,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 30.85281184686579,
+          "heightPx": 28.14501964355815,
+          "blockers": [
+            "skyline-ad-manaconda-racing",
+            "skyline-deck-fascia",
+            "skyline-mask-roadside-billboard-supports"
+          ],
+          "progress": 0.194,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 26.259632434565,
+          "heightPx": 14.928577477467758,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-city-towers"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 20.03700921282988,
+          "heightPx": 17.066149639009396,
+          "blockers": [
+            "skyline-deck-fascia",
+            "billboard-exit-ad-raven"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 40.85561349957999,
+          "heightPx": 17.16858491440535,
+          "blockers": [
+            "skyline-city-towers"
+          ],
+          "progress": 0.39,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Retain exact T9.5 roadside camouflage placement",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-manaconda-racing",
+      "index": 6,
+      "center": [
+        192.53250122070312,
+        18.919734954833984,
+        -34.49583053588867
+      ],
+      "progress": 0.18370769363467734,
+      "roadY": 13.497908811505734,
+      "heightAboveRoad": 5.42182614332825,
+      "normal": [
+        0.9978107823243747,
+        0,
+        0.06613352158489182
+      ],
+      "matrix": [
+        0.0661335214972496,
+        0,
+        -0.9978107810020447,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.9978107810020447,
+        0,
+        0.0661335214972496,
+        0,
+        192.53250122070312,
+        18.919734954833984,
+        -34.49583053588867,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/manaconda-racing-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 25.24988195779624,
+          "heightPx": 11.823331334531828,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia",
+            "skyline-city-towers"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 29.012610171963473,
+          "heightPx": 13.454918172160692,
+          "blockers": [
+            "skyline-city-towers"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 36.74824801163105,
+          "heightPx": 16.784944218501888,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 59.95491767536478,
+          "heightPx": 24.69631942227247,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.076,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 20.08377206119839,
+          "heightPx": 35.96189400399457,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.135,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 15.616401154895367,
+          "heightPx": 57.13139636343537,
+          "blockers": [],
+          "progress": 0.16,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 4,
+          "totalSamples": 5,
+          "widthPx": 74.78369385245372,
+          "heightPx": 161.3703738922367,
+          "blockers": [],
+          "progress": 0.194,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 33.53380358434755,
+          "heightPx": 25.152704716697066,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 8.403037670924434,
+          "heightPx": 34.41199463012612,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-manaconda-racing",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 24.860874677564198,
+          "heightPx": 20.600566774110668,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.39,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Retain exact T9.5 roadside camouflage placement",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-taco-bell-live-mas",
+      "index": 0,
+      "center": [
+        184.27671813964844,
+        -12.800000190734863,
+        -175.77272033691406
+      ],
+      "progress": 0.11197916666666667,
+      "roadY": 14,
+      "heightAboveRoad": -26.800000190734863,
+      "normal": [
+        -0.39154395678431675,
+        0,
+        0.9201594046173093
+      ],
+      "matrix": [
+        0.9201593995094299,
+        0,
+        0.3915439546108246,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.3915439546108246,
+        0,
+        0.9201593995094299,
+        0,
+        184.27671813964844,
+        -12.800000190734863,
+        -175.77272033691406,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 15.430230122551336,
+          "heightPx": 14.826112618303869,
+          "blockers": [
+            "neon-grid-wall-1"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 18.724111131515713,
+          "heightPx": 17.472112945833157,
+          "blockers": [
+            "neon-grid-wall-1"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 26.78175630233767,
+          "heightPx": 23.586318476765925,
+          "blockers": [
+            "neon-grid-wall-1"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 42.79051059935867,
+          "heightPx": 34.97711251301343,
+          "blockers": [
+            "neon-grid-wall-1",
+            "skyline-cyan-edges"
+          ],
+          "progress": 0.076,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 59.000390806710996,
+          "heightPx": 46.39334270490101,
+          "blockers": [
+            "neon-grid-wall-1",
+            "skyline-asphalt-base",
+            "skyline-cyan-edges"
+          ],
+          "progress": 0.135,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 28.76013027897396,
+          "heightPx": 19.50659944978662,
+          "blockers": [
+            "batched-static-kart-parts",
+            "Chassis_1",
+            "skyline-asphalt-base"
+          ],
+          "progress": 0.16,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 23.519497035660244,
+          "heightPx": 12.90337422904509,
+          "blockers": [
+            "skyline-asphalt-base"
+          ],
+          "progress": 0.194,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 19.744444366623988,
+          "heightPx": 9.694097543003672,
+          "blockers": [
+            "skyline-city-towers",
+            "undercity-city-buildings"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 17.128699742972735,
+          "heightPx": 9.520322156480749,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 38.24438160433061,
+          "heightPx": 13.24962473068487,
+          "blockers": [
+            "undercity-service-bays",
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.39,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Move to an existing supported upper tower tier",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-taco-bell-live-mas",
+      "index": 1,
+      "center": [
+        125.14395904541016,
+        -1.9199999570846558,
+        -175.01858520507812
+      ],
+      "progress": 0.08697028166400961,
+      "roadY": 14,
+      "heightAboveRoad": -15.919999957084656,
+      "normal": [
+        0.01990303173647506,
+        0,
+        0.9998019150450236
+      ],
+      "matrix": [
+        0.9998019337654114,
+        0,
+        -0.01990303210914135,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.01990303210914135,
+        0,
+        0.9998019337654114,
+        0,
+        125.14395904541016,
+        -1.9199999570846558,
+        -175.01858520507812,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 16.062333597372742,
+          "heightPx": 23.359297137348623,
+          "blockers": [
+            "skyline-city-towers"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 24.769376879444174,
+          "heightPx": 30.516050701463733,
+          "blockers": [
+            "skyline-city-towers"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 1,
+          "visibleSamples": 1,
+          "totalSamples": 5,
+          "widthPx": 59.7202795077844,
+          "heightPx": 53.971965086715734,
+          "blockers": [
+            "skyline-city-towers"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 1,
+          "visibleSamples": 2,
+          "totalSamples": 5,
+          "widthPx": 104.81830150279478,
+          "heightPx": 74.28027905603449,
+          "blockers": [
+            "neon-grid-wall-1"
+          ],
+          "progress": 0.105,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 28.719612305356257,
+          "heightPx": 22.800883865195825,
+          "blockers": [
+            "batched-static-kart-parts"
+          ],
+          "progress": 0.135,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 35.729262008985145,
+          "heightPx": 16.540885988493866,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.16,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 33.05640072954169,
+          "heightPx": 14.289348449209072,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.194,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 1,
+          "visibleSamples": 3,
+          "totalSamples": 5,
+          "widthPx": 27.957744426868487,
+          "heightPx": 12.09498667958309,
+          "blockers": [
+            "skyline-pylons"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 16.175419136918887,
+          "heightPx": 8.595554285706806,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Move to an existing supported upper tower tier",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-taco-bell-live-mas",
+      "index": 2,
+      "center": [
+        125.32833099365234,
+        -7.039999961853027,
+        -83.66943359375
+      ],
+      "progress": 0.08560414008691879,
+      "roadY": 14,
+      "heightAboveRoad": -21.039999961853027,
+      "normal": [
+        -0.02547708560071707,
+        0,
+        -0.999675406374136
+      ],
+      "matrix": [
+        -0.9996753931045532,
+        0,
+        0.025477085262537003,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.025477085262537003,
+        0,
+        -0.9996753931045532,
+        0,
+        125.32833099365234,
+        -7.039999961853027,
+        -83.66943359375,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 15.198358302230872,
+          "heightPx": 24.522938182689455,
+          "blockers": [
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 22.7537548624408,
+          "heightPx": 32.00137098139205,
+          "blockers": [
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 50.10249447459998,
+          "heightPx": 55.372070692353454,
+          "blockers": [
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 41.675592245860784,
+          "heightPx": 21.228153474945113,
+          "blockers": [
+            "skyline-city-towers"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 2,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 25.05014314085363,
+          "heightPx": 13.539537387299408,
+          "blockers": [
+            "skyline-deck-fascia",
+            "undercity-utility-clutter"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Move to an existing supported upper tower tier",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-taco-bell-live-mas",
+      "index": 3,
+      "center": [
+        87.07501220703125,
+        17.5,
+        -119.74077606201172
+      ],
+      "progress": 0.06000831999132874,
+      "roadY": 14,
+      "heightAboveRoad": 3.5,
+      "normal": [
+        0.02137418486527512,
+        0,
+        -0.9997715460150609
+      ],
+      "matrix": [
+        -0.9997715353965759,
+        0,
+        -0.021374184638261795,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.021374184638261795,
+        0,
+        -0.9997715353965759,
+        0,
+        87.07501220703125,
+        17.5,
+        -119.74077606201172,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 3,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 4.496066099936309,
+          "heightPx": 30.328909486534727,
+          "blockers": [],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 3,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 10.341282028208578,
+          "heightPx": 44.57169697174215,
+          "blockers": [],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 3,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 93.03205558290261,
+          "heightPx": 141.99647812514655,
+          "blockers": [],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 3,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 38.77899742113225,
+          "heightPx": 80.50101790813103,
+          "blockers": [],
+          "progress": 0.076,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 3,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 7.05125249544988,
+          "heightPx": 31.8460093233367,
+          "blockers": [],
+          "progress": 0.105,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 3,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 16.40585780354762,
+          "heightPx": 25.276953245733928,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.135,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 3,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 58.17348945307032,
+          "heightPx": 23.58728940846476,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-ad-supports"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 3,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 19.582547869822573,
+          "heightPx": 11.419196169809464,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-ad-supports"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Retain exact T9.5 roadside camouflage placement",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-taco-bell-live-mas",
+      "index": 4,
+      "center": [
+        123.37200164794922,
+        17.5,
+        -120.40513610839844
+      ],
+      "progress": 0.08499861385044304,
+      "roadY": 14,
+      "heightAboveRoad": 3.5,
+      "normal": [
+        -0.028126201852759592,
+        0,
+        -0.9996043801271269
+      ],
+      "matrix": [
+        -0.9996044039726257,
+        0,
+        0.028126202523708344,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.028126202523708344,
+        0,
+        -0.9996044039726257,
+        0,
+        123.37200164794922,
+        17.5,
+        -120.40513610839844,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 3.2942893746443858,
+          "heightPx": 19.796937881318478,
+          "blockers": [],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 4.905004104695667,
+          "heightPx": 25.014852602663414,
+          "blockers": [],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 10.991854845319802,
+          "heightPx": 40.6815727372372,
+          "blockers": [],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 79.86930949771832,
+          "heightPx": 130.69235883070434,
+          "blockers": [],
+          "progress": 0.076,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 14.72103217760285,
+          "heightPx": 69.74885919097602,
+          "blockers": [],
+          "progress": 0.105,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 31.792471465541823,
+          "heightPx": 34.939812199521576,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-ad-supports"
+          ],
+          "progress": 0.135,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 61.37778404072499,
+          "heightPx": 23.71259089432012,
+          "blockers": [
+            "skyline-ad-taco-bell-live-mas"
+          ],
+          "progress": 0.194,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 37.98559366124948,
+          "heightPx": 18.84107151535437,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-ad-supports"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 4,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 21.159047851699842,
+          "heightPx": 11.84940521151467,
+          "blockers": [
+            "skyline-city-towers",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Retain exact T9.5 roadside camouflage placement",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-taco-bell-live-mas",
+      "index": 5,
+      "center": [
+        190.90589904785156,
+        19.456451416015625,
+        -86.38907623291016
+      ],
+      "progress": 0.14622368612505995,
+      "roadY": 14.009737125286495,
+      "heightAboveRoad": 5.44671429072913,
+      "normal": [
+        0.9277255360572776,
+        0,
+        -0.3732630838259216
+      ],
+      "matrix": [
+        -0.37326309084892273,
+        0,
+        -0.9277255535125732,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.9277255535125732,
+        0,
+        -0.37326309084892273,
+        0,
+        190.90589904785156,
+        19.456451416015625,
+        -86.38907623291016,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 20.087688370474037,
+          "heightPx": 11.98493478203673,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 22.668665384556235,
+          "heightPx": 13.698638032892369,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 27.804789870127742,
+          "heightPx": 17.292121703671235,
+          "blockers": [
+            "skyline-ad-taco-bell-live-mas"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 39.67636649180662,
+          "heightPx": 24.913350876476095,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.076,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 46.011861919943016,
+          "heightPx": 42.19047442921995,
+          "blockers": [
+            "billboard-ad-raven"
+          ],
+          "progress": 0.105,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 33.104473512576966,
+          "heightPx": 131.97181873544986,
+          "blockers": [],
+          "progress": 0.135,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 12.360873125093121,
+          "heightPx": 105.7376335855519,
+          "blockers": [],
+          "progress": 0.16,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 20.84655210220717,
+          "heightPx": 33.23440791632198,
+          "blockers": [
+            "skyline-deck-fascia",
+            "skyline-mask-roadside-billboard-supports"
+          ],
+          "progress": 0.194,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 24.23364948862369,
+          "heightPx": 16.331480390860204,
+          "blockers": [
+            "skyline-city-towers",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 15.992682020131355,
+          "heightPx": 19.406146199811253,
+          "blockers": [
+            "billboard-exit-ad-raven"
+          ],
+          "progress": 0.34,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 5,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 32.43325733972654,
+          "heightPx": 15.953110485083958,
+          "blockers": [
+            "skyline-city-towers"
+          ],
+          "progress": 0.39,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Retain exact T9.5 roadside camouflage placement",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "skyline-ad-taco-bell-live-mas",
+      "index": 6,
+      "center": [
+        190.93748474121094,
+        17.46713638305664,
+        -21.041183471679688
+      ],
+      "progress": 0.19353257894554401,
+      "roadY": 12.093330913883388,
+      "heightAboveRoad": 5.373805469173252,
+      "normal": [
+        0.9791980151822641,
+        0,
+        0.20290699116372055
+      ],
+      "matrix": [
+        0.202906996011734,
+        0,
+        -0.9791980385780334,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.9791980385780334,
+        0,
+        0.202906996011734,
+        0,
+        190.93748474121094,
+        17.46713638305664,
+        -21.041183471679688,
+        1
+      ],
+      "width": 8,
+      "height": 4,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 27.300428565065502,
+          "heightPx": 11.914610230284037,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 31.714921239057787,
+          "heightPx": 13.565535263299681,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 41.000232828273795,
+          "heightPx": 16.929254247278465,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.052,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 25.16546185718113,
+          "heightPx": 30.440793589518876,
+          "blockers": [
+            "skyline-ad-manaconda-racing"
+          ],
+          "progress": 0.135,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 5.027595455065068,
+          "heightPx": 40.972882934789034,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports"
+          ],
+          "progress": 0.16,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 1,
+          "totalSamples": 5,
+          "widthPx": 1956.4197250951997,
+          "heightPx": 1227.056873729621,
+          "blockers": [],
+          "progress": 0.194,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 38.464749190804035,
+          "heightPx": 28.62429955533601,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.275,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 59.655772753006744,
+          "heightPx": 47.74319732017214,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.315,
+          "view": "chase"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 5,
+          "totalSamples": 5,
+          "widthPx": 5.014032967602198,
+          "heightPx": 40.46376627196474,
+          "blockers": [],
+          "progress": 0.34,
+          "view": "rear"
+        },
+        {
+          "name": "skyline-ad-taco-bell-live-mas",
+          "index": 6,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 22.6065466022785,
+          "heightPx": 22.213617907540932,
+          "blockers": [
+            "skyline-mask-roadside-billboard-supports",
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.39,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Retain exact T9.5 roadside camouflage placement",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "undercity-ad-nightshift-noodles",
+      "index": 0,
+      "center": [
+        90.3170166015625,
+        -2.9600000381469727,
+        46.86374282836914
+      ],
+      "progress": 0.2838541666666667,
+      "roadY": 0,
+      "heightAboveRoad": -2.9600000381469727,
+      "normal": [
+        0.7373247245441562,
+        0,
+        -0.6755384893371243
+      ],
+      "matrix": [
+        -0.6755384802818298,
+        0,
+        -0.7373247146606445,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.7373247146606445,
+        0,
+        -0.6755384802818298,
+        0,
+        90.3170166015625,
+        -2.9600000381469727,
+        46.86374282836914,
+        1
+      ],
+      "width": 8.55,
+      "height": 4.15,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/nightshift-noodles-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 51.076143908656064,
+          "heightPx": 21.322269344570675,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.16,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 64.44236048286307,
+          "heightPx": 25.906520489655232,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.194,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 133.151162169069,
+          "heightPx": 68.29003846659263,
+          "blockers": [
+            "neon-grid-wall--1",
+            "undercity-asphalt-base",
+            "batched-static-kart-parts"
+          ],
+          "progress": 0.275,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 0,
+          "visibleSamples": 2,
+          "totalSamples": 5,
+          "widthPx": 201.02716877181206,
+          "heightPx": 152.605306575431,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.29,
+          "view": "rear"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 54.136946077461104,
+          "heightPx": 38.01690857502119,
+          "blockers": [
+            "batched-static-kart-parts"
+          ],
+          "progress": 0.315,
+          "view": "rear"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 0,
+          "visibleSamples": 3,
+          "totalSamples": 5,
+          "widthPx": 39.348068927375195,
+          "heightPx": 42.239181369803205,
+          "blockers": [
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.37,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 36.069443837791866,
+          "heightPx": 59.8260277541794,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.415,
+          "view": "rear"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 25.111017213182123,
+          "heightPx": 53.334976514209984,
+          "blockers": [
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.43,
+          "view": "rear"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 20.6377281112211,
+          "heightPx": 29.098198489283728,
+          "blockers": [
+            "undercity-utility-clutter",
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.45,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Mount same artwork at uniform reduced scale on an intact track-facing guardrail; preserve physical wall and screen masks",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "undercity-ad-nightshift-noodles",
+      "index": 1,
+      "center": [
+        86.65032196044922,
+        -3.25,
+        62.42697525024414
+      ],
+      "progress": 0.3984375,
+      "roadY": 0,
+      "heightAboveRoad": -3.25,
+      "normal": [
+        0.7643419890094002,
+        0,
+        0.6448110760813233
+      ],
+      "matrix": [
+        0.6448110938072205,
+        0,
+        -0.7643420100212097,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0.7643420100212097,
+        0,
+        0.6448110938072205,
+        0,
+        86.65032196044922,
+        -3.25,
+        62.42697525024414,
+        1
+      ],
+      "width": 8.55,
+      "height": 4.15,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/nightshift-noodles-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 4.838789827260683,
+          "heightPx": 18.49138281039378,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.16,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 12.63783909087934,
+          "heightPx": 23.780650460549115,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.194,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 29.284889212860605,
+          "heightPx": 60.364729713902335,
+          "blockers": [
+            "neon-grid-wall--1",
+            "undercity-city-buildings",
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.275,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 36.35383273842406,
+          "heightPx": 35.76120681225288,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "AccentMesh_3",
+            "undercity-utility-clutter",
+            "undercity-city-buildings"
+          ],
+          "progress": 0.315,
+          "view": "rear"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 57.580278035092306,
+          "heightPx": 39.25494140812716,
+          "blockers": [
+            "undercity-asphalt-base",
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.37,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 149.92824766805091,
+          "heightPx": 107.42621297538993,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "neon-grid-wall--1",
+            "undercity-service-bays"
+          ],
+          "progress": 0.39,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 114.47145224598437,
+          "heightPx": 53.43903506260434,
+          "blockers": [
+            "undercity-asphalt-base",
+            "undercity-wallside-sightline-screens",
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.415,
+          "view": "rear"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 1,
+          "visibleSamples": 1,
+          "totalSamples": 5,
+          "widthPx": 105.49856443645943,
+          "heightPx": 48.89020495013884,
+          "blockers": [
+            "undercity-service-bays",
+            "undercity-wallside-sightline-screens",
+            "undercity-utility-clutter"
+          ],
+          "progress": 0.43,
+          "view": "rear"
+        },
+        {
+          "name": "undercity-ad-nightshift-noodles",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 52.04309255234314,
+          "heightPx": 27.58210458689654,
+          "blockers": [
+            "undercity-service-bays",
+            "undercity-wallside-sightline-screens",
+            "undercity-utility-clutter"
+          ],
+          "progress": 0.45,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Mount same artwork at uniform reduced scale on an intact track-facing guardrail; preserve physical wall and screen masks",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "undercity-ad-voltline-industrial",
+      "index": 0,
+      "center": [
+        191.36766052246094,
+        -3.25,
+        48.40324783325195
+      ],
+      "progress": 0.3385416666666667,
+      "roadY": 0,
+      "heightAboveRoad": -3.25,
+      "normal": [
+        -0.9438434800014437,
+        0,
+        0.3303929255579852
+      ],
+      "matrix": [
+        0.3303929269313812,
+        0,
+        0.9438434839248657,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.9438434839248657,
+        0,
+        0.3303929269313812,
+        0,
+        191.36766052246094,
+        -3.25,
+        48.40324783325195,
+        1
+      ],
+      "width": 8.55,
+      "height": 4.15,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/voltline-industrial-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 18.145725831854094,
+          "heightPx": 12.487638785944261,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.015,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 19.672849315400924,
+          "heightPx": 14.21658184805967,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.03,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 14.205912429824394,
+          "heightPx": 21.198365568947217,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.135,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 13.488528318250834,
+          "heightPx": 21.481925878576476,
+          "blockers": [
+            "skyline-asphalt-base"
+          ],
+          "progress": 0.16,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 23.682984706742367,
+          "heightPx": 37.17284758100141,
+          "blockers": [
+            "batched-static-kart-parts",
+            "neon-grid-wall-1"
+          ],
+          "progress": 0.194,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 52.56567355563071,
+          "heightPx": 28.873145020295457,
+          "blockers": [
+            "undercity-asphalt-base",
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.29,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 76.59144333406944,
+          "heightPx": 41.975159299415594,
+          "blockers": [
+            "undercity-asphalt-base",
+            "neon-grid-wall--1",
+            "neon-grid-wall-1"
+          ],
+          "progress": 0.315,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 81.27036835929698,
+          "heightPx": 39.053103344954536,
+          "blockers": [
+            "undercity-utility-clutter",
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.37,
+          "view": "rear"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 49.62340266624683,
+          "heightPx": 24.0328377486659,
+          "blockers": [
+            "SteeringWheel",
+            "batched-static-kart-parts",
+            "Chassis_1"
+          ],
+          "progress": 0.39,
+          "view": "rear"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 114.10298153996479,
+          "heightPx": 38.77357883448331,
+          "blockers": [
+            "undercity-wallside-sightline-screens"
+          ],
+          "progress": 0.415,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 0,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 73.69066133661654,
+          "heightPx": 31.887700353144965,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "undercity-asphalt-base"
+          ],
+          "progress": 0.43,
+          "view": "chase"
+        }
+      ],
+      "proposedCorrection": "Mount same artwork at uniform reduced scale on an intact track-facing guardrail; preserve physical wall and screen masks",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    },
+    {
+      "name": "undercity-ad-voltline-industrial",
+      "index": 1,
+      "center": [
+        129.74478149414062,
+        -2.6700000762939453,
+        111.67420959472656
+      ],
+      "progress": 0.4265696123388187,
+      "roadY": 0,
+      "heightAboveRoad": -2.6700000762939453,
+      "normal": [
+        -0.10005911702373804,
+        0,
+        -0.9949814938482173
+      ],
+      "matrix": [
+        -0.9949814677238464,
+        0,
+        0.10005911439657211,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -0.10005911439657211,
+        0,
+        -0.9949814677238464,
+        0,
+        129.74478149414062,
+        -2.6700000762939453,
+        111.67420959472656,
+        1
+      ],
+      "width": 8.55,
+      "height": 4.15,
+      "image": "http://127.0.0.1:5196/manacondas-minigame-mayhem/assets/track/neon-grid/signage/voltline-industrial-v1.webp",
+      "imageWidth": 1024,
+      "imageHeight": 512,
+      "observations": [
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 23.093146986089543,
+          "heightPx": 11.145405489853466,
+          "blockers": [
+            "skyline-deck-fascia"
+          ],
+          "progress": 0.16,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 25.33763000730998,
+          "heightPx": 14.5867625500472,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "neon-grid-wall--1"
+          ],
+          "progress": 0.194,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 104.35271878316222,
+          "heightPx": 43.13560263063052,
+          "blockers": [
+            "neon-grid-wall-1",
+            "undercity-wallside-sightline-screens",
+            "undercity-service-bays"
+          ],
+          "progress": 0.29,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 104.8235626649263,
+          "heightPx": 40.79543053293318,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "neon-grid-wall-1"
+          ],
+          "progress": 0.34,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 1,
+          "visibleSamples": 1,
+          "totalSamples": 5,
+          "widthPx": 108.22660297737039,
+          "heightPx": 89.51450578534387,
+          "blockers": [
+            "undercity-wallside-sightline-screens",
+            "neon-grid-wall--1",
+            "undercity-utility-clutter"
+          ],
+          "progress": 0.415,
+          "view": "chase"
+        },
+        {
+          "name": "undercity-ad-voltline-industrial",
+          "index": 1,
+          "visibleSamples": 0,
+          "totalSamples": 5,
+          "widthPx": 49.21971475483282,
+          "heightPx": 74.28544396331608,
+          "blockers": [
+            "undercity-utility-clutter",
+            "undercity-city-buildings"
+          ],
+          "progress": 0.45,
+          "view": "rear"
+        }
+      ],
+      "proposedCorrection": "Mount same artwork at uniform reduced scale on an intact track-facing guardrail; preserve physical wall and screen masks",
+      "fogMaterial": "Sponsor art excluded from fog; structural/frame fog retained"
+    }
+  ]
+}

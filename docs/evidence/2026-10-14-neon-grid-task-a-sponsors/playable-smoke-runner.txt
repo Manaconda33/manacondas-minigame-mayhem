@@ -1,0 +1,36 @@
+import { createRequire } from 'node:module';
+import { writeFileSync, mkdirSync } from 'node:fs';
+const require = createRequire('/workspace/mayhem-browser-tools/package.json');
+const { chromium } = require('playwright');
+const browser = await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox','--enable-unsafe-swiftshader']});
+const results=[];
+mkdirSync('/tmp/task-a-smoke',{recursive:true});
+for (const mobile of [false,true]) {
+  const context=await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1280,height:720},hasTouch:mobile,isMobile:mobile});
+  const page=await context.newPage(); const errors=[],failed=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('response',r=>{if(r.status()>=400)failed.push({url:r.url(),status:r.status()});});
+  await page.goto('http://127.0.0.1:5198/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/?neonGridVisual=neon-grid-task-a-001');
+  await page.locator('[data-action="enter"]').click();
+  await page.locator('[data-action="play-neon-grid"]').click();
+  await page.locator('[data-action="confirm-character"]').click();
+  await page.locator('#game-canvas').waitFor({timeout:120000});
+  await page.waitForFunction(()=>document.querySelector('#countdown')?.textContent==='',{timeout:120000});
+  let maxSpeed=0;
+  if (mobile) {
+    const box=await page.locator('#mobile-steering-wheel').boundingBox();
+    await page.mouse.move(box.x+box.width/2,box.y+box.height/2); await page.mouse.down();
+  } else await page.keyboard.down('ArrowUp');
+  for(let i=0;i<5;i++) { await page.waitForTimeout(1000); maxSpeed=Math.max(maxSpeed,parseFloat(await page.locator('#speed').innerText())||0); }
+  if(mobile) await page.mouse.up(); else await page.keyboard.up('ArrowUp');
+  await page.screenshot({path:`/tmp/task-a-smoke/${mobile?'mobile':'desktop'}-chase.png`});
+  if(mobile) { const box=await page.locator('[data-touch="rear"]').boundingBox(); await page.mouse.move(box.x+box.width/2,box.y+box.height/2); await page.mouse.down(); }
+  else await page.keyboard.down('c');
+  await page.waitForTimeout(500);
+  await page.screenshot({path:`/tmp/task-a-smoke/${mobile?'mobile':'desktop'}-rear.png`});
+  const result={mobile,maxSpeed,errors,failed,canvas:await page.locator('#game-canvas').count()};results.push(result);console.log(JSON.stringify(result));
+  await context.close();
+}
+await browser.close();
+writeFileSync('/tmp/task-a-smoke/results.json',JSON.stringify(results,null,2));
+if(results.some(r=>r.maxSpeed===0||r.errors.length||r.failed.length))process.exitCode=1;

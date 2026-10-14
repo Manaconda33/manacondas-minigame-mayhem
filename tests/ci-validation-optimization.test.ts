@@ -749,14 +749,17 @@ describe('trusted immutable-runtime validation evidence', () => {
       ...writer.matchAll(/import\s*\{([^}]+)\}\s*from\s*['"](\.[^'"]+)['"]/g),
     ];
     expect(imports).toHaveLength(2);
-    for (const [, names, relativePath] of imports) {
+    for (const match of imports) {
+      const names = match[1];
+      const relativePath = match[2];
+      if (names === undefined || relativePath === undefined) {
+        throw new Error('trusted evidence writer import could not be parsed');
+      }
       const specifier = `./${join('tools/ci', relativePath).replaceAll('\\', '/')}`;
       const command = `import { ${names.trim()} } from ${JSON.stringify(specifier)};`;
-      expect(() =>
-        execFileSync(process.execPath, ['--input-type=module', '--eval', command], {
-          encoding: 'utf8',
-        }),
-      ).not.toThrow();
+      expect(() => {
+        execFileSync('node', ['--input-type=module', '--eval', command]);
+      }).not.toThrow();
     }
   });
 

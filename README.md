@@ -15,6 +15,8 @@ A modular HTML5 minigame hub built around a 3D kart racer with illustrated 2D av
 
 **Do not conflate a published preview with production gameplay release.** Only Circuit Alpha is served as the accepted racer at the Pages root. Fog A/B variants do not replace the approved T9.7 default.
 
+**Forward graphics plan (documentation only):** [Post-fog billboard recovery, selective materials, and adaptive performance roadmap](docs/superpowers/plans/2026-10-13-neon-grid-post-fog-graphics-roadmap.md). Manny reports owner playable-review PASS for the isolated V3.2 fog candidate; additional ruined-city scenery is superseded, while G-05 physical-device certification and Neon Grid production integration remain open. Existing global 500-call / Task 9 425k ceilings are documented on the Neon Grid branch; main PRD reconciliation is planned, not yet committed.
+
 ## Current engineering status
 
 | Workstream | Verified state | Next approval / evidence gate |

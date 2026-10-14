@@ -1035,6 +1035,7 @@ jobs:
           paths += [abyss_v2/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
           abyss_v32 = root/'previews/neon-grid-abyss-fog-004'
           paths += [item for item in sorted(abyss_v32.rglob('*')) if item.is_file()]
+          paths = [path for path in paths if path.name != '.gitkeep']
           report = []
           for path in paths:
               relative = str(path.relative_to(root))

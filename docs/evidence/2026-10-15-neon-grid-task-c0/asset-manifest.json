@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "status": "C0 target selected; source review provisional; no binary assets acquired",
+  "planningBaseline": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+  "reviewedAt": "2026-10-15",
+  "ownerSelection": {
+    "status": "approved for C0 target selection only",
+    "targetMesh": "undercity-facade-vent-banks",
+    "materialId": "NG-C-PNT-001",
+    "runtimeImplementationAuthorized": false,
+    "binaryAcquisitionOrCommitAuthorized": false,
+    "batchConstraint": "Preserve one InstancedMesh with 16 instances; do not split housing/slats or add a material batch.",
+    "vertexColorConstraint": "Retain the existing per-vertex housing/slat color difference because the base-color map multiplies those colors.",
+    "metallicMap": "Optional only if a controlled A/B shows clear visible benefit."
+  },
+  "visibilityEvidence": {
+    "report": "vent-chase-visibility.json",
+    "screenshot": "undercity-chase-desktop-1920x1080.png",
+    "sourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+    "trackProgress": 0.355,
+    "view": "chase",
+    "graphicsQuality": "medium",
+    "racers": 8,
+    "cssViewport": "1280x720",
+    "actualDrawingBuffer": "1920x1080",
+    "pixelRatio": 1.5,
+    "result": "9 of 16 vent banks projected into view; 3 of 16 had any first-hit ray samples on a 3x3 projected-bounds grid. Sightline screens were the main occluder. The three sampled centers were before linear fog start (180 units); fog transmittance was 1.0.",
+    "limitation": "Projected geometry-box size and ray sampling do not measure visible pixel contribution, all course states, or physical-device appearance."
+  },
+  "assets": [
+    {
+      "materialId": "NG-C-PNT-001",
+      "title": "Scratched Painted Metal 01",
+      "publisher": "cgbookcase",
+      "sourceUrl": "https://www.cgbookcase.com/textures/scratched-painted-metal-01",
+      "license": "CC0 1.0, as stated on the CGBookcase textures page and product listing",
+      "licenseUrl": "https://www.cgbookcase.com/textures",
+      "licenseVerification": "Publisher page reviewed 2026-10-15; no asset-specific legal record downloaded.",
+      "creditedContributors": "No individual creator is listed on the product page.",
+      "role": "Owner-selected C1 prototype material for undercity-facade-vent-banks; selection does not authorize implementation or binary commit.",
+      "downloadControlObservation": "The previously accessible Download control exposed ScratchedPaintedMetal01_MR_4K.zip as its default link. This is not a verified completed download. Native 1K availability remains unconfirmed.",
+      "productPageMapFormats": "The product page lists base color, normal (DirectX), roughness, metallic, ambient occlusion, and height maps; exact downloadable filenames, containers/encodings, and dimensions are unverified until the archive can be acquired.",
+      "latestAcquisitionAttempt": "2026-10-15: TLS-verified request to the official product URL returned HTTP 403 at the configured proxy CONNECT tunnel. No alternate route or TLS bypass was used.",
+      "maps": [
+        {
+          "role": "baseColor",
+          "sourceFilename": null,
+          "sourceResolution": "pending acquisition; 1K availability unconfirmed",
+          "conversion": "None planned unless selected package is above 1K; preserve source sRGB data.",
+          "sourceSha256": null,
+          "finalFilename": null,
+          "finalSha256": null
+        },
+        {
+          "role": "normal",
+          "sourceFilename": null,
+          "sourceOrientation": "DirectX, per product page",
+          "sourceResolution": "pending acquisition; 1K availability unconfirmed",
+          "conversion": "If retained as DirectX, convert to OpenGL orientation or validate and document an equivalent material-space inversion. Exact operation pending source archive.",
+          "sourceSha256": null,
+          "finalFilename": null,
+          "finalSha256": null
+        },
+        {
+          "role": "roughness",
+          "sourceFilename": null,
+          "sourceResolution": "pending acquisition; 1K availability unconfirmed",
+          "conversion": "None planned beyond documented 1024-pixel derivation if required; linear data.",
+          "sourceSha256": null,
+          "finalFilename": null,
+          "finalSha256": null
+        },
+        {
+          "role": "metallic",
+          "sourceFilename": null,
+          "sourceResolution": "pending acquisition; 1K availability unconfirmed",
+          "use": "Optional only if fixed A/B review shows a clear visual benefit.",
+          "sourceSha256": null,
+          "finalFilename": null,
+          "finalSha256": null
+        }
+      ],
+      "excludedMapsInitially": ["ambient occlusion", "height"],
+      "acquiredAt": null,
+      "originalArchiveSha256": null,
+      "conversionProcess": null,
+      "finalMapSha256": null
+    },
+    {
+      "materialId": "NG-C-CON-001",
+      "title": "Concrete Wall 007",
+      "publisher": "Poly Haven",
+      "sourceUrl": "https://polyhaven.com/a/concrete_wall_007",
+      "license": "CC0",
+      "licenseUrl": "https://polyhaven.com/license",
+      "licenseVerification": "Poly Haven license and product pages reviewed 2026-10-15.",
+      "creditedContributors": [
+        { "name": "Charlotte Baglioni", "role": "Photography" },
+        { "name": "Dario Barresi", "role": "Processing" },
+        { "name": "Rico Cilliers", "role": "Tiling" }
+      ],
+      "sourceFacts": {
+        "physicalWidth": "2.2 m",
+        "resolutionOptionsListed": ["1K", "2K", "4K", "8K"]
+      },
+      "role": "Roadside concrete; deferred until UV/batching review and owner confirmation.",
+      "candidateMaps": ["diffuse", "normal GL", "roughness"],
+      "excludedMapsForPrototypeUnlessJustified": [
+        "displacement",
+        "AO/roughness/metal packed map",
+        "normal DX",
+        "EXR/PNG variants"
+      ],
+      "sourceFiles": null,
+      "acquiredAt": null,
+      "sourceSha256": null,
+      "conversionProcess": null,
+      "finalSha256": null
+    },
+    {
+      "materialId": "NG-C-COR-001",
+      "title": "Corrugated Metal Panel 01",
+      "publisher": "cgbookcase",
+      "sourceUrl": "https://www.cgbookcase.com/textures/corrugated-metal-panel-01",
+      "license": "CC0 1.0, as stated on the CGBookcase textures page and product listing",
+      "licenseUrl": "https://www.cgbookcase.com/textures",
+      "licenseVerification": "Publisher page reviewed 2026-10-15.",
+      "creditedContributors": "No individual creator is listed on the product page.",
+      "role": "Industrial cladding; deferred material option.",
+      "downloadControlObservation": "The accessible Download link selected CorrugatedMetalPanel01_MR_2K.zip. This does not establish that 1K is unavailable.",
+      "listedMaps": ["ambient occlusion", "base color", "height", "normal DirectX", "roughness"],
+      "sourceFiles": null,
+      "acquiredAt": null,
+      "sourceSha256": null,
+      "conversionProcess": null,
+      "finalSha256": null
+    },
+    {
+      "materialId": "NG-C-RDW-001",
+      "title": "Single Lane Road Wet 01",
+      "publisher": "cgbookcase",
+      "sourceUrl": "https://www.cgbookcase.com/textures/single-lane-road-wet-01",
+      "license": "CC0 1.0, as stated on the CGBookcase textures page and product listing",
+      "licenseUrl": "https://www.cgbookcase.com/textures",
+      "licenseVerification": "Publisher page reviewed 2026-10-15.",
+      "creditedContributors": "No individual creator is listed on the product page.",
+      "role": "Reference only; not proposed for the road or wet-road shader.",
+      "downloadControlObservation": "The accessible Download link selected SingleLaneRoadWet01_MR_4K.zip. This does not establish that 1K is unavailable.",
+      "listedMaps": [
+        "ambient occlusion",
+        "base color",
+        "height",
+        "mask",
+        "normal DirectX",
+        "roughness"
+      ],
+      "sourceFiles": null,
+      "acquiredAt": null,
+      "sourceSha256": null,
+      "conversionProcess": null,
+      "finalSha256": null
+    }
+  ],
+  "binaryAcquisition": {
+    "status": "not performed",
+    "reason": "The owner selected undercity-facade-vent-banks for C1, but the configured proxy returned HTTP 403 for the official CGBookcase product URL. No alternate network route was used, and no archive or texture file was acquired.",
+    "doNotCommitUntil": [
+      "Separate owner authorization for C1 implementation is recorded.",
+      "Exact publisher package and its CC0 1.0 source statements are recorded alongside the archive contents.",
+      "Only selected base-color, normal, and roughness maps are used at native 1K where available, or derived to 1024 pixels with documented conversion; metallic remains optional after visible-benefit review.",
+      "Original filenames and archive/map SHA-256 hashes, file formats, conversion commands, final dimensions, and final SHA-256 hashes are recorded."
+    ]
+  }
+}

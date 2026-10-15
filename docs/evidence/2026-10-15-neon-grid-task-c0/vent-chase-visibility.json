@@ -1,0 +1,355 @@
+{
+  "sourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+  "trackProgress": 0.355,
+  "view": "chase",
+  "quality": "medium",
+  "viewport": {
+    "width": 1280,
+    "height": 720,
+    "buffer": [1920, 1080]
+  },
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "fog": {
+    "type": "linear",
+    "near": 180,
+    "far": 650,
+    "density": null
+  },
+  "meshName": "undercity-facade-vent-banks",
+  "meshInstanceCount": 16,
+  "meshVisible": true,
+  "geometryParts": 4,
+  "slatsPerBank": 3,
+  "results": [
+    {
+      "instance": 0,
+      "cameraDistance": 71.07,
+      "fogTransmittance": 1,
+      "centerWorld": [115.09, -5.78, 114.15],
+      "centerNdc": [-0.516, 0.189, 0.997],
+      "projectedAabbPixels": {
+        "width": 24.1,
+        "height": 17.6
+      },
+      "inViewport": true,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 9,
+      "firstHitCounts": {
+        "undercity-wallside-sightline-screens": 9
+      }
+    },
+    {
+      "instance": 1,
+      "cameraDistance": 31.9,
+      "fogTransmittance": 1,
+      "centerWorld": [191.31, -5.65, 48.42],
+      "centerNdc": [-0.517, 1.193, 1.009],
+      "projectedAabbPixels": {
+        "width": 0,
+        "height": 0
+      },
+      "inViewport": false,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 0,
+      "firstHitCounts": {}
+    },
+    {
+      "instance": 2,
+      "cameraDistance": 87.86,
+      "fogTransmittance": 1,
+      "centerWorld": [119.98, -5.61, -6],
+      "centerNdc": [2.422, -0.069, 0.994],
+      "projectedAabbPixels": {
+        "width": 127.3,
+        "height": 39.5
+      },
+      "inViewport": false,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 0,
+      "firstHitCounts": {}
+    },
+    {
+      "instance": 3,
+      "cameraDistance": 59.07,
+      "fogTransmittance": 1,
+      "centerWorld": [129.74, -5.39, 111.61],
+      "centerNdc": [-0.687, 0.118, 0.996],
+      "projectedAabbPixels": {
+        "width": 37.2,
+        "height": 24
+      },
+      "inViewport": true,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 9,
+      "firstHitCounts": {
+        "undercity-wallside-sightline-screens": 9
+      }
+    },
+    {
+      "instance": 4,
+      "cameraDistance": 95.38,
+      "fogTransmittance": 1,
+      "centerWorld": [99.43, -5.26, 1.11],
+      "centerNdc": [1.422, 0.155, 0.996],
+      "projectedAabbPixels": {
+        "width": 60,
+        "height": 21.5
+      },
+      "inViewport": false,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 0,
+      "firstHitCounts": {}
+    },
+    {
+      "instance": 5,
+      "cameraDistance": 97.06,
+      "fogTransmittance": 1,
+      "centerWorld": [86, -5.78, 15.5],
+      "centerNdc": [0.94, 0.215, 0.997],
+      "projectedAabbPixels": {
+        "width": 36.3,
+        "height": 15.5
+      },
+      "inViewport": true,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 9,
+      "firstHitCounts": {
+        "undercity-wallside-sightline-screens": 9
+      }
+    },
+    {
+      "instance": 6,
+      "cameraDistance": 90.74,
+      "fogTransmittance": 1,
+      "centerWorld": [80.75, -5.65, 91.89],
+      "centerNdc": [-0.051, 0.278, 0.998],
+      "projectedAabbPixels": {
+        "width": 17.1,
+        "height": 11.2
+      },
+      "inViewport": true,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 9,
+      "firstHitCounts": {
+        "ManacondaDriverSprite": 9
+      }
+    },
+    {
+      "instance": 7,
+      "cameraDistance": 80.4,
+      "fogTransmittance": 1,
+      "centerWorld": [90.36, -5.52, 46.82],
+      "centerNdc": [0.49, 0.23, 0.997],
+      "projectedAabbPixels": {
+        "width": 24.4,
+        "height": 15
+      },
+      "inViewport": true,
+      "visibleRaySamples": 7,
+      "totalRaySamples": 9,
+      "firstHitCounts": {
+        "undercity-facade-vent-banks": 7,
+        "undercity-city-buildings": 2
+      }
+    },
+    {
+      "instance": 8,
+      "cameraDistance": 48.72,
+      "fogTransmittance": 1,
+      "centerWorld": [139.82, -5.39, 106.14],
+      "centerNdc": [-0.807, 0.017, 0.995],
+      "projectedAabbPixels": {
+        "width": 51,
+        "height": 32.5
+      },
+      "inViewport": true,
+      "visibleRaySamples": 2,
+      "totalRaySamples": 9,
+      "firstHitCounts": {
+        "undercity-facade-vent-banks": 2,
+        "undercity-wallside-sightline-screens": 6,
+        "undercity-city-buildings": 1
+      }
+    },
+    {
+      "instance": 9,
+      "cameraDistance": 79.74,
+      "fogTransmittance": 1,
+      "centerWorld": [99.36, -5.26, 107.54],
+      "centerNdc": [-0.302, 0.25, 0.998],
+      "projectedAabbPixels": {
+        "width": 21.5,
+        "height": 14.1
+      },
+      "inViewport": true,
+      "visibleRaySamples": 1,
+      "totalRaySamples": 9,
+      "firstHitCounts": {
+        "undercity-wallside-sightline-screens": 8,
+        "undercity-facade-vent-banks": 1
+      }
+    },
+    {
+      "instance": 10,
+      "cameraDistance": 33.53,
+      "fogTransmittance": 1,
+      "centerWorld": [199.1, -5.78, 62.13],
+      "centerNdc": [0.067, 1.088, 1.007],
+      "projectedAabbPixels": {
+        "width": 0,
+        "height": 0
+      },
+      "inViewport": false,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 0,
+      "firstHitCounts": {}
+    },
+    {
+      "instance": 11,
+      "cameraDistance": 81.56,
+      "fogTransmittance": 1,
+      "centerWorld": [86.7, -5.65, 62.47],
+      "centerNdc": [0.272, 0.248, 0.998],
+      "projectedAabbPixels": {
+        "width": 17.9,
+        "height": 13.4
+      },
+      "inViewport": true,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 9,
+      "firstHitCounts": {
+        "undercity-asphalt-base": 9
+      }
+    },
+    {
+      "instance": 12,
+      "cameraDistance": 90.78,
+      "fogTransmittance": 1,
+      "centerWorld": [88.01, -5.52, 24.51],
+      "centerNdc": [0.814, 0.221, 0.997],
+      "projectedAabbPixels": {
+        "width": 32.4,
+        "height": 14.9
+      },
+      "inViewport": true,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 9,
+      "firstHitCounts": {
+        "undercity-wallside-sightline-screens": 9
+      }
+    },
+    {
+      "instance": 13,
+      "cameraDistance": 50.6,
+      "fogTransmittance": 1,
+      "centerWorld": [153.07, -5.39, 114.76],
+      "centerNdc": [-1.536, -0.165, 0.993],
+      "projectedAabbPixels": {
+        "width": 110.9,
+        "height": 49.9
+      },
+      "inViewport": false,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 0,
+      "firstHitCounts": {}
+    },
+    {
+      "instance": 14,
+      "cameraDistance": 79.2,
+      "fogTransmittance": 1,
+      "centerWorld": [128.63, -5.43, -1.08],
+      "centerNdc": [2.868, -0.213, 0.992],
+      "projectedAabbPixels": {
+        "width": 203.8,
+        "height": 55.4
+      },
+      "inViewport": false,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 0,
+      "firstHitCounts": {}
+    },
+    {
+      "instance": 15,
+      "cameraDistance": 90.88,
+      "fogTransmittance": 1,
+      "centerWorld": [97.51, -5.78, 10.16],
+      "centerNdc": [1.184, 0.161, 0.997],
+      "projectedAabbPixels": {
+        "width": 50.1,
+        "height": 19.9
+      },
+      "inViewport": false,
+      "visibleRaySamples": 0,
+      "totalRaySamples": 0,
+      "firstHitCounts": {}
+    }
+  ],
+  "visibleInstances": 3,
+  "instancesWithAnyViewportProjection": 9,
+  "wholeFrame": {
+    "calls": 296,
+    "triangles": 144259,
+    "geometries": 174,
+    "textures": 13,
+    "width": 1920,
+    "height": 1080,
+    "pixelRatio": 1.5,
+    "racers": 8,
+    "quality": "medium",
+    "visualVariant": "fog-experiment-task-a",
+    "view": "chase",
+    "skylineVisible": true,
+    "skyline": {
+      "windows": 240,
+      "pylons": 14,
+      "braces": 24,
+      "proceduralSigns": 18,
+      "manacondaAds": 7,
+      "tacoBellAds": 7,
+      "maskBillboards": 8,
+      "raisedBillboardPosts": 4,
+      "facadeMountedBillboards": 4,
+      "wet": true
+    },
+    "undercity": {
+      "windows": 160,
+      "buildings": 16,
+      "pipes": 26,
+      "utilityBoxes": 20,
+      "workLights": 24,
+      "serviceBays": 14,
+      "nightshiftAds": 2,
+      "voltlineAds": 2,
+      "wet": true
+    },
+    "fallsExtension": {
+      "windows": 160,
+      "towers": 16,
+      "pylons": 16,
+      "footings": 16,
+      "waterfalls": 24,
+      "mist": 14,
+      "wet": true
+    },
+    "actualCameraShortcutSightline": {
+      "shortcut": "service-tunnel",
+      "cameraWorld": [167.51400380508235, 4.2500000014737935, 67.23294363439665],
+      "viewportTargets": 0,
+      "blockedTargets": 0,
+      "interiorTargetsEvaluated": 6,
+      "interiorTargetsInView": 0,
+      "interiorExposed": 0,
+      "entranceTargetsInView": 0,
+      "samples": []
+    },
+    "sponsorArtworkSightline": null,
+    "tunnelKartSightline": null
+  },
+  "errors": [],
+  "screenshot": {
+    "path": "undercity-chase-desktop-1920x1080.png",
+    "sha256": "e7a49b7bdc8a5501aa52b185f04474f08b6d2d469b002ca44729944d4c6b17f6",
+    "bytes": 551644
+  },
+  "captureNote": "Actual approved Task A chase frame; headless Chromium with SwiftShader. Ray samples measure scene depth ordering, not pixel color contribution."
+}

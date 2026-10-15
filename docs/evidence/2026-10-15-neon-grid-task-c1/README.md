@@ -1,5 +1,13 @@
 # Neon Grid Task C1 — Service Tunnel Concrete A/B
 
+## Validation follow-up — 2026-10-15
+
+The original 47/47 focused-test result above belongs to the pre-correction test tree at runtime source `e500f68c658edb5dcd45b4149e4c7f32f2a14dce`. A test-only follow-up removed a separate full-scene setup by moving its material-selector and capture-metadata assertions into the existing route integration test with a 15-second bound. The corrected focused coverage run passed **46/46** tests across `tests/neon-grid-service-tunnel-material.test.ts` and `tests/race-diagnostics-routing.test.ts` with `--maxWorkers=1`. The runtime source and assets remain `e500…`; no visual or gameplay change is included.
+
+Hosted PR #310 run [38781841144](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38781841144) failed its Node 22 full coverage step with 34 five-second timeouts (1,074/1,108 passed) across scene-heavy tests, while its pinned `dive` validation had one different five-second timeout (994/995 passed). Preview build and pinned texture hashes passed. The jobs used Vitest's parallel default worker pool. This pattern, plus a reproduced pre-existing scene timeout on the Task A/B base, supports runner contention around the existing timeout but does not prove it. No failed assertion indicated a Task C1 runtime regression.
+
+The publication workflow now serializes only those two full coverage jobs using `--maxWorkers=1`; it retains full coverage, all tests, the existing 5-second limit, and the existing job time limit. Hosted confirmation has not yet run on this correction. Validation therefore remains **PARTIAL**; no preview may publish until the corrected source/test validation and required checks pass.
+
 **Status:** Isolated prototype for owner visual and technical review. Production integration, deployment, PR #242, and Task C2 remain gated.
 
 ## Source and approval

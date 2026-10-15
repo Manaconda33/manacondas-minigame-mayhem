@@ -226,7 +226,7 @@ for (const viewport of viewports) {
 
       const filename = `${variant.id}-${view}-${viewport.id}.png`;
       const screenshotPath = `${outputDirectory}/${filename}`;
-      const screenshot = await page.screenshot({ path: screenshotPath });
+      const screenshot = await page.screenshot({ path: screenshotPath, timeout: 120_000 });
       frames.push({
         view,
         ...samples,
@@ -265,7 +265,7 @@ for (const viewport of viewports) {
       });
       const filename = 'B-concrete-wall-007-closeup-desktop.png';
       const screenshotPath = `${outputDirectory}/${filename}`;
-      const screenshot = await page.screenshot({ path: screenshotPath });
+      const screenshot = await page.screenshot({ path: screenshotPath, timeout: 120_000 });
       closeups.push({
         ...closeup,
         screenshot: { path: screenshotPath, sha256: sha256(screenshot), bytes: screenshot.length },

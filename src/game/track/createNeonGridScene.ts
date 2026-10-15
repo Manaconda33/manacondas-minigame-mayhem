@@ -44,7 +44,8 @@ function coalesceTaskC1SidewallFogMaterials(
   const sameFogProfile =
     left.userData.abyssVerticalFog === true &&
     right.userData.abyssVerticalFog === true &&
-    JSON.stringify(left.userData.abyssFogProfile) === JSON.stringify(right.userData.abyssFogProfile);
+    JSON.stringify(left.userData.abyssFogProfile) ===
+      JSON.stringify(right.userData.abyssFogProfile);
   const sameMaterialInputs =
     leftMaterial.color.equals(rightMaterial.color) &&
     leftMaterial.roughness === rightMaterial.roughness &&
@@ -54,7 +55,9 @@ function coalesceTaskC1SidewallFogMaterials(
     leftMaterial.normalMap === rightMaterial.normalMap &&
     leftMaterial.roughnessMap === rightMaterial.roughnessMap;
   if (!sameFogProfile || !sameMaterialInputs) {
-    throw new Error('Task C1 cannot share Service Tunnel walls with different fog or material settings.');
+    throw new Error(
+      'Task C1 cannot share Service Tunnel walls with different fog or material settings.',
+    );
   }
 
   right.material = leftMaterial;

@@ -5,7 +5,7 @@
 ## Source and approval
 
 - Implementation baseline: `e52fef8169233e5c612f8683e8074423c8cf1c07` (Task A/B nonproduction branch).
-- C0.1 target-selection checkpoint: `48d4b474cf8c9ce590a7623c8e83b44ac0914ef8`.
+- C0 checkpoint: `015ab45ad1c1162b7db5bd0d2671091893ba98d8`. C0.1 target-selection checkpoint: [`48d4b474cf8c9ce590a7623c8e83b44ac0914ef8`](https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/48d4b474cf8c9ce590a7623c8e83b44ac0914ef8), remotely verified on documentation branch `docs/neon-grid-task-c0-1-visibility-review-20261015`. C1 uses the requested exact runtime baseline `e52fef8169233e5c612f8683e8074423c8cf1c07`; the C0.1 audit remains a separate review checkpoint.
 - Approved Task A runtime: `692e9424c2cbf15decbb467b230c02c2e10452a0`.
 - Production `main` was verified at `e8cb78f1f9c678d08d84ab30cb8585f99e70c800` before work.
 - PR #242 remains open, draft, and unmerged.
@@ -29,24 +29,45 @@ The C0 source review records Poly Haven's CC0 license, the official asset page, 
 
 The three compressed PNGs total 13,585,286 bytes. A rough RGBA8 full-mipmap storage estimate would be about 16 MiB across three 1024² maps, but actual GPU formats/residency are not reported by Three.js and are not measured here. Download size is not GPU memory.
 
-## Fixture and evidence
+## Source-pinned fixture and captures
 
-The source-pinned browser fixture uses the real `KartTimeTrial`, Task A visuals, Medium quality, eight racers, a fixed roster seed, a tunnel midpoint, and the same chase/rear cameras at desktop 1920×1080 and portrait 390×844 drawing buffers. The `.mjs` runner and machine-readable report are stored alongside the captures.
+Implementation source: `c07ca0ec48b88b797bfa7056deb5166e966608c7`. The fixture uses the actual `KartTimeTrial`, approved Task A visuals, Medium quality, eight racers with a fixed roster seed, the Service Tunnel midpoint, and chase/rear cameras. Desktop CSS viewport 1280×720 at DPR 1.5 produced the actual 1920×1080 buffer. Portrait used 390×844 at DPR 1. Chromium 151 reported SwiftShader software WebGL. Capture time: `2026-10-15T16:52:02.092Z`.
 
-| Camera / viewport        | A capture | B capture | Difference/report |
-| ------------------------ | --------- | --------- | ----------------- |
-| Chase, desktop 1920×1080 | pending   | pending   | pending           |
-| Rear, desktop 1920×1080  | pending   | pending   | pending           |
-| Chase, portrait 390×844  | pending   | pending   | pending           |
-| Rear, portrait 390×844   | pending   | pending   | pending           |
-| Controlled B close-up    | —         | pending   | pending           |
+| Camera / viewport           | A: blockout                                            | B: concrete                                                     | Result                                                                                           |
+| --------------------------- | ------------------------------------------------------ | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Chase, desktop 1920×1080    | [PNG](captures/A-blockout-chase-desktop-1920x1080.png) | [PNG](captures/B-concrete-wall-007-chase-desktop-1920x1080.png) | Same camera, draw calls, triangles, geometry and visibility; images differ on the wall material. |
+| Rear, desktop 1920×1080     | [PNG](captures/A-blockout-rear-desktop-1920x1080.png)  | [PNG](captures/B-concrete-wall-007-rear-desktop-1920x1080.png)  | Same invariants.                                                                                 |
+| Chase, portrait 390×844     | [PNG](captures/A-blockout-chase-portrait-390x844.png)  | [PNG](captures/B-concrete-wall-007-chase-portrait-390x844.png)  | Same invariants.                                                                                 |
+| Rear, portrait 390×844      | [PNG](captures/A-blockout-rear-portrait-390x844.png)   | [PNG](captures/B-concrete-wall-007-rear-portrait-390x844.png)   | Same invariants.                                                                                 |
+| Controlled desktop close-up | —                                                      | [PNG](captures/B-concrete-wall-007-closeup-desktop.png)         | Shows surface texture and normal detail at close range.                                          |
 
-The render-pass output records the existing main-scene and bloom counters, draw/triangle totals, and render-target sizes. CPU-observed render-call timings are reported separately if repeatability supports them; no GPU time or physical-device FPS is inferred. Software-WebGL output is correctness and appearance evidence only.
+The complete [machine-readable capture](captures/material-ab-capture.json) records the source, roster, camera, whole-frame counters, pass deltas, target sizes, image hashes, CPU samples, browser errors, and WebGL status. A separate [visibility and geometry check](captures/visual-state-invariants.json) confirms the same 596 renderable-object signature with 259 visible objects in A and B, equal camera transforms, tunnel vertex/index counts, lighting, and scene fog in all four viewport/camera pairs. WebGL reported error 0 and no context loss; no page or console errors were reported.
 
-## Validation
+## Render workload and resource results
 
-Exact-source validation commands and results, visual comparisons, pass reconciliation, errors, runtime asset checks, LFS checks, and any limitations are recorded below after the browser and repository checks finish. No approved graphics limit is modified. No production runtime, CI behavior, or game physics changes are included.
+| Matched view   | Main scene (draws / triangles) | Bloom mask (draws / triangles) | Whole frame (draws / triangles) | Unattributed calls / triangles |
+| -------------- | -----------------------------: | -----------------------------: | ------------------------------: | -----------------------------: |
+| Desktop chase  |                    58 / 49,490 |                    59 / 49,586 |                    120 / 99,079 |                          0 / 0 |
+| Desktop rear   |                  186 / 190,992 |                  187 / 191,088 |                   376 / 382,083 |                          0 / 0 |
+| Portrait chase |                    59 / 49,706 |                    60 / 49,802 |                    122 / 99,511 |                          0 / 0 |
+| Portrait rear  |                    74 / 52,542 |                    75 / 52,638 |                   152 / 105,183 |                          0 / 0 |
+
+The horizontal filter, vertical filter, and final composite each submit 1 draw / 1 triangle in every captured view. Desktop bloom targets are 768×432 (331,776 pixels); its final composite and main scene use 1920×1080 (2,073,600 pixels). Portrait bloom targets are 195×422 (82,290 pixels), with the final composite at 390×844 (329,160 pixels). Main-scene counters include shadow work when updated. The prototype changes no draw-call or triangle total; B reports three more textures, while geometry counts remain equal. Framebuffer copies are separately reported as zero. Target pixels are not a GPU-work estimate.
+
+CPU wall time around `window.renderFrame` (scene updates and the existing Bloom path; not GPU or whole-frame time) was sampled 30 times per view after eight warmups. Desktop chase A/B medians were 5.3/5.2 ms and p95 values 14.9/15.3 ms; desktop rear 7.9/7.7 ms medians and 10.5/12.2 ms p95. Portrait chase medians were 5.5/4.9 ms and p95 11.0/8.8 ms; portrait rear 4.7/8.9 ms medians and 6.9/13.0 ms p95. These short, software-WebGL samples are noisy and do not establish a performance gain, device FPS, GPU time, or texture residency.
+
+The three PNG assets add 13,585,286 uncompressed file bytes and are tracked with Git LFS. `Renderer.info` texture counts increase by three; it does not report GPU bytes. No extra material mesh, geometry, or draw call is introduced.
+
+## Validation and limitations
+
+- Focused tests: `npm run test -- --run tests/neon-grid-service-tunnel-material.test.ts tests/race-diagnostics-routing.test.ts` — **47/47 passed**. This includes the Task A fog/material-sharing regression and successful/partial-failure texture cleanup cases.
+- `npm run typecheck` — passed. `npm run lint` — passed with zero warnings. `npm run build` — passed; all existing runtime asset/hash checks passed, including materialized texture checks. Vite emitted its existing advisory for large JavaScript chunks.
+- One full `npm run test:ci` coverage run on the initial C1 source exited 1: **1,102/1,106 passed** and four tests hit the existing five-second timeout. One was the then-combined C1 two-scene fixture (8,359 ms), which was split into narrower tests. The other three were existing tests: Skyline city ground vs Billboard Gap (5,062 ms), Falls city ground vs Waterfall Dive (5,141 ms), and hidden-race-time/billboard routing (5,349 ms). The full coverage suite was not repeated on the corrected source, so full-suite coverage remains outstanding. No timeout, worker, coverage, or CI settings were changed.
+- Current shell is Node 24.19.0 (the package requires Node ≥22); Node 22 was not available in this environment.
+- The official Poly Haven file API returned HTTP 403 via the configured proxy. The CC0/source facts are from the existing C0/C0.1 review; publisher archive hashes were not independently confirmed. Manifest hashes identify the received bytes only.
+- No physical-device test or G-05 certification was performed. No GPU timing, reliable instrumentation-overhead estimate, or exact GPU texture-memory value is available. Software-WebGL is used for visual/counter correctness only.
+- The only intended image change is the concrete treatment on the two existing Service Tunnel sidewalls. Track geometry, object visibility, camera transforms, lights, fog, whole-frame submissions, gameplay and collisions matched the captured A/B fixture. No approved graphics limit changed; production runtime, CI behavior and physics were not modified.
 
 ## Owner review gate
 
-Review wall readability at racing distance and the close-up normal orientation/tiling. Decide whether the 2.2 m tile scale and visible concrete treatment are acceptable before any broader material application. No merge or deployment is authorized by this checkpoint.
+Review wall readability at racing distance and the close-up normal orientation/tiling. Decide whether the 2.2 m tile scale and visible concrete treatment are acceptable before any broader material application. Full standard coverage remains outstanding. This isolated checkpoint is for owner review only; no merge, production integration, preview, or deployment is authorized by this checkpoint.

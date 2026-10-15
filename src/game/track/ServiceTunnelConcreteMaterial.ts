@@ -141,14 +141,16 @@ export async function loadServiceTunnelConcreteWallMaterial(
     !hasUvAttribute(right.geometry as unknown)
   ) {
     throw new Error(
-      `The Service Tunnel scene was not built with the opt-in C1 material selector: ${JSON.stringify({
-        sharedMaterial: left.material === right.material,
-        standardMaterial: left.material instanceof THREE.MeshStandardMaterial,
-        materialTag: left.material instanceof THREE.Material ? left.material.type : null,
-        materialName: left.material instanceof THREE.Material ? left.material.name : null,
-        leftWallUvs: hasUvAttribute(left.geometry as unknown),
-        rightWallUvs: hasUvAttribute(right.geometry as unknown),
-      })}`,
+      `The Service Tunnel scene was not built with the opt-in C1 material selector: ${JSON.stringify(
+        {
+          sharedMaterial: left.material === right.material,
+          standardMaterial: left.material instanceof THREE.MeshStandardMaterial,
+          materialTag: left.material instanceof THREE.Material ? left.material.type : null,
+          materialName: left.material instanceof THREE.Material ? left.material.name : null,
+          leftWallUvs: hasUvAttribute(left.geometry as unknown),
+          rightWallUvs: hasUvAttribute(right.geometry as unknown),
+        },
+      )}`,
     );
   }
 

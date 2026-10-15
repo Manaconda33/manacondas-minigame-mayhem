@@ -137,6 +137,7 @@ describe('Neon Grid Service Tunnel material prototype', () => {
       new THREE.Texture<HTMLImageElement>(),
       new THREE.Texture<HTMLImageElement>(),
     ];
+    const textureDisposals = textures.map((texture) => vi.spyOn(texture, 'dispose'));
     const loadedUrls: string[] = [];
     vi.spyOn(THREE.TextureLoader.prototype, 'loadAsync').mockImplementation((url: string) => {
       loadedUrls.push(url);
@@ -182,6 +183,7 @@ describe('Neon Grid Service Tunnel material prototype', () => {
     ).toBe(true);
 
     disposeTrackScene(scene);
+    expect(textureDisposals.every((dispose) => dispose.mock.calls.length === 1)).toBe(true);
   });
 
   it('disposes fulfilled map loads when any required texture fails', async () => {

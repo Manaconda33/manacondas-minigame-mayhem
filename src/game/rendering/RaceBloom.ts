@@ -189,8 +189,8 @@ export class RaceBloom {
       this.restoreMaterials();
     }
   }
-  public render(scene: THREE.Scene, camera: THREE.Camera): void {
-    this.passInstrumentation?.beginFrame();
+  public render(scene: THREE.Scene, camera: THREE.Camera, collectPassMeasurements = true): void {
+    this.passInstrumentation?.beginFrame(collectPassMeasurements);
     const info = (this.renderer as Partial<THREE.WebGLRenderer>).info as
       (Omit<THREE.WebGLRenderer['info'], 'reset'> & { reset?: () => void }) | undefined;
     const autoReset = info?.autoReset;

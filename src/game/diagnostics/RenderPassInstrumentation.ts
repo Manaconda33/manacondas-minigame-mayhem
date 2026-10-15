@@ -141,10 +141,12 @@ function targetSize(
 export class RenderPassInstrumentation {
   private current: Partial<Record<RenderPassName, RenderPassStageSample>> = {};
   private disposed = false;
+  private collecting = false;
 
   public constructor(private readonly enabled: boolean) {}
 
-  public beginFrame(): void {
+  public beginFrame(collect = true): void {
+    this.collecting = this.enabled && !this.disposed && collect;
     if (this.enabled && !this.disposed) this.current = {};
   }
 
@@ -156,7 +158,7 @@ export class RenderPassInstrumentation {
     render: () => void,
     options: RenderPassMeasureOptions = {},
   ): void {
-    if (!this.enabled || this.disposed) {
+    if (!this.collecting) {
       render();
       return;
     }
@@ -220,7 +222,7 @@ export class RenderPassInstrumentation {
     reason: string,
     options: RenderPassMeasureOptions = {},
   ): void {
-    if (!this.enabled || this.disposed || this.current[name] !== undefined) return;
+    if (!this.collecting || this.current[name] !== undefined) return;
     this.current[name] = {
       ...emptyStage(name),
       status: 'unavailable',
@@ -306,6 +308,7 @@ export class RenderPassInstrumentation {
 
   public dispose(): void {
     this.disposed = true;
+    this.collecting = false;
     this.current = {};
   }
 }

@@ -157,6 +157,24 @@ export class RacePerformanceMeter {
     }
   }
 
+  /** Predicts whether an upcoming frame will retain pass details without changing meter state. */
+  public shouldCaptureRenderPasses(frame: RaceFrameObservation): boolean {
+    if (!this.enabled || this.disposed || this.raceCompleted || this.truncated) return false;
+    if (
+      frame.phase !== 'racing' ||
+      frame.paused ||
+      frame.hidden ||
+      frame.boundary ||
+      !Number.isFinite(frame.rawFrameMs) ||
+      frame.rawFrameMs <= 0
+    )
+      return false;
+    return (
+      this.eligibleFrames + 1 > this.warmupFrames &&
+      this.samples.length % RENDER_PASS_SAMPLE_INTERVAL === 0
+    );
+  }
+
   public record(frame: RaceFrameObservation): void {
     if (!this.enabled || this.disposed || this.raceCompleted) return;
     if (frame.phase === 'finished') this.raceCompleted = true;

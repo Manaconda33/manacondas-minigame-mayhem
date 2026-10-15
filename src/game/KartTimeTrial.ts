@@ -821,6 +821,21 @@ export class KartTimeTrial {
       this.trackScene.undercity.update(raceTime);
     }
     this.updateVisuals(frameSeconds);
+    const diagnosticPhase =
+      this.racePerformance === null ? null : this.raceDirector.phase(this.playerProgress.finished);
+    const diagnosticEligible = diagnosticPhase === 'racing' && !this.paused && !document.hidden;
+    const diagnosticBoundary =
+      this.diagnosticsBoundary || diagnosticEligible !== this.diagnosticsEligibility;
+    const collectPassMeasurements =
+      this.passInstrumentation !== null &&
+      this.racePerformance?.shouldCaptureRenderPasses({
+        rawFrameMs,
+        phase: diagnosticPhase ?? 'countdown',
+        paused: this.paused,
+        hidden: document.hidden,
+        boundary: diagnosticBoundary,
+        counters: null,
+      }) === true;
     this.shadows.update(
       this.kart.position(this.shadowAnchor),
       this.kartMesh,
@@ -828,9 +843,9 @@ export class KartTimeTrial {
       [...this.projectiles.group.children, ...this.apexPresentation.group.children],
     );
     this.itemPerformance?.endFrame();
-    this.bloom.render(this.scene, this.camera);
+    this.bloom.render(this.scene, this.camera, collectPassMeasurements);
     const blurEligible =
-      this.raceDirector.phase(this.playerProgress.finished) === 'racing' &&
+      (diagnosticPhase ?? this.raceDirector.phase(this.playerProgress.finished)) === 'racing' &&
       !this.rearViewActive &&
       this.racerEffects.spinoutState('player') === null;
     const blurActive = blurEligible && !this.paused && !document.hidden;
@@ -845,7 +860,7 @@ export class KartTimeTrial {
     );
     this.motionBlur.render(!this.paused && !document.hidden);
     if (this.racePerformance !== null) {
-      const phase = this.raceDirector.phase(this.playerProgress.finished);
+      const phase = diagnosticPhase ?? this.raceDirector.phase(this.playerProgress.finished);
       const eligible = phase === 'racing' && !this.paused && !document.hidden;
       const counters = readRendererCounters(this.renderer);
       const progress = this.playerProgress.trackProgress;
@@ -859,7 +874,7 @@ export class KartTimeTrial {
           : -1;
       const heldItem = this.itemSystem.heldItem('player');
       const spinout = this.racerEffects.spinoutState('player');
-      const passContext: RenderPassFrameContext | null = this.passInstrumentation
+      const passContext: RenderPassFrameContext | null = collectPassMeasurements
         ? {
             cameraFixture: this.rearViewActive ? 'rearView' : 'chase',
             cameraPosition: [
@@ -895,13 +910,15 @@ export class KartTimeTrial {
             },
           }
         : null;
-      const renderPasses = this.passInstrumentation?.finishFrame(
-        {
-          drawCalls: counters.drawCalls,
-          triangles: counters.triangles,
-        },
-        passContext,
-      );
+      const renderPasses = collectPassMeasurements
+        ? this.passInstrumentation.finishFrame(
+            {
+              drawCalls: counters.drawCalls,
+              triangles: counters.triangles,
+            },
+            passContext,
+          )
+        : undefined;
       this.racePerformance.record({
         rawFrameMs,
         phase,

@@ -203,4 +203,51 @@ describe('whole-race meter', () => {
     meter.dispose();
     expect(meter.exportCapture(metadata).renderPasses.samples).toEqual([]);
   });
+  it('selects pass observations only on scored sample frames after warmup', () => {
+    const meter = new RacePerformanceMeter(true, 2, 25);
+    const frame = observation(16);
+
+    expect(meter.shouldCaptureRenderPasses(frame)).toBe(false);
+    meter.record(frame);
+    expect(meter.shouldCaptureRenderPasses(frame)).toBe(false);
+    meter.record(frame);
+    expect(meter.shouldCaptureRenderPasses(frame)).toBe(true);
+
+    for (let index = 0; index < 10; index++) {
+      expect(meter.shouldCaptureRenderPasses(frame)).toBe(index === 0);
+      meter.record(frame);
+    }
+    expect(meter.shouldCaptureRenderPasses(frame)).toBe(true);
+    expect(meter.shouldCaptureRenderPasses(observation(16, { boundary: true }))).toBe(false);
+  });
+  it('keeps pass sample indices aligned across paused, hidden, and boundary frames', () => {
+    const meter = new RacePerformanceMeter(true, 2, 25);
+    const frame = observation(16);
+    const passes = passSample();
+
+    meter.record(frame);
+    meter.record(frame);
+    for (const skipped of [
+      observation(16, { paused: true }),
+      observation(16, { hidden: true }),
+      observation(16, { boundary: true }),
+    ]) {
+      expect(meter.shouldCaptureRenderPasses(skipped)).toBe(false);
+      meter.record(skipped);
+      expect(meter.shouldCaptureRenderPasses(frame)).toBe(true);
+    }
+
+    expect(meter.shouldCaptureRenderPasses(frame)).toBe(true);
+    meter.record(observation(16, { renderPasses: passes }));
+    for (let scoredFrameIndex = 1; scoredFrameIndex < 10; scoredFrameIndex++) {
+      expect(meter.shouldCaptureRenderPasses(frame)).toBe(false);
+      meter.record(frame);
+    }
+    expect(meter.shouldCaptureRenderPasses(frame)).toBe(true);
+    meter.record(observation(16, { renderPasses: passes }));
+
+    expect(
+      meter.exportCapture(metadata).renderPasses.samples.map((sample) => sample.scoredFrameIndex),
+    ).toEqual([0, 10]);
+  });
 });

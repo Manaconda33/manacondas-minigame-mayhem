@@ -104,6 +104,30 @@ it('does no counter or target reads when disabled', () => {
   );
 });
 
+it('renders without observing frames outside the diagnostic sample schedule', () => {
+  const renderer = {
+    get info() {
+      throw new Error('should not inspect counters outside sample frames');
+    },
+    getRenderTarget: () => {
+      throw new Error('should not inspect targets outside sample frames');
+    },
+    getDrawingBufferSize: () => {
+      throw new Error('should not inspect drawing buffer outside sample frames');
+    },
+  } as unknown as THREE.WebGLRenderer;
+  const instrumentation = new RenderPassInstrumentation(true);
+  instrumentation.beginFrame(false);
+  let rendered = false;
+
+  expect(() => {
+    instrumentation.measure('mainScene', renderer, null, 'includedWhenUpdated', () => {
+      rendered = true;
+    });
+  }).not.toThrow();
+  expect(rendered).toBe(true);
+});
+
 it('marks unsupported renderer counters unavailable without suppressing the original render', () => {
   const renderer = {
     getRenderTarget: () => null,

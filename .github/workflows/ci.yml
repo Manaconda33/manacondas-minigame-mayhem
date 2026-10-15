@@ -174,7 +174,8 @@ jobs:
       (github.event_name == 'push' && github.ref == 'refs/heads/main'))
     needs: preview-plan
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Task A adds full pinned-runtime validation; historical build rows retain 15 minutes.
+    timeout-minutes: ${{ matrix.id == 'neon-grid-task-a-001' && 30 || 15 }}
     strategy:
       fail-fast: false
       max-parallel: 8

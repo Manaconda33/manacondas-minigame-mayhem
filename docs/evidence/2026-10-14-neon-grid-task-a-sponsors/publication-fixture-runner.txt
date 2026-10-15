@@ -1,0 +1,67 @@
+from pathlib import Path
+import yaml,subprocess,json,hashlib,shutil,os,urllib.request,urllib.error,contextlib,io
+wf=Path('.github/workflows/ci.yml').read_text();new=yaml.safe_load(wf);old=yaml.safe_load(subprocess.check_output(['git','show','origin/main:.github/workflows/ci.yml'],text=True))
+for key in new:
+ if key!='jobs': assert new[key]==old[key],key
+for key in ['validate','preview-plan','pinned-runtime-validation','spillway-render']: assert new['jobs'][key]==old['jobs'][key],key
+entries=new['jobs']['preview-build']['strategy']['matrix']['include'];oldentries=old['jobs']['preview-build']['strategy']['matrix']['include']
+assert [e for e in entries if e['id']!='neon-grid-task-a-001']==oldentries
+entry=next(e for e in entries if e['id']=='neon-grid-task-a-001');assert entry['sha']=='692e9424c2cbf15decbb467b230c02c2e10452a0';assert entry['base']=='/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/'
+for job in new['jobs'].values():
+ for step in job.get('steps',[]):
+  if 'run' in step:
+   subprocess.run(['bash','-n'],input=step['run'],text=True,check=True,capture_output=True)
+   if "<<'PYTHON'" in step['run']: compile(step['run'].split("<<'PYTHON'\n",1)[1].rsplit('\nPYTHON',1)[0],'<workflow-python>','exec')
+print('YAML/shell/Python syntax and unchanged production/check/trust identities PASS; existing preview entries:',len(oldentries))
+root=Path('/tmp/task-a-publication-assembly-fixture');shutil.rmtree(root);root.mkdir(exist_ok=True)
+(root/'site-root').mkdir(exist_ok=True)
+(root/'dist/assets').mkdir(parents=True,exist_ok=True)
+for name,content in [('index.html',b'production-html'),('assets/index-test.js',b'production-js'),('assets/index-test.css',b'production-css')]: (root/'dist'/name).write_bytes(content)
+art=Path('/tmp/neon-grid-task-a/public/assets/track/neon-grid')
+for e in entries:
+ out=root/'preview-output'/e['id'];out.mkdir(parents=True,exist_ok=True)
+ if e['id']=='neon-grid-task-a-001': shutil.copytree('/tmp/task-a-preview-dist',out,dirs_exist_ok=True);continue
+ (out/'assets').mkdir(exist_ok=True);(out/'index.html').write_text('historical '+e['id']);(out/'assets/index-test.js').write_text('historical-js '+e['id']);(out/'assets/index-test.css').write_text('historical-css '+e['id']);(out/'review-build.json').write_text(json.dumps({'source':e['sha'],'base':e['base']}))
+ for directory in ['signage','billboard']: shutil.copytree(art/directory,out/'assets/track/neon-grid'/directory,dirs_exist_ok=True)
+def step(config,name): return next(s['run'] for s in config['jobs']['assemble']['steps'] if s['name']==name)
+assemble='Assemble the current game and isolated previews';subprocess.run(['bash','-e','-c',step(old,assemble)],cwd=root,check=True,capture_output=True)
+def hashes(): return {str(p.relative_to(root/'site-root')):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'site-root').rglob('*') if p.is_file()}
+before=hashes();subprocess.run(['bash','-e','-c',step(new,assemble)],cwd=root,check=True,capture_output=True);after=hashes();assert {p:h for p,h in after.items() if not p.startswith('previews/neon-grid-task-a-001/')}==before
+script=step(new,'Record exact delivery hashes and verify production preservation before publication').split("<<'PYTHON'\n",1)[1].rsplit('\nPYTHON',1)[0]
+urls=[]
+class Response:
+ status=200
+ def __init__(self,data): self.data=data
+ def __enter__(self): return self
+ def __exit__(self,*args): pass
+ def read(self): return self.data
+original=urllib.request.urlopen
+
+def fake(request,timeout):
+ relative=request.full_url.split('/manacondas-minigame-mayhem/',1)[1];urls.append(relative)
+ if relative.startswith('previews/neon-grid-task-a-001/'): raise AssertionError('New preview must not be fetched before publication')
+ return Response((root/'site-root'/relative).read_bytes())
+prev=os.getcwd();os.chdir(root);urllib.request.urlopen=fake
+try:
+ with contextlib.redirect_stdout(io.StringIO()): exec(script,{})
+ report=json.loads(Path('delivery-expected.json').read_text())
+ assert not any(Path(item['path']).name=='.gitkeep' for item in report)
+ expected={p for p in after if p.startswith('previews/neon-grid-task-a-001/') and Path(p).name!='.gitkeep'}
+ assert {item['path'] for item in report if item['path'].startswith('previews/neon-grid-task-a-001/')}==expected
+ def bad(request,timeout):return Response(b'incorrect bytes')
+ urllib.request.urlopen=bad
+ try:
+  with contextlib.redirect_stdout(io.StringIO()):exec(script,{})
+ except AssertionError: pass
+ else:raise AssertionError('Preservation must reject byte mismatch')
+ def missing(request,timeout):raise urllib.error.HTTPError(request.full_url,404,'not found',{},None)
+ urllib.request.urlopen=missing
+ try:
+  with contextlib.redirect_stdout(io.StringIO()):exec(script,{})
+ except RuntimeError:pass
+ else:raise AssertionError('Preservation must reject HTTP404')
+finally: urllib.request.urlopen=original;os.chdir(prev)
+print('Actual assembly script without checkout PASS; unchanged fixture production/legacy files:',len(before))
+print('Actual inline manifest PASS; new public paths:',len(expected),'; hashes preserved; .gitkeep excluded; new path not fetched before publication')
+print('Negative controls PASS: genuine HTTP404 and incorrect production bytes remain failures')
+Path('/tmp/task-a-publication-check-results.json').write_text(json.dumps({'legacy_preview_entries':len(oldentries),'preserved_fixture_files':len(before),'new_public_paths':len(expected),'manifest_paths':len(report),'fixture_only_not_live_delivery':True},indent=2))

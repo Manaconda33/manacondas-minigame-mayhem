@@ -126,7 +126,7 @@
   ],
   "hosted_ci": "NOT EXECUTED: GitHub API Forbidden; inherited PR workflow targets only main-base PRs",
   "draft_pr": "NOT CREATED: GitHub API unavailable; prepared comparison and description provided",
-  "preview_publication": "NOT AUTHORIZED / NOT EXECUTED",
+  "preview_publication": "AUTHORIZED by owner; workflow branch pushed at5cd90ad; PR/hosted/live publication blocked by GitHub API Forbidden",
   "owner_visual_acceptance": "PENDING",
   "prd_deviations": "NONE; existing amendment discrepancy explicitly deferred"
 }

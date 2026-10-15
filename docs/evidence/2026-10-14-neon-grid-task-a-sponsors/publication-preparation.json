@@ -1,0 +1,49 @@
+{
+  "owner_authorization": "Manny Approved isolated workflow-only Task A publication, 2026-10-14 America/Chicago; no visual acceptance or production gameplay authorization",
+  "runtime_source": "692e9424c2cbf15decbb467b230c02c2e10452a0",
+  "publication_base_main": "54f422a5885865a8a418da79c2c96eb904426c93",
+  "publication_branch": "preview/neon-grid-task-a-001",
+  "publication_commit": "5cd90add7c23cf7c06ec2f077a5668672d312d96",
+  "changed_publication_files": [
+    ".github/workflows/ci.yml"
+  ],
+  "preview_path": "/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/",
+  "selector": "?neonGridVisual=neon-grid-task-a-001",
+  "local_checks": {
+    "npm_ci": 0,
+    "typecheck": 0,
+    "zero_warning_lint": 0,
+    "focused_ci_regression": {
+      "exit": 0,
+      "files": 1,
+      "tests": 32
+    },
+    "main_application_coverage": {
+      "exit": 0,
+      "files": 105,
+      "tests": 834,
+      "duration_seconds": 47.61
+    },
+    "production_build": 0,
+    "lfs_fsck": 0,
+    "diff_integrity": 0,
+    "yaml_shell_python_syntax": 0,
+    "real_inline_assembly_and_manifest_fixture": {
+      "exit": 0,
+      "legacy_preview_entries": 22,
+      "fixture_files_preserved": 267,
+      "new_public_paths": 410,
+      "negative_http404_and_hash_mismatch": "rejected",
+      "scope": "synthetic legacy/production fixture + real prepared Task A build; not live delivery"
+    }
+  },
+  "new_candidate_hosted_validation": "full serial Task A coverage on initial build; new matrix row 30-minute job limit; old rows retain15; test timeout15000 unchanged",
+  "existing_preview_pins_permissions_required_checks_and_trust_policy": "preserved",
+  "prepared_preview_bytes": 210637669,
+  "hosted_ci": "NOT STARTED; PR creation blocked",
+  "pr_creation": "gh pr create rejected: Post https://api.github.com/graphql Forbidden",
+  "live_publication": "NOT COMPLETE",
+  "next_action": "Open draft publication PR targeting main, require all hosted checks, then perform authorized publication and exact live-byte/control verification",
+  "pages_artifact_size": "latest known ~4.03GiB deferred concern; new build200.879MiB uncompressed; no artifact redesign",
+  "no_new_owner_publication_approval_required": "authorization already granted; visual/playability approval remains pending"
+}

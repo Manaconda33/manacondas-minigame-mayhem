@@ -1,8 +1,33 @@
+## Approved rendering requirements and test classes — Phase G0
+
+The source-approved values below reconcile the previously stale main PRD prose. This documentation-only checkpoint does not change runtime enforcement, test thresholds, or CI classification.
+
+| Test class | Requirement | Application |
+| --- | --- | --- |
+| Hard release requirements | Global race-scene hard cap **500 draw calls**; at most **12 dynamic shadow casters**; G-05 Medium/eight-racer 1920×1080 representative desktop with median **≥60 FPS**, p95 **≤18.3 ms**, and no sustained three-frame sequence above **50 ms**. | The 500-call value supersedes earlier 250-call wording under 2.26; the existing hardware acceptance gate is unchanged. |
+| Global triangle limit | **750,000 visible triangles**. | Existing global PRD target/cap; unchanged by amendments 2.26–2.28. |
+| PRD resource target | GPU texture residency approximately **256 MB on Medium**. | Existing target, not a new threshold or measured residency claim. |
+| Task 9 engineering targets | **500 draw calls** (2.26) and **425,000 visible triangles** (2.28). | Forward-looking Task 9 engineering gates. The 425,000 ceiling supersedes the earlier 350,000 figure from 2.26; neither changes the global 750,000 triangle cap. |
+| Bounded historical / sector checks | T9.5 full-course gate: **200-call optimization target / 220-call blocking maximum**; T9.7 sector A/B increments: Skyline **+36**, Undercity **+30**, Falls Run extension **+28**. | Keep each only with its cited historical/T9.7 fixture. Deltas are not scene maxima. Do not generalize the T9.5 figures into a global or default later-Task-9 gate. |
+| Experimental-only proposals | 550 calls / 500k Task 9 triangles; 600 / 600k; 650 / 700k. | Proposed isolated research envelopes only. They are not active pass thresholds and need separate authorization before testing. |
+
+Authority: [amendment 2.26](https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/6919729ba5e12f48305f543dca153f4ba9c5ae19/docs/PRD.md#L3177), [2.27](https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/6919729ba5e12f48305f543dca153f4ba9c5ae19/docs/PRD.md#L3181), and [2.28](https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/6919729ba5e12f48305f543dca153f4ba9c5ae19/docs/PRD.md#L3185) in the owner-approved development PRD at PR #242 head 6919729ba5e12f48305f543dca153f4ba9c5ae19. This G0 checkpoint copies their existing approvals; it does not create a new one. T9.5 wording is preserved [by its title and date](https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/6919729ba5e12f48305f543dca153f4ba9c5ae19/docs/PRD.md#L17); the development PRD also has a separate, non-graphics 2.25 heading, so no heading is renumbered here.
+
+## Task A sponsor-visibility review verification record — 2026-10-14
+
+| Evidence | Result | Scope |
+| --- | --- | --- |
+| Pinned runtime and publication | Runtime 692e9424c2cbf15decbb467b230c02c2e10452a0; workflow-only PR #306 merged at main 4e7607368e0dbea04ee8c76435fa9977bb63ff6a. Pages run [38660334001](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38660334001) and trusted producer [38660334010](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38660334010) succeeded. | Exact published review checkpoint. |
+| Hosted delivery | Pinned marker and hashes passed for 410 Task A files; production root and earlier immutable previews were preserved. | Pages delivery evidence, not a current-session browser smoke. See the [published verification record](https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/d94c813dafd0839e83e1c7dd79ceadf2dca5949b/docs/evidence/2026-10-14-neon-grid-task-a-sponsors/live-verification-2026-10-15.md). |
+| Local source-pinned controls | Desktop and mobile-portrait browser control smoke passed on the source-pinned local build. | Browser viewport emulation only; not live delivery or physical-device evidence. |
+| Live automated browser | Not passed: the recorded session's proxy and Chromium failed before page navigation. | Do not count hosted byte verification or local smoke as a live browser smoke. |
+| Owner review / remaining gates | Owner approval is recorded in [evidence commit d94c813](https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/d94c813dafd0839e83e1c7dd79ceadf2dca5949b). No physical-device test or G-05 certification was completed. PR #242 remains draft/open/unmerged; production runtime integration and Tasks B/C/D remain separately gated. | Preview approval only; not production gameplay approval. |
+
 ## Proposed post-fog graphics validation protocol (2026-10-13; not an active new gate)
 
 Planning reference: [Neon Grid Post-Fog Visual Polish & Adaptive Graphics Performance Roadmap](superpowers/plans/2026-10-13-neon-grid-post-fog-graphics-roadmap.md). First workstream checks exact-source sponsor signage visibility with desktop/mobile chase and rear camera, actual textures, fog occlusion, screen openings, asset lifecycle and the existing PRD gameplay gates. Later material and culling experiments require *independently approved* scopes; do not silently edit the test budgets, shadow/bloom settings or graphics-quality defaults.
 
-Keep the existing **500 draw calls** across race scenes (approved development PRD amendment 2.26), **425,000 Task 9 engineering triangles** (2.28), **750,000 global triangles** and current G-05 hardware contract. `main` PRD §2.6 is not yet synchronized; provenance/approval is recorded in the development PRD. The optional 550/500k, 600/600k and 650/700k workload envelopes are isolated research proposals, **not newly active pass thresholds**.
+Phase G0 reconciles PRD §2.6 with the previously approved 500-call ceiling. The rule classes above preserve the existing global caps, G-05 contract, scoped sector/T9.5 checks, and experimental-only proposals. No test threshold or runtime rule changes in this checkpoint.
 
 Instrumentation-first capture should record source and roster, real canvas drawing-buffer dimensions, DPR, quality, camera pose/sector, fixed item/effect state, warmup/scored frames, pass-attributable calls and submitted triangles, CPU timing, optional valid async GPU timer queries and disjoint state, render target pixels, material/texture residency estimates, browser/device IDs, frame-time distributions, three-consecutive->50ms events and cleanup/restart state. Distinguish summed multi-pass submissions from distinct objects; do not claim software SwiftShader measurements as physical-device G-05 evidence. Hardware calibration must vary real calls and triangles separately, not just the checker's thresholds; proposed multiple comparable full-race and sustained thermal tests are not yet certified/required acceptance criteria.
 

@@ -2,7 +2,7 @@
 
 A modular HTML5 minigame hub built around a 3D kart racer with illustrated 2D avatar drivers, character-specific karts, items, AI opponents, and the neon-lit **Route Night** presentation.
 
-**Status updated: October 12, 2026.** The canonical repository is public, but preview publication, runtime merges, asset changes, and product acceptance remain approval-gated. [`docs/PRD.md`](docs/PRD.md) is the product specification (approved v1.1 baseline plus recorded amendments); GitHub code, [implementation status](docs/IMPLEMENTATION-STATUS.md), and [test evidence](docs/TESTING.md) establish what has actually shipped.
+**Status updated: October 14, 2026.** The canonical repository is public, but preview publication, runtime merges, asset changes, and product acceptance remain approval-gated. [`docs/PRD.md`](docs/PRD.md) is the product specification (approved v1.1 baseline plus recorded amendments); GitHub code, [implementation status](docs/IMPLEMENTATION-STATUS.md), and [test evidence](docs/TESTING.md) establish what has actually shipped.
 
 ## Play and review
 
@@ -10,12 +10,13 @@ A modular HTML5 minigame hub built around a 3D kart racer with illustrated 2D av
 | --- | --- | --- |
 | **Production game / Circuit Alpha** | [Play on GitHub Pages](https://manaconda33.github.io/manacondas-minigame-mayhem/) | Live, owner-accepted game hub and Circuit Alpha racer |
 | **Neon Grid: T9.7 baseline** | [Owner-approved visual preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-t9-7-environment-correction/) | Approved for that exact *preview*; Neon Grid runtime is not published to production |
+| **Neon Grid: Task A sponsor visibility** | [Owner-approved review preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/?neonGridVisual=neon-grid-task-a-001) | Approved for that exact preview; production runtime integration remains gated |
 | **Neon Grid: Abyss Fog B1** | [First fog experiment](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-001/?neonGridVisual=abyss-fog-001) | Owner-rejected visual experiment; retained for A/B evidence |
 | **Neon Grid: Abyss Fog B2** | [Corrected fog review candidate](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-002/?neonGridVisual=abyss-fog-002) | Opt-in preview published and live-hash verified by [Pages run #38309167409](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38309167409) after workflow-only [PR #294](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/294) merged; owner visual approval remains pending |
 
 **Do not conflate a published preview with production gameplay release.** Only Circuit Alpha is served as the accepted racer at the Pages root. Fog A/B variants do not replace the approved T9.7 default.
 
-**Forward graphics plan (documentation only):** [Post-fog billboard recovery, selective materials, and adaptive performance roadmap](docs/superpowers/plans/2026-10-13-neon-grid-post-fog-graphics-roadmap.md). Manny reports owner playable-review PASS for the isolated V3.2 fog candidate; additional ruined-city scenery is superseded, while G-05 physical-device certification and Neon Grid production integration remain open. Existing global 500-call / Task 9 425k ceilings are documented on the Neon Grid branch; main PRD reconciliation is planned, not yet committed.
+**Forward graphics plan (documentation only):** [Post-fog billboard recovery, selective materials, and adaptive performance roadmap](docs/superpowers/plans/2026-10-13-neon-grid-post-fog-graphics-roadmap.md). Manny reports owner playable-review PASS for the isolated V3.2 fog candidate; additional ruined-city scenery is superseded, while G-05 physical-device certification and Neon Grid production integration remain open. Phase G0 reconciles the already-approved 500-call global cap and 425k Task 9 triangle ceiling into the PRD while preserving the 750k global triangle limit. Task B instrumentation and production runtime integration remain separate approval gates.
 
 ## Current engineering status
 

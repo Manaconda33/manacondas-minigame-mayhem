@@ -1,0 +1,423 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "c07ca0ec48b88b797bfa7056deb5166e966608c7",
+  "capturedAt": "2026-10-15T16:56:08.536Z",
+  "environment": "Headless Chromium / SwiftShader software WebGL",
+  "cases": [
+    {
+      "viewport": "desktop-1920x1080",
+      "variant": "A-blockout",
+      "view": "chase",
+      "camera": {
+        "position": [156.67301699387528, -1.35, 52.24078756677407],
+        "quaternion": [
+          0.014992019677313641, 0.9729430013905307, 0.06603147222423816, -0.2209004302102658
+        ]
+      },
+      "wholeFrame": {
+        "calls": 120,
+        "triangles": 99079
+      },
+      "renderableCount": 596,
+      "visibleRenderableCount": 259,
+      "renderableSignature": "b9667535:596",
+      "wallGeometry": {
+        "left": {
+          "positions": 386,
+          "indices": 1152
+        },
+        "right": {
+          "positions": 386,
+          "indices": 1152
+        }
+      },
+      "wallMaterialShared": false,
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "intensity": 2.1,
+          "color": "cbb7ff"
+        },
+        {
+          "type": "DirectionalLight",
+          "intensity": 2.4,
+          "color": "ffe8c5"
+        }
+      ],
+      "fog": {
+        "color": "10192b",
+        "near": 180,
+        "far": 650
+      }
+    },
+    {
+      "viewport": "desktop-1920x1080",
+      "variant": "A-blockout",
+      "view": "rear",
+      "camera": {
+        "position": [161.3799306953372, -1.35, 62.07211317558604],
+        "quaternion": [
+          -0.06880689463463752, 0.22085676080541322, 0.015622161426209816, 0.9727506620556226
+        ]
+      },
+      "wholeFrame": {
+        "calls": 368,
+        "triangles": 342443
+      },
+      "renderableCount": 596,
+      "visibleRenderableCount": 259,
+      "renderableSignature": "b9667535:596",
+      "wallGeometry": {
+        "left": {
+          "positions": 386,
+          "indices": 1152
+        },
+        "right": {
+          "positions": 386,
+          "indices": 1152
+        }
+      },
+      "wallMaterialShared": false,
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "intensity": 2.1,
+          "color": "cbb7ff"
+        },
+        {
+          "type": "DirectionalLight",
+          "intensity": 2.4,
+          "color": "ffe8c5"
+        }
+      ],
+      "fog": {
+        "color": "10192b",
+        "near": 180,
+        "far": 650
+      }
+    },
+    {
+      "viewport": "desktop-1920x1080",
+      "variant": "B-concrete-wall-007",
+      "view": "chase",
+      "camera": {
+        "position": [156.67301699387528, -1.35, 52.24078756677407],
+        "quaternion": [
+          0.014992019677313641, 0.9729430013905307, 0.06603147222423816, -0.2209004302102658
+        ]
+      },
+      "wholeFrame": {
+        "calls": 120,
+        "triangles": 99079
+      },
+      "renderableCount": 596,
+      "visibleRenderableCount": 259,
+      "renderableSignature": "b9667535:596",
+      "wallGeometry": {
+        "left": {
+          "positions": 386,
+          "indices": 1152
+        },
+        "right": {
+          "positions": 386,
+          "indices": 1152
+        }
+      },
+      "wallMaterialShared": true,
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "intensity": 2.1,
+          "color": "cbb7ff"
+        },
+        {
+          "type": "DirectionalLight",
+          "intensity": 2.4,
+          "color": "ffe8c5"
+        }
+      ],
+      "fog": {
+        "color": "10192b",
+        "near": 180,
+        "far": 650
+      }
+    },
+    {
+      "viewport": "desktop-1920x1080",
+      "variant": "B-concrete-wall-007",
+      "view": "rear",
+      "camera": {
+        "position": [161.3799306953372, -1.35, 62.07211317558604],
+        "quaternion": [
+          -0.06880689463463752, 0.22085676080541322, 0.015622161426209816, 0.9727506620556226
+        ]
+      },
+      "wholeFrame": {
+        "calls": 368,
+        "triangles": 342443
+      },
+      "renderableCount": 596,
+      "visibleRenderableCount": 259,
+      "renderableSignature": "b9667535:596",
+      "wallGeometry": {
+        "left": {
+          "positions": 386,
+          "indices": 1152
+        },
+        "right": {
+          "positions": 386,
+          "indices": 1152
+        }
+      },
+      "wallMaterialShared": true,
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "intensity": 2.1,
+          "color": "cbb7ff"
+        },
+        {
+          "type": "DirectionalLight",
+          "intensity": 2.4,
+          "color": "ffe8c5"
+        }
+      ],
+      "fog": {
+        "color": "10192b",
+        "near": 180,
+        "far": 650
+      }
+    },
+    {
+      "viewport": "portrait-390x844",
+      "variant": "A-blockout",
+      "view": "chase",
+      "camera": {
+        "position": [156.84574777191082, -1.35, 52.60157015792363],
+        "quaternion": [
+          0.022471418179517248, 0.9701455446266488, 0.0989740446782759, -0.2202652857035962
+        ]
+      },
+      "wholeFrame": {
+        "calls": 122,
+        "triangles": 99511
+      },
+      "renderableCount": 596,
+      "visibleRenderableCount": 259,
+      "renderableSignature": "b9667535:596",
+      "wallGeometry": {
+        "left": {
+          "positions": 386,
+          "indices": 1152
+        },
+        "right": {
+          "positions": 386,
+          "indices": 1152
+        }
+      },
+      "wallMaterialShared": false,
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "intensity": 2.1,
+          "color": "cbb7ff"
+        },
+        {
+          "type": "DirectionalLight",
+          "intensity": 2.4,
+          "color": "ffe8c5"
+        }
+      ],
+      "fog": {
+        "color": "10192b",
+        "near": 180,
+        "far": 650
+      }
+    },
+    {
+      "viewport": "portrait-390x844",
+      "variant": "A-blockout",
+      "view": "rear",
+      "camera": {
+        "position": [161.3799306953372, -1.35, 62.07211317558604],
+        "quaternion": [
+          -0.06880689463463752, 0.22085676080541322, 0.015622161426209816, 0.9727506620556226
+        ]
+      },
+      "wholeFrame": {
+        "calls": 152,
+        "triangles": 105183
+      },
+      "renderableCount": 596,
+      "visibleRenderableCount": 259,
+      "renderableSignature": "b9667535:596",
+      "wallGeometry": {
+        "left": {
+          "positions": 386,
+          "indices": 1152
+        },
+        "right": {
+          "positions": 386,
+          "indices": 1152
+        }
+      },
+      "wallMaterialShared": false,
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "intensity": 2.1,
+          "color": "cbb7ff"
+        },
+        {
+          "type": "DirectionalLight",
+          "intensity": 2.4,
+          "color": "ffe8c5"
+        }
+      ],
+      "fog": {
+        "color": "10192b",
+        "near": 180,
+        "far": 650
+      }
+    },
+    {
+      "viewport": "portrait-390x844",
+      "variant": "B-concrete-wall-007",
+      "view": "chase",
+      "camera": {
+        "position": [156.84574777191082, -1.35, 52.60157015792363],
+        "quaternion": [
+          0.022471418179517248, 0.9701455446266488, 0.0989740446782759, -0.2202652857035962
+        ]
+      },
+      "wholeFrame": {
+        "calls": 122,
+        "triangles": 99511
+      },
+      "renderableCount": 596,
+      "visibleRenderableCount": 259,
+      "renderableSignature": "b9667535:596",
+      "wallGeometry": {
+        "left": {
+          "positions": 386,
+          "indices": 1152
+        },
+        "right": {
+          "positions": 386,
+          "indices": 1152
+        }
+      },
+      "wallMaterialShared": true,
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "intensity": 2.1,
+          "color": "cbb7ff"
+        },
+        {
+          "type": "DirectionalLight",
+          "intensity": 2.4,
+          "color": "ffe8c5"
+        }
+      ],
+      "fog": {
+        "color": "10192b",
+        "near": 180,
+        "far": 650
+      }
+    },
+    {
+      "viewport": "portrait-390x844",
+      "variant": "B-concrete-wall-007",
+      "view": "rear",
+      "camera": {
+        "position": [161.3799306953372, -1.35, 62.07211317558604],
+        "quaternion": [
+          -0.06880689463463752, 0.22085676080541322, 0.015622161426209816, 0.9727506620556226
+        ]
+      },
+      "wholeFrame": {
+        "calls": 152,
+        "triangles": 105183
+      },
+      "renderableCount": 596,
+      "visibleRenderableCount": 259,
+      "renderableSignature": "b9667535:596",
+      "wallGeometry": {
+        "left": {
+          "positions": 386,
+          "indices": 1152
+        },
+        "right": {
+          "positions": 386,
+          "indices": 1152
+        }
+      },
+      "wallMaterialShared": true,
+      "lights": [
+        {
+          "type": "HemisphereLight",
+          "intensity": 2.1,
+          "color": "cbb7ff"
+        },
+        {
+          "type": "DirectionalLight",
+          "intensity": 2.4,
+          "color": "ffe8c5"
+        }
+      ],
+      "fog": {
+        "color": "10192b",
+        "near": 180,
+        "far": 650
+      }
+    }
+  ],
+  "matched": [
+    {
+      "viewport": "desktop-1920x1080",
+      "view": "chase",
+      "sameCamera": true,
+      "sameWholeFrame": true,
+      "sameRenderableVisibilityAndGeometry": true,
+      "sameWallGeometry": true,
+      "sameLights": true,
+      "sameSceneFog": true,
+      "bUsesSharedWallMaterial": true
+    },
+    {
+      "viewport": "desktop-1920x1080",
+      "view": "rear",
+      "sameCamera": true,
+      "sameWholeFrame": true,
+      "sameRenderableVisibilityAndGeometry": true,
+      "sameWallGeometry": true,
+      "sameLights": true,
+      "sameSceneFog": true,
+      "bUsesSharedWallMaterial": true
+    },
+    {
+      "viewport": "portrait-390x844",
+      "view": "chase",
+      "sameCamera": true,
+      "sameWholeFrame": true,
+      "sameRenderableVisibilityAndGeometry": true,
+      "sameWallGeometry": true,
+      "sameLights": true,
+      "sameSceneFog": true,
+      "bUsesSharedWallMaterial": true
+    },
+    {
+      "viewport": "portrait-390x844",
+      "view": "rear",
+      "sameCamera": true,
+      "sameWholeFrame": true,
+      "sameRenderableVisibilityAndGeometry": true,
+      "sameWallGeometry": true,
+      "sameLights": true,
+      "sameSceneFog": true,
+      "bUsesSharedWallMaterial": true
+    }
+  ],
+  "errors": []
+}

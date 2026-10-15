@@ -7,6 +7,7 @@ import { createTrackScene } from './createTrackScene';
 import { createNeonGridScene } from './createNeonGridScene';
 import { createNeonGridColliders } from './NeonGridCollision';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
+import type { ServiceTunnelMaterialVariant } from './ServiceTunnelConcreteMaterial';
 import type { TrackDefinition, TrackId } from './TrackDefinition';
 
 export { neonGridVisualVariantFromSearch } from './NeonGridVisualVariant';
@@ -19,9 +20,10 @@ export function createSelectedTrackScene(
   track: TrackDefinition,
   quality: GraphicsQuality = 'medium',
   variant: NeonGridVisualVariant = 'approved',
+  materialVariant: ServiceTunnelMaterialVariant = 'blockout',
 ): THREE.Group {
   return track instanceof NeonGrid
-    ? createNeonGridScene(track, quality, variant)
+    ? createNeonGridScene(track, quality, variant, materialVariant)
     : createTrackScene(track);
 }
 

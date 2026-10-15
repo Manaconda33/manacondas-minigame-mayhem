@@ -31,6 +31,7 @@ export interface RaceRenderingMetadata {
   schemaVersion: 1;
   trackId: string | null;
   visualVariant: string | null;
+  materialVariant: 'blockout' | 'concrete-wall-007-c1' | null;
   actualDrawingBuffer: { width: number; height: number } | null;
   devicePixelRatio: number | null;
   rendererPixelRatio: number | null;

@@ -1,0 +1,2408 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "c07ca0ec48b88b797bfa7056deb5166e966608c7",
+  "capturedAt": "2026-10-15T16:52:02.092Z",
+  "fixture": {
+    "runtime": "Actual KartTimeTrial and NeonGridScene in tools/diagnostics/neon-grid-course.html.",
+    "trackId": "neon-grid",
+    "visualVariant": "neon-grid-task-a-001",
+    "materialVariants": ["A-blockout", "B-concrete-wall-007"],
+    "graphicsQuality": "medium",
+    "racerCount": 8,
+    "deterministicRosterSeed": 1417,
+    "tunnelFraction": 0.5,
+    "views": ["chase", "rear"],
+    "viewports": [
+      {
+        "id": "desktop-1920x1080",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "scale": 1.5
+      },
+      {
+        "id": "portrait-390x844",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "scale": 1
+      }
+    ],
+    "sceneWarmup": "The existing course fixture stages 120 scene updates before window.ready; each view then uses eight warmup render calls and thirty scored CPU render-call timings.",
+    "normalGameplayAndPhysics": "The diagnostic fixture stages camera/scene state and does not alter track, collision, or game rules.",
+    "environment": "Headless Chromium with SwiftShader software WebGL; this is not physical-device FPS evidence.",
+    "browserVersion": "151.0.7922.173"
+  },
+  "errors": [],
+  "captures": [
+    {
+      "viewport": "desktop-1920x1080",
+      "variant": "A-blockout",
+      "metadata": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "softwareDetected": true,
+        "devicePixelRatio": 1.5,
+        "rendererPixelRatio": 1.5,
+        "actualDrawingBuffer": {
+          "width": 1920,
+          "height": 1080
+        },
+        "trackId": "neon-grid",
+        "visualVariant": "fog-experiment-task-a",
+        "materialVariant": "blockout",
+        "racerCount": 8,
+        "roster": [
+          {
+            "id": "player",
+            "characterId": "aa-09"
+          },
+          {
+            "id": "ai-1",
+            "characterId": "aa-07"
+          },
+          {
+            "id": "ai-2",
+            "characterId": "aa-12"
+          },
+          {
+            "id": "ai-3",
+            "characterId": "aa-05"
+          },
+          {
+            "id": "ai-4",
+            "characterId": "aa-10"
+          },
+          {
+            "id": "ai-5",
+            "characterId": "aa-03"
+          },
+          {
+            "id": "ai-6",
+            "characterId": "aa-04"
+          },
+          {
+            "id": "ai-7",
+            "characterId": "aa-14"
+          }
+        ],
+        "tunnelFraction": 0.5,
+        "bloom": {
+          "enabled": true,
+          "quality": "medium",
+          "maskWidth": 768,
+          "maskHeight": 432,
+          "fallbackReason": null
+        },
+        "shadows": {
+          "enabled": true,
+          "mapType": 1
+        },
+        "motionBlur": {
+          "enabled": false,
+          "strength": 0,
+          "textureBytes": 0,
+          "fallbackReason": null
+        },
+        "scene": {
+          "leftWallPositionCount": 386,
+          "rightWallPositionCount": 386,
+          "leftWallIndexCount": 1152,
+          "rightWallIndexCount": 1152,
+          "tunnelChildNames": [
+            "service-tunnel-floor",
+            "service-tunnel-left-wall",
+            "service-tunnel-right-wall",
+            "service-tunnel-roof"
+          ],
+          "lights": [
+            {
+              "name": "",
+              "type": "HemisphereLight",
+              "intensity": 2.1,
+              "color": "cbb7ff"
+            },
+            {
+              "name": "",
+              "type": "DirectionalLight",
+              "intensity": 2.4,
+              "color": "ffe8c5"
+            }
+          ],
+          "fog": {
+            "color": "10192b",
+            "near": 180,
+            "far": 650
+          }
+        }
+      },
+      "frames": [
+        {
+          "view": "chase",
+          "wholeFrame": {
+            "calls": 120,
+            "triangles": 99079,
+            "geometries": 56,
+            "textures": 9,
+            "width": 1920,
+            "height": 1080,
+            "pixelRatio": 1.5,
+            "racers": 8,
+            "quality": "medium",
+            "visualVariant": "fog-experiment-task-a",
+            "view": "chase",
+            "skylineVisible": true,
+            "skyline": {
+              "windows": 240,
+              "pylons": 14,
+              "braces": 24,
+              "proceduralSigns": 18,
+              "manacondaAds": 7,
+              "tacoBellAds": 7,
+              "maskBillboards": 8,
+              "raisedBillboardPosts": 4,
+              "facadeMountedBillboards": 4,
+              "wet": true
+            },
+            "undercity": {
+              "windows": 160,
+              "buildings": 16,
+              "pipes": 26,
+              "utilityBoxes": 20,
+              "workLights": 24,
+              "serviceBays": 14,
+              "nightshiftAds": 2,
+              "voltlineAds": 2,
+              "wet": true
+            },
+            "fallsExtension": {
+              "windows": 160,
+              "towers": 16,
+              "pylons": 16,
+              "footings": 16,
+              "waterfalls": 24,
+              "mist": 14,
+              "wet": true
+            },
+            "actualCameraShortcutSightline": null,
+            "sponsorArtworkSightline": null,
+            "tunnelKartSightline": {
+              "fraction": 0.5,
+              "rays": [
+                {
+                  "height": 0.15,
+                  "blocker": null,
+                  "camera": [156.67301699374147, -1.35, 52.24078756649458],
+                  "target": [159.09124788807267, -2.75, 57.29174384641842]
+                },
+                {
+                  "height": 0.65,
+                  "blocker": null,
+                  "camera": [156.67301699374147, -1.35, 52.24078756649458],
+                  "target": [159.09124788807267, -2.25, 57.29174384641842]
+                },
+                {
+                  "height": 1.15,
+                  "blocker": null,
+                  "camera": [156.67301699374147, -1.35, 52.24078756649458],
+                  "target": [159.09124788807267, -1.75, 57.29174384641842]
+                }
+              ],
+              "blocked": [],
+              "roadAhead": {
+                "blocker": null,
+                "camera": [156.67301699374147, -1.35, 52.24078756649458],
+                "target": [160.4372675418743, -3.35, 60.103173656203936]
+              }
+            }
+          },
+          "cameraPosition": [156.67301699374147, -1.35, 52.24078756649458],
+          "cameraQuaternion": [
+            0.014992019676897124, 0.9729430013906551, 0.0660314722224036, -0.22090043021029418
+          ],
+          "passFrame": {
+            "stages": {
+              "mainScene": {
+                "status": "measured",
+                "drawCalls": 58,
+                "triangles": 49490,
+                "target": {
+                  "width": 1920,
+                  "height": 1080,
+                  "pixels": 2073600
+                },
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomMask": {
+                "status": "measured",
+                "drawCalls": 59,
+                "triangles": 49586,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "disabled",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomHorizontal": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomVertical": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomComposite": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 1920,
+                  "height": 1080,
+                  "pixels": 2073600
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomFallbackScene": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "motionBlurComposite": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              }
+            },
+            "context": {
+              "cameraFixture": "chase",
+              "cameraPosition": [156.67301699374147, -1.35, 52.24078756649458],
+              "cameraQuaternion": [
+                0.014992019676897124, 0.9729430013906551, 0.0660314722224036, -0.22090043021029418
+              ],
+              "sectorProgress": {
+                "lap": 0,
+                "trackProgress": 0.355,
+                "sectorIndex": 1,
+                "sectorName": "Service Tunnel"
+              },
+              "itemEffectState": {
+                "activeProjectiles": 0,
+                "activeHazards": 0,
+                "playerHeldItem": null,
+                "playerFrostStacks": 0,
+                "playerSpinoutId": null,
+                "activeBoostLabel": null,
+                "nitroOverdriveActive": false,
+                "hyperDriveRocketActive": false
+              }
+            },
+            "reconciliation": {
+              "status": "complete",
+              "wholeFrameDrawCalls": 120,
+              "wholeFrameTriangles": 99079,
+              "attributedDrawCalls": 120,
+              "attributedTriangles": 99079,
+              "unattributedDrawCalls": 0,
+              "unattributedTriangles": 0,
+              "unavailableStages": []
+            }
+          },
+          "cpuRenderCallMs": {
+            "unit": "CPU wall time around window.renderFrame (includes existing scene updates, Bloom and disabled blur); not GPU or whole-frame time",
+            "warmupCalls": 8,
+            "scoredCalls": 30,
+            "medianMs": 5.300000000745058,
+            "p95Ms": 14.900000005960464,
+            "maxMs": 23.5
+          },
+          "screenshot": {
+            "path": "docs/evidence/2026-10-15-neon-grid-task-c1/captures/A-blockout-chase-desktop-1920x1080.png",
+            "sha256": "be09693bdf3531d79f7e946f0ca6824bf782046024be40dbf73b0e1468da5077",
+            "bytes": 109066
+          }
+        },
+        {
+          "view": "rear",
+          "wholeFrame": {
+            "calls": 376,
+            "triangles": 382083,
+            "geometries": 167,
+            "textures": 26,
+            "width": 1920,
+            "height": 1080,
+            "pixelRatio": 1.5,
+            "racers": 8,
+            "quality": "medium",
+            "visualVariant": "fog-experiment-task-a",
+            "view": "rear",
+            "skylineVisible": true,
+            "skyline": {
+              "windows": 240,
+              "pylons": 14,
+              "braces": 24,
+              "proceduralSigns": 18,
+              "manacondaAds": 7,
+              "tacoBellAds": 7,
+              "maskBillboards": 8,
+              "raisedBillboardPosts": 4,
+              "facadeMountedBillboards": 4,
+              "wet": true
+            },
+            "undercity": {
+              "windows": 160,
+              "buildings": 16,
+              "pipes": 26,
+              "utilityBoxes": 20,
+              "workLights": 24,
+              "serviceBays": 14,
+              "nightshiftAds": 2,
+              "voltlineAds": 2,
+              "wet": true
+            },
+            "fallsExtension": {
+              "windows": 160,
+              "towers": 16,
+              "pylons": 16,
+              "footings": 16,
+              "waterfalls": 24,
+              "mist": 14,
+              "wet": true
+            },
+            "actualCameraShortcutSightline": null,
+            "sponsorArtworkSightline": null,
+            "tunnelKartSightline": {
+              "fraction": 0.5,
+              "rays": [
+                {
+                  "height": 0.15,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -2.75, 57.29174384641842]
+                },
+                {
+                  "height": 0.65,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -2.25, 57.29174384641842]
+                },
+                {
+                  "height": 1.15,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -1.75, 57.29174384641842]
+                }
+              ],
+              "blocked": [],
+              "roadAhead": {
+                "blocker": null,
+                "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                "target": [157.74522823427108, -3.35, 54.48031403663288]
+              }
+            }
+          },
+          "cameraPosition": [161.37993069838598, -1.35, 62.072113181954016],
+          "cameraQuaternion": [
+            -0.06880689458927663, 0.22085676080614133, 0.015622161415910893, 0.9727506620588311
+          ],
+          "passFrame": {
+            "stages": {
+              "mainScene": {
+                "status": "measured",
+                "drawCalls": 186,
+                "triangles": 190992,
+                "target": {
+                  "width": 1920,
+                  "height": 1080,
+                  "pixels": 2073600
+                },
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomMask": {
+                "status": "measured",
+                "drawCalls": 187,
+                "triangles": 191088,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "disabled",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomHorizontal": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomVertical": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomComposite": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 1920,
+                  "height": 1080,
+                  "pixels": 2073600
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomFallbackScene": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "motionBlurComposite": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              }
+            },
+            "context": {
+              "cameraFixture": "rearView",
+              "cameraPosition": [161.37993069838598, -1.35, 62.072113181954016],
+              "cameraQuaternion": [
+                -0.06880689458927663, 0.22085676080614133, 0.015622161415910893, 0.9727506620588311
+              ],
+              "sectorProgress": {
+                "lap": 0,
+                "trackProgress": 0.355,
+                "sectorIndex": 1,
+                "sectorName": "Service Tunnel"
+              },
+              "itemEffectState": {
+                "activeProjectiles": 0,
+                "activeHazards": 0,
+                "playerHeldItem": null,
+                "playerFrostStacks": 0,
+                "playerSpinoutId": null,
+                "activeBoostLabel": null,
+                "nitroOverdriveActive": false,
+                "hyperDriveRocketActive": false
+              }
+            },
+            "reconciliation": {
+              "status": "complete",
+              "wholeFrameDrawCalls": 376,
+              "wholeFrameTriangles": 382083,
+              "attributedDrawCalls": 376,
+              "attributedTriangles": 382083,
+              "unattributedDrawCalls": 0,
+              "unattributedTriangles": 0,
+              "unavailableStages": []
+            }
+          },
+          "cpuRenderCallMs": {
+            "unit": "CPU wall time around window.renderFrame (includes existing scene updates, Bloom and disabled blur); not GPU or whole-frame time",
+            "warmupCalls": 8,
+            "scoredCalls": 30,
+            "medianMs": 7.899999998509884,
+            "p95Ms": 10.5,
+            "maxMs": 10.600000001490116
+          },
+          "screenshot": {
+            "path": "docs/evidence/2026-10-15-neon-grid-task-c1/captures/A-blockout-rear-desktop-1920x1080.png",
+            "sha256": "7b7e3e100184189d7c6c5d2663e0a7d67c1656052b0af1f046cf46da790c4bc0",
+            "bytes": 129703
+          }
+        }
+      ],
+      "glStatus": {
+        "error": 0,
+        "isContextLost": false
+      }
+    },
+    {
+      "viewport": "desktop-1920x1080",
+      "variant": "B-concrete-wall-007",
+      "metadata": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "softwareDetected": true,
+        "devicePixelRatio": 1.5,
+        "rendererPixelRatio": 1.5,
+        "actualDrawingBuffer": {
+          "width": 1920,
+          "height": 1080
+        },
+        "trackId": "neon-grid",
+        "visualVariant": "fog-experiment-task-a",
+        "materialVariant": "concrete-wall-007-c1",
+        "racerCount": 8,
+        "roster": [
+          {
+            "id": "player",
+            "characterId": "aa-09"
+          },
+          {
+            "id": "ai-1",
+            "characterId": "aa-07"
+          },
+          {
+            "id": "ai-2",
+            "characterId": "aa-12"
+          },
+          {
+            "id": "ai-3",
+            "characterId": "aa-05"
+          },
+          {
+            "id": "ai-4",
+            "characterId": "aa-10"
+          },
+          {
+            "id": "ai-5",
+            "characterId": "aa-03"
+          },
+          {
+            "id": "ai-6",
+            "characterId": "aa-04"
+          },
+          {
+            "id": "ai-7",
+            "characterId": "aa-14"
+          }
+        ],
+        "tunnelFraction": 0.5,
+        "bloom": {
+          "enabled": true,
+          "quality": "medium",
+          "maskWidth": 768,
+          "maskHeight": 432,
+          "fallbackReason": null
+        },
+        "shadows": {
+          "enabled": true,
+          "mapType": 1
+        },
+        "motionBlur": {
+          "enabled": false,
+          "strength": 0,
+          "textureBytes": 0,
+          "fallbackReason": null
+        },
+        "scene": {
+          "leftWallPositionCount": 386,
+          "rightWallPositionCount": 386,
+          "leftWallIndexCount": 1152,
+          "rightWallIndexCount": 1152,
+          "tunnelChildNames": [
+            "service-tunnel-floor",
+            "service-tunnel-left-wall",
+            "service-tunnel-right-wall",
+            "service-tunnel-roof"
+          ],
+          "lights": [
+            {
+              "name": "",
+              "type": "HemisphereLight",
+              "intensity": 2.1,
+              "color": "cbb7ff"
+            },
+            {
+              "name": "",
+              "type": "DirectionalLight",
+              "intensity": 2.4,
+              "color": "ffe8c5"
+            }
+          ],
+          "fog": {
+            "color": "10192b",
+            "near": 180,
+            "far": 650
+          }
+        }
+      },
+      "frames": [
+        {
+          "view": "chase",
+          "wholeFrame": {
+            "calls": 120,
+            "triangles": 99079,
+            "geometries": 56,
+            "textures": 12,
+            "width": 1920,
+            "height": 1080,
+            "pixelRatio": 1.5,
+            "racers": 8,
+            "quality": "medium",
+            "visualVariant": "fog-experiment-task-a",
+            "view": "chase",
+            "skylineVisible": true,
+            "skyline": {
+              "windows": 240,
+              "pylons": 14,
+              "braces": 24,
+              "proceduralSigns": 18,
+              "manacondaAds": 7,
+              "tacoBellAds": 7,
+              "maskBillboards": 8,
+              "raisedBillboardPosts": 4,
+              "facadeMountedBillboards": 4,
+              "wet": true
+            },
+            "undercity": {
+              "windows": 160,
+              "buildings": 16,
+              "pipes": 26,
+              "utilityBoxes": 20,
+              "workLights": 24,
+              "serviceBays": 14,
+              "nightshiftAds": 2,
+              "voltlineAds": 2,
+              "wet": true
+            },
+            "fallsExtension": {
+              "windows": 160,
+              "towers": 16,
+              "pylons": 16,
+              "footings": 16,
+              "waterfalls": 24,
+              "mist": 14,
+              "wet": true
+            },
+            "actualCameraShortcutSightline": null,
+            "sponsorArtworkSightline": null,
+            "tunnelKartSightline": {
+              "fraction": 0.5,
+              "rays": [
+                {
+                  "height": 0.15,
+                  "blocker": null,
+                  "camera": [156.67301699374147, -1.35, 52.24078756649458],
+                  "target": [159.09124788807267, -2.75, 57.29174384641842]
+                },
+                {
+                  "height": 0.65,
+                  "blocker": null,
+                  "camera": [156.67301699374147, -1.35, 52.24078756649458],
+                  "target": [159.09124788807267, -2.25, 57.29174384641842]
+                },
+                {
+                  "height": 1.15,
+                  "blocker": null,
+                  "camera": [156.67301699374147, -1.35, 52.24078756649458],
+                  "target": [159.09124788807267, -1.75, 57.29174384641842]
+                }
+              ],
+              "blocked": [],
+              "roadAhead": {
+                "blocker": null,
+                "camera": [156.67301699374147, -1.35, 52.24078756649458],
+                "target": [160.4372675418743, -3.35, 60.103173656203936]
+              }
+            }
+          },
+          "cameraPosition": [156.67301699374147, -1.35, 52.24078756649458],
+          "cameraQuaternion": [
+            0.014992019676897124, 0.9729430013906551, 0.0660314722224036, -0.22090043021029418
+          ],
+          "passFrame": {
+            "stages": {
+              "mainScene": {
+                "status": "measured",
+                "drawCalls": 58,
+                "triangles": 49490,
+                "target": {
+                  "width": 1920,
+                  "height": 1080,
+                  "pixels": 2073600
+                },
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomMask": {
+                "status": "measured",
+                "drawCalls": 59,
+                "triangles": 49586,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "disabled",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomHorizontal": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomVertical": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomComposite": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 1920,
+                  "height": 1080,
+                  "pixels": 2073600
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomFallbackScene": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "motionBlurComposite": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              }
+            },
+            "context": {
+              "cameraFixture": "chase",
+              "cameraPosition": [156.67301699374147, -1.35, 52.24078756649458],
+              "cameraQuaternion": [
+                0.014992019676897124, 0.9729430013906551, 0.0660314722224036, -0.22090043021029418
+              ],
+              "sectorProgress": {
+                "lap": 0,
+                "trackProgress": 0.355,
+                "sectorIndex": 1,
+                "sectorName": "Service Tunnel"
+              },
+              "itemEffectState": {
+                "activeProjectiles": 0,
+                "activeHazards": 0,
+                "playerHeldItem": null,
+                "playerFrostStacks": 0,
+                "playerSpinoutId": null,
+                "activeBoostLabel": null,
+                "nitroOverdriveActive": false,
+                "hyperDriveRocketActive": false
+              }
+            },
+            "reconciliation": {
+              "status": "complete",
+              "wholeFrameDrawCalls": 120,
+              "wholeFrameTriangles": 99079,
+              "attributedDrawCalls": 120,
+              "attributedTriangles": 99079,
+              "unattributedDrawCalls": 0,
+              "unattributedTriangles": 0,
+              "unavailableStages": []
+            }
+          },
+          "cpuRenderCallMs": {
+            "unit": "CPU wall time around window.renderFrame (includes existing scene updates, Bloom and disabled blur); not GPU or whole-frame time",
+            "warmupCalls": 8,
+            "scoredCalls": 30,
+            "medianMs": 5.150000002235174,
+            "p95Ms": 15.300000004470348,
+            "maxMs": 17.19999999552965
+          },
+          "screenshot": {
+            "path": "docs/evidence/2026-10-15-neon-grid-task-c1/captures/B-concrete-wall-007-chase-desktop-1920x1080.png",
+            "sha256": "7b580d10b2e7f1ff379a4865a2754f0cc11eb8c938f57378fba45200590272f8",
+            "bytes": 841105
+          }
+        },
+        {
+          "view": "rear",
+          "wholeFrame": {
+            "calls": 376,
+            "triangles": 382083,
+            "geometries": 167,
+            "textures": 29,
+            "width": 1920,
+            "height": 1080,
+            "pixelRatio": 1.5,
+            "racers": 8,
+            "quality": "medium",
+            "visualVariant": "fog-experiment-task-a",
+            "view": "rear",
+            "skylineVisible": true,
+            "skyline": {
+              "windows": 240,
+              "pylons": 14,
+              "braces": 24,
+              "proceduralSigns": 18,
+              "manacondaAds": 7,
+              "tacoBellAds": 7,
+              "maskBillboards": 8,
+              "raisedBillboardPosts": 4,
+              "facadeMountedBillboards": 4,
+              "wet": true
+            },
+            "undercity": {
+              "windows": 160,
+              "buildings": 16,
+              "pipes": 26,
+              "utilityBoxes": 20,
+              "workLights": 24,
+              "serviceBays": 14,
+              "nightshiftAds": 2,
+              "voltlineAds": 2,
+              "wet": true
+            },
+            "fallsExtension": {
+              "windows": 160,
+              "towers": 16,
+              "pylons": 16,
+              "footings": 16,
+              "waterfalls": 24,
+              "mist": 14,
+              "wet": true
+            },
+            "actualCameraShortcutSightline": null,
+            "sponsorArtworkSightline": null,
+            "tunnelKartSightline": {
+              "fraction": 0.5,
+              "rays": [
+                {
+                  "height": 0.15,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -2.75, 57.29174384641842]
+                },
+                {
+                  "height": 0.65,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -2.25, 57.29174384641842]
+                },
+                {
+                  "height": 1.15,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -1.75, 57.29174384641842]
+                }
+              ],
+              "blocked": [],
+              "roadAhead": {
+                "blocker": null,
+                "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                "target": [157.74522823427108, -3.35, 54.48031403663288]
+              }
+            }
+          },
+          "cameraPosition": [161.37993069838598, -1.35, 62.072113181954016],
+          "cameraQuaternion": [
+            -0.06880689458927663, 0.22085676080614133, 0.015622161415910893, 0.9727506620588311
+          ],
+          "passFrame": {
+            "stages": {
+              "mainScene": {
+                "status": "measured",
+                "drawCalls": 186,
+                "triangles": 190992,
+                "target": {
+                  "width": 1920,
+                  "height": 1080,
+                  "pixels": 2073600
+                },
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomMask": {
+                "status": "measured",
+                "drawCalls": 187,
+                "triangles": 191088,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "disabled",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomHorizontal": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomVertical": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 768,
+                  "height": 432,
+                  "pixels": 331776
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomComposite": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 1920,
+                  "height": 1080,
+                  "pixels": 2073600
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomFallbackScene": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "motionBlurComposite": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              }
+            },
+            "context": {
+              "cameraFixture": "rearView",
+              "cameraPosition": [161.37993069838598, -1.35, 62.072113181954016],
+              "cameraQuaternion": [
+                -0.06880689458927663, 0.22085676080614133, 0.015622161415910893, 0.9727506620588311
+              ],
+              "sectorProgress": {
+                "lap": 0,
+                "trackProgress": 0.355,
+                "sectorIndex": 1,
+                "sectorName": "Service Tunnel"
+              },
+              "itemEffectState": {
+                "activeProjectiles": 0,
+                "activeHazards": 0,
+                "playerHeldItem": null,
+                "playerFrostStacks": 0,
+                "playerSpinoutId": null,
+                "activeBoostLabel": null,
+                "nitroOverdriveActive": false,
+                "hyperDriveRocketActive": false
+              }
+            },
+            "reconciliation": {
+              "status": "complete",
+              "wholeFrameDrawCalls": 376,
+              "wholeFrameTriangles": 382083,
+              "attributedDrawCalls": 376,
+              "attributedTriangles": 382083,
+              "unattributedDrawCalls": 0,
+              "unattributedTriangles": 0,
+              "unavailableStages": []
+            }
+          },
+          "cpuRenderCallMs": {
+            "unit": "CPU wall time around window.renderFrame (includes existing scene updates, Bloom and disabled blur); not GPU or whole-frame time",
+            "warmupCalls": 8,
+            "scoredCalls": 30,
+            "medianMs": 7.700000002980232,
+            "p95Ms": 12.200000002980232,
+            "maxMs": 13.900000005960464
+          },
+          "screenshot": {
+            "path": "docs/evidence/2026-10-15-neon-grid-task-c1/captures/B-concrete-wall-007-rear-desktop-1920x1080.png",
+            "sha256": "48d8da8912f6347a1baab5ff15d6a4a44cd014ddd83b4a2837c235bc9428e2c6",
+            "bytes": 844633
+          }
+        }
+      ],
+      "glStatus": {
+        "error": 0,
+        "isContextLost": false
+      }
+    },
+    {
+      "viewport": "portrait-390x844",
+      "variant": "A-blockout",
+      "metadata": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "softwareDetected": true,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "actualDrawingBuffer": {
+          "width": 390,
+          "height": 844
+        },
+        "trackId": "neon-grid",
+        "visualVariant": "fog-experiment-task-a",
+        "materialVariant": "blockout",
+        "racerCount": 8,
+        "roster": [
+          {
+            "id": "player",
+            "characterId": "aa-09"
+          },
+          {
+            "id": "ai-1",
+            "characterId": "aa-07"
+          },
+          {
+            "id": "ai-2",
+            "characterId": "aa-12"
+          },
+          {
+            "id": "ai-3",
+            "characterId": "aa-05"
+          },
+          {
+            "id": "ai-4",
+            "characterId": "aa-10"
+          },
+          {
+            "id": "ai-5",
+            "characterId": "aa-03"
+          },
+          {
+            "id": "ai-6",
+            "characterId": "aa-04"
+          },
+          {
+            "id": "ai-7",
+            "characterId": "aa-14"
+          }
+        ],
+        "tunnelFraction": 0.5,
+        "bloom": {
+          "enabled": true,
+          "quality": "medium",
+          "maskWidth": 195,
+          "maskHeight": 422,
+          "fallbackReason": null
+        },
+        "shadows": {
+          "enabled": true,
+          "mapType": 1
+        },
+        "motionBlur": {
+          "enabled": false,
+          "strength": 0,
+          "textureBytes": 0,
+          "fallbackReason": null
+        },
+        "scene": {
+          "leftWallPositionCount": 386,
+          "rightWallPositionCount": 386,
+          "leftWallIndexCount": 1152,
+          "rightWallIndexCount": 1152,
+          "tunnelChildNames": [
+            "service-tunnel-floor",
+            "service-tunnel-left-wall",
+            "service-tunnel-right-wall",
+            "service-tunnel-roof"
+          ],
+          "lights": [
+            {
+              "name": "",
+              "type": "HemisphereLight",
+              "intensity": 2.1,
+              "color": "cbb7ff"
+            },
+            {
+              "name": "",
+              "type": "DirectionalLight",
+              "intensity": 2.4,
+              "color": "ffe8c5"
+            }
+          ],
+          "fog": {
+            "color": "10192b",
+            "near": 180,
+            "far": 650
+          }
+        }
+      },
+      "frames": [
+        {
+          "view": "chase",
+          "wholeFrame": {
+            "calls": 122,
+            "triangles": 99511,
+            "geometries": 57,
+            "textures": 9,
+            "width": 390,
+            "height": 844,
+            "pixelRatio": 1,
+            "racers": 8,
+            "quality": "medium",
+            "visualVariant": "fog-experiment-task-a",
+            "view": "chase",
+            "skylineVisible": true,
+            "skyline": {
+              "windows": 240,
+              "pylons": 14,
+              "braces": 24,
+              "proceduralSigns": 18,
+              "manacondaAds": 7,
+              "tacoBellAds": 7,
+              "maskBillboards": 8,
+              "raisedBillboardPosts": 4,
+              "facadeMountedBillboards": 4,
+              "wet": true
+            },
+            "undercity": {
+              "windows": 160,
+              "buildings": 16,
+              "pipes": 26,
+              "utilityBoxes": 20,
+              "workLights": 24,
+              "serviceBays": 14,
+              "nightshiftAds": 2,
+              "voltlineAds": 2,
+              "wet": true
+            },
+            "fallsExtension": {
+              "windows": 160,
+              "towers": 16,
+              "pylons": 16,
+              "footings": 16,
+              "waterfalls": 24,
+              "mist": 14,
+              "wet": true
+            },
+            "actualCameraShortcutSightline": null,
+            "sponsorArtworkSightline": null,
+            "tunnelKartSightline": {
+              "fraction": 0.5,
+              "rays": [
+                {
+                  "height": 0.15,
+                  "blocker": null,
+                  "camera": [156.84574777189357, -1.35, 52.601570157887586],
+                  "target": [159.09124788807267, -2.75, 57.29174384641842]
+                },
+                {
+                  "height": 0.65,
+                  "blocker": null,
+                  "camera": [156.84574777189357, -1.35, 52.601570157887586],
+                  "target": [159.09124788807267, -2.25, 57.29174384641842]
+                },
+                {
+                  "height": 1.15,
+                  "blocker": null,
+                  "camera": [156.84574777189357, -1.35, 52.601570157887586],
+                  "target": [159.09124788807267, -1.75, 57.29174384641842]
+                }
+              ],
+              "blocked": [],
+              "roadAhead": {
+                "blocker": null,
+                "camera": [156.84574777189357, -1.35, 52.601570157887586],
+                "target": [160.4372675418743, -3.35, 60.103173656203936]
+              }
+            }
+          },
+          "cameraPosition": [156.84574777189357, -1.35, 52.601570157887586],
+          "cameraQuaternion": [
+            0.022471418179427487, 0.9701455446266892, 0.09897404467788068, -0.22026528570360507
+          ],
+          "passFrame": {
+            "stages": {
+              "mainScene": {
+                "status": "measured",
+                "drawCalls": 59,
+                "triangles": 49706,
+                "target": {
+                  "width": 390,
+                  "height": 844,
+                  "pixels": 329160
+                },
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomMask": {
+                "status": "measured",
+                "drawCalls": 60,
+                "triangles": 49802,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "disabled",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomHorizontal": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomVertical": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomComposite": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 390,
+                  "height": 844,
+                  "pixels": 329160
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomFallbackScene": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "motionBlurComposite": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              }
+            },
+            "context": {
+              "cameraFixture": "chase",
+              "cameraPosition": [156.84574777189357, -1.35, 52.601570157887586],
+              "cameraQuaternion": [
+                0.022471418179427487, 0.9701455446266892, 0.09897404467788068, -0.22026528570360507
+              ],
+              "sectorProgress": {
+                "lap": 0,
+                "trackProgress": 0.355,
+                "sectorIndex": 1,
+                "sectorName": "Service Tunnel"
+              },
+              "itemEffectState": {
+                "activeProjectiles": 0,
+                "activeHazards": 0,
+                "playerHeldItem": null,
+                "playerFrostStacks": 0,
+                "playerSpinoutId": null,
+                "activeBoostLabel": null,
+                "nitroOverdriveActive": false,
+                "hyperDriveRocketActive": false
+              }
+            },
+            "reconciliation": {
+              "status": "complete",
+              "wholeFrameDrawCalls": 122,
+              "wholeFrameTriangles": 99511,
+              "attributedDrawCalls": 122,
+              "attributedTriangles": 99511,
+              "unattributedDrawCalls": 0,
+              "unattributedTriangles": 0,
+              "unavailableStages": []
+            }
+          },
+          "cpuRenderCallMs": {
+            "unit": "CPU wall time around window.renderFrame (includes existing scene updates, Bloom and disabled blur); not GPU or whole-frame time",
+            "warmupCalls": 8,
+            "scoredCalls": 30,
+            "medianMs": 5.5,
+            "p95Ms": 11,
+            "maxMs": 12
+          },
+          "screenshot": {
+            "path": "docs/evidence/2026-10-15-neon-grid-task-c1/captures/A-blockout-chase-portrait-390x844.png",
+            "sha256": "dc24bf3a93329220e67a382a5a8d91e9d5e5450f89bed6a50e459fb2aeb68686",
+            "bytes": 34275
+          }
+        },
+        {
+          "view": "rear",
+          "wholeFrame": {
+            "calls": 152,
+            "triangles": 105183,
+            "geometries": 69,
+            "textures": 12,
+            "width": 390,
+            "height": 844,
+            "pixelRatio": 1,
+            "racers": 8,
+            "quality": "medium",
+            "visualVariant": "fog-experiment-task-a",
+            "view": "rear",
+            "skylineVisible": true,
+            "skyline": {
+              "windows": 240,
+              "pylons": 14,
+              "braces": 24,
+              "proceduralSigns": 18,
+              "manacondaAds": 7,
+              "tacoBellAds": 7,
+              "maskBillboards": 8,
+              "raisedBillboardPosts": 4,
+              "facadeMountedBillboards": 4,
+              "wet": true
+            },
+            "undercity": {
+              "windows": 160,
+              "buildings": 16,
+              "pipes": 26,
+              "utilityBoxes": 20,
+              "workLights": 24,
+              "serviceBays": 14,
+              "nightshiftAds": 2,
+              "voltlineAds": 2,
+              "wet": true
+            },
+            "fallsExtension": {
+              "windows": 160,
+              "towers": 16,
+              "pylons": 16,
+              "footings": 16,
+              "waterfalls": 24,
+              "mist": 14,
+              "wet": true
+            },
+            "actualCameraShortcutSightline": null,
+            "sponsorArtworkSightline": null,
+            "tunnelKartSightline": {
+              "fraction": 0.5,
+              "rays": [
+                {
+                  "height": 0.15,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -2.75, 57.29174384641842]
+                },
+                {
+                  "height": 0.65,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -2.25, 57.29174384641842]
+                },
+                {
+                  "height": 1.15,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -1.75, 57.29174384641842]
+                }
+              ],
+              "blocked": [],
+              "roadAhead": {
+                "blocker": null,
+                "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                "target": [157.74522823427108, -3.35, 54.48031403663288]
+              }
+            }
+          },
+          "cameraPosition": [161.37993069838598, -1.35, 62.072113181954016],
+          "cameraQuaternion": [
+            -0.06880689458927663, 0.22085676080614133, 0.015622161415910893, 0.9727506620588311
+          ],
+          "passFrame": {
+            "stages": {
+              "mainScene": {
+                "status": "measured",
+                "drawCalls": 74,
+                "triangles": 52542,
+                "target": {
+                  "width": 390,
+                  "height": 844,
+                  "pixels": 329160
+                },
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomMask": {
+                "status": "measured",
+                "drawCalls": 75,
+                "triangles": 52638,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "disabled",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomHorizontal": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomVertical": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomComposite": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 390,
+                  "height": 844,
+                  "pixels": 329160
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomFallbackScene": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "motionBlurComposite": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              }
+            },
+            "context": {
+              "cameraFixture": "rearView",
+              "cameraPosition": [161.37993069838598, -1.35, 62.072113181954016],
+              "cameraQuaternion": [
+                -0.06880689458927663, 0.22085676080614133, 0.015622161415910893, 0.9727506620588311
+              ],
+              "sectorProgress": {
+                "lap": 0,
+                "trackProgress": 0.355,
+                "sectorIndex": 1,
+                "sectorName": "Service Tunnel"
+              },
+              "itemEffectState": {
+                "activeProjectiles": 0,
+                "activeHazards": 0,
+                "playerHeldItem": null,
+                "playerFrostStacks": 0,
+                "playerSpinoutId": null,
+                "activeBoostLabel": null,
+                "nitroOverdriveActive": false,
+                "hyperDriveRocketActive": false
+              }
+            },
+            "reconciliation": {
+              "status": "complete",
+              "wholeFrameDrawCalls": 152,
+              "wholeFrameTriangles": 105183,
+              "attributedDrawCalls": 152,
+              "attributedTriangles": 105183,
+              "unattributedDrawCalls": 0,
+              "unattributedTriangles": 0,
+              "unavailableStages": []
+            }
+          },
+          "cpuRenderCallMs": {
+            "unit": "CPU wall time around window.renderFrame (includes existing scene updates, Bloom and disabled blur); not GPU or whole-frame time",
+            "warmupCalls": 8,
+            "scoredCalls": 30,
+            "medianMs": 4.700000002980232,
+            "p95Ms": 6.899999998509884,
+            "maxMs": 9.5
+          },
+          "screenshot": {
+            "path": "docs/evidence/2026-10-15-neon-grid-task-c1/captures/A-blockout-rear-portrait-390x844.png",
+            "sha256": "b26c9a1ee717cd2449e1e6bb7e8760b51e2e24f95c33e0791109ee10c8364acb",
+            "bytes": 38088
+          }
+        }
+      ],
+      "glStatus": {
+        "error": 0,
+        "isContextLost": false
+      }
+    },
+    {
+      "viewport": "portrait-390x844",
+      "variant": "B-concrete-wall-007",
+      "metadata": {
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "softwareDetected": true,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "actualDrawingBuffer": {
+          "width": 390,
+          "height": 844
+        },
+        "trackId": "neon-grid",
+        "visualVariant": "fog-experiment-task-a",
+        "materialVariant": "concrete-wall-007-c1",
+        "racerCount": 8,
+        "roster": [
+          {
+            "id": "player",
+            "characterId": "aa-09"
+          },
+          {
+            "id": "ai-1",
+            "characterId": "aa-07"
+          },
+          {
+            "id": "ai-2",
+            "characterId": "aa-12"
+          },
+          {
+            "id": "ai-3",
+            "characterId": "aa-05"
+          },
+          {
+            "id": "ai-4",
+            "characterId": "aa-10"
+          },
+          {
+            "id": "ai-5",
+            "characterId": "aa-03"
+          },
+          {
+            "id": "ai-6",
+            "characterId": "aa-04"
+          },
+          {
+            "id": "ai-7",
+            "characterId": "aa-14"
+          }
+        ],
+        "tunnelFraction": 0.5,
+        "bloom": {
+          "enabled": true,
+          "quality": "medium",
+          "maskWidth": 195,
+          "maskHeight": 422,
+          "fallbackReason": null
+        },
+        "shadows": {
+          "enabled": true,
+          "mapType": 1
+        },
+        "motionBlur": {
+          "enabled": false,
+          "strength": 0,
+          "textureBytes": 0,
+          "fallbackReason": null
+        },
+        "scene": {
+          "leftWallPositionCount": 386,
+          "rightWallPositionCount": 386,
+          "leftWallIndexCount": 1152,
+          "rightWallIndexCount": 1152,
+          "tunnelChildNames": [
+            "service-tunnel-floor",
+            "service-tunnel-left-wall",
+            "service-tunnel-right-wall",
+            "service-tunnel-roof"
+          ],
+          "lights": [
+            {
+              "name": "",
+              "type": "HemisphereLight",
+              "intensity": 2.1,
+              "color": "cbb7ff"
+            },
+            {
+              "name": "",
+              "type": "DirectionalLight",
+              "intensity": 2.4,
+              "color": "ffe8c5"
+            }
+          ],
+          "fog": {
+            "color": "10192b",
+            "near": 180,
+            "far": 650
+          }
+        }
+      },
+      "frames": [
+        {
+          "view": "chase",
+          "wholeFrame": {
+            "calls": 122,
+            "triangles": 99511,
+            "geometries": 57,
+            "textures": 12,
+            "width": 390,
+            "height": 844,
+            "pixelRatio": 1,
+            "racers": 8,
+            "quality": "medium",
+            "visualVariant": "fog-experiment-task-a",
+            "view": "chase",
+            "skylineVisible": true,
+            "skyline": {
+              "windows": 240,
+              "pylons": 14,
+              "braces": 24,
+              "proceduralSigns": 18,
+              "manacondaAds": 7,
+              "tacoBellAds": 7,
+              "maskBillboards": 8,
+              "raisedBillboardPosts": 4,
+              "facadeMountedBillboards": 4,
+              "wet": true
+            },
+            "undercity": {
+              "windows": 160,
+              "buildings": 16,
+              "pipes": 26,
+              "utilityBoxes": 20,
+              "workLights": 24,
+              "serviceBays": 14,
+              "nightshiftAds": 2,
+              "voltlineAds": 2,
+              "wet": true
+            },
+            "fallsExtension": {
+              "windows": 160,
+              "towers": 16,
+              "pylons": 16,
+              "footings": 16,
+              "waterfalls": 24,
+              "mist": 14,
+              "wet": true
+            },
+            "actualCameraShortcutSightline": null,
+            "sponsorArtworkSightline": null,
+            "tunnelKartSightline": {
+              "fraction": 0.5,
+              "rays": [
+                {
+                  "height": 0.15,
+                  "blocker": null,
+                  "camera": [156.84574777189357, -1.35, 52.601570157887586],
+                  "target": [159.09124788807267, -2.75, 57.29174384641842]
+                },
+                {
+                  "height": 0.65,
+                  "blocker": null,
+                  "camera": [156.84574777189357, -1.35, 52.601570157887586],
+                  "target": [159.09124788807267, -2.25, 57.29174384641842]
+                },
+                {
+                  "height": 1.15,
+                  "blocker": null,
+                  "camera": [156.84574777189357, -1.35, 52.601570157887586],
+                  "target": [159.09124788807267, -1.75, 57.29174384641842]
+                }
+              ],
+              "blocked": [],
+              "roadAhead": {
+                "blocker": null,
+                "camera": [156.84574777189357, -1.35, 52.601570157887586],
+                "target": [160.4372675418743, -3.35, 60.103173656203936]
+              }
+            }
+          },
+          "cameraPosition": [156.84574777189357, -1.35, 52.601570157887586],
+          "cameraQuaternion": [
+            0.022471418179427487, 0.9701455446266892, 0.09897404467788068, -0.22026528570360507
+          ],
+          "passFrame": {
+            "stages": {
+              "mainScene": {
+                "status": "measured",
+                "drawCalls": 59,
+                "triangles": 49706,
+                "target": {
+                  "width": 390,
+                  "height": 844,
+                  "pixels": 329160
+                },
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomMask": {
+                "status": "measured",
+                "drawCalls": 60,
+                "triangles": 49802,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "disabled",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomHorizontal": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomVertical": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomComposite": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 390,
+                  "height": 844,
+                  "pixels": 329160
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomFallbackScene": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "motionBlurComposite": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              }
+            },
+            "context": {
+              "cameraFixture": "chase",
+              "cameraPosition": [156.84574777189357, -1.35, 52.601570157887586],
+              "cameraQuaternion": [
+                0.022471418179427487, 0.9701455446266892, 0.09897404467788068, -0.22026528570360507
+              ],
+              "sectorProgress": {
+                "lap": 0,
+                "trackProgress": 0.355,
+                "sectorIndex": 1,
+                "sectorName": "Service Tunnel"
+              },
+              "itemEffectState": {
+                "activeProjectiles": 0,
+                "activeHazards": 0,
+                "playerHeldItem": null,
+                "playerFrostStacks": 0,
+                "playerSpinoutId": null,
+                "activeBoostLabel": null,
+                "nitroOverdriveActive": false,
+                "hyperDriveRocketActive": false
+              }
+            },
+            "reconciliation": {
+              "status": "complete",
+              "wholeFrameDrawCalls": 122,
+              "wholeFrameTriangles": 99511,
+              "attributedDrawCalls": 122,
+              "attributedTriangles": 99511,
+              "unattributedDrawCalls": 0,
+              "unattributedTriangles": 0,
+              "unavailableStages": []
+            }
+          },
+          "cpuRenderCallMs": {
+            "unit": "CPU wall time around window.renderFrame (includes existing scene updates, Bloom and disabled blur); not GPU or whole-frame time",
+            "warmupCalls": 8,
+            "scoredCalls": 30,
+            "medianMs": 4.849999997764826,
+            "p95Ms": 8.799999997019768,
+            "maxMs": 14.5
+          },
+          "screenshot": {
+            "path": "docs/evidence/2026-10-15-neon-grid-task-c1/captures/B-concrete-wall-007-chase-portrait-390x844.png",
+            "sha256": "8fb4cf6ab4600ad9783b5e23ff1bbff7b899b691945a4177d0201ee55d4d5e40",
+            "bytes": 37720
+          }
+        },
+        {
+          "view": "rear",
+          "wholeFrame": {
+            "calls": 152,
+            "triangles": 105183,
+            "geometries": 69,
+            "textures": 15,
+            "width": 390,
+            "height": 844,
+            "pixelRatio": 1,
+            "racers": 8,
+            "quality": "medium",
+            "visualVariant": "fog-experiment-task-a",
+            "view": "rear",
+            "skylineVisible": true,
+            "skyline": {
+              "windows": 240,
+              "pylons": 14,
+              "braces": 24,
+              "proceduralSigns": 18,
+              "manacondaAds": 7,
+              "tacoBellAds": 7,
+              "maskBillboards": 8,
+              "raisedBillboardPosts": 4,
+              "facadeMountedBillboards": 4,
+              "wet": true
+            },
+            "undercity": {
+              "windows": 160,
+              "buildings": 16,
+              "pipes": 26,
+              "utilityBoxes": 20,
+              "workLights": 24,
+              "serviceBays": 14,
+              "nightshiftAds": 2,
+              "voltlineAds": 2,
+              "wet": true
+            },
+            "fallsExtension": {
+              "windows": 160,
+              "towers": 16,
+              "pylons": 16,
+              "footings": 16,
+              "waterfalls": 24,
+              "mist": 14,
+              "wet": true
+            },
+            "actualCameraShortcutSightline": null,
+            "sponsorArtworkSightline": null,
+            "tunnelKartSightline": {
+              "fraction": 0.5,
+              "rays": [
+                {
+                  "height": 0.15,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -2.75, 57.29174384641842]
+                },
+                {
+                  "height": 0.65,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -2.25, 57.29174384641842]
+                },
+                {
+                  "height": 1.15,
+                  "blocker": null,
+                  "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                  "target": [159.09124788807267, -1.75, 57.29174384641842]
+                }
+              ],
+              "blocked": [],
+              "roadAhead": {
+                "blocker": null,
+                "camera": [161.37993069838598, -1.35, 62.072113181954016],
+                "target": [157.74522823427108, -3.35, 54.48031403663288]
+              }
+            }
+          },
+          "cameraPosition": [161.37993069838598, -1.35, 62.072113181954016],
+          "cameraQuaternion": [
+            -0.06880689458927663, 0.22085676080614133, 0.015622161415910893, 0.9727506620588311
+          ],
+          "passFrame": {
+            "stages": {
+              "mainScene": {
+                "status": "measured",
+                "drawCalls": 74,
+                "triangles": 52542,
+                "target": {
+                  "width": 390,
+                  "height": 844,
+                  "pixels": 329160
+                },
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomMask": {
+                "status": "measured",
+                "drawCalls": 75,
+                "triangles": 52638,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "disabled",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomHorizontal": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomVertical": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 195,
+                  "height": 422,
+                  "pixels": 82290
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomComposite": {
+                "status": "measured",
+                "drawCalls": 1,
+                "triangles": 1,
+                "target": {
+                  "width": 390,
+                  "height": 844,
+                  "pixels": 329160
+                },
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "bloomFallbackScene": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "includedWhenUpdated",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              },
+              "motionBlurComposite": {
+                "status": "notRun",
+                "drawCalls": null,
+                "triangles": null,
+                "target": null,
+                "shadowWork": "notApplicable",
+                "framebufferCopies": 0,
+                "copiedPixels": 0,
+                "reason": null
+              }
+            },
+            "context": {
+              "cameraFixture": "rearView",
+              "cameraPosition": [161.37993069838598, -1.35, 62.072113181954016],
+              "cameraQuaternion": [
+                -0.06880689458927663, 0.22085676080614133, 0.015622161415910893, 0.9727506620588311
+              ],
+              "sectorProgress": {
+                "lap": 0,
+                "trackProgress": 0.355,
+                "sectorIndex": 1,
+                "sectorName": "Service Tunnel"
+              },
+              "itemEffectState": {
+                "activeProjectiles": 0,
+                "activeHazards": 0,
+                "playerHeldItem": null,
+                "playerFrostStacks": 0,
+                "playerSpinoutId": null,
+                "activeBoostLabel": null,
+                "nitroOverdriveActive": false,
+                "hyperDriveRocketActive": false
+              }
+            },
+            "reconciliation": {
+              "status": "complete",
+              "wholeFrameDrawCalls": 152,
+              "wholeFrameTriangles": 105183,
+              "attributedDrawCalls": 152,
+              "attributedTriangles": 105183,
+              "unattributedDrawCalls": 0,
+              "unattributedTriangles": 0,
+              "unavailableStages": []
+            }
+          },
+          "cpuRenderCallMs": {
+            "unit": "CPU wall time around window.renderFrame (includes existing scene updates, Bloom and disabled blur); not GPU or whole-frame time",
+            "warmupCalls": 8,
+            "scoredCalls": 30,
+            "medianMs": 8.899999998509884,
+            "p95Ms": 13,
+            "maxMs": 18.5
+          },
+          "screenshot": {
+            "path": "docs/evidence/2026-10-15-neon-grid-task-c1/captures/B-concrete-wall-007-rear-portrait-390x844.png",
+            "sha256": "edd16d0400dc420ce43ae3864d7c1df051c2dce16f6e1a5e17a7405685df688b",
+            "bytes": 42776
+          }
+        }
+      ],
+      "glStatus": {
+        "error": 0,
+        "isContextLost": false
+      }
+    }
+  ],
+  "matchedPairs": [
+    {
+      "viewport": "desktop-1920x1080",
+      "view": "chase",
+      "sameCamera": true,
+      "sameWholeFrameDrawCalls": true,
+      "sameWholeFrameTriangles": true,
+      "sameWallVertexAndIndexCounts": true,
+      "aPassReconciliation": {
+        "status": "complete",
+        "wholeFrameDrawCalls": 120,
+        "wholeFrameTriangles": 99079,
+        "attributedDrawCalls": 120,
+        "attributedTriangles": 99079,
+        "unattributedDrawCalls": 0,
+        "unattributedTriangles": 0,
+        "unavailableStages": []
+      },
+      "bPassReconciliation": {
+        "status": "complete",
+        "wholeFrameDrawCalls": 120,
+        "wholeFrameTriangles": 99079,
+        "attributedDrawCalls": 120,
+        "attributedTriangles": 99079,
+        "unattributedDrawCalls": 0,
+        "unattributedTriangles": 0,
+        "unavailableStages": []
+      },
+      "aScreenshotSha256": "be09693bdf3531d79f7e946f0ca6824bf782046024be40dbf73b0e1468da5077",
+      "bScreenshotSha256": "7b580d10b2e7f1ff379a4865a2754f0cc11eb8c938f57378fba45200590272f8",
+      "imagesDiffer": true
+    },
+    {
+      "viewport": "desktop-1920x1080",
+      "view": "rear",
+      "sameCamera": true,
+      "sameWholeFrameDrawCalls": true,
+      "sameWholeFrameTriangles": true,
+      "sameWallVertexAndIndexCounts": true,
+      "aPassReconciliation": {
+        "status": "complete",
+        "wholeFrameDrawCalls": 376,
+        "wholeFrameTriangles": 382083,
+        "attributedDrawCalls": 376,
+        "attributedTriangles": 382083,
+        "unattributedDrawCalls": 0,
+        "unattributedTriangles": 0,
+        "unavailableStages": []
+      },
+      "bPassReconciliation": {
+        "status": "complete",
+        "wholeFrameDrawCalls": 376,
+        "wholeFrameTriangles": 382083,
+        "attributedDrawCalls": 376,
+        "attributedTriangles": 382083,
+        "unattributedDrawCalls": 0,
+        "unattributedTriangles": 0,
+        "unavailableStages": []
+      },
+      "aScreenshotSha256": "7b7e3e100184189d7c6c5d2663e0a7d67c1656052b0af1f046cf46da790c4bc0",
+      "bScreenshotSha256": "48d8da8912f6347a1baab5ff15d6a4a44cd014ddd83b4a2837c235bc9428e2c6",
+      "imagesDiffer": true
+    },
+    {
+      "viewport": "portrait-390x844",
+      "view": "chase",
+      "sameCamera": true,
+      "sameWholeFrameDrawCalls": true,
+      "sameWholeFrameTriangles": true,
+      "sameWallVertexAndIndexCounts": true,
+      "aPassReconciliation": {
+        "status": "complete",
+        "wholeFrameDrawCalls": 122,
+        "wholeFrameTriangles": 99511,
+        "attributedDrawCalls": 122,
+        "attributedTriangles": 99511,
+        "unattributedDrawCalls": 0,
+        "unattributedTriangles": 0,
+        "unavailableStages": []
+      },
+      "bPassReconciliation": {
+        "status": "complete",
+        "wholeFrameDrawCalls": 122,
+        "wholeFrameTriangles": 99511,
+        "attributedDrawCalls": 122,
+        "attributedTriangles": 99511,
+        "unattributedDrawCalls": 0,
+        "unattributedTriangles": 0,
+        "unavailableStages": []
+      },
+      "aScreenshotSha256": "dc24bf3a93329220e67a382a5a8d91e9d5e5450f89bed6a50e459fb2aeb68686",
+      "bScreenshotSha256": "8fb4cf6ab4600ad9783b5e23ff1bbff7b899b691945a4177d0201ee55d4d5e40",
+      "imagesDiffer": true
+    },
+    {
+      "viewport": "portrait-390x844",
+      "view": "rear",
+      "sameCamera": true,
+      "sameWholeFrameDrawCalls": true,
+      "sameWholeFrameTriangles": true,
+      "sameWallVertexAndIndexCounts": true,
+      "aPassReconciliation": {
+        "status": "complete",
+        "wholeFrameDrawCalls": 152,
+        "wholeFrameTriangles": 105183,
+        "attributedDrawCalls": 152,
+        "attributedTriangles": 105183,
+        "unattributedDrawCalls": 0,
+        "unattributedTriangles": 0,
+        "unavailableStages": []
+      },
+      "bPassReconciliation": {
+        "status": "complete",
+        "wholeFrameDrawCalls": 152,
+        "wholeFrameTriangles": 105183,
+        "attributedDrawCalls": 152,
+        "attributedTriangles": 105183,
+        "unattributedDrawCalls": 0,
+        "unattributedTriangles": 0,
+        "unavailableStages": []
+      },
+      "aScreenshotSha256": "b26c9a1ee717cd2449e1e6bb7e8760b51e2e24f95c33e0791109ee10c8364acb",
+      "bScreenshotSha256": "edd16d0400dc420ce43ae3864d7c1df051c2dce16f6e1a5e17a7405685df688b",
+      "imagesDiffer": true
+    }
+  ],
+  "closeups": [
+    {
+      "cameraPosition": [157.19713928310122, -2.95, 58.19858043179263],
+      "lookAt": [156.9741412445743, -2.95, 60.280121391627965],
+      "screenshot": {
+        "path": "docs/evidence/2026-10-15-neon-grid-task-c1/captures/B-concrete-wall-007-closeup-desktop.png",
+        "sha256": "4269a76eb01061b439db070841dc4d372aa37c92b3783867459e690803dfbf6c",
+        "bytes": 1149585
+      }
+    }
+  ],
+  "limitations": [
+    "GPU time, actual hardware texture residency, and physical-device FPS are not measured.",
+    "CPU timings cover existing scene update plus Bloom and disabled motion-blur render calls and are not whole-frame or GPU timing.",
+    "A/B screenshots intentionally differ on the selected Service Tunnel wall material; their camera and scene geometry fixtures are matched.",
+    "This staged single-position capture does not certify all sectors, all track conditions, or G-05."
+  ]
+}

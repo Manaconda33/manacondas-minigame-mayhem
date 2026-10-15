@@ -1013,9 +1013,13 @@ it('keeps legacy spherical indicators exclusive to charged active drifting, not 
 });
 
 it('runs the selected Neon route with eight unique bodies and retains earned gates on recovery', async () => {
-  const { game, tick, advance } = await setup('', 'neon-grid');
+  const { game, tick, advance } = await setup(
+    '?testRacePerf=1&neonGridVisual=neon-grid-task-a-001&neonGridMaterial=service-tunnel-concrete-001',
+    'neon-grid',
+  );
   const runtime = game as unknown as {
     track: { id: string; samples: THREE.Vector3[] };
+    trackScene: THREE.Group;
     opponents: { id: string; controller: { isFinite: () => boolean } }[];
     kart: { isFinite: () => boolean };
     lapTracker: {
@@ -1030,6 +1034,19 @@ it('runs the selected Neon route with eight unique bodies and retains earned gat
   expect(runtime.opponents).toHaveLength(7);
   expect(new Set(runtime.opponents.map((r) => r.id)).size).toBe(7);
   expect(runtime.minimapTrack).toBeTruthy();
+  const leftWall = runtime.trackScene.getObjectByName('service-tunnel-left-wall') as THREE.Mesh;
+  const rightWall = runtime.trackScene.getObjectByName('service-tunnel-right-wall') as THREE.Mesh;
+  const material = leftWall.material as THREE.MeshStandardMaterial;
+  expect(leftWall.material).toBe(rightWall.material);
+  expect(material.name).toBe('service-tunnel-concrete-wall-007-c1');
+  expect(material.map?.name).toBe('service-tunnel-concrete-wall-007-diffuse-1k');
+  expect(material.normalMap?.name).toBe('service-tunnel-concrete-wall-007-normal-gl-1k');
+  expect(material.roughnessMap?.name).toBe('service-tunnel-concrete-wall-007-roughness-1k');
+  expect(game.exportPerformanceCapture(metadata)?.metadata.rendering).toMatchObject({
+    trackId: 'neon-grid',
+    visualVariant: 'fog-experiment-task-a',
+    materialVariant: 'concrete-wall-007-c1',
+  });
   advance.mockRestore();
   for (let i = 0; i < 300; i++) tick(1000 / 60);
   expect(runtime.kart.isFinite()).toBe(true);

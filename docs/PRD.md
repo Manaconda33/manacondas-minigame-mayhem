@@ -560,7 +560,7 @@ Scene budgets:
 
 - Visible triangles: target \<= 750,000
 
-- Draw calls: target \<= 250
+- Global race-scene draw calls: hard cap \<= 500 (approved amendment 2.26).
 
 - Shadow-casting dynamic objects: \<= 12
 
@@ -2901,7 +2901,7 @@ Baseline: latest Chrome, latest Edge, latest Firefox, and current desktop Safari
 
 ☐ GPU target \<=12 ms where measurable.
 
-☐ Draw calls target \<=250.
+☐ Global race-scene draw calls \<=500 (approved amendment 2.26).
 
 ☐ Visible triangles target \<=750k.
 
@@ -3132,3 +3132,19 @@ Manny approved adding Archer as AA-13 Precision Speedster, a new thirteenth prof
 ## Approved roster extension — Lunarcrystal, 2026-10-02
 
 Manny approved Lunarcrystal as new AA-14 Lunar Navigator, Medium class, Speed 6 / Acceleration 7 / Weight 4 / Handling 8 / Mini-Turbo 5 / Traction 6 (36 points). The fourteen-driver roster retains AA-01–13 assignments; page one remains the original twelve, page two adds Lunarcrystal beside Archer. Selection/page restoration behavior and eight unique racers remain unchanged. The Moonlit Carriage name and supplied-reference celestial concept are approved. All fourteen 2D images are approved and staged in asset-only PR #237 at `9a46bda1cd1c3fcfb1514bd9e5e8c8b10b5d441b`; hosted CI `37010681712` passed. Kart candidate geometry, actual cockpit mounting, runtime integration, deployed visual acceptance and production publication remain separately gated.
+
+## Rendering amendments 2.26–2.28 — source-approved history reconciled from the Neon Grid development PRD
+
+These owner-approved amendments are transcribed from the development PRD at PR #242 head 6919729ba5e12f48305f543dca153f4ba9c5ae19. This documentation reconciliation adds no approval. Amendment 2.28 supersedes the 350,000 Task 9 engineering triangle target stated in amendment 2.26; the 750,000 global visible-triangle cap remains unchanged.
+
+## Approved implementation amendment 2.26 - Global race-scene draw-call ceiling
+
+Approved October 9, 2026. Manny directs the PRD hard draw-call cap to increase from 250 to **500 calls for every race scene**, including Neon Grid and Circuit Alpha. This supersedes the draw-call value in PRD §2.6 and earlier 250-call hard-cap references. The forward-looking Task 9 draw-call engineering target is also **500 calls**. This is a draw-call-only adjustment: the PRD visible-triangle cap remains **750,000**, the forward-looking Task 9 visible-triangle engineering target remains **350,000**, and all G-05 hardware requirements remain unchanged (Medium 1920×1080, median ≥60 FPS, p95 ≤18.3 ms, and no sustained sequence of three frames over 50 ms). Historical measurements retain the limits in force when collected. This amendment changes no visual, gameplay, physics, AI, audio, camera, shortcut, or production-release approval, and it does not certify hardware performance.
+
+## Approved implementation amendment 2.27 - T9.7 sector A/B draw-call ceilings
+
+Approved October 9, 2026. For the active T9.7 sector A/B render gates, amend the incremental draw-call ceilings to **Skyline +36**, **Undercity +30**, and **Falls Run extension +28**. These values cover the observed additional cost of the current sector visuals and selective-bloom mask pass while retaining the existing full-scene ceilings. Historical evidence and records keep the thresholds in force when those measurements were taken; future T9.7 sector-gate evidence uses the amended values. The global **500-call** scene cap, Task 9 **350,000** visible-triangle engineering limit, PRD **750,000** visible-triangle cap, and G-05 hardware FPS/frame-time requirements remain unchanged. This amendment does not change shared `RaceBloom` behavior, certify performance, or grant visual acceptance, preview publication, PR #242 merge, or production-release approval.
+
+## Approved implementation amendment 2.28 - Task 9 engineering triangle ceiling
+
+Approved October 9, 2026. Manny approved a **425,000 visible-triangle ceiling for forward-looking Task 9 engineering gates**, superseding the prior 350,000 internal limit. The PRD hard visible-triangle cap remains **750,000** for all race scenes, and the global 500-call cap and G-05 representative-hardware FPS/frame-time requirements remain unchanged. Historical evidence retains the ceiling in force when collected; active Task 9 analyzers and render gates use 425,000. This budget update is not hardware certification, visual acceptance, preview publication, PR #242 merge approval, or production-release approval.

@@ -174,7 +174,8 @@ jobs:
       (github.event_name == 'push' && github.ref == 'refs/heads/main'))
     needs: preview-plan
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Task A adds full pinned-runtime validation; historical build rows retain 15 minutes.
+    timeout-minutes: ${{ matrix.id == 'neon-grid-task-a-001' && 30 || 15 }}
     strategy:
       fail-fast: false
       max-parallel: 8
@@ -335,6 +336,13 @@ jobs:
             marker_type: feature
             marker_name: 'Neon Grid Abyss Fog V3.2 geometry-termination review'
             status: 'Stage 1 visual review only; T9.7 remains default; owner acceptance pending; no Stage 2 or production gameplay release'
+          - id: neon-grid-task-a-001
+            embed_source: true
+            sha: 692e9424c2cbf15decbb467b230c02c2e10452a0
+            base: /manacondas-minigame-mayhem/previews/neon-grid-task-a-001/
+            marker_type: feature
+            marker_name: 'Neon Grid Task A sponsor visibility review'
+            status: 'Task A owner visual/playability review only; T9.7 and V3.2 preserved; no Task B/C/D or production gameplay release'
 
     steps:
       - name: Report documentation-only preview-build skip
@@ -388,6 +396,15 @@ jobs:
         if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true' && steps.preview-deps.outputs.cache-hit != 'true'
         working-directory: preview-src
         run: npm ci
+
+      - name: Validate exact pinned Task A review runtime
+        if: matrix.id == 'neon-grid-task-a-001' && (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true'
+        working-directory: preview-src
+        run: |
+          npm run lint
+          npm run test:ci -- --maxWorkers=1 --testTimeout=15000
+          node tools/verify-task9-skyline-assets.mjs
+          node tools/verify-task9-undercity-assets.mjs
 
       - name: Build pinned preview without source marker
         if: (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true') && steps.preview-cache.outputs.cache-hit != 'true' && matrix.embed_source == false
@@ -761,6 +778,12 @@ jobs:
           path: preview-output/neon-grid-abyss-fog-004
           key: preview-dist-v1-neon-grid-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
+      - name: Restore source-pinned Task A sponsor-visibility preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-task-a-001
+          key: preview-dist-v1-neon-grid-task-a-001-692e9424c2cbf15decbb467b230c02c2e10452a0-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
         run: |
@@ -931,6 +954,15 @@ jobs:
           done
           echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-abyss-fog-004/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
 
+          mkdir -p site-root/previews/neon-grid-task-a-001
+          cp -a preview-output/neon-grid-task-a-001/. site-root/previews/neon-grid-task-a-001/
+          test -f site-root/previews/neon-grid-task-a-001/index.html
+          test -f site-root/previews/neon-grid-task-a-001/review-build.json
+          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
+            test -f "site-root/previews/neon-grid-task-a-001/assets/track/neon-grid/signage/$art"
+          done
+          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-task-a-001/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -1035,6 +1067,8 @@ jobs:
           paths += [abyss_v2/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
           abyss_v32 = root/'previews/neon-grid-abyss-fog-004'
           paths += [item for item in sorted(abyss_v32.rglob('*')) if item.is_file()]
+          task_a = root/'previews/neon-grid-task-a-001'
+          paths += [item for item in sorted(task_a.rglob('*')) if item.is_file()]
           paths = [path for path in paths if path.name != '.gitkeep']
           report = []
           for path in paths:
@@ -1042,7 +1076,7 @@ jobs:
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/')):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/')):
                   verify_published_file(url, relative, sha)
               report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))
           Path('delivery-expected.json').write_text(json.dumps(report, indent=2))
@@ -1157,6 +1191,7 @@ jobs:
 
           report = json.load(open('delivery-expected.json'))
           expected_sources = [
+              ('previews/neon-grid-task-a-001/', '692e9424c2cbf15decbb467b230c02c2e10452a0'),
               ('previews/neon-grid-abyss-fog-004/', '25ea008b15852d593681f5b3b2a17b467a193472'),
               ('previews/neon-grid-abyss-fog-002/', '7d087f19dfd86bca36b500280309d9c86b4af77d'),
               ('previews/neon-grid-abyss-fog-001/', 'b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65'),
@@ -1183,7 +1218,7 @@ jobs:
               for attempt in range(12):
                   try:
                       request = urllib.request.Request(
-                          item['url'] + '?delivery=neon-grid-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472',
+                          item['url'] + '?delivery=neon-grid-task-a-001-692e9424c2cbf15decbb467b230c02c2e10452a0',
                           headers={'Cache-Control': 'no-cache'},
                       )
                       with urllib.request.urlopen(request, timeout=45) as response:
@@ -1196,6 +1231,8 @@ jobs:
                               assert marker['source'] == expected_source
                               if item['path'].startswith('previews/neon-grid-abyss-fog-004/'):
                                   assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/'
+                              if item['path'].startswith('previews/neon-grid-task-a-001/'):
+                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/'
                           item['httpStatus'] = response.status
                           return item
                   except Exception as error:

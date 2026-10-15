@@ -1,6 +1,6 @@
 # Task A — Recover existing sponsor visibility
 
-Status: **PARTIAL overall — implementation/local validation complete; publication, hosted validation and owner review pending.** No owner visual acceptance or preview publication is claimed.
+Status: **Published for owner review; hosted delivery verification passed. Current-session live playable smoke and owner visual/playability acceptance remain pending.**
 
 ## Provenance and diagnosis
 
@@ -142,3 +142,8 @@ PR306 merged at [`4e7607368e0dbea04ee8c76435fa9977bb63ff6a`](https://github.com/
 Live-site verification is additionally **BLOCKED by destination policy**: proxy CONNECT to `manaconda33.github.io` returns403, and the selected worker network policy omits both that host and `api.github.com`. This is not an origin HTTP404, not proof that deployment failed, and not independent proof that GitHub API credentials are invalid. Existing Git HTTPS/public github.com access remains functional. A supported configuration draft adding exactly these two custom destinations is saved and requires user review/save/publish; no bypass, secret change or broadened wildcard is used. Saving the draft does not apply the network change.
 
 Prepared [live-byte runner](live-byte-verification-runner.txt) will verify410 real public files against the validated pinned build, with the workflow's exact JSON marker metadata; `.gitkeep` remains excluded. [Live browser runner](live-playable-smoke-runner.txt) preserves the inherited proxy and will exercise actual desktop/portrait race entry, acceleration and rear view. These runners have not executed against the live site. After network access and Pages completion, finish hashes, production/earlier-preview preservation evidence and real browser controls before claiming a working verified preview. Publication approval is already granted; appearance/playability remains Manny's decision.
+
+
+## Final published preview verification — 2026-10-14 America/Chicago
+
+PR #306 is merged and main Pages run 38660334001 completed successfully. Hosted delivery artifacts confirm all 410 Task A files and the source/base marker match the prepared preview, every expected route returned HTTP 200, and the production root plus earlier immutable previews passed preservation checks. Current-session desktop/mobile live playable smoke is blocked: the configured proxy refuses connections, and Chromium exits before navigation with a Crashpad permission error. Full evidence and limitations are recorded in [live-verification-2026-10-15.md](live-verification-2026-10-15.md). Owner visual/playability acceptance remains pending.

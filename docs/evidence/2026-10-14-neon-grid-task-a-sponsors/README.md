@@ -1,6 +1,6 @@
 # Task A — Recover existing sponsor visibility
 
-Status: **Published for owner review; hosted delivery verification passed. Current-session live playable smoke and owner visual/playability acceptance remain pending.**
+Status: **Published; hosted delivery verification passed; owner approval received. Current-session live browser smoke and physical-device testing remain unverified.**
 
 ## Provenance and diagnosis
 
@@ -131,7 +131,7 @@ Local publication validation passed105 files/834 main tests,32 CI regressions, t
 
 ## PR #306 hosted checkpoint — 2026-10-14 America/Chicago
 
-Manny created [publication PR #306](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/306), targeting main at exact publication head5cd90add7c23cf7c06ec2f077a5668672d312d96. [Hosted run38658365026](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38658365026) is **in progress**. Independently observed public checks: required `validate` PASS1m48s, preview-plan PASS17s, spillway-render PASS39s. The new pinned Task A preview job116173539711 and full workflow have not completed at this checkpoint. Main remains54f422a and no live Task A URL is claimed. This supersedes the earlier PR-creation blocker; API merge access remains Forbidden. Wait for all applicable checks, then perform the already-authorized workflow-only publication merge; afterwards verify live source/base marker, complete delivery hashes and desktop/portrait controls. Owner visual/playability acceptance remains pending.
+Manny created [publication PR #306](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/306), targeting main at exact publication head5cd90add7c23cf7c06ec2f077a5668672d312d96. [Hosted run38658365026](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38658365026) is **in progress**. Independently observed public checks: required `validate` PASS1m48s, preview-plan PASS17s, spillway-render PASS39s. The new pinned Task A preview job116173539711 and full workflow have not completed at this checkpoint. Main remains54f422a and no live Task A URL is claimed. This supersedes the earlier PR-creation blocker; API merge access remains Forbidden. Wait for all applicable checks, then perform the already-authorized workflow-only publication merge; afterwards verify live source/base marker, complete delivery hashes and desktop/portrait controls. Owner approval was received after the preview link was shared; automated viewport smoke and physical-device behavior remain unverified.
 
 ## Authorized merge and network-verification checkpoint — 2026-10-14 America/Chicago
 
@@ -147,3 +147,8 @@ Prepared [live-byte runner](live-byte-verification-runner.txt) will verify410 re
 ## Final published preview verification — 2026-10-14 America/Chicago
 
 PR #306 is merged and main Pages run 38660334001 completed successfully. Hosted delivery artifacts confirm all 410 Task A files and the source/base marker match the prepared preview, every expected route returned HTTP 200, and the production root plus earlier immutable previews passed preservation checks. Current-session desktop/mobile live playable smoke is blocked: the configured proxy refuses connections, and Chromium exits before navigation with a Crashpad permission error. Full evidence and limitations are recorded in [live-verification-2026-10-15.md](live-verification-2026-10-15.md). Owner visual/playability acceptance remains pending.
+
+
+## Owner approval — 2026-10-14 America/Chicago
+
+After the published review link was shared, the owner replied **“Approved.”** This is recorded as acceptance of the Task A review preview. The session's desktop/mobile browser smoke remains blocked before navigation; no physical-device test is recorded. See [live-verification-2026-10-15.md](live-verification-2026-10-15.md).

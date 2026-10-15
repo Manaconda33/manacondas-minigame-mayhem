@@ -1,6 +1,6 @@
 # Published Task A preview verification — 2026-10-14 America/Chicago
 
-Status: **Published; hosted live-delivery checks passed. Current-session desktop/mobile playable smoke and owner visual/playability acceptance remain pending.**
+Status: **Published; hosted live-delivery checks passed. Owner approval was subsequently received; current-session live browser smoke and physical-device testing remain unverified.**
 
 ## Publication and hosted run
 
@@ -31,6 +31,11 @@ These are hosted Actions live-fetch results. They do not come from a successful 
 
 ## Outcome and remaining gates
 
-The published review link is [Neon Grid Task A sponsor-visibility preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/?neonGridVisual=neon-grid-task-a-001). Hosted delivery, pinned marker, file hashes, production root, and earlier preview records are verified through the completed Pages workflow and its artifacts. This session did not independently navigate the page or verify playable controls because its proxy was unreachable and Chromium could not start. Do not treat the preview as fully playable-verified yet. Owner visual/playability acceptance remains pending.
+The published review link is [Neon Grid Task A sponsor-visibility preview](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/?neonGridVisual=neon-grid-task-a-001). Hosted delivery, pinned marker, file hashes, production root, and earlier preview records are verified through the completed Pages workflow and its artifacts. This session did not independently navigate the page or verify playable controls because its proxy was unreachable and Chromium could not start. Do not treat the preview as fully playable-verified yet. Owner approval was subsequently received after the review link was shared; no current-session automated viewport smoke or physical-device test is implied by that approval.
 
 No runtime/gameplay files were changed in this verification update.
+
+
+## Owner approval — 2026-10-14 America/Chicago
+
+After the published review link was shared, the owner replied: **“Approved.”** This is recorded as acceptance of the Task A review preview. The live desktop/mobile Playwright run in this session remains blocked before navigation, and no physical-device test is recorded. This approval does not authorize a production gameplay release or Task B/C/D work.

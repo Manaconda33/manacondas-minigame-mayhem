@@ -1,0 +1,26 @@
+from pathlib import Path
+import json,hashlib,urllib.request,urllib.error,time,concurrent.futures
+base='https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/'
+root=Path('/tmp/task-a-preview-dist');expected=json.loads(Path('/tmp/neon-grid-task-a/docs/evidence/2026-10-14-neon-grid-task-a-sponsors/prepared-preview-hashes.json').read_text())
+marker={'feature':'Neon Grid Task A sponsor visibility review','source':'692e9424c2cbf15decbb467b230c02c2e10452a0','base':'/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/','status':'Task A owner visual/playability review only; T9.7 and V3.2 preserved; no Task B/C/D or production gameplay release'}
+# Workflow JSON.stringify marker deliberately differs from local preparation metadata.
+expected['review-build.json']=hashlib.sha256(json.dumps(marker,indent=2).encode()).hexdigest()
+expected={path:digest for path,digest in expected.items() if Path(path).name!='.gitkeep'}
+def fetch(path):
+ for attempt in range(3):
+  try:
+   request=urllib.request.Request(base+path+'?verify=task-a-692e942',headers={'Cache-Control':'no-cache','User-Agent':'codex-task-a-byte-verification'})
+   with urllib.request.urlopen(request,timeout=45) as response:
+    data=response.read();status=response.status
+   assert status==200,path
+   digest=hashlib.sha256(data).hexdigest();assert digest==expected[path],f'Byte mismatch: {path}'
+   return {'path':path,'http':status,'bytes':len(data),'sha256':digest}
+  except urllib.error.HTTPError as error:
+   if error.code not in [429,500,502,503,504] or attempt==2:raise
+   time.sleep(2**attempt)
+first=fetch('review-build.json')
+with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
+ verified=list(pool.map(fetch,[p for p in expected if p!='review-build.json']))
+report={'source':marker['source'],'base':base,'verified':[first,*verified],'file_count':len(verified)+1,'bytes':sum(x['bytes'] for x in [first,*verified]),'physical_device':False}
+Path('/tmp/task-a-live-byte-verification.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps({'files':report['file_count'],'bytes':report['bytes'],'source':report['source'],'all_hashes_match':True}))

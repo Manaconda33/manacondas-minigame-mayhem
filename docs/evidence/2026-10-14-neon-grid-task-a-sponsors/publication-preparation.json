@@ -40,14 +40,28 @@
   "new_candidate_hosted_validation": "full serial Task A coverage on initial build; new matrix row 30-minute job limit; old rows retain15; test timeout15000 unchanged",
   "existing_preview_pins_permissions_required_checks_and_trust_policy": "preserved",
   "prepared_preview_bytes": 210637669,
-  "hosted_ci": "IN PROGRESS; required validate PASS1m48s, preview-plan PASS17s, spillway PASS39s; complete pinned/preview jobs pending",
+  "hosted_ci": "PR complete PASS; main38660334001 IN PROGRESS, validate PASS1m42s; assembly/deploy not yet complete",
   "pr_creation": "Owner created PR306; exact head5cd90add7c23cf7c06ec2f077a5668672d312d96 confirmed via public PR page",
-  "live_publication": "NOT COMPLETE; main remains54f422a; no Pages deployment started",
-  "next_action": "Require all applicable PR306 checks green, then owner performs authorized workflow-only merge because GitHub API remains Forbidden; verify Pages/live-byte/control evidence afterwards",
+  "live_publication": "NOT VERIFIED; public Pages request rejected by environment CONNECT proxy HTTP403 before origin access",
+  "next_action": "Apply saved network additions in environment settings and publish environment configuration; after main Pages completion run410-file hash verification and real desktop/portrait startup/controls smoke. Owner visual acceptance remains pending.",
   "pages_artifact_size": "latest known ~4.03GiB deferred concern; new build200.879MiB uncompressed; no artifact redesign",
   "no_new_owner_publication_approval_required": "authorization already granted; visual/playability approval remains pending",
   "pr_number": 306,
   "pr_url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/306",
   "hosted_run_id": 38658365026,
-  "hosted_run_url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38658365026"
+  "hosted_run_url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38658365026",
+  "merge_commit": "4e7607368e0dbea04ee8c76435fa9977bb63ff6a",
+  "merged_time_utc": "2026-10-15T00:29:40Z",
+  "publication_pr_ci": "PASS; run38658365026,19m33s, exact head5cd90ad",
+  "main_publication_run": 38660334001,
+  "trusted_producer_run": 38660334010,
+  "network_diagnosis": {
+    "current_policy": "restricted package-manager preset, no custom user hosts",
+    "missing_domains": [
+      "manaconda33.github.io",
+      "api.github.com"
+    ],
+    "draft_status": "saved, requires user review/save/publish; not applied",
+    "authentication": "GitHub API authentication not independently verified because destination policy denies access; do not infer credential validity from proxy403"
+  }
 }

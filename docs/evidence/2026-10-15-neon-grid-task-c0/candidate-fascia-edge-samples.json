@@ -1,0 +1,693 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+  "capturedAt": "2026-10-15T14:47:21.631Z",
+  "environment": {
+    "browser": "Headless Chromium launched with software WebGL/SwiftShader in the managed Codex environment.",
+    "viewportSampling": "36x20 uniform camera-ray grid over the CSS viewport; candidate intersections counted at any depth and separately when the first scene hit. This is a projected-area and occlusion proxy, not pixel segmentation.",
+    "measurement": "No objects, materials, geometry, camera, fog, renderer settings, gameplay state or source runtime were changed by the capture."
+  },
+  "errors": [],
+  "fixtures": [
+    {
+      "fixtureId": "skyline-p060-desktop",
+      "sourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+      "visualVariant": "fog-experiment-task-a",
+      "viewportCss": [
+        1280,
+        720
+      ],
+      "drawingBuffer": [
+        1920,
+        1080
+      ],
+      "dpr": 1.5,
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+      "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "quality": "medium",
+      "racerCount": 8,
+      "cameraPosition": [
+        81.608,
+        18.25,
+        -125.999
+      ],
+      "cameraQuaternion": [
+        -0.09577,
+        -0.70789,
+        -0.09784,
+        0.69292
+      ],
+      "routeProgress": 0.06,
+      "tunnelFraction": null,
+      "fog": {
+        "type": "linear",
+        "near": 180,
+        "far": 650,
+        "density": null
+      },
+      "candidateGeometry": {
+        "neon-grid-wall--1": {
+          "type": "Mesh",
+          "geometryPositions": 3106,
+          "triangleCount": 2934,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "neon-grid-wall-1": {
+          "type": "Mesh",
+          "geometryPositions": 3090,
+          "triangleCount": 3008,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "skyline-deck-fascia": {
+          "type": "Mesh",
+          "geometryPositions": 9920,
+          "triangleCount": 3108,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": true,
+          "collisionFlag": false,
+          "geometryRanges": {
+            "outerFascia": {
+              "startTriangle": 0,
+              "triangleCount": 288
+            },
+            "roadsideScreens": {
+              "startTriangle": 288,
+              "triangleCount": 2472
+            },
+            "billboardGapWing": {
+              "startTriangle": 2760,
+              "triangleCount": 348
+            },
+            "cityGround": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            },
+            "cityFoundations": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            }
+          }
+        },
+        "service-tunnel-left-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "service-tunnel-right-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "undercity-facade-vent-banks": {
+          "type": "Mesh",
+          "geometryPositions": 96,
+          "triangleCount": 48,
+          "hasUv": true,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 16,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        }
+      },
+      "sampleGrid": {
+        "columns": 36,
+        "rows": 20,
+        "totalRays": 720
+      },
+      "candidateVisibility": {
+        "roadwayWallRibbon": {
+          "targetGridRays": 88,
+          "targetFirstHitRays": 77,
+          "occludedTargetRays": 11,
+          "viewportGridFraction": 0.1222,
+          "firstVisibleGridFraction": 0.1069,
+          "occludedFraction": 0.125,
+          "targetRayDistanceMeters": {
+            "min": 8.47,
+            "median": 10.15,
+            "p90": 18.96,
+            "max": 155.99
+          },
+          "firstOccluders": {
+            "ManacondaDriverSprite": 1,
+            "skyline-ad-taco-bell-live-mas": 1,
+            "skyline-cyan-edges": 4,
+            "skyline-asphalt-base": 5
+          },
+          "instancesHit": 0
+        },
+        "skylineOuterFascia": {
+          "targetGridRays": 213,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 213,
+          "viewportGridFraction": 0.2958,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": 1,
+          "targetRayDistanceMeters": {
+            "min": 9.13,
+            "median": 14.76,
+            "p90": 73.11,
+            "max": 169.57
+          },
+          "firstOccluders": {
+            "ManacondaDriverSprite": 8,
+            "skyline-deck-fascia": 8,
+            "skyline-ad-manaconda-racing": 1,
+            "skyline-ad-taco-bell-live-mas": 8,
+            "skyline-cyan-edges": 4,
+            "Mesh": 102,
+            "skyline-asphalt-base": 69,
+            "batched-static-kart-parts": 4,
+            "neon-grid-wall-1": 5,
+            "neon-grid-wall--1": 4
+          },
+          "instancesHit": 0
+        },
+        "serviceTunnelSidewalls": {
+          "targetGridRays": 0,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 0,
+          "viewportGridFraction": 0,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": null,
+          "targetRayDistanceMeters": {
+            "min": null,
+            "median": null,
+            "p90": null,
+            "max": null
+          },
+          "firstOccluders": {},
+          "instancesHit": 0
+        },
+        "ventBankControl": {
+          "targetGridRays": 0,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 0,
+          "viewportGridFraction": 0,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": null,
+          "targetRayDistanceMeters": {
+            "min": null,
+            "median": null,
+            "p90": null,
+            "max": null
+          },
+          "firstOccluders": {},
+          "instancesHit": 0
+        }
+      },
+      "wholeFrameCounters": {
+        "drawCalls": 192,
+        "submittedTriangles": 112903
+      },
+      "screenshot": {
+        "filename": "skyline-p060-desktop.png",
+        "bytes": 695370,
+        "sha256": "3c4eba00eef77db00b7558c869fe484d28b871dabfcf523958b0a845290e2a37"
+      }
+    },
+    {
+      "fixtureId": "skyline-p230-desktop",
+      "sourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+      "visualVariant": "fog-experiment-task-a",
+      "viewportCss": [
+        1280,
+        720
+      ],
+      "drawingBuffer": [
+        1920,
+        1080
+      ],
+      "dpr": 1.5,
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+      "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "quality": "medium",
+      "racerCount": 8,
+      "cameraPosition": [
+        168.512,
+        6.719,
+        14.274
+      ],
+      "cameraQuaternion": [
+        -0.07554,
+        0.82617,
+        0.11419,
+        0.54653
+      ],
+      "routeProgress": 0.23,
+      "tunnelFraction": null,
+      "fog": {
+        "type": "linear",
+        "near": 180,
+        "far": 650,
+        "density": null
+      },
+      "candidateGeometry": {
+        "neon-grid-wall--1": {
+          "type": "Mesh",
+          "geometryPositions": 3106,
+          "triangleCount": 2934,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "neon-grid-wall-1": {
+          "type": "Mesh",
+          "geometryPositions": 3090,
+          "triangleCount": 3008,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "skyline-deck-fascia": {
+          "type": "Mesh",
+          "geometryPositions": 9920,
+          "triangleCount": 3108,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": true,
+          "collisionFlag": false,
+          "geometryRanges": {
+            "outerFascia": {
+              "startTriangle": 0,
+              "triangleCount": 288
+            },
+            "roadsideScreens": {
+              "startTriangle": 288,
+              "triangleCount": 2472
+            },
+            "billboardGapWing": {
+              "startTriangle": 2760,
+              "triangleCount": 348
+            },
+            "cityGround": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            },
+            "cityFoundations": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            }
+          }
+        },
+        "service-tunnel-left-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "service-tunnel-right-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "undercity-facade-vent-banks": {
+          "type": "Mesh",
+          "geometryPositions": 96,
+          "triangleCount": 48,
+          "hasUv": true,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 16,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        }
+      },
+      "sampleGrid": {
+        "columns": 36,
+        "rows": 20,
+        "totalRays": 720
+      },
+      "candidateVisibility": {
+        "roadwayWallRibbon": {
+          "targetGridRays": 129,
+          "targetFirstHitRays": 66,
+          "occludedTargetRays": 63,
+          "viewportGridFraction": 0.1792,
+          "firstVisibleGridFraction": 0.0917,
+          "occludedFraction": 0.4884,
+          "targetRayDistanceMeters": {
+            "min": 8.47,
+            "median": 13.67,
+            "p90": 62.78,
+            "max": 334.83
+          },
+          "firstOccluders": {
+            "falls-run-wall-cladding": 1,
+            "skyline-deck-fascia": 32,
+            "undercity-wallside-sightline-screens": 9,
+            "undercity-service-bays": 1,
+            "undercity-asphalt-base": 3,
+            "ManacondaDriverSprite": 3,
+            "batched-static-kart-parts": 1,
+            "skyline-cyan-edges": 4,
+            "skyline-asphalt-base": 2,
+            "AccentMesh_1": 7
+          },
+          "instancesHit": 0
+        },
+        "skylineOuterFascia": {
+          "targetGridRays": 78,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 78,
+          "viewportGridFraction": 0.1083,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": 1,
+          "targetRayDistanceMeters": {
+            "min": 9.04,
+            "median": 10.97,
+            "p90": 17.99,
+            "max": 28.82
+          },
+          "firstOccluders": {
+            "skyline-asphalt-base": 69,
+            "skyline-cyan-edges": 1,
+            "neon-grid-wall--1": 3,
+            "neon-grid-wall-1": 2,
+            "batched-static-kart-parts": 3
+          },
+          "instancesHit": 0
+        },
+        "serviceTunnelSidewalls": {
+          "targetGridRays": 48,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 48,
+          "viewportGridFraction": 0.0667,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": 1,
+          "targetRayDistanceMeters": {
+            "min": 24.41,
+            "median": 30.72,
+            "p90": 35.78,
+            "max": 43.67
+          },
+          "firstOccluders": {
+            "undercity-wallside-sightline-screens": 7,
+            "ManacondaDriverSprite": 6,
+            "skyline-deck-fascia": 25,
+            "neon-grid-wall-1": 9,
+            "batched-static-kart-parts": 1
+          },
+          "instancesHit": 0
+        },
+        "ventBankControl": {
+          "targetGridRays": 2,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 2,
+          "viewportGridFraction": 0.0028,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": 1,
+          "targetRayDistanceMeters": {
+            "min": 43.46,
+            "median": 43.46,
+            "p90": 43.46,
+            "max": 54.1
+          },
+          "firstOccluders": {
+            "skyline-deck-fascia": 2
+          },
+          "instancesHit": 2
+        }
+      },
+      "wholeFrameCounters": {
+        "drawCalls": 312,
+        "submittedTriangles": 170571
+      },
+      "screenshot": {
+        "filename": "skyline-p230-desktop.png",
+        "bytes": 398220,
+        "sha256": "939c3ee7f8dfa60326a2569f4da587190212356ede6ef06b343aae98c790a356"
+      }
+    },
+    {
+      "fixtureId": "skyline-p060-portrait",
+      "sourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+      "visualVariant": "fog-experiment-task-a",
+      "viewportCss": [
+        390,
+        844
+      ],
+      "drawingBuffer": [
+        390,
+        844
+      ],
+      "dpr": 1,
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+      "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "quality": "medium",
+      "racerCount": 8,
+      "cameraPosition": [
+        82.007,
+        17.75,
+        -125.991
+      ],
+      "cameraQuaternion": [
+        -0.10776,
+        -0.70609,
+        -0.11009,
+        0.69116
+      ],
+      "routeProgress": 0.06,
+      "tunnelFraction": null,
+      "fog": {
+        "type": "linear",
+        "near": 180,
+        "far": 650,
+        "density": null
+      },
+      "candidateGeometry": {
+        "neon-grid-wall--1": {
+          "type": "Mesh",
+          "geometryPositions": 3106,
+          "triangleCount": 2934,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "neon-grid-wall-1": {
+          "type": "Mesh",
+          "geometryPositions": 3090,
+          "triangleCount": 3008,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "skyline-deck-fascia": {
+          "type": "Mesh",
+          "geometryPositions": 9920,
+          "triangleCount": 3108,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": true,
+          "collisionFlag": false,
+          "geometryRanges": {
+            "outerFascia": {
+              "startTriangle": 0,
+              "triangleCount": 288
+            },
+            "roadsideScreens": {
+              "startTriangle": 288,
+              "triangleCount": 2472
+            },
+            "billboardGapWing": {
+              "startTriangle": 2760,
+              "triangleCount": 348
+            },
+            "cityGround": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            },
+            "cityFoundations": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            }
+          }
+        },
+        "service-tunnel-left-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "service-tunnel-right-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "undercity-facade-vent-banks": {
+          "type": "Mesh",
+          "geometryPositions": 96,
+          "triangleCount": 48,
+          "hasUv": true,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 16,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        }
+      },
+      "sampleGrid": {
+        "columns": 36,
+        "rows": 20,
+        "totalRays": 720
+      },
+      "candidateVisibility": {
+        "roadwayWallRibbon": {
+          "targetGridRays": 29,
+          "targetFirstHitRays": 14,
+          "occludedTargetRays": 15,
+          "viewportGridFraction": 0.0403,
+          "firstVisibleGridFraction": 0.0194,
+          "occludedFraction": 0.5172,
+          "targetRayDistanceMeters": {
+            "min": 22.13,
+            "median": 34.92,
+            "p90": 82.41,
+            "max": 86.97
+          },
+          "firstOccluders": {
+            "Mesh": 1,
+            "ManacondaDriverSprite": 11,
+            "skyline-deck-fascia": 1,
+            "skyline-cyan-edges": 1,
+            "skyline-asphalt-base": 1
+          },
+          "instancesHit": 0
+        },
+        "skylineOuterFascia": {
+          "targetGridRays": 135,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 135,
+          "viewportGridFraction": 0.1875,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": 1,
+          "targetRayDistanceMeters": {
+            "min": 22.95,
+            "median": 39.2,
+            "p90": 98.45,
+            "max": 108.85
+          },
+          "firstOccluders": {
+            "ManacondaDriverSprite": 38,
+            "skyline-deck-fascia": 4,
+            "skyline-ad-manaconda-racing": 5,
+            "Mesh": 22,
+            "skyline-asphalt-base": 30,
+            "neon-grid-wall--1": 7,
+            "skyline-cyan-edges": 1,
+            "batched-static-kart-parts": 25,
+            "Chassis_1": 3
+          },
+          "instancesHit": 0
+        },
+        "serviceTunnelSidewalls": {
+          "targetGridRays": 0,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 0,
+          "viewportGridFraction": 0,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": null,
+          "targetRayDistanceMeters": {
+            "min": null,
+            "median": null,
+            "p90": null,
+            "max": null
+          },
+          "firstOccluders": {},
+          "instancesHit": 0
+        },
+        "ventBankControl": {
+          "targetGridRays": 0,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 0,
+          "viewportGridFraction": 0,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": null,
+          "targetRayDistanceMeters": {
+            "min": null,
+            "median": null,
+            "p90": null,
+            "max": null
+          },
+          "firstOccluders": {},
+          "instancesHit": 0
+        }
+      },
+      "wholeFrameCounters": {
+        "drawCalls": 178,
+        "submittedTriangles": 108227
+      },
+      "screenshot": {
+        "filename": "skyline-p060-portrait.png",
+        "bytes": 113320,
+        "sha256": "e7a97fcff335d4d995b6d6282d979283d311e4e9b1d603166d413d851ff8c0d2"
+      }
+    }
+  ],
+  "limitations": [
+    "Ray-grid fractions are sampling proxies and do not measure exact screen pixels or time-in-view while driving.",
+    "SwiftShader confirms only source/render-path observability; it is not representative-device performance evidence.",
+    "A ray hit is geometric visibility and does not quantify contrast, material readability, or driver attention."
+  ]
+}

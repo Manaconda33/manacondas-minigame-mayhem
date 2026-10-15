@@ -13,6 +13,39 @@
     "vertexColorConstraint": "Retain the existing per-vertex housing/slat color difference because the base-color map multiplies those colors.",
     "metallicMap": "Optional only if a controlled A/B shows clear visible benefit."
   },
+  "c0_1Review": {
+    "status": "Recommendation only; owner approval required before changing the selected target or starting C1.",
+    "documentationBaseCommit": "015ab45ad1c1162b7db5bd0d2671091893ba98d8",
+    "runtimeSourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+    "productionMainAtReview": "e8cb78f1f9c678d08d84ab30cb8585f99e70c800",
+    "priorOwnerSelectionRetained": "undercity-facade-vent-banks / NG-C-PNT-001 Scratched Painted Metal 01",
+    "recommendedCandidate": {
+      "meshNames": ["service-tunnel-left-wall", "service-tunnel-right-wall"],
+      "materialId": "NG-C-CON-001",
+      "status": "proposed alternate only; not owner-selected",
+      "rationale": "The desktop chase ray-grid observed 26.7–39.7% first-hit samples through the tunnel, with two existing wall meshes and no predicted additional draw calls if they share one material."
+    },
+    "reports": [
+      "candidate-visibility.json",
+      "candidate-fascia-edge-samples.json",
+      "candidate-vent-control-ray-grid.json"
+    ],
+    "measurementDefinition": "36x20 uniform camera-ray grid; any-depth target intersection estimates projected occupancy and nearest scene hit estimates visible area. This is a proxy, not pixel segmentation or time-in-view.",
+    "environment": "Chromium 151, SwiftShader software WebGL; 8 racers, Medium quality; desktop CSS 1280x720 at DPR 1.5 / buffer 1920x1080 and portrait CSS/buffer 390x844 at DPR 1. No physical-device test.",
+    "browserErrors": [],
+    "polyHavenApiAttempt": {
+      "endpoint": "https://api.polyhaven.com/files/concrete_wall_007",
+      "requestedAt": "2026-10-15",
+      "userAgent": "Manaconda33 Neon Grid C0.1 material metadata review (public repository)",
+      "proxyResult": "CONNECT rejected with HTTP 403; curl reported HTTP status 000 before a TLS session reached the publisher; response body empty.",
+      "tlsVerification": "Enabled. The TLS handshake did not begin, so no publisher certificate or API response was verified.",
+      "publisherFacts": "The existing C0 product/license-page review records CC0, 1K/2K/4K/8K options, diffuse, OpenGL normal and roughness. This C0.1 attempt did not refresh those pages or confirm API file variants.",
+      "downloadedBytes": false,
+      "verifiedFileHashes": false,
+      "alternateRouteUsed": false
+    },
+    "c1Readiness": "Not ready: target change and C1 need separate owner approval; official API/package filenames, formats, dimensions, and hashes remain unverified."
+  },
   "visibilityEvidence": {
     "report": "vent-chase-visibility.json",
     "screenshot": "undercity-chase-desktop-1920x1080.png",
@@ -93,7 +126,7 @@
       "sourceUrl": "https://polyhaven.com/a/concrete_wall_007",
       "license": "CC0",
       "licenseUrl": "https://polyhaven.com/license",
-      "licenseVerification": "Poly Haven license and product pages reviewed 2026-10-15.",
+      "licenseVerification": "Existing C0 product/license-page review dated 2026-10-15 records CC0; C0.1 could not reach the official API for a fresh metadata check.",
       "creditedContributors": [
         { "name": "Charlotte Baglioni", "role": "Photography" },
         { "name": "Dario Barresi", "role": "Processing" },
@@ -103,8 +136,9 @@
         "physicalWidth": "2.2 m",
         "resolutionOptionsListed": ["1K", "2K", "4K", "8K"]
       },
-      "role": "Roadside concrete; deferred until UV/batching review and owner confirmation.",
+      "role": "Candidate concrete source for future owner-approved roadway/tunnel review; C0.1 recommends Service Tunnel sidewalls but does not supersede the vent-bank selection.",
       "candidateMaps": ["diffuse", "normal GL", "roughness"],
+      "apiMetadataAttempt": "C0.1 request with identifying User-Agent was blocked by the configured proxy at CONNECT (403); exact downloadable file variants and hashes were not returned.",
       "excludedMapsForPrototypeUnlessJustified": [
         "displacement",
         "AO/roughness/metal packed map",

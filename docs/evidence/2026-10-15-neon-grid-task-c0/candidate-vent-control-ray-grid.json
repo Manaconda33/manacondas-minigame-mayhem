@@ -1,0 +1,458 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+  "capturedAt": "2026-10-15T14:44:24.616Z",
+  "environment": {
+    "browser": "Headless Chromium launched with software WebGL/SwiftShader in the managed Codex environment.",
+    "viewportSampling": "36x20 uniform camera-ray grid over the CSS viewport; candidate intersections counted at any depth and separately when the first scene hit. This is a projected-area and occlusion proxy, not pixel segmentation.",
+    "measurement": "No objects, materials, geometry, camera, fog, renderer settings, gameplay state or source runtime were changed by the capture."
+  },
+  "errors": [],
+  "fixtures": [
+    {
+      "fixtureId": "undercity-p355-desktop",
+      "sourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+      "visualVariant": "fog-experiment-task-a",
+      "viewportCss": [
+        1280,
+        720
+      ],
+      "drawingBuffer": [
+        1920,
+        1080
+      ],
+      "dpr": 1.5,
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+      "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "quality": "medium",
+      "racerCount": 8,
+      "cameraPosition": [
+        167.514,
+        4.25,
+        67.233
+      ],
+      "cameraQuaternion": [
+        -0.08542,
+        0.77415,
+        0.107,
+        0.61802
+      ],
+      "routeProgress": 0.355,
+      "tunnelFraction": null,
+      "fog": {
+        "type": "linear",
+        "near": 180,
+        "far": 650,
+        "density": null
+      },
+      "candidateGeometry": {
+        "neon-grid-wall--1": {
+          "type": "Mesh",
+          "geometryPositions": 3106,
+          "triangleCount": 2934,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "neon-grid-wall-1": {
+          "type": "Mesh",
+          "geometryPositions": 3090,
+          "triangleCount": 3008,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "skyline-deck-fascia": {
+          "type": "Mesh",
+          "geometryPositions": 9920,
+          "triangleCount": 3108,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": true,
+          "collisionFlag": false,
+          "geometryRanges": {
+            "outerFascia": {
+              "startTriangle": 0,
+              "triangleCount": 288
+            },
+            "roadsideScreens": {
+              "startTriangle": 288,
+              "triangleCount": 2472
+            },
+            "billboardGapWing": {
+              "startTriangle": 2760,
+              "triangleCount": 348
+            },
+            "cityGround": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            },
+            "cityFoundations": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            }
+          }
+        },
+        "service-tunnel-left-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "service-tunnel-right-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "undercity-facade-vent-banks": {
+          "type": "Mesh",
+          "geometryPositions": 96,
+          "triangleCount": 48,
+          "hasUv": true,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 16,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        }
+      },
+      "sampleGrid": {
+        "columns": 36,
+        "rows": 20,
+        "totalRays": 720
+      },
+      "candidateVisibility": {
+        "roadwayWallRibbon": {
+          "targetGridRays": 150,
+          "targetFirstHitRays": 102,
+          "occludedTargetRays": 48,
+          "viewportGridFraction": 0.2083,
+          "firstVisibleGridFraction": 0.1417,
+          "occludedFraction": 0.32,
+          "targetRayDistanceMeters": {
+            "min": 6.37,
+            "median": 9.55,
+            "p90": 58.94,
+            "max": 317.26
+          },
+          "firstOccluders": {
+            "undercity-ad-supports": 1,
+            "undercity-industrial-architecture": 1,
+            "undercity-wallside-sightline-screens": 26,
+            "undercity-service-bays": 3,
+            "ManacondaDriverSprite": 7,
+            "undercity-asphalt-base": 6,
+            "batched-static-kart-parts": 1,
+            "undercity-magenta-edges": 3
+          },
+          "instancesHit": 0
+        },
+        "skylineOuterFascia": {
+          "targetGridRays": 0,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 0,
+          "viewportGridFraction": 0,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": null,
+          "targetRayDistanceMeters": {
+            "min": null,
+            "median": null,
+            "p90": null,
+            "max": null
+          },
+          "firstOccluders": {},
+          "instancesHit": 0
+        },
+        "serviceTunnelSidewalls": {
+          "targetGridRays": 110,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 110,
+          "viewportGridFraction": 0.1528,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": 1,
+          "targetRayDistanceMeters": {
+            "min": 8.39,
+            "median": 9.91,
+            "p90": 14.33,
+            "max": 16.66
+          },
+          "firstOccluders": {
+            "service-tunnel-roof": 4,
+            "undercity-asphalt-base": 79,
+            "neon-grid-wall--1": 17,
+            "neon-grid-wall-1": 9,
+            "undercity-magenta-edges": 1
+          },
+          "instancesHit": 0
+        },
+        "ventBankControl": {
+          "targetGridRays": 2,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 2,
+          "viewportGridFraction": 0.0028,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": 1,
+          "targetRayDistanceMeters": {
+            "min": 48.55,
+            "median": 48.55,
+            "p90": 48.55,
+            "max": 79.32
+          },
+          "firstOccluders": {
+            "undercity-wallside-sightline-screens": 2
+          },
+          "instancesHit": 2
+        }
+      },
+      "wholeFrameCounters": {
+        "drawCalls": 298,
+        "submittedTriangles": 137219
+      },
+      "screenshot": {
+        "filename": "undercity-p355-desktop.png",
+        "bytes": 551644,
+        "sha256": "e7a49b7bdc8a5501aa52b185f04474f08b6d2d469b002ca44729944d4c6b17f6"
+      }
+    },
+    {
+      "fixtureId": "undercity-p355-portrait",
+      "sourceCommit": "e52fef8169233e5c612f8683e8074423c8cf1c07",
+      "visualVariant": "fog-experiment-task-a",
+      "viewportCss": [
+        390,
+        844
+      ],
+      "drawingBuffer": [
+        390,
+        844
+      ],
+      "dpr": 1,
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+      "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "quality": "medium",
+      "racerCount": 8,
+      "cameraPosition": [
+        167.124,
+        3.75,
+        67.322
+      ],
+      "cameraQuaternion": [
+        -0.09611,
+        0.77218,
+        0.12039,
+        0.61644
+      ],
+      "routeProgress": 0.355,
+      "tunnelFraction": null,
+      "fog": {
+        "type": "linear",
+        "near": 180,
+        "far": 650,
+        "density": null
+      },
+      "candidateGeometry": {
+        "neon-grid-wall--1": {
+          "type": "Mesh",
+          "geometryPositions": 3106,
+          "triangleCount": 2934,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "neon-grid-wall-1": {
+          "type": "Mesh",
+          "geometryPositions": 3090,
+          "triangleCount": 3008,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "skyline-deck-fascia": {
+          "type": "Mesh",
+          "geometryPositions": 9920,
+          "triangleCount": 3108,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": true,
+          "collisionFlag": false,
+          "geometryRanges": {
+            "outerFascia": {
+              "startTriangle": 0,
+              "triangleCount": 288
+            },
+            "roadsideScreens": {
+              "startTriangle": 288,
+              "triangleCount": 2472
+            },
+            "billboardGapWing": {
+              "startTriangle": 2760,
+              "triangleCount": 348
+            },
+            "cityGround": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            },
+            "cityFoundations": {
+              "startTriangle": 3108,
+              "triangleCount": 0
+            }
+          }
+        },
+        "service-tunnel-left-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "service-tunnel-right-wall": {
+          "type": "Mesh",
+          "geometryPositions": 386,
+          "triangleCount": 384,
+          "hasUv": false,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 1,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        },
+        "undercity-facade-vent-banks": {
+          "type": "Mesh",
+          "geometryPositions": 96,
+          "triangleCount": 48,
+          "hasUv": true,
+          "materialType": "MeshStandardMaterial",
+          "drawObjectCount": 16,
+          "presentationOnly": null,
+          "collisionFlag": null,
+          "geometryRanges": null
+        }
+      },
+      "sampleGrid": {
+        "columns": 36,
+        "rows": 20,
+        "totalRays": 720
+      },
+      "candidateVisibility": {
+        "roadwayWallRibbon": {
+          "targetGridRays": 75,
+          "targetFirstHitRays": 20,
+          "occludedTargetRays": 55,
+          "viewportGridFraction": 0.1042,
+          "firstVisibleGridFraction": 0.0278,
+          "occludedFraction": 0.7333,
+          "targetRayDistanceMeters": {
+            "min": 13.27,
+            "median": 54.42,
+            "p90": 66.64,
+            "max": 318.45
+          },
+          "firstOccluders": {
+            "falls-run-wall-cladding": 3,
+            "undercity-service-bays": 7,
+            "undercity-wallside-sightline-screens": 3,
+            "ManacondaDriverSprite": 36,
+            "batched-static-kart-parts": 5,
+            "Chassis_1": 1
+          },
+          "instancesHit": 0
+        },
+        "skylineOuterFascia": {
+          "targetGridRays": 0,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 0,
+          "viewportGridFraction": 0,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": null,
+          "targetRayDistanceMeters": {
+            "min": null,
+            "median": null,
+            "p90": null,
+            "max": null
+          },
+          "firstOccluders": {},
+          "instancesHit": 0
+        },
+        "serviceTunnelSidewalls": {
+          "targetGridRays": 152,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 152,
+          "viewportGridFraction": 0.2111,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": 1,
+          "targetRayDistanceMeters": {
+            "min": 7.76,
+            "median": 8.66,
+            "p90": 9.55,
+            "max": 10.33
+          },
+          "firstOccluders": {
+            "undercity-asphalt-base": 152
+          },
+          "instancesHit": 0
+        },
+        "ventBankControl": {
+          "targetGridRays": 1,
+          "targetFirstHitRays": 0,
+          "occludedTargetRays": 1,
+          "viewportGridFraction": 0.0014,
+          "firstVisibleGridFraction": 0,
+          "occludedFraction": 1,
+          "targetRayDistanceMeters": {
+            "min": 90.1,
+            "median": 90.1,
+            "p90": 90.1,
+            "max": 90.1
+          },
+          "firstOccluders": {
+            "ManacondaDriverSprite": 1
+          },
+          "instancesHit": 1
+        }
+      },
+      "wholeFrameCounters": {
+        "drawCalls": 148,
+        "submittedTriangles": 104167
+      },
+      "screenshot": {
+        "filename": "undercity-p355-portrait.png",
+        "bytes": 120422,
+        "sha256": "c17baa755f0ac0c2e71daa963a8f1330da77cbb68dc97b413392c6c5ca5638da"
+      }
+    }
+  ],
+  "limitations": [
+    "Ray-grid fractions are sampling proxies and do not measure exact screen pixels or time-in-view while driving.",
+    "SwiftShader confirms only source/render-path observability; it is not representative-device performance evidence.",
+    "A ray hit is geometric visibility and does not quantify contrast, material readability, or driver attention."
+  ]
+}

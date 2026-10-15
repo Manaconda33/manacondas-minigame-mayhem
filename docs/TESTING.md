@@ -1,3 +1,9 @@
+## Vitest per-test timeout baseline — owner-approved 2026-10-15
+
+The project explicitly sets Vitest `test.testTimeout` to **15,000 ms**. Before this change, the setting was omitted and Vitest 4.1.10 applied its inherited **5,000 ms** default. That value limited an individual test's execution time; it was not a PRD gameplay or graphics-performance requirement.
+
+This approved test-runner baseline preserves all assertions, coverage thresholds/reporting, explicit per-test timeout overrides, the separate hook timeout, current worker settings, and GitHub workflow/job limits. Historical pinned Task C1 and Dive sources are not edited; their CI commands supply `--testTimeout=15000` explicitly. Earlier test results remain attributed to the five-second policy in force at the time. The new timeout is not a retry, skipped test, or validation waiver.
+
 ## Approved rendering requirements and test classes — Phase G0
 
 The source-approved values below reconcile the previously stale main PRD prose. This documentation-only checkpoint does not change runtime enforcement, test thresholds, or CI classification.

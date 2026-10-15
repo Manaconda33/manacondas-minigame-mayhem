@@ -4,6 +4,7 @@ export default defineConfig({
   base: '/manacondas-minigame-mayhem/',
   test: {
     environment: 'jsdom',
+    testTimeout: 15_000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json-summary'],

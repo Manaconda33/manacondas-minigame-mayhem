@@ -483,10 +483,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Check out exact Task C1 source with Git LFS assets
+      - name: Check out test-corrected Task C1 source with Git LFS assets
         uses: actions/checkout@v5
         with:
-          ref: e500f68c658edb5dcd45b4149e4c7f32f2a14dce
+          ref: b39f8d07bf661318674ed267ce779c2167c0adaa
+          fetch-depth: 2
           path: task-c1-src
           lfs: true
 
@@ -504,7 +505,25 @@ jobs:
       - name: Verify exact source, LFS objects, and material hashes
         working-directory: task-c1-src
         run: |
-          test "$(git rev-parse HEAD)" = e500f68c658edb5dcd45b4149e4c7f32f2a14dce
+          test "$(git rev-parse HEAD)" = b39f8d07bf661318674ed267ce779c2167c0adaa
+          test "$(git rev-parse HEAD^)" = e500f68c658edb5dcd45b4149e4c7f32f2a14dce
+          python - <<'PY'
+          import subprocess
+
+          expected = {
+              'tests/race-diagnostics-routing.test.ts',
+              'docs/IMPLEMENTATION-STATUS.md',
+              'docs/TESTING.md',
+              'docs/evidence/2026-10-15-neon-grid-task-c1/README.md',
+          }
+          changed = set(subprocess.check_output(
+              ['git', 'diff', '--name-only', 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce', 'HEAD'],
+              text=True,
+          ).splitlines())
+          if changed != expected:
+              raise SystemExit(f'Unexpected files in test-only Task C1 follow-up: {sorted(changed)}')
+          print('Task C1 runtime/assets/build configuration are unchanged from e500f68.')
+          PY
           git lfs fsck
           echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  public/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
           echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  public/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
@@ -512,7 +531,12 @@ jobs:
 
       - name: Run standard pinned-source validation
         working-directory: task-c1-src
-        run: npm run validate
+        run: |
+          npm run typecheck
+          npm run lint
+          # Keep V8 coverage and the existing 5s test limit; serialize scene-heavy fixtures to avoid worker contention.
+          npm run test:ci -- --maxWorkers=1
+          npm run build
 
       - name: Build source-pinned preview and verify delivered texture hashes
         working-directory: task-c1-src
@@ -665,7 +689,11 @@ jobs:
               npm run build -- --base "$PREVIEW_BASE"
               ;;
             dive)
-              npm run validate
+              # Preserve the full checks and 5s test limit while serializing the scene-heavy coverage suite.
+              npm run typecheck
+              npm run lint
+              npm run test:ci -- --maxWorkers=1
+              npm run build
               npm run build -- --base "$PREVIEW_BASE"
               ;;
             far300)

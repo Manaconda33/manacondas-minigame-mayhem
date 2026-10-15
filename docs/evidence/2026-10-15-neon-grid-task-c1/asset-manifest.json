@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "task": "Neon Grid Task C1 Service Tunnel concrete material prototype",
+  "materialId": "NG-C-CON-001",
+  "title": "Concrete Wall 007",
+  "publisher": "Poly Haven",
+  "sourceUrl": "https://polyhaven.com/a/concrete_wall_007",
+  "license": "CC0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "sourceReview": {
+    "checkpoint": "48d4b474cf8c9ce590a7623c8e83b44ac0914ef8",
+    "recordedFacts": "The C0/C0.1 source review records CC0, a reported 2.2 m source width, and 1K/2K/4K/8K options. The owner supplied these files under the official 1K Concrete Wall 007 filenames via the shared Drive folder.",
+    "independentDownloadVerification": "The official API request https://api.polyhaven.com/files/concrete_wall_007 returned HTTP 403 through the configured network proxy on 2026-10-15. No alternate route or TLS bypass was used; publisher-provided archive hashes and download metadata remain unverified.",
+    "contributorCredits": [
+      { "name": "Charlotte Baglioni", "role": "Photography" },
+      { "name": "Dario Barresi", "role": "Processing" },
+      { "name": "Rico Cilliers", "role": "Tiling" }
+    ]
+  },
+  "acquisition": {
+    "receivedAt": "2026-10-15",
+    "method": "Owner-provided Google Drive folder; bytes downloaded directly by the workspace connector.",
+    "sourceArchiveName": null,
+    "sourceArchiveSha256": null,
+    "conversion": "None. Files were copied byte-for-byte from the owner-provided files; no map was resampled, recompressed, or color-channel transformed.",
+    "textureScaleMeters": {
+      "u": 2.2,
+      "v": 2.2,
+      "basis": "U follows the 2.2 m width recorded by the C0 source-page review. V uses the same scale for the square 1K map as a prototype assumption; source height was not independently retrieved."
+    }
+  },
+  "maps": [
+    {
+      "role": "baseColor",
+      "sourceFilename": "concrete_wall_007_diff_1k.png",
+      "runtimePath": "public/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png",
+      "bytes": 5481344,
+      "dimensions": "1024x1024",
+      "bitDepth": 16,
+      "channels": "RGB",
+      "sha256": "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a",
+      "runtimeColorSpace": "sRGB"
+    },
+    {
+      "role": "normal",
+      "sourceFilename": "concrete_wall_007_nor_gl_1k.png",
+      "runtimePath": "public/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png",
+      "bytes": 5638679,
+      "dimensions": "1024x1024",
+      "bitDepth": 16,
+      "channels": "RGBA",
+      "orientation": "OpenGL, per the owner-supplied filename",
+      "sha256": "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e",
+      "runtimeColorSpace": "linear / NoColorSpace"
+    },
+    {
+      "role": "roughness",
+      "sourceFilename": "concrete_wall_007_rough_1k.png",
+      "runtimePath": "public/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png",
+      "bytes": 2465263,
+      "dimensions": "1024x1024",
+      "bitDepth": 16,
+      "channels": "RGB",
+      "sha256": "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac",
+      "runtimeColorSpace": "linear / NoColorSpace"
+    }
+  ],
+  "excludedMaps": ["metallic", "ambient occlusion", "height", "displacement"],
+  "notes": [
+    "The normal orientation is described by the supplied nor_gl filename; the bytes were not altered.",
+    "No metallic map is used in this prototype.",
+    "SHA-256 values identify the exact received and runtime files, not a separately verified publisher archive."
+  ]
+}

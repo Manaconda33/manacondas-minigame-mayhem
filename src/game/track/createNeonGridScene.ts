@@ -16,6 +16,11 @@ import { NeonGridFogCityVisual } from './NeonGridFogCity';
 import { addNeonGridAbyssFogV2 } from './NeonGridAbyssFogV2';
 import { addNeonGridAbyssFogV3 } from './NeonGridAbyssFogV3';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
+import {
+  addServiceTunnelWallUvs,
+  createPendingServiceTunnelConcreteMaterial,
+  type ServiceTunnelMaterialVariant,
+} from './ServiceTunnelConcreteMaterial';
 
 export class NeonGridScene extends THREE.Group {
   public readonly billboard: NeonGridBillboardVisual;
@@ -33,8 +38,8 @@ export class NeonGridScene extends THREE.Group {
     super();
     this.userData.visualVariant = variant;
     const recoverSponsors = variant === 'fog-experiment-task-a';
-    const compositionVariant = variant === 'fog-experiment-v3-2' || recoverSponsors
-      ? 'fog-experiment-v3' : variant;
+    const compositionVariant =
+      variant === 'fog-experiment-v3-2' || recoverSponsors ? 'fog-experiment-v3' : variant;
     if (variant === 'fog-experiment') {
       const fogCity = new NeonGridFogCityVisual(track, quality);
       this.add(fogCity.group);
@@ -61,9 +66,11 @@ export function createNeonGridScene(
   track: NeonGrid,
   quality: GraphicsQuality = 'medium',
   variant: NeonGridVisualVariant = 'approved',
+  materialVariant: ServiceTunnelMaterialVariant = 'blockout',
 ): NeonGridScene {
   const group = new NeonGridScene(track, quality, variant);
   group.name = 'neon-grid-blockout';
+  group.userData.serviceTunnelMaterialVariant = materialVariant;
   const materials = [0x236b7c, 0x733059, 0x78602d].map(
     (color) => new THREE.MeshStandardMaterial({ color, roughness: 0.8, side: THREE.DoubleSide }),
   );
@@ -91,8 +98,17 @@ export function createNeonGridScene(
     roughness: 0.8,
     side: THREE.DoubleSide,
   });
+  const concreteMaterial =
+    materialVariant === 'concrete-wall-007-c1'
+      ? createPendingServiceTunnelConcreteMaterial()
+      : null;
   for (const kind of ['floor', 'left-wall', 'right-wall', 'roof'] as const) {
-    const mesh = new THREE.Mesh(serviceTunnelGeometry(track.serviceTunnel, kind), tunnelMaterial);
+    const geometry = serviceTunnelGeometry(track.serviceTunnel, kind);
+    if (concreteMaterial !== null && kind.endsWith('wall'))
+      addServiceTunnelWallUvs(geometry, track.serviceTunnel, kind === 'left-wall' ? -1 : 1);
+    const material =
+      concreteMaterial !== null && kind.endsWith('wall') ? concreteMaterial : tunnelMaterial;
+    const mesh = new THREE.Mesh(geometry, material);
     mesh.name = `service-tunnel-${kind}`;
     mesh.receiveShadow = true;
     tunnelGroup.add(mesh);

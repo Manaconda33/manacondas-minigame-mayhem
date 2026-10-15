@@ -82,6 +82,11 @@ import {
   neonGridVisualVariantFromSearch,
 } from './track/trackCatalog';
 import { NeonGridScene } from './track/createNeonGridScene';
+import {
+  loadServiceTunnelConcreteWallMaterial,
+  serviceTunnelMaterialVariantFromSearch,
+  type ServiceTunnelMaterialVariant,
+} from './track/ServiceTunnelConcreteMaterial';
 import { disposeTrackScene } from './track/TrackSceneResources';
 import {
   GUARDRAIL_KART_RADIUS_METERS,
@@ -258,6 +263,7 @@ export class KartTimeTrial {
   private readonly camera: THREE.PerspectiveCamera;
   private readonly track: ReturnType<typeof createTrack>;
   private readonly trackScene: THREE.Group;
+  private readonly serviceTunnelMaterialVariant: ServiceTunnelMaterialVariant;
   private readonly slickGround: SlickGroundSurface;
   private readonly trackLength: number;
   private readonly minimapTrack: ReturnType<typeof normalizeMinimapTrack>;
@@ -413,6 +419,9 @@ export class KartTimeTrial {
           game.trackScene.skyline.load(),
           game.trackScene.undercity.load(),
           game.trackScene.tunnelWarnings.load(),
+          game.serviceTunnelMaterialVariant === 'concrete-wall-007-c1'
+            ? loadServiceTunnelConcreteWallMaterial(game.trackScene)
+            : Promise.resolve(),
         ]);
       await game.createKartVisual();
     } catch (error) {
@@ -432,10 +441,15 @@ export class KartTimeTrial {
 
   private constructor(private readonly options: TimeTrialOptions) {
     this.track = createTrack(this.options.trackId ?? 'circuit-alpha');
+    this.serviceTunnelMaterialVariant =
+      this.track.id === 'neon-grid'
+        ? serviceTunnelMaterialVariantFromSearch(window.location.search)
+        : 'blockout';
     this.trackScene = createSelectedTrackScene(
       this.track,
       this.options.graphicsQuality,
       neonGridVisualVariantFromSearch(window.location.search),
+      this.serviceTunnelMaterialVariant,
     );
     this.slickGround = new SlickGroundSurface(this.trackScene, this.track.id === 'neon-grid');
     this.trackLength = this.track.curve.getLength();
@@ -609,6 +623,7 @@ export class KartTimeTrial {
           this.track.id === 'neon-grid'
             ? neonGridVisualVariantFromSearch(window.location.search)
             : null,
+        materialVariant: this.track.id === 'neon-grid' ? this.serviceTunnelMaterialVariant : null,
         actualDrawingBuffer: { width: counters.width, height: counters.height },
         devicePixelRatio:
           Number.isFinite(window.devicePixelRatio) && window.devicePixelRatio > 0

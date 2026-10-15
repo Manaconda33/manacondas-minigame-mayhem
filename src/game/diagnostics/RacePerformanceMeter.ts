@@ -81,6 +81,7 @@ function unavailableRenderingMetadata(metadata: RaceCaptureMetadata): RaceRender
     schemaVersion: 1,
     trackId: null,
     visualVariant: null,
+    materialVariant: null,
     actualDrawingBuffer: null,
     devicePixelRatio: null,
     rendererPixelRatio: null,

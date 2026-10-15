@@ -235,6 +235,28 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 describe('real race RAF diagnostics wiring', () => {
+  it('loads and records the opt-in Service Tunnel material variant on Neon Grid', async () => {
+    const r = await setup(
+      '?testRacePerf=1&neonGridMaterial=service-tunnel-concrete-001',
+      'neon-grid',
+    );
+    const runtime = r.game as unknown as { trackScene: THREE.Group };
+    const left = runtime.trackScene.getObjectByName('service-tunnel-left-wall') as THREE.Mesh;
+    const right = runtime.trackScene.getObjectByName('service-tunnel-right-wall') as THREE.Mesh;
+    const material = left.material as THREE.MeshStandardMaterial;
+    const capture = r.game.exportPerformanceCapture(metadata);
+
+    expect(left.material).toBe(right.material);
+    expect(material.name).toBe('service-tunnel-concrete-wall-007-c1');
+    expect(material.map?.name).toBe('service-tunnel-concrete-wall-007-diffuse-1k');
+    expect(material.normalMap?.name).toBe('service-tunnel-concrete-wall-007-normal-gl-1k');
+    expect(material.roughnessMap?.name).toBe('service-tunnel-concrete-wall-007-roughness-1k');
+    expect(capture?.metadata.rendering).toMatchObject({
+      trackId: 'neon-grid',
+      materialVariant: 'concrete-wall-007-c1',
+    });
+  });
+
   it('centers the real shadow map on the player and applies caster policy before rendering', async () => {
     harness.loadedKarts = true;
     const r = await setup('');

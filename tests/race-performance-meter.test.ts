@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { RacePerformanceMeter } from '../src/game/diagnostics/RacePerformanceMeter';
+import { RenderPassInstrumentation } from '../src/game/diagnostics/RenderPassInstrumentation';
 import {
   racePerformanceFromSearch,
   type RaceCaptureMetadata,
@@ -32,6 +33,40 @@ const observation = (
   counters: null,
   ...overrides,
 });
+function passSample() {
+  const state = {
+    info: { render: { calls: 1, triangles: 4 }, autoReset: true },
+    getRenderTarget: () => null,
+    getDrawingBufferSize: (size: { set: (width: number, height: number) => unknown }) =>
+      size.set(10, 10),
+  };
+  const renderer = state as unknown as import('three').WebGLRenderer;
+  const instrumentation = new RenderPassInstrumentation(true);
+  instrumentation.beginFrame();
+  instrumentation.measure('mainScene', renderer, null, 'includedWhenUpdated', () => {
+    state.info.render.calls += 2;
+    state.info.render.triangles += 8;
+  });
+  return instrumentation.finishFrame(
+    { drawCalls: 3, triangles: 12 },
+    {
+      cameraFixture: 'chase',
+      cameraPosition: [1, 2, 3],
+      cameraQuaternion: [0, 0, 0, 1],
+      sectorProgress: { lap: 1, trackProgress: 0.3, sectorIndex: 1, sectorName: 'The Undercity' },
+      itemEffectState: {
+        activeProjectiles: 2,
+        activeHazards: 1,
+        playerHeldItem: { itemId: 'arc-blade', remainingCharges: 1 },
+        playerFrostStacks: 0,
+        playerSpinoutId: null,
+        activeBoostLabel: null,
+        nitroOverdriveActive: false,
+        hyperDriveRocketActive: false,
+      },
+    },
+  );
+}
 describe('whole-race meter', () => {
   it('enables only the exact flag', () => {
     for (const query of ['', '?testRacePerf=0', '?testRacePerf=true', '?testRacePerf=01'])
@@ -137,5 +172,35 @@ describe('whole-race meter', () => {
     expect(meter.exportCapture(metadata).samples[0]?.counters?.drawCalls).toBe(12);
     expect(meter.snapshot().maxDrawCalls).toBe(12);
     expect(metadata.nominalViewport.width).toBe(1920);
+    expect(meter.exportCapture(metadata).renderPasses.schemaVersion).toBe(1);
+    expect(meter.exportCapture(metadata).renderPasses.samples).toEqual([]);
+  });
+  it('samples pass details at a bounded interval and releases them on disposal', () => {
+    const meter = new RacePerformanceMeter(true, 0, 25);
+    const passes = passSample();
+    for (let index = 0; index < 25; index++)
+      meter.record(observation(16, { renderPasses: passes }));
+    const capture = meter.exportCapture(metadata);
+    expect(capture.renderPasses.samplingPolicy).toEqual({
+      scoredFrameInterval: 10,
+      maximumSamples: 3,
+      firstScoredFrameIndex: 0,
+    });
+    expect(capture.renderPasses.samples.map((sample) => sample.scoredFrameIndex)).toEqual([
+      0, 10, 20,
+    ]);
+    expect(capture.renderPasses.samples[0]?.frame.stages.mainScene.drawCalls).toBe(2);
+    const firstPassSample = capture.renderPasses.samples[0];
+    expect(firstPassSample).toBeDefined();
+    if (firstPassSample !== undefined) firstPassSample.frame.stages.mainScene.drawCalls = 999;
+    expect(
+      meter.exportCapture(metadata).renderPasses.samples[0]?.frame.stages.mainScene.drawCalls,
+    ).toBe(2);
+    expect(
+      meter.exportCapture(metadata).renderPasses.samples[0]?.frame.context?.sectorProgress
+        .sectorName,
+    ).toBe('The Undercity');
+    meter.dispose();
+    expect(meter.exportCapture(metadata).renderPasses.samples).toEqual([]);
   });
 });

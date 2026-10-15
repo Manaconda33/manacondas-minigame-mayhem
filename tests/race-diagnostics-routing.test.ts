@@ -331,7 +331,9 @@ describe('real race RAF diagnostics wiring', () => {
     expect(capture?.metadata.bloom).toMatchObject({ quality: 'medium' });
     expect(capture?.samples.at(-1)?.rawFrameMs).toBe(250);
     expect(capture?.samples.at(-1)?.counters?.drawCalls).toBe(22);
-    expect(harness.reads).toEqual(['render', 'read']);
+    // One whole-frame snapshot follows rendering; export takes a second read
+    // for actual drawing-buffer metadata without changing render counters.
+    expect(harness.reads).toEqual(['render', 'read', 'read']);
     expect(r.callback).toHaveBeenCalled();
   });
   it('excludes pause/hidden/resume and rapid between-frame transitions without clearing warm samples', async () => {

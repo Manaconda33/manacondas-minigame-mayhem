@@ -3,6 +3,7 @@ import { graphicsQualityProfile, type GraphicsQuality } from '../../config/graph
 import { bloomEmission, type BloomEmission } from './bloomEligibility';
 import { BloomMaskMaterials } from './BloomMaskMaterials';
 import { fullscreenVertex, filterFragment, compositeFragment } from './bloomShaders';
+import type { RenderPassInstrumentation } from '../diagnostics/RenderPassInstrumentation';
 export interface BloomSnapshot {
   enabled: boolean;
   quality: GraphicsQuality;
@@ -40,6 +41,7 @@ export class RaceBloom {
     private readonly renderer: THREE.WebGLRenderer,
     private readonly quality: GraphicsQuality,
     disabled = false,
+    private readonly passInstrumentation?: RenderPassInstrumentation,
   ) {
     this.profile = disabled ? null : graphicsQualityProfile(quality).bloom;
   }
@@ -188,6 +190,7 @@ export class RaceBloom {
     }
   }
   public render(scene: THREE.Scene, camera: THREE.Camera): void {
+    this.passInstrumentation?.beginFrame();
     const info = (this.renderer as Partial<THREE.WebGLRenderer>).info as
       (Omit<THREE.WebGLRenderer['info'], 'reset'> & { reset?: () => void }) | undefined;
     const autoReset = info?.autoReset;
@@ -202,7 +205,17 @@ export class RaceBloom {
     }
   }
   private renderPasses(scene: THREE.Scene, camera: THREE.Camera): void {
-    this.renderer.render(scene, camera);
+    if (this.passInstrumentation) {
+      this.passInstrumentation.measure(
+        'mainScene',
+        this.renderer,
+        undefined,
+        'includedWhenUpdated',
+        () => {
+          this.renderer.render(scene, camera);
+        },
+      );
+    } else this.renderer.render(scene, camera);
     const r = this.resources;
     if (!r || this.disposed) return;
     const renderer = this.renderer;
@@ -263,7 +276,11 @@ export class RaceBloom {
         this.buffersValidated = true;
       }
       renderer.setRenderTarget(r.mask);
-      renderer.render(scene, camera);
+      if (this.passInstrumentation) {
+        this.passInstrumentation.measure('bloomMask', renderer, r.mask, 'disabled', () => {
+          renderer.render(scene, camera);
+        });
+      } else renderer.render(scene, camera);
       this.restoreMaterials();
       scene.background = background;
       scene.fog = fog;
@@ -275,18 +292,48 @@ export class RaceBloom {
       sourceUniform.value = r.mask.texture;
       stepUniform.value.set((this.profile?.radius ?? 0) / 4 / this.width, 0);
       renderer.setRenderTarget(r.horizontal);
-      renderer.render(r.scene, r.camera);
+      if (this.passInstrumentation) {
+        this.passInstrumentation.measure(
+          'bloomHorizontal',
+          renderer,
+          r.horizontal,
+          'notApplicable',
+          () => {
+            renderer.render(r.scene, r.camera);
+          },
+        );
+      } else renderer.render(r.scene, r.camera);
       sourceUniform.value = r.horizontal.texture;
       stepUniform.value.set(0, (this.profile?.radius ?? 0) / 4 / this.height);
       renderer.setRenderTarget(r.vertical);
-      renderer.render(r.scene, r.camera);
+      if (this.passInstrumentation) {
+        this.passInstrumentation.measure(
+          'bloomVertical',
+          renderer,
+          r.vertical,
+          'notApplicable',
+          () => {
+            renderer.render(r.scene, r.camera);
+          },
+        );
+      } else renderer.render(r.scene, r.camera);
       r.mesh.material = r.composite;
       renderer.setRenderTarget(target);
       renderer.setViewport(viewport);
       renderer.setScissor(scissor);
       renderer.setScissorTest(scissorTest);
       renderer.autoClear = false;
-      renderer.render(r.scene, r.camera);
+      if (this.passInstrumentation) {
+        this.passInstrumentation.measure(
+          'bloomComposite',
+          renderer,
+          target,
+          'notApplicable',
+          () => {
+            renderer.render(r.scene, r.camera);
+          },
+        );
+      } else renderer.render(r.scene, r.camera);
     } catch (error) {
       this.restoreMaterials();
       scene.background = background;
@@ -296,7 +343,17 @@ export class RaceBloom {
       restoreDebug();
       this.fail(error);
       // A composite failure may leave partial glow; redraw the original screen once.
-      renderer.render(scene, camera);
+      if (this.passInstrumentation) {
+        this.passInstrumentation.measure(
+          'bloomFallbackScene',
+          renderer,
+          undefined,
+          'includedWhenUpdated',
+          () => {
+            renderer.render(scene, camera);
+          },
+        );
+      } else renderer.render(scene, camera);
     } finally {
       this.restoreMaterials();
       scene.background = background;

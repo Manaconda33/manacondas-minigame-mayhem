@@ -1,6 +1,7 @@
 import type { BloomSnapshot } from '../rendering/RaceBloom';
 import type { MotionBlurSnapshot } from '../rendering/RaceMotionBlur';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
+import type { RenderPassFrameSample } from './RenderPassInstrumentation';
 
 export function racePerformanceFromSearch(search: string): boolean {
   return new URLSearchParams(search).get('testRacePerf') === '1';
@@ -23,6 +24,57 @@ export interface RaceFrameObservation {
   hidden: boolean;
   boundary: boolean;
   counters: RendererCounterSnapshot | null;
+  renderPasses?: RenderPassFrameSample | null;
+}
+
+export interface RaceRenderingMetadata {
+  schemaVersion: 1;
+  trackId: string | null;
+  visualVariant: string | null;
+  actualDrawingBuffer: { width: number; height: number } | null;
+  devicePixelRatio: number | null;
+  rendererPixelRatio: number | null;
+  deviceEnvironment: {
+    classification: 'softwareDetected' | 'unknown';
+    explanation: string;
+  };
+  camera: {
+    fixture: 'chase' | 'rearView';
+    position: readonly [number, number, number];
+    quaternion: readonly [number, number, number, number];
+    near: number;
+    far: number;
+  } | null;
+  sectorProgress: {
+    lap: number | null;
+    trackProgress: number | null;
+    sectorIndex: number | null;
+    sectorName: string | null;
+  };
+  racerRoster: readonly { id: string; characterId: string | null }[];
+  itemEffectState: {
+    activeProjectiles: number | null;
+    activeHazards: number | null;
+    racers: readonly {
+      id: string;
+      heldItem: { itemId: string; remainingCharges: number } | null;
+      frostStacks: number;
+      spinoutId: string | null;
+      activeBoostLabel: string | null;
+      nitroOverdriveActive: boolean | null;
+      hyperDriveRocketActive: boolean | null;
+    }[];
+  };
+  configuration: {
+    shadows: {
+      enabled: boolean | null;
+      mapType: number | null;
+      dynamicCasterCount: null;
+    };
+    bloom: BloomSnapshot | null;
+    motionBlur: MotionBlurSnapshot | null;
+  };
+  unavailableMetrics: readonly string[];
 }
 
 export interface RacePerformanceSnapshot {
@@ -59,11 +111,12 @@ export interface RaceCaptureMetadata {
   jsHeapBytes: number | null;
   jsHeapMethod?: string;
   estimatedTextureBytes: null;
+  rendering?: RaceRenderingMetadata;
 }
 
 export interface RacePerformanceCapture {
   schemaVersion: 1;
-  metadata: RaceCaptureMetadata;
+  metadata: RaceCaptureMetadata & { rendering: RaceRenderingMetadata };
   summary: RacePerformanceSnapshot;
   samples: readonly { rawFrameMs: number; counters: RendererCounterSnapshot | null }[];
   raceCompleted: boolean;
@@ -75,4 +128,18 @@ export interface RacePerformanceCapture {
     excluded: 'countdown,pause,hidden,boundary,invalid';
   };
   unavailableMetrics: readonly string[];
+  renderPasses: {
+    schemaVersion: 1;
+    samplingPolicy: {
+      scoredFrameInterval: 10;
+      maximumSamples: number;
+      firstScoredFrameIndex: 0;
+    };
+    samples: readonly {
+      scoredFrameIndex: number;
+      frame: RenderPassFrameSample;
+    }[];
+    attributionDefinitions: readonly string[];
+    unavailableMetrics: readonly string[];
+  };
 }

@@ -2,6 +2,7 @@ import { expect, it } from 'vitest';
 import * as THREE from 'three';
 import { RaceBloom } from '../src/game/rendering/RaceBloom';
 import { markBloomMaterial } from '../src/game/rendering/bloomEligibility';
+import { RenderPassInstrumentation } from '../src/game/diagnostics/RenderPassInstrumentation';
 function rendererFixture() {
   let target: THREE.WebGLRenderTarget | null = null;
   const viewport = new THREE.Vector4(0, 0, 1920, 1080),
@@ -27,6 +28,7 @@ function rendererFixture() {
     shadowMap: { autoUpdate: true, needsUpdate: false },
     outputColorSpace: THREE.SRGBColorSpace,
     getRenderTarget: () => target,
+    getDrawingBufferSize: (size: THREE.Vector2) => size.set(1920, 1080),
     setRenderTarget: (value: THREE.WebGLRenderTarget | null) => {
       target = value;
       viewport.set(0, 0, value?.width ?? 1920, value?.height ?? 1080);
@@ -144,6 +146,60 @@ it('counts base mask and all fullscreen passes as one frame', () => {
   bloom.render(new THREE.Scene(), new THREE.Camera());
   expect(f.state.info.render.calls).toBe(42);
   expect(f.state.info.autoReset).toBe(true);
+  bloom.dispose();
+});
+
+it('attributes bloom boundary deltas and reconciles without changing the counter reset boundary', () => {
+  const f = rendererFixture();
+  const instrumentation = new RenderPassInstrumentation(true);
+  const bloom = new RaceBloom(f.renderer, 'medium', false, instrumentation);
+  bloom.resize(1920, 1080);
+  bloom.render(new THREE.Scene(), new THREE.Camera());
+  const frame = instrumentation.finishFrame({ drawCalls: 42, triangles: 0 });
+  expect(frame.stages.mainScene).toMatchObject({
+    status: 'measured',
+    drawCalls: 22,
+    triangles: 0,
+    target: { width: 1920, height: 1080, pixels: 2073600 },
+    shadowWork: 'includedWhenUpdated',
+  });
+  expect(frame.stages.bloomMask).toMatchObject({
+    status: 'measured',
+    drawCalls: 17,
+    target: { width: 768, height: 432, pixels: 331776 },
+    shadowWork: 'disabled',
+  });
+  expect(frame.stages.bloomHorizontal.drawCalls).toBe(1);
+  expect(frame.stages.bloomVertical.drawCalls).toBe(1);
+  expect(frame.stages.bloomComposite).toMatchObject({
+    drawCalls: 1,
+    target: { width: 1920, height: 1080, pixels: 2073600 },
+  });
+  expect(frame.reconciliation).toMatchObject({
+    status: 'complete',
+    wholeFrameDrawCalls: 42,
+    attributedDrawCalls: 42,
+    unattributedDrawCalls: 0,
+    unavailableStages: [],
+  });
+  expect(f.state.info.autoReset).toBe(true);
+  expect(f.state.info.render.calls).toBe(42);
+  bloom.dispose();
+});
+
+it('records a disabled bloom as not run while preserving the main-scene totals', () => {
+  const f = rendererFixture();
+  const instrumentation = new RenderPassInstrumentation(true);
+  const bloom = new RaceBloom(f.renderer, 'low', false, instrumentation);
+  bloom.resize(1920, 1080);
+  bloom.render(new THREE.Scene(), new THREE.Camera());
+  const frame = instrumentation.finishFrame({ drawCalls: 22, triangles: 0 });
+  expect(frame.stages.mainScene).toMatchObject({ status: 'measured', drawCalls: 22 });
+  expect(frame.stages.bloomMask.status).toBe('notRun');
+  expect(frame.stages.bloomHorizontal.status).toBe('notRun');
+  expect(frame.stages.bloomVertical.status).toBe('notRun');
+  expect(frame.stages.bloomComposite.status).toBe('notRun');
+  expect(frame.reconciliation).toMatchObject({ status: 'complete', unattributedDrawCalls: 0 });
   bloom.dispose();
 });
 

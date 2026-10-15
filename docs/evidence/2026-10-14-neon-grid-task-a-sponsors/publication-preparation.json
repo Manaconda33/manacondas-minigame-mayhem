@@ -40,10 +40,14 @@
   "new_candidate_hosted_validation": "full serial Task A coverage on initial build; new matrix row 30-minute job limit; old rows retain15; test timeout15000 unchanged",
   "existing_preview_pins_permissions_required_checks_and_trust_policy": "preserved",
   "prepared_preview_bytes": 210637669,
-  "hosted_ci": "NOT STARTED; PR creation blocked",
-  "pr_creation": "gh pr create rejected: Post https://api.github.com/graphql Forbidden",
-  "live_publication": "NOT COMPLETE",
-  "next_action": "Open draft publication PR targeting main, require all hosted checks, then perform authorized publication and exact live-byte/control verification",
+  "hosted_ci": "IN PROGRESS; required validate PASS1m48s, preview-plan PASS17s, spillway PASS39s; complete pinned/preview jobs pending",
+  "pr_creation": "Owner created PR306; exact head5cd90add7c23cf7c06ec2f077a5668672d312d96 confirmed via public PR page",
+  "live_publication": "NOT COMPLETE; main remains54f422a; no Pages deployment started",
+  "next_action": "Require all applicable PR306 checks green, then owner performs authorized workflow-only merge because GitHub API remains Forbidden; verify Pages/live-byte/control evidence afterwards",
   "pages_artifact_size": "latest known ~4.03GiB deferred concern; new build200.879MiB uncompressed; no artifact redesign",
-  "no_new_owner_publication_approval_required": "authorization already granted; visual/playability approval remains pending"
+  "no_new_owner_publication_approval_required": "authorization already granted; visual/playability approval remains pending",
+  "pr_number": 306,
+  "pr_url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/306",
+  "hosted_run_id": 38658365026,
+  "hosted_run_url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38658365026"
 }

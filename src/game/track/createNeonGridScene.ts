@@ -22,6 +22,46 @@ import {
   type ServiceTunnelMaterialVariant,
 } from './ServiceTunnelConcreteMaterial';
 
+function coalesceTaskC1SidewallFogMaterials(
+  scene: THREE.Group,
+  materialVariant: ServiceTunnelMaterialVariant,
+): void {
+  if (materialVariant !== 'concrete-wall-007-c1') return;
+
+  const left = scene.getObjectByName('service-tunnel-left-wall');
+  const right = scene.getObjectByName('service-tunnel-right-wall');
+  if (!(left instanceof THREE.Mesh) || !(right instanceof THREE.Mesh)) return;
+  if (left.material === right.material) return;
+  if (
+    !(left.material instanceof THREE.MeshStandardMaterial) ||
+    !(right.material instanceof THREE.MeshStandardMaterial)
+  ) {
+    throw new Error('Task C1 requires standard materials for both Service Tunnel sidewalls.');
+  }
+
+  const leftMaterial = left.material;
+  const rightMaterial = right.material;
+  const sameFogProfile =
+    left.userData.abyssVerticalFog === true &&
+    right.userData.abyssVerticalFog === true &&
+    JSON.stringify(left.userData.abyssFogProfile) === JSON.stringify(right.userData.abyssFogProfile);
+  const sameMaterialInputs =
+    leftMaterial.color.equals(rightMaterial.color) &&
+    leftMaterial.roughness === rightMaterial.roughness &&
+    leftMaterial.metalness === rightMaterial.metalness &&
+    leftMaterial.side === rightMaterial.side &&
+    leftMaterial.map === rightMaterial.map &&
+    leftMaterial.normalMap === rightMaterial.normalMap &&
+    leftMaterial.roughnessMap === rightMaterial.roughnessMap;
+  if (!sameFogProfile || !sameMaterialInputs) {
+    throw new Error('Task C1 cannot share Service Tunnel walls with different fog or material settings.');
+  }
+
+  right.material = leftMaterial;
+  leftMaterial.userData.abyssFogTarget = 'service-tunnel-sidewalls';
+  rightMaterial.dispose();
+}
+
 export class NeonGridScene extends THREE.Group {
   public readonly billboard: NeonGridBillboardVisual;
   public readonly dive: NeonGridDiveVisual;
@@ -240,5 +280,6 @@ export function createNeonGridScene(
   if (variant === 'fog-experiment-v3') addNeonGridAbyssFogV3(group, track);
   if (variant === 'fog-experiment-v3-2' || variant === 'fog-experiment-task-a')
     addNeonGridAbyssFogV3(group, track, '3.2');
+  coalesceTaskC1SidewallFogMaterials(group, materialVariant);
   return group;
 }

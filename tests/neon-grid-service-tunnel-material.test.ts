@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { NeonGrid } from '../src/game/track/NeonGrid';
 import { createNeonGridScene } from '../src/game/track/createNeonGridScene';
+import type { NeonGridVisualVariant } from '../src/game/track/NeonGridVisualVariant';
 import { serviceTunnelGeometry } from '../src/game/track/ServiceTunnelGeometry';
 import {
   SERVICE_TUNNEL_CONCRETE_ASSET_REVISION,
@@ -14,7 +15,7 @@ import { disposeTrackScene } from '../src/game/track/TrackSceneResources';
 type MaterialVariantSceneFactory = (
   track: NeonGrid,
   quality: 'low' | 'medium' | 'high',
-  visualVariant: 'approved',
+  visualVariant: NeonGridVisualVariant,
   materialVariant: 'blockout' | 'concrete-wall-007-c1',
 ) => THREE.Group;
 
@@ -92,6 +93,27 @@ describe('Neon Grid Service Tunnel material prototype', () => {
 
     disposeTrackScene(prototype);
     originalGeometry.dispose();
+  });
+
+  it('keeps Task A fogged sidewalls on one shared prototype material', () => {
+    const prototype = createSceneWithMaterialVariant(
+      new NeonGrid(),
+      'medium',
+      'fog-experiment-task-a',
+      'concrete-wall-007-c1',
+    );
+    const left = prototype.getObjectByName('service-tunnel-left-wall') as THREE.Mesh;
+    const right = prototype.getObjectByName('service-tunnel-right-wall') as THREE.Mesh;
+    const material = left.material as THREE.MeshStandardMaterial;
+
+    expect(left.material).toBe(right.material);
+    expect(left.userData.abyssVerticalFog).toBe(true);
+    expect(right.userData.abyssVerticalFog).toBe(true);
+    expect(left.userData.abyssFogProfile).toEqual(right.userData.abyssFogProfile);
+    expect(material.userData.abyssFogVersion).toBe(3);
+    expect(material.color.getHex()).toBe(0x353a4a);
+
+    disposeTrackScene(prototype);
   });
 
   it('uses only the exact opt-in query and loads the shared 1K maps with correct color spaces', async () => {

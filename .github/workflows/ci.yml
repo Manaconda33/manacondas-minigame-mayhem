@@ -343,6 +343,13 @@ jobs:
             marker_type: feature
             marker_name: 'Neon Grid Task A sponsor visibility review'
             status: 'Task A owner visual/playability review only; T9.7 and V3.2 preserved; no Task B/C/D or production gameplay release'
+          - id: neon-grid-task-c1-001
+            embed_source: true
+            sha: e500f68c658edb5dcd45b4149e4c7f32f2a14dce
+            base: /manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/
+            marker_type: feature
+            marker_name: 'Neon Grid Task C1 Service Tunnel concrete A/B gameplay review'
+            status: 'Task C1 owner gameplay review only; material approval, runtime merge, and production deployment not authorized'
 
     steps:
       - name: Report documentation-only preview-build skip
@@ -460,6 +467,63 @@ jobs:
             test -f "$OUTPUT/review-build.json"
             node --input-type=module -e "import { readFileSync } from 'node:fs'; const body = JSON.parse(readFileSync(process.env.OUTPUT + '/review-build.json', 'utf8')); if (body.source !== process.env.EXPECTED_SOURCE) throw new Error('preview source marker mismatch'); if (body.base !== process.env.EXPECTED_BASE) throw new Error('preview base marker mismatch');"
           fi
+
+      - name: Verify Task C1 texture delivery hashes
+        if: matrix.id == 'neon-grid-task-c1-001' && (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true')
+        env:
+          OUTPUT: preview-output/${{ matrix.id }}
+        run: |
+          echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  $OUTPUT/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
+          echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  $OUTPUT/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
+          echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  $OUTPUT/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
+
+  task-c1-pinned-validation:
+    name: task-c1-pinned-validation
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out exact Task C1 source with Git LFS assets
+        uses: actions/checkout@v5
+        with:
+          ref: e500f68c658edb5dcd45b4149e4c7f32f2a14dce
+          path: task-c1-src
+          lfs: true
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: task-c1-src/package-lock.json
+
+      - name: Install exact Task C1 dependencies
+        working-directory: task-c1-src
+        run: npm ci
+
+      - name: Verify exact source, LFS objects, and material hashes
+        working-directory: task-c1-src
+        run: |
+          test "$(git rev-parse HEAD)" = e500f68c658edb5dcd45b4149e4c7f32f2a14dce
+          git lfs fsck
+          echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  public/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
+          echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  public/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
+          echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  public/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
+
+      - name: Run standard pinned-source validation
+        working-directory: task-c1-src
+        run: npm run validate
+
+      - name: Build source-pinned preview and verify delivered texture hashes
+        working-directory: task-c1-src
+        env:
+          VITE_SOURCE_COMMIT: e500f68c658edb5dcd45b4149e4c7f32f2a14dce
+          PREVIEW_BASE: /manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/
+        run: |
+          npm run build -- --base "$PREVIEW_BASE"
+          echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  dist/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
+          echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  dist/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
+          echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  dist/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
 
   pinned-runtime-validation:
     name: pinned-runtime-validation (${{ matrix.id }})
@@ -785,6 +849,13 @@ jobs:
           key: preview-dist-v1-neon-grid-task-a-001-692e9424c2cbf15decbb467b230c02c2e10452a0-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
 
+      - name: Restore source-pinned Task C1 playable review preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-task-c1-001
+          key: preview-dist-v1-neon-grid-task-c1-001-e500f68c658edb5dcd45b4149e4c7f32f2a14dce-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
       - name: Assemble the current game and isolated previews
         run: |
           test -f dist/index.html
@@ -963,6 +1034,19 @@ jobs:
           done
           echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-task-a-001/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
 
+          mkdir -p site-root/previews/neon-grid-task-c1-001
+          cp -a preview-output/neon-grid-task-c1-001/. site-root/previews/neon-grid-task-c1-001/
+          test -f site-root/previews/neon-grid-task-c1-001/index.html
+          node --input-type=module - <<'JS'
+          import { readFileSync } from 'node:fs';
+          const marker = JSON.parse(readFileSync('site-root/previews/neon-grid-task-c1-001/review-build.json', 'utf8'));
+          if (marker.source !== 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce') throw new Error('Task C1 source marker mismatch');
+          if (marker.base !== '/manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/') throw new Error('Task C1 base marker mismatch');
+          JS
+          echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  site-root/previews/neon-grid-task-c1-001/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
+          echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  site-root/previews/neon-grid-task-c1-001/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
+          echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  site-root/previews/neon-grid-task-c1-001/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -1069,6 +1153,8 @@ jobs:
           paths += [item for item in sorted(abyss_v32.rglob('*')) if item.is_file()]
           task_a = root/'previews/neon-grid-task-a-001'
           paths += [item for item in sorted(task_a.rglob('*')) if item.is_file()]
+          task_c1 = root/'previews/neon-grid-task-c1-001'
+          paths += [item for item in sorted(task_c1.rglob('*')) if item.is_file()]
           paths = [path for path in paths if path.name != '.gitkeep']
           report = []
           for path in paths:
@@ -1076,7 +1162,7 @@ jobs:
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/')):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/')):
                   verify_published_file(url, relative, sha)
               report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))
           Path('delivery-expected.json').write_text(json.dumps(report, indent=2))
@@ -1191,6 +1277,7 @@ jobs:
 
           report = json.load(open('delivery-expected.json'))
           expected_sources = [
+              ('previews/neon-grid-task-c1-001/', 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce'),
               ('previews/neon-grid-task-a-001/', '692e9424c2cbf15decbb467b230c02c2e10452a0'),
               ('previews/neon-grid-abyss-fog-004/', '25ea008b15852d593681f5b3b2a17b467a193472'),
               ('previews/neon-grid-abyss-fog-002/', '7d087f19dfd86bca36b500280309d9c86b4af77d'),
@@ -1218,7 +1305,7 @@ jobs:
               for attempt in range(12):
                   try:
                       request = urllib.request.Request(
-                          item['url'] + '?delivery=neon-grid-task-a-001-692e9424c2cbf15decbb467b230c02c2e10452a0',
+                          item['url'] + '?delivery=neon-grid-task-c1-001-e500f68c658edb5dcd45b4149e4c7f32f2a14dce',
                           headers={'Cache-Control': 'no-cache'},
                       )
                       with urllib.request.urlopen(request, timeout=45) as response:
@@ -1233,6 +1320,8 @@ jobs:
                                   assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/'
                               if item['path'].startswith('previews/neon-grid-task-a-001/'):
                                   assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/'
+                              if item['path'].startswith('previews/neon-grid-task-c1-001/'):
+                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/'
                           item['httpStatus'] = response.status
                           return item
                   except Exception as error:

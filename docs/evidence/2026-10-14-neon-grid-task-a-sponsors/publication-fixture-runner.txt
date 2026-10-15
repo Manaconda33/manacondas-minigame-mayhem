@@ -13,7 +13,7 @@ for job in new['jobs'].values():
    subprocess.run(['bash','-n'],input=step['run'],text=True,check=True,capture_output=True)
    if "<<'PYTHON'" in step['run']: compile(step['run'].split("<<'PYTHON'\n",1)[1].rsplit('\nPYTHON',1)[0],'<workflow-python>','exec')
 print('YAML/shell/Python syntax and unchanged production/check/trust identities PASS; existing preview entries:',len(oldentries))
-root=Path('/tmp/task-a-publication-assembly-fixture');shutil.rmtree(root);root.mkdir(exist_ok=True)
+root=Path('/tmp/task-a-publication-assembly-fixture');shutil.rmtree(root, ignore_errors=True);root.mkdir(exist_ok=True)
 (root/'site-root').mkdir(exist_ok=True)
 (root/'dist/assets').mkdir(parents=True,exist_ok=True)
 for name,content in [('index.html',b'production-html'),('assets/index-test.js',b'production-js'),('assets/index-test.css',b'production-css')]: (root/'dist'/name).write_bytes(content)

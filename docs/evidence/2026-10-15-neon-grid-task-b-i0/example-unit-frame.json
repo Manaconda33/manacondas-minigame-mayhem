@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "bd36f2d6b35423e4e3b281d80fc0fb9144df52ad",
+  "fixtureKind": "synthetic-unit-fixture-not-browser-measurement",
+  "frame": {
+    "stages": {
+      "mainScene": {
+        "status": "measured",
+        "drawCalls": 3,
+        "triangles": 36,
+        "target": { "width": 320, "height": 240, "pixels": 76800 },
+        "shadowWork": "includedWhenUpdated",
+        "framebufferCopies": 0,
+        "copiedPixels": 0,
+        "reason": null
+      },
+      "bloomMask": {
+        "status": "measured",
+        "drawCalls": 2,
+        "triangles": 24,
+        "target": { "width": 128, "height": 72, "pixels": 9216 },
+        "shadowWork": "disabled",
+        "framebufferCopies": 0,
+        "copiedPixels": 0,
+        "reason": null
+      },
+      "bloomHorizontal": {
+        "status": "notRun",
+        "drawCalls": null,
+        "triangles": null,
+        "target": null,
+        "shadowWork": "notApplicable",
+        "framebufferCopies": 0,
+        "copiedPixels": 0,
+        "reason": null
+      },
+      "bloomVertical": {
+        "status": "notRun",
+        "drawCalls": null,
+        "triangles": null,
+        "target": null,
+        "shadowWork": "notApplicable",
+        "framebufferCopies": 0,
+        "copiedPixels": 0,
+        "reason": null
+      },
+      "bloomComposite": {
+        "status": "notRun",
+        "drawCalls": null,
+        "triangles": null,
+        "target": null,
+        "shadowWork": "notApplicable",
+        "framebufferCopies": 0,
+        "copiedPixels": 0,
+        "reason": null
+      },
+      "bloomFallbackScene": {
+        "status": "notRun",
+        "drawCalls": null,
+        "triangles": null,
+        "target": null,
+        "shadowWork": "notApplicable",
+        "framebufferCopies": 0,
+        "copiedPixels": 0,
+        "reason": null
+      },
+      "motionBlurComposite": {
+        "status": "notRun",
+        "drawCalls": null,
+        "triangles": null,
+        "target": null,
+        "shadowWork": "notApplicable",
+        "framebufferCopies": 0,
+        "copiedPixels": 0,
+        "reason": null
+      }
+    },
+    "context": null,
+    "reconciliation": {
+      "status": "partial",
+      "wholeFrameDrawCalls": 9,
+      "wholeFrameTriangles": 140,
+      "attributedDrawCalls": 5,
+      "attributedTriangles": 60,
+      "unattributedDrawCalls": 4,
+      "unattributedTriangles": 80,
+      "unavailableStages": []
+    }
+  }
+}

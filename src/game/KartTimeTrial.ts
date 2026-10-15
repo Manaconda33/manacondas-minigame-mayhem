@@ -1,5 +1,6 @@
 import { projectTrackSurface, sameTrackLayer } from './track/TrackSurface';
 import { NeonGrid } from './track/NeonGrid';
+import neonGridLayout from './track/neonGridLayout.json';
 import { RacerTrack } from './track/RacerTrack';
 import { bloomDisabledFromSearch, markBloomMaterial } from './rendering/bloomEligibility';
 import { RaceBloom } from './rendering/RaceBloom';
@@ -93,6 +94,10 @@ import { composePlayerDriveInput } from './input/composePlayerDrive';
 import type { WheelState } from '../app/touchWheel';
 import { ItemPerformanceMeter } from './items/ItemPerformanceMeter';
 import { RacePerformanceMeter } from './diagnostics/RacePerformanceMeter';
+import {
+  RenderPassInstrumentation,
+  type RenderPassFrameContext,
+} from './diagnostics/RenderPassInstrumentation';
 import { readRendererCounters } from './diagnostics/RendererCounters';
 import {
   racePerformanceFromSearch,
@@ -234,6 +239,8 @@ export class KartTimeTrial {
   )
     ? new RacePerformanceMeter(true)
     : null;
+  private readonly passInstrumentation: RenderPassInstrumentation | null =
+    racePerformanceFromSearch(window.location.search) ? new RenderPassInstrumentation(true) : null;
   private diagnosticsBoundary = true;
   private diagnosticsEligibility = false;
   private diagnosticsLastUpdate = -Infinity;
@@ -478,6 +485,7 @@ export class KartTimeTrial {
       this.renderer,
       options.graphicsQuality,
       bloomDisabledFromSearch(window.location.search),
+      this.passInstrumentation ?? undefined,
     );
     this.motionBlur = new RaceMotionBlur(
       this.renderer,
@@ -488,6 +496,7 @@ export class KartTimeTrial {
           typeof window.matchMedia === 'function' &&
           window.matchMedia('(prefers-reduced-motion: reduce)').matches
         ),
+      this.passInstrumentation ?? undefined,
     );
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, graphics.pixelRatioCap));
     this.renderer.shadowMap.enabled = graphics.shadows;
@@ -571,17 +580,107 @@ export class KartTimeTrial {
         gpuRenderer = null;
       }
     }
-    return (
-      this.racePerformance.exportCapture({
-        gpuRenderer,
-        ...metadata,
-        bloom: this.bloom.snapshot(),
-        motionBlur: this.motionBlur.snapshot(),
-        quality: this.options.graphicsQuality,
-        racerCount: this.opponents.length + 1,
-        nominalViewport: { ...this.captureViewport },
-      })
+    const counters = readRendererCounters(this.renderer);
+    const bloom = this.bloom.snapshot();
+    const motionBlur = this.motionBlur.snapshot();
+    const trackProgress = this.playerProgress.trackProgress;
+    const sectorIndex =
+      this.track.id === 'neon-grid'
+        ? neonGridLayout.sectors.findIndex(
+            (sector, index) =>
+              trackProgress >= sector.start &&
+              (trackProgress < sector.end || index === neonGridLayout.sectors.length - 1),
+          )
+        : -1;
+    const racers = [
+      { id: 'player', characterId: this.options.character.id },
+      ...this.opponents.map(({ id, characterId }) => ({ id, characterId })),
+    ];
+    const softwareRenderer = /swiftshader|llvmpipe|softpipe|lavapipe|software raster/i.test(
+      gpuRenderer ?? '',
     );
+    return this.racePerformance.exportCapture({
+      gpuRenderer,
+      ...metadata,
+      rendering: {
+        schemaVersion: 1,
+        trackId: this.track.id,
+        visualVariant:
+          this.track.id === 'neon-grid'
+            ? neonGridVisualVariantFromSearch(window.location.search)
+            : null,
+        actualDrawingBuffer: { width: counters.width, height: counters.height },
+        devicePixelRatio:
+          Number.isFinite(window.devicePixelRatio) && window.devicePixelRatio > 0
+            ? window.devicePixelRatio
+            : null,
+        rendererPixelRatio: counters.pixelRatio,
+        deviceEnvironment: {
+          classification: softwareRenderer ? 'softwareDetected' : 'unknown',
+          explanation: softwareRenderer
+            ? 'The reported WebGL renderer string identifies a software renderer.'
+            : 'WebGL renderer identity cannot prove physical-device identity; no hardware certification is inferred.',
+        },
+        camera: {
+          fixture: this.rearViewActive ? 'rearView' : 'chase',
+          position: [this.camera.position.x, this.camera.position.y, this.camera.position.z],
+          quaternion: [
+            this.camera.quaternion.x,
+            this.camera.quaternion.y,
+            this.camera.quaternion.z,
+            this.camera.quaternion.w,
+          ],
+          near: this.camera.near,
+          far: this.camera.far,
+        },
+        sectorProgress: {
+          lap: this.playerProgress.lap,
+          trackProgress,
+          sectorIndex: sectorIndex < 0 ? null : sectorIndex,
+          sectorName: sectorIndex < 0 ? null : (neonGridLayout.sectors[sectorIndex]?.name ?? null),
+        },
+        racerRoster: racers,
+        itemEffectState: {
+          activeProjectiles: this.projectiles.activeCount(),
+          activeHazards: this.hazards.activeCount(),
+          racers: racers.map(({ id }) => {
+            const heldItem = this.itemSystem.heldItem(id);
+            return {
+              id,
+              heldItem:
+                heldItem === null
+                  ? null
+                  : { itemId: heldItem.itemId, remainingCharges: heldItem.remainingCharges },
+              frostStacks: this.racerEffects.frostState(id)?.stacks ?? 0,
+              spinoutId: this.racerEffects.spinoutState(id)?.id ?? null,
+              activeBoostLabel: this.racerEffects.driveModifiers(id).activeBoostLabel,
+              nitroOverdriveActive: this.nitroOverdrive.snapshot(id).active,
+              hyperDriveRocketActive: this.hyperDriveRocket.snapshot(id).active,
+            };
+          }),
+        },
+        configuration: {
+          shadows: {
+            enabled: this.renderer.shadowMap.enabled,
+            mapType: this.renderer.shadowMap.type,
+            dynamicCasterCount: null,
+          },
+          bloom,
+          motionBlur,
+        },
+        unavailableMetrics: [
+          'gpuFrameMs',
+          'trueGpuTextureBytes',
+          'dynamicShadowCasterCount',
+          ...(softwareRenderer ? [] : ['physicalDeviceIdentity']),
+        ],
+      },
+      bloom,
+      motionBlur,
+      quality: this.options.graphicsQuality,
+      racerCount: this.opponents.length + 1,
+      nominalViewport: { ...this.captureViewport },
+    });
   }
 
   public dispose(): void {
@@ -589,6 +688,7 @@ export class KartTimeTrial {
     this.diagnosticsDisposed = true;
     for (const release of this.kartBatchReleases.splice(0)) release();
     this.racePerformance?.dispose();
+    this.passInstrumentation?.dispose();
     this.playerSpeedVisual.dispose();
     this.driftVisual.dispose();
     this.wheelDust.dispose();
@@ -721,6 +821,21 @@ export class KartTimeTrial {
       this.trackScene.undercity.update(raceTime);
     }
     this.updateVisuals(frameSeconds);
+    const diagnosticPhase =
+      this.racePerformance === null ? null : this.raceDirector.phase(this.playerProgress.finished);
+    const diagnosticEligible = diagnosticPhase === 'racing' && !this.paused && !document.hidden;
+    const diagnosticBoundary =
+      this.diagnosticsBoundary || diagnosticEligible !== this.diagnosticsEligibility;
+    const collectPassMeasurements =
+      this.passInstrumentation !== null &&
+      this.racePerformance?.shouldCaptureRenderPasses({
+        rawFrameMs,
+        phase: diagnosticPhase ?? 'countdown',
+        paused: this.paused,
+        hidden: document.hidden,
+        boundary: diagnosticBoundary,
+        counters: null,
+      }) === true;
     this.shadows.update(
       this.kart.position(this.shadowAnchor),
       this.kartMesh,
@@ -728,9 +843,9 @@ export class KartTimeTrial {
       [...this.projectiles.group.children, ...this.apexPresentation.group.children],
     );
     this.itemPerformance?.endFrame();
-    this.bloom.render(this.scene, this.camera);
+    this.bloom.render(this.scene, this.camera, collectPassMeasurements);
     const blurEligible =
-      this.raceDirector.phase(this.playerProgress.finished) === 'racing' &&
+      (diagnosticPhase ?? this.raceDirector.phase(this.playerProgress.finished)) === 'racing' &&
       !this.rearViewActive &&
       this.racerEffects.spinoutState('player') === null;
     const blurActive = blurEligible && !this.paused && !document.hidden;
@@ -745,15 +860,73 @@ export class KartTimeTrial {
     );
     this.motionBlur.render(!this.paused && !document.hidden);
     if (this.racePerformance !== null) {
-      const phase = this.raceDirector.phase(this.playerProgress.finished);
+      const phase = diagnosticPhase ?? this.raceDirector.phase(this.playerProgress.finished);
       const eligible = phase === 'racing' && !this.paused && !document.hidden;
+      const counters = readRendererCounters(this.renderer);
+      const progress = this.playerProgress.trackProgress;
+      const sectorIndex =
+        this.track.id === 'neon-grid'
+          ? neonGridLayout.sectors.findIndex(
+              (sector, index) =>
+                progress >= sector.start &&
+                (progress < sector.end || index === neonGridLayout.sectors.length - 1),
+            )
+          : -1;
+      const heldItem = this.itemSystem.heldItem('player');
+      const spinout = this.racerEffects.spinoutState('player');
+      const passContext: RenderPassFrameContext | null = collectPassMeasurements
+        ? {
+            cameraFixture: this.rearViewActive ? 'rearView' : 'chase',
+            cameraPosition: [
+              this.camera.position.x,
+              this.camera.position.y,
+              this.camera.position.z,
+            ],
+            cameraQuaternion: [
+              this.camera.quaternion.x,
+              this.camera.quaternion.y,
+              this.camera.quaternion.z,
+              this.camera.quaternion.w,
+            ],
+            sectorProgress: {
+              lap: this.playerProgress.lap,
+              trackProgress: progress,
+              sectorIndex: sectorIndex < 0 ? null : sectorIndex,
+              sectorName:
+                sectorIndex < 0 ? null : (neonGridLayout.sectors[sectorIndex]?.name ?? null),
+            },
+            itemEffectState: {
+              activeProjectiles: this.projectiles.activeCount(),
+              activeHazards: this.hazards.activeCount(),
+              playerHeldItem:
+                heldItem === null
+                  ? null
+                  : { itemId: heldItem.itemId, remainingCharges: heldItem.remainingCharges },
+              playerFrostStacks: this.racerEffects.frostState('player')?.stacks ?? 0,
+              playerSpinoutId: spinout?.id ?? null,
+              activeBoostLabel: this.racerEffects.driveModifiers('player').activeBoostLabel,
+              nitroOverdriveActive: this.nitroOverdrive.snapshot('player').active,
+              hyperDriveRocketActive: this.hyperDriveRocket.snapshot('player').active,
+            },
+          }
+        : null;
+      const renderPasses = collectPassMeasurements
+        ? this.passInstrumentation.finishFrame(
+            {
+              drawCalls: counters.drawCalls,
+              triangles: counters.triangles,
+            },
+            passContext,
+          )
+        : undefined;
       this.racePerformance.record({
         rawFrameMs,
         phase,
         paused: this.paused,
         hidden: document.hidden,
         boundary: this.diagnosticsBoundary || eligible !== this.diagnosticsEligibility,
-        counters: readRendererCounters(this.renderer),
+        counters,
+        renderPasses: renderPasses ?? null,
       });
       this.diagnosticsBoundary = false;
       this.diagnosticsEligibility = eligible;

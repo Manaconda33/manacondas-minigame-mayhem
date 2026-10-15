@@ -534,8 +534,8 @@ jobs:
         run: |
           npm run typecheck
           npm run lint
-          # Keep V8 coverage and the existing 5s test limit; serialize scene-heavy fixtures to avoid worker contention.
-          npm run test:ci -- --maxWorkers=1
+          # Keep V8 coverage and serialize scene-heavy fixtures; apply the approved 15s per-test baseline to this pinned source.
+          npm run test:ci -- --maxWorkers=1 --testTimeout=15000
           npm run build
 
       - name: Build source-pinned preview and verify delivered texture hashes
@@ -689,10 +689,10 @@ jobs:
               npm run build -- --base "$PREVIEW_BASE"
               ;;
             dive)
-              # Preserve the full checks and 5s test limit while serializing the scene-heavy coverage suite.
+              # Preserve full checks and serial coverage while applying the approved 15s per-test baseline to this pinned source.
               npm run typecheck
               npm run lint
-              npm run test:ci -- --maxWorkers=1
+              npm run test:ci -- --maxWorkers=1 --testTimeout=15000
               npm run build
               npm run build -- --base "$PREVIEW_BASE"
               ;;

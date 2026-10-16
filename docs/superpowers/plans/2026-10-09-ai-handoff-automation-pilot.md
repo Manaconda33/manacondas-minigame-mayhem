@@ -6,14 +6,14 @@
 >
 > Observed limits remain material: Stage B queue, event, replay, review, and budget records are offline synthetic fixtures; they are not authenticated, durable, crash-safe, independently reviewed live actions, or actual runner/billing meters. The runbook and review response document these gaps. Stage F remains a conditional proposal for future reconsideration after pilot evidence and a separate owner decision; it grants no present authority to codify automation or alter agent permissions.
 >
-> The original v1.3 document follows unchanged below this note.
+> The original v1.3 wording follows below; four Markdown hard-break markers are normalized to explicit `<br>` tags for repository whitespace validation.
 
 # Manaconda's Minigame Mayhem: AI Handoff Automation Pilot
 
-**Prepared:** 9 October 2026 (America/Chicago)  
-**Revision:** v1.3, conditional post-pilot codification guidance added; v1.2 implementation-readiness safeguards retained (planning amendment; not deployed).  
-**State:** PLAN ONLY. No repository modifications, GitHub issues, new workflows, deployments, or new Codex jobs have been authorized or initiated by this plan.  
-**Repository:** `Manaconda33/manacondas-minigame-mayhem`  
+**Prepared:** 9 October 2026 (America/Chicago)<br>
+**Revision:** v1.3, conditional post-pilot codification guidance added; v1.2 implementation-readiness safeguards retained (planning amendment; not deployed).<br>
+**State:** PLAN ONLY. No repository modifications, GitHub issues, new workflows, deployments, or new Codex jobs have been authorized or initiated by this plan.<br>
+**Repository:** `Manaconda33/manacondas-minigame-mayhem`<br>
 **Project policy:** GitHub is authoritative. Owner approval remains mandatory for scope changes, published previews, runtime merges, and production publication.
 
 ## v1.3 decision note (9 October 2026)

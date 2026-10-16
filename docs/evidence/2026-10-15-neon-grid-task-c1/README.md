@@ -1,5 +1,21 @@
 # Neon Grid Task C1 — Service Tunnel Concrete A/B
 
+## Publication and hosted-validation follow-up — 2026-10-16
+
+This update supersedes the earlier status statements below about hosted validation and publication. The prior timeout and failure records remain historical evidence.
+
+- **Hosted validation:** PR #310 candidate [`5e6ca0ec070e05c40fbd5b23bb482cee6b9e49a7`](https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/5e6ca0ec070e05c40fbd5b23bb482cee6b9e49a7) passed [run 38807455107](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38807455107), including **1,107/1,107 pinned C1 coverage tests**. The run had **32 passed jobs and two skipped publication jobs** (`assemble` and `deploy`); no jobs failed. The candidate kept the C1 runtime pinned to [`e500f68c658edb5dcd45b4149e4c7f32f2a14dce`](https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/e500f68c658edb5dcd45b4149e4c7f32f2a14dce).
+
+- **Main publication:** [PR #310](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/310) merged to `main` at [`ec1960f69ee9f14f1e57cb6e49a8ae7afcc0e84b`](https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/ec1960f69ee9f14f1e57cb6e49a8ae7afcc0e84b). Post-merge [Pages run 38813219070](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38813219070) succeeded. Its recorded delivery verification covered **1,800 HTTP 200 paths**: 401 production-root paths, 413 C1 preview paths, and 986 prior-preview paths. All three Concrete Wall 007 texture hashes matched.
+
+- **Same-runtime playable A/B:** [A — blockout material](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/?neonGridVisual=neon-grid-task-a-001) and [B — Service Tunnel concrete material](https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/?neonGridVisual=neon-grid-task-a-001&neonGridMaterial=service-tunnel-concrete-001). Both use pinned runtime `e500f68c658edb5dcd45b4149e4c7f32f2a14dce`.
+
+- **Owner playable review:** In [PR #309](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/309), Manny approved the concrete appearance and confirmed the kart/driver looked correct during normal play. That checkpoint was integrated into the nonproduction branch `fix/neon-grid-task-a-sponsor-visibility-20261014` at [`5b3cfdb137a1b59039e20ddaed75ab75ac4cbd2c`](https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/5b3cfdb137a1b59039e20ddaed75ab75ac4cbd2c). The approval covers isolated preview use only.
+
+- **Historical failures:** The earlier five-second timeout results remain part of the record. The later successful run is a new validation checkpoint using the approved 15,000 ms per-test baseline; it does not prove that the earlier failures were environmental or resolve the runner/test-budget causality described below.
+
+- **Remaining gates:** Production integration remains gated by PR #242 and broader Neon Grid approval. No physical-device or G-05 certification is recorded. This follow-up changes documentation only; it makes no runtime or asset changes.
+
 ## Validation follow-up — 2026-10-15
 
 The original 47/47 focused-test result recorded below belongs to the pre-correction test tree at runtime source `e500f68c658edb5dcd45b4149e4c7f32f2a14dce`. Test/evidence commit `b39f8d07bf661318674ed267ce779c2167c0adaa` is its direct child and changes no runtime, assets, package files, or build configuration. It moves the new material-selector and capture-metadata assertions into an existing route integration test with a 15-second bound, removing one unnecessary full-scene startup. The corrected focused coverage command passed **46/46** tests across `tests/neon-grid-service-tunnel-material.test.ts` and `tests/race-diagnostics-routing.test.ts`, with `--maxWorkers=1` (Node 24.19.0; 115.42 seconds).

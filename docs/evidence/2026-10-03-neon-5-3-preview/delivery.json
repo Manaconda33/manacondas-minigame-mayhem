@@ -1,0 +1,81 @@
+{
+  "runtime": "9459bf0f64705fb744f7cc1e810be0c0a6f02b3b",
+  "runtimeCI": 37142917772,
+  "previewPR": 248,
+  "prCI": 37144557474,
+  "merge": "c3c2a046d98d5fa93bb0db58cb883f80baad999d",
+  "pagesCI": 37144692675,
+  "validateJob": 111266102570,
+  "deployJob": 111267083383,
+  "result": "success",
+  "files": [
+    {
+      "path": "index.html",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/index.html",
+      "sha256": "0805ea2fcb30e514284d344f2381862925a87468e9f87edd0e3197ad4bc5739f",
+      "bytes": 719,
+      "httpStatus": 200
+    },
+    {
+      "path": "assets/KartTimeTrial-DQ8owGNr.js",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/KartTimeTrial-DQ8owGNr.js",
+      "sha256": "de1c85120ba7c442ab009aea93d7a812d27d8d91e47791bd609f688c1979b927",
+      "bytes": 3125918,
+      "httpStatus": 200
+    },
+    {
+      "path": "assets/index-DS-2a4hq.js",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/index-DS-2a4hq.js",
+      "sha256": "6657ae60358211b5fc69831f318eb9396fd62e04bd1c311f1b1f39ea2aa8d377",
+      "bytes": 806526,
+      "httpStatus": 200
+    },
+    {
+      "path": "assets/index-KLiXI-1N.css",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/index-KLiXI-1N.css",
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "bytes": 85082,
+      "httpStatus": 200
+    },
+    {
+      "path": "previews/neon-grid-5-3/index.html",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-5-3/index.html",
+      "sha256": "3d3c16218d03cf8988624babcbefa9b90768701468837eb7f483ef444b182a81",
+      "bytes": 788,
+      "httpStatus": 200
+    },
+    {
+      "path": "previews/neon-grid-5-3/review-build.json",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-5-3/review-build.json",
+      "sha256": "56f914783ebdaa46b3d4e5e19ac1f67dd39b70b72d33ffae9ab0e7d613ba2a88",
+      "bytes": 261,
+      "httpStatus": 200
+    },
+    {
+      "path": "previews/neon-grid-5-3/assets/KartTimeTrial-BXzGR42G.js",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-5-3/assets/KartTimeTrial-BXzGR42G.js",
+      "sha256": "e805bbd97d58da82fbbe68518e34f66ec4be06ad0ee62582f774c20a848ea77e",
+      "bytes": 3137748,
+      "httpStatus": 200
+    },
+    {
+      "path": "previews/neon-grid-5-3/assets/index-DnHVFCAJ.js",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-5-3/assets/index-DnHVFCAJ.js",
+      "sha256": "9724c0c2b818bfa980b23801e63949d6284ad4627c7859d357f5ffb478bd1d00",
+      "bytes": 807431,
+      "httpStatus": 200
+    },
+    {
+      "path": "previews/neon-grid-5-3/assets/index-KLiXI-1N.css",
+      "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/previews/neon-grid-5-3/assets/index-KLiXI-1N.css",
+      "sha256": "4f6242726aec1f0eacd82110ba50aa0c805102ece66d626b2e5d7e2227bb3b8c",
+      "bytes": 85082,
+      "httpStatus": 200
+    }
+  ],
+  "productionSourceAssets": "unchanged",
+  "runtimePR242": "draft/unmerged",
+  "ownerPlaytest": "pending",
+  "stage3": "not started",
+  "environmentRules": "unchanged"
+}

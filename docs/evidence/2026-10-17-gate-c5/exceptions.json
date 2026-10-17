@@ -1,0 +1,1153 @@
+[
+  {
+    "branch": "design/neon-grid-circuit-02",
+    "head_sha": "6919729ba5e12f48305f543dca153f4ba9c5ae19",
+    "classification": "RETAIN",
+    "classification_basis": "Only open PR #242 head; active protected Neon Grid work.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": true,
+      "neon_grid_pr242": true
+    },
+    "associated_pr": [
+      {
+        "number": 242,
+        "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/242",
+        "state": "open",
+        "merged": false,
+        "head_sha": "6919729ba5e12f48305f543dca153f4ba9c5ae19",
+        "branch_tip_equals_pr_head": true,
+        "merge_commit": null,
+        "integration_commit_ancestor_main": null,
+        "integration_commit_ancestor_active_task_line": null
+      }
+    ],
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [
+        {
+          "line": "main",
+          "path": "README.md",
+          "blob_sha": "66599de46911cc47d0408b43cef8647702b32b3c",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/README.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/DECISIONS.md",
+          "blob_sha": "fa86819c80edc3fde43f98bcce0fbf35a6428dd7",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/DECISIONS.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "52b0dab8df8cb53f45afb950a0afdf1a57465c92",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/IMPLEMENTATION-STATUS.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/PRD.md",
+          "blob_sha": "aeb7cf0673459ad6b921cccaf66a3f830d6fa13f",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/PRD.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/TESTING.md",
+          "blob_sha": "bf3600659e126640b334a0a04f57a72893bdf78b",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/TESTING.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-14-ci-validation-optimization/report.md",
+          "blob_sha": "07a9b9b6bae459b333b32c221d2f999addc53aa7",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-14-ci-validation-optimization/report.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-16-branch-preservation/README.md",
+          "blob_sha": "ebecb670d5128a3c615e2bbe34002aa6a50d0499",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/superpowers/plans/2026-10-13-neon-grid-post-fog-graphics-roadmap.md",
+          "blob_sha": "c5ef8188dda24f9e3701bbdc27f35195be8d2bbe",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/superpowers/plans/2026-10-13-neon-grid-post-fog-graphics-roadmap.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/superpowers/plans/2026-10-14-ci-validation-optimization.md",
+          "blob_sha": "f378653fb38fb5d7d438e128b88461452df93d2f",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/superpowers/plans/2026-10-14-ci-validation-optimization.md"
+        },
+        {
+          "line": "task",
+          "path": "README.md",
+          "blob_sha": "f02bee27ef374edc4f1104c5c1600587c5f54619",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/DECISIONS.md",
+          "blob_sha": "590fc038babc700c9739df766fe86dee9228a1da",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/DECISIONS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "b6e2bd08e4e46af13c61ef2a14aefa63f313eaa6",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/IMPLEMENTATION-STATUS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/TESTING.md",
+          "blob_sha": "f4c2166cdcbc09f83503a15924714cbee566fd9c",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/TESTING.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/design/neon-grid/stage-4-visual-design.md",
+          "blob_sha": "7d47d17c81f9f209688d6c583e8bb4de2dc26e53",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/design/neon-grid/stage-4-visual-design.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/design/neon-grid/t9-5-portal-and-signage-owner-correction-plan-2026-10-08.md",
+          "blob_sha": "0245efba11cfa012786fcc956878cdf4ee0a1e6c",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/design/neon-grid/t9-5-portal-and-signage-owner-correction-plan-2026-10-08.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/design/neon-grid/t9-7-final-visual-polish-plan-2026-10-08.md",
+          "blob_sha": "e737dd6896b97f75072a3661a0a4749497bcc811",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/design/neon-grid/t9-7-final-visual-polish-plan-2026-10-08.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/design/neon-grid/task8-falls-run-plan.md",
+          "blob_sha": "be7007841c7652ee22c73c099198149151495d2e",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/design/neon-grid/task8-falls-run-plan.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/design/neon-grid/task9-coursewide-visual-plan.md",
+          "blob_sha": "66e4876a03914b93e32952e1f52b498b08f14ede",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/design/neon-grid/task9-coursewide-visual-plan.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/design/neon-grid/waterfall-dive-design.md",
+          "blob_sha": "2912bf5b60639726cc15b792b018d47506227c37",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/design/neon-grid/waterfall-dive-design.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-02-neon-grid/progress.md",
+          "blob_sha": "929c41eb0be9ba1fd5ad048139be3c478410be15",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-02-neon-grid/progress.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-03-neon-billboard/progress.md",
+          "blob_sha": "c3de9b3249fabbbf9369f9522d7855c4d8f8593f",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-03-neon-billboard/progress.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-03-neon-repair/delivery.json",
+          "blob_sha": "2a8c5e5938a866936deb0a44dbeef3af64a3a126",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-03-neon-repair/delivery.json"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-03-neon-road-contact/diagnosis.md",
+          "blob_sha": "9b4ea6d3cb36a4c3e81fa37cd3b9fa5a734f5a87",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-03-neon-road-contact/diagnosis.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-03-neon-road-contact/execution-progress.md",
+          "blob_sha": "5377454a2910e3d6cdeee3a7978a7f90df818807",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-03-neon-road-contact/execution-progress.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-03-neon-road-contact/residual-owner-feedback.md",
+          "blob_sha": "7306d865ebf7e4c8bb0b7182165445228c8e67d8",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-03-neon-road-contact/residual-owner-feedback.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-03-neon-tunnel/junction/diagnosis.md",
+          "blob_sha": "b9ff6e01093406061612e90a362182616d243d34",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-03-neon-tunnel/junction/diagnosis.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-04-neon-billboard-exit/portal-design.md",
+          "blob_sha": "16dd47df94fc72b6935225f55ef623333b075794",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-04-neon-billboard-exit/portal-design.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-04-neon-billboard-exit/portal-implementation.md",
+          "blob_sha": "92966e860cf314bc0ce7525713f3fb6394f9b3cf",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-04-neon-billboard-exit/portal-implementation.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-07-neon-task9-t9-4/progress.md",
+          "blob_sha": "126b87d337a17922ae000ecc1bfbce77f35bf125",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-07-neon-task9-t9-4/progress.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-07-neon-task9-t9-5/progress.md",
+          "blob_sha": "6a44a05dc0b5668f65946f332f17d6da7b8ac192",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-07-neon-task9-t9-5/progress.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-08-neon-task9-t9-6/progress.md",
+          "blob_sha": "80f7ac8e3bbd52e43fd0a788d774695c21ddb4d0",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-08-neon-task9-t9-6/progress.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-10-neon-grid-release-consolidation/README.md",
+          "blob_sha": "2465aed62e4c7f0c3de121ca00f6618a69a422b3",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-10-neon-grid-release-consolidation/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-10-neon-grid-release-consolidation/pr-242-description.md",
+          "blob_sha": "76d880b44d56ed6b7b0d0326eaf7e6a81008fe3f",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-10-neon-grid-release-consolidation/pr-242-description.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-12-neon-grid-abyss-fog-001/README.md",
+          "blob_sha": "a73c9738092c2f98067127d9cef30f7a648f00b0",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-12-neon-grid-abyss-fog-001/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-12-neon-grid-abyss-fog-001/preview-publication-plan.md",
+          "blob_sha": "dbf69b19511402a7ee9ee5e1b97210637c72bc4c",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-12-neon-grid-abyss-fog-001/preview-publication-plan.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-12-neon-grid-abyss-fog-001/runtime-pr-description.md",
+          "blob_sha": "d88f93aec85769c747ee244488b2ee332c964cb6",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-12-neon-grid-abyss-fog-001/runtime-pr-description.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/superpowers/plans/2026-10-02-neon-grid.md",
+          "blob_sha": "e539b6097cd3b6d407efe780e4f2e69d6d8a551a",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/superpowers/plans/2026-10-02-neon-grid.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/superpowers/plans/2026-10-03-neon-residual-turn-repair.md",
+          "blob_sha": "7d4d318c1fac8eeabcd3e187366cf6c4ff9c21f9",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/superpowers/plans/2026-10-03-neon-residual-turn-repair.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/superpowers/plans/2026-10-13-neon-grid-post-fog-graphics-roadmap.md",
+          "blob_sha": "f89ad360b3d80d5eac6ae208a3655bc2bda9b243",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/superpowers/plans/2026-10-13-neon-grid-post-fog-graphics-roadmap.md"
+        }
+      ],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": null,
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": true,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/6919729ba5e12f48305f543dca153f4ba9c5ae19",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/242"
+    ],
+    "required_action": "Keep branch. Reconsider only after the active work/PR or exact runtime dependency ends and Manny separately approves a verified durable replacement.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "diagnostic/task8-paired-perf",
+    "head_sha": "71880d187f273d9a868fa543bdb2a7e05b144898",
+    "classification": "PRESERVE FIRST",
+    "classification_basis": "Canonical prior preservation requirement remains open; no replacement reference or canonical evidence action has been verified.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": [
+      {
+        "number": 263,
+        "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/263",
+        "state": "closed",
+        "merged": false,
+        "head_sha": "71880d187f273d9a868fa543bdb2a7e05b144898",
+        "branch_tip_equals_pr_head": true,
+        "merge_commit": null,
+        "integration_commit_ancestor_main": null,
+        "integration_commit_ancestor_active_task_line": null
+      }
+    ],
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-16-branch-preservation/README.md",
+          "blob_sha": "ebecb670d5128a3c615e2bbe34002aa6a50d0499",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+        }
+      ],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "archive/neon-grid-task8-diagnostics",
+      "blocking": true
+    },
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/71880d187f273d9a868fa543bdb2a7e05b144898",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/263",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Verify owner-approved exact-target proposed tag or equivalent durable reference; retain source branch meanwhile. Separately preserve artifact 11424851717 category-matrix JSON/results before January 4, 2027; a tag does not preserve Actions artifacts.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "docs/neon-grid-task-c0-1-visibility-review-20261015",
+    "head_sha": "48d4b474cf8c9ce590a7623c8e83b44ac0914ef8",
+    "classification": "PRESERVE FIRST",
+    "classification_basis": "Canonical prior preservation requirement remains open; no replacement reference or canonical evidence action has been verified.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": null,
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-16-branch-preservation/README.md",
+          "blob_sha": "ebecb670d5128a3c615e2bbe34002aa6a50d0499",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "b6e2bd08e4e46af13c61ef2a14aefa63f313eaa6",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/IMPLEMENTATION-STATUS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-15-neon-grid-task-c1/README.md",
+          "blob_sha": "f73357e0bc77ab239492e071d6f2ce85b4444bb5",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-15-neon-grid-task-c1/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-15-neon-grid-task-c1/asset-manifest.json",
+          "blob_sha": "5030386d71fe3db74ff8197d7cc43328f2c94da7",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-15-neon-grid-task-c1/asset-manifest.json"
+        }
+      ],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "archive/neon-grid-c0-c0-1-evidence",
+      "blocking": true
+    },
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/48d4b474cf8c9ce590a7623c8e83b44ac0914ef8",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Verify owner-approved exact-target proposed tag or equivalent durable reference; retain source branch meanwhile.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "docs/results-deployment-record",
+    "head_sha": "4b645f05e5df0d8ac92271b6cceecfb23b16895f",
+    "classification": "PRESERVE FIRST",
+    "classification_basis": "Canonical prior preservation requirement remains open; no replacement reference or canonical evidence action has been verified.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": [
+      {
+        "number": 194,
+        "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/194",
+        "state": "closed",
+        "merged": false,
+        "head_sha": "4b645f05e5df0d8ac92271b6cceecfb23b16895f",
+        "branch_tip_equals_pr_head": true,
+        "merge_commit": null,
+        "integration_commit_ancestor_main": null,
+        "integration_commit_ancestor_active_task_line": null
+      }
+    ],
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "results-deployment-canonical-record",
+      "blocking": true
+    },
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/4b645f05e5df0d8ac92271b6cceecfb23b16895f",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/194"
+    ],
+    "required_action": "Preserve the unique PR #194 production-delivery checkpoint and served-bundle/run evidence in canonical records; verify content before reconsideration.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "engineering/ci1b-runner-image-compatibility-20261014",
+    "head_sha": "c4e6f54fffdf3c530196a21cb5d8c4880dae343a",
+    "classification": "PRESERVE FIRST",
+    "classification_basis": "Canonical prior preservation requirement remains open; no replacement reference or canonical evidence action has been verified.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": null,
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [
+        {
+          "line": "main",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "52b0dab8df8cb53f45afb950a0afdf1a57465c92",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/IMPLEMENTATION-STATUS.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-16-branch-preservation/README.md",
+          "blob_sha": "ebecb670d5128a3c615e2bbe34002aa6a50d0499",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/DECISIONS.md",
+          "blob_sha": "590fc038babc700c9739df766fe86dee9228a1da",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/DECISIONS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "b6e2bd08e4e46af13c61ef2a14aefa63f313eaa6",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/IMPLEMENTATION-STATUS.md"
+        }
+      ],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "archive/ci1b-runner-image-investigation",
+      "blocking": true
+    },
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/c4e6f54fffdf3c530196a21cb5d8c4880dae343a",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Verify owner-approved exact-target proposed tag or equivalent durable reference; retain source branch meanwhile. Separately preserve the four producer manifests before November 13, 2026.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "experiment/b5-b2-unattended-work-001",
+    "head_sha": "c8b4ecf8522ae2bc7335260e3f87c827de7a978f",
+    "classification": "PRESERVE FIRST",
+    "classification_basis": "Canonical prior preservation requirement remains open; no replacement reference or canonical evidence action has been verified.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": null,
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-16-branch-preservation/README.md",
+          "blob_sha": "ebecb670d5128a3c615e2bbe34002aa6a50d0499",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+        }
+      ],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "archive/ai-handoff-b5-experiment",
+      "blocking": true
+    },
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/c8b4ecf8522ae2bc7335260e3f87c827de7a978f",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Verify owner-approved exact-target proposed tag or equivalent durable reference; retain source branch meanwhile.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "experiment/balance-candidate-b",
+    "head_sha": "b49a9f18cd34d3c1241357f22b0b59f4cb6a3785",
+    "classification": "OWNER DECISION",
+    "classification_basis": "Candidate B rejected product direction; explicit historical retention instruction remains unresolved.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": [
+      {
+        "number": 162,
+        "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/162",
+        "state": "closed",
+        "merged": false,
+        "head_sha": "b49a9f18cd34d3c1241357f22b0b59f4cb6a3785",
+        "branch_tip_equals_pr_head": true,
+        "merge_commit": null,
+        "integration_commit_ancestor_main": null,
+        "integration_commit_ancestor_active_task_line": null
+      }
+    ],
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "candidate-b-historical-hold",
+      "blocking": true
+    },
+    "owner_hold": {
+      "exists": true,
+      "reason": "Candidate B rejected product direction; explicit historical retention instruction remains unresolved."
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/b49a9f18cd34d3c1241357f22b0b59f4cb6a3785",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/162",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Keep untouched. Manny must explicitly retain the branch or approve the smallest durable evidence replacement and release the historical hold.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "experiment/candidate-b-ai-execution",
+    "head_sha": "19743f98defedbba7258a5ae198e5cb6ca56e148",
+    "classification": "OWNER DECISION",
+    "classification_basis": "Candidate B AI-execution historical retention instruction remains unresolved.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": [
+      {
+        "number": 180,
+        "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/180",
+        "state": "closed",
+        "merged": false,
+        "head_sha": "19743f98defedbba7258a5ae198e5cb6ca56e148",
+        "branch_tip_equals_pr_head": true,
+        "merge_commit": null,
+        "integration_commit_ancestor_main": null,
+        "integration_commit_ancestor_active_task_line": null
+      }
+    ],
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "candidate-b-historical-hold",
+      "blocking": true
+    },
+    "owner_hold": {
+      "exists": true,
+      "reason": "Candidate B AI-execution historical retention instruction remains unresolved."
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/19743f98defedbba7258a5ae198e5cb6ca56e148",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/180",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Keep untouched. Manny must explicitly retain the branch or approve the smallest durable evidence replacement and release the historical hold.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "experiment/candidate-b-soft-pack",
+    "head_sha": "1dfbfa23046742edff42e15f39047a9f8eb11bc3",
+    "classification": "OWNER DECISION",
+    "classification_basis": "Candidate B soft-pack historical retention instruction remains unresolved.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": [
+      {
+        "number": 179,
+        "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/179",
+        "state": "closed",
+        "merged": false,
+        "head_sha": "1dfbfa23046742edff42e15f39047a9f8eb11bc3",
+        "branch_tip_equals_pr_head": true,
+        "merge_commit": null,
+        "integration_commit_ancestor_main": null,
+        "integration_commit_ancestor_active_task_line": null
+      }
+    ],
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "candidate-b-historical-hold",
+      "blocking": true
+    },
+    "owner_hold": {
+      "exists": true,
+      "reason": "Candidate B soft-pack historical retention instruction remains unresolved."
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/1dfbfa23046742edff42e15f39047a9f8eb11bc3",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/179",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Keep untouched. Manny must explicitly retain the branch or approve the smallest durable evidence replacement and release the historical hold.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "experiment/ci-validation-optimization-benchmark-20261014",
+    "head_sha": "59512851ef963fce7d1c553b1650b53d9d6e7a26",
+    "classification": "PRESERVE FIRST",
+    "classification_basis": "Canonical prior preservation requirement remains open; no replacement reference or canonical evidence action has been verified.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": null,
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [
+        {
+          "line": "main",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "52b0dab8df8cb53f45afb950a0afdf1a57465c92",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/IMPLEMENTATION-STATUS.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-14-ci-validation-optimization/report.md",
+          "blob_sha": "07a9b9b6bae459b333b32c221d2f999addc53aa7",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-14-ci-validation-optimization/report.md"
+        },
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-16-branch-preservation/README.md",
+          "blob_sha": "ebecb670d5128a3c615e2bbe34002aa6a50d0499",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/DECISIONS.md",
+          "blob_sha": "590fc038babc700c9739df766fe86dee9228a1da",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/DECISIONS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "b6e2bd08e4e46af13c61ef2a14aefa63f313eaa6",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/IMPLEMENTATION-STATUS.md"
+        }
+      ],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "archive/ci2-validation-benchmark",
+      "blocking": true
+    },
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/59512851ef963fce7d1c553b1650b53d9d6e7a26",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Verify owner-approved exact-target proposed tag or equivalent durable reference; retain source branch meanwhile.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "experiment/neon-grid-abyss-fog-001",
+    "head_sha": "7209b5b331a5bdaba65413169d5b3b942ef13a19",
+    "classification": "OWNER DECISION",
+    "classification_basis": "B1 owner-rejected visual experiment retained for A/B evidence; pending preservation decision. B2 and V3.2 do not release this hold.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": [
+      {
+        "number": 292,
+        "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/292",
+        "state": "closed",
+        "merged": false,
+        "head_sha": "7209b5b331a5bdaba65413169d5b3b942ef13a19",
+        "branch_tip_equals_pr_head": true,
+        "merge_commit": null,
+        "integration_commit_ancestor_main": null,
+        "integration_commit_ancestor_active_task_line": null
+      }
+    ],
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [
+        {
+          "line": "main",
+          "path": "README.md",
+          "blob_sha": "66599de46911cc47d0408b43cef8647702b32b3c",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/DECISIONS.md",
+          "blob_sha": "590fc038babc700c9739df766fe86dee9228a1da",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/DECISIONS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "b6e2bd08e4e46af13c61ef2a14aefa63f313eaa6",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/IMPLEMENTATION-STATUS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/TESTING.md",
+          "blob_sha": "f4c2166cdcbc09f83503a15924714cbee566fd9c",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/TESTING.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-12-neon-grid-abyss-fog-001/README.md",
+          "blob_sha": "a73c9738092c2f98067127d9cef30f7a648f00b0",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-12-neon-grid-abyss-fog-001/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-12-neon-grid-abyss-fog-001/runtime-pr-description.md",
+          "blob_sha": "d88f93aec85769c747ee244488b2ee332c964cb6",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-12-neon-grid-abyss-fog-001/runtime-pr-description.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-12-neon-grid-abyss-fog-002/README.md",
+          "blob_sha": "dfa9e6ee3493fe8d08c89b4306897e9ebb49e2a9",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-12-neon-grid-abyss-fog-002/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-12-neon-grid-abyss-fog-002/runtime-pr-description.md",
+          "blob_sha": "f782b74acffaa0fee861ed589d9a6435c0dfb768",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-12-neon-grid-abyss-fog-002/runtime-pr-description.md"
+        }
+      ],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "fog-b1-preservation-decision",
+      "blocking": true
+    },
+    "owner_hold": {
+      "exists": true,
+      "reason": "B1 owner-rejected visual experiment retained for A/B evidence; pending preservation decision. B2 and V3.2 do not release this hold."
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": false,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/7209b5b331a5bdaba65413169d5b3b942ef13a19",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/292",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Keep untouched. Manny must explicitly retain the branch or approve the smallest durable evidence replacement and release the historical hold.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "fix/neon-grid-task-a-sponsor-visibility-20261014",
+    "head_sha": "91393418c9b219fb5689c2041fb98325aa1e7b41",
+    "classification": "RETAIN",
+    "classification_basis": "Active Task A/B/C1 nonproduction line; retains current source pins and C1 evidence.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": true,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": null,
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-16-branch-preservation/README.md",
+          "blob_sha": "ebecb670d5128a3c615e2bbe34002aa6a50d0499",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/DECISIONS.md",
+          "blob_sha": "590fc038babc700c9739df766fe86dee9228a1da",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/DECISIONS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "b6e2bd08e4e46af13c61ef2a14aefa63f313eaa6",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/IMPLEMENTATION-STATUS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/TESTING.md",
+          "blob_sha": "f4c2166cdcbc09f83503a15924714cbee566fd9c",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/TESTING.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-14-neon-grid-task-a-sponsors/README.md",
+          "blob_sha": "8aba3b088fdb2bdc22d0ce722a558565a4934d67",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-14-neon-grid-task-a-sponsors/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-14-neon-grid-task-a-sponsors/draft-pr-description.md",
+          "blob_sha": "ebc64fc175f7f2c46be8cb5095321886b0919ca8",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-14-neon-grid-task-a-sponsors/draft-pr-description.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/evidence/2026-10-15-neon-grid-task-c1/README.md",
+          "blob_sha": "f73357e0bc77ab239492e071d6f2ce85b4444bb5",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/evidence/2026-10-15-neon-grid-task-c1/README.md"
+        }
+      ],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": null,
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": true,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/91393418c9b219fb5689c2041fb98325aa1e7b41"
+    ],
+    "required_action": "Keep branch. Reconsider only after the active work/PR or exact runtime dependency ends and Manny separately approves a verified durable replacement.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "main",
+    "head_sha": "e63a692b79846aedcc49d47b35dee60f4d379a03",
+    "classification": "RETAIN",
+    "classification_basis": "Default production line and enforced branch ruleset.",
+    "main_ancestry": true,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": null,
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [],
+      "documentation_references": [],
+      "current_source_pin_at_this_head": [],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": null,
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": true,
+    "governance_protected_active_reference": true,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/e63a692b79846aedcc49d47b35dee60f4d379a03"
+    ],
+    "required_action": "Keep branch. Reconsider only after the active work/PR or exact runtime dependency ends and Manny separately approves a verified durable replacement.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  },
+  {
+    "branch": "review/neon-grid-far300-stopgap",
+    "head_sha": "ce6a64cf36b1f110af028536d3ff9c7a306ccbdb",
+    "classification": "RETAIN",
+    "classification_basis": "Necessary exact current Far300 source-retention reference while proposed tag is absent.",
+    "main_ancestry": false,
+    "active_line_ancestry": {
+      "task_a_b_c1": false,
+      "neon_grid_pr242": false
+    },
+    "associated_pr": [
+      {
+        "number": 266,
+        "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/266",
+        "state": "closed",
+        "merged": false,
+        "head_sha": "ce6a64cf36b1f110af028536d3ff9c7a306ccbdb",
+        "branch_tip_equals_pr_head": true,
+        "merge_commit": null,
+        "integration_commit_ancestor_main": null,
+        "integration_commit_ancestor_active_task_line": null
+      }
+    ],
+    "pr_integration": {
+      "exact_diff_comparison": null,
+      "disposition": "See associated_pr and classification_basis; do not infer integration from a closed PR."
+    },
+    "active_reference_dependencies": {
+      "branch_name_executable_references": [],
+      "head_sha_executable_references": [
+        {
+          "line": "main",
+          "path": ".github/workflows/ci.yml",
+          "blob_sha": "c27c8383dfa42b97ea6708966332ac7bcfee1d36",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/.github/workflows/ci.yml"
+        },
+        {
+          "line": "main",
+          "path": ".github/workflows/trusted-pinned-runtime-validation.yml",
+          "blob_sha": "171ca6863f409d15b0b4a1ab08d22d18f984dc1d",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/.github/workflows/trusted-pinned-runtime-validation.yml"
+        },
+        {
+          "line": "task",
+          "path": ".github/workflows/ci.yml",
+          "blob_sha": "dcac1d7b044116623987de87cbb533d2a6439eae",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/.github/workflows/ci.yml"
+        }
+      ],
+      "documentation_references": [
+        {
+          "line": "main",
+          "path": "docs/evidence/2026-10-16-branch-preservation/README.md",
+          "blob_sha": "ebecb670d5128a3c615e2bbe34002aa6a50d0499",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/IMPLEMENTATION-STATUS.md",
+          "blob_sha": "b6e2bd08e4e46af13c61ef2a14aefa63f313eaa6",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/IMPLEMENTATION-STATUS.md"
+        },
+        {
+          "line": "task",
+          "path": "docs/TESTING.md",
+          "blob_sha": "f4c2166cdcbc09f83503a15924714cbee566fd9c",
+          "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/91393418c9b219fb5689c2041fb98325aa1e7b41/docs/TESTING.md"
+        }
+      ],
+      "current_source_pin_at_this_head": [
+        {
+          "sha": "ce6a64cf36b1f110af028536d3ff9c7a306ccbdb",
+          "workflow_paths": [
+            ".github/workflows/ci.yml",
+            ".github/workflows/trusted-pinned-runtime-validation.yml"
+          ],
+          "retained_by": [
+            "review/neon-grid-far300-stopgap"
+          ],
+          "requires_far300_branch": true
+        }
+      ],
+      "scan_scope": "Complete current main and active Task line workflow/tools/scripts/package and documentation text index; pinned runtime ancestry checked against complete retained DAGs."
+    },
+    "preservation_dependency": {
+      "id": "archive/neon-grid-far300-source",
+      "must_keep_supporting_branch_until_verified_replacement": true
+    },
+    "owner_hold": {
+      "state": "no_hold_identified_in_reviewed_records",
+      "not_an_owner_deletion_approval": true
+    },
+    "github_branch_protected": false,
+    "governance_protected_active_reference": true,
+    "source_evidence": [
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/ce6a64cf36b1f110af028536d3ff9c7a306ccbdb",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/266",
+      "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    ],
+    "required_action": "Keep branch. Reconsider only after the active work/PR or exact runtime dependency ends and Manny separately approves a verified durable replacement.",
+    "asset_lfs_state": {
+      "branch_specific_unresolved_gap": "See preservation dependency and global LFS gate",
+      "remote_payload_availability_verified": null
+    }
+  }
+]

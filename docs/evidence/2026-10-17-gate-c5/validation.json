@@ -1,0 +1,41 @@
+{
+  "date_utc": "2026-10-17",
+  "base_commit": "e63a692b79846aedcc49d47b35dee60f4d379a03",
+  "node": "22.23.3",
+  "npm": "10.9.9",
+  "node_distribution_archive_sha256": "df450af89261115ef9f9e3830c3eeb2cc9213b63c720b1af623cb5dcbe2e02de",
+  "command": "npm run validate",
+  "exit_code": 0,
+  "typecheck": "PASS",
+  "lint": "PASS, zero warnings",
+  "test_files": {
+    "passed": 105,
+    "total": 105
+  },
+  "tests": {
+    "passed": 834,
+    "total": 834
+  },
+  "coverage_percent": {
+    "statements": 88.65,
+    "branches": 80.13,
+    "functions": 89.82,
+    "lines": 90.87
+  },
+  "build": "PASS; existing large-chunk advisory only",
+  "full_validation_log_sha256": "e959bd4a5492cb6fdf1728c6c46d4676d7c52f578bf712987d6dc62336ad3e9f",
+  "initial_restricted_execution": {
+    "exit_code": 1,
+    "test_files_failed": 4,
+    "tests_failed": 9,
+    "cause": "Child-process launches denied by sandbox (spawnSync EPERM). No source changes; rerun unchanged command with supported execution permission passed."
+  },
+  "git_diff_check": "PASS",
+  "checkpoint_integrity": "PASS, 176 refs and 14 exceptions; source hashes unchanged; all 13 archive/content digests verified",
+  "results_patch_reconstruction": "PASS, both reconstructed source blob SHAs match original checkpoint",
+  "local_git_lfs_fsck": "PASS",
+  "remote_lfs_payload_availability_verified": null,
+  "stage_c": "PREPARED_DISABLED",
+  "scope": "Only additions under docs/evidence/2026-10-17-gate-c5/; no runtime, asset, PRD, workflow, test configuration or source-ref changes.",
+  "hosted_pr_ci": "Not yet created at local validation checkpoint; inspect the draft PR for subsequent hosted results."
+}

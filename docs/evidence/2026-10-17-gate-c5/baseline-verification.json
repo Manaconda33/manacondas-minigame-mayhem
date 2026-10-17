@@ -1,0 +1,48 @@
+{
+  "date_utc": "2026-10-17",
+  "main": "e63a692b79846aedcc49d47b35dee60f4d379a03",
+  "active_task_line": "91393418c9b219fb5689c2041fb98325aa1e7b41",
+  "pr242": {
+    "head": "6919729ba5e12f48305f543dca153f4ba9c5ae19",
+    "state": "open",
+    "draft": true,
+    "merged": false
+  },
+  "stage_c": "PREPARED_DISABLED",
+  "required_check": "validate",
+  "current_ruleset_id": 24865992,
+  "archive_tags_created": false,
+  "inventory_before_checkpoint_branch": {
+    "count": 176,
+    "sha256": "80dc93b57b082d387b07fe6010e2ee31103e5a1ae1b0c061a9202d96e960c462",
+    "all_heads_match_c5_a": true
+  },
+  "all_14_exception_heads_match": true,
+  "current_main_runs": [
+    {
+      "id": 38930365120,
+      "head_sha": "e63a692b79846aedcc49d47b35dee60f4d379a03",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38930365120"
+    },
+    {
+      "id": 38930364769,
+      "head_sha": "e63a692b79846aedcc49d47b35dee60f4d379a03",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38930364769"
+    }
+  ],
+  "canonical_governance_reviewed": [
+    "docs/PRD.md",
+    "docs/IMPLEMENTATION-STATUS.md",
+    "docs/DECISIONS.md",
+    "docs/TESTING.md",
+    "README.md",
+    "docs/AVATAR-INTAKE.md",
+    "docs/ROSTER-MAPPING.md",
+    "docs/LFS-PUBLISHING.md",
+    "docs/evidence/2026-10-16-branch-preservation/README.md"
+  ]
+}

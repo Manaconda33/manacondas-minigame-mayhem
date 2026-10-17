@@ -1,0 +1,51 @@
+{
+  "source_branch": "docs/results-deployment-record",
+  "source_commit": "4b645f05e5df0d8ac92271b6cceecfb23b16895f",
+  "source_commit_url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/commit/4b645f05e5df0d8ac92271b6cceecfb23b16895f",
+  "source_parent": "cd64cfee610844e2697a40274338c5781c4e255f",
+  "source_parent_ancestor_of_current_main": true,
+  "pr": 194,
+  "pr_state": "closed",
+  "pr_merged": false,
+  "patch_path": "results-deployment-record.patch",
+  "patch_sha256": "12262bb10646be2094724104470030ff306db2abe7b46a7ac7f42566794e7ce5",
+  "source_files": [
+    {
+      "path": "docs/IMPLEMENTATION-STATUS.md",
+      "source_blob_sha": "6f0b66c55c918e4b8d20ac0ff3f6d3061f193632"
+    },
+    {
+      "path": "docs/TESTING.md",
+      "source_blob_sha": "13c7cdb3a8949d87f8e9159983be9d3999190bce"
+    }
+  ],
+  "production_integration_pr": 193,
+  "production_merge_commit": "cd64cfee610844e2697a40274338c5781c4e255f",
+  "run_id": 36447148479,
+  "run_url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36447148479",
+  "run_head": "cd64cfee610844e2697a40274338c5781c4e255f",
+  "run_conclusion": "success",
+  "jobs": [
+    {
+      "id": 109012270994,
+      "name": "validate",
+      "conclusion": "success",
+      "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36447148479/job/109012270994"
+    },
+    {
+      "id": 109013153317,
+      "name": "deploy",
+      "conclusion": "success",
+      "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/36447148479/job/109013153317"
+    }
+  ],
+  "historically_reported_production_url": "https://manaconda33.github.io/manacondas-minigame-mayhem/",
+  "historically_reported_css": "assets/index-DJK8tDDQ.css",
+  "historically_reported_js": "assets/index-D9Y3t-Uv.js",
+  "historical_scope": "Deployment/loaded-asset observation only; Results visual acceptance remained pending at this checkpoint. Later canonical Task11/full-flow acceptance supersedes pending statuses without expanding this historical claim.",
+  "provenance_limitations": [
+    "Source contains no independent SHA256 of historical served CSS/JS bodies; bundler filenames are not full cryptographic byte verification.",
+    "No present-day refetch is asserted to reconstruct historical production responses.",
+    "The exact patch plus its main-ancestral parent reconstructs both documentation blobs; no historical runtime changes are included."
+  ]
+}

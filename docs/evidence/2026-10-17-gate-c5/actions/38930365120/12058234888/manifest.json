@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "status": "success",
+  "completed": true,
+  "exitCode": 0,
+  "runtimeId": "dive",
+  "sourceSha": "b49d9876f8c6ce87956f8b91675c3c8180e56b55",
+  "sourceTree": "095bc5185ab5790efed5681dc228442b771b683c",
+  "contractSha256": "368ec7530ddf2d80ef3bc8552b4dba147b85727a3bda5b466ddef94b84c280e0",
+  "workflowBlob": "171ca6863f409d15b0b4a1ab08d22d18f984dc1d",
+  "contractLockSha256": "f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1",
+  "runtimeLockSha256": "f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1",
+  "lfsInventorySha256": "234d0e7336e2d824e9af54f107a2628ce544b42a2260bafb2d32d8e807c765bc",
+  "nodeVersion": "v22.23.3",
+  "npmVersion": "10.9.9",
+  "runnerImage": "ubuntu24/20261012.334.1",
+  "toolchainSha256": "02e97030c6713c011b2995e049482488a486bb1dcf7af3c1b63a967094c73687",
+  "commands": [
+    "git lfs fsck",
+    "test \"$(git rev-parse HEAD)\" = \"$PIN_SHA\"",
+    "test \"$(git rev-parse 'HEAD^{tree}')\" = \"$PIN_TREE_SHA\"",
+    "echo \"$PIN_LOCK_SHA256  package-lock.json\" | sha256sum --check",
+    "test \"$(git lfs ls-files -l | sed -E 's/^([0-9a-f]{64}) [*+-] /\\1 /' | sha256sum | cut -d' ' -f1)\" = \"$PIN_LFS_INVENTORY_SHA256\"",
+    "npm ci",
+    "npm run validate",
+    "npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-dive/"
+  ],
+  "workflowRun": {
+    "id": 38930365120,
+    "attempt": 1,
+    "event": "push",
+    "branch": "main",
+    "ref": "refs/heads/main",
+    "sha": "e63a692b79846aedcc49d47b35dee60f4d379a03",
+    "workflowPath": ".github/workflows/trusted-pinned-runtime-validation.yml",
+    "producerJobName": "trusted-pinned-runtime-validation (dive)"
+  }
+}

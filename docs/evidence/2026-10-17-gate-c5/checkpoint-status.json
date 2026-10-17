@@ -1,0 +1,118 @@
+{
+  "gate": "C5-B",
+  "verdict": "PASS",
+  "status": "Review checkpoint prepared; not merged",
+  "original_c5_a_classifications_unchanged": true,
+  "original_snapshot_ref_count": 176,
+  "expected_intentional_ref_increase_from_preservation_branch": 1,
+  "exception_count": 14,
+  "exceptions": [
+    {
+      "branch": "design/neon-grid-circuit-02",
+      "head_sha": "6919729ba5e12f48305f543dca153f4ba9c5ae19",
+      "classification": "RETAIN",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "diagnostic/task8-paired-perf",
+      "head_sha": "71880d187f273d9a868fa543bdb2a7e05b144898",
+      "classification": "PRESERVE FIRST",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "docs/neon-grid-task-c0-1-visibility-review-20261015",
+      "head_sha": "48d4b474cf8c9ce590a7623c8e83b44ac0914ef8",
+      "classification": "PRESERVE FIRST",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "docs/results-deployment-record",
+      "head_sha": "4b645f05e5df0d8ac92271b6cceecfb23b16895f",
+      "classification": "PRESERVE FIRST",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "engineering/ci1b-runner-image-compatibility-20261014",
+      "head_sha": "c4e6f54fffdf3c530196a21cb5d8c4880dae343a",
+      "classification": "PRESERVE FIRST",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "experiment/b5-b2-unattended-work-001",
+      "head_sha": "c8b4ecf8522ae2bc7335260e3f87c827de7a978f",
+      "classification": "PRESERVE FIRST",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "experiment/balance-candidate-b",
+      "head_sha": "b49a9f18cd34d3c1241357f22b0b59f4cb6a3785",
+      "classification": "OWNER DECISION",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "experiment/candidate-b-ai-execution",
+      "head_sha": "19743f98defedbba7258a5ae198e5cb6ca56e148",
+      "classification": "OWNER DECISION",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "experiment/candidate-b-soft-pack",
+      "head_sha": "1dfbfa23046742edff42e15f39047a9f8eb11bc3",
+      "classification": "OWNER DECISION",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "experiment/ci-validation-optimization-benchmark-20261014",
+      "head_sha": "59512851ef963fce7d1c553b1650b53d9d6e7a26",
+      "classification": "PRESERVE FIRST",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "experiment/neon-grid-abyss-fog-001",
+      "head_sha": "7209b5b331a5bdaba65413169d5b3b942ef13a19",
+      "classification": "OWNER DECISION",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "fix/neon-grid-task-a-sponsor-visibility-20261014",
+      "head_sha": "91393418c9b219fb5689c2041fb98325aa1e7b41",
+      "classification": "RETAIN",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "main",
+      "head_sha": "e63a692b79846aedcc49d47b35dee60f4d379a03",
+      "classification": "RETAIN",
+      "retirement_authorized": false
+    },
+    {
+      "branch": "review/neon-grid-far300-stopgap",
+      "head_sha": "ce6a64cf36b1f110af028536d3ff9c7a306ccbdb",
+      "classification": "RETAIN",
+      "retirement_authorized": false
+    }
+  ],
+  "actions_contents_included": 13,
+  "actions_contents_unavailable": 0,
+  "results_exact_patch_included": true,
+  "source_branches_to_delete": [],
+  "tags_to_create": [],
+  "owner_authorization": {
+    "create_one_preservation_branch_commit_and_draft_pr": true,
+    "merge": false,
+    "branch_deletion": false,
+    "tag_creation_or_ruleset_changes": false,
+    "runtime_or_ci_changes": false,
+    "deployment": false,
+    "stage_c_activation": false
+  },
+  "stage_c": "PREPARED_DISABLED",
+  "unresolved": [
+    "Six exact-target durable references/tag protection remain unexecuted.",
+    "Three Candidate B holds and Fog B1 preservation decision remain in force.",
+    "Final remote LFS payload availability is unverified.",
+    "Manny review/merge and later explicit bounded retirement authorization remain required."
+  ],
+  "checkpoint_branch": "docs/gate-c5-durable-preservation-20261017",
+  "checkpoint_branch_retention": "RETAIN while this preservation review is open; excluded from the historical 176-ref snapshot."
+}

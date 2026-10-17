@@ -1,0 +1,275 @@
+{
+  "archive_proposals": [
+    {
+      "tag": "archive/neon-grid-far300-source",
+      "target_sha": "ce6a64cf36b1f110af028536d3ff9c7a306ccbdb",
+      "exists": false,
+      "target_exists": true,
+      "supporting_branch": "review/neon-grid-far300-stopgap",
+      "supporting_branch_must_remain": true,
+      "still_required_or_equivalent_owner_approved_durable_reference": true,
+      "tag_specific_ruleset_found": false,
+      "tag_protection_decision": "PENDING owner decision before approved creation; no ruleset changed",
+      "lfs_pointer_screen": {
+        "pointer_sized_asset_blobs": 234,
+        "not_shared_with_current_main_or_task": 0,
+        "scope": "Tree/blob comparison, not verification of remote LFS payload availability or every historical pointer."
+      },
+      "evidence": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    },
+    {
+      "tag": "archive/neon-grid-task8-diagnostics",
+      "target_sha": "71880d187f273d9a868fa543bdb2a7e05b144898",
+      "exists": false,
+      "target_exists": true,
+      "supporting_branch": "diagnostic/task8-paired-perf",
+      "supporting_branch_must_remain": true,
+      "still_required_or_equivalent_owner_approved_durable_reference": true,
+      "tag_specific_ruleset_found": false,
+      "tag_protection_decision": "PENDING owner decision before approved creation; no ruleset changed",
+      "lfs_pointer_screen": {
+        "pointer_sized_asset_blobs": 234,
+        "not_shared_with_current_main_or_task": 0,
+        "scope": "Tree/blob comparison, not verification of remote LFS payload availability or every historical pointer."
+      },
+      "evidence": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    },
+    {
+      "tag": "archive/neon-grid-c0-c0-1-evidence",
+      "target_sha": "48d4b474cf8c9ce590a7623c8e83b44ac0914ef8",
+      "exists": false,
+      "target_exists": true,
+      "supporting_branch": "docs/neon-grid-task-c0-1-visibility-review-20261015",
+      "supporting_branch_must_remain": true,
+      "still_required_or_equivalent_owner_approved_durable_reference": true,
+      "tag_specific_ruleset_found": false,
+      "tag_protection_decision": "PENDING owner decision before approved creation; no ruleset changed",
+      "lfs_pointer_screen": {
+        "pointer_sized_asset_blobs": 234,
+        "not_shared_with_current_main_or_task": 0,
+        "scope": "Tree/blob comparison, not verification of remote LFS payload availability or every historical pointer."
+      },
+      "evidence": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    },
+    {
+      "tag": "archive/ci1b-runner-image-investigation",
+      "target_sha": "c4e6f54fffdf3c530196a21cb5d8c4880dae343a",
+      "exists": false,
+      "target_exists": true,
+      "supporting_branch": "engineering/ci1b-runner-image-compatibility-20261014",
+      "supporting_branch_must_remain": true,
+      "still_required_or_equivalent_owner_approved_durable_reference": true,
+      "tag_specific_ruleset_found": false,
+      "tag_protection_decision": "PENDING owner decision before approved creation; no ruleset changed",
+      "lfs_pointer_screen": {
+        "pointer_sized_asset_blobs": 234,
+        "not_shared_with_current_main_or_task": 0,
+        "scope": "Tree/blob comparison, not verification of remote LFS payload availability or every historical pointer."
+      },
+      "evidence": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    },
+    {
+      "tag": "archive/ci2-validation-benchmark",
+      "target_sha": "59512851ef963fce7d1c553b1650b53d9d6e7a26",
+      "exists": false,
+      "target_exists": true,
+      "supporting_branch": "experiment/ci-validation-optimization-benchmark-20261014",
+      "supporting_branch_must_remain": true,
+      "still_required_or_equivalent_owner_approved_durable_reference": true,
+      "tag_specific_ruleset_found": false,
+      "tag_protection_decision": "PENDING owner decision before approved creation; no ruleset changed",
+      "lfs_pointer_screen": {
+        "pointer_sized_asset_blobs": 234,
+        "not_shared_with_current_main_or_task": 0,
+        "scope": "Tree/blob comparison, not verification of remote LFS payload availability or every historical pointer."
+      },
+      "evidence": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    },
+    {
+      "tag": "archive/ai-handoff-b5-experiment",
+      "target_sha": "c8b4ecf8522ae2bc7335260e3f87c827de7a978f",
+      "exists": false,
+      "target_exists": true,
+      "supporting_branch": "experiment/b5-b2-unattended-work-001",
+      "supporting_branch_must_remain": true,
+      "still_required_or_equivalent_owner_approved_durable_reference": true,
+      "tag_specific_ruleset_found": false,
+      "tag_protection_decision": "PENDING owner decision before approved creation; no ruleset changed",
+      "lfs_pointer_screen": {
+        "pointer_sized_asset_blobs": 234,
+        "not_shared_with_current_main_or_task": 0,
+        "scope": "Tree/blob comparison, not verification of remote LFS payload availability or every historical pointer."
+      },
+      "evidence": "https://github.com/Manaconda33/manacondas-minigame-mayhem/blob/e63a692b79846aedcc49d47b35dee60f4d379a03/docs/evidence/2026-10-16-branch-preservation/README.md"
+    }
+  ],
+  "owner_decisions": [
+    {
+      "branch": "experiment/balance-candidate-b",
+      "head_sha": "b49a9f18cd34d3c1241357f22b0b59f4cb6a3785",
+      "reason": "Candidate B rejected product direction; explicit historical retention instruction remains unresolved.",
+      "resolved_by_later_record": false,
+      "options": [
+        "Keep branch and historical hold",
+        "Approve a minimal durable decision/evidence record plus a shared reference if required, then explicitly release hold"
+      ],
+      "recommended_option": "Keep untouched until Manny chooses; no product rejection or silence releases historical retention.",
+      "at_risk": "Historical candidate implementation, review context and experiment/owner-decision evidence not established as fully retained on a permanent line."
+    },
+    {
+      "branch": "experiment/candidate-b-ai-execution",
+      "head_sha": "19743f98defedbba7258a5ae198e5cb6ca56e148",
+      "reason": "Candidate B AI-execution historical retention instruction remains unresolved.",
+      "resolved_by_later_record": false,
+      "options": [
+        "Keep branch and historical hold",
+        "Approve a minimal durable decision/evidence record plus a shared reference if required, then explicitly release hold"
+      ],
+      "recommended_option": "Keep untouched until Manny chooses; no product rejection or silence releases historical retention.",
+      "at_risk": "Historical candidate implementation, review context and experiment/owner-decision evidence not established as fully retained on a permanent line."
+    },
+    {
+      "branch": "experiment/candidate-b-soft-pack",
+      "head_sha": "1dfbfa23046742edff42e15f39047a9f8eb11bc3",
+      "reason": "Candidate B soft-pack historical retention instruction remains unresolved.",
+      "resolved_by_later_record": false,
+      "options": [
+        "Keep branch and historical hold",
+        "Approve a minimal durable decision/evidence record plus a shared reference if required, then explicitly release hold"
+      ],
+      "recommended_option": "Keep untouched until Manny chooses; no product rejection or silence releases historical retention.",
+      "at_risk": "Historical candidate implementation, review context and experiment/owner-decision evidence not established as fully retained on a permanent line."
+    },
+    {
+      "branch": "experiment/neon-grid-abyss-fog-001",
+      "head_sha": "7209b5b331a5bdaba65413169d5b3b942ef13a19",
+      "reason": "B1 owner-rejected visual experiment retained for A/B evidence; pending preservation decision. B2 and V3.2 do not release this hold.",
+      "resolved_by_later_record": false,
+      "options": [
+        "Keep branch and historical hold",
+        "Approve a minimal durable decision/evidence record plus a shared reference if required, then explicitly release hold"
+      ],
+      "recommended_option": "Keep untouched until Manny chooses; no product rejection or silence releases historical retention.",
+      "at_risk": "Historical candidate implementation, review context and experiment/owner-decision evidence not established as fully retained on a permanent line."
+    }
+  ],
+  "expiring_evidence": [
+    {
+      "artifact_id": 11929150105,
+      "name": "pinned-validation-v1-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "run_id": 38634108940,
+      "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38634108940/artifacts/11929150105",
+      "expired": false,
+      "available_in_api": true,
+      "expires_at": "2026-11-13T20:59:32Z",
+      "archive_size_bytes": 1098,
+      "github_artifact_archive_digest": "sha256:dcecda1d2cf3baf1bcf93abe79166c8f9c7daecdbe4aeb9f7abd41688d2f243e",
+      "exact_uncompressed_content_durably_preserved": null,
+      "canonical_preservation_status": "NOT VERIFIED; preserve required evidence before expiration",
+      "affected_branch": "archive/ci1b-runner-image-investigation",
+      "minimum_action": "Owner-approved canonical retention of actual manifest/category-matrix JSON, or a verified faithful result record, with exact source run/artifact identity and content hash. No execution or CI adoption approval.",
+      "existing_attachment_verification": {
+        "archive_sha256": "dcecda1d2cf3baf1bcf93abe79166c8f9c7daecdbe4aeb9f7abd41688d2f243e",
+        "uncompressed_json_sha256": "5a4965b051ea12700754fc7f3e136e1a8937cbb15ad40baffdc40761636a281e",
+        "uncompressed_json_bytes": 1796,
+        "git_blob_sha": "95acf66e0c8d9be2b4abd26272ad4e3fa94ffc3c",
+        "exact_json_blob_in_main_history": false,
+        "read_from_existing_user_attachment": true,
+        "downloaded_during_this_task": false,
+        "canonical_location_verified": false
+      }
+    },
+    {
+      "artifact_id": 11927147706,
+      "name": "pinned-validation-v1-dive-b49d9876f8c6ce87956f8b91675c3c8180e56b55-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "run_id": 38634108940,
+      "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38634108940/artifacts/11927147706",
+      "expired": false,
+      "available_in_api": true,
+      "expires_at": "2026-11-13T20:43:37Z",
+      "archive_size_bytes": 1049,
+      "github_artifact_archive_digest": "sha256:0cfb6bb67d60ab57b46c4064793f7d264eab8d2541033a6251d7835501774553",
+      "exact_uncompressed_content_durably_preserved": null,
+      "canonical_preservation_status": "NOT VERIFIED; preserve required evidence before expiration",
+      "affected_branch": "archive/ci1b-runner-image-investigation",
+      "minimum_action": "Owner-approved canonical retention of actual manifest/category-matrix JSON, or a verified faithful result record, with exact source run/artifact identity and content hash. No execution or CI adoption approval.",
+      "existing_attachment_verification": {
+        "archive_sha256": "0cfb6bb67d60ab57b46c4064793f7d264eab8d2541033a6251d7835501774553",
+        "uncompressed_json_sha256": "d97c7950572dbab49ba957e3c34dd4e684ca19b11acc816bec46cc3e0a3ef72f",
+        "uncompressed_json_bytes": 1666,
+        "git_blob_sha": "41d964f3d48585f1d9a75ae1fefa02380ed5e56b",
+        "exact_json_blob_in_main_history": false,
+        "read_from_existing_user_attachment": true,
+        "downloaded_during_this_task": false,
+        "canonical_location_verified": false
+      }
+    },
+    {
+      "artifact_id": 11927068023,
+      "name": "pinned-validation-v1-far300-ce6a64cf36b1f110af028536d3ff9c7a306ccbdb-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-02e97030c6713c011b2995e049482488a486bb1dcf7af3c1b63a967094c73687",
+      "run_id": 38634108940,
+      "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38634108940/artifacts/11927068023",
+      "expired": false,
+      "available_in_api": true,
+      "expires_at": "2026-11-13T20:44:46Z",
+      "archive_size_bytes": 1091,
+      "github_artifact_archive_digest": "sha256:9b32ab567d6304f5a4c00a0d48ca778c14b850a52a958e2683bc537ba7eb10ad",
+      "exact_uncompressed_content_durably_preserved": null,
+      "canonical_preservation_status": "NOT VERIFIED; preserve required evidence before expiration",
+      "affected_branch": "archive/ci1b-runner-image-investigation",
+      "minimum_action": "Owner-approved canonical retention of actual manifest/category-matrix JSON, or a verified faithful result record, with exact source run/artifact identity and content hash. No execution or CI adoption approval.",
+      "existing_attachment_verification": {
+        "archive_sha256": "9b32ab567d6304f5a4c00a0d48ca778c14b850a52a958e2683bc537ba7eb10ad",
+        "uncompressed_json_sha256": "0d93ffc8d80420df9fa2c12bc4b00434a907486d277bf7258beaab121cdb1379",
+        "uncompressed_json_bytes": 1784,
+        "git_blob_sha": "50ea78df67d2c9ec34b0197cb8a87770b62bc515",
+        "exact_json_blob_in_main_history": false,
+        "read_from_existing_user_attachment": true,
+        "downloaded_during_this_task": false,
+        "canonical_location_verified": false
+      }
+    },
+    {
+      "artifact_id": 11926589084,
+      "name": "pinned-validation-v1-billboard-b942c912510ec86312a9d0cd393d71d2eb478ea8-76e203407fddd2a350777bf2cc4dd1e683ce0afbe29edf172d8ae9a23ef95d42-78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+      "run_id": 38634108940,
+      "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/38634108940/artifacts/11926589084",
+      "expired": false,
+      "available_in_api": true,
+      "expires_at": "2026-11-13T20:43:57Z",
+      "archive_size_bytes": 1081,
+      "github_artifact_archive_digest": "sha256:481b5306262dc85a22f762ede5297c2d29f0983254a3212756694eef425ac89b",
+      "exact_uncompressed_content_durably_preserved": null,
+      "canonical_preservation_status": "NOT VERIFIED; preserve required evidence before expiration",
+      "affected_branch": "archive/ci1b-runner-image-investigation",
+      "minimum_action": "Owner-approved canonical retention of actual manifest/category-matrix JSON, or a verified faithful result record, with exact source run/artifact identity and content hash. No execution or CI adoption approval.",
+      "existing_attachment_verification": {
+        "archive_sha256": "481b5306262dc85a22f762ede5297c2d29f0983254a3212756694eef425ac89b",
+        "uncompressed_json_sha256": "5262b16f5da1357617b06ec81a3a19dc0b6b1a4aed935abadb3fa708d154e894",
+        "uncompressed_json_bytes": 1769,
+        "git_blob_sha": "21b68c82703e63f867167f77ef3de3270da95eeb",
+        "exact_json_blob_in_main_history": false,
+        "read_from_existing_user_attachment": true,
+        "downloaded_during_this_task": false,
+        "canonical_location_verified": false
+      }
+    },
+    {
+      "artifact_id": 11424851717,
+      "name": "task8-falls-run-render",
+      "run_id": 37489101962,
+      "url": "https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/37489101962/artifacts/11424851717",
+      "expired": false,
+      "available_in_api": true,
+      "expires_at": "2027-01-04T15:37:39Z",
+      "archive_size_bytes": 1395,
+      "github_artifact_archive_digest": "sha256:f60cbc0f739770d72383ce69b6a37e126eefee7abcec2521b2157a270cbf854a",
+      "exact_uncompressed_content_durably_preserved": null,
+      "canonical_preservation_status": "NOT VERIFIED; preserve required evidence before expiration",
+      "affected_branch": "archive/neon-grid-task8-diagnostics",
+      "minimum_action": "Owner-approved canonical retention of actual manifest/category-matrix JSON, or a verified faithful result record, with exact source run/artifact identity and content hash. No execution or CI adoption approval.",
+      "existing_attachment_verification": null,
+      "digest_limitation": "GitHub digest identifies the artifact archive; uncompressed JSON bytes/hash were not retrieved in this task."
+    }
+  ]
+}

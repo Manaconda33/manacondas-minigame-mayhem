@@ -1,0 +1,234 @@
+{
+  "environment": "GitHub Actions Chromium software WebGL. Task 8 child-category isolation at identical Medium 1920x1080, eight racers, far=900, bloom off.",
+  "sampleFrames": 45,
+  "warmupFrames": 15,
+  "errors": [],
+  "scene": {
+    "width": 1920,
+    "height": 1080,
+    "pixelRatio": 1.5,
+    "racers": 8,
+    "cameraFar": 900,
+    "vendor": "Google Inc. (Google)",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+  },
+  "directChildren": [
+    "falls-run-night-sky",
+    "falls-run-asphalt-base",
+    "falls-run-wet-asphalt",
+    "falls-run-wall-cladding",
+    "falls-run-luminous-edges",
+    "falls-run-luminous-top-rails",
+    "falls-run-deck-fascia",
+    "falls-run-pylons",
+    "falls-run-cross-braces",
+    "falls-run-city-towers",
+    "falls-run-city-windows",
+    "falls-run-city-roof-lights",
+    "falls-run-ambient-waterfalls",
+    "falls-run-waterfall-lips",
+    "falls-run-ambient-mist",
+    "falls-run-plunge-spray",
+    "falls-run-neon-signage",
+    "falls-run-dive-rail-debris"
+  ],
+  "cases": [
+    {
+      "id": "task8Off",
+      "names": [],
+      "result": {
+        "scoredFrames": 45,
+        "medianFrameMs": 413.0999999999767,
+        "p95FrameMs": 432,
+        "maxFrameMs": 439,
+        "medianFps": 2.4207213749698773,
+        "over50msFrames": 45
+      }
+    },
+    {
+      "id": "sky",
+      "names": [
+        "falls-run-night-sky"
+      ],
+      "result": {
+        "scoredFrames": 45,
+        "medianFrameMs": 376,
+        "p95FrameMs": 382.70000000001164,
+        "maxFrameMs": 387.6000000000058,
+        "medianFps": 2.6595744680851063,
+        "over50msFrames": 45
+      }
+    },
+    {
+      "id": "road",
+      "names": [
+        "falls-run-asphalt-base",
+        "falls-run-wet-asphalt",
+        "falls-run-wall-cladding",
+        "falls-run-luminous-edges",
+        "falls-run-luminous-top-rails"
+      ],
+      "result": {
+        "scoredFrames": 45,
+        "medianFrameMs": 463.20000000001164,
+        "p95FrameMs": 469.3999999999942,
+        "maxFrameMs": 485.20000000001164,
+        "medianFps": 2.1588946459412237,
+        "over50msFrames": 45
+      }
+    },
+    {
+      "id": "structure",
+      "names": [
+        "falls-run-deck-fascia",
+        "falls-run-pylons",
+        "falls-run-cross-braces"
+      ],
+      "result": {
+        "scoredFrames": 45,
+        "medianFrameMs": 439.5,
+        "p95FrameMs": 447.20000000001164,
+        "maxFrameMs": 450.5,
+        "medianFps": 2.2753128555176336,
+        "over50msFrames": 45
+      }
+    },
+    {
+      "id": "city",
+      "names": [
+        "falls-run-city-towers",
+        "falls-run-city-windows",
+        "falls-run-city-roof-lights"
+      ],
+      "result": {
+        "scoredFrames": 45,
+        "medianFrameMs": 480.19999999998254,
+        "p95FrameMs": 484.69999999998254,
+        "maxFrameMs": 492.6000000000058,
+        "medianFps": 2.082465639317027,
+        "over50msFrames": 45
+      }
+    },
+    {
+      "id": "water",
+      "names": [
+        "falls-run-ambient-waterfalls",
+        "falls-run-waterfall-lips",
+        "falls-run-ambient-mist",
+        "falls-run-plunge-spray"
+      ],
+      "result": {
+        "scoredFrames": 45,
+        "medianFrameMs": 337.29999999998836,
+        "p95FrameMs": 341.5,
+        "maxFrameMs": 351,
+        "medianFps": 2.9647198339757916,
+        "over50msFrames": 45
+      }
+    },
+    {
+      "id": "signage",
+      "names": [
+        "falls-run-neon-signage",
+        "falls-run-dive-rail-debris"
+      ],
+      "result": {
+        "scoredFrames": 45,
+        "medianFrameMs": 335.8999999999651,
+        "p95FrameMs": 340.5,
+        "maxFrameMs": 347.9000000000233,
+        "medianFps": 2.9770765108666386,
+        "over50msFrames": 45
+      }
+    },
+    {
+      "id": "task8All",
+      "names": [
+        "falls-run-night-sky",
+        "falls-run-asphalt-base",
+        "falls-run-wet-asphalt",
+        "falls-run-wall-cladding",
+        "falls-run-luminous-edges",
+        "falls-run-luminous-top-rails",
+        "falls-run-deck-fascia",
+        "falls-run-pylons",
+        "falls-run-cross-braces",
+        "falls-run-city-towers",
+        "falls-run-city-windows",
+        "falls-run-city-roof-lights",
+        "falls-run-ambient-waterfalls",
+        "falls-run-waterfall-lips",
+        "falls-run-ambient-mist",
+        "falls-run-plunge-spray",
+        "falls-run-neon-signage",
+        "falls-run-dive-rail-debris"
+      ],
+      "result": {
+        "scoredFrames": 45,
+        "medianFrameMs": 773.5999999999767,
+        "p95FrameMs": 785.0999999999767,
+        "maxFrameMs": 794.6000000000349,
+        "medianFps": 1.292657704239956,
+        "over50msFrames": 45
+      }
+    }
+  ],
+  "deltas": [
+    {
+      "id": "task8Off",
+      "medianFrameMs": 413.0999999999767,
+      "medianDeltaMs": 0,
+      "p95FrameMs": 432,
+      "medianFps": 2.4207213749698773
+    },
+    {
+      "id": "sky",
+      "medianFrameMs": 376,
+      "medianDeltaMs": -37.09999999997672,
+      "p95FrameMs": 382.70000000001164,
+      "medianFps": 2.6595744680851063
+    },
+    {
+      "id": "road",
+      "medianFrameMs": 463.20000000001164,
+      "medianDeltaMs": 50.100000000034925,
+      "p95FrameMs": 469.3999999999942,
+      "medianFps": 2.1588946459412237
+    },
+    {
+      "id": "structure",
+      "medianFrameMs": 439.5,
+      "medianDeltaMs": 26.400000000023283,
+      "p95FrameMs": 447.20000000001164,
+      "medianFps": 2.2753128555176336
+    },
+    {
+      "id": "city",
+      "medianFrameMs": 480.19999999998254,
+      "medianDeltaMs": 67.10000000000582,
+      "p95FrameMs": 484.69999999998254,
+      "medianFps": 2.082465639317027
+    },
+    {
+      "id": "water",
+      "medianFrameMs": 337.29999999998836,
+      "medianDeltaMs": -75.79999999998836,
+      "p95FrameMs": 341.5,
+      "medianFps": 2.9647198339757916
+    },
+    {
+      "id": "signage",
+      "medianFrameMs": 335.8999999999651,
+      "medianDeltaMs": -77.20000000001164,
+      "p95FrameMs": 340.5,
+      "medianFps": 2.9770765108666386
+    },
+    {
+      "id": "task8All",
+      "medianFrameMs": 773.5999999999767,
+      "medianDeltaMs": 360.5,
+      "p95FrameMs": 785.0999999999767,
+      "medianFps": 1.292657704239956
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "status": "success",
+  "completed": true,
+  "exitCode": 0,
+  "runtimeId": "abyss-fog-004",
+  "sourceSha": "25ea008b15852d593681f5b3b2a17b467a193472",
+  "sourceTree": "92e6cb7571f9b4ddbb25c6754c6216e3533f534b",
+  "contractSha256": "8b6620ccbfd2530130e50b864e1e91d5809940cf5451434295f38fa10be9c015",
+  "workflowBlob": "171ca6863f409d15b0b4a1ab08d22d18f984dc1d",
+  "contractLockSha256": "f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1",
+  "runtimeLockSha256": "f3d6916ffe64fd38ecdbe26c82392512750638433c7127eef31b85a32d9993f1",
+  "lfsInventorySha256": "234d0e7336e2d824e9af54f107a2628ce544b42a2260bafb2d32d8e807c765bc",
+  "nodeVersion": "v22.23.3",
+  "npmVersion": "10.9.9",
+  "runnerImage": "ubuntu24/20261004.327.1",
+  "toolchainSha256": "78b5fd1cb6fad7cb213ca27e0721e1c1357ebad96709566523c96a97dac7641c",
+  "commands": [
+    "git lfs fsck",
+    "test \"$(git rev-parse HEAD)\" = \"$PIN_SHA\"",
+    "test \"$(git rev-parse 'HEAD^{tree}')\" = \"$PIN_TREE_SHA\"",
+    "echo \"$PIN_LOCK_SHA256  package-lock.json\" | sha256sum --check",
+    "test \"$(git lfs ls-files -l | sed -E 's/^([0-9a-f]{64}) [*+-] /\\1 /' | sha256sum | cut -d' ' -f1)\" = \"$PIN_LFS_INVENTORY_SHA256\"",
+    "npm ci",
+    "npm run typecheck",
+    "npm run lint",
+    "npm run test:ci -- --maxWorkers=1 --testTimeout=15000",
+    "npm run build",
+    "npm run build -- --base /manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/"
+  ],
+  "workflowRun": {
+    "id": 38580406017,
+    "attempt": 1,
+    "event": "push",
+    "branch": "main",
+    "ref": "refs/heads/main",
+    "sha": "669e227a1c0bcff3fa7a1d403eb379311500f1e4",
+    "workflowPath": ".github/workflows/trusted-pinned-runtime-validation.yml",
+    "producerJobName": "trusted-pinned-runtime-validation (abyss-fog-004)"
+  }
+}

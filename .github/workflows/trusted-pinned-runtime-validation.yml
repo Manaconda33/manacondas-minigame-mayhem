@@ -115,7 +115,10 @@ jobs:
               npm run build -- --base "$PREVIEW_BASE"
               ;;
             dive)
-              npm run validate
+              npm run typecheck
+              npm run lint
+              npm run test:ci -- --testTimeout=15000
+              npm run build
               npm run build -- --base "$PREVIEW_BASE"
               ;;
             far300)

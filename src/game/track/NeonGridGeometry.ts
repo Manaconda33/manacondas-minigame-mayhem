@@ -108,10 +108,21 @@ export function neonGridRibbon(
   track: NeonGrid,
   wallSide: -1 | 1 | 0 = 0,
   billboardOpen = false,
+  wallTextureTileMeters?: number,
 ): THREE.BufferGeometry {
   const count = RIBBON_ROWS;
   const positions: number[] = [];
   const indices: number[] = [];
+  const wallUvs: number[] = [];
+  if (
+    wallSide !== 0 &&
+    wallTextureTileMeters !== undefined &&
+    (!Number.isFinite(wallTextureTileMeters) || wallTextureTileMeters <= 0)
+  )
+    throw new RangeError('Wall texture tile size must be greater than zero.');
+  const wallTextureScale = wallSide !== 0 ? (wallTextureTileMeters ?? null) : null;
+  const trackLength = wallTextureScale === null ? 0 : track.curve.getLength();
+  const wallHeightMeters = 1.55;
   const junctionPositions: number[] = [];
   const junctionIndices: number[] = [];
   for (let i = 0; i <= count; i++) {
@@ -125,6 +136,12 @@ export function neonGridRibbon(
       const point = p.clone().addScaledVector(right, offset);
       if (wallSide !== 0) point.y += j === 0 ? -0.15 : 1.4;
       positions.push(point.x, point.y, point.z);
+      if (wallTextureScale !== null) {
+        wallUvs.push(
+          (progress * trackLength) / wallTextureScale,
+          (j * wallHeightMeters) / wallTextureScale,
+        );
+      }
     }
     if (i < count) {
       const a = i * 2;
@@ -163,8 +180,13 @@ export function neonGridRibbon(
           }
           const first = edgeAt(startOpen ? high : start);
           const last = edgeAt(endOpen ? low : end);
+          const firstProgress = startOpen ? high : start;
+          const lastProgress = endOpen ? low : end;
           const base = (count + 1) * 2 + junctionPositions.length / 3;
-          for (const point of [first, last]) {
+          for (const [point, progress] of [
+            [first, firstProgress],
+            [last, lastProgress],
+          ] as const) {
             junctionPositions.push(
               point.x,
               point.y - 0.15,
@@ -173,6 +195,10 @@ export function neonGridRibbon(
               point.y + 1.4,
               point.z,
             );
+            if (wallTextureScale !== null) {
+              const u = (progress * trackLength) / wallTextureScale;
+              wallUvs.push(u, 0, u, wallHeightMeters / wallTextureScale);
+            }
           }
           junctionIndices.push(base, base + 2, base + 1, base + 1, base + 2, base + 3);
           continue;
@@ -219,6 +245,7 @@ export function neonGridRibbon(
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  if (wallUvs.length > 0) geometry.setAttribute('uv', new THREE.Float32BufferAttribute(wallUvs, 2));
   geometry.setIndex(filtered);
   geometry.computeVertexNormals();
   if (wallSide === 0) {

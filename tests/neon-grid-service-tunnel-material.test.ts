@@ -6,6 +6,7 @@ import {
   createServiceTunnelMeshGroup,
 } from '../src/game/track/createNeonGridScene';
 import type { NeonGridVisualVariant } from '../src/game/track/NeonGridVisualVariant';
+import { neonGridRibbon } from '../src/game/track/NeonGridGeometry';
 import { serviceTunnelGeometry } from '../src/game/track/ServiceTunnelGeometry';
 import {
   SERVICE_TUNNEL_CONCRETE_ASSET_REVISION,
@@ -51,6 +52,41 @@ describe('Neon Grid Service Tunnel material prototype', () => {
       serviceTunnelGeometry(track.serviceTunnel, 'left-wall').getAttribute('uv'),
     ).toBeUndefined();
     disposeTrackScene(baseline);
+
+    for (const variant of ['blockout', 'concrete-wall-007-c1'] as const) {
+      const scene = createSceneWithMaterialVariant(track, 'medium', 'approved', variant);
+      const left = scene.getObjectByName('neon-grid-wall--1') as THREE.Mesh;
+      const right = scene.getObjectByName('neon-grid-wall-1') as THREE.Mesh;
+      expect(left.material).toBe(right.material);
+      expect(left.geometry.getAttribute('uv')).toBeUndefined();
+      expect(right.geometry.getAttribute('uv')).toBeUndefined();
+      expect((left.material as THREE.MeshStandardMaterial).color.getHex()).toBe(0x93b4c9);
+      expect((left.material as THREE.MeshStandardMaterial).roughness).toBe(0.55);
+      disposeTrackScene(scene);
+    }
+  });
+
+  it('adds physical wall UVs without changing the existing safety-wall vertices or indices', () => {
+    const track = new NeonGrid();
+    const original = neonGridRibbon(track, -1, true);
+    const concrete = neonGridRibbon(track, -1, true, SERVICE_TUNNEL_CONCRETE_TILE_METERS);
+    const positions = concrete.getAttribute('position');
+    const originalPositions = original.getAttribute('position');
+    const uv = concrete.getAttribute('uv');
+    const originalIndex = original.getIndex();
+    const concreteIndex = concrete.getIndex();
+
+    expect(uv).toBeDefined();
+    expect(uv.count).toBe(positions.count);
+    expect(Array.from(positions.array)).toEqual(Array.from(originalPositions.array));
+    expect(Array.from(concreteIndex?.array ?? [])).toEqual(Array.from(originalIndex?.array ?? []));
+    expect(Array.from(uv.array).every(Number.isFinite)).toBe(true);
+    expect(uv.getY(1)).toBeCloseTo(1.55 / SERVICE_TUNNEL_CONCRETE_TILE_METERS);
+    expect(uv.getX(2)).toBeCloseTo(
+      track.curve.getLength() / (1536 * SERVICE_TUNNEL_CONCRETE_TILE_METERS),
+    );
+    disposeTrackScene(new THREE.Mesh(original, new THREE.MeshBasicMaterial()));
+    disposeTrackScene(new THREE.Mesh(concrete, new THREE.MeshBasicMaterial()));
   });
 
   it('adds distance-scaled UVs only to the two shared-material prototype walls', () => {
@@ -241,7 +277,12 @@ describe('Neon Grid Service Tunnel material prototype', () => {
 
   it('reuses the approved maps for C2 walls and roof without adding a render batch', async () => {
     const track = new NeonGrid();
-    const scene = createServiceTunnelMeshGroup(track, 'concrete-coverage-c2-001');
+    const scene = createSceneWithMaterialVariant(
+      track,
+      'medium',
+      'approved',
+      'concrete-coverage-c2-001',
+    );
     const textures = [
       new THREE.Texture<HTMLImageElement>(),
       new THREE.Texture<HTMLImageElement>(),
@@ -258,6 +299,10 @@ describe('Neon Grid Service Tunnel material prototype', () => {
     const roof = scene.getObjectByName('service-tunnel-roof') as THREE.Mesh;
     const left = scene.getObjectByName('service-tunnel-left-wall') as THREE.Mesh;
     const right = scene.getObjectByName('service-tunnel-right-wall') as THREE.Mesh;
+    const courseWalls = [
+      scene.getObjectByName('neon-grid-wall--1') as THREE.Mesh,
+      scene.getObjectByName('neon-grid-wall-1') as THREE.Mesh,
+    ];
     const tunnel = scene.getObjectByName('service-tunnel') as THREE.Group;
     const childCount = tunnel.children.length;
     const unaffectedNames = [
@@ -286,10 +331,13 @@ describe('Neon Grid Service Tunnel material prototype', () => {
     expect(roof.geometry.getAttribute('uv')).toBeDefined();
     expect(left.geometry.getAttribute('uv')).toBeDefined();
     expect(right.geometry.getAttribute('uv')).toBeDefined();
+    expect(courseWalls.every((wall) => wall.geometry.hasAttribute('uv'))).toBe(true);
     expect(
       (scene.getObjectByName('service-tunnel-floor') as THREE.Mesh).geometry.getAttribute('uv'),
     ).toBeUndefined();
     expect(left.material).toBe(right.material);
+    expect(courseWalls[0]?.material).toBe(courseWalls[1]?.material);
+    expect(courseWalls[0]?.material).not.toBe(wallMaterial);
     expect(roof.material).not.toBe(wallMaterial);
     const floor = scene.getObjectByName('service-tunnel-floor') as THREE.Mesh;
     expect(roof.material).not.toBe(floor.material);
@@ -301,6 +349,14 @@ describe('Neon Grid Service Tunnel material prototype', () => {
       expect(material.metalness).toBe(0);
       expect(material.normalScale.toArray()).toEqual([0.45, 0.45]);
       expect(material.side).toBe(THREE.DoubleSide);
+    }
+    for (const wall of courseWalls) {
+      const material = wall.material as THREE.MeshStandardMaterial;
+      expect(material.map).toBe(textures[0]);
+      expect(material.normalMap).toBe(textures[1]);
+      expect(material.roughnessMap).toBe(textures[2]);
+      expect(material.roughness).toBe(1);
+      expect(material.metalness).toBe(0);
     }
     expect(tunnel.children).toHaveLength(childCount);
     expect(floor.material).not.toBe(roofMaterial);
@@ -352,6 +408,44 @@ describe('Neon Grid Service Tunnel material prototype', () => {
     expect(disposed[0]).toHaveBeenCalledOnce();
     expect(disposed[1]).toHaveBeenCalledOnce();
     disposeTrackScene(scene);
+  });
+
+  it('releases the shared C2 maps on scene disposal and reloads cleanly after a scene rebuild', async () => {
+    const makeTextures = () => [
+      new THREE.Texture<HTMLImageElement>(),
+      new THREE.Texture<HTMLImageElement>(),
+      new THREE.Texture<HTMLImageElement>(),
+    ];
+    const firstTextures = makeTextures();
+    const secondTextures = makeTextures();
+    const allTextures = [...firstTextures, ...secondTextures];
+    const disposals = allTextures.map((texture) => vi.spyOn(texture, 'dispose'));
+    let loadIndex = 0;
+    vi.spyOn(THREE.TextureLoader.prototype, 'loadAsync').mockImplementation(() => {
+      const texture = allTextures[loadIndex++];
+      return texture === undefined
+        ? Promise.reject(new Error('unexpected texture request'))
+        : Promise.resolve(texture);
+    });
+
+    const firstScene = createServiceTunnelMeshGroup(new NeonGrid(), 'concrete-coverage-c2-001');
+    await loadServiceTunnelConcreteWallMaterial(firstScene);
+    const firstRoof = firstScene.getObjectByName('service-tunnel-roof') as THREE.Mesh;
+    expect(firstRoof.material).toBeInstanceOf(THREE.MeshStandardMaterial);
+    expect((firstRoof.material as THREE.MeshStandardMaterial).map).toBe(firstTextures[0]);
+    disposeTrackScene(firstScene);
+    expect(disposals.slice(0, 3).every((dispose) => dispose.mock.calls.length === 1)).toBe(true);
+
+    const secondScene = createServiceTunnelMeshGroup(new NeonGrid(), 'concrete-coverage-c2-001');
+    await loadServiceTunnelConcreteWallMaterial(secondScene);
+    const secondRoof = secondScene.getObjectByName('service-tunnel-roof') as THREE.Mesh;
+    expect((secondRoof.material as THREE.MeshStandardMaterial).map).toBe(secondTextures[0]);
+    expect((secondRoof.material as THREE.MeshStandardMaterial).map).not.toBe(
+      (firstRoof.material as THREE.MeshStandardMaterial).map,
+    );
+    expect(loadIndex).toBe(6);
+    disposeTrackScene(secondScene);
+    expect(disposals.every((dispose) => dispose.mock.calls.length === 1)).toBe(true);
   });
 
   it('leaves C2 pending materials untouched and disposes partial map loads on failure', async () => {

@@ -181,6 +181,11 @@ export async function loadServiceTunnelConcreteWallMaterial(
     );
   }
   const variant = root.userData.serviceTunnelMaterialVariant as ServiceTunnelMaterialVariant;
+  const courseWallNames = ['neon-grid-wall--1', 'neon-grid-wall-1'];
+  const courseWallObjects = courseWallNames.map((name) => root.getObjectByName(name));
+  const courseWalls = courseWallObjects.filter(
+    (object): object is THREE.Mesh => object instanceof THREE.Mesh,
+  );
   const expectedPendingWallName =
     variant === 'concrete-wall-007-c1'
       ? C1_PENDING_MATERIAL_NAME
@@ -202,41 +207,57 @@ export async function loadServiceTunnelConcreteWallMaterial(
     !hasUvAttribute(left.geometry as unknown) ||
     !hasUvAttribute(right.geometry as unknown) ||
     (variant === 'concrete-coverage-c2-001' &&
+      courseWallObjects.some((object) => object !== undefined) &&
+      (courseWalls.length !== courseWallNames.length ||
+        courseWalls.some(
+          (wall) =>
+            !(wall.material instanceof THREE.MeshStandardMaterial) ||
+            wall.material.name !== C2_WALL_PENDING_MATERIAL_NAME ||
+            !hasUvAttribute(wall.geometry),
+        ))) ||
+    (variant === 'concrete-coverage-c2-001' &&
       (!(roof instanceof THREE.Mesh) ||
         c2RoofMaterial?.name !== C2_ROOF_PENDING_MATERIAL_NAME ||
         !hasUvAttribute(roof.geometry)))
   ) {
     throw new Error(
-      `The Service Tunnel scene was not built with the opt-in C1 material selector: ${JSON.stringify(
-        {
-          sharedMaterial: left.material === right.material,
-          standardMaterial: left.material instanceof THREE.MeshStandardMaterial,
-          materialTag: left.material instanceof THREE.Material ? left.material.type : null,
-          materialName: left.material instanceof THREE.Material ? left.material.name : null,
-          leftWallUvs: hasUvAttribute(left.geometry as unknown),
-          rightWallUvs: hasUvAttribute(right.geometry as unknown),
-          variant,
-          roofUvs: roof instanceof THREE.Mesh ? hasUvAttribute(roof.geometry) : false,
-        },
-      )}`,
+      `The scene was not built with the selected concrete material variant: ${JSON.stringify({
+        sharedMaterial: left.material === right.material,
+        standardMaterial: left.material instanceof THREE.MeshStandardMaterial,
+        materialTag: left.material instanceof THREE.Material ? left.material.type : null,
+        materialName: left.material instanceof THREE.Material ? left.material.name : null,
+        leftWallUvs: hasUvAttribute(left.geometry as unknown),
+        rightWallUvs: hasUvAttribute(right.geometry as unknown),
+        variant,
+        roofUvs: roof instanceof THREE.Mesh ? hasUvAttribute(roof.geometry) : false,
+        courseWallNames,
+        courseWallUvs: courseWalls.map((wall) => hasUvAttribute(wall.geometry as unknown)),
+      })}`,
     );
   }
 
   const textures = await loadTextures(loader);
-  const material = left.material;
-  material.name =
-    variant === 'concrete-wall-007-c1'
-      ? 'service-tunnel-concrete-wall-007-c1'
-      : 'service-tunnel-concrete-wall-007-c2-wall';
-  material.color.set(0xffffff);
-  material.map = textures.diffuse;
-  material.normalMap = textures.normal;
-  material.normalScale.set(0.45, 0.45);
-  material.roughness = 1;
-  material.roughnessMap = textures.roughness;
-  material.metalness = 0;
-  material.side = THREE.DoubleSide;
-  material.needsUpdate = true;
+  const wallMaterials = new Set<THREE.MeshStandardMaterial>([
+    left.material,
+    ...courseWalls.flatMap((wall) =>
+      wall.material instanceof THREE.MeshStandardMaterial ? [wall.material] : [],
+    ),
+  ]);
+  for (const material of wallMaterials) {
+    material.name =
+      variant === 'concrete-wall-007-c1'
+        ? 'service-tunnel-concrete-wall-007-c1'
+        : 'service-tunnel-concrete-wall-007-c2-wall';
+    material.color.set(0xffffff);
+    material.map = textures.diffuse;
+    material.normalMap = textures.normal;
+    material.normalScale.set(0.45, 0.45);
+    material.roughness = 1;
+    material.roughnessMap = textures.roughness;
+    material.metalness = 0;
+    material.side = THREE.DoubleSide;
+    material.needsUpdate = true;
+  }
 
   if (variant === 'concrete-coverage-c2-001') {
     if (c2RoofMaterial === null) {

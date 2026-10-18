@@ -17,6 +17,7 @@ import { addNeonGridAbyssFogV2 } from './NeonGridAbyssFogV2';
 import { addNeonGridAbyssFogV3 } from './NeonGridAbyssFogV3';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import {
+  SERVICE_TUNNEL_CONCRETE_TILE_METERS,
   addServiceTunnelRoofUvs,
   addServiceTunnelWallUvs,
   createPendingServiceTunnelC2RoofMaterial,
@@ -167,15 +168,28 @@ export function createNeonGridScene(
   road.name = 'track-road';
   road.receiveShadow = true;
   group.add(road);
-  const wallMaterial = new THREE.MeshStandardMaterial({
-    color: 0x93b4c9,
-    roughness: 0.55,
-    side: THREE.DoubleSide,
-  });
+  const wallMaterial =
+    materialVariant === 'concrete-coverage-c2-001'
+      ? createPendingServiceTunnelC2WallMaterial()
+      : new THREE.MeshStandardMaterial({
+          color: 0x93b4c9,
+          roughness: 0.55,
+          side: THREE.DoubleSide,
+        });
   const walls = new THREE.Group();
   walls.name = 'neon-grid-walls';
   for (const side of [-1, 1] as const) {
-    const wall = new THREE.Mesh(neonGridRibbon(track, side, true), wallMaterial);
+    const wall = new THREE.Mesh(
+      neonGridRibbon(
+        track,
+        side,
+        true,
+        materialVariant === 'concrete-coverage-c2-001'
+          ? SERVICE_TUNNEL_CONCRETE_TILE_METERS
+          : undefined,
+      ),
+      wallMaterial,
+    );
     wall.name = `neon-grid-wall-${String(side)}`;
     walls.add(wall);
   }

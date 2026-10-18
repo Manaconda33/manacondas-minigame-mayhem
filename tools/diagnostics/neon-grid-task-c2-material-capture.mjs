@@ -395,7 +395,7 @@ const report = {
   limitations: [
     'The preview fixture uses the real game scene and ChaseCamera/rear camera but stages positions rather than conducting a full race.',
     'GPU time, physical-device performance, real hardware texture residency, and G-05 are not measured.',
-    'Both A and B load the same approved three 1K Concrete Wall 007 maps; C2 changes only the existing Service Tunnel roof material assignment.',
+    'Both A and B load the same approved three 1K Concrete Wall 007 maps. B additionally assigns the maps to the existing Service Tunnel roof and two road-facing safety walls; C1 already assigns them to the tunnel sidewalls. C2 adds UV attributes but does not change positions, indices, collision geometry, or batch counts.',
     'No gameplay, collision, road geometry, sponsor, fog, bloom, lighting, or render-pass configuration is changed.',
   ],
 };

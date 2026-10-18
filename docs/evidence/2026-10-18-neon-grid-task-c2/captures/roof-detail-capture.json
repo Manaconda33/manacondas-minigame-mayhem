@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "e033caa25ef67f10e9062b9432ca3d3658e3bd33",
+  "environment": "Headless Chromium / SwiftShader software WebGL; visual detail only, not G-05.",
+  "matchedCamera": true,
+  "errors": [],
+  "captures": [
+    {
+      "variant": "A-c1-concrete-001",
+      "viewport": "desktop-1920x1080",
+      "quality": "medium",
+      "visualVariant": "neon-grid-task-a-001",
+      "sourceCommit": "e033caa25ef67f10e9062b9432ca3d3658e3bd33",
+      "purpose": "Controlled close-up from the actual game camera and Neon Grid race scene.",
+      "cameraFraction": 0.59,
+      "targetFraction": 0.64,
+      "camera": [160.0720609675279, -3, 65.70865888576039],
+      "lookAt": [163.03219151442977, -1.1170478588031227, 69.22837654184389],
+      "roofUvCount": 0,
+      "roofPositionCount": 386,
+      "roofIndexCount": 336,
+      "roofMaterialName": "",
+      "rendererPrograms": 137,
+      "rendererMemory": {
+        "geometries": 67,
+        "textures": 17
+      },
+      "glStatus": {
+        "error": 0,
+        "contextLost": false
+      },
+      "screenshot": {
+        "path": "docs/evidence/2026-10-18-neon-grid-task-c2/captures/A-c1-concrete-001-service-tunnel-roof-detail-desktop-1920x1080.png",
+        "bytes": 943032,
+        "sha256": "0eee16a611d032a4720577fd90a06cb53ad5b03264c949521bcb043774d151ac"
+      }
+    },
+    {
+      "variant": "B-c2-concrete-coverage-001",
+      "viewport": "desktop-1920x1080",
+      "quality": "medium",
+      "visualVariant": "neon-grid-task-a-001",
+      "sourceCommit": "e033caa25ef67f10e9062b9432ca3d3658e3bd33",
+      "purpose": "Controlled close-up from the actual game camera and Neon Grid race scene.",
+      "cameraFraction": 0.59,
+      "targetFraction": 0.64,
+      "camera": [160.0720609675279, -3, 65.70865888576039],
+      "lookAt": [163.03219151442977, -1.1170478588031227, 69.22837654184389],
+      "roofUvCount": 386,
+      "roofPositionCount": 386,
+      "roofIndexCount": 336,
+      "roofMaterialName": "service-tunnel-concrete-wall-007-c2-roof",
+      "rendererPrograms": 137,
+      "rendererMemory": {
+        "geometries": 66,
+        "textures": 12
+      },
+      "glStatus": {
+        "error": 0,
+        "contextLost": false
+      },
+      "screenshot": {
+        "path": "docs/evidence/2026-10-18-neon-grid-task-c2/captures/B-c2-concrete-coverage-001-service-tunnel-roof-detail-desktop-1920x1080.png",
+        "bytes": 1371461,
+        "sha256": "f5ec940d3f4ab863b985bd7951885bac0072a77577ba7a1cc6ce09d89709f75a"
+      }
+    }
+  ]
+}

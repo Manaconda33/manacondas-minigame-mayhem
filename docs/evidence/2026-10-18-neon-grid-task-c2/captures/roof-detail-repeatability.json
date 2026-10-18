@@ -1,0 +1,62 @@
+{
+  "source_commit": "e033caa25ef67f10e9062b9432ca3d3658e3bd33",
+  "purpose": "Preserve renderer.info memory/program values from two identical-camera roof-detail runs after detecting that the diagnostic cache counters were not stable.",
+  "limitations": [
+    "Console outputs were recorded as two runs; the first roof-detail-capture.json was overwritten by the repeat.",
+    "These renderer.info counters are not vertex/index counts, unique source geometry references, texture-byte residency, or GPU time.",
+    "The actual roof positions/indices, track-scene object traversal, full race-frame geometry and A/B submitted workload were separately checked and matched."
+  ],
+  "runs": [
+    {
+      "run": 1,
+      "matched_camera": true,
+      "errors": [],
+      "variants": [
+        {
+          "id": "A-c1-concrete-001",
+          "renderer_programs": 136,
+          "renderer_memory": {
+            "geometries": 64,
+            "textures": 13
+          },
+          "screenshot_sha256": "0eee16a611d032a4720577fd90a06cb53ad5b03264c949521bcb043774d151ac"
+        },
+        {
+          "id": "B-c2-concrete-coverage-001",
+          "renderer_programs": 137,
+          "renderer_memory": {
+            "geometries": 62,
+            "textures": 13
+          },
+          "screenshot_sha256": "f5ec940d3f4ab863b985bd7951885bac0072a77577ba7a1cc6ce09d89709f75a"
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "matched_camera": true,
+      "errors": [],
+      "variants": [
+        {
+          "id": "A-c1-concrete-001",
+          "renderer_programs": 137,
+          "renderer_memory": {
+            "geometries": 67,
+            "textures": 17
+          },
+          "screenshot_sha256": "0eee16a611d032a4720577fd90a06cb53ad5b03264c949521bcb043774d151ac"
+        },
+        {
+          "id": "B-c2-concrete-coverage-001",
+          "renderer_programs": 137,
+          "renderer_memory": {
+            "geometries": 66,
+            "textures": 12
+          },
+          "screenshot_sha256": "f5ec940d3f4ab863b985bd7951885bac0072a77577ba7a1cc6ce09d89709f75a"
+        }
+      ]
+    }
+  ],
+  "interpretation": "No stable A/B difference in renderer cache/program counters was established. Do not infer a geometry or texture resource increase/saving from these counters."
+}

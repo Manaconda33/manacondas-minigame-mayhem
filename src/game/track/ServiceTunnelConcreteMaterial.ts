@@ -1,13 +1,16 @@
 import * as THREE from 'three';
 import type { ServiceTunnel } from './ServiceTunnel';
 
-export type ServiceTunnelMaterialVariant = 'blockout' | 'concrete-wall-007-c1';
+export type ServiceTunnelMaterialVariant =
+  'blockout' | 'concrete-wall-007-c1' | 'concrete-coverage-c2-001';
 
 export const SERVICE_TUNNEL_CONCRETE_TILE_METERS = 2.2;
 export const SERVICE_TUNNEL_CONCRETE_ASSET_REVISION = 'task-c1-concrete-wall-007-20261015-1';
 
 const ASSET_ROOT = 'assets/track/materials/concrete-wall-007';
-const PENDING_MATERIAL_NAME = 'service-tunnel-concrete-wall-007-c1-pending';
+const C1_PENDING_MATERIAL_NAME = 'service-tunnel-concrete-wall-007-c1-pending';
+const C2_WALL_PENDING_MATERIAL_NAME = 'service-tunnel-concrete-wall-007-c2-wall-pending';
+const C2_ROOF_PENDING_MATERIAL_NAME = 'service-tunnel-concrete-wall-007-c2-roof-pending';
 
 interface ServiceTunnelConcreteTextures {
   diffuse: THREE.Texture;
@@ -32,9 +35,10 @@ function hasUvAttribute(geometry: unknown): boolean {
 export function serviceTunnelMaterialVariantFromSearch(
   search: string,
 ): ServiceTunnelMaterialVariant {
-  return new URLSearchParams(search).get('neonGridMaterial') === 'service-tunnel-concrete-001'
-    ? 'concrete-wall-007-c1'
-    : 'blockout';
+  const selection = new URLSearchParams(search).get('neonGridMaterial');
+  if (selection === 'service-tunnel-concrete-001') return 'concrete-wall-007-c1';
+  if (selection === 'concrete-coverage-c2-001') return 'concrete-coverage-c2-001';
+  return 'blockout';
 }
 
 export function addServiceTunnelWallUvs(
@@ -72,15 +76,58 @@ export function addServiceTunnelWallUvs(
   };
 }
 
-export function createPendingServiceTunnelConcreteMaterial(): THREE.MeshStandardMaterial {
+export function addServiceTunnelRoofUvs(
+  geometry: THREE.BufferGeometry,
+  tunnel: ServiceTunnel,
+): void {
+  const positions = geometry.getAttribute('position');
+  if (positions.itemSize !== 3 || positions.count < 4 || positions.count % 2 !== 0) {
+    throw new RangeError('Service Tunnel roof UV generation expects paired lateral vertices.');
+  }
+
+  const rows = positions.count / 2 - 1;
+  const curveLength = tunnel.curve.getLength();
+  const transverseMeters = tunnel.roadHalfWidth * 2;
+  const leftEntrance = tunnel.wallRange(-1)[0];
+  const rightEntrance = tunnel.wallRange(1)[0];
+  const anchorFraction = (leftEntrance + rightEntrance) / 2;
+  const uvs: number[] = [];
+  for (let row = 0; row <= rows; row++) {
+    const fraction = row / rows;
+    const u = ((fraction - anchorFraction) * curveLength) / SERVICE_TUNNEL_CONCRETE_TILE_METERS;
+    uvs.push(u, 0, u, transverseMeters / SERVICE_TUNNEL_CONCRETE_TILE_METERS);
+  }
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  geometry.userData.materialCoordinates = {
+    mapping: 'service-tunnel-arc-length-and-roof-width',
+    tileMeters: SERVICE_TUNNEL_CONCRETE_TILE_METERS,
+    longitudinalMeters: curveLength,
+    transverseMeters,
+    anchorFraction,
+  };
+}
+
+function createPendingMaterial(name: string): THREE.MeshStandardMaterial {
   const material = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     roughness: 1,
     metalness: 0,
     side: THREE.DoubleSide,
   });
-  material.name = PENDING_MATERIAL_NAME;
+  material.name = name;
   return material;
+}
+
+export function createPendingServiceTunnelConcreteMaterial(): THREE.MeshStandardMaterial {
+  return createPendingMaterial(C1_PENDING_MATERIAL_NAME);
+}
+
+export function createPendingServiceTunnelC2WallMaterial(): THREE.MeshStandardMaterial {
+  return createPendingMaterial(C2_WALL_PENDING_MATERIAL_NAME);
+}
+
+export function createPendingServiceTunnelC2RoofMaterial(): THREE.MeshStandardMaterial {
+  return createPendingMaterial(C2_ROOF_PENDING_MATERIAL_NAME);
 }
 
 async function loadTextures(loader: THREE.TextureLoader): Promise<ServiceTunnelConcreteTextures> {
@@ -133,12 +180,31 @@ export async function loadServiceTunnelConcreteWallMaterial(
       'The Service Tunnel sidewall meshes are unavailable for the C1 material prototype.',
     );
   }
+  const variant = root.userData.serviceTunnelMaterialVariant as ServiceTunnelMaterialVariant;
+  const expectedPendingWallName =
+    variant === 'concrete-wall-007-c1'
+      ? C1_PENDING_MATERIAL_NAME
+      : variant === 'concrete-coverage-c2-001'
+        ? C2_WALL_PENDING_MATERIAL_NAME
+        : null;
+  const roof = root.getObjectByName('service-tunnel-roof');
+  const c2RoofMaterial: THREE.MeshStandardMaterial | null =
+    variant === 'concrete-coverage-c2-001' &&
+    roof instanceof THREE.Mesh &&
+    roof.material instanceof THREE.MeshStandardMaterial
+      ? roof.material
+      : null;
   if (
     left.material !== right.material ||
     !(left.material instanceof THREE.MeshStandardMaterial) ||
-    left.material.name !== PENDING_MATERIAL_NAME ||
+    expectedPendingWallName === null ||
+    left.material.name !== expectedPendingWallName ||
     !hasUvAttribute(left.geometry as unknown) ||
-    !hasUvAttribute(right.geometry as unknown)
+    !hasUvAttribute(right.geometry as unknown) ||
+    (variant === 'concrete-coverage-c2-001' &&
+      (!(roof instanceof THREE.Mesh) ||
+        c2RoofMaterial?.name !== C2_ROOF_PENDING_MATERIAL_NAME ||
+        !hasUvAttribute(roof.geometry)))
   ) {
     throw new Error(
       `The Service Tunnel scene was not built with the opt-in C1 material selector: ${JSON.stringify(
@@ -149,6 +215,8 @@ export async function loadServiceTunnelConcreteWallMaterial(
           materialName: left.material instanceof THREE.Material ? left.material.name : null,
           leftWallUvs: hasUvAttribute(left.geometry as unknown),
           rightWallUvs: hasUvAttribute(right.geometry as unknown),
+          variant,
+          roofUvs: roof instanceof THREE.Mesh ? hasUvAttribute(roof.geometry) : false,
         },
       )}`,
     );
@@ -156,7 +224,10 @@ export async function loadServiceTunnelConcreteWallMaterial(
 
   const textures = await loadTextures(loader);
   const material = left.material;
-  material.name = 'service-tunnel-concrete-wall-007-c1';
+  material.name =
+    variant === 'concrete-wall-007-c1'
+      ? 'service-tunnel-concrete-wall-007-c1'
+      : 'service-tunnel-concrete-wall-007-c2-wall';
   material.color.set(0xffffff);
   material.map = textures.diffuse;
   material.normalMap = textures.normal;
@@ -166,4 +237,21 @@ export async function loadServiceTunnelConcreteWallMaterial(
   material.metalness = 0;
   material.side = THREE.DoubleSide;
   material.needsUpdate = true;
+
+  if (variant === 'concrete-coverage-c2-001') {
+    if (c2RoofMaterial === null) {
+      throw new Error('The C2 Service Tunnel roof material was unavailable after validation.');
+    }
+    const roofMaterial = c2RoofMaterial;
+    roofMaterial.name = 'service-tunnel-concrete-wall-007-c2-roof';
+    roofMaterial.color.set(0xffffff);
+    roofMaterial.map = textures.diffuse;
+    roofMaterial.normalMap = textures.normal;
+    roofMaterial.normalScale.set(0.45, 0.45);
+    roofMaterial.roughness = 1;
+    roofMaterial.roughnessMap = textures.roughness;
+    roofMaterial.metalness = 0;
+    roofMaterial.side = THREE.DoubleSide;
+    roofMaterial.needsUpdate = true;
+  }
 }

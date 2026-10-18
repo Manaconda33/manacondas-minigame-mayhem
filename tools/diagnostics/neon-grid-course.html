@@ -110,7 +110,7 @@
     let tangent = (inTunnel ? g.track.serviceTunnel.curve.getTangentAt(tunnelFraction) :
       g.track.curve.getTangentAt(progress)).setY(0).normalize();
     let right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize();
-    const stageAtProgress = (nextProgress, useTunnel = false) => {
+    const stageAtProgress = (nextProgress, useTunnel = false, settleFrames = 12) => {
       progress = THREE.MathUtils.euclideanModulo(nextProgress, 1);
       inTunnel = useTunnel;
       if (!useTunnel) tunnelFraction = Number.NaN;
@@ -130,12 +130,23 @@
         q.y += 1.1;
         o.controller.respawn(q, Math.atan2(tangent.x, tangent.z));
       });
-      for (let i = 0; i < 12; i++) g.updateVisuals(1 / 60);
+      for (let i = 0; i < settleFrames; i++) g.updateVisuals(1 / 60);
       stagedKartPosition.copy(p).add(new THREE.Vector3(0, 1.1, 0));
       return progress;
     };
     let stagedKartPosition = p.clone().add(new THREE.Vector3(0, 1.1, 0));
     window.stageCourseAtProgress = (nextProgress) => stageAtProgress(nextProgress, false);
+    window.stageC2CourseAtProgress = (nextProgress) => stageAtProgress(nextProgress, false, 1);
+    window.stageServiceTunnelAtFraction = (requestedFraction) => {
+      const fraction = Number(requestedFraction);
+      if (!Number.isFinite(fraction) || fraction < 0 || fraction > 1) {
+        throw new RangeError('Service Tunnel fraction must be between 0 and 1.');
+      }
+      tunnelFraction = fraction;
+      const middleProgress =
+        (g.track.serviceTunnel.entry.progress[0] + g.track.serviceTunnel.exitProgress) * 0.5;
+      return stageAtProgress(middleProgress, true, 1);
+    };
     window.stageBillboardGapAtFraction = (requestedFraction) => {
       const fraction = THREE.MathUtils.clamp(Number(requestedFraction), 0, 1);
       const gap = g.track.billboardGap;

@@ -17,7 +17,10 @@ import { addNeonGridAbyssFogV2 } from './NeonGridAbyssFogV2';
 import { addNeonGridAbyssFogV3 } from './NeonGridAbyssFogV3';
 import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
 import {
+  addServiceTunnelRoofUvs,
   addServiceTunnelWallUvs,
+  createPendingServiceTunnelC2RoofMaterial,
+  createPendingServiceTunnelC2WallMaterial,
   createPendingServiceTunnelConcreteMaterial,
   type ServiceTunnelMaterialVariant,
 } from './ServiceTunnelConcreteMaterial';
@@ -26,7 +29,7 @@ function coalesceTaskC1SidewallFogMaterials(
   scene: THREE.Group,
   materialVariant: ServiceTunnelMaterialVariant,
 ): void {
-  if (materialVariant !== 'concrete-wall-007-c1') return;
+  if (materialVariant === 'blockout') return;
 
   const left = scene.getObjectByName('service-tunnel-left-wall');
   const right = scene.getObjectByName('service-tunnel-right-wall');
@@ -104,6 +107,49 @@ export class NeonGridScene extends THREE.Group {
   }
 }
 
+/** Build the existing Service Tunnel meshes with an opt-in material variant. */
+export function createServiceTunnelMeshGroup(
+  track: NeonGrid,
+  materialVariant: ServiceTunnelMaterialVariant = 'blockout',
+): THREE.Group {
+  const tunnelGroup = new THREE.Group();
+  tunnelGroup.name = 'service-tunnel';
+  tunnelGroup.userData.serviceTunnelMaterialVariant = materialVariant;
+  const tunnelMaterial = new THREE.MeshStandardMaterial({
+    color: 0x733059,
+    roughness: 0.8,
+    side: THREE.DoubleSide,
+  });
+  const concreteMaterial =
+    materialVariant === 'concrete-wall-007-c1'
+      ? createPendingServiceTunnelConcreteMaterial()
+      : materialVariant === 'concrete-coverage-c2-001'
+        ? createPendingServiceTunnelC2WallMaterial()
+        : null;
+  const c2RoofMaterial =
+    materialVariant === 'concrete-coverage-c2-001'
+      ? createPendingServiceTunnelC2RoofMaterial()
+      : null;
+  for (const kind of ['floor', 'left-wall', 'right-wall', 'roof'] as const) {
+    const geometry = serviceTunnelGeometry(track.serviceTunnel, kind);
+    if (concreteMaterial !== null && kind.endsWith('wall'))
+      addServiceTunnelWallUvs(geometry, track.serviceTunnel, kind === 'left-wall' ? -1 : 1);
+    if (c2RoofMaterial !== null && kind === 'roof')
+      addServiceTunnelRoofUvs(geometry, track.serviceTunnel);
+    const material =
+      concreteMaterial !== null && kind.endsWith('wall')
+        ? concreteMaterial
+        : c2RoofMaterial !== null && kind === 'roof'
+          ? c2RoofMaterial
+          : tunnelMaterial;
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = `service-tunnel-${kind}`;
+    mesh.receiveShadow = true;
+    tunnelGroup.add(mesh);
+  }
+  return tunnelGroup;
+}
+
 /** Main blockout with the approved Task 6 local visual pass. */
 export function createNeonGridScene(
   track: NeonGrid,
@@ -134,28 +180,7 @@ export function createNeonGridScene(
     walls.add(wall);
   }
   group.add(walls);
-  const tunnelGroup = new THREE.Group();
-  tunnelGroup.name = 'service-tunnel';
-  const tunnelMaterial = new THREE.MeshStandardMaterial({
-    color: 0x733059,
-    roughness: 0.8,
-    side: THREE.DoubleSide,
-  });
-  const concreteMaterial =
-    materialVariant === 'concrete-wall-007-c1'
-      ? createPendingServiceTunnelConcreteMaterial()
-      : null;
-  for (const kind of ['floor', 'left-wall', 'right-wall', 'roof'] as const) {
-    const geometry = serviceTunnelGeometry(track.serviceTunnel, kind);
-    if (concreteMaterial !== null && kind.endsWith('wall'))
-      addServiceTunnelWallUvs(geometry, track.serviceTunnel, kind === 'left-wall' ? -1 : 1);
-    const material =
-      concreteMaterial !== null && kind.endsWith('wall') ? concreteMaterial : tunnelMaterial;
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = `service-tunnel-${kind}`;
-    mesh.receiveShadow = true;
-    tunnelGroup.add(mesh);
-  }
+  const tunnelGroup = createServiceTunnelMeshGroup(track, materialVariant);
   group.add(tunnelGroup);
   const plaza = new THREE.Mesh(
     billboardFloorGeometry(track.billboardGap),

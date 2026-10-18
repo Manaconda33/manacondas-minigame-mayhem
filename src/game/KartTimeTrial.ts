@@ -419,7 +419,7 @@ export class KartTimeTrial {
           game.trackScene.skyline.load(),
           game.trackScene.undercity.load(),
           game.trackScene.tunnelWarnings.load(),
-          game.serviceTunnelMaterialVariant === 'concrete-wall-007-c1'
+          game.serviceTunnelMaterialVariant !== 'blockout'
             ? loadServiceTunnelConcreteWallMaterial(game.trackScene)
             : Promise.resolve(),
         ]);

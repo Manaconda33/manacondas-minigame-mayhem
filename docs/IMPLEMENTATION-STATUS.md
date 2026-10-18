@@ -1,5 +1,42 @@
 # Implementation Status
 
+## Gate C5 — Historical Branch Cleanup Completed (2026-10-18)
+
+The owner-executed historical branch cleanup is complete. The post-PR #314 starting inventory was **177 branches**. Manny deleted **162 branches**, exactly the names in the C5 DELETE manifest. A fresh GitHub enumeration now contains **15 branches**, matching the approved KEEP list by name and exact HEAD. The frozen C5-A inventory remains a historical 176-ref snapshot; PR #314's preservation branch accounts for the additional ref in the 177-branch starting inventory.
+
+The following retained refs and HEADs were independently verified on GitHub on 2026-10-18:
+
+**Active/default**
+
+- `main` — `3a7356a82962faf04c7fb9bf322d26c7f1f616f1`
+- `design/neon-grid-circuit-02` — `6919729ba5e12f48305f543dca153f4ba9c5ae19`
+- `fix/neon-grid-task-a-sponsor-visibility-20261014` — `91393418c9b219fb5689c2041fb98325aa1e7b41`
+- `review/neon-grid-far300-stopgap` — `ce6a64cf36b1f110af028536d3ff9c7a306ccbdb`
+
+**Historical preservation**
+
+- `diagnostic/task8-paired-perf` — `71880d187f273d9a868fa543bdb2a7e05b144898`
+- `docs/neon-grid-task-c0-1-visibility-review-20261015` — `48d4b474cf8c9ce590a7623c8e83b44ac0914ef8`
+- `docs/results-deployment-record` — `4b645f05e5df0d8ac92271b6cceecfb23b16895f`
+- `engineering/ci1b-runner-image-compatibility-20261014` — `c4e6f54fffdf3c530196a21cb5d8c4880dae343a`
+- `experiment/ci-validation-optimization-benchmark-20261014` — `59512851ef963fce7d1c553b1650b53d9d6e7a26`
+- `experiment/b5-b2-unattended-work-001` — `c8b4ecf8522ae2bc7335260e3f87c827de7a978f`
+
+**Owner-held experiments**
+
+- `experiment/balance-candidate-b` — `b49a9f18cd34d3c1241357f22b0b59f4cb6a3785`
+- `experiment/candidate-b-soft-pack` — `1dfbfa23046742edff42e15f39047a9f8eb11bc3`
+- `experiment/candidate-b-ai-execution` — `19743f98defedbba7258a5ae198e5cb6ca56e148`
+- `experiment/neon-grid-abyss-fog-001` — `7209b5b331a5bdaba65413169d5b3b942ef13a19`
+
+**Preservation checkpoint**
+
+- `docs/gate-c5-durable-preservation-20261017` — `e76ef3e80fb0a8ff1b5b031589a10d6816360c83`
+
+`main`, both active development refs, PR [#242](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/242), and Stage C remain unaffected. PR #242 is still open, draft, and unmerged at `6919729ba5e12f48305f543dca153f4ba9c5ae19`; Stage C remains `PREPARED_DISABLED`. The required `validate` check and trusted pinned-runtime validation were last verified successful for this main checkpoint in [CI run 39058497840](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39058497840) and [trusted validation run 39058497861](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39058497861), respectively.
+
+The C5-A/B/C preservation evidence remains on `main` through PR [#314](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/314), merged at the current main checkpoint. The dated preservation files and pre-cleanup `NOT AUTHORIZED` retirement records remain unchanged as historical evidence; this section records the later verified post-cleanup state.
+
 ## Phase G0 current handoff
 
 Checkpoint date: **2026-10-14 America/Chicago**. Documentation-only branch from verified main at 4e7607368e0dbea04ee8c76435fa9977bb63ff6a. The historical status entries below are retained as snapshots.

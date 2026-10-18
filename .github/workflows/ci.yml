@@ -350,6 +350,13 @@ jobs:
             marker_type: feature
             marker_name: 'Neon Grid Task C1 Service Tunnel concrete A/B gameplay review'
             status: 'Task C1 owner gameplay review only; material approval, runtime merge, and production deployment not authorized'
+          - id: neon-grid-c2-concrete
+            embed_source: true
+            sha: d76e859989accc03382e665154ec267ae4868f86
+            base: /manacondas-minigame-mayhem/previews/neon-grid-c2-concrete/
+            marker_type: feature
+            marker_name: 'Neon Grid Task C2 Concrete Wall 007 coverage review'
+            status: 'Task C2 isolated visual review only; no integration, production release, or gameplay authorization'
 
     steps:
       - name: Report documentation-only preview-build skip
@@ -470,6 +477,15 @@ jobs:
 
       - name: Verify Task C1 texture delivery hashes
         if: matrix.id == 'neon-grid-task-c1-001' && (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true')
+        env:
+          OUTPUT: preview-output/${{ matrix.id }}
+        run: |
+          echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  $OUTPUT/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
+          echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  $OUTPUT/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
+          echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  $OUTPUT/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
+
+      - name: Verify Task C2 texture delivery hashes
+        if: matrix.id == 'neon-grid-c2-concrete' && (github.event_name != 'pull_request' || needs.preview-plan.result != 'success' || needs.preview-plan.outputs.docs_only != 'true')
         env:
           OUTPUT: preview-output/${{ matrix.id }}
         run: |
@@ -884,6 +900,13 @@ jobs:
           key: preview-dist-v1-neon-grid-task-c1-001-e500f68c658edb5dcd45b4149e4c7f32f2a14dce-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
 
+      - name: Restore source-pinned Task C2 concrete review preview
+        uses: actions/cache/restore@v4
+        with:
+          path: preview-output/neon-grid-c2-concrete
+          key: preview-dist-v1-neon-grid-c2-concrete-d76e859989accc03382e665154ec267ae4868f86-${{ needs.preview-plan.outputs.toolchain }}
+          fail-on-cache-miss: true
+
       - name: Assemble the current game and isolated previews
         run: |
           test -f dist/index.html
@@ -1075,6 +1098,19 @@ jobs:
           echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  site-root/previews/neon-grid-task-c1-001/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
           echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  site-root/previews/neon-grid-task-c1-001/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
 
+          mkdir -p site-root/previews/neon-grid-c2-concrete
+          cp -a preview-output/neon-grid-c2-concrete/. site-root/previews/neon-grid-c2-concrete/
+          test -f site-root/previews/neon-grid-c2-concrete/index.html
+          node --input-type=module - <<'JS'
+          import { readFileSync } from 'node:fs';
+          const marker = JSON.parse(readFileSync('site-root/previews/neon-grid-c2-concrete/review-build.json', 'utf8'));
+          if (marker.source !== 'd76e859989accc03382e665154ec267ae4868f86') throw new Error('Task C2 source marker mismatch');
+          if (marker.base !== '/manacondas-minigame-mayhem/previews/neon-grid-c2-concrete/') throw new Error('Task C2 base marker mismatch');
+          JS
+          echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  site-root/previews/neon-grid-c2-concrete/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
+          echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  site-root/previews/neon-grid-c2-concrete/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
+          echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  site-root/previews/neon-grid-c2-concrete/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -1183,6 +1219,8 @@ jobs:
           paths += [item for item in sorted(task_a.rglob('*')) if item.is_file()]
           task_c1 = root/'previews/neon-grid-task-c1-001'
           paths += [item for item in sorted(task_c1.rglob('*')) if item.is_file()]
+          task_c2 = root/'previews/neon-grid-c2-concrete'
+          paths += [item for item in sorted(task_c2.rglob('*')) if item.is_file()]
           paths = [path for path in paths if path.name != '.gitkeep']
           report = []
           for path in paths:
@@ -1190,7 +1228,7 @@ jobs:
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/')):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/', 'previews/neon-grid-c2-concrete/')):
                   verify_published_file(url, relative, sha)
               report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))
           Path('delivery-expected.json').write_text(json.dumps(report, indent=2))
@@ -1305,6 +1343,7 @@ jobs:
 
           report = json.load(open('delivery-expected.json'))
           expected_sources = [
+              ('previews/neon-grid-c2-concrete/', 'd76e859989accc03382e665154ec267ae4868f86'),
               ('previews/neon-grid-task-c1-001/', 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce'),
               ('previews/neon-grid-task-a-001/', '692e9424c2cbf15decbb467b230c02c2e10452a0'),
               ('previews/neon-grid-abyss-fog-004/', '25ea008b15852d593681f5b3b2a17b467a193472'),
@@ -1350,6 +1389,8 @@ jobs:
                                   assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/'
                               if item['path'].startswith('previews/neon-grid-task-c1-001/'):
                                   assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/'
+                              if item['path'].startswith('previews/neon-grid-c2-concrete/'):
+                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-c2-concrete/'
                           item['httpStatus'] = response.status
                           return item
                   except Exception as error:

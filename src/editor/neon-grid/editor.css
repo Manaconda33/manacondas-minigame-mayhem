@@ -619,3 +619,14 @@ button:active {
     display: none;
   }
 }
+
+.atmosphere-layer {
+  padding: 10px 0;
+  border-block: 1px solid #263244;
+  margin-block: 8px;
+}
+.atmosphere-layer h3 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #95ffe0;
+}

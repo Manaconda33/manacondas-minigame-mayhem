@@ -6,9 +6,7 @@ import { disposeTrackScene } from '../../game/track/TrackSceneResources';
 import { RaceBloom } from '../../game/rendering/RaceBloom';
 import { RaceShadows } from '../../game/rendering/RaceShadows';
 import type { EditorView } from './EditorDocument';
-import type { EditorPaths } from './EditorRoad';
-import { TrackSegmentIndex } from '../../game/track/TrackSegmentIndex';
-import type { TrackProjection } from '../../game/track/TrackDefinition';
+import { createAtmosphereLayer } from './EditorAtmosphere';
 export function createEditorWorld() {
   const track = new NeonGrid();
   const root = createNeonGridScene(
@@ -34,49 +32,6 @@ export function createEditorWorld() {
   root.skyline.update(0);
   root.undercity.update(0);
   let disposed = false;
-  const originalMain = track.projectMain.bind(track),
-    originalTunnel = track.serviceTunnel.project.bind(track.serviceTunnel);
-  function setFogPaths(paths: EditorPaths) {
-    if (paths.unchanged) {
-      track.projectMain = originalMain;
-      track.serviceTunnel.project = originalTunnel;
-      return;
-    }
-    function projector(curve: THREE.Curve<THREE.Vector3>, tunnel: boolean) {
-      const count = 384,
-        index = new TrackSegmentIndex(
-          Array.from({ length: count + 1 }, (_, i) => curve.getPointAt(i / count)),
-          false,
-        );
-      return (position: THREE.Vector3): TrackProjection => {
-        const nearest = index.nearest(position),
-          u = THREE.MathUtils.clamp((nearest.index + nearest.fraction) / count, 0, 1),
-          tangent = curve.getTangentAt(u).normalize();
-        const right = new THREE.Vector3(tangent.z, 0, -tangent.x).normalize(),
-          offset = position.clone().sub(nearest.point).dot(right);
-        const progress = tunnel
-          ? THREE.MathUtils.lerp(
-              track.serviceTunnel.entry.progress[0],
-              track.serviceTunnel.exitProgress,
-              u,
-            )
-          : u;
-        return {
-          index: Math.floor(progress * count),
-          progress,
-          point: nearest.point,
-          tangent,
-          lateralDistance: Math.abs(offset),
-          lateralOffset: offset,
-          surface: 'asphalt',
-          ...(tunnel ? { pathId: 'service-tunnel' as const } : {}),
-        };
-      };
-    }
-    track.projectMain = projector(paths.main, false);
-    if (paths.shortcuts['service-tunnel'])
-      track.serviceTunnel.project = projector(paths.shortcuts['service-tunnel'], true);
-  }
   return {
     track,
     root,
@@ -84,7 +39,6 @@ export function createEditorWorld() {
     camera,
     overlayScene,
     shadows,
-    setFogPaths,
     async load() {
       await loadEditorAssets([
         () => root.billboard.load(),
@@ -125,38 +79,15 @@ export async function createEditorScene(canvas: HTMLCanvasElement) {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   const bloom = new RaceBloom(renderer, 'medium');
-  const fog = world.scene.fog;
-  const fogUniforms = new Map<THREE.IUniform<number>, number>();
-  const patched = new Set<THREE.Material>();
-  let fogEnabled = true;
-  function captureFogUniforms() {
-    world.root.traverse((object) => {
-      if (!(object instanceof THREE.Mesh)) return;
-      const sourceMaterial = object.material as THREE.Material | THREE.Material[];
-      const materials = Array.isArray(sourceMaterial) ? sourceMaterial : [sourceMaterial];
-      for (const material of materials) {
-        if (patched.has(material) || !material.userData.abyssVerticalFog) continue;
-        patched.add(material);
-        const original = material.onBeforeCompile.bind(material);
-        material.onBeforeCompile = (shader, currentRenderer) => {
-          original(shader, currentRenderer);
-          const uniform = shader.uniforms.uAbyssFogV3MaximumBlend as
-            THREE.IUniform<number> | undefined;
-          if (uniform && !fogUniforms.has(uniform)) fogUniforms.set(uniform, uniform.value);
-          if (uniform && !fogEnabled) uniform.value = 0;
-        };
-      }
-    });
-  }
   try {
     await world.load();
-    captureFogUniforms();
   } catch (error) {
     bloom.dispose();
     renderer.dispose();
     world.dispose();
     throw error;
   }
+  const atmosphere = createAtmosphereLayer(world.scene, world.root);
   let disposed = false;
   const emptyCaster = new THREE.Group();
   let metrics = {
@@ -180,17 +111,14 @@ export async function createEditorScene(canvas: HTMLCanvasElement) {
   return {
     ...world,
     renderer,
+    atmosphere,
     bloom,
     resize,
     metrics: () => ({ ...metrics, bloom: bloom.snapshot() }),
     render(view: Pick<EditorView, 'fog' | 'helpers' | 'target'>) {
       if (disposed) return;
       const start = performance.now();
-      fogEnabled = view.fog;
-      world.scene.fog = fogEnabled ? fog : null;
-      for (const [uniform, maximum] of fogUniforms) uniform.value = fogEnabled ? maximum : 0;
-      const backdrop = world.root.getObjectByName('neon-grid-abyss-fog-v3-backdrop');
-      if (backdrop) backdrop.visible = fogEnabled;
+      atmosphere.setVisible(view.fog);
       world.shadows.update(new THREE.Vector3().fromArray(view.target), emptyCaster, [], []);
       bloom.render(world.scene, world.camera, false);
       const base = { ...renderer.info.render };
@@ -217,6 +145,7 @@ export async function createEditorScene(canvas: HTMLCanvasElement) {
     dispose() {
       if (disposed) return;
       disposed = true;
+      atmosphere.dispose();
       bloom.dispose();
       renderer.dispose();
       world.dispose();

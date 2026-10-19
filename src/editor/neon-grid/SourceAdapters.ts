@@ -105,6 +105,7 @@ export function sourceGroup(root: THREE.Object3D, name: string, ordinal: number)
     let building: number | null = null;
     if (
       name === towerName ||
+      /::cityTowers(?:\/|$)|::cityFoundations(?:\/|$)/.test(name) ||
       /city-roof-caps|city-roof-accents|city-foundations|city-roof-lights/.test(name)
     )
       building = ordinal;
@@ -137,13 +138,14 @@ export function extractAuthoredRanges(root: THREE.Object3D): void {
       o instanceof THREE.Mesh &&
       !(o instanceof THREE.InstancedMesh) &&
       o.visible &&
-      o.userData.geometryRanges &&
+      (o.userData.geometryRanges || (o.geometry as THREE.BufferGeometry).userData.geometryRanges) &&
       !o.userData.editorExtracted
     )
       meshes.push(o as THREE.Mesh);
   });
   for (const original of meshes) {
-    const ranges = original.userData.geometryRanges as Record<
+    const ranges = (original.userData.geometryRanges ??
+      original.geometry.userData.geometryRanges) as Record<
       string,
       {
         startTriangle: number;
@@ -167,11 +169,39 @@ export function extractAuthoredRanges(root: THREE.Object3D): void {
     original.userData.editorExtracted = true;
     original.visible = false;
     for (const [name, range] of sorted) {
-      const foundationCount =
-        name === 'cityFoundations' ? Number(original.geometry.userData.includesCityFoundations) : 1;
-      const count = Number.isInteger(foundationCount) && foundationCount > 0 ? foundationCount : 1;
+      // Runtime city batches bake each source instance into a contiguous span.
+      // Recover only those authored boundaries; never infer buildings from positions.
+      const baked = original.geometry.userData.bakedCityGeometryRanges as
+        Record<string, { startTriangle: number; triangleCount: number }> | undefined;
+      const sourceName = Object.keys(baked ?? {}).find((source) =>
+        name === 'cityFoundations'
+          ? source.includes('foundations')
+          : name === 'cityTowers'
+            ? /towers|buildings/.test(source)
+            : false,
+      );
+      const source = sourceName ? root.getObjectByName(sourceName) : undefined;
+      const sourceGeometry =
+        source instanceof THREE.InstancedMesh
+          ? (source.geometry as THREE.BufferGeometry)
+          : undefined;
+      const authoredCount =
+        source instanceof THREE.InstancedMesh
+          ? source.count
+          : name === 'cityFoundations'
+            ? Number(original.geometry.userData.includesCityFoundations)
+            : 1;
+      const count = Number.isInteger(authoredCount) && authoredCount > 0 ? authoredCount : 1;
+      if (
+        source instanceof THREE.InstancedMesh &&
+        range.triangleCount > 0 &&
+        range.triangleCount * 3 !==
+          (sourceGeometry?.index?.count ?? sourceGeometry?.getAttribute('position').count ?? 0) *
+            count
+      )
+        throw new Error('Authored city instance range does not match its source.');
       if ((range.triangleCount * 3) % count)
-        throw new Error('Authored foundation index ranges are not separable.');
+        throw new Error('Authored city index ranges are not separable.');
       for (let ordinal = 0; ordinal < count; ordinal++) {
         const start = range.startTriangle * 3 + ordinal * ((range.triangleCount * 3) / count);
         const length = (range.triangleCount * 3) / count;

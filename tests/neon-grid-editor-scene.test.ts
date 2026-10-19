@@ -2,7 +2,9 @@ import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { createEditorWorld, loadEditorAssets } from '../src/editor/neon-grid/EditorScene';
 import { createEditorDocument } from '../src/editor/neon-grid/EditorDocument';
-import { createEditedPaths } from '../src/editor/neon-grid/EditorRoad';
+import { buildCatalogue } from '../src/editor/neon-grid/ComponentCatalogue';
+import { EditorProjection } from '../src/editor/neon-grid/EditorProjection';
+import { NeonGrid } from '../src/game/track/NeonGrid';
 describe('primary editor world', () => {
   it('constructs the actual primary concrete/fog scene without starting a race', () => {
     const world = createEditorWorld();
@@ -31,39 +33,26 @@ describe('primary editor world', () => {
     await expect(loadEditorAssets(loaders)).rejects.toThrow('missing approved sign');
     expect(calls.sort()).toEqual(['billboard', 'skyline', 'tunnelWarnings', 'undercity']);
   });
-  it('lets editor-only fog reference the edited road and restores the exact source projection on undo', () => {
-    const world = createEditorWorld(),
-      original = world.track.projectMain.bind(world.track);
-    const road = createEditorDocument({
+  it('keeps atmosphere source anchors fixed when the road is edited', async () => {
+    const world = { track: new NeonGrid() };
+    const sourcePoint = world.track.projectMain(new THREE.Vector3()).point.toArray();
+    const catalogue = await buildCatalogue(new THREE.Group(), world.track);
+    const projection = new EditorProjection(catalogue, world.track);
+    const document = createEditorDocument({
       repository: '',
       runtimeSourceSha: '',
       editorBuildSha: '',
       selectors: { material: '', visual: '' },
       catalogueVersion: 1,
-      catalogueHash: '',
-    }).road;
-    road.controlPoints.forEach((p) => {
+      catalogueHash: catalogue.hash,
+    });
+    document.road = catalogue.baselineRoad;
+    document.road.controlPoints.forEach((p) => {
       p.position[1] += 20;
     });
-    const paths = createEditedPaths(world.track, road);
-    world.setFogPaths(paths);
-    expect(world.track.projectMain(paths.main.getPointAt(0.2)).point.y).toBeGreaterThan(20);
-    world.setFogPaths(
-      createEditedPaths(
-        world.track,
-        createEditorDocument({
-          repository: '',
-          runtimeSourceSha: '',
-          editorBuildSha: '',
-          selectors: { material: '', visual: '' },
-          catalogueVersion: 1,
-          catalogueHash: '',
-        }).road,
-      ),
-    );
-    expect(world.track.projectMain(new THREE.Vector3()).point.toArray()).toEqual(
-      original(new THREE.Vector3()).point.toArray(),
-    );
-    world.dispose();
+    const result = projection.apply(document);
+    expect(result.paths.main.getPointAt(0.2).y).toBeGreaterThan(20);
+    expect(world.track.projectMain(new THREE.Vector3()).point.toArray()).toEqual(sourcePoint);
+    projection.dispose();
   });
 });

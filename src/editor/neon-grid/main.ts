@@ -19,7 +19,7 @@ try {
       repository: 'Manaconda33/manacondas-minigame-mayhem',
       runtimeSourceSha: 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94',
       editorBuildSha: typeof build === 'string' ? build : 'development',
-      catalogueVersion: 1,
+      catalogueVersion: 2,
       catalogueHash: catalogue.hash,
       selectors: { material: 'concrete-coverage-c2-001', visual: 'c2-task-a-fog-overlay' },
     });

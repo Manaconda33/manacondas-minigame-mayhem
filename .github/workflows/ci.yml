@@ -734,9 +734,44 @@ jobs:
               ;;
           esac
 
+  layout-studio-build:
+    name: Build isolated Neon Grid Layout Studio
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact reviewed editor source
+        uses: actions/checkout@v5
+        with:
+          ref: 81bcaa9123dc184f615fa638f64ea34a279397d5
+          lfs: false
+      - name: Require exact editor source
+        run: test "$(git rev-parse HEAD)" = 81bcaa9123dc184f615fa638f64ea34a279397d5
+      - name: Set up editor build toolchain
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - name: Materialize only approved editor assets
+        run: |
+          git lfs install --local
+          git lfs pull --include="$(node --input-type=module -e "import {readFileSync} from 'node:fs'; const m=JSON.parse(readFileSync('tools/editor/neon-grid-assets.json')); console.log(m.assets.filter(a=>a.lfs_oid).map(a=>'public/'+a.path).join(','));")"
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Build source-pinned browser editor
+        env:
+          NEON_GRID_EDITOR_SOURCE_SHA: 81bcaa9123dc184f615fa638f64ea34a279397d5
+          NEON_GRID_EDITOR_BASE: /manacondas-minigame-mayhem/previews/neon-grid-layout-studio/
+        run: npm run build:neon-grid-editor
+      - name: Upload isolated editor for Pages assembly
+        uses: actions/upload-artifact@v4
+        with:
+          name: neon-grid-layout-studio
+          path: dist-neon-grid-editor/
+          if-no-files-found: error
+
   assemble:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [validate, preview-plan, preview-build]
+    needs: [validate, preview-plan, preview-build, layout-studio-build]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -906,6 +941,12 @@ jobs:
           path: preview-output/neon-grid-c2-concrete
           key: preview-dist-v1-neon-grid-c2-concrete-addab4c7c2421f52c4731691b8a9f3e2d9e39f94-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
+
+      - name: Download source-pinned Layout Studio
+        uses: actions/download-artifact@v4
+        with:
+          name: neon-grid-layout-studio
+          path: preview-output/neon-grid-layout-studio
 
       - name: Assemble the current game and isolated previews
         run: |
@@ -1111,6 +1152,25 @@ jobs:
           echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  site-root/previews/neon-grid-c2-concrete/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
           echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  site-root/previews/neon-grid-c2-concrete/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
 
+      - name: Assemble and verify isolated Layout Studio bytes
+        run: |
+          mkdir -p site-root/previews/neon-grid-layout-studio
+          cp -a preview-output/neon-grid-layout-studio/. site-root/previews/neon-grid-layout-studio/
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json
+          root = Path('site-root/previews/neon-grid-layout-studio')
+          manifest = json.loads((root/'FILE-MANIFEST.json').read_text())
+          marker = json.loads((root/'review-build.json').read_text())
+          assert manifest['source'] == marker['source'] == '81bcaa9123dc184f615fa638f64ea34a279397d5'
+          assert marker['runtime_source'] == 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94'
+          for item in manifest['files']:
+              path = (root/item['path']).resolve()
+              assert path.is_relative_to(root.resolve())
+              assert hashlib.sha256(path.read_bytes()).hexdigest() == item['sha256'], item['path']
+          assert (root/'index.html').is_file()
+          PY
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -1221,6 +1281,8 @@ jobs:
           paths += [item for item in sorted(task_c1.rglob('*')) if item.is_file()]
           task_c2 = root/'previews/neon-grid-c2-concrete'
           paths += [item for item in sorted(task_c2.rglob('*')) if item.is_file()]
+          studio = root/'previews/neon-grid-layout-studio'
+          paths += [item for item in sorted(studio.rglob('*')) if item.is_file()]
           paths = [path for path in paths if path.name != '.gitkeep']
           report = []
           for path in paths:
@@ -1228,7 +1290,7 @@ jobs:
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/', 'previews/neon-grid-c2-concrete/')):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/', 'previews/neon-grid-c2-concrete/', 'previews/neon-grid-layout-studio/')):
                   verify_published_file(url, relative, sha)
               report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))
           Path('delivery-expected.json').write_text(json.dumps(report, indent=2))
@@ -1343,6 +1405,7 @@ jobs:
 
           report = json.load(open('delivery-expected.json'))
           expected_sources = [
+              ('previews/neon-grid-layout-studio/', '81bcaa9123dc184f615fa638f64ea34a279397d5'),
               ('previews/neon-grid-c2-concrete/', 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94'),
               ('previews/neon-grid-task-c1-001/', 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce'),
               ('previews/neon-grid-task-a-001/', '692e9424c2cbf15decbb467b230c02c2e10452a0'),

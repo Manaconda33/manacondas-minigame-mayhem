@@ -86,7 +86,11 @@ export class NeonGridScene extends THREE.Group {
     this.userData.visualVariant = variant;
     const recoverSponsors = variant === 'fog-experiment-task-a';
     const compositionVariant =
-      variant === 'fog-experiment-v3-2' || recoverSponsors ? 'fog-experiment-v3' : variant;
+      variant === 'fog-experiment-c2-background'
+        ? 'approved'
+        : variant === 'fog-experiment-v3-2' || recoverSponsors
+          ? 'fog-experiment-v3'
+          : variant;
     if (variant === 'fog-experiment') {
       const fogCity = new NeonGridFogCityVisual(track, quality);
       this.add(fogCity.group);
@@ -322,6 +326,7 @@ export function createNeonGridScene(
   if (variant === 'fog-experiment-v3') addNeonGridAbyssFogV3(group, track);
   if (variant === 'fog-experiment-v3-2' || variant === 'fog-experiment-task-a')
     addNeonGridAbyssFogV3(group, track, '3.2');
+  if (variant === 'fog-experiment-c2-background') addNeonGridAbyssFogV3(group, track, '3.2');
   coalesceTaskC1SidewallFogMaterials(group, materialVariant);
   return group;
 }

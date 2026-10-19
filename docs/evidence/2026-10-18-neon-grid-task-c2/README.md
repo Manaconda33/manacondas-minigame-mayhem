@@ -46,7 +46,15 @@ No separate Service Tunnel entry/exit support mesh or distinct exposed Falls Run
 - The default selector and C1 selector do not change road-wall material, roof material or their old UV/default presentation. No default replacement.
 - Texture maps are loaded once for the scene and shared by all C2 concrete material assignments. C2 uses an existing wall batch and existing meshes; it does not introduce draw calls, objects, triangles, a new render pass, or collision changes.
 - Sidewall, roof and ribbon UV calculations are finite and orientation-aware. Safety-wall positions/indices are invariant. C1 fog/material behavior remains covered by regression tests; default and mixed/nonconcrete materials are asserted unchanged.
-- No metal, asphalt/wet-road, lighting/bloom/fog, sponsor, route, gameplay, shortcut, collision, production asset, workflow or PRD change is part of C2.
+- No new fog or lighting implementation is part of C2; the separate review combination below reuses the existing Task A Fog V3.2 effect. No metal, asphalt/wet-road, sponsor, route, gameplay, shortcut, collision, production asset, workflow or PRD change is part of the material expansion.
+
+## Separate C2 background and Task A fog preview
+
+An additional opt-in review selector combines the approved no-fog background composition with the existing Task A Fog V3.2 overlay:
+
+`?neonGridMaterial=concrete-coverage-c2-001&neonGridVisual=c2-task-a-fog-overlay`
+
+This selector keeps the approved background meshes and instance placements used by the C2 concrete view, applies the existing fog shader/profile, and preserves the on-track Billboard visuals inherited from the Task A base. The fog overlay changes no background geometry or Billboard placement. With no `neonGridVisual` parameter, the existing no-fog default remains unchanged. This is a review-only combination; it does not change the production default or authorize integration.
 
 ## Matched A/B race-scene captures
 

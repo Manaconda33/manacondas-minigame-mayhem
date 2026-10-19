@@ -9,7 +9,8 @@ import { disposeTrackScene } from '../src/game/track/TrackSceneResources';
 type FogSceneFactory = (
   track: NeonGrid,
   quality: 'low' | 'medium' | 'high',
-  variant: 'fog-experiment' | 'fog-experiment-v2' | 'fog-experiment-v3' | 'fog-experiment-v3-2',
+  variant: string,
+  materialVariant?: string,
 ) => THREE.Group;
 
 const createFogScene = createNeonGridScene as unknown as FogSceneFactory;
@@ -28,6 +29,86 @@ describe('Neon Grid fog-city experiment isolation', () => {
     expect(resolveVariant?.('?neonGridVisual=unknown')).toBe('approved');
     expect(resolveVariant?.('')).toBe('approved');
   });
+
+  it('selects the C2 background with the Task A fog overlay independently', () => {
+    const resolveVariant = catalogExports.neonGridVisualVariantFromSearch as
+      ((search: string) => string) | undefined;
+
+    expect(resolveVariant?.('?neonGridVisual=c2-task-a-fog-overlay')).toBe(
+      'fog-experiment-c2-background',
+    );
+    expect(resolveVariant?.('')).toBe('approved');
+  });
+
+  it('adds Task A fog over C2 concrete without changing approved building or billboard placement', () => {
+    const track = new NeonGrid();
+    const approved = createFogScene(track, 'medium', 'approved', 'concrete-coverage-c2-001');
+    const combined = createFogScene(
+      track,
+      'medium',
+      'fog-experiment-c2-background',
+      'concrete-coverage-c2-001',
+    );
+    const requiredObject = (object: THREE.Object3D | undefined): THREE.Object3D => {
+      if (object === undefined) throw new Error('Expected a scene object for the composition check.');
+      return object;
+    };
+    const objectSnapshot = (object: THREE.Object3D): unknown => {
+      const mesh = object as THREE.Mesh;
+      return {
+        name: object.name,
+        position: object.position.toArray(),
+        quaternion: object.quaternion.toArray(),
+        scale: object.scale.toArray(),
+        geometryPositions:
+          mesh.geometry instanceof THREE.BufferGeometry && mesh.geometry.hasAttribute('position')
+            ? Array.from(mesh.geometry.getAttribute('position').array)
+            : null,
+        instanceMatrices:
+          object instanceof THREE.InstancedMesh ? Array.from(object.instanceMatrix.array) : null,
+        children: object.children.map(objectSnapshot),
+      };
+    };
+
+    try {
+      expect(approved.getObjectByName('neon-grid-abyss-fog-v3-backdrop')).toBeUndefined();
+      expect(combined.userData.visualVariant).toBe('fog-experiment-c2-background');
+      expect(combined.getObjectByName('neon-grid-abyss-fog-v3-backdrop')).toBeDefined();
+      expect(
+        (combined.userData.abyssFogV3_2 as { readonly enabled: boolean }).enabled,
+      ).toBe(true);
+      expect(
+        ((combined.getObjectByName('service-tunnel-roof') as THREE.Mesh)
+          .material as THREE.MeshStandardMaterial).name,
+      ).toBe('service-tunnel-concrete-wall-007-c2-roof-pending');
+
+      for (const name of [
+        'skyline-city-towers',
+        'skyline-deck-fascia',
+        'undercity-city-buildings',
+        'undercity-industrial-architecture',
+        'falls-run-deck-fascia',
+        'falls-run-pylons',
+      ]) {
+        const approvedObject = approved.getObjectByName(name);
+        const combinedObject = combined.getObjectByName(name);
+        expect(approvedObject).toBeDefined();
+        expect(combinedObject).toBeDefined();
+        expect(objectSnapshot(requiredObject(combinedObject))).toEqual(
+          objectSnapshot(requiredObject(approvedObject)),
+        );
+      }
+
+      expect(
+        objectSnapshot(requiredObject(approved.getObjectByName('billboard-hologram'))),
+      ).toEqual(
+        objectSnapshot(requiredObject(combined.getObjectByName('billboard-hologram'))),
+      );
+    } finally {
+      disposeTrackScene(approved);
+      disposeTrackScene(combined);
+    }
+  }, 60000);
 
   it('keeps the approved city-ground scene as the default', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');

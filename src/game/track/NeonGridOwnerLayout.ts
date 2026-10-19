@@ -69,6 +69,9 @@ function appendTransformedRangeVertices(
   const normalMatrix = new THREE.Matrix3().getNormalMatrix(delta);
   const tangentMatrix = new THREE.Matrix3().setFromMatrix4(delta);
   const [start, count] = range;
+  const positionValues = attributeValues.get('position');
+  if (!positionValues) fail('Owner layout source positions are missing from the edit buffer.');
+  const appendedVertexBase = positionValues.length / positionAttribute.itemSize;
   const remapped = new Map<number, number>();
   const point = new THREE.Vector3();
 
@@ -76,7 +79,7 @@ function appendTransformedRangeVertices(
     const sourceVertex = originalIndex.getX(offset);
     let targetVertex = remapped.get(sourceVertex);
     if (targetVertex === undefined) {
-      targetVertex = positionAttribute.count + remapped.size;
+      targetVertex = appendedVertexBase + remapped.size;
       remapped.set(sourceVertex, targetVertex);
       for (const [name, values] of attributeValues) {
         const attribute = geometry.getAttribute(name);

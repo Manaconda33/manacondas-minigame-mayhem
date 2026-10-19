@@ -186,10 +186,38 @@ describe('Neon Grid owner layout handoff', () => {
       positionCount: ground.geometry.getAttribute('position').count,
       indexCount: ground.geometry.index?.count ?? 0,
     };
-    const deletedGroundIndexCount = ownerLayout.components
-      .filter((component) => component.deleted && component.indexRange !== null &&
-        authoredRangeMeshName(component.id) === ground.name)
-      .reduce((count, component) => count + (component.indexRange?.[1] ?? 0), 0);
+    const cityGroundRangeMeshes = [
+      'skyline-deck-fascia',
+      'undercity-wallside-sightline-screens',
+      'falls-run-city-terraced-ground',
+      'falls-run-extension-city-terraced-ground',
+    ].map((name) => {
+      const mesh = root.getObjectByName(name) as THREE.Mesh | undefined;
+      expect(mesh, `expected source mesh for authored city-ground range ${name}`).toBeInstanceOf(THREE.Mesh);
+      return { name, mesh, indexCount: mesh?.geometry.index?.count ?? 0 };
+    });
+    const deletedGroundIndexCounts = new Map(cityGroundRangeMeshes.map(({ name }) => [
+      name,
+      ownerLayout.components
+        .filter((component) => component.deleted && component.id.endsWith('::cityGround[0]') &&
+          component.indexRange !== null && authoredRangeMeshName(component.id) === name)
+        .reduce((count, component) => count + (component.indexRange?.[1] ?? 0), 0),
+    ]));
+    const deletedGroundIndexCount = deletedGroundIndexCounts.get(ground.name) ?? 0;
+    const transformedRangeIds = [
+      'Scene[0]/neon-grid-blockout[0]/skyline-visual[0]/skyline-deck-fascia::cityFoundations/0[0]',
+      'Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/0[0]',
+      'Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/0[0]',
+      'Scene[0]/neon-grid-blockout[0]/falls-run-extension-visual[0]/falls-run-extension-city-terraced-ground::cityTowers/0[0]',
+      'Scene[0]/neon-grid-blockout[0]/falls-run-extension-visual[0]/falls-run-extension-city-terraced-ground::cityFoundations/0[0]',
+    ];
+    const transformedRangeChecks = transformedRangeIds.map((id) => {
+      const record = ownerLayout.components.find((component) => component.id === id);
+      const mesh = root.getObjectByName(authoredRangeMeshName(id)) as THREE.Mesh | undefined;
+      expect(record?.indexRange, `expected indexed source range ${id}`).not.toBeNull();
+      expect(mesh, `expected source mesh for ${id}`).toBeInstanceOf(THREE.Mesh);
+      return { record, sourceGeometry: mesh?.geometry.clone() };
+    });
     const routeBefore = {
       main: track.samples.map((point) => point.toArray()),
       tunnel: Array.from({ length: 65 }, (_, index) =>
@@ -213,6 +241,14 @@ describe('Neon Grid owner layout handoff', () => {
       expect(report.deletedIds).not.toContain(
         screenId,
       );
+      expect(report.deletedIds).toEqual(expect.arrayContaining([
+        'Scene[0]/neon-grid-blockout[0]/waterfall-dive[0]/dive-waterway-banks[0]',
+        'Scene[0]/neon-grid-blockout[0]/waterfall-dive[0]/dive-waterway[0]',
+        'Scene[0]/neon-grid-blockout[0]/skyline-visual[0]/skyline-deck-fascia::cityGround[0]',
+        'Scene[0]/neon-grid-blockout[0]/undercity-visual[0]/undercity-wallside-sightline-screens::cityGround[0]',
+        'Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityGround[0]',
+        'Scene[0]/neon-grid-blockout[0]/falls-run-extension-visual[0]/falls-run-extension-city-terraced-ground::cityGround[0]',
+      ]));
       expect(report.changedIds).toContain(
         'Scene[0]/neon-grid-blockout[0]/billboard-hologram[0]/billboard-portal-exit[0]/billboard-exit-ad-arin[0]',
       );
@@ -225,7 +261,63 @@ describe('Neon Grid owner layout handoff', () => {
         Math.abs(value - (movedRecord?.matrix[index] ?? Number.NaN)) <= 1e-8,
       )).toBe(true);
       expect(ground.geometry.getAttribute('position').count).toBeGreaterThan(groundBefore.positionCount);
+      expect(deletedGroundIndexCount).toBeGreaterThan(0);
       expect(ground.geometry.index?.count).toBe(groundBefore.indexCount - deletedGroundIndexCount);
+      for (const cityGround of cityGroundRangeMeshes) {
+        expect(cityGround.mesh?.geometry.index?.count,
+          `${cityGround.name} must remove its authored city-ground range and preserve other ranges`,
+        ).toBe(cityGround.indexCount - (deletedGroundIndexCounts.get(cityGround.name) ?? 0));
+        expect(cityGround.mesh?.geometry.index?.count).toBeGreaterThan(0);
+      }
+      for (const { record, sourceGeometry } of transformedRangeChecks) {
+        if (!record?.indexRange || !sourceGeometry?.index) {
+          throw new Error('The representative transformed building range is incomplete.');
+        }
+        const mesh = root.getObjectByName(authoredRangeMeshName(record.id)) as THREE.Mesh;
+        const actualIndex = mesh.geometry.index;
+        if (!actualIndex) throw new Error('The transformed building mesh has no index buffer.');
+        const sourcePosition = sourceGeometry.getAttribute('position');
+        const actualPosition = mesh.geometry.getAttribute('position');
+        const sourceStart = record.indexRange[0];
+        const indexCount = record.indexRange[1];
+        if (sourceStart === undefined || indexCount === undefined) {
+          throw new Error('The representative transformed building range has invalid indices.');
+        }
+        const removedBefore = ownerLayout.components
+          .filter((component) => {
+            const rangeStart = component.indexRange?.[0];
+            const rangeCount = component.indexRange?.[1];
+            return component.deleted && component.id.includes('::') && component.id !== screenId &&
+              authoredRangeMeshName(component.id) === mesh.name &&
+              rangeStart !== undefined && rangeCount !== undefined &&
+              rangeStart + rangeCount <= sourceStart;
+          })
+          .reduce((count, component) => count + (component.indexRange?.[1] ?? 0), 0);
+        const actualStart = sourceStart - removedBefore;
+        const expectedTransform = new THREE.Matrix4()
+          .fromArray([...record.baselineMatrix])
+          .invert()
+          .multiply(new THREE.Matrix4().fromArray([...record.matrix]));
+        const [m0, m1, m2, , m4, m5, m6, , m8, m9, m10, , m12, m13, m14] = expectedTransform.elements;
+        let maximumError = 0;
+        for (let offset = 0; offset < indexCount; offset++) {
+          const sourceVertex = sourceGeometry.index.getX(sourceStart + offset);
+          const actualVertex = actualIndex.getX(actualStart + offset);
+          const x = sourcePosition.getX(sourceVertex);
+          const y = sourcePosition.getY(sourceVertex);
+          const z = sourcePosition.getZ(sourceVertex);
+          const expectedX = x * m0 + y * m4 + z * m8 + m12;
+          const expectedY = x * m1 + y * m5 + z * m9 + m13;
+          const expectedZ = x * m2 + y * m6 + z * m10 + m14;
+          const error = Math.hypot(
+            actualPosition.getX(actualVertex) - expectedX,
+            actualPosition.getY(actualVertex) - expectedY,
+            actualPosition.getZ(actualVertex) - expectedZ,
+          );
+          maximumError = Math.max(maximumError, error);
+        }
+        expect(maximumError, `${record.id} transformed range`).toBeLessThan(1e-4);
+      }
       expect(ground.geometry.groups.every((group) => group.start >= 0 &&
         group.count >= 0 && group.start + group.count <= (ground.geometry.index?.count ?? 0))).toBe(true);
       expect(positions(mainRoad.geometry)).toEqual(roadBefore.positions);
@@ -245,6 +337,7 @@ describe('Neon Grid owner layout handoff', () => {
         landing: positions(track.waterfallDive.landingGeometry),
       }).toEqual(routeBefore);
     } finally {
+      for (const { sourceGeometry } of transformedRangeChecks) sourceGeometry?.dispose();
       disposeTrackScene(root);
     }
   });
@@ -398,21 +491,28 @@ describe('Neon Grid owner layout handoff', () => {
       'concrete-coverage-c2-001',
     ));
     const screen = ownerLayout.components.find((component) => component.id === screenId);
-    const nonScreenDeletedRanges = ownerLayout.components
-      .filter((component) => component.deleted && component.indexRange !== null &&
-        authoredRangeMeshName(component.id) === 'skyline-deck-fascia' && component.id !== screenId)
-      .reduce((count, component) => count + (component.indexRange?.[1] ?? 0), 0);
     const screenMesh = root.getObjectByName('skyline-deck-fascia') as THREE.Mesh;
     const screenIndexCountBefore = screenMesh.geometry.index?.count ?? 0;
-    const screenRangeIndexCount = screen?.indexRange?.[1] ?? 0;
+    const deletedFasciaIndexCount = ownerLayout.components
+      .filter((component) => component.deleted && component.indexRange !== null &&
+        authoredRangeMeshName(component.id) === 'skyline-deck-fascia')
+      .reduce((count, component) => count + (component.indexRange?.[1] ?? 0), 0);
+    expect(deletedFasciaIndexCount).toBeGreaterThan(screen?.indexRange?.[1] ?? 0);
     const report = await apply(root, 'removed');
     try {
       expect(report.deletedIds).toHaveLength(7);
       expect(report.deletedIds).toContain(screenId);
+      expect(report.deletedIds).toContain(
+        'Scene[0]/neon-grid-blockout[0]/waterfall-dive[0]/dive-waterway-banks[0]',
+      );
+      expect(report.deletedIds).toContain(
+        'Scene[0]/neon-grid-blockout[0]/waterfall-dive[0]/dive-waterway[0]',
+      );
+      expect(report.deletedIds.filter((id) => id.includes('::cityGround[0]'))).toHaveLength(4);
       expect(report.changedIds).toContain(screenId);
       expect(report.meshCountAfter).toBe(report.meshCountBefore);
       expect(screenMesh.geometry.index?.count).toBe(
-        screenIndexCountBefore - nonScreenDeletedRanges - screenRangeIndexCount,
+        screenIndexCountBefore - deletedFasciaIndexCount,
       );
     } finally {
       disposeTrackScene(root);

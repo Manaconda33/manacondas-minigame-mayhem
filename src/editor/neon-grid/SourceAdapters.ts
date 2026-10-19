@@ -130,6 +130,31 @@ export function sourceGroup(root: THREE.Object3D, name: string, ordinal: number)
   }
   return null;
 }
+type GeometryRanges = Record<string, { startTriangle: number; triangleCount: number }>;
+function authoredRanges(mesh: THREE.Mesh): GeometryRanges | undefined {
+  const geometry = mesh.geometry;
+  const ranges = (mesh.userData.geometryRanges ?? geometry.userData.geometryRanges) as
+    GeometryRanges | undefined;
+  if (ranges) return ranges;
+  // Undercity records its terraced floor behind the wall screens as an exact index span.
+  const start = Number(geometry.userData.floorIndexStart);
+  const count = Number(geometry.userData.floorIndexCount);
+  if (
+    mesh.name === 'undercity-wallside-sightline-screens' &&
+    Number.isInteger(start) &&
+    Number.isInteger(count) &&
+    start > 0 &&
+    count > 0 &&
+    start % 3 === 0 &&
+    count % 3 === 0 &&
+    start + count === geometry.index?.count
+  )
+    return {
+      wallScreens: { startTriangle: 0, triangleCount: start / 3 },
+      cityGround: { startTriangle: start / 3, triangleCount: count / 3 },
+    };
+  return undefined;
+}
 /** Split only authored index ranges in the editor-owned scene, preserving pixels/materials. */
 export function extractAuthoredRanges(root: THREE.Object3D): void {
   const meshes: THREE.Mesh[] = [];
@@ -138,20 +163,14 @@ export function extractAuthoredRanges(root: THREE.Object3D): void {
       o instanceof THREE.Mesh &&
       !(o instanceof THREE.InstancedMesh) &&
       o.visible &&
-      (o.userData.geometryRanges || (o.geometry as THREE.BufferGeometry).userData.geometryRanges) &&
+      authoredRanges(o as THREE.Mesh) &&
       !o.userData.editorExtracted
     )
       meshes.push(o as THREE.Mesh);
   });
   for (const original of meshes) {
-    const ranges = (original.userData.geometryRanges ??
-      original.geometry.userData.geometryRanges) as Record<
-      string,
-      {
-        startTriangle: number;
-        triangleCount: number;
-      }
-    >;
+    const ranges = authoredRanges(original);
+    if (!ranges) continue;
     const sourceIndex = original.geometry.getIndex();
     if (!sourceIndex || !original.parent) continue;
     let total = 0;

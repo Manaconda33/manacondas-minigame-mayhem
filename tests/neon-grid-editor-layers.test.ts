@@ -42,6 +42,23 @@ function city() {
 }
 
 describe('independent city and atmosphere layers', () => {
+  it('separates Undercity terraced ground from wall screens using the authored floor span', async () => {
+    const root = new THREE.Group();
+    const geometry = new THREE.BoxGeometry();
+    geometry.userData.floorIndexStart = 18;
+    geometry.userData.floorIndexCount = 18;
+    const screens = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+    screens.name = 'undercity-wallside-sightline-screens';
+    root.add(screens);
+    const c = await buildCatalogue(root, new NeonGrid());
+    expect(c.entries).toHaveLength(2);
+    const ground = requireValue(c.entries.find((e) => e.scenePath.includes('::cityGround')));
+    expect(ground.indexRange).toEqual([18, 18]);
+    expect(ground.attachment.mode).toBe('fixed');
+    expect(c.entries.find((e) => e.scenePath.includes('::wallScreens'))?.indexRange).toEqual([
+      0, 18,
+    ]);
+  });
   it('separates baked Falls Run floors, individual towers and foundations without losing triangles', async () => {
     const { root, ground } = city();
     const triangles = requireValue(ground.geometry.index).count;

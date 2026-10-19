@@ -352,11 +352,11 @@ jobs:
             status: 'Task C1 owner gameplay review only; material approval, runtime merge, and production deployment not authorized'
           - id: neon-grid-c2-concrete
             embed_source: true
-            sha: d76e859989accc03382e665154ec267ae4868f86
+            sha: addab4c7c2421f52c4731691b8a9f3e2d9e39f94
             base: /manacondas-minigame-mayhem/previews/neon-grid-c2-concrete/
             marker_type: feature
-            marker_name: 'Neon Grid Task C2 Concrete Wall 007 coverage review'
-            status: 'Task C2 isolated visual review only; no integration, production release, or gameplay authorization'
+            marker_name: 'Neon Grid C2 concrete background with Task A Fog V3.2 overlay review'
+            status: 'Opt-in C2 concrete background plus Task A Fog V3.2 overlay; visual review only, no production release or gameplay authorization'
 
     steps:
       - name: Report documentation-only preview-build skip
@@ -904,7 +904,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: preview-output/neon-grid-c2-concrete
-          key: preview-dist-v1-neon-grid-c2-concrete-d76e859989accc03382e665154ec267ae4868f86-${{ needs.preview-plan.outputs.toolchain }}
+          key: preview-dist-v1-neon-grid-c2-concrete-addab4c7c2421f52c4731691b8a9f3e2d9e39f94-${{ needs.preview-plan.outputs.toolchain }}
           fail-on-cache-miss: true
 
       - name: Assemble the current game and isolated previews
@@ -1104,7 +1104,7 @@ jobs:
           node --input-type=module - <<'JS'
           import { readFileSync } from 'node:fs';
           const marker = JSON.parse(readFileSync('site-root/previews/neon-grid-c2-concrete/review-build.json', 'utf8'));
-          if (marker.source !== 'd76e859989accc03382e665154ec267ae4868f86') throw new Error('Task C2 source marker mismatch');
+          if (marker.source !== 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94') throw new Error('Task C2 source marker mismatch');
           if (marker.base !== '/manacondas-minigame-mayhem/previews/neon-grid-c2-concrete/') throw new Error('Task C2 base marker mismatch');
           JS
           echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  site-root/previews/neon-grid-c2-concrete/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
@@ -1343,7 +1343,7 @@ jobs:
 
           report = json.load(open('delivery-expected.json'))
           expected_sources = [
-              ('previews/neon-grid-c2-concrete/', 'd76e859989accc03382e665154ec267ae4868f86'),
+              ('previews/neon-grid-c2-concrete/', 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94'),
               ('previews/neon-grid-task-c1-001/', 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce'),
               ('previews/neon-grid-task-a-001/', '692e9424c2cbf15decbb467b230c02c2e10452a0'),
               ('previews/neon-grid-abyss-fog-004/', '25ea008b15852d593681f5b3b2a17b467a193472'),

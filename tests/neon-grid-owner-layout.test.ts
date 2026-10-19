@@ -339,12 +339,36 @@ describe('Neon Grid owner layout handoff', () => {
         const baseline = new THREE.Matrix4().fromArray(record.baselineMatrix);
         const ownerDelta = new THREE.Matrix4().fromArray(record.matrix)
           .multiply(baseline.clone().invert());
-        const expected = ownerDelta.multiply(correction).multiply(baseline);
         const actualLocal = new THREE.Matrix4();
         windows.getMatrixAt(instanceIndex, actualLocal);
         const actualWorld = windows.matrixWorld.clone().multiply(actualLocal);
+        const towerRecord = ownerLayout.components.find((component) =>
+          component.id.includes('/falls-run-extension-visual[0]/') &&
+          component.id.endsWith(`::cityTowers/${String(towerIndex)}[0]`),
+        );
+        expect(towerRecord, `missing authored tower range ${String(towerIndex)}`).toBeDefined();
+        if (!towerRecord) continue;
+        const towerDelta = new THREE.Matrix4().fromArray([...towerRecord.matrix])
+          .multiply(new THREE.Matrix4().fromArray([...towerRecord.baselineMatrix]).invert());
+        expect(towerDelta.toArray().every((value, index) =>
+          Math.abs(value - (ownerDelta.elements[index] ?? Number.NaN)) <= 1e-5,
+        ), `window ${String(instanceIndex)} must retain the same authored transform as tower ${String(towerIndex)}`,
+        ).toBe(true);
+        const towerGeometryPositions = towers.geometry.getAttribute('position');
+        const editedTowerBounds = new THREE.Box3();
+        for (let vertexIndex = 0; vertexIndex < towerGeometryPositions.count; vertexIndex++) {
+          editedTowerBounds.expandByPoint(new THREE.Vector3()
+            .fromBufferAttribute(towerGeometryPositions, vertexIndex)
+            .applyMatrix4(towerWorld)
+            .applyMatrix4(towerDelta));
+        }
+        const windowCenter = new THREE.Vector3().setFromMatrixPosition(actualWorld);
+        expect(editedTowerBounds.distanceToPoint(windowCenter),
+          `window ${String(instanceIndex)} must sit against edited tower ${String(towerIndex)}`,
+        ).toBeLessThan(0.75);
+        const expectedAttachedWorld = towerDelta.multiply(correction).multiply(baseline);
         expect(actualWorld.toArray().every((value, index) =>
-          Math.abs(value - (expected.elements[index] ?? Number.NaN)) <= 1e-5,
+          Math.abs(value - (expectedAttachedWorld.elements[index] ?? Number.NaN)) <= 1e-5,
         ), `window ${String(instanceIndex)} must follow its tower`).toBe(true);
       }
       expect(rotatedWindowCount).toBeGreaterThan(0);

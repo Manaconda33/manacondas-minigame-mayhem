@@ -585,9 +585,14 @@ export class KartTimeTrial {
       screen: projection.screen,
       matchedComponents: projection.matchedIds.length,
       changedComponents: projection.changedIds.length,
+      changedComponentIds: projection.changedIds,
       deletedComponents: projection.deletedIds.length,
+      deletedComponentIds: projection.deletedIds,
       meshCountBefore: projection.meshCountBefore,
       meshCountAfter: projection.meshCountAfter,
+      rangeGeometryCount: projection.rangeGeometryCount,
+      addedTriangles: projection.addedTriangles,
+      addedMeshes: projection.addedMeshes,
     };
   }
 

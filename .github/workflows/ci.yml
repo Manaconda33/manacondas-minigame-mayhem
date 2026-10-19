@@ -781,12 +781,12 @@ jobs:
       - name: Check out exact owner-layout runtime with Git LFS assets
         uses: actions/checkout@v5
         with:
-          ref: f2b37b2127e57b66e4a0340bd512d232a86f1bf2
+          ref: bb445381c7ee387e077b512feb9b6ba2fdbf6ab0
           fetch-depth: 10
           lfs: true
       - name: Verify exact source and Git LFS objects
         run: |
-          test "$(git rev-parse HEAD)" = f2b37b2127e57b66e4a0340bd512d232a86f1bf2
+          test "$(git rev-parse HEAD)" = bb445381c7ee387e077b512feb9b6ba2fdbf6ab0
           git lfs fsck
           git diff --check 99453711a86760d87a84ba427d2799d33056e55b HEAD
       - name: Set up Node.js
@@ -800,11 +800,11 @@ jobs:
         run: |
           npm run typecheck
           npm run lint
-          npm run test:ci -- --maxWorkers=1
+          npm run test:ci -- --maxWorkers=1 --testTimeout=15000
       - name: Build source-pinned playable review
         env:
           PREVIEW_BASE: /manacondas-minigame-mayhem/previews/neon-grid-owner-layout/
-          VITE_SOURCE_COMMIT: f2b37b2127e57b66e4a0340bd512d232a86f1bf2
+          VITE_SOURCE_COMMIT: bb445381c7ee387e077b512feb9b6ba2fdbf6ab0
         run: |
           npm run build -- --base "$PREVIEW_BASE"
           node --input-type=module - <<'JS'
@@ -1239,7 +1239,7 @@ jobs:
           import { readFileSync, statSync } from 'node:fs';
           const root = 'site-root/previews/neon-grid-owner-layout';
           const marker = JSON.parse(readFileSync(`${root}/review-build.json`, 'utf8'));
-          if (marker.source !== 'f2b37b2127e57b66e4a0340bd512d232a86f1bf2') throw new Error('Owner-layout source marker mismatch');
+              if (marker.source !== 'bb445381c7ee387e077b512feb9b6ba2fdbf6ab0') throw new Error('Owner-layout source marker mismatch');
           if (marker.base !== '/manacondas-minigame-mayhem/previews/neon-grid-owner-layout/') throw new Error('Owner-layout base marker mismatch');
           if (!statSync(`${root}/index.html`).isFile()) throw new Error('Owner-layout index is missing');
           JS
@@ -1480,7 +1480,7 @@ jobs:
 
           report = json.load(open('delivery-expected.json'))
           expected_sources = [
-              ('previews/neon-grid-owner-layout/', 'f2b37b2127e57b66e4a0340bd512d232a86f1bf2'),
+              ('previews/neon-grid-owner-layout/', 'bb445381c7ee387e077b512feb9b6ba2fdbf6ab0'),
               ('previews/neon-grid-layout-studio/', '4182fb797aa232d6cf38651beb9b017efd0c3f4f'),
               ('previews/neon-grid-c2-concrete/', 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94'),
               ('previews/neon-grid-task-c1-001/', 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce'),

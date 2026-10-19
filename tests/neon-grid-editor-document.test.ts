@@ -91,6 +91,19 @@ describe('editor document and history', () => {
     expect(h.canRedo).toBe(false);
     expect(h.snapshot().history.actions).toHaveLength(1);
   });
+  it('does not mark newer edits saved when an earlier download finishes', () => {
+    const h = new EditorHistory(make());
+    h.apply('A', (s) => {
+      requireValue(s.road.controlPoints[0]).position[1] += 1;
+    });
+    const downloadRevision = h.revision;
+    h.apply('B', (s) => {
+      requireValue(s.road.controlPoints[0]).position[1] += 1;
+    });
+    expect(h.markSaved(downloadRevision)).toBe(false);
+    expect(h.dirty).toBe(true);
+    expect(h.markSaved()).toBe(true);
+  });
   it('does not create no-op edits and detects returning to the saved state', () => {
     const h = new EditorHistory(make());
     h.markSaved();

@@ -104,8 +104,10 @@ export class EditorHistory {
     journal.cursor++;
     this.revision++;
   }
-  public markSaved(): void {
+  public markSaved(expectedRevision = this.revision): boolean {
+    if (this.pending || expectedRevision !== this.revision) return false;
     this.saved = JSON.stringify(designState(this.document));
+    return true;
   }
   public setView(view: EditorDocument['view']): void {
     this.document.view = cloneData(view);

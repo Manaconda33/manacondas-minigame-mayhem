@@ -553,6 +553,8 @@ export function mountEditorUI(host: HTMLElement, scene: EditorScene, session: Ed
   );
   async function download() {
     try {
+      const history = session.history,
+        revision = history.revision;
       const json = await session.download();
       const blob = new Blob([json], { type: 'application/json' }),
         url = URL.createObjectURL(blob),
@@ -563,8 +565,10 @@ export function mountEditorUI(host: HTMLElement, scene: EditorScene, session: Ed
       setTimeout(() => {
         URL.revokeObjectURL(url);
       }, 1000);
-      session.history.markSaved();
-      element('#save-state').textContent = 'Download created · keep this file to share';
+      const current = session.history === history && history.markSaved(revision);
+      element('#save-state').textContent = current
+        ? 'Download created · keep this file to share'
+        : 'Earlier snapshot downloaded · newer edits still need saving';
       message(
         'Edit document downloaded, with original values, final edits, source mappings and history.',
       );
@@ -573,7 +577,7 @@ export function mountEditorUI(host: HTMLElement, scene: EditorScene, session: Ed
       message(String(error), true);
     }
   }
-  async function load(json: string) {
+  async function load(json: string | Promise<string>) {
     try {
       await session.load(json);
       comparison = false;
@@ -600,12 +604,7 @@ export function mountEditorUI(host: HTMLElement, scene: EditorScene, session: Ed
           message('Import exceeds the 20 MiB file limit.', true);
           return;
         }
-        void file
-          .text()
-          .then(load)
-          .catch((e: unknown) => {
-            message(String(e), true);
-          });
+        void load(file.text());
       }
       input.value = '';
     },

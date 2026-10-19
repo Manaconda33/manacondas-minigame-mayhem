@@ -64,11 +64,11 @@ export class EditorSession {
       this.projection.describe(this.history.snapshot()),
     );
   }
-  public async load(json: string): Promise<void> {
+  public async load(json: string | Promise<string>): Promise<void> {
     if (this.history.inGesture) throw new Error('Finish the active edit before loading a file.');
     const history = this.history,
       revision = history.revision;
-    const candidate = await decodeDocument(json, this.baseline, this.catalogue);
+    const candidate = await decodeDocument(await json, this.baseline, this.catalogue);
     if (
       this.disposed ||
       this.history !== history ||

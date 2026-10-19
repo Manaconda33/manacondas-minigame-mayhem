@@ -93,6 +93,24 @@ describe('editor session persistence', () => {
     expect(s.history.inGesture).toBe(true);
     s.history.cancel();
   });
+  it('reserves an import before file reading completes', async () => {
+    const { s } = await session();
+    const json = await s.download();
+    let finish: (value: string) => void = () => {
+      throw new Error('File reader not started.');
+    };
+    const text = new Promise<string>((resolve) => {
+      finish = resolve;
+    });
+    const pending = s.load(text);
+    s.edit('During file read', (d) => {
+      requireValue(d.road.controlPoints[0]).position[1] += 1;
+    });
+    const newer = s.history.snapshot();
+    finish(json);
+    await expect(pending).rejects.toThrow(/changed/i);
+    expect(s.history.snapshot()).toEqual(newer);
+  });
   it('treats view changes as inspection rather than an undoable design edit', async () => {
     const { s } = await session();
     s.history.setView({ ...s.history.snapshot().view, fog: false });

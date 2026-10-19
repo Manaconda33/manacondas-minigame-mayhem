@@ -15,7 +15,8 @@
     "format:check": "prettier --check .",
     "test": "vitest",
     "test:ci": "vitest run --coverage",
-    "validate": "npm run typecheck && npm run lint && npm run test:ci && npm run build"
+    "validate": "npm run typecheck && npm run lint && npm run test:ci && npm run build",
+    "build:neon-grid-editor": "tsc -b && node tools/editor/build-neon-grid-editor.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.20.0",

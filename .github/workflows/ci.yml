@@ -773,9 +773,59 @@ jobs:
           path: dist-neon-grid-editor/
           if-no-files-found: error
 
+  owner-layout-preview-build:
+    name: Build and validate owner-layout playtest source
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out exact owner-layout runtime with Git LFS assets
+        uses: actions/checkout@v5
+        with:
+          ref: bb445381c7ee387e077b512feb9b6ba2fdbf6ab0
+          fetch-depth: 10
+          lfs: true
+      - name: Verify exact source and Git LFS objects
+        run: |
+          test "$(git rev-parse HEAD)" = bb445381c7ee387e077b512feb9b6ba2fdbf6ab0
+          git lfs fsck
+          git diff --check 99453711a86760d87a84ba427d2799d33056e55b HEAD
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install exact dependencies
+        run: npm ci
+      - name: Validate exact owner-layout source
+        run: |
+          npm run typecheck
+          npm run lint
+          npm run test:ci -- --maxWorkers=1 --testTimeout=15000
+      - name: Build source-pinned playable review
+        env:
+          PREVIEW_BASE: /manacondas-minigame-mayhem/previews/neon-grid-owner-layout/
+          VITE_SOURCE_COMMIT: bb445381c7ee387e077b512feb9b6ba2fdbf6ab0
+        run: |
+          npm run build -- --base "$PREVIEW_BASE"
+          node --input-type=module - <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('dist/review-build.json', JSON.stringify({
+            feature: 'Neon Grid owner-edited C2 concrete and Task A Fog V3.2 playtest',
+            source: process.env.VITE_SOURCE_COMMIT,
+            base: process.env.PREVIEW_BASE,
+            status: 'Owner playtest only; layout and runtime integration remain unapproved'
+          }, null, 2));
+          JS
+      - name: Upload playable owner-layout review
+        uses: actions/upload-artifact@v4
+        with:
+          name: neon-grid-owner-layout-playtest
+          path: dist/
+          if-no-files-found: error
+
   assemble:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [validate, preview-plan, preview-build, layout-studio-build]
+    needs: [validate, preview-plan, preview-build, layout-studio-build, owner-layout-preview-build]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -951,6 +1001,12 @@ jobs:
         with:
           name: neon-grid-layout-studio
           path: preview-output/neon-grid-layout-studio
+
+      - name: Download source-pinned owner-layout playtest
+        uses: actions/download-artifact@v4
+        with:
+          name: neon-grid-owner-layout-playtest
+          path: preview-output/neon-grid-owner-layout
 
       - name: Assemble the current game and isolated previews
         run: |
@@ -1175,6 +1231,19 @@ jobs:
           assert (root/'index.html').is_file()
           PY
 
+      - name: Assemble and verify source-pinned owner-layout playtest
+        run: |
+          mkdir -p site-root/previews/neon-grid-owner-layout
+          cp -a preview-output/neon-grid-owner-layout/. site-root/previews/neon-grid-owner-layout/
+          node --input-type=module - <<'JS'
+          import { readFileSync, statSync } from 'node:fs';
+          const root = 'site-root/previews/neon-grid-owner-layout';
+          const marker = JSON.parse(readFileSync(`${root}/review-build.json`, 'utf8'));
+              if (marker.source !== 'bb445381c7ee387e077b512feb9b6ba2fdbf6ab0') throw new Error('Owner-layout source marker mismatch');
+          if (marker.base !== '/manacondas-minigame-mayhem/previews/neon-grid-owner-layout/') throw new Error('Owner-layout base marker mismatch');
+          if (!statSync(`${root}/index.html`).isFile()) throw new Error('Owner-layout index is missing');
+          JS
+
       - name: Record exact delivery hashes and verify production preservation before publication
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -1287,6 +1356,8 @@ jobs:
           paths += [item for item in sorted(task_c2.rglob('*')) if item.is_file()]
           studio = root/'previews/neon-grid-layout-studio'
           paths += [item for item in sorted(studio.rglob('*')) if item.is_file()]
+          owner_layout = root/'previews/neon-grid-owner-layout'
+          paths += [item for item in sorted(owner_layout.rglob('*')) if item.is_file()]
           paths = [path for path in paths if path.name != '.gitkeep']
           report = []
           for path in paths:
@@ -1294,7 +1365,7 @@ jobs:
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/', 'previews/neon-grid-c2-concrete/', 'previews/neon-grid-layout-studio/')):
+              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/', 'previews/neon-grid-c2-concrete/', 'previews/neon-grid-layout-studio/', 'previews/neon-grid-owner-layout/')):
                   verify_published_file(url, relative, sha)
               report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))
           Path('delivery-expected.json').write_text(json.dumps(report, indent=2))
@@ -1409,6 +1480,7 @@ jobs:
 
           report = json.load(open('delivery-expected.json'))
           expected_sources = [
+              ('previews/neon-grid-owner-layout/', 'bb445381c7ee387e077b512feb9b6ba2fdbf6ab0'),
               ('previews/neon-grid-layout-studio/', '4182fb797aa232d6cf38651beb9b017efd0c3f4f'),
               ('previews/neon-grid-c2-concrete/', 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94'),
               ('previews/neon-grid-task-c1-001/', 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce'),
@@ -1458,6 +1530,8 @@ jobs:
                                   assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/'
                               if item['path'].startswith('previews/neon-grid-c2-concrete/'):
                                   assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-c2-concrete/'
+                              if item['path'].startswith('previews/neon-grid-owner-layout/'):
+                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-owner-layout/'
                           item['httpStatus'] = response.status
                           return item
                   except Exception as error:

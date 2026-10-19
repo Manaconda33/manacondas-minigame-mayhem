@@ -76,15 +76,16 @@ import { crossesForwardCheckpointGate } from './race/CheckpointGate';
 import { validatedRaceProgressSnapshot } from './race/ValidatedRaceProgress';
 import type { TrackProjection, TrackId, TrackDefinition } from './track/TrackDefinition';
 import {
+  applyNeonGridOwnerLayout,
   createTrack,
   createSelectedTrackScene,
   createSelectedTrackColliders,
-  neonGridVisualVariantFromSearch,
+  neonGridReviewSceneSelectionFromSearch,
+  type NeonGridOwnerLayoutScreen,
 } from './track/trackCatalog';
 import { NeonGridScene } from './track/createNeonGridScene';
 import {
   loadServiceTunnelConcreteWallMaterial,
-  serviceTunnelMaterialVariantFromSearch,
   type ServiceTunnelMaterialVariant,
 } from './track/ServiceTunnelConcreteMaterial';
 import { disposeTrackScene } from './track/TrackSceneResources';
@@ -264,6 +265,7 @@ export class KartTimeTrial {
   private readonly track: ReturnType<typeof createTrack>;
   private readonly trackScene: THREE.Group;
   private readonly serviceTunnelMaterialVariant: ServiceTunnelMaterialVariant;
+  private readonly ownerLayoutScreen: NeonGridOwnerLayoutScreen | null;
   private readonly slickGround: SlickGroundSurface;
   private readonly trackLength: number;
   private readonly minimapTrack: ReturnType<typeof normalizeMinimapTrack>;
@@ -413,6 +415,7 @@ export class KartTimeTrial {
     await RAPIER.init();
     const game = new KartTimeTrial(options);
     try {
+      await game.projectOwnerLayoutIfSelected();
       if (game.trackScene instanceof NeonGridScene)
         await Promise.all([
           game.trackScene.billboard.load(),
@@ -441,14 +444,20 @@ export class KartTimeTrial {
 
   private constructor(private readonly options: TimeTrialOptions) {
     this.track = createTrack(this.options.trackId ?? 'circuit-alpha');
+    const reviewSceneSelection = neonGridReviewSceneSelectionFromSearch(window.location.search);
+    this.ownerLayoutScreen = this.track.id === 'neon-grid'
+      ? reviewSceneSelection.ownerLayoutScreen
+      : null;
     this.serviceTunnelMaterialVariant =
       this.track.id === 'neon-grid'
-        ? serviceTunnelMaterialVariantFromSearch(window.location.search)
+        ? reviewSceneSelection.materialVariant
         : 'blockout';
     this.trackScene = createSelectedTrackScene(
       this.track,
       this.options.graphicsQuality,
-      neonGridVisualVariantFromSearch(window.location.search),
+      this.track.id === 'neon-grid'
+        ? reviewSceneSelection.visualVariant
+        : 'approved',
       this.serviceTunnelMaterialVariant,
     );
     this.slickGround = new SlickGroundSurface(this.trackScene, this.track.id === 'neon-grid');
@@ -568,6 +577,20 @@ export class KartTimeTrial {
     this.resize();
   }
 
+  private async projectOwnerLayoutIfSelected(): Promise<void> {
+    if (this.ownerLayoutScreen === null) return;
+    const projection = await applyNeonGridOwnerLayout(this.scene, this.ownerLayoutScreen);
+    this.trackScene.userData.neonGridOwnerLayout = {
+      sourceSha256: '2f48eea9e634f1f371525c458d9509b8e3f0900a3cf7981b3f5e9f8e5aae1240',
+      screen: projection.screen,
+      matchedComponents: projection.matchedIds.length,
+      changedComponents: projection.changedIds.length,
+      deletedComponents: projection.deletedIds.length,
+      meshCountBefore: projection.meshCountBefore,
+      meshCountAfter: projection.meshCountAfter,
+    };
+  }
+
   public start(): void {
     this.lastFrame = performance.now();
     this.diagnosticsBoundary = true;
@@ -621,7 +644,7 @@ export class KartTimeTrial {
         trackId: this.track.id,
         visualVariant:
           this.track.id === 'neon-grid'
-            ? neonGridVisualVariantFromSearch(window.location.search)
+            ? neonGridReviewSceneSelectionFromSearch(window.location.search).visualVariant
             : null,
         materialVariant: this.track.id === 'neon-grid' ? this.serviceTunnelMaterialVariant : null,
         actualDrawingBuffer: { width: counters.width, height: counters.height },

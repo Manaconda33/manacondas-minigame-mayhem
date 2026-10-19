@@ -6,11 +6,43 @@ import { NeonGrid } from './NeonGrid';
 import { createTrackScene } from './createTrackScene';
 import { createNeonGridScene } from './createNeonGridScene';
 import { createNeonGridColliders } from './NeonGridCollision';
-import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
-import type { ServiceTunnelMaterialVariant } from './ServiceTunnelConcreteMaterial';
+import {
+  neonGridVisualVariantFromSearch,
+  type NeonGridVisualVariant,
+} from './NeonGridVisualVariant';
+import {
+  serviceTunnelMaterialVariantFromSearch,
+  type ServiceTunnelMaterialVariant,
+} from './ServiceTunnelConcreteMaterial';
 import type { TrackDefinition, TrackId } from './TrackDefinition';
 
 export { neonGridVisualVariantFromSearch } from './NeonGridVisualVariant';
+export { resolveNeonGridOwnerLayoutSourceMap } from './NeonGridOwnerLayoutSourceMap';
+export { applyNeonGridOwnerLayout } from './NeonGridOwnerLayout';
+
+export type NeonGridOwnerLayoutScreen = 'retained' | 'removed';
+
+export interface NeonGridReviewSceneSelection {
+  ownerLayoutScreen: NeonGridOwnerLayoutScreen | null;
+  visualVariant: NeonGridVisualVariant;
+  materialVariant: ServiceTunnelMaterialVariant;
+}
+
+export function neonGridReviewSceneSelectionFromSearch(search: string): NeonGridReviewSceneSelection {
+  const params = new URLSearchParams(search);
+  if (params.get('neonGridLayout') === 'owner-2026-10-19') {
+    return {
+      ownerLayoutScreen: params.get('neonGridGapScreen') === 'removed' ? 'removed' : 'retained',
+      visualVariant: 'fog-experiment-c2-background',
+      materialVariant: 'concrete-coverage-c2-001',
+    };
+  }
+  return {
+    ownerLayoutScreen: null,
+    visualVariant: neonGridVisualVariantFromSearch(search),
+    materialVariant: serviceTunnelMaterialVariantFromSearch(search),
+  };
+}
 
 export function createTrack(id: TrackId): TrackDefinition {
   return id === 'neon-grid' ? new NeonGrid() : new CircuitAlpha();

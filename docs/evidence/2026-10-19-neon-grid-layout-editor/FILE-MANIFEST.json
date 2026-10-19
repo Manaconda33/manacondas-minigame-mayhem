@@ -1,0 +1,61 @@
+{
+  "scope": "Canonical files committed with the editor checkpoint; additional raw captures and sample edits are supplied in the separate evidence archive.",
+  "source": "81bcaa9123dc184f615fa638f64ea34a279397d5",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "44715d26054674fb6742030be99ae689edc66e829fd2916800ee439d7b96911d",
+      "bytes": 7920
+    },
+    {
+      "path": "source-verification.json",
+      "sha256": "35cc3ac3fb1a4f0c968d3ca68dc091494eadb47f2fc2d653d4228d4e68d1e6e4",
+      "bytes": 7702
+    },
+    {
+      "path": "independent-review.md",
+      "sha256": "6eb67dabdf4c533050c6ab76b8fae655b12533a51781d6e0f839cf201b26ea4a",
+      "bytes": 1946
+    },
+    {
+      "path": "validation.json",
+      "sha256": "8fec99815c7c2a1d40d5f4b3717b3a19dd046ccb0487f49fd4ba4ad7bd8070d5",
+      "bytes": 7237
+    },
+    {
+      "path": "verification-commands.json",
+      "sha256": "1f4c60cdf6f1218dccbd3a50c48b9772f4bbd0723a49b0fa942936c9b54add4a",
+      "bytes": 1831
+    },
+    {
+      "path": "full-coverage.txt",
+      "sha256": "f9cf8563d1469f9c87aa936b047e2c966894a0e2e0c3be00fb600115898a1177",
+      "bytes": 10051
+    },
+    {
+      "path": "browser/verification.json",
+      "sha256": "1995734f8d85f4f6a9b474afad01df9a4436323be5d748e775f62f6f5aa2c26b",
+      "bytes": 42777
+    },
+    {
+      "path": "browser/studio-baseline.png",
+      "sha256": "8ea9dc17840b035603ced3d8b3fbb1e83286cb5a906f4d80cc08df2990ca3b1e",
+      "bytes": 246900
+    },
+    {
+      "path": "browser/studio-selection.png",
+      "sha256": "43f4146cdaa6675c63f647adfca67736a3b562d56e2278d0e2b128c37a3d51c8",
+      "bytes": 302608
+    },
+    {
+      "path": "gestures/verification.json",
+      "sha256": "ab4a4acad4b93e8a483feb4c19711643e284a3275e428f7aa10e14c688bea71a",
+      "bytes": 2365
+    },
+    {
+      "path": "gestures/pixel-parity.json",
+      "sha256": "a8b479183ac7c3bb29fe33bc906ef9b1d16f6de165eaae0532f17bb137a0618e",
+      "bytes": 2316
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "method": "Actual canvas PNG bytes, matched scene/camera. Source original merged meshes versus editor-extracted authored ranges; helpers off. No racers or driving in either. Minor differences are not claimed as byte equivalence.",
+  "comparisons": [
+    {
+      "sector": "skyline",
+      "editor_sha256": "b9bf3c0f3cc424267b81471443e63bd571f2964708491485ce4157c5d80949cc",
+      "source_sha256": "cc7bf8b5308c39efed3ae7d9df7166ccf35a463b37c393f0418fcc229373d50d",
+      "exact_png_match": false,
+      "width": 994,
+      "height": 794,
+      "changed_pixels": 3,
+      "total_pixels": 789236,
+      "matching_pixel_fraction": 0.9999961988556021,
+      "maximum_channel_difference": 1,
+      "difference_bounds": [
+        891,
+        671,
+        909,
+        683
+      ]
+    },
+    {
+      "sector": "undercity",
+      "editor_sha256": "3eaa1eacd97534802b85d61318a7f3c98b29793160cdd59e2f48fbb3584b5d6e",
+      "source_sha256": "aabe7c1577b63d1827a07bb473fb43055fa1f359d0f2aca6903972719b0703de",
+      "exact_png_match": false,
+      "width": 994,
+      "height": 794,
+      "changed_pixels": 34,
+      "total_pixels": 789236,
+      "matching_pixel_fraction": 0.9999569203634908,
+      "maximum_channel_difference": 9,
+      "difference_bounds": [
+        718,
+        164,
+        867,
+        233
+      ]
+    },
+    {
+      "sector": "tunnel",
+      "editor_sha256": "92528ad387d39eb3117a0d76c23063a2dd1cb12501d381e386e12303b7befc6b",
+      "source_sha256": "de55db48acb714f906a5c33ca0b34500136b3c0f41ff54f92d62c59a7cc716dd",
+      "exact_png_match": false,
+      "width": 994,
+      "height": 794,
+      "changed_pixels": 28,
+      "total_pixels": 789236,
+      "matching_pixel_fraction": 0.9999645226522865,
+      "maximum_channel_difference": 7,
+      "difference_bounds": [
+        719,
+        152,
+        875,
+        228
+      ]
+    },
+    {
+      "sector": "falls",
+      "editor_sha256": "6129b30dc7a392b9fc462b02a8c4468be4f549f611cd64e8b307d30612b3c4ee",
+      "source_sha256": "6129b30dc7a392b9fc462b02a8c4468be4f549f611cd64e8b307d30612b3c4ee",
+      "exact_png_match": true,
+      "width": 994,
+      "height": 794,
+      "changed_pixels": 0,
+      "total_pixels": 789236,
+      "matching_pixel_fraction": 1.0,
+      "maximum_channel_difference": 0,
+      "difference_bounds": null
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+[
+  {
+    "check": "editor-final",
+    "command": [
+      "npx",
+      "vitest",
+      "run",
+      "tests/neon-grid-editor-autosave.test.ts",
+      "tests/neon-grid-editor-catalogue.test.ts",
+      "tests/neon-grid-editor-document.test.ts",
+      "tests/neon-grid-editor-interaction.test.ts",
+      "tests/neon-grid-editor-journal.test.ts",
+      "tests/neon-grid-editor-road.test.ts",
+      "tests/neon-grid-editor-scene.test.ts",
+      "tests/neon-grid-editor-session.test.ts"
+    ],
+    "started_at": "2026-10-19T03:15:02.401065+00:00",
+    "ended_at": "2026-10-19T03:15:17.291529+00:00",
+    "exit_code": 0
+  },
+  {
+    "check": "build-tests",
+    "command": [
+      "node",
+      "tools/editor/check-build.node.mjs"
+    ],
+    "started_at": "2026-10-19T03:15:17.292351+00:00",
+    "ended_at": "2026-10-19T03:15:17.513205+00:00",
+    "exit_code": 0
+  },
+  {
+    "check": "browser",
+    "command": [
+      "node",
+      "tools/editor/verify-neon-grid-editor.mjs"
+    ],
+    "started_at": "2026-10-19T03:15:17.513486+00:00",
+    "ended_at": "2026-10-19T03:16:05.421216+00:00",
+    "exit_code": 0
+  },
+  {
+    "check": "gestures",
+    "command": [
+      "node",
+      "tools/editor/verify-neon-grid-gestures.mjs"
+    ],
+    "started_at": "2026-10-19T03:16:05.423672+00:00",
+    "ended_at": "2026-10-19T03:17:34.517837+00:00",
+    "exit_code": 0
+  },
+  {
+    "check": "lfs",
+    "command": [
+      "git",
+      "lfs",
+      "fsck",
+      "--objects",
+      "HEAD"
+    ],
+    "started_at": "2026-10-19T03:17:34.519984+00:00",
+    "ended_at": "2026-10-19T03:17:34.942538+00:00",
+    "exit_code": 0
+  },
+  {
+    "check": "diff-check",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "started_at": "2026-10-19T03:17:34.943124+00:00",
+    "ended_at": "2026-10-19T03:17:34.950859+00:00",
+    "exit_code": 0
+  }
+]

@@ -1,0 +1,184 @@
+{
+  "repository": "Manaconda33/manacondas-minigame-mayhem",
+  "editor_source_commit": "81bcaa9123dc184f615fa638f64ea34a279397d5",
+  "source_tree": "99c5eabd4a40292b56cd2fc22d5e47cd1b89c060",
+  "runtime_source": "addab4c7c2421f52c4731691b8a9f3e2d9e39f94",
+  "remote_git_blob_comparison": "35/35 exact matches",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "7ed738623cd9b5a209859004da8581a7eab4a78a9220f7799c23f34f3c26e3c9",
+      "git_blob": "d16cd454e67094bb04e8dca473d7bc89e43c5474"
+    },
+    {
+      "path": "eslint.config.js",
+      "sha256": "8067acbc2a2d19e73d9cfa7e537d1f3a9c3bfe06ed91e1eb440539e5cefe5e0e",
+      "git_blob": "e7e3d6240e08c29b02a16976c7500e4165079924"
+    },
+    {
+      "path": "package.json",
+      "sha256": "cef5b2e5927e432cfbdbf188e05f573221247c258eabd86e3dc240bfbbd26427",
+      "git_blob": "baac7c5fb39ace278a6b85afd4fea2d4df09b620"
+    },
+    {
+      "path": "src/editor/neon-grid/ComponentCatalogue.ts",
+      "sha256": "832754ef7c8ef883227d5cb9fc56b8e8e9d0a484606971348f4718d9e970e6ba",
+      "git_blob": "46f7b242a227f663e45a40cbfa0b1d83ad428347"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorAutosave.ts",
+      "sha256": "3b9aa5f43941df531ec20ac9f47811cff9e376c22deeb6cf8e3e762a5676ef48",
+      "git_blob": "925969c36144c2ba3ae14e94e072cfa4a71dca3e"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorCodec.ts",
+      "sha256": "2305132166dcd1f494579b92b3181190cf533954513ea8090e0a13465adf0b22",
+      "git_blob": "19112d98d4dcfe541e2eb6e04f0ae6fce792aaed"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorDocument.ts",
+      "sha256": "57681e3df12787059238a349d95038346ebecaf92bfd57f5ede01649501cf08b",
+      "git_blob": "a805f90844a808d13245cdaa67081f5203bec1a0"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorHistory.ts",
+      "sha256": "c9fa835b994a0189bbaf318b7e6cd3931e835f0d614024aaee9cd522ee7a9b55",
+      "git_blob": "dc0a4b8ed929f8a696dd5908472fda9388b0e383"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorJournal.ts",
+      "sha256": "b7d33a180751053c1e8e9fe163117cc97ebaf9d843948fa220dea4de1e657dd1",
+      "git_blob": "44eaca6dfe0c5babdf9ce29f968d8251237d1404"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorProjection.ts",
+      "sha256": "6aafad33add35ca9fd343f396c671c69fe829df7c7258dec50f773fdfad533de",
+      "git_blob": "adb9bb13789b8266a7365487f6054d83f4e1661c"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorRoad.ts",
+      "sha256": "7b7adb722ca49cdce32682b1e249ff20c74b5f538eb76a3ec47521e15826ab56",
+      "git_blob": "aba1093bfcbe6fd2e1c5202218bec9b22e20ef8f"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorScene.ts",
+      "sha256": "49fae8dacb61724a0cd5e41b86be3418467d53362a00201ae84f8c1c82f58ec3",
+      "git_blob": "c1ba7538c6ec18c7ad5a83547b10794596ea19fc"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorSelection.ts",
+      "sha256": "8fb5865d109e6a6dbca393342581deb67aabc0b95f2344d6ebaddec92c035972",
+      "git_blob": "108fc01a989ff13b0f42cb965330070ab7c32667"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorSession.ts",
+      "sha256": "3b8c77aad0db8a6dff54653b9b6e7978380dda9d0b902e53c3d943690291ec73",
+      "git_blob": "2aa7adb9dea121a4bb374038a5de4f7271bf99b3"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorStorage.ts",
+      "sha256": "81bb7159cab68227e5ab604c94c36d4c1efeb37b258ff553ad4b1fd011e4fde8",
+      "git_blob": "361cddfd06c3575c60c94183b7640cfd4a8e3f52"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorTransforms.ts",
+      "sha256": "c808d4d2eac885347de51bcb272cf97234a7d2e15c207a2d962dac3ae30f2148",
+      "git_blob": "c6009c45c693153d6bf982b3cf21e52f683ef05c"
+    },
+    {
+      "path": "src/editor/neon-grid/EditorUI.ts",
+      "sha256": "2d92485143e3719be9224a08b3fbccbccecbf6d68ccf80280fc255f90f95f50d",
+      "git_blob": "9e8963745a8c9597765f706830e0dc9cd25223bb"
+    },
+    {
+      "path": "src/editor/neon-grid/RoadBindings.ts",
+      "sha256": "edb49f1a397e15c4f04fa38a7900d3d034e9b6997971b8d5bb768dee98fad53c",
+      "git_blob": "3966f9828e447144a2287356409b8bb31e72664b"
+    },
+    {
+      "path": "src/editor/neon-grid/SourceAdapters.ts",
+      "sha256": "05ed1623143f3f83c1311d9e1dee59bd666e4cea529d21edff17ba420d3f7f04",
+      "git_blob": "3695141ceb81b5226c86a2b708e54a7b0e8290d2"
+    },
+    {
+      "path": "src/editor/neon-grid/editor.css",
+      "sha256": "12e34fb9384f5a531216e44705afbbe51b5f291c398442bf541e66a178075074",
+      "git_blob": "41ff841f9487f9e57a67f5f8affbeb4f9c69d17a"
+    },
+    {
+      "path": "src/editor/neon-grid/main.ts",
+      "sha256": "21f93e819573288a060d6d48ebb977eb1c11834cc650d7fe78303bd5a30725b7",
+      "git_blob": "92cbb99b903d65e8ee8216bd0da630338a8180d4"
+    },
+    {
+      "path": "tests/neon-grid-editor-autosave.test.ts",
+      "sha256": "65934714e7b5f1cbbc44e96c12fae9f3336dcfed0d5d6b9dcb8c2f65d94d0e4a",
+      "git_blob": "b2907c77cc0886540f36a5a787b2d35cc2c67325"
+    },
+    {
+      "path": "tests/neon-grid-editor-catalogue.test.ts",
+      "sha256": "8ff84c18cafca1723c17ca118a65410caad24734094e5ced6f691e3c8139a085",
+      "git_blob": "9fccfbfbec381b08899db300646c3fa3c2fb1f0f"
+    },
+    {
+      "path": "tests/neon-grid-editor-document.test.ts",
+      "sha256": "eee9e5cbf71396893d2de14885e06b8924495f0e8a4f30286d0924d3483d8e02",
+      "git_blob": "daf5c35232e6af58258f90c1222eea4f983e5012"
+    },
+    {
+      "path": "tests/neon-grid-editor-interaction.test.ts",
+      "sha256": "a394323171d8c8c7cef29e2050c32565823d45419ea3ea662f2a2753c97047b3",
+      "git_blob": "175c761d48656205d7eb995218d2eb6b5ece2f34"
+    },
+    {
+      "path": "tests/neon-grid-editor-journal.test.ts",
+      "sha256": "f1bc8e57763165d8edab4634c75f35aeee8f25ec85af50cbf90725ab2f246e45",
+      "git_blob": "ea457d9e1a5077558e12a4f246294696c250a483"
+    },
+    {
+      "path": "tests/neon-grid-editor-road.test.ts",
+      "sha256": "ef33840b20d1c5d8f386bc6fe5cc5893aed39bbfab5d4d83a0ae64d1fa0cd894",
+      "git_blob": "655ffd8132a43df6fbc065cc12239acd13f64d61"
+    },
+    {
+      "path": "tests/neon-grid-editor-scene.test.ts",
+      "sha256": "36701bf714e88e5f92cd52ce6ce62f7bbe384e4e4dc3b6d7dba2a29de3b8c056",
+      "git_blob": "365ab687336ddd28a6c6c118aa2912c320c39667"
+    },
+    {
+      "path": "tests/neon-grid-editor-session.test.ts",
+      "sha256": "58d81e19841c8063f1715f9144626036b1b71c1daec41cc5fd20f47b57e948a0",
+      "git_blob": "d68a069d5bed77b4809e08cb7bc2d90376f3d351"
+    },
+    {
+      "path": "tools/editor/build-neon-grid-editor.mjs",
+      "sha256": "f760c0069f23294f096987949a79ac5d193f9a24df197b41dbba5ff243374f6e",
+      "git_blob": "9fa6c2b186428888a6eebdf88f1cba5055173bb6"
+    },
+    {
+      "path": "tools/editor/check-build.node.mjs",
+      "sha256": "a4013f801d8958a5db56b70a30d9b96426b2248853cd0568cf6f108a24da3027",
+      "git_blob": "968a1e64cf2a89c33faaefc9b9dd417ea5cb79cf"
+    },
+    {
+      "path": "tools/editor/neon-grid-assets.json",
+      "sha256": "e15c6ed6002cc74fc9a67fa74138ebef177c489681b8907c5acc886cbcd9abb3",
+      "git_blob": "bd8f024f35f64caf9f2aae6f42b3e34b77783336"
+    },
+    {
+      "path": "tools/editor/neon-grid.html",
+      "sha256": "15fea233f043381bd0e4a9bd8daddc473171dd3d6b91ee1582e4ca61199f762a",
+      "git_blob": "39a7dcc1b9969d9cc786b4989b0cbb9a09549478"
+    },
+    {
+      "path": "tools/editor/verify-neon-grid-editor.mjs",
+      "sha256": "2731b662e96d0ad74211be062a106fd98fab6c546d0dd476cd02e716906796f5",
+      "git_blob": "e9bc51ba918266cbe43465fb8e7e331370dc81c8"
+    },
+    {
+      "path": "tools/editor/verify-neon-grid-gestures.mjs",
+      "sha256": "ff779f859fa5e0971559299c5a2d430f97290e1c97c0ec56a577b934deed4b3c",
+      "git_blob": "0768ced2f8bc2312429578c18ed1ecbd96390798"
+    }
+  ]
+}

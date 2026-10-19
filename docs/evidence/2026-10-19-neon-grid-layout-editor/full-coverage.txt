@@ -1,0 +1,185 @@
+
+ RUN  v4.1.10 /workspace/neon-grid-layout-editor
+      Coverage enabled with v8
+
+ ❯ tests/race-diagnostics-routing.test.ts (41 tests | 1 failed) 112512ms
+   × does not apply planar kart or Prismatic contacts through the tunnel ceiling 5088ms
+ ❯ tests/neon-grid-stage4-t9-7-city-ground.test.ts (26 tests | 5 failed) 124154ms
+     × bounds rendered Skyline terrace triangle edges after curvature adaptation 5511ms
+     × renders Falls Run city windows as two-sided low-polygon facade panels 6433ms
+     × keeps the exposed city horizon in the approved cool nighttime palette 8049ms
+     × provides renderable city ground through Undercity and both Falls approaches 7030ms
+     × keeps Falls city ground clear of the Waterfall Dive roadway and landing pad 5134ms
+ ❯ tests/neon-grid-stage4-t9-5.test.ts (12 tests | 1 failed) 70467ms
+     × preserves three distinguishable shortcut masks and all existing route cues 5957ms
+ ❯ tests/neon-grid-stage4-task9-skyline.test.ts (10 tests | 3 failed) 73504ms
+     × freezes Skyline animation while hidden and resumes without catch-up 8121ms
+     × disposes Skyline-owned resources exactly once before whole-scene cleanup 8576ms
+     × keeps approved static mask ads separate from the Billboard tell 7262ms
+ ❯ tests/neon-grid-service-tunnel-material.test.ts (10 tests | 2 failed) 22832ms
+     × keeps the approved material and geometry on the default blockout path 8491ms
+     × keeps Task A fogged sidewalls on one shared prototype material 5048ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 12 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/neon-grid-service-tunnel-material.test.ts > Neon Grid Service Tunnel material prototype > keeps the approved material and geometry on the default blockout path
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-service-tunnel-material.test.ts:37:3
+     35|
+     36| describe('Neon Grid Service Tunnel material prototype', () => {
+     37|   it('keeps the approved material and geometry on the default blockout…
+       |   ^
+     38|     const track = new NeonGrid();
+     39|     const baseline = createServiceTunnelMeshGroup(track, 'blockout');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/12]⎯
+
+ FAIL  tests/neon-grid-service-tunnel-material.test.ts > Neon Grid Service Tunnel material prototype > keeps Task A fogged sidewalls on one shared prototype material
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-service-tunnel-material.test.ts:136:3
+    134|   });
+    135|
+    136|   it('keeps Task A fogged sidewalls on one shared prototype material',…
+       |   ^
+    137|     const prototype = createSceneWithMaterialVariant(
+    138|       new NeonGrid(),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/12]⎯
+
+ FAIL  tests/neon-grid-stage4-t9-5.test.ts > Neon Grid Stage 4 T9.5 course lifecycle and masking > preserves three distinguishable shortcut masks and all existing route cues
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-stage4-t9-5.test.ts:132:3
+    130|   });
+    131|
+    132|   it('preserves three distinguishable shortcut masks and all existing …
+       |   ^
+    133|     const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    134|     try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/12]⎯
+
+ FAIL  tests/neon-grid-stage4-t9-7-city-ground.test.ts > T9.7 city ground and waterfall-side massing > bounds rendered Skyline terrace triangle edges after curvature adaptation
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-stage4-t9-7-city-ground.test.ts:392:3
+    390|   }, 15_000);
+    391|
+    392|   it('bounds rendered Skyline terrace triangle edges after curvature a…
+       |   ^
+    393|     const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    394|     try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/12]⎯
+
+ FAIL  tests/neon-grid-stage4-t9-7-city-ground.test.ts > T9.7 city ground and waterfall-side massing > renders Falls Run city windows as two-sided low-polygon facade panels
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-stage4-t9-7-city-ground.test.ts:425:3
+    423|   });
+    424|
+    425|   it('renders Falls Run city windows as two-sided low-polygon facade p…
+       |   ^
+    426|     const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    427|     try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/12]⎯
+
+ FAIL  tests/neon-grid-stage4-t9-7-city-ground.test.ts > T9.7 city ground and waterfall-side massing > keeps the exposed city horizon in the approved cool nighttime palette
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-stage4-t9-7-city-ground.test.ts:499:3
+    497|   });
+    498|
+    499|   it('keeps the exposed city horizon in the approved cool nighttime pa…
+       |   ^
+    500|     const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    501|     try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/12]⎯
+
+ FAIL  tests/neon-grid-stage4-t9-7-city-ground.test.ts > T9.7 city ground and waterfall-side massing > provides renderable city ground through Undercity and both Falls approaches
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-stage4-t9-7-city-ground.test.ts:513:3
+    511|   });
+    512|
+    513|   it('provides renderable city ground through Undercity and both Falls…
+       |   ^
+    514|     const track = new NeonGrid();
+    515|     const scene = createNeonGridScene(track, 'medium');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/12]⎯
+
+ FAIL  tests/neon-grid-stage4-t9-7-city-ground.test.ts > T9.7 city ground and waterfall-side massing > keeps Falls city ground clear of the Waterfall Dive roadway and landing pad
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-stage4-t9-7-city-ground.test.ts:989:3
+    987|   }, 30000);
+    988|
+    989|   it('keeps Falls city ground clear of the Waterfall Dive roadway and …
+       |   ^
+    990|     const track = new NeonGrid();
+    991|     const scene = createNeonGridScene(track, 'medium');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/12]⎯
+
+ FAIL  tests/neon-grid-stage4-task9-skyline.test.ts > Neon Grid Stage 4 Task 9 T9.2 Skyline Straight > freezes Skyline animation while hidden and resumes without catch-up
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-stage4-task9-skyline.test.ts:241:3
+    239|   }, 20000);
+    240|
+    241|   it('freezes Skyline animation while hidden and resumes without catch…
+       |   ^
+    242|     const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    243|     try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/12]⎯
+
+ FAIL  tests/neon-grid-stage4-task9-skyline.test.ts > Neon Grid Stage 4 Task 9 T9.2 Skyline Straight > disposes Skyline-owned resources exactly once before whole-scene cleanup
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-stage4-task9-skyline.test.ts:261:3
+    259|   });
+    260|
+    261|   it('disposes Skyline-owned resources exactly once before whole-scene…
+       |   ^
+    262|     const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    263|     const asphalt = scene.getObjectByName('skyline-asphalt-base');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/12]⎯
+
+ FAIL  tests/neon-grid-stage4-task9-skyline.test.ts > Neon Grid Stage 4 Task 9 T9.2 Skyline Straight > keeps approved static mask ads separate from the Billboard tell
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/neon-grid-stage4-task9-skyline.test.ts:287:3
+    285|   });
+    286|
+    287|   it('keeps approved static mask ads separate from the Billboard tell'…
+       |   ^
+    288|     const scene = createNeonGridScene(new NeonGrid(), 'medium');
+    289|     try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/12]⎯
+
+ FAIL  tests/race-diagnostics-routing.test.ts > does not apply planar kart or Prismatic contacts through the tunnel ceiling
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/race-diagnostics-routing.test.ts:1168:1
+    1166| }, 15000);
+    1167|
+    1168| it('does not apply planar kart or Prismatic contacts through the tunne…
+       | ^
+    1169|   const { game } = await setup('', 'neon-grid');
+    1170|   const runtime = game as unknown as {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/12]⎯
+
+
+ Test Files  5 failed | 139 passed (144)
+      Tests  12 failed | 1145 passed (1157)
+   Start at  02:56:31
+   Duration  1096.44s (transform 5.47s, setup 0ms, import 23.28s, tests 926.52s, environment 106.08s)

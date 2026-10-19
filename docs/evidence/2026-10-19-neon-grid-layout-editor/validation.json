@@ -1,0 +1,193 @@
+{
+  "editor_source_commit": "81bcaa9123dc184f615fa638f64ea34a279397d5",
+  "environment": {
+    "node": "24.19.0",
+    "browser": "Chromium / SwiftShader software WebGL",
+    "viewport": [
+      1500,
+      940
+    ],
+    "device_certification": false
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exit_code": 0
+  },
+  "lint": {
+    "command": "npm run lint",
+    "exit_code": 0,
+    "warnings": 0,
+    "source_rules_unchanged": true,
+    "generated_output_ignore_added": "dist-neon-grid-editor"
+  },
+  "editor_tests": {
+    "command": "npx vitest run tests/neon-grid-editor*.test.ts",
+    "files": 8,
+    "passed": 43,
+    "failed": 0
+  },
+  "packaging_tests": {
+    "command": "node tools/editor/check-build.node.mjs",
+    "passed": 3,
+    "failed": 0
+  },
+  "browser": {
+    "mixed_edit_checks": 24,
+    "gesture_recovery_checks": 14,
+    "errors": [],
+    "missing_asset_responses": [],
+    "edited_geometry": {
+      "components": 1691,
+      "uniqueGeometries": 121,
+      "sha256": "3a730e6c062c904ea68c966e5685fb097d513d83f0f3bbb7fb820b9e0316833e"
+    },
+    "restored_geometry": {
+      "components": 1691,
+      "uniqueGeometries": 121,
+      "sha256": "3a730e6c062c904ea68c966e5685fb097d513d83f0f3bbb7fb820b9e0316833e"
+    },
+    "pixel_comparisons": "gestures/pixel-parity.json"
+  },
+  "full_repository_coverage": {
+    "command": "npx vitest run --coverage --maxWorkers=1",
+    "exit_code": 1,
+    "test_files": 144,
+    "passed_files": 139,
+    "failed_files": 5,
+    "passed_tests": 1145,
+    "failed_tests": 12,
+    "total_tests": 1157,
+    "duration_seconds": 1096.44,
+    "failures": [
+      {
+        "file": "tests/race-diagnostics-routing.test.ts",
+        "test": "does not apply planar kart or Prismatic contacts through the tunnel ceiling",
+        "observed_ms": 5088,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-stage4-t9-7-city-ground.test.ts",
+        "test": "bounds rendered Skyline terrace triangle edges after curvature adaptation",
+        "observed_ms": 5511,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-stage4-t9-7-city-ground.test.ts",
+        "test": "renders Falls Run city windows as two-sided low-polygon facade panels",
+        "observed_ms": 6433,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-stage4-t9-7-city-ground.test.ts",
+        "test": "keeps the exposed city horizon in the approved cool nighttime palette",
+        "observed_ms": 8049,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-stage4-t9-7-city-ground.test.ts",
+        "test": "provides renderable city ground through Undercity and both Falls approaches",
+        "observed_ms": 7030,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-stage4-t9-7-city-ground.test.ts",
+        "test": "keeps Falls city ground clear of the Waterfall Dive roadway and landing pad",
+        "observed_ms": 5134,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-stage4-t9-5.test.ts",
+        "test": "preserves three distinguishable shortcut masks and all existing route cues",
+        "observed_ms": 5957,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-stage4-task9-skyline.test.ts",
+        "test": "freezes Skyline animation while hidden and resumes without catch-up",
+        "observed_ms": 8121,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-stage4-task9-skyline.test.ts",
+        "test": "disposes Skyline-owned resources exactly once before whole-scene cleanup",
+        "observed_ms": 8576,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-stage4-task9-skyline.test.ts",
+        "test": "keeps approved static mask ads separate from the Billboard tell",
+        "observed_ms": 7262,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-service-tunnel-material.test.ts",
+        "test": "keeps the approved material and geometry on the default blockout path",
+        "observed_ms": 8491,
+        "error": "Test timed out in 5000ms"
+      },
+      {
+        "file": "tests/neon-grid-service-tunnel-material.test.ts",
+        "test": "keeps Task A fogged sidewalls on one shared prototype material",
+        "observed_ms": 5048,
+        "error": "Test timed out in 5000ms"
+      }
+    ],
+    "coverage_percentages": null,
+    "limitations": [
+      "All failures are existing 5000ms timeouts in unchanged scene-heavy game test files; this is not an all-green repository validation.",
+      "No timeout, assertion or graphics threshold was changed.",
+      "The earlier default-worker invocation overloaded execution transport and was interrupted; it is not counted as a completed run.",
+      "Final focused editor tests and browser checks ran after the full coverage run, on the packaged source."
+    ]
+  },
+  "production_build": {
+    "command": "npm run build",
+    "exit_code": 0,
+    "verified": "96 SFX, five approved music files, branding, runtime images/terrain/material textures, 18 Results assets, 42 GLBs and 163 character PNGs; Vite build succeeded.",
+    "advisory": "Existing large-chunk advisory; no threshold changed."
+  },
+  "standalone_build": {
+    "command": "NEON_GRID_EDITOR_SOURCE_SHA=81bcaa9123dc184f615fa638f64ea34a279397d5 npm run build:neon-grid-editor",
+    "result": "Typecheck and standalone packaging passed; final exact-source package constructed with the same builder after successful typecheck.",
+    "asset_count": 11,
+    "asset_bytes": 16215056,
+    "source_blobs_verified": 35,
+    "output_files_verified": 17
+  },
+  "lfs": {
+    "command": "git lfs fsck --objects HEAD",
+    "exit_code": 0,
+    "result": "Git LFS fsck OK",
+    "scope": "Local current-checkpoint payload/pointer integrity, not repository-wide remote historical availability."
+  },
+  "diff_check": {
+    "command": "git diff --check",
+    "exit_code": 0
+  },
+  "hosted_pr_ci": {
+    "status": "not_expected_for_nonproduction_base",
+    "reason": "Existing workflow only triggers PR validation when target is main. No missing hosted result is treated as a pass."
+  },
+  "baseline": {
+    "main": "bc6160a8ab23dd07c6425a9c25b929fe9abc29be",
+    "main_ci_run": 39182892987,
+    "main_ci_conclusion": "success",
+    "main_trusted_run": 39182893005,
+    "main_trusted_conclusion": "success",
+    "pr_242": {
+      "state": "open",
+      "draft": true,
+      "head": "6919729ba5e12f48305f543dca153f4ba9c5ae19"
+    },
+    "active_task_a_b_c1": "91393418c9b219fb5689c2041fb98325aa1e7b41",
+    "c2_branch": "fix/neon-grid-task-c2-concrete-coverage-20261018",
+    "c2_head": "99453711a86760d87a84ba427d2799d33056e55b",
+    "stage_c": "PREPARED_DISABLED"
+  },
+  "portable_artifact": {
+    "file": "neon-grid-layout-studio-81bcaa9.zip",
+    "bytes": 16444874,
+    "sha256": "513448e8be03c6151a86f411a6e6049d0b57fe38c6f7330ec9279f28f6eb88b6"
+  },
+  "approval": "Draft review only; no merge, public editor publication, production integration or deployment authorized."
+}

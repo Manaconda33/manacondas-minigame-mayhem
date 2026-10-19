@@ -35,4 +35,41 @@ The export is an input design handoff, not gameplay or visual acceptance. The ca
 
 The candidate must be reviewed in the actual rendered game for shortcut concealment and entry cues, Waterfall Dive presentation, terraced-platform continuity, building support, signage and sponsor readability, fog/bloom, and existing scene budgets. Browser/software-WebGL results do not establish representative-device G-05 certification. No merge, deployment, or public preview is authorized by this checkpoint.
 
-Visual captures and measured A/B results will be added here only after the source mapping and review harness pass their fail-closed checks.
+## Isolated A/B review capture
+
+- Candidate branch: `fix/neon-grid-owner-layout-playtest-20261019`
+- Parent C2 checkpoint: `99453711a86760d87a84ba427d2799d33056e55`
+- Runtime source used for the capture: `a89c45e212e4724412c7e4d79005212a4c07d0e3`
+- Capture report: [`captures/owner-layout-ab-capture.json`](captures/owner-layout-ab-capture.json)
+- Images: 42 actual-game JPEGs under `captures/`, covering 21 matched A/B pairs.
+- Integrity list: [`SHA256SUMS`](SHA256SUMS) covers the unchanged source export, normalized runtime JSON, capture report, and all 42 screenshots; the list's SHA-256 is `c56ff4b730eaaf2b49ae7af71f72c88be54f6f97489e0afa1ac0d4b0b31520ab`.
+
+Both variants load the same normalized handoff and force `concrete-coverage-c2-001` plus Task A Fog V3.2 (`fog-experiment-c2-background`). Variant A retains `billboardGapWing`; Variant B removes that authored index range. The six other exported deletions and all component transforms are shared by both states. The export's `view.fog=false` does not disable game fog.
+
+Coverage includes Skyline, Undercity, Service Tunnel entry/interior/exit, and Falls Run in desktop chase/rear and mobile portrait chase views, plus terraced-platform, Waterfall Dive, and Billboard Gap close-ups. Desktop CSS size is 1280×720 at device scale 1.5; mobile is 390×844 at device scale 1. The source-pinned fixture uses medium quality and eight racers. Screenshots and frame counters come from `KartTimeTrial`, its game camera, real route and Rapier colliders, and the actual rendered track scene; they are not mockups.
+
+The capture validator passed all 42 images and 21 pairs with no browser or WebGL errors. Each pair has matched camera, race fixture, route signature, collider signature, track-scene resource counts, and whole-frame draw-call count. The source projection matched all 1,331 components, changed 984, kept the mesh count at 544 before/after, added no meshes or geometry, and recorded exactly the six shared deletions plus the optional Billboard Gap deletion.
+
+### Measured software-renderer results
+
+- Maximum whole-frame draw calls: **442 / 500**.
+- Maximum whole-frame submitted triangles: **397,035 / 425,000 Task 9 engineering ceiling** and below the separate 750,000 global cap.
+- Maximum observed track-scene inventory: 138 meshes, 114 geometries, 98 materials, and 8 textures.
+- A/B whole-frame triangle deltas were 696 for 20 views and 0 for the Falls Run mobile view, where the screen is outside the view. The authored range is 348 triangles; the whole-frame counter submits it in both the main-scene and bloom-mask passes, producing 696 when visible.
+- The 36 chase/rear performance samples measure CPU wall time around `renderFrame`, not GPU time: largest per-capture median **308.4 ms** and largest p95 **374.8 ms** in headless Chromium/SwiftShader. These numbers characterize this software renderer and are not representative-device or G-05 results.
+- The report preserves per-pass submissions, render-target sizes, CPU samples, resource counts, screenshot hashes, source identity, and fixture signatures.
+
+### Visual review findings — acceptance remains pending
+
+- The exported handoff deletes the full `cityGround` ranges from both Falls Run terraced-ground meshes. In the current terraced-platform close-up, the broad platform is absent while lowered foundations and towers remain visible, leaving a large open area. This needs Manny's visual decision before integration; it has not been silently restored.
+- The handoff also deletes the Waterfall Dive waterway and banks. The captured ramp and surrounding water presentation still require owner review for shortcut readability and continuity.
+- Variant B visibly opens the Billboard Gap sightline by removing the authored screen. This is an A/B review state only; it does not approve changing the existing shortcut-concealment behavior.
+- Large building/foundation vertical shifts require review for supported appearance and skyline composition. The unchanged road, route points, widths, shortcut geometry, and collision fixtures are verified separately.
+
+### Validation and status
+
+- Focused layout, selector, and capture-validator tests: **18/18 passed** when run alone.
+- Full `npm run test:ci`: **1,091 passed; 41 timed out** across 15 files under coverage. The failures were timeout errors only, including scene-startup tests; no assertion mismatch was reported. Existing timeout limits were not changed. The focused layout suite passed separately after the full run.
+- Typecheck, zero-warning ESLint, `git diff --check`, Git LFS fsck, and production build passed. The build reported its existing large JavaScript chunk warning. Its branding verifier required the existing `unzip` subprocess to run outside the restricted sandbox; the unchanged build then passed all asset/provenance checks.
+- No physical-device/G-05 certification was performed.
+- The candidate is committed only in the local isolated worktree. It has not been pushed, opened as a PR, published, merged, or deployed. Production `main`, PR #242, active development, default selectors, assets, and existing preview workflows were not changed.

@@ -235,6 +235,64 @@ function applyObjectEdit(edit: ResolvedOwnerLayoutComponent, screen: NeonGridOwn
   object.updateMatrixWorld(true);
 }
 
+function reattachFallsRunExtensionWindows(
+  scene: THREE.Object3D,
+  resolved: ReadonlyMap<string, ResolvedOwnerLayoutComponent>,
+  screen: NeonGridOwnerLayoutScreen,
+): void {
+  const windows = scene.getObjectByName('falls-run-extension-city-windows');
+  const towers = scene.getObjectByName('falls-run-extension-city-towers');
+  if (!(windows instanceof THREE.InstancedMesh) || !(towers instanceof THREE.InstancedMesh))
+    fail('Falls Run extension windows cannot be reattached without their source instances.');
+
+  const windowsMetadata = windows.userData as { ownerLayoutTowerIndices?: unknown };
+  const candidateTowerIndices = windowsMetadata.ownerLayoutTowerIndices;
+  if (!Array.isArray(candidateTowerIndices) || candidateTowerIndices.length !== windows.count ||
+    !candidateTowerIndices.every((index: unknown) =>
+      typeof index === 'number' && Number.isInteger(index) && index >= 0 && index < towers.count,
+    ))
+    fail('Falls Run extension windows have an invalid tower association map.');
+  const towerIndices = candidateTowerIndices as number[];
+
+  const windowEdits = [...resolved.values()].filter((edit) => edit.object === windows);
+  if (windowEdits.length !== windows.count || windowEdits.some((edit) =>
+    edit.kind !== 'instance' || edit.instanceIndex === null,
+  )) fail('Falls Run extension window source mapping is incomplete.');
+
+  scene.updateMatrixWorld(true);
+  windows.updateWorldMatrix(true, false);
+  towers.updateWorldMatrix(true, false);
+  for (const edit of windowEdits) {
+    const instanceIndex = edit.instanceIndex;
+    if (instanceIndex === null || isScreenDeleted(edit.record, screen)) continue;
+    const towerIndex = towerIndices[instanceIndex];
+    if (towerIndex === undefined)
+      fail(`Falls Run extension window ${String(instanceIndex)} has no tower association.`);
+
+    const towerLocal = new THREE.Matrix4();
+    towers.getMatrixAt(towerIndex, towerLocal);
+    const towerWorld = towers.matrixWorld.clone().multiply(towerLocal);
+    const pivot = new THREE.Vector3();
+    const rotation = new THREE.Quaternion();
+    const scale = new THREE.Vector3();
+    towerWorld.decompose(pivot, rotation, scale);
+    const reattachment = new THREE.Matrix4()
+      .makeTranslation(pivot.x, pivot.y, pivot.z)
+      .multiply(new THREE.Matrix4().makeRotationFromQuaternion(rotation))
+      .multiply(new THREE.Matrix4().makeTranslation(-pivot.x, -pivot.y, -pivot.z));
+
+    const baselineWorld = new THREE.Matrix4().fromArray([...edit.record.baselineMatrix]);
+    const targetWorld = new THREE.Matrix4().fromArray([...edit.record.matrix]);
+    const authoredDelta = targetWorld.clone().multiply(baselineWorld.clone().invert());
+    const reattachedWorld = authoredDelta.multiply(reattachment).multiply(baselineWorld);
+    const local = windows.matrixWorld.clone().invert().multiply(reattachedWorld);
+    windows.setMatrixAt(instanceIndex, local);
+  }
+  windows.instanceMatrix.needsUpdate = true;
+  windows.computeBoundingBox();
+  windows.computeBoundingSphere();
+}
+
 export async function applyNeonGridOwnerLayout(
   scene: THREE.Object3D,
   screen: NeonGridOwnerLayoutScreen,
@@ -267,6 +325,7 @@ export async function applyNeonGridOwnerLayout(
     } else applyObjectEdit(edit, screen);
   }
   for (const [object, edits] of rangeGroups) applyRangeEdits(scene, object, edits, screen);
+  reattachFallsRunExtensionWindows(scene, resolved, screen);
   const meshCountAfter = sceneMeshes(scene).length;
   if (meshCountAfter !== meshCountBefore) fail('Owner layout projection unexpectedly changed mesh batching.');
   return {

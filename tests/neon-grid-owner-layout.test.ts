@@ -249,6 +249,110 @@ describe('Neon Grid owner layout handoff', () => {
     }
   });
 
+  it('keeps Falls Run extension windows attached to authored tower transforms', async () => {
+    const api = trackCatalog as unknown as Record<string, unknown>;
+    const apply = api.applyNeonGridOwnerLayout as
+      | ((scene: THREE.Object3D, screen: 'retained' | 'removed') => Promise<unknown>)
+      | undefined;
+    expect(typeof apply).toBe('function');
+    if (typeof apply !== 'function') return;
+
+    const root = new THREE.Scene();
+    root.add(createNeonGridScene(
+      new NeonGrid(),
+      'medium',
+      'fog-experiment-c2-background',
+      'concrete-coverage-c2-001',
+    ));
+    try {
+      root.updateMatrixWorld(true);
+      const windows = root.getObjectByName('falls-run-extension-city-windows') as THREE.InstancedMesh;
+      const towers = root.getObjectByName('falls-run-extension-city-towers') as THREE.InstancedMesh;
+      const ground = root.getObjectByName('falls-run-extension-city-terraced-ground') as THREE.Mesh;
+      expect(windows).toBeInstanceOf(THREE.InstancedMesh);
+      expect(towers).toBeInstanceOf(THREE.InstancedMesh);
+      expect(ground).toBeInstanceOf(THREE.Mesh);
+      const towerIndices = windows.userData.ownerLayoutTowerIndices as number[];
+      expect(towerIndices).toHaveLength(windows.count);
+
+      const towerRange = ownerLayout.components.find((component) =>
+        component.id.includes('falls-run-extension-visual') &&
+        component.id.includes('::cityTowers/0[0]'),
+      );
+      expect(towerRange?.indexRange).not.toBeNull();
+      if (!towerRange?.indexRange) throw new Error('Expected the first authored tower geometry range.');
+      const rangeStart = towerRange.indexRange[0];
+      const rangeCount = towerRange.indexRange[1];
+      if (rangeStart === undefined || rangeCount === undefined)
+        throw new Error('Expected a complete authored tower geometry range.');
+      const sourceIndices = ground.geometry.getIndex();
+      const sourcePositions = ground.geometry.getAttribute('position');
+      if (!sourceIndices) throw new Error('Expected indexed Falls Run extension ground geometry.');
+      const originalPositionCount = sourcePositions.count;
+      const rangeDelta = new THREE.Matrix4()
+        .fromArray(towerRange.baselineMatrix)
+        .invert()
+        .multiply(new THREE.Matrix4().fromArray(towerRange.matrix));
+      const expectedTowerVertices = Array.from({ length: rangeCount }, (_, offset) =>
+        new THREE.Vector3()
+          .fromBufferAttribute(sourcePositions, sourceIndices.getX(rangeStart + offset))
+          .applyMatrix4(rangeDelta),
+      );
+
+      await apply(root, 'retained');
+      root.updateMatrixWorld(true);
+
+      const renderedPositions = ground.geometry.getAttribute('position');
+      expectedTowerVertices.filter((_, offset) => offset % 19 === 0).forEach((expected) => {
+        let closest = Number.POSITIVE_INFINITY;
+        for (let vertexIndex = originalPositionCount; vertexIndex < renderedPositions.count; vertexIndex++) {
+          const candidate = new THREE.Vector3().fromBufferAttribute(renderedPositions, vertexIndex);
+          closest = Math.min(closest, candidate.distanceTo(expected));
+        }
+        expect(closest, 'the owner-authored tower transform must remain applied').toBeLessThan(1e-5);
+      });
+
+      let rotatedWindowCount = 0;
+      for (let instanceIndex = 0; instanceIndex < windows.count; instanceIndex++) {
+        const record = ownerLayout.components.find((component) =>
+          component.id.endsWith(`/falls-run-extension-city-windows[0]/instance/${String(instanceIndex)}`),
+        );
+        expect(record, `missing exported window instance ${String(instanceIndex)}`).toBeDefined();
+        if (!record) continue;
+        const towerIndex = towerIndices[instanceIndex];
+        expect(towerIndex).toBeDefined();
+        if (towerIndex === undefined) continue;
+
+        const towerLocal = new THREE.Matrix4();
+        towers.getMatrixAt(towerIndex, towerLocal);
+        const towerWorld = towers.matrixWorld.clone().multiply(towerLocal);
+        const pivot = new THREE.Vector3();
+        const rotation = new THREE.Quaternion();
+        const scale = new THREE.Vector3();
+        towerWorld.decompose(pivot, rotation, scale);
+        if (Math.abs(rotation.angleTo(new THREE.Quaternion())) > 1e-8) rotatedWindowCount++;
+
+        const correction = new THREE.Matrix4()
+          .makeTranslation(pivot.x, pivot.y, pivot.z)
+          .multiply(new THREE.Matrix4().makeRotationFromQuaternion(rotation))
+          .multiply(new THREE.Matrix4().makeTranslation(-pivot.x, -pivot.y, -pivot.z));
+        const baseline = new THREE.Matrix4().fromArray(record.baselineMatrix);
+        const ownerDelta = new THREE.Matrix4().fromArray(record.matrix)
+          .multiply(baseline.clone().invert());
+        const expected = ownerDelta.multiply(correction).multiply(baseline);
+        const actualLocal = new THREE.Matrix4();
+        windows.getMatrixAt(instanceIndex, actualLocal);
+        const actualWorld = windows.matrixWorld.clone().multiply(actualLocal);
+        expect(actualWorld.toArray().every((value, index) =>
+          Math.abs(value - (expected.elements[index] ?? Number.NaN)) <= 1e-5,
+        ), `window ${String(instanceIndex)} must follow its tower`).toBe(true);
+      }
+      expect(rotatedWindowCount).toBeGreaterThan(0);
+    } finally {
+      disposeTrackScene(root);
+    }
+  });
+
   it('removes only the Billboard Gap screen for layout B while preserving the same underlying C2/Fog edits', async () => {
     const api = trackCatalog as unknown as Record<string, unknown>;
     const apply = api.applyNeonGridOwnerLayout as

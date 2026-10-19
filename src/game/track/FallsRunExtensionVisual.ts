@@ -488,10 +488,13 @@ function addCity(
     windowCount,
   );
   windows.name = 'falls-run-extension-city-windows';
+  const windowTowerIndices = Array.from({ length: windowCount }, (_, i) => (i * 7) % data.length);
+  windows.userData.ownerLayoutTowerIndices = windowTowerIndices;
   const cyan = new THREE.Color(0x43c9de);
   const warm = new THREE.Color(0xa08b69);
   for (let i = 0; i < windowCount; i++) {
-    const tower = data[(i * 7) % data.length];
+    const towerIndex = windowTowerIndices[i];
+    const tower = towerIndex === undefined ? undefined : data[towerIndex];
     if (!tower) continue;
     const row = (i * 5) % 13;
     const column = (i * 11) % 7;

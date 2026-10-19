@@ -1,0 +1,2378 @@
+{
+  "checks": [
+    {
+      "name": "all four city platform families and 24 individual Falls towers/foundations are editable",
+      "passed": true
+    },
+    {
+      "name": "terraced platform selects independently through the outliner",
+      "passed": true
+    },
+    {
+      "name": "deleting the platform leaves all individual tower bodies visible",
+      "passed": true
+    },
+    {
+      "name": "undo restores the platform",
+      "passed": true
+    },
+    {
+      "name": "one tower body selects independently",
+      "passed": true
+    },
+    {
+      "name": "moving one tower exports only that override",
+      "passed": true
+    },
+    {
+      "name": "export/import exactly restores the isolated tower transform",
+      "passed": true
+    },
+    {
+      "name": "whole-building selection groups its parts and excludes the platform",
+      "passed": true
+    },
+    {
+      "name": "fog layer hides atmosphere while preserving every geometry transform and visibility",
+      "passed": true
+    },
+    {
+      "name": "track edits leave fog source anchors and backdrop fixed",
+      "passed": true
+    },
+    {
+      "name": "no browser errors",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "catalogue": {
+    "source": "4182fb797aa232d6cf38651beb9b017efd0c3f4f",
+    "catalogueHash": "fd43e51a79f96a258d107455ea09c1d370e15547d9794b952a73fd0cccb2b0fb",
+    "total": 1772,
+    "towers": [
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/0[0]",
+        "label": "falls run city terraced ground::cityTowers/0",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/0[0]",
+        "sourceOrdinal": 0,
+        "geometryHash": "9a0b3adcbbf07a73bd901e5f80e9482928a1a2a5a363a429234673aa08b71664",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          7,
+          23.98076355457306,
+          6.999992370605469
+        ],
+        "groupId": "falls-run/building/0",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          4704,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/1[0]",
+        "label": "falls run city terraced ground::cityTowers/1",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/1[0]",
+        "sourceOrdinal": 1,
+        "geometryHash": "b6bff0b9794896b92682f2170905cdd028cb2fe5e655792d1aaa5cf899b04239",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          12,
+          38.01639175415039,
+          8
+        ],
+        "groupId": "falls-run/building/1",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          4812,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/2[0]",
+        "label": "falls run city terraced ground::cityTowers/2",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/2[0]",
+        "sourceOrdinal": 2,
+        "geometryHash": "f75fc67082effc9d54e187c649f44a6bfe8f3599ff181a9f8ac33753c33c34fb",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          9,
+          50.989642918109894,
+          9
+        ],
+        "groupId": "falls-run/building/2",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          4920,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/3[0]",
+        "label": "falls run city terraced ground::cityTowers/3",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/3[0]",
+        "sourceOrdinal": 3,
+        "geometryHash": "b3cee21c68b8031a4c75658f1d37fb9c643205de7685daa94f12f6b1f30d364e",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          14,
+          65.51565515995026,
+          10
+        ],
+        "groupId": "falls-run/building/3",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          5028,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/4[0]",
+        "label": "falls run city terraced ground::cityTowers/4",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/4[0]",
+        "sourceOrdinal": 4,
+        "geometryHash": "b4ff491d89551c986214d7f0bbcdf8e20773fa2998d4a0781f967faa6f7bfaac",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          11,
+          31.39945387840271,
+          11
+        ],
+        "groupId": "falls-run/building/4",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          5136,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/5[0]",
+        "label": "falls run city terraced ground::cityTowers/5",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/5[0]",
+        "sourceOrdinal": 5,
+        "geometryHash": "674915784b52508ed22de511b2b1bb83bbb08f30fe1956fec883efc892a4ced4",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          8,
+          45.90461564064026,
+          12
+        ],
+        "groupId": "falls-run/building/5",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          5244,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/6[0]",
+        "label": "falls run city terraced ground::cityTowers/6",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/6[0]",
+        "sourceOrdinal": 6,
+        "geometryHash": "8d85d98fd788fdf185050b61a77a7515853c83846776dd40c5b1a893395c85ae",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          13,
+          57.01409077644348,
+          13
+        ],
+        "groupId": "falls-run/building/6",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          5352,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/7[0]",
+        "label": "falls run city terraced ground::cityTowers/7",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/7[0]",
+        "sourceOrdinal": 7,
+        "geometryHash": "58a22901db64c7e88ad7adfb436c9f9495b35be14da85e5497f270489d2b4e43",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          10,
+          74.07158589363098,
+          14
+        ],
+        "groupId": "falls-run/building/7",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          5460,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/8[0]",
+        "label": "falls run city terraced ground::cityTowers/8",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/8[0]",
+        "sourceOrdinal": 8,
+        "geometryHash": "045721aee793f3093d872763879bc60dedcfdb87fa97ab89d958c96d2333f38e",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          7,
+          39.46226930618286,
+          15
+        ],
+        "groupId": "falls-run/building/8",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          5568,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/9[0]",
+        "label": "falls run city terraced ground::cityTowers/9",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/9[0]",
+        "sourceOrdinal": 9,
+        "geometryHash": "07e098ba835b4b3a1be7ded17d40d2c8bbfc9c9f62451cdd76033db4281aa8ba",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          12,
+          51.596872329711914,
+          16
+        ],
+        "groupId": "falls-run/building/9",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          5676,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/10[0]",
+        "label": "falls run city terraced ground::cityTowers/10",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/10[0]",
+        "sourceOrdinal": 10,
+        "geometryHash": "967badccfdd1d713570f7ddc00cdff0ea9ecab8562b9fef04abf559281e9aeae",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          9,
+          61.91603481769562,
+          7
+        ],
+        "groupId": "falls-run/building/10",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          5784,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/11[0]",
+        "label": "falls run city terraced ground::cityTowers/11",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/11[0]",
+        "sourceOrdinal": 11,
+        "geometryHash": "8cd6f0eeb32e77be86e2b2c59017586e3664a651fc5f3364b4aff4b725f35355",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          14,
+          29.12685115635395,
+          8
+        ],
+        "groupId": "falls-run/building/11",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          5892,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/12[0]",
+        "label": "falls run city terraced ground::cityTowers/12",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/12[0]",
+        "sourceOrdinal": 12,
+        "geometryHash": "7fca8d90bfaa8f90701e9bd97d6da46b4b9c14c5e23d5509bf24e737467593f8",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          11,
+          43.4736088514328,
+          9
+        ],
+        "groupId": "falls-run/building/12",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6000,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/13[0]",
+        "label": "falls run city terraced ground::cityTowers/13",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/13[0]",
+        "sourceOrdinal": 13,
+        "geometryHash": "1bdb7e9197a64dd476ce951433dfe5dae6152fcbedb9cbb44f5fcc136fb29d1c",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          8,
+          56.74356719851494,
+          10.000007629394531
+        ],
+        "groupId": "falls-run/building/13",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6108,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/14[0]",
+        "label": "falls run city terraced ground::cityTowers/14",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/14[0]",
+        "sourceOrdinal": 14,
+        "geometryHash": "feb9634b378ccfd849e71a8ab2e219b066ff286282bb6558fc10ec94358d4f0b",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          13,
+          71.12717208266258,
+          11
+        ],
+        "groupId": "falls-run/building/14",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6216,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/15[0]",
+        "label": "falls run city terraced ground::cityTowers/15",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/15[0]",
+        "sourceOrdinal": 15,
+        "geometryHash": "dbe3c9eeef4dcad1963bf81db0aee2fd8c8b8165528a054c9e11bcf4542a32af",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          10,
+          36.66110873222351,
+          12
+        ],
+        "groupId": "falls-run/building/15",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6324,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/16[0]",
+        "label": "falls run city terraced ground::cityTowers/16",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/16[0]",
+        "sourceOrdinal": 16,
+        "geometryHash": "343c22756682f5c7f65411c847ff9d3f7b6ffb590605c2e249b0f80a11f28e1a",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          7,
+          47.2067494392395,
+          13
+        ],
+        "groupId": "falls-run/building/16",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6432,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/17[0]",
+        "label": "falls run city terraced ground::cityTowers/17",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/17[0]",
+        "sourceOrdinal": 17,
+        "geometryHash": "db00809415bfec92b13400d3bc8d12fe77c61737875a35591e9eca4e261fa567",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          12.040000915527344,
+          62.136751651763916,
+          13.760002136230469
+        ],
+        "groupId": "falls-run/building/17",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6540,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/18[0]",
+        "label": "falls run city terraced ground::cityTowers/18",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/18[0]",
+        "sourceOrdinal": 18,
+        "geometryHash": "927534a0c7f3ab0f5e462c15b33b7e779338dc1c720f09f9445ff0a04f8138be",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          11,
+          29.864791870117188,
+          7
+        ],
+        "groupId": "falls-run/building/18",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6648,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/19[0]",
+        "label": "falls run city terraced ground::cityTowers/19",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/19[0]",
+        "sourceOrdinal": 19,
+        "geometryHash": "318b4cc34ce25009f37eaa699aa437af8926a028177bad0fc5eb191150a6b2f5",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          8,
+          43.82897090911865,
+          8
+        ],
+        "groupId": "falls-run/building/19",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6756,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/20[0]",
+        "label": "falls run city terraced ground::cityTowers/20",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/20[0]",
+        "sourceOrdinal": 20,
+        "geometryHash": "d58bf1783a8d903af85852a1332beb64837ca585031287872ec55cc2ec12d837",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          13,
+          54.39281642436981,
+          9
+        ],
+        "groupId": "falls-run/building/20",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6864,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/21[0]",
+        "label": "falls run city terraced ground::cityTowers/21",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/21[0]",
+        "sourceOrdinal": 21,
+        "geometryHash": "216b8d644cbe73b43ef85db7b912b5d02537104f216d508b5d4959921fee7d12",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          10,
+          67.64831840991974,
+          10
+        ],
+        "groupId": "falls-run/building/21",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          6972,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/22[0]",
+        "label": "falls run city terraced ground::cityTowers/22",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/22[0]",
+        "sourceOrdinal": 22,
+        "geometryHash": "7e6011e8ecad3b870200c9866dd9ea8c8bd2f4226a704a2907ecf058af32b339",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          5.0399932861328125,
+          36.77391541004181,
+          7.9199981689453125
+        ],
+        "groupId": "falls-run/building/22",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          7080,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/23[0]",
+        "label": "falls run city terraced ground::cityTowers/23",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityTowers/23[0]",
+        "sourceOrdinal": 23,
+        "geometryHash": "a2a33111ae4b6c07ec4e751a63a31afc1bc0c6472df695b891313e9ccffc2a5d",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          12,
+          47.7389931678772,
+          12
+        ],
+        "groupId": "falls-run/building/23",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          7188,
+          108
+        ]
+      }
+    ],
+    "foundations": [
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/0[0]",
+        "label": "falls run city terraced ground::cityFoundations/0",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/0[0]",
+        "sourceOrdinal": 0,
+        "geometryHash": "796c4c47512f7d740aededdb2af1b5bfd5f14fe4c1a1b84222f6b8ca38991728",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          8.259994506835938,
+          3.2174079418182373,
+          8.259994506835938
+        ],
+        "groupId": "falls-run/building/0",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          2112,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/1[0]",
+        "label": "falls run city terraced ground::cityFoundations/1",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/1[0]",
+        "sourceOrdinal": 1,
+        "geometryHash": "a3ac8a1e1a5a57214d1201109d4bd5596471620a0ab9bc6e6e92fa959a71b5b7",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          14.160003662109375,
+          3.5874369144439697,
+          9.44000244140625
+        ],
+        "groupId": "falls-run/building/1",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          2220,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/2[0]",
+        "label": "falls run city terraced ground::cityFoundations/2",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/2[0]",
+        "sourceOrdinal": 2,
+        "geometryHash": "f7f323d19c42625d402487f5720c038a420ecff18e0955d5c52eb5d71d76acb3",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          10.6199951171875,
+          3.2577314376831055,
+          10.6199951171875
+        ],
+        "groupId": "falls-run/building/2",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          2328,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/3[0]",
+        "label": "falls run city terraced ground::cityFoundations/3",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/3[0]",
+        "sourceOrdinal": 3,
+        "geometryHash": "4d5d451b3ff6fca7dee1522caf858f0b4a7ad8d4e7dc40a8eeb28ac836a45f7b",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          16.519989013671875,
+          3.9916787147521973,
+          11.79998779296875
+        ],
+        "groupId": "falls-run/building/3",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          2436,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/4[0]",
+        "label": "falls run city terraced ground::cityFoundations/4",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/4[0]",
+        "sourceOrdinal": 4,
+        "geometryHash": "0092cdfe3d916a5dab3d2e5f5dc58189c67c999ecca54c26ae3afe8fccd13bea",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          12.980010986328125,
+          3.8289902210235596,
+          12.979995727539062
+        ],
+        "groupId": "falls-run/building/4",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          2544,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/5[0]",
+        "label": "falls run city terraced ground::cityFoundations/5",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/5[0]",
+        "sourceOrdinal": 5,
+        "geometryHash": "7974e34e3b2954e191f0b8b6c9e738de304c6b8953f23fd407843d3f06fc7807",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          9.44000244140625,
+          3.505997657775879,
+          14.160003662109375
+        ],
+        "groupId": "falls-run/building/5",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          2652,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/6[0]",
+        "label": "falls run city terraced ground::cityFoundations/6",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/6[0]",
+        "sourceOrdinal": 6,
+        "geometryHash": "b084cc35260b8a12bb2b07f97262e26aeb837abd023f44c975ef50e28fa6e786",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          15.339996337890625,
+          4.1251630783081055,
+          15.339996337890625
+        ],
+        "groupId": "falls-run/building/6",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          2760,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/7[0]",
+        "label": "falls run city terraced ground::cityFoundations/7",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/7[0]",
+        "sourceOrdinal": 7,
+        "geometryHash": "58204a23175a4ffc17c7fa093e406e1b728341420fce7c9c225f5b824899037f",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          11.79998779296875,
+          3.74104642868042,
+          16.520004272460938
+        ],
+        "groupId": "falls-run/building/7",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          2868,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/8[0]",
+        "label": "falls run city terraced ground::cityFoundations/8",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/8[0]",
+        "sourceOrdinal": 8,
+        "geometryHash": "f3704093cd2b90bb98b3905df7a9d5e896ef86e9289dda1a5c29aec800de40da",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          8.260009765625,
+          3.6050466895103455,
+          17.700000762939453
+        ],
+        "groupId": "falls-run/building/8",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          2976,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/9[0]",
+        "label": "falls run city terraced ground::cityFoundations/9",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/9[0]",
+        "sourceOrdinal": 9,
+        "geometryHash": "3fc7ff9f9db44534d49dc9d8a58fdb0b1c9526ca9b635185de434471df70aa29",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          14.160003662109375,
+          4.2726980447769165,
+          18.87999725341797
+        ],
+        "groupId": "falls-run/building/9",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          3084,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/10[0]",
+        "label": "falls run city terraced ground::cityFoundations/10",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/10[0]",
+        "sourceOrdinal": 10,
+        "geometryHash": "54840adbdbc233acd37a059775d541e582354c3e03f07e95cab21325094b814c",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          10.6199951171875,
+          3.330406904220581,
+          8.259994506835938
+        ],
+        "groupId": "falls-run/building/10",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          3192,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/11[0]",
+        "label": "falls run city terraced ground::cityFoundations/11",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/11[0]",
+        "sourceOrdinal": 11,
+        "geometryHash": "85d17efe13df51922c4dd114342121a20dd1fc2e855f4d24b3057d9e4d0db2cb",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          16.519989013671875,
+          3.6932618618011475,
+          9.44000244140625
+        ],
+        "groupId": "falls-run/building/11",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          3300,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/12[0]",
+        "label": "falls run city terraced ground::cityFoundations/12",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/12[0]",
+        "sourceOrdinal": 12,
+        "geometryHash": "5599505c79c679f81dc037938902db115bc78b2faa76badd807faaffc59f0321",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          12.980010986328125,
+          3.6669795513153076,
+          10.6199951171875
+        ],
+        "groupId": "falls-run/building/12",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          3408,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/13[0]",
+        "label": "falls run city terraced ground::cityFoundations/13",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/13[0]",
+        "sourceOrdinal": 13,
+        "geometryHash": "0981ca892ceb4495111dad3f547b548bf5cd78fba431a5232ec56014046f7e47",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          9.44000244140625,
+          3.537832736968994,
+          11.800003051757812
+        ],
+        "groupId": "falls-run/building/13",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          3516,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/14[0]",
+        "label": "falls run city terraced ground::cityFoundations/14",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/14[0]",
+        "sourceOrdinal": 14,
+        "geometryHash": "ef54bca2a2b2bbf47de2cb64c5a286c87426a76248f62bc37c34529ecece4c45",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          15.339996337890625,
+          4.057368278503418,
+          12.979995727539062
+        ],
+        "groupId": "falls-run/building/14",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          3624,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/15[0]",
+        "label": "falls run city terraced ground::cityFoundations/15",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/15[0]",
+        "sourceOrdinal": 15,
+        "geometryHash": "c1dccf09c906afa240a7e8495778f7e71340f280313af603cadd285b9ec6ef07",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          11.79998779296875,
+          3.755400538444519,
+          14.160003662109375
+        ],
+        "groupId": "falls-run/building/15",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          3732,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/16[0]",
+        "label": "falls run city terraced ground::cityFoundations/16",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/16[0]",
+        "sourceOrdinal": 16,
+        "geometryHash": "cddb32df098490a2ecb3ba2e2e010dc9cc776de46c1653c1e95eed4bef600ab3",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          8.260009765625,
+          3.7397799491882324,
+          15.340003967285156
+        ],
+        "groupId": "falls-run/building/16",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          3840,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/17[0]",
+        "label": "falls run city terraced ground::cityFoundations/17",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/17[0]",
+        "sourceOrdinal": 17,
+        "geometryHash": "3dac28478406463679c173e2fc1afac7aee9757e49e6e132db9b2afeafd432b8",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          14.207206726074219,
+          4.109485149383545,
+          16.236801147460938
+        ],
+        "groupId": "falls-run/building/17",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          3948,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/18[0]",
+        "label": "falls run city terraced ground::cityFoundations/18",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/18[0]",
+        "sourceOrdinal": 18,
+        "geometryHash": "79d287bd2338885460cf3453819258e94d8dc7cb1ff7a936a48c40c5071eaa65",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          12.980003356933594,
+          3.37080454826355,
+          8.260009765625
+        ],
+        "groupId": "falls-run/building/18",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          4056,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/19[0]",
+        "label": "falls run city terraced ground::cityFoundations/19",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/19[0]",
+        "sourceOrdinal": 19,
+        "geometryHash": "cc51eceebacd1b0e9def4b0bdb5842204102cfbb7a81293238f2dccf60a9b618",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          9.44000244140625,
+          3.410520553588867,
+          9.44000244140625
+        ],
+        "groupId": "falls-run/building/19",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          4164,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/20[0]",
+        "label": "falls run city terraced ground::cityFoundations/20",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/20[0]",
+        "sourceOrdinal": 20,
+        "geometryHash": "21c263a6b62c55f106cac4ec3886635a56ae028f6c94b6110f9335662608ee5a",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          15.339996337890625,
+          3.802469491958618,
+          10.6199951171875
+        ],
+        "groupId": "falls-run/building/20",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          4272,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/21[0]",
+        "label": "falls run city terraced ground::cityFoundations/21",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/21[0]",
+        "sourceOrdinal": 21,
+        "geometryHash": "bc9c31e70980836a441f33416bbc57b9dfdd4945ffdc880d792e847944f5c01b",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          11.79998779296875,
+          3.692369222640991,
+          11.800003051757812
+        ],
+        "groupId": "falls-run/building/21",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          4380,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/22[0]",
+        "label": "falls run city terraced ground::cityFoundations/22",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/22[0]",
+        "sourceOrdinal": 22,
+        "geometryHash": "44be2a2e52c4111464f654678552f5a97a95aa809f087dbe392ce7a501cab55f",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          5.94720458984375,
+          3.2367143630981445,
+          9.345596313476562
+        ],
+        "groupId": "falls-run/building/22",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          4488,
+          108
+        ]
+      },
+      {
+        "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/23[0]",
+        "label": "falls run city terraced ground::cityFoundations/23",
+        "sourceFile": "src/game/track/FallsRunVisual.ts",
+        "sourceSymbol": "FallsRunVisual",
+        "sector": "Falls Run",
+        "materials": [
+          {
+            "name": "",
+            "type": "MeshBasicMaterial"
+          }
+        ],
+        "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityFoundations/23[0]",
+        "sourceOrdinal": 23,
+        "geometryHash": "3a429878953c7e8b2330c9598798358282d7d2d7ea2765bd69f75ceb0446ad12",
+        "baselineMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "dimensions": [
+          14.160003662109375,
+          3.9802963733673096,
+          14.160003662109375
+        ],
+        "groupId": "falls-run/building/23",
+        "attachment": {
+          "mode": "fixed"
+        },
+        "indexRange": [
+          4596,
+          108
+        ]
+      }
+    ],
+    "ground": {
+      "id": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityGround[0]",
+      "label": "falls run city terraced ground::cityGround (combined component)",
+      "sourceFile": "src/game/track/FallsRunVisual.ts",
+      "sourceSymbol": "FallsRunVisual",
+      "sector": "Falls Run",
+      "materials": [
+        {
+          "name": "",
+          "type": "MeshBasicMaterial"
+        }
+      ],
+      "scenePath": "Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-city-terraced-ground::cityGround[0]",
+      "sourceOrdinal": null,
+      "geometryHash": "d9050cfdff9b80b78427bbaf2632ee250254995614226ac0cee677e46c57c9bc",
+      "baselineMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "dimensions": [
+        198,
+        17.909700870513916,
+        270
+      ],
+      "groupId": null,
+      "attachment": {
+        "mode": "fixed"
+      },
+      "indexRange": [
+        0,
+        2112
+      ]
+    },
+    "platforms": 4
+  },
+  "metrics": {
+    "calls": 362,
+    "triangles": 111419,
+    "helperCalls": 17,
+    "helperTriangles": 0,
+    "textures": 15,
+    "geometries": 252,
+    "renderMs": 31.5,
+    "bloom": {
+      "enabled": true,
+      "quality": "medium",
+      "maskWidth": 497,
+      "maskHeight": 397,
+      "fallbackReason": null
+    }
+  }
+}

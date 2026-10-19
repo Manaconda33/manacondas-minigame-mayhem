@@ -1,0 +1,9 @@
+
+ RUN  v4.1.10 /workspace/neon-grid-layout-editor
+
+
+ Test Files  9 passed (9)
+      Tests  47 passed (47)
+   Start at  13:50:46
+   Duration  32.02s (transform 1.36s, setup 0ms, import 2.97s, tests 9.97s, environment 16.13s)
+

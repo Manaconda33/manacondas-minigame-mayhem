@@ -1,0 +1,35 @@
+{
+  "editor_source": "4182fb797aa232d6cf38651beb9b017efd0c3f4f",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "ec3ae0507f7920d36649416bb74823ccec70cf2021d3901f17221ae160fc291b",
+      "bytes": 5448
+    },
+    {
+      "path": "falls-independent-buildings-fog-off.png",
+      "sha256": "fb51122adbd1fe9f6f4162db3d2d8bfc0c71012275d3b6a4690b46e8a5c33a5b",
+      "bytes": 252375
+    },
+    {
+      "path": "falls-platform-selected.png",
+      "sha256": "05c1653514c5d80eee727dea20cba1f0a80411fe560bc0282d91062ea11e3bdc",
+      "bytes": 318952
+    },
+    {
+      "path": "focused-tests.txt",
+      "sha256": "ffe4a9128d9430817291cccdae0b389a09e22dc53840708450bc1fb2487a9e76",
+      "bytes": 225
+    },
+    {
+      "path": "layer-browser-verification.json",
+      "sha256": "494cea606fdb4f1c0206adf0079a07de067bf2deb6effbfb338e3561c006aac3",
+      "bytes": 61770
+    },
+    {
+      "path": "roundtrip-browser-verification.json",
+      "sha256": "e77f8af28c2f8f4d1aed8216bba3ae92c0448db87b9de44849dd7bc8f1c1d38a",
+      "bytes": 48141
+    }
+  ]
+}

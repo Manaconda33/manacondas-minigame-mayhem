@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import ownerLayout from './neonGridOwnerLayout.json';
+import type { GraphicsQuality } from '../../config/graphicsQuality';
 import {
+  ownerLayoutScenePath,
   resolveNeonGridOwnerLayoutSourceMap,
   type OwnerLayoutMesh,
   type OwnerLayoutComponentRecord,
@@ -11,6 +13,27 @@ export type NeonGridOwnerLayoutScreen = 'retained' | 'removed';
 
 export const NEON_GRID_OWNER_LAYOUT_SCREEN_ID =
   'Scene[0]/neon-grid-blockout[0]/skyline-visual[0]/skyline-deck-fascia::billboardGapWing[0]';
+
+const QUALITY_SCALED_WINDOW_MESHES: Readonly<Record<string, {
+  groupName: string;
+  counts: Readonly<Record<GraphicsQuality, number>>;
+}>> = {
+  'skyline-city-windows': { groupName: 'skyline-visual', counts: { low: 120, medium: 240, high: 360 } },
+  'undercity-city-windows': { groupName: 'undercity-visual', counts: { low: 80, medium: 160, high: 240 } },
+  'falls-run-city-windows': { groupName: 'falls-run-visual', counts: { low: 160, medium: 320, high: 480 } },
+  'falls-run-extension-city-windows': {
+    groupName: 'falls-run-extension-visual',
+    counts: { low: 80, medium: 160, high: 240 },
+  },
+};
+
+const LOW_QUALITY_OPTIONAL_MESHES: Readonly<Record<string, string>> = {
+  'Scene[0]/neon-grid-blockout[0]/skyline-visual[0]/skyline-wet-asphalt[0]': 'skyline-visual',
+  'Scene[0]/neon-grid-blockout[0]/undercity-visual[0]/undercity-wet-asphalt[0]': 'undercity-visual',
+  'Scene[0]/neon-grid-blockout[0]/falls-run-visual[0]/falls-run-wet-asphalt[0]': 'falls-run-visual',
+  'Scene[0]/neon-grid-blockout[0]/falls-run-extension-visual[0]/falls-run-extension-wet-asphalt[0]':
+    'falls-run-extension-visual',
+};
 
 export interface NeonGridOwnerLayoutApplicationReport {
   screen: NeonGridOwnerLayoutScreen;
@@ -48,6 +71,41 @@ function sceneMeshes(root: THREE.Object3D): OwnerLayoutMesh[] {
     if (object instanceof THREE.Mesh) meshes.push(object as OwnerLayoutMesh);
   });
   return meshes;
+}
+
+function runtimeOwnerLayoutRecords(
+  scene: THREE.Object3D,
+  records: readonly OwnerLayoutComponentRecord[],
+): OwnerLayoutComponentRecord[] {
+  const objectsByPath = new Map<string, THREE.Object3D>();
+  scene.traverse((object) => objectsByPath.set(ownerLayoutScenePath(object), object));
+  const applicable: OwnerLayoutComponentRecord[] = [];
+
+  for (const record of records) {
+    const pathObject = objectsByPath.get(record.scenePath);
+    const instanceMatch = record.indexRange === null ? /\/instance\/(\d+)$/.exec(record.id) : null;
+    if (instanceMatch) {
+      const meshName = pathObject?.name ?? record.scenePath.slice(record.scenePath.lastIndexOf('/') + 1).replace(/\[\d+\]$/, '');
+      const qualityConfig = QUALITY_SCALED_WINDOW_MESHES[meshName];
+      if (qualityConfig) {
+        if (!(pathObject instanceof THREE.InstancedMesh))
+          fail(`Quality-scaled owner layout window source '${record.scenePath}' is missing.`);
+        const quality = scene.getObjectByName(qualityConfig.groupName)?.userData.quality as GraphicsQuality | undefined;
+        const expectedCount = quality === undefined ? undefined : qualityConfig.counts[quality];
+        if (expectedCount === undefined || pathObject.count !== expectedCount)
+          fail(`Quality-scaled owner layout window source '${meshName}' does not match its recorded graphics tier.`);
+        if (Number(instanceMatch[1]) >= pathObject.count) continue;
+      }
+    }
+
+    if (!pathObject && record.indexRange === null) {
+      const lowQualityGroup = LOW_QUALITY_OPTIONAL_MESHES[record.scenePath];
+      if (lowQualityGroup && scene.getObjectByName(lowQualityGroup)?.userData.quality === 'low') continue;
+    }
+    applicable.push(record);
+  }
+
+  return applicable;
 }
 
 function appendTransformedRangeVertices(
@@ -258,36 +316,67 @@ function reattachFallsRunExtensionWindows(
   const towerIndices = candidateTowerIndices as number[];
 
   const windowEdits = [...resolved.values()].filter((edit) => edit.object === windows);
-  if (windowEdits.length !== windows.count || windowEdits.some((edit) =>
-    edit.kind !== 'instance' || edit.instanceIndex === null,
-  )) fail('Falls Run extension window source mapping is incomplete.');
+  const windowEditsByIndex = new Map<number, ResolvedOwnerLayoutComponent>();
+  if (windowEdits.some((edit) => edit.kind !== 'instance' || edit.instanceIndex === null ||
+    edit.instanceIndex < 0 || edit.instanceIndex >= windows.count ||
+    windowEditsByIndex.has(edit.instanceIndex)))
+    fail('Falls Run extension window source mapping is incomplete.');
+  for (const edit of windowEdits) {
+    if (edit.instanceIndex === null) continue;
+    windowEditsByIndex.set(edit.instanceIndex, edit);
+  }
+
+  const towerEditsByIndex = new Map<number, ResolvedOwnerLayoutComponent>();
+  for (const edit of resolved.values()) {
+    if (edit.object.name !== 'falls-run-extension-city-terraced-ground' ||
+      edit.rangeKey !== 'cityTowers' || edit.rangeOrdinal === null) continue;
+    if (towerEditsByIndex.has(edit.rangeOrdinal))
+      fail(`Falls Run tower ${String(edit.rangeOrdinal)} has duplicate saved transforms.`);
+    towerEditsByIndex.set(edit.rangeOrdinal, edit);
+  }
 
   scene.updateMatrixWorld(true);
   windows.updateWorldMatrix(true, false);
   towers.updateWorldMatrix(true, false);
-  for (const edit of windowEdits) {
-    const instanceIndex = edit.instanceIndex;
-    if (instanceIndex === null || isScreenDeleted(edit.record, screen)) continue;
+  for (let instanceIndex = 0; instanceIndex < windows.count; instanceIndex++) {
+    const edit = windowEditsByIndex.get(instanceIndex);
     const towerIndex = towerIndices[instanceIndex];
     if (towerIndex === undefined)
       fail(`Falls Run extension window ${String(instanceIndex)} has no tower association.`);
-
-    const towerLocal = new THREE.Matrix4();
-    towers.getMatrixAt(towerIndex, towerLocal);
-    const towerWorld = towers.matrixWorld.clone().multiply(towerLocal);
-    const pivot = new THREE.Vector3();
-    const rotation = new THREE.Quaternion();
-    const scale = new THREE.Vector3();
-    towerWorld.decompose(pivot, rotation, scale);
-    const reattachment = new THREE.Matrix4()
-      .makeTranslation(pivot.x, pivot.y, pivot.z)
-      .multiply(new THREE.Matrix4().makeRotationFromQuaternion(rotation))
-      .multiply(new THREE.Matrix4().makeTranslation(-pivot.x, -pivot.y, -pivot.z));
-
-    const baselineWorld = new THREE.Matrix4().fromArray([...edit.record.baselineMatrix]);
-    const targetWorld = new THREE.Matrix4().fromArray([...edit.record.matrix]);
-    const authoredDelta = targetWorld.clone().multiply(baselineWorld.clone().invert());
-    const reattachedWorld = authoredDelta.multiply(reattachment).multiply(baselineWorld);
+    let reattachedWorld: THREE.Matrix4;
+    if (edit) {
+      if (isScreenDeleted(edit.record, screen)) continue;
+      const towerLocal = new THREE.Matrix4();
+      towers.getMatrixAt(towerIndex, towerLocal);
+      const towerWorld = towers.matrixWorld.clone().multiply(towerLocal);
+      const pivot = new THREE.Vector3();
+      const rotation = new THREE.Quaternion();
+      const scale = new THREE.Vector3();
+      towerWorld.decompose(pivot, rotation, scale);
+      const reattachment = new THREE.Matrix4()
+        .makeTranslation(pivot.x, pivot.y, pivot.z)
+        .multiply(new THREE.Matrix4().makeRotationFromQuaternion(rotation))
+        .multiply(new THREE.Matrix4().makeTranslation(-pivot.x, -pivot.y, -pivot.z));
+      const baselineWorld = new THREE.Matrix4().fromArray([...edit.record.baselineMatrix]);
+      const targetWorld = new THREE.Matrix4().fromArray([...edit.record.matrix]);
+      const authoredDelta = targetWorld.clone().multiply(baselineWorld.clone().invert());
+      reattachedWorld = authoredDelta.multiply(reattachment).multiply(baselineWorld);
+    } else {
+      const quality = scene.getObjectByName('falls-run-extension-visual')?.userData.quality as
+        GraphicsQuality | undefined;
+      if (quality !== 'high')
+        fail(`Falls Run extension window ${String(instanceIndex)} is absent from the saved source at ${String(quality)} quality.`);
+      const towerEdit = towerEditsByIndex.get(towerIndex);
+      if (!towerEdit)
+        fail(`Falls Run extension tower ${String(towerIndex)} has no saved transform for its high-quality window.`);
+      const baselineWindowLocal = new THREE.Matrix4();
+      windows.getMatrixAt(instanceIndex, baselineWindowLocal);
+      const baselineWindowWorld = windows.matrixWorld.clone().multiply(baselineWindowLocal);
+      const baselineTowerWorld = new THREE.Matrix4().fromArray([...towerEdit.record.baselineMatrix]);
+      const targetTowerWorld = new THREE.Matrix4().fromArray([...towerEdit.record.matrix]);
+      const towerDelta = targetTowerWorld.multiply(baselineTowerWorld.invert());
+      reattachedWorld = towerDelta.multiply(baselineWindowWorld);
+    }
     const local = windows.matrixWorld.clone().invert().multiply(reattachedWorld);
     windows.setMatrixAt(instanceIndex, local);
   }
@@ -304,7 +393,8 @@ export async function applyNeonGridOwnerLayout(
     !ownerLayout.integrity.verified)
     fail('The owner layout handoff has not passed its source integrity gate.');
   const records = ownerLayout.components as OwnerLayoutComponentRecord[];
-  const resolved = await resolveNeonGridOwnerLayoutSourceMap(scene, records);
+  const runtimeRecords = runtimeOwnerLayoutRecords(scene, records);
+  const resolved = await resolveNeonGridOwnerLayoutSourceMap(scene, runtimeRecords);
   const screenRecord = resolved.get(NEON_GRID_OWNER_LAYOUT_SCREEN_ID);
   if (screenRecord?.kind !== 'range' || !screenRecord.record.deleted)
     fail('The exported Billboard Gap screen does not resolve to its expected authored range.');

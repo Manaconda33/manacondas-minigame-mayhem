@@ -470,6 +470,65 @@ describe('Neon Grid owner layout handoff', () => {
     }
   });
 
+  it.each(['low', 'high'] as const)(
+    'applies the saved layout when Falls Run window density is %s',
+    async (quality) => {
+      const api = trackCatalog as unknown as Record<string, unknown>;
+      const apply = api.applyNeonGridOwnerLayout as
+        | ((scene: THREE.Object3D, screen: 'retained' | 'removed') => Promise<{
+            matchedIds: string[];
+          }>)
+        | undefined;
+      expect(typeof apply).toBe('function');
+      if (typeof apply !== 'function') return;
+
+      const root = new THREE.Scene();
+      root.add(createNeonGridScene(
+        new NeonGrid(),
+        quality,
+        'fog-experiment-c2-background',
+        'concrete-coverage-c2-001',
+      ));
+      root.updateMatrixWorld(true);
+      const windows = root.getObjectByName('falls-run-extension-city-windows') as THREE.InstancedMesh;
+      const towerIndices = windows.userData.ownerLayoutTowerIndices as number[];
+      const extraWindowIndex = quality === 'high' ? 239 : null;
+      let expectedExtraWindow: THREE.Matrix4 | null = null;
+      if (extraWindowIndex !== null) {
+        const towerIndex = towerIndices[extraWindowIndex];
+        if (towerIndex === undefined) throw new Error('Expected a tower association for the high quality window.');
+        const towerRecord = ownerLayout.components.find((component) =>
+          component.id.includes('falls-run-extension-city-terraced-ground::cityTowers/') &&
+          component.sourceOrdinal === towerIndex,
+        );
+        if (!towerRecord) throw new Error(`Expected the saved transform for tower ${String(towerIndex)}.`);
+        const baselineWindowLocal = new THREE.Matrix4();
+        windows.getMatrixAt(extraWindowIndex, baselineWindowLocal);
+        const baselineWindowWorld = windows.matrixWorld.clone().multiply(baselineWindowLocal);
+        const towerDelta = new THREE.Matrix4().fromArray([...towerRecord.matrix])
+          .multiply(new THREE.Matrix4().fromArray([...towerRecord.baselineMatrix]).invert());
+        expectedExtraWindow = towerDelta.multiply(baselineWindowWorld);
+      }
+
+      try {
+        const report = await apply(root, 'retained');
+        expect(report.matchedIds.length).toBeLessThanOrEqual(ownerLayout.components.length);
+        if (extraWindowIndex !== null && expectedExtraWindow) {
+          root.updateMatrixWorld(true);
+          const actualLocal = new THREE.Matrix4();
+          windows.getMatrixAt(extraWindowIndex, actualLocal);
+          const actualWorld = windows.matrixWorld.clone().multiply(actualLocal);
+          const expected = expectedExtraWindow;
+          expect(actualWorld.toArray().every((value, index) =>
+            Math.abs(value - (expected.elements[index] ?? Number.NaN)) < 1e-6,
+          )).toBe(true);
+        }
+      } finally {
+        disposeTrackScene(root);
+      }
+    },
+  );
+
   it('removes only the Billboard Gap screen for layout B while preserving the same underlying C2/Fog edits', async () => {
     const api = trackCatalog as unknown as Record<string, unknown>;
     const apply = api.applyNeonGridOwnerLayout as

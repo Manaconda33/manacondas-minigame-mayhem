@@ -80,7 +80,7 @@ async function digestJson(value: unknown): Promise<string> {
   return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
-function scenePath(object: THREE.Object3D): string {
+export function ownerLayoutScenePath(object: THREE.Object3D): string {
   const segments: string[] = [];
   for (let node: THREE.Object3D | null = object; node; node = node.parent) {
     const segmentName = node.name || node.type;
@@ -223,7 +223,7 @@ function validateRangeLayout(
     if (!parsed) continue;
     const source = objectById.get(record.id);
     if (!source || source instanceof THREE.InstancedMesh) continue;
-    const meshPath = scenePath(source);
+    const meshPath = ownerLayoutScenePath(source);
     const groupKey = `${meshPath}::${parsed.rangeKey}`;
     const group = groups.get(groupKey) ?? [];
     group.push({ record, parsed });
@@ -320,7 +320,7 @@ export async function resolveNeonGridOwnerLayoutSourceMap(
   scene.updateMatrixWorld(true);
   const objects = new Map<string, THREE.Object3D>();
   scene.traverse((object) => {
-    const key = scenePath(object);
+    const key = ownerLayoutScenePath(object);
     if (objects.has(key)) errors.push(`${key}: duplicate scene path`);
     else objects.set(key, object);
   });

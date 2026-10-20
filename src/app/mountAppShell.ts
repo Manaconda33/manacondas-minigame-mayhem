@@ -617,7 +617,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
       if (finish === null || finish.hidden) return;
       updateResultsPodium(finish, standings);
     };
-    const createdGame = await KartTimeTrial.create({
+    const createGame = async () => KartTimeTrial.create({
       canvas,
       character: selectedCharacter,
       trackId: selectedTrackId,
@@ -651,11 +651,14 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
         bindResultsArtFallbacks(finish);
         root.querySelector<HTMLElement>('#results-title')?.focus();
       },
-    }).catch((error: unknown) => {
-      showInitializationFailure(error);
-      return null;
     });
-    if (createdGame === null) return;
+    let createdGame: Awaited<ReturnType<typeof KartTimeTrial.create>>;
+    try {
+      createdGame = await createGame();
+    } catch (error) {
+      showInitializationFailure(error);
+      return;
+    }
     if (disposed || generation !== raceGeneration) {
       createdGame.dispose();
       racePanel?.dispose();

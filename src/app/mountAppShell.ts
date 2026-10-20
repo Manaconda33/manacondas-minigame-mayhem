@@ -96,6 +96,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
   let raceGeneration = 0;
   let disposed = false;
   let musicTimer: ReturnType<typeof setInterval> | undefined;
+  let loadingTimer: ReturnType<typeof setInterval> | undefined;
   const onVisibility = (): void => {
     music.visibility(document.hidden);
   };
@@ -122,6 +123,10 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
 
   const disposeGame = (): void => {
     raceGeneration++;
+    if (loadingTimer !== undefined) {
+      clearInterval(loadingTimer);
+      loadingTimer = undefined;
+    }
     diagnosticsPanel?.dispose();
     diagnosticsPanel = null;
     touchWheelDispose?.();
@@ -417,6 +422,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
 
   const renderGame = async (): Promise<void> => {
     const generation = ++raceGeneration;
+    if (loadingTimer !== undefined) clearInterval(loadingTimer);
     music.race({ phase: 'countdown', lap: 1, paused: false, prismatic: false });
     characterPreview?.dispose();
     characterPreview = null;
@@ -426,6 +432,60 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
       touchControls,
       selectedTrackId === 'neon-grid' ? 'Neon Grid' : 'Circuit Alpha',
     );
+    const initializationStartedAt = performance.now();
+    let initializationStage = 'Loading game code';
+    const loadingStage = root.querySelector<HTMLElement>('#loading-stage');
+    const setInitializationStage = (stage: string): void => {
+      initializationStage = stage;
+      if (loadingStage !== null) loadingStage.textContent = stage;
+      const loading = root.querySelector<HTMLElement>('#loading');
+      if (loading !== null) loading.dataset.stage = stage;
+      if (!stage.startsWith('Checking saved layout source '))
+        console.info(`[race initialization] ${stage}`);
+    };
+    const updateInitializationElapsed = (): void => {
+      if (disposed || generation !== raceGeneration) return;
+      const elapsed = root.querySelector<HTMLElement>('#loading-elapsed');
+      if (elapsed === null) return;
+      const seconds = Math.floor((performance.now() - initializationStartedAt) / 1000);
+      const minutes = Math.floor(seconds / 60);
+      elapsed.textContent =
+        seconds >= 30
+          ? `Still working · ${String(minutes)}:${String(seconds % 60).padStart(2, '0')} elapsed`
+          : `${String(minutes)}:${String(seconds % 60).padStart(2, '0')} elapsed`;
+    };
+    const showInitializationFailure = (error: unknown): void => {
+      if (loadingTimer !== undefined) {
+        clearInterval(loadingTimer);
+        loadingTimer = undefined;
+      }
+      if (disposed || generation !== raceGeneration) return;
+      console.error('[race initialization] failed', error);
+      diagnosticsPanel?.dispose();
+      diagnosticsPanel = null;
+      const loading = root.querySelector<HTMLElement>('#loading');
+      if (loading !== null) {
+        loading.dataset.state = 'error';
+        loading.setAttribute('role', 'alert');
+      }
+      const spinner = root.querySelector<HTMLElement>('#loading-spinner');
+      if (spinner !== null) spinner.hidden = true;
+      const title = root.querySelector<HTMLElement>('#loading-title');
+      if (title !== null)
+        title.textContent = `${selectedTrackId === 'neon-grid' ? 'Neon Grid' : 'Circuit Alpha'} could not start`;
+      if (loadingStage !== null)
+        loadingStage.textContent = `Stopped during: ${initializationStage}`;
+      const errorText = root.querySelector<HTMLElement>('#loading-error');
+      if (errorText !== null) {
+        errorText.textContent = error instanceof Error ? error.message : String(error);
+        errorText.hidden = false;
+      }
+      const retry = root.querySelector<HTMLButtonElement>('#loading-retry');
+      if (retry !== null) retry.hidden = false;
+    };
+    setInitializationStage(initializationStage);
+    updateInitializationElapsed();
+    loadingTimer = setInterval(updateInitializationElapsed, 1000);
     const diagnosticsEnabled = racePerformanceFromSearch(window.location.search);
     const racePanel = diagnosticsEnabled
       ? mountRaceDiagnosticsPanel(root, (metadata) =>
@@ -438,15 +498,31 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     diagnosticsPanel = racePanel;
 
     const canvas = root.querySelector<HTMLCanvasElement>('#game-canvas');
-    if (canvas === null) throw new Error('Game canvas was not created.');
-    const { KartTimeTrial } = await import('../game/KartTimeTrial');
+    if (canvas === null) {
+      showInitializationFailure(new Error('Game canvas was not created.'));
+      return;
+    }
+    let KartTimeTrial: typeof import('../game/KartTimeTrial').KartTimeTrial;
+    try {
+      ({ KartTimeTrial } = await import('../game/KartTimeTrial'));
+    } catch (error) {
+      showInitializationFailure(error);
+      return;
+    }
     const getElement = (selector: string): HTMLElement => {
       const element = root.querySelector<HTMLElement>(selector);
       if (element === null) throw new Error(`Required UI element missing: ${selector}`);
       return element;
     };
-    const minimap = getElement('[data-race-minimap]');
-    const itemHud = getElement('#item-hud');
+    let minimap: HTMLElement;
+    let itemHud: HTMLElement;
+    try {
+      minimap = getElement('[data-race-minimap]');
+      itemHud = getElement('#item-hud');
+    } catch (error) {
+      showInitializationFailure(error);
+      return;
+    }
     const touchItemButton = root.querySelector<HTMLButtonElement>('[data-touch="item"]');
     const updateHud = (state: HudState): void => {
       getElement('#lap').textContent = `${String(state.lap)} / 3`;
@@ -549,6 +625,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
       motionBlur: appSettings.graphics.motionBlur !== false,
       mobileSession,
       onHud: updateHud,
+      onInitializationStage: setInitializationStage,
       ...(racePanel === null
         ? {}
         : {
@@ -574,13 +651,19 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
         bindResultsArtFallbacks(finish);
         root.querySelector<HTMLElement>('#results-title')?.focus();
       },
+    }).catch((error: unknown) => {
+      showInitializationFailure(error);
+      return null;
     });
+    if (createdGame === null) return;
     if (disposed || generation !== raceGeneration) {
       createdGame.dispose();
       racePanel?.dispose();
       return;
     }
     game = createdGame;
+    clearInterval(loadingTimer);
+    loadingTimer = undefined;
     const loading = root.querySelector('#loading');
     if (loading !== null) loading.remove();
     canvas.focus();
@@ -649,6 +732,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
         ?.focus();
     }
     if (action === 'confirm-character') void renderGame();
+    if (action === 'retry-game-start') void renderGame();
     if (action === 'race-again') {
       disposeGame();
       void renderGame();

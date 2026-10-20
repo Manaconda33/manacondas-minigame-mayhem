@@ -199,6 +199,7 @@ export interface TimeTrialOptions {
   motionBlur?: boolean;
   mobileSession: boolean;
   onHud: (state: HudState) => void;
+  onInitializationStage?: (stage: string) => void;
   onMusicState?: (state: RaceMusicState) => void;
   onFinish: (result: RaceResult) => void;
   onStandings?: (standings: RaceResult['standings']) => void;
@@ -412,11 +413,21 @@ export class KartTimeTrial {
   private readonly apexWarningAudio = new SeekerWarningAudio(undefined, APEX_WARNING_TONE);
 
   public static async create(options: TimeTrialOptions): Promise<KartTimeTrial> {
+    options.onInitializationStage?.('Starting the physics engine');
     await RAPIER.init();
+    options.onInitializationStage?.('Building the race scene');
     const game = new KartTimeTrial(options);
     try {
-      await game.projectOwnerLayoutIfSelected();
-      if (game.trackScene instanceof NeonGridScene)
+      if (game.ownerLayoutScreen !== null) {
+        options.onInitializationStage?.('Checking your saved layout against the track');
+        await game.projectOwnerLayoutIfSelected((completed, total) => {
+          options.onInitializationStage?.(
+            `Checking saved layout source ${String(completed)} of ${String(total)}`,
+          );
+        });
+      }
+      if (game.trackScene instanceof NeonGridScene) {
+        options.onInitializationStage?.('Loading Neon Grid scenery and materials');
         await Promise.all([
           game.trackScene.billboard.load(),
           game.trackScene.skyline.load(),
@@ -426,19 +437,24 @@ export class KartTimeTrial {
             ? loadServiceTunnelConcreteWallMaterial(game.trackScene)
             : Promise.resolve(),
         ]);
+      }
+      options.onInitializationStage?.('Loading the selected kart');
       await game.createKartVisual();
+
+      options.onInitializationStage?.('Preparing the graphics renderer');
+      game.renderer.compile(game.playerSpeedVisual.group, game.camera, game.scene);
+      game.renderer.compile(game.driftVisual.group, game.camera, game.scene);
+      if (game.exhaustVisual !== undefined)
+        game.renderer.compile(game.exhaustVisual.group, game.camera, game.scene);
+      game.renderer.compile(game.wheelDust.group, game.camera, game.scene);
+      if (game.aiDrivingVisual !== undefined)
+        game.renderer.compile(game.aiDrivingVisual.group, game.camera, game.scene);
+      game.bloom.warmup(game.scene, game.camera);
     } catch (error) {
       game.dispose();
       throw error;
     }
-    game.renderer.compile(game.playerSpeedVisual.group, game.camera, game.scene);
-    game.renderer.compile(game.driftVisual.group, game.camera, game.scene);
-    if (game.exhaustVisual !== undefined)
-      game.renderer.compile(game.exhaustVisual.group, game.camera, game.scene);
-    game.renderer.compile(game.wheelDust.group, game.camera, game.scene);
-    if (game.aiDrivingVisual !== undefined)
-      game.renderer.compile(game.aiDrivingVisual.group, game.camera, game.scene);
-    game.bloom.warmup(game.scene, game.camera);
+    options.onInitializationStage?.('Starting the race');
     return game;
   }
 
@@ -577,9 +593,15 @@ export class KartTimeTrial {
     this.resize();
   }
 
-  private async projectOwnerLayoutIfSelected(): Promise<void> {
+  private async projectOwnerLayoutIfSelected(
+    onProgress?: (completed: number, total: number) => void,
+  ): Promise<void> {
     if (this.ownerLayoutScreen === null) return;
-    const projection = await applyNeonGridOwnerLayout(this.scene, this.ownerLayoutScreen);
+    const projection = await applyNeonGridOwnerLayout(
+      this.scene,
+      this.ownerLayoutScreen,
+      onProgress,
+    );
     this.trackScene.userData.neonGridOwnerLayout = {
       sourceSha256: '2f48eea9e634f1f371525c458d9509b8e3f0900a3cf7981b3f5e9f8e5aae1240',
       screen: projection.screen,

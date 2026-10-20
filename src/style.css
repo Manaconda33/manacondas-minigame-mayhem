@@ -704,6 +704,33 @@ h2 {
 .loading-card p {
   color: #cfc4d6;
 }
+.loading-card .loading-elapsed {
+  color: #94eaff;
+  font-size: 0.82rem;
+}
+.loading-card .loading-error {
+  max-height: 30vh;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  padding: 0.75rem;
+  border: 1px solid rgb(255 125 145 / 42%);
+  border-radius: 0.65rem;
+  color: #ffd5dc;
+  background: rgb(70 11 27 / 42%);
+  text-align: left;
+  font-size: 0.82rem;
+}
+.loading-retry {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid #83eaff;
+  border-radius: 999px;
+  color: #e8fbff;
+  background: rgb(22 71 94 / 78%);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
 .finish-card h2 {
   margin: 0 auto 0.5rem;
   font-size: 2.25rem;

@@ -782,7 +782,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           ref: a161aaf6cb1c91e7dea2a46708547568b714dcf4
-          fetch-depth: 10
+          fetch-depth: 20
           lfs: true
       - name: Verify exact source and Git LFS objects
         run: |

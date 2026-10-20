@@ -306,9 +306,11 @@ function resolveAuthoredInstanceCount(
 export async function resolveNeonGridOwnerLayoutSourceMap(
   scene: THREE.Object3D,
   components: readonly OwnerLayoutComponentRecord[],
+  onProgress?: (completed: number, total: number) => void,
 ): Promise<Map<string, ResolvedOwnerLayoutComponent>> {
   const ids = new Set<string>();
   const errors: string[] = [];
+  onProgress?.(0, components.length);
   for (const record of components) {
     if (ids.has(record.id)) fail(`Duplicate owner layout component ID: ${record.id}`);
     ids.add(record.id);
@@ -376,7 +378,7 @@ export async function resolveNeonGridOwnerLayoutSourceMap(
   const geometryHashes = new WeakMap<THREE.BufferGeometry, Promise<string>>();
   const rangeHashes = new WeakMap<THREE.BufferGeometry, Map<string, Promise<string>>>();
   const resolved = new Map<string, ResolvedOwnerLayoutComponent>();
-  for (const record of components) {
+  for (const [componentIndex, record] of components.entries()) {
     const object = objectById.get(record.id);
     if (!object) {
       errors.push(`${record.id}: resolved source is no longer a mesh`);
@@ -439,6 +441,8 @@ export async function resolveNeonGridOwnerLayoutSourceMap(
       rangeOrdinal: parsed?.ordinal ?? null,
       baselineWorld: world,
     });
+    if ((componentIndex + 1) % 10 === 0 || componentIndex + 1 === components.length)
+      onProgress?.(componentIndex + 1, components.length);
   }
   if (errors.length) fail(`Owner layout source resolution failed:\n${errors.map((e) => `- ${e}`).join('\n')}`);
   if (resolved.size !== components.length) fail('Owner layout source map did not resolve every component.');

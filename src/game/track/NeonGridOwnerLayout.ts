@@ -388,13 +388,14 @@ function reattachFallsRunExtensionWindows(
 export async function applyNeonGridOwnerLayout(
   scene: THREE.Object3D,
   screen: NeonGridOwnerLayoutScreen,
+  onProgress?: (completed: number, total: number) => void,
 ): Promise<NeonGridOwnerLayoutApplicationReport> {
   if (ownerLayout.sourceSha256 !== '2f48eea9e634f1f371525c458d9509b8e3f0900a3cf7981b3f5e9f8e5aae1240' ||
     !ownerLayout.integrity.verified)
     fail('The owner layout handoff has not passed its source integrity gate.');
   const records = ownerLayout.components as OwnerLayoutComponentRecord[];
   const runtimeRecords = runtimeOwnerLayoutRecords(scene, records);
-  const resolved = await resolveNeonGridOwnerLayoutSourceMap(scene, runtimeRecords);
+  const resolved = await resolveNeonGridOwnerLayoutSourceMap(scene, runtimeRecords, onProgress);
   const screenRecord = resolved.get(NEON_GRID_OWNER_LAYOUT_SCREEN_ID);
   if (screenRecord?.kind !== 'range' || !screenRecord.record.deleted)
     fail('The exported Billboard Gap screen does not resolve to its expected authored range.');

@@ -54,7 +54,14 @@ export function raceHudMarkup(touchControls: string, circuitLabel = 'Circuit Alp
       <div id="item-use-message" class="item-use-message" role="status" hidden></div>
       <div id="item-test-mode" class="item-test-mode" hidden></div>
     </div>
-    <div id="loading" class="loading-card"><span class="spinner"></span><h2>Initializing ${circuitLabel}</h2><p>Loading Rapier physics and the procedural track…</p></div>
+    <div id="loading" class="loading-card" role="status" aria-live="polite">
+      <span id="loading-spinner" class="spinner" aria-hidden="true"></span>
+      <h2 id="loading-title">Initializing ${circuitLabel}</h2>
+      <p id="loading-stage">Starting the physics engine</p>
+      <p id="loading-elapsed" class="loading-elapsed">0:00 elapsed</p>
+      <p id="loading-error" class="loading-error" hidden></p>
+      <button id="loading-retry" class="loading-retry" data-action="retry-game-start" hidden>Retry startup</button>
+    </div>
     <div id="finish" hidden></div>
     <div class="game-help">WASD / arrows drive · Space + steer drift · Shift/E item · C rear view · R recover · Esc pause</div>
     ${touchControls}

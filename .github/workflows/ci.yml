@@ -1286,6 +1286,12 @@ jobs:
                       error.close()
                       time.sleep(delay)
 
+          def is_rebuilt_application_entrypoint(relative):
+              path = Path(relative)
+              return relative == 'index.html' or (
+                  path.parent == Path('assets') and path.suffix in {'.js', '.css'}
+              )
+
           root = Path('site-root')
           paths = [*sorted(path for path in root.iterdir() if path.is_file() and not path.name.startswith('.'))]
           paths += [path for path in sorted((root/'assets').rglob('*')) if path.is_file()]
@@ -1365,8 +1371,15 @@ jobs:
               data = path.read_bytes()
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              if not relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/', 'previews/neon-grid-c2-concrete/', 'previews/neon-grid-layout-studio/', 'previews/neon-grid-owner-layout/')):
+              is_published_preview = relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/', 'previews/neon-grid-c2-concrete/', 'previews/neon-grid-layout-studio/', 'previews/neon-grid-owner-layout/'))
+              if not is_published_preview and not is_rebuilt_application_entrypoint(relative):
                   verify_published_file(url, relative, sha)
+              elif is_rebuilt_application_entrypoint(relative):
+                  print(
+                      f'Deferred pre-publication comparison for rebuilt application entrypoint: {relative}; '
+                      'its exact SHA-256 remains in delivery-expected.json for post-deployment verification.',
+                      flush=True,
+                  )
               report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))
           Path('delivery-expected.json').write_text(json.dumps(report, indent=2))
           print(json.dumps(report, indent=2))

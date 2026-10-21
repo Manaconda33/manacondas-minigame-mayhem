@@ -531,10 +531,11 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
     expect(task8Spy).toHaveBeenCalledTimes(1);
   });
 
-  it('does not accumulate scene children or invalid matrices across repeated create/dispose cycles', () => {
-    const track = new NeonGrid();
-    for (let cycle = 0; cycle < 3; cycle++) {
-      const scene = createNeonGridScene(track, 'medium');
+  const repeatedLifecycleTrack = new NeonGrid();
+  it.each([1, 2, 3])(
+    'does not accumulate scene children or invalid matrices across create/dispose cycle %i',
+    () => {
+      const scene = createNeonGridScene(repeatedLifecycleTrack, 'medium');
       try {
         expect(scene.children.length).toBeGreaterThan(8);
         for (const name of [
@@ -548,6 +549,6 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
         disposeTrackScene(scene);
       }
       expect(scene.children).toHaveLength(0);
-    }
-  }, 20000);
+    },
+  );
 });

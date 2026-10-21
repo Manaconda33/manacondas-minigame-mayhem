@@ -64,30 +64,23 @@ describe('Neon Grid Stage 4 Task 9 T9.0 frozen baseline', () => {
     }
   });
 
-  it('freezes the accepted Task 8 quality-scaled counts before course-wide dressing', () => {
-    const expectations: Record<GraphicsQuality, { windows: number; mist: number; wet: boolean }> = {
-      low: { windows: 160, mist: 16, wet: false },
-      medium: { windows: 320, mist: 32, wet: true },
-      high: { windows: 480, mist: 48, wet: true },
-    };
-
-    for (const quality of ['low', 'medium', 'high'] as const) {
+  it.each([
+    { quality: 'low', windows: 160, mist: 16, wet: false },
+    { quality: 'medium', windows: 320, mist: 32, wet: true },
+    { quality: 'high', windows: 480, mist: 48, wet: true },
+  ] as const)(
+    'freezes the accepted Task 8 quality-scaled counts before course-wide dressing on $quality',
+    ({ quality, windows, mist, wet }) => {
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
-        expect(requireInstanced(scene, 'falls-run-city-windows').count).toBe(
-          expectations[quality].windows,
-        );
-        expect(requireInstanced(scene, 'falls-run-ambient-mist').count).toBe(
-          expectations[quality].mist,
-        );
-        expect(Boolean(scene.getObjectByName('falls-run-wet-asphalt'))).toBe(
-          expectations[quality].wet,
-        );
+        expect(requireInstanced(scene, 'falls-run-city-windows').count).toBe(windows);
+        expect(requireInstanced(scene, 'falls-run-ambient-mist').count).toBe(mist);
+        expect(Boolean(scene.getObjectByName('falls-run-wet-asphalt'))).toBe(wet);
       } finally {
         disposeTrackScene(scene);
       }
-    }
-  }, 20000);
+    },
+  );
 });
 
 describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
@@ -281,8 +274,9 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
     }
   });
 
-  it('requires bounded finite Task 9 sector owners on every quality tier', () => {
-    for (const quality of ['low', 'medium', 'high'] as const) {
+  it.each(['low', 'medium', 'high'] as const)(
+    'requires bounded finite Task 9 sector owners on %s quality',
+    (quality) => {
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
         for (const name of FUTURE_OWNER_NAMES) {
@@ -302,18 +296,25 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
       } finally {
         disposeTrackScene(scene);
       }
-    }
-  }, 20000);
+    },
+  );
 
-  it('requires Low wet-road bypass and safe avatar compositing for every new sector pass', () => {
-    const low = createNeonGridScene(new NeonGrid(), 'low');
-    const medium = createNeonGridScene(new NeonGrid(), 'medium');
-    const high = createNeonGridScene(new NeonGrid(), 'high');
-    try {
-      for (const name of FUTURE_WET_ROAD_NAMES) {
-        expect(low.getObjectByName(name), `${name} must be omitted on Low`).toBeUndefined();
-        for (const scene of [medium, high]) {
+  it.each([
+    { quality: 'low', hasWetRoad: false },
+    { quality: 'medium', hasWetRoad: true },
+    { quality: 'high', hasWetRoad: true },
+  ] as const)(
+    'requires the correct wet-road and avatar-compositing behavior on $quality quality',
+    ({ quality, hasWetRoad }) => {
+      const scene = createNeonGridScene(new NeonGrid(), quality);
+      try {
+        for (const name of FUTURE_WET_ROAD_NAMES) {
           const wet = scene.getObjectByName(name);
+          if (!hasWetRoad) {
+            expect(wet, `${name} must be omitted on Low`).toBeUndefined();
+            continue;
+          }
+
           expect(wet, `${name} must exist on Medium/High`).toBeInstanceOf(THREE.Mesh);
           const mesh = wet as THREE.Mesh;
           const material = mesh.material as THREE.Material;
@@ -322,13 +323,11 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
           expect(material.depthWrite, name).toBe(false);
           expect(material.depthTest, name).toBe(true);
         }
+      } finally {
+        disposeTrackScene(scene);
       }
-    } finally {
-      disposeTrackScene(low);
-      disposeTrackScene(medium);
-      disposeTrackScene(high);
-    }
-  }, 20000);
+    },
+  );
 });
 
 
@@ -360,20 +359,23 @@ describe('Neon Grid Stage 4 Task 9 T9.4 Falls Run extension', () => {
     }
   });
 
-  it('bounds new windows/mist and omits wet road and mist on Low', () => {
-    for (const quality of ['low', 'medium', 'high'] as const) {
+  it.each([
+    { quality: 'low', windows: 80, mist: 0, wet: false },
+    { quality: 'medium', windows: 160, mist: 14, wet: true },
+    { quality: 'high', windows: 240, mist: 28, wet: true },
+  ] as const)(
+    'bounds new windows/mist and wet road on $quality quality',
+    ({ quality, windows, mist, wet }) => {
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
-        const counts = { low: [80, 0], medium: [160, 14], high: [240, 28] } as const;
-        const [windows, mist] = counts[quality];
         expect(requireInstanced(scene, 'falls-run-extension-city-windows').count).toBe(windows);
         expect((scene.getObjectByName('falls-run-extension-ambient-mist') as THREE.InstancedMesh | undefined)?.count ?? 0).toBe(mist);
-        expect(Boolean(scene.getObjectByName('falls-run-extension-wet-asphalt'))).toBe(quality !== 'low');
+        expect(Boolean(scene.getObjectByName('falls-run-extension-wet-asphalt'))).toBe(wet);
       } finally {
         disposeTrackScene(scene);
       }
-    }
-  }, 20000);
+    },
+  );
 
   it('freezes hidden extension animation and disposes its owned presentation idempotently', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');

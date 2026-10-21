@@ -1296,6 +1296,16 @@ jobs:
               'assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png': 'e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a',
               'assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png': '3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e',
               'assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png': 'ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac',
+              # Existing approved Neon Grid runtime art is new at production-root paths.
+              # The already-published preview copies remain verified separately below.
+              'assets/track/neon-grid/billboard/arin-v1.webp': '7a357de283bb0baca071b2a6eb7fd2e4f2bf213bf57e470253fdd694ee2085cf',
+              'assets/track/neon-grid/billboard/paprika-v1.webp': '0e90ae576d25a5bcdd3049ba61f5e02357a31eba3fda5d2ccfb2e444c7f47b20',
+              'assets/track/neon-grid/billboard/raven-v1.webp': '4f414a9c5bfb02a805a34a80b3d19a0134fd56fe2bad7ad52a8d23cd1483eb9e',
+              'assets/track/neon-grid/signage/manaconda-racing-v1.webp': '481feb4ff34635abad29dd4f65b39975e73c227eb0a53901a51028c5e9fe7d22',
+              'assets/track/neon-grid/signage/nightshift-noodles-v1.webp': '76fc1f75778c757cd979ff78641844cbf1d3955ec6dff7cc8145289dda45373a',
+              'assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png': '11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4',
+              'assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp': 'd289bc4dbc10872d6c75aa4ae650aaf716bf83a9ea36da12ce0cdc021e7bea7e',
+              'assets/track/neon-grid/signage/voltline-industrial-v1.webp': '19b32b71ee59a0f52860c4a6003057b46e4fde890c4e2d4d390b78ed2ea67863',
           }
 
           def is_approved_new_production_asset(relative, sha):

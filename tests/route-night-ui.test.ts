@@ -16,6 +16,34 @@ function clickAction(root: HTMLElement, action: string): void {
 }
 
 describe('Route Night UI system', () => {
+  it('shows Circuit Alpha and Neon Grid as two explicit playable track choices', () => {
+    const root = mountRoot();
+    clickAction(root, 'enter');
+
+    const choices = root.querySelectorAll('[data-track-choice]');
+    expect(choices).toHaveLength(2);
+    expect(root.querySelector('[data-track-choice="circuit-alpha"]')?.textContent).toContain(
+      'Circuit Alpha',
+    );
+    expect(root.querySelector('[data-track-choice="circuit-alpha"]')?.textContent).toContain(
+      'DEFAULT TRACK',
+    );
+    expect(root.querySelector('[data-track-choice="neon-grid"]')?.textContent).toContain(
+      'Neon Grid',
+    );
+    expect(root.querySelector('[data-track-choice="neon-grid"]')?.textContent).toContain(
+      'Concrete Wall 007',
+    );
+    expect(root.querySelector('[data-track-choice="neon-grid"]')?.textContent).toContain(
+      'Fog V3.2',
+    );
+
+    clickAction(root, 'play-neon-grid');
+    expect(root.querySelector('main[data-screen="character-select"]')?.getAttribute('data-track-id'))
+      .toBe('neon-grid');
+    expect(root.querySelector('.character-select-header')?.textContent).toContain('NEON GRID');
+  });
+
   it('resolves authored Route Night assets through the deployed base path', () => {
     expect(routeNightAssetUrl('title-hero')).toContain(
       'assets/ui/route-night/route-night-title-hero.webp',
@@ -105,8 +133,9 @@ describe('Route Night UI system', () => {
     expect(root.querySelector('[data-route-asset="panel-texture"]')).not.toBeNull();
     expect(root.querySelector('[data-route-asset="editorial-strip"]')).not.toBeNull();
     expect(root.querySelector('[data-route-board="hub"]')).not.toBeNull();
-    expect(root.querySelectorAll('[data-route-board="hub"] [data-route-node]')).toHaveLength(3);
+    expect(root.querySelectorAll('[data-route-board="hub"] [data-route-node]')).toHaveLength(2);
     expect(root.querySelector('[data-route-card="circuit-alpha"]')).not.toBeNull();
+    expect(root.querySelector('[data-route-card="neon-grid"]')).not.toBeNull();
     expect(
       root.querySelector('img[data-route-asset="circuit-alpha-card"]')?.getAttribute('src'),
     ).toContain('assets/ui/route-night/circuit-alpha-route-card.webp');

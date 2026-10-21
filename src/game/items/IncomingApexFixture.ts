@@ -1,4 +1,4 @@
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { RacerProgress } from '../race/RaceDirector';
 import type { ApexMissileSystem, ApexTarget } from './ApexMissileSystem';
 import { currentRaceLeader } from './ItemTargeting';
@@ -10,7 +10,7 @@ export class IncomingApexFixture {
 
   public update(
     elapsed: number,
-    track: CircuitAlpha,
+    track: TrackDefinition,
     system: ApexMissileSystem,
     racers: readonly RacerProgress[],
     targets: readonly ApexTarget[],

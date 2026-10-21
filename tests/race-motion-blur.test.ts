@@ -1,13 +1,15 @@
 import { expect, it } from 'vitest';
 import * as THREE from 'three';
 import { RaceMotionBlur } from '../src/game/rendering/RaceMotionBlur';
+import { RenderPassInstrumentation } from '../src/game/diagnostics/RenderPassInstrumentation';
 
 function fixture() {
   const copies: { width: number; height: number; x: number; y: number }[] = [];
   const draws: THREE.Scene[] = [];
+  const bufferSize = new THREE.Vector2(1920, 1080);
   let fail = false;
   const renderer = {
-    info: { autoReset: true },
+    info: { autoReset: true, render: { calls: 0, triangles: 0 } },
     autoClear: true,
     debug: { checkShaderErrors: false, onShaderError: null as (() => void) | null },
     copyFramebufferToTexture(texture: THREE.FramebufferTexture, position: THREE.Vector2) {
@@ -21,7 +23,11 @@ function fixture() {
     },
     render(scene: THREE.Scene) {
       draws.push(scene);
+      renderer.info.render.calls++;
+      renderer.info.render.triangles += 2;
     },
+    getRenderTarget: () => null,
+    getDrawingBufferSize: (size: THREE.Vector2) => size.copy(bufferSize),
     compile() {
       /* External GPU compilation boundary. */
     },
@@ -31,6 +37,7 @@ function fixture() {
     state: renderer,
     copies,
     draws,
+    setBufferSize: (width: number, height: number) => bufferSize.set(width, height),
     fail: () => {
       fail = true;
     },
@@ -67,6 +74,33 @@ it('copies only two peripheral bands and preserves renderer state and frame coun
   expect(blur.snapshot().textureBytes).toBe(1990656);
   expect(blur.snapshot().strength).toBeGreaterThan(0);
   expect(blur.snapshot().strength).toBeLessThanOrEqual(0.22);
+  blur.dispose();
+});
+it('attributes the motion-blur shader draw and reports framebuffer copies separately', () => {
+  const f = fixture();
+  f.setBufferSize(320, 200);
+  const instrumentation = new RenderPassInstrumentation(true);
+  instrumentation.beginFrame();
+  const blur = new RaceMotionBlur(f.renderer, 'medium', true, instrumentation);
+  blur.resize(320, 200);
+  accelerate(blur);
+  blur.render();
+  const frame = instrumentation.finishFrame({ drawCalls: 1, triangles: 2 });
+  expect(frame.stages.motionBlurComposite).toMatchObject({
+    status: 'measured',
+    drawCalls: 1,
+    triangles: 2,
+    target: { width: 320, height: 200, pixels: 64000 },
+    framebufferCopies: 2,
+    copiedPixels: 2 * 64 * 120,
+  });
+  expect(frame.reconciliation).toMatchObject({
+    status: 'complete',
+    unattributedDrawCalls: 0,
+    unattributedTriangles: 0,
+  });
+  expect(f.state.info.autoReset).toBe(true);
+  expect(f.state.autoClear).toBe(true);
   blur.dispose();
 });
 it('bypasses slow reverse invalid speed and freezes on pause without retaining a captured frame', () => {
@@ -140,6 +174,31 @@ it('bounds resize memory and restores state after a copy failure', () => {
   expect(oversize.snapshot().textureBytes).toBe(0);
   expect(oversize.snapshot().fallbackReason).toBe('Buffer budget');
   oversize.dispose();
+});
+it('marks a failed framebuffer-copy pass unavailable without inventing draw work', () => {
+  const f = fixture();
+  f.setBufferSize(320, 200);
+  const instrumentation = new RenderPassInstrumentation(true);
+  instrumentation.beginFrame();
+  const blur = new RaceMotionBlur(f.renderer, 'medium', true, instrumentation);
+  blur.resize(320, 200);
+  accelerate(blur);
+  f.fail();
+  blur.render();
+  const frame = instrumentation.finishFrame({ drawCalls: 0, triangles: 0 });
+  expect(frame.stages.motionBlurComposite).toMatchObject({
+    status: 'unavailable',
+    drawCalls: null,
+    triangles: null,
+    framebufferCopies: 0,
+    reason: 'copy unavailable',
+  });
+  expect(frame.reconciliation).toMatchObject({
+    status: 'partial',
+    unattributedDrawCalls: null,
+    unattributedTriangles: null,
+  });
+  blur.dispose();
 });
 it('releases replaced textures and all owned resources once and cannot revive', () => {
   const f = fixture(),

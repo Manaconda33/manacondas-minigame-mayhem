@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { guardrailContact } from '../track/GuardrailSystem';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import { ARC_HAMMER_CONFIG, ARC_HAMMER_PROJECTILE_CONFIG } from './ArcHammers';
 import type { ProjectileSystem, ProjectileTarget } from './ProjectileSystem';
 
@@ -50,7 +50,7 @@ export class ArcHammerCounterFixture {
   public update(
     dt: number,
     c: {
-      track: CircuitAlpha;
+      track: TrackDefinition;
       projectiles: ProjectileSystem;
       targets: readonly ProjectileTarget[];
       held: string | null;

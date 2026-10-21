@@ -1,0 +1,332 @@
+import type { GraphicsQuality } from '../../config/graphicsQuality';
+import { FallsRunVisual } from './FallsRunVisual';
+import { FallsRunExtensionVisual } from './FallsRunExtensionVisual';
+import { SkylineVisual } from './SkylineVisual';
+import { UndercityVisual } from './UndercityVisual';
+import { ServiceTunnelWarningVisual } from './ServiceTunnelWarningVisual';
+import { NeonGridDiveVisual } from './NeonGridDiveVisual';
+import * as THREE from 'three';
+import type { NeonGrid } from './NeonGrid';
+import layout from './neonGridLayout.json';
+import { serviceTunnelGeometry } from './ServiceTunnelGeometry';
+import { billboardFloorGeometry } from './NeonGridBillboard';
+import { NeonGridBillboardVisual } from './NeonGridBillboardVisual';
+import { neonGridRibbon } from './NeonGridGeometry';
+import { NeonGridFogCityVisual } from './NeonGridFogCity';
+import { addNeonGridAbyssFogV2 } from './NeonGridAbyssFogV2';
+import { addNeonGridAbyssFogV3 } from './NeonGridAbyssFogV3';
+import type { NeonGridVisualVariant } from './NeonGridVisualVariant';
+import {
+  SERVICE_TUNNEL_CONCRETE_TILE_METERS,
+  addServiceTunnelRoofUvs,
+  addServiceTunnelWallUvs,
+  createPendingServiceTunnelC2RoofMaterial,
+  createPendingServiceTunnelC2WallMaterial,
+  createPendingServiceTunnelConcreteMaterial,
+  type ServiceTunnelMaterialVariant,
+} from './ServiceTunnelConcreteMaterial';
+
+function coalesceTaskC1SidewallFogMaterials(
+  scene: THREE.Group,
+  materialVariant: ServiceTunnelMaterialVariant,
+): void {
+  if (materialVariant === 'blockout') return;
+
+  const left = scene.getObjectByName('service-tunnel-left-wall');
+  const right = scene.getObjectByName('service-tunnel-right-wall');
+  if (!(left instanceof THREE.Mesh) || !(right instanceof THREE.Mesh)) return;
+  if (left.material === right.material) return;
+  if (
+    !(left.material instanceof THREE.MeshStandardMaterial) ||
+    !(right.material instanceof THREE.MeshStandardMaterial)
+  ) {
+    throw new Error('Task C1 requires standard materials for both Service Tunnel sidewalls.');
+  }
+
+  const leftMaterial = left.material;
+  const rightMaterial = right.material;
+  const sameFogProfile =
+    left.userData.abyssVerticalFog === true &&
+    right.userData.abyssVerticalFog === true &&
+    JSON.stringify(left.userData.abyssFogProfile) ===
+      JSON.stringify(right.userData.abyssFogProfile);
+  const sameMaterialInputs =
+    leftMaterial.color.equals(rightMaterial.color) &&
+    leftMaterial.roughness === rightMaterial.roughness &&
+    leftMaterial.metalness === rightMaterial.metalness &&
+    leftMaterial.side === rightMaterial.side &&
+    leftMaterial.map === rightMaterial.map &&
+    leftMaterial.normalMap === rightMaterial.normalMap &&
+    leftMaterial.roughnessMap === rightMaterial.roughnessMap;
+  if (!sameFogProfile || !sameMaterialInputs) {
+    throw new Error(
+      'Task C1 cannot share Service Tunnel walls with different fog or material settings.',
+    );
+  }
+
+  right.material = leftMaterial;
+  leftMaterial.userData.abyssFogTarget = 'service-tunnel-sidewalls';
+  rightMaterial.dispose();
+}
+
+export class NeonGridScene extends THREE.Group {
+  public readonly billboard: NeonGridBillboardVisual;
+  public readonly dive: NeonGridDiveVisual;
+  public readonly fallsRun: FallsRunVisual;
+  public readonly fallsRunExtension: FallsRunExtensionVisual;
+  public readonly skyline: SkylineVisual;
+  public readonly undercity: UndercityVisual;
+  public readonly tunnelWarnings: ServiceTunnelWarningVisual;
+  public constructor(
+    track: NeonGrid,
+    quality: GraphicsQuality = 'medium',
+    variant: NeonGridVisualVariant = 'approved',
+  ) {
+    super();
+    this.userData.visualVariant = variant;
+    const recoverSponsors = variant === 'fog-experiment-task-a';
+    const compositionVariant =
+      variant === 'fog-experiment-c2-background'
+        ? 'approved'
+        : variant === 'fog-experiment-v3-2' || recoverSponsors
+          ? 'fog-experiment-v3'
+          : variant;
+    if (variant === 'fog-experiment') {
+      const fogCity = new NeonGridFogCityVisual(track, quality);
+      this.add(fogCity.group);
+    }
+    this.billboard = new NeonGridBillboardVisual(track.billboardGap);
+    this.add(this.billboard.group);
+    this.dive = new NeonGridDiveVisual(track.waterfallDive);
+    this.add(this.dive.group);
+    this.fallsRun = new FallsRunVisual(track, quality, compositionVariant);
+    this.add(this.fallsRun.group);
+    this.fallsRunExtension = new FallsRunExtensionVisual(track, quality, compositionVariant);
+    this.add(this.fallsRunExtension.group);
+    this.skyline = new SkylineVisual(track, quality, compositionVariant, recoverSponsors);
+    this.add(this.skyline.group);
+    this.undercity = new UndercityVisual(track, quality, compositionVariant, recoverSponsors);
+    this.add(this.undercity.group);
+    this.tunnelWarnings = new ServiceTunnelWarningVisual(track.serviceTunnel);
+    this.add(this.tunnelWarnings.group);
+  }
+}
+
+/** Build the existing Service Tunnel meshes with an opt-in material variant. */
+export function createServiceTunnelMeshGroup(
+  track: NeonGrid,
+  materialVariant: ServiceTunnelMaterialVariant = 'blockout',
+): THREE.Group {
+  const tunnelGroup = new THREE.Group();
+  tunnelGroup.name = 'service-tunnel';
+  tunnelGroup.userData.serviceTunnelMaterialVariant = materialVariant;
+  const tunnelMaterial = new THREE.MeshStandardMaterial({
+    color: 0x733059,
+    roughness: 0.8,
+    side: THREE.DoubleSide,
+  });
+  const concreteMaterial =
+    materialVariant === 'concrete-wall-007-c1'
+      ? createPendingServiceTunnelConcreteMaterial()
+      : materialVariant === 'concrete-coverage-c2-001'
+        ? createPendingServiceTunnelC2WallMaterial()
+        : null;
+  const c2RoofMaterial =
+    materialVariant === 'concrete-coverage-c2-001'
+      ? createPendingServiceTunnelC2RoofMaterial()
+      : null;
+  for (const kind of ['floor', 'left-wall', 'right-wall', 'roof'] as const) {
+    const geometry = serviceTunnelGeometry(track.serviceTunnel, kind);
+    if (concreteMaterial !== null && kind.endsWith('wall'))
+      addServiceTunnelWallUvs(geometry, track.serviceTunnel, kind === 'left-wall' ? -1 : 1);
+    if (c2RoofMaterial !== null && kind === 'roof')
+      addServiceTunnelRoofUvs(geometry, track.serviceTunnel);
+    const material =
+      concreteMaterial !== null && kind.endsWith('wall')
+        ? concreteMaterial
+        : c2RoofMaterial !== null && kind === 'roof'
+          ? c2RoofMaterial
+          : tunnelMaterial;
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = `service-tunnel-${kind}`;
+    mesh.receiveShadow = true;
+    tunnelGroup.add(mesh);
+  }
+  return tunnelGroup;
+}
+
+/** Main blockout with the approved Task 6 local visual pass. */
+export function createNeonGridScene(
+  track: NeonGrid,
+  quality: GraphicsQuality = 'medium',
+  variant: NeonGridVisualVariant = 'approved',
+  materialVariant: ServiceTunnelMaterialVariant = 'blockout',
+): NeonGridScene {
+  const group = new NeonGridScene(track, quality, variant);
+  group.name = 'neon-grid-blockout';
+  group.userData.serviceTunnelMaterialVariant = materialVariant;
+  const materials = [0x236b7c, 0x733059, 0x78602d].map(
+    (color) => new THREE.MeshStandardMaterial({ color, roughness: 0.8, side: THREE.DoubleSide }),
+  );
+  const road = new THREE.Mesh(neonGridRibbon(track), materials);
+  road.name = 'track-road';
+  road.receiveShadow = true;
+  group.add(road);
+  const wallMaterial =
+    materialVariant === 'concrete-coverage-c2-001'
+      ? createPendingServiceTunnelC2WallMaterial()
+      : new THREE.MeshStandardMaterial({
+          color: 0x93b4c9,
+          roughness: 0.55,
+          side: THREE.DoubleSide,
+        });
+  const walls = new THREE.Group();
+  walls.name = 'neon-grid-walls';
+  for (const side of [-1, 1] as const) {
+    const wall = new THREE.Mesh(
+      neonGridRibbon(
+        track,
+        side,
+        true,
+        materialVariant === 'concrete-coverage-c2-001'
+          ? SERVICE_TUNNEL_CONCRETE_TILE_METERS
+          : undefined,
+      ),
+      wallMaterial,
+    );
+    wall.name = `neon-grid-wall-${String(side)}`;
+    walls.add(wall);
+  }
+  group.add(walls);
+  const tunnelGroup = createServiceTunnelMeshGroup(track, materialVariant);
+  group.add(tunnelGroup);
+  const plaza = new THREE.Mesh(
+    billboardFloorGeometry(track.billboardGap),
+    new THREE.MeshStandardMaterial({
+      color: 0x34485e,
+      roughness: 0.75,
+      side: THREE.DoubleSide,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -1,
+    }),
+  );
+  plaza.name = 'billboard-plaza';
+  plaza.receiveShadow = true;
+  group.add(plaza);
+  // Subtle inset grid, without moving or changing the shared support surface.
+  const gap = track.billboardGap,
+    length = gap.curve.getLength();
+  const lines: number[] = [];
+  const floorRay = new THREE.Raycaster();
+  const floorPoint = (point: THREE.Vector3) => {
+    if (gap.fraction(gap.project(point)) > 400 / 512) {
+      floorRay.set(new THREE.Vector3(point.x, point.y + 5, point.z), new THREE.Vector3(0, -1, 0));
+      const support = floorRay.intersectObjects([road, plaza], false)[0];
+      if (support) point.y = support.point.y;
+    }
+    point.y += 0.012;
+    return point;
+  };
+  for (let d = 0; d <= length; d += 3) {
+    const fraction = d / length,
+      p = gap.curve.getPointAt(fraction),
+      t = gap.curve.getTangentAt(fraction);
+    const right = new THREE.Vector3(t.z, 0, -t.x).normalize();
+    // Subdivide only the repaired join crossbars so the subtle inlay follows
+    // both floor meshes across their exact common boundary.
+    const steps = fraction > 400 / 512 ? 8 : 1;
+    for (let step = 0; step < steps; step++)
+      for (const edge of [step, step + 1])
+        lines.push(
+          ...floorPoint(
+            p
+              .clone()
+              .addScaledVector(
+                right,
+                THREE.MathUtils.lerp(-gap.roadHalfWidth, gap.roadHalfWidth, edge / steps),
+              ),
+          ).toArray(),
+        );
+  }
+  for (const lane of [-2, 0, 2]) {
+    for (let i = 0; i < 128; i++) {
+      for (const fraction of [i / 128, (i + 1) / 128]) {
+        const p = gap.curve.getPointAt(fraction),
+          t = gap.curve.getTangentAt(fraction);
+        p.addScaledVector(new THREE.Vector3(t.z, 0, -t.x).normalize(), lane);
+        lines.push(...floorPoint(p).toArray());
+      }
+    }
+  }
+  const inlay = new THREE.LineSegments(
+    new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(lines, 3)),
+    new THREE.LineBasicMaterial({ color: 0x7893a8, transparent: true, opacity: 0.35 }),
+  );
+  inlay.name = 'billboard-plaza-inlay';
+  group.add(inlay);
+  const padMaterial = new THREE.MeshStandardMaterial({
+    color: 0x37e6ff,
+    emissive: 0x37e6ff,
+    emissiveIntensity: 0.7,
+  });
+  for (const progress of layout.boostPadCenters) {
+    const pad = new THREE.Group();
+    pad.name = `boost-pad-${String(progress)}`;
+    const deck = new THREE.Mesh(
+      new THREE.BoxGeometry(9, 0.025, track.curve.getLength() * 0.015),
+      padMaterial,
+    );
+    pad.position.copy(track.curve.getPointAt(progress));
+    pad.position.y += 0.025;
+    const tangent = track.curve.getTangentAt(progress);
+    pad.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), tangent);
+    pad.add(deck);
+    group.add(pad);
+  }
+  const billboardBoost = new THREE.Group();
+  billboardBoost.name = 'billboard-boost-pad';
+  const billboardBoostDeck = new THREE.Mesh(
+    new THREE.BoxGeometry(
+      track.billboardGap.boostPad.halfWidth * 2,
+      0.025,
+      track.billboardGap.boostPad.halfLength * 2,
+    ),
+    padMaterial,
+  );
+  billboardBoost.position.copy(
+    track.billboardGap.curve.getPointAt(track.billboardGap.boostPad.centerFraction),
+  );
+  billboardBoost.position.y += 0.025;
+  billboardBoost.quaternion.setFromUnitVectors(
+    new THREE.Vector3(0, 0, 1),
+    track.billboardGap.curve.getTangentAt(track.billboardGap.boostPad.centerFraction),
+  );
+  billboardBoost.add(billboardBoostDeck);
+  group.add(billboardBoost);
+  const gateMaterial = new THREE.MeshStandardMaterial({ color: 0xffe4a0, emissive: 0x705a12 });
+  const postGeometry = new THREE.BoxGeometry(0.3, 2.8, 0.3);
+  for (let i = 0; i < 12; i++) {
+    const gate = new THREE.Group();
+    gate.name = `checkpoint-${String(i)}`;
+    const p = track.lapCheckpointPosition(i);
+    const t = track.lapCheckpointTangent(i);
+    const right = new THREE.Vector3(t.z, 0, -t.x).normalize();
+    for (const side of [-1, 1]) {
+      const post = new THREE.Mesh(postGeometry, gateMaterial);
+      post.position
+        .copy(p)
+        .addScaledVector(right, side * (track.halfWidthAt(track.lapCheckpointProgress(i)) + 0.35));
+      post.position.y += 1.4;
+      gate.add(post);
+    }
+    group.add(gate);
+  }
+  if (variant === 'fog-experiment-v2') addNeonGridAbyssFogV2(group, track);
+  if (variant === 'fog-experiment-v3') addNeonGridAbyssFogV3(group, track);
+  if (variant === 'fog-experiment-v3-2' || variant === 'fog-experiment-task-a')
+    addNeonGridAbyssFogV3(group, track, '3.2');
+  if (variant === 'fog-experiment-c2-background') addNeonGridAbyssFogV3(group, track, '3.2');
+  coalesceTaskC1SidewallFogMaterials(group, materialVariant);
+  return group;
+}

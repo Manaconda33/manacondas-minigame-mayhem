@@ -1,3 +1,12 @@
+## 2026-10-21: Add Neon Grid as a selectable production track
+
+- **Owner direction:** Manny authorized bringing the approved Neon Grid work into production and selected the hub behavior: Circuit Alpha remains the default; Neon Grid is an additional selectable track. The menu must make both choices obvious.
+- **Approved Neon Grid composition:** When selected, Neon Grid uses C2 Concrete Wall 007 coverage, Task A Fog V3.2 at its approved full runtime setting, and the owner-edited city layout. The editor's fog-off view setting is not a game setting. The accepted source-pinned layout, including preserved building transforms and attached facade accents, is `c4db8630cf29ae0434b888ab9da536acbb3dcd16`; the public review was pinned by PR #328.
+- **Implementation boundary:** Keep the existing Circuit Alpha route and initial selection. Put the two tracks in separate, labeled menu cards. Neon Grid is the default visual composition only after the player selects Neon Grid. Keep the Layout Studio as a separate tool and retain explicit query overrides for comparison.
+- **Specification:** PRD amendment 2.29 supersedes only the v1 non-goal of multiple tracks, for this one Neon Grid addition. It does not authorize a third track, a default-track switch, or changes to gameplay, physics, track geometry, existing graphics limits, or branch-protection/Pages configuration.
+- **Evidence and remaining performance work:** Owner playable review of the exact published owner-layout preview was positive. Main CI run `39534895667` and trusted runtime run `39534895587` passed for the source-pinned preview publication. They do not establish the representative-hardware G-05 performance target; that evidence remains open and no G-05 waiver or certification is recorded.
+- **Separate development state:** PR #242 remains open/draft/unmerged and was not modified as part of this production integration. The active Task A/B/C1 branch remains available for continued development. Stage C remains `PREPARED_DISABLED`.
+
 ## 2026-10-15: Adopt an explicit 15-second Vitest test timeout baseline
 
 - **Context:** `vite.config.ts` did not set `test.testTimeout`, so Vitest 4.1.10 supplied its inherited 5,000 ms default. That per-test execution limit is test-runner policy, not a PRD gameplay or graphics-performance requirement. Hosted C1 validation recorded repeated five-second scene-test timeouts; serial execution reduced but did not eliminate them, so runner contention was plausible but not proven.

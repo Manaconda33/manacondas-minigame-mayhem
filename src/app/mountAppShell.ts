@@ -38,6 +38,8 @@ import {
   type RouteNightIcon,
 } from '../ui/routeNight';
 
+import type { TrackId } from '../game/track/TrackDefinition';
+
 export const APP_TITLE = "Manaconda's Minigame Mayhem";
 
 export function markGameFinished(shell: HTMLElement): void {
@@ -94,6 +96,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
   let raceGeneration = 0;
   let disposed = false;
   let musicTimer: ReturnType<typeof setInterval> | undefined;
+  let loadingTimer: ReturnType<typeof setInterval> | undefined;
   const onVisibility = (): void => {
     music.visibility(document.hidden);
   };
@@ -111,6 +114,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
   let diagnosticsPanel: ReturnType<typeof mountRaceDiagnosticsPanel> | null = null;
   let characterPreview: CharacterKartPreview | null = null;
   let touchWheelDispose: (() => void) | null = null;
+  let selectedTrackId: TrackId = 'circuit-alpha';
   let selectedCharacter = characterById('aa-02');
   let characterPage = 0;
   preloadUiSfx();
@@ -119,6 +123,10 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
 
   const disposeGame = (): void => {
     raceGeneration++;
+    if (loadingTimer !== undefined) {
+      clearInterval(loadingTimer);
+      loadingTimer = undefined;
+    }
     diagnosticsPanel?.dispose();
     diagnosticsPanel = null;
     touchWheelDispose?.();
@@ -205,22 +213,22 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
         <header class="hub-header">
           <div>
             <p class="route-label">ROUTE NIGHT / HUB</p>
-            <h1>Choose your route</h1>
-            <p class="hub-intro">A compact map of the Mayhem collection. One checkpoint is live; the next routes are being charted.</p>
+            <h1>Choose your track</h1>
+            <p class="hub-intro">Two tracks are ready to race. Circuit Alpha remains the default; Neon Grid brings the approved concrete, Fog V3.2, and edited city layout.</p>
           </div>
           ${routeNightOrnamentMarkup('branch', 'hub-route-branch')}
-          <div class="hub-route-status" aria-label="Route progress">
+          <div class="hub-route-status" aria-label="Available tracks">
             ${routeNightStatusMarkup('live', 'status-marker-icon')}
-            <span><small>LIVE ROUTE</small><strong>01 / 03</strong></span>
+            <span><small>TRACKS READY</small><strong>02 / 02</strong></span>
           </div>
         </header>
-        <div class="hub-route-board" data-route-board="hub" aria-label="Hub route progress">
-          <div class="hub-route-board-label"><span>ROUTE BOARD</span><strong>DETOUR INDEX / 03</strong></div>
-          <div class="hub-route-track">${routeNightNodeMarkup('01', 'live')}<span class="hub-route-segment is-live"></span>${routeNightNodeMarkup('02', 'locked')}<span class="hub-route-segment"></span>${routeNightNodeMarkup('03', 'locked')}</div>
-          <div class="hub-route-caption"><span>${routeNightIconMarkup('minigames', 'hub-route-icon')} MINIGAME ROUTES</span><span>ONE CHECKPOINT LIVE · TWO ROUTES CHARTING</span></div>
+        <div class="hub-route-board" data-route-board="hub" aria-label="Two selectable race tracks">
+          <div class="hub-route-board-label"><span>PLAYABLE TRACKS</span><strong>02 / AVAILABLE</strong></div>
+          <div class="hub-route-track">${routeNightNodeMarkup('01', 'live')}<span class="hub-route-segment is-live"></span>${routeNightNodeMarkup('02', 'live')}</div>
+          <div class="hub-route-caption"><span>${routeNightIconMarkup('minigames', 'hub-route-icon')} TRACK SELECT</span><span>CHOOSE CIRCUIT ALPHA OR NEON GRID BELOW</span></div>
         </div>
-        <section class="game-grid route-grid" aria-label="Available and upcoming minigames">
-          <article class="game-card route-card playable" data-route-card="circuit-alpha">
+        <section class="track-choice-grid route-grid" aria-label="Select one of two playable tracks">
+          <article class="game-card route-card playable track-choice-card" data-route-card="circuit-alpha" data-track-choice="circuit-alpha" data-default-track="true">
             <div class="route-card-art">
               <img data-route-asset="circuit-alpha-card" src="${routeNightAssetUrl('circuit-alpha-card')}" alt="" loading="lazy" decoding="async" />
               <span class="route-card-art-wash" aria-hidden="true"></span>
@@ -228,16 +236,32 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
               <span class="route-card-art-marker" aria-hidden="true">01</span>
             </div>
             <div class="route-card-body">
-              <div class="card-heading"><span class="card-tag">AVAILABLE NOW</span><span class="card-route-code">CA / 01</span></div>
+              <div class="card-heading"><span class="card-tag">DEFAULT TRACK</span><span class="card-route-code">CA / 01</span></div>
               <h2>Circuit Alpha</h2>
               <p>Three laps. Eight racers. Live ranking. Keyboard and mobile touch control.</p>
-              ${button('START GRAND PRIX', 'play', 'primary', 'play')}
+              ${button('CHOOSE CIRCUIT ALPHA', 'play', 'primary', 'play')}
             </div>
           </article>
+          <article class="game-card route-card playable track-choice-card neon-grid-track-card" data-route-card="neon-grid" data-track-choice="neon-grid">
+            <div class="route-card-art neon-grid-card-art" data-route-asset="neon-grid-card" aria-hidden="true">
+              <span class="neon-grid-card-skyline" aria-hidden="true"></span>
+              <span class="neon-grid-card-road" aria-hidden="true"></span>
+              <span class="route-card-art-marker" aria-hidden="true">02</span>
+              <span class="neon-grid-card-stamp">C2 · FOG V3.2</span>
+            </div>
+            <div class="route-card-body">
+              <div class="card-heading"><span class="card-tag">NOW PLAYABLE</span><span class="card-route-code">NG / 02</span></div>
+              <h2>Neon Grid</h2>
+              <p>Owner-edited city layout, Concrete Wall 007 coverage, and Task A Fog V3.2.</p>
+              ${button('CHOOSE NEON GRID', 'play-neon-grid', 'primary', 'race')}
+            </div>
+          </article>
+        </section>
+        <section class="game-grid route-grid upcoming-grid" aria-label="Upcoming minigames">
           <article class="game-card route-card unavailable" data-route-card="gallery-gauntlet" data-availability="coming-soon" aria-disabled="true">
             <div class="route-card-signal" aria-hidden="true">${routeNightStatusMarkup('locked', 'card-lock-icon')}<span>02</span><i></i><strong>LOCKED</strong></div>
             <div class="route-card-body">
-              <div class="card-heading"><span class="card-tag">COMING SOON</span><span class="card-route-code">GG / 02</span></div>
+              <div class="card-heading"><span class="card-tag">COMING SOON</span><span class="card-route-code">GG / 03</span></div>
               <h2>Gallery Gauntlet</h2>
               <p>The next route is still behind the checkpoint gate.</p>
             </div>
@@ -245,7 +269,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
           <article class="game-card route-card unavailable" data-route-card="inkstorm-arena" data-availability="coming-soon" aria-disabled="true">
             <div class="route-card-signal" aria-hidden="true">${routeNightStatusMarkup('locked', 'card-lock-icon')}<span>03</span><i></i><strong>LOCKED</strong></div>
             <div class="route-card-body">
-              <div class="card-heading"><span class="card-tag">COMING SOON</span><span class="card-route-code">IA / 03</span></div>
+              <div class="card-heading"><span class="card-tag">COMING SOON</span><span class="card-route-code">IA / 04</span></div>
               <h2>Inkstorm Arena</h2>
               <p>The arena route is being tuned for a later Mayhem drop.</p>
             </div>
@@ -254,7 +278,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
         <nav class="utility-nav route-utility-nav" aria-label="Route utilities">
           <span class="utility-label">UTILITY</span>${button('CONTROLS', 'controls', '', 'controls')}${button('SETTINGS', 'settings', '', 'settings')}
         </nav>
-        <footer class="hub-footer">${routeNightOrnamentMarkup('divider', 'hub-divider')}<span class="route-line-dot"></span> SELECT A LIVE CHECKPOINT <span class="route-line-dot"></span> UNAVAILABLE ROUTES STAY LOCKED</footer>
+        <footer class="hub-footer">${routeNightOrnamentMarkup('divider', 'hub-divider')}<span class="route-line-dot"></span> TWO TRACKS PLAYABLE <span class="route-line-dot"></span> UPCOMING MINIGAMES STAY LOCKED</footer>
       </main>`;
   };
 
@@ -396,7 +420,15 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     music.route('select');
     characterPreview?.dispose();
     characterPreview = null;
-    root.innerHTML = characterSelectMarkup(characterManifest, selectedCharacter, characterPage);
+    root.innerHTML = characterSelectMarkup(
+      characterManifest,
+      selectedCharacter,
+      characterPage,
+      selectedTrackId === 'neon-grid' ? 'NEON GRID' : 'CIRCUIT ALPHA',
+    );
+    root
+      .querySelector('[data-screen="character-select"]')
+      ?.setAttribute('data-track-id', selectedTrackId);
     bindPortraitFallbacks();
     const canvas = root.querySelector<HTMLCanvasElement>('[data-kart-preview-canvas]');
     if (canvas !== null) characterPreview = new CharacterKartPreview(canvas, selectedCharacter);
@@ -404,32 +436,107 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
 
   const renderGame = async (): Promise<void> => {
     const generation = ++raceGeneration;
+    if (loadingTimer !== undefined) clearInterval(loadingTimer);
     music.race({ phase: 'countdown', lap: 1, paused: false, prismatic: false });
     characterPreview?.dispose();
     characterPreview = null;
     const mobileSession = isMobileSession();
     const touchControls = touchControlsMarkup(mobileSession);
-    root.innerHTML = raceHudMarkup(touchControls);
+    root.innerHTML = raceHudMarkup(
+      touchControls,
+      selectedTrackId === 'neon-grid' ? 'Neon Grid' : 'Circuit Alpha',
+    );
+    const initializationStartedAt = performance.now();
+    let initializationStage = 'Loading game code';
+    const loadingStage = root.querySelector<HTMLElement>('#loading-stage');
+    const setInitializationStage = (stage: string): void => {
+      initializationStage = stage;
+      if (loadingStage !== null) loadingStage.textContent = stage;
+      const loading = root.querySelector<HTMLElement>('#loading');
+      if (loading !== null) loading.dataset.stage = stage;
+      if (!stage.startsWith('Checking saved layout source '))
+        console.info(`[race initialization] ${stage}`);
+    };
+    const updateInitializationElapsed = (): void => {
+      if (disposed || generation !== raceGeneration) return;
+      const elapsed = root.querySelector<HTMLElement>('#loading-elapsed');
+      if (elapsed === null) return;
+      const seconds = Math.floor((performance.now() - initializationStartedAt) / 1000);
+      const minutes = Math.floor(seconds / 60);
+      elapsed.textContent =
+        seconds >= 30
+          ? `Still working · ${String(minutes)}:${String(seconds % 60).padStart(2, '0')} elapsed`
+          : `${String(minutes)}:${String(seconds % 60).padStart(2, '0')} elapsed`;
+    };
+    const showInitializationFailure = (error: unknown): void => {
+      if (loadingTimer !== undefined) {
+        clearInterval(loadingTimer);
+        loadingTimer = undefined;
+      }
+      if (disposed || generation !== raceGeneration) return;
+      console.error('[race initialization] failed', error);
+      diagnosticsPanel?.dispose();
+      diagnosticsPanel = null;
+      const loading = root.querySelector<HTMLElement>('#loading');
+      if (loading !== null) {
+        loading.dataset.state = 'error';
+        loading.setAttribute('role', 'alert');
+      }
+      const spinner = root.querySelector<HTMLElement>('#loading-spinner');
+      if (spinner !== null) spinner.hidden = true;
+      const title = root.querySelector<HTMLElement>('#loading-title');
+      if (title !== null)
+        title.textContent = `${selectedTrackId === 'neon-grid' ? 'Neon Grid' : 'Circuit Alpha'} could not start`;
+      if (loadingStage !== null)
+        loadingStage.textContent = `Stopped during: ${initializationStage}`;
+      const errorText = root.querySelector<HTMLElement>('#loading-error');
+      if (errorText !== null) {
+        errorText.textContent = error instanceof Error ? error.message : String(error);
+        errorText.hidden = false;
+      }
+      const retry = root.querySelector<HTMLButtonElement>('#loading-retry');
+      if (retry !== null) retry.hidden = false;
+    };
+    setInitializationStage(initializationStage);
+    updateInitializationElapsed();
+    loadingTimer = setInterval(updateInitializationElapsed, 1000);
     const diagnosticsEnabled = racePerformanceFromSearch(window.location.search);
     const racePanel = diagnosticsEnabled
       ? mountRaceDiagnosticsPanel(root, (metadata) =>
           !disposed && generation === raceGeneration
             ? (game?.exportPerformanceCapture(metadata) ?? null)
             : null,
+          { trackId: selectedTrackId, quality: appSettings.graphics.quality },
         )
       : null;
     diagnosticsPanel = racePanel;
 
     const canvas = root.querySelector<HTMLCanvasElement>('#game-canvas');
-    if (canvas === null) throw new Error('Game canvas was not created.');
-    const { KartTimeTrial } = await import('../game/KartTimeTrial');
+    if (canvas === null) {
+      showInitializationFailure(new Error('Game canvas was not created.'));
+      return;
+    }
+    let KartTimeTrial: typeof import('../game/KartTimeTrial').KartTimeTrial;
+    try {
+      ({ KartTimeTrial } = await import('../game/KartTimeTrial'));
+    } catch (error) {
+      showInitializationFailure(error);
+      return;
+    }
     const getElement = (selector: string): HTMLElement => {
       const element = root.querySelector<HTMLElement>(selector);
       if (element === null) throw new Error(`Required UI element missing: ${selector}`);
       return element;
     };
-    const minimap = getElement('[data-race-minimap]');
-    const itemHud = getElement('#item-hud');
+    let minimap: HTMLElement;
+    let itemHud: HTMLElement;
+    try {
+      minimap = getElement('[data-race-minimap]');
+      itemHud = getElement('#item-hud');
+    } catch (error) {
+      showInitializationFailure(error);
+      return;
+    }
     const touchItemButton = root.querySelector<HTMLButtonElement>('[data-touch="item"]');
     const updateHud = (state: HudState): void => {
       getElement('#lap').textContent = `${String(state.lap)} / 3`;
@@ -524,13 +631,15 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
       if (finish === null || finish.hidden) return;
       updateResultsPodium(finish, standings);
     };
-    const createdGame = await KartTimeTrial.create({
+    const createGame = async () => KartTimeTrial.create({
       canvas,
       character: selectedCharacter,
+      trackId: selectedTrackId,
       graphicsQuality: appSettings.graphics.quality,
       motionBlur: appSettings.graphics.motionBlur !== false,
       mobileSession,
       onHud: updateHud,
+      onInitializationStage: setInitializationStage,
       ...(racePanel === null
         ? {}
         : {
@@ -549,17 +658,29 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
         markGameFinished(gameShell);
         const finish = getElement('#finish');
         finish.innerHTML = renderResultsPodium(result.standings);
+        const circuit = finish.querySelector('.results-header .eyebrow');
+        if (circuit !== null)
+          circuit.textContent = `${selectedTrackId === 'neon-grid' ? 'NEON GRID' : 'CIRCUIT ALPHA'} · GRAND PRIX COMPLETE`;
         finish.hidden = false;
         bindResultsArtFallbacks(finish);
         root.querySelector<HTMLElement>('#results-title')?.focus();
       },
     });
+    let createdGame: Awaited<ReturnType<typeof KartTimeTrial.create>>;
+    try {
+      createdGame = await createGame();
+    } catch (error) {
+      showInitializationFailure(error);
+      return;
+    }
     if (disposed || generation !== raceGeneration) {
       createdGame.dispose();
       racePanel?.dispose();
       return;
     }
     game = createdGame;
+    clearInterval(loadingTimer);
+    loadingTimer = undefined;
     const loading = root.querySelector('#loading');
     if (loading !== null) loading.remove();
     canvas.focus();
@@ -608,7 +729,8 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
     if (action === 'enter' || action === 'menu') renderMenu();
     if (action === 'controls') renderControls();
     if (action === 'settings') renderSettings();
-    if (action === 'play') {
+    if (action === 'play' || action === 'play-neon-grid') {
+      selectedTrackId = action === 'play-neon-grid' ? 'neon-grid' : 'circuit-alpha';
       characterPage = Math.floor(
         characterManifest.findIndex(({ id }) => id === selectedCharacter.id) / 12,
       );
@@ -627,6 +749,7 @@ export function mountAppShell(root: HTMLElement, music = new MusicDirector()): (
         ?.focus();
     }
     if (action === 'confirm-character') void renderGame();
+    if (action === 'retry-game-start') void renderGame();
     if (action === 'race-again') {
       disposeGame();
       void renderGame();

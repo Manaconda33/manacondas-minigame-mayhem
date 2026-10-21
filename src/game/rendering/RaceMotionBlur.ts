@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
+import type { RenderPassInstrumentation } from '../diagnostics/RenderPassInstrumentation';
 
 export interface MotionBlurSnapshot {
   enabled: boolean;
@@ -38,6 +39,7 @@ export class RaceMotionBlur {
     private readonly renderer: THREE.WebGLRenderer,
     quality: GraphicsQuality,
     enabled = true,
+    private readonly passInstrumentation?: RenderPassInstrumentation,
   ) {
     this.allowed = enabled && quality !== 'low';
     this.maxStrength = quality === 'high' ? 0.32 : 0.22;
@@ -194,6 +196,7 @@ export class RaceMotionBlur {
     const debug = (this.renderer as Partial<THREE.WebGLRenderer>).debug,
       oldHook = debug?.onShaderError,
       oldCheck = debug?.checkShaderErrors;
+    let completedCopies = 0;
     try {
       if (debug) {
         debug.checkShaderErrors = true;
@@ -202,17 +205,44 @@ export class RaceMotionBlur {
         };
       }
       this.renderer.copyFramebufferToTexture(r.left, new THREE.Vector2(0, this.bandY));
+      completedCopies++;
       this.renderer.copyFramebufferToTexture(
         r.right,
         new THREE.Vector2(this.width - this.bandWidth, this.bandY),
       );
+      completedCopies++;
       this.renderer.autoClear = false;
       this.renderer.info.autoReset = false;
       const strength = r.mesh.material.uniforms.strength;
       if (!strength) throw new Error('Missing blur strength');
       strength.value = this.intensity * this.maxStrength;
-      this.renderer.render(this.scene, this.camera);
+      if (this.passInstrumentation) {
+        this.passInstrumentation.measure(
+          'motionBlurComposite',
+          this.renderer,
+          undefined,
+          'notApplicable',
+          () => {
+            this.renderer.render(this.scene, this.camera);
+          },
+          {
+            framebufferCopies: 2,
+            copiedPixels: 2 * this.bandWidth * this.bandHeight,
+          },
+        );
+      } else this.renderer.render(this.scene, this.camera);
     } catch (error) {
+      this.passInstrumentation?.markUnavailable(
+        'motionBlurComposite',
+        this.renderer,
+        undefined,
+        'notApplicable',
+        error instanceof Error ? error.message : 'motion blur render unavailable',
+        {
+          framebufferCopies: completedCopies,
+          copiedPixels: completedCopies * this.bandWidth * this.bandHeight,
+        },
+      );
       this.fail(error instanceof Error ? error.message : 'Blur unavailable');
     } finally {
       this.renderer.autoClear = autoClear;

@@ -177,6 +177,15 @@ h2 {
   grid-template-columns: 1.5fr 1fr 1fr;
   gap: 1rem;
 }
+.track-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.upcoming-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1rem;
+}
 .game-card {
   min-height: 20rem;
   padding: 1.5rem;
@@ -704,6 +713,33 @@ h2 {
 .loading-card p {
   color: #cfc4d6;
 }
+.loading-card .loading-elapsed {
+  color: #94eaff;
+  font-size: 0.82rem;
+}
+.loading-card .loading-error {
+  max-height: 30vh;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  padding: 0.75rem;
+  border: 1px solid rgb(255 125 145 / 42%);
+  border-radius: 0.65rem;
+  color: #ffd5dc;
+  background: rgb(70 11 27 / 42%);
+  text-align: left;
+  font-size: 0.82rem;
+}
+.loading-retry {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid #83eaff;
+  border-radius: 999px;
+  color: #e8fbff;
+  background: rgb(22 71 94 / 78%);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
 .finish-card h2 {
   margin: 0 auto 0.5rem;
   font-size: 2.25rem;
@@ -878,6 +914,10 @@ h2 {
     overflow: auto;
   }
   .game-grid {
+    grid-template-columns: 1fr;
+  }
+  .track-choice-grid,
+  .upcoming-grid {
     grid-template-columns: 1fr;
   }
   .game-card {
@@ -1750,6 +1790,69 @@ h2 {
   transition:
     transform 400ms ease,
     filter 400ms ease;
+}
+
+.neon-grid-card-art {
+  background:
+    radial-gradient(ellipse at 50% 70%, rgb(31 194 219 / 30%), transparent 48%),
+    linear-gradient(145deg, #1b2d51 0%, #10152d 62%, #281435 100%);
+}
+
+.neon-grid-card-skyline {
+  position: absolute;
+  inset: 16% -2% 15%;
+  background: linear-gradient(145deg, #3a6381, #1a2849 62%, #29213e);
+  clip-path: polygon(
+    0 56%, 8% 56%, 8% 37%, 18% 37%, 18% 48%, 28% 48%, 28% 21%,
+    39% 21%, 39% 59%, 52% 59%, 52% 33%, 64% 33%, 64% 43%, 76% 43%,
+    76% 15%, 88% 15%, 88% 51%, 100% 51%, 100% 100%, 0 100%
+  );
+  opacity: 0.88;
+}
+
+.neon-grid-card-skyline::after {
+  position: absolute;
+  inset: 12% 0 0;
+  content: '';
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 8%,
+    rgb(83 238 255 / 72%) 8.4% 9%,
+    transparent 9.4% 14%
+  );
+  opacity: 0.7;
+}
+
+.neon-grid-card-road {
+  position: absolute;
+  z-index: 1;
+  right: 9%;
+  bottom: -38%;
+  left: 9%;
+  height: 65%;
+  border: 2px solid rgb(98 242 255 / 92%);
+  background: repeating-linear-gradient(
+    180deg,
+    rgb(10 23 43 / 96%) 0 15%,
+    rgb(74 226 246 / 68%) 15.5% 16.5%,
+    rgb(10 23 43 / 96%) 17% 31%
+  );
+  box-shadow: 0 0 1.4rem rgb(64 233 255 / 60%);
+  transform: perspective(10rem) rotateX(55deg);
+}
+
+.neon-grid-card-stamp {
+  position: absolute;
+  z-index: 2;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgb(92 235 255 / 70%);
+  color: #d8fbff;
+  background: rgb(9 18 35 / 82%);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
 }
 
 .route-card:hover .route-card-art img {

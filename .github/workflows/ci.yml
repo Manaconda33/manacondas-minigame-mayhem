@@ -1292,6 +1292,23 @@ jobs:
                   path.parent == Path('assets') and path.suffix in {'.js', '.css'}
               )
 
+          approved_new_production_assets = {
+              'assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png': 'e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a',
+              'assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png': '3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e',
+              'assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png': 'ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac',
+          }
+
+          def is_approved_new_production_asset(relative, sha):
+              expected_sha = approved_new_production_assets.get(relative)
+              if expected_sha is None:
+                  return False
+              if sha != expected_sha:
+                  raise RuntimeError(
+                      f'Unexpected content for approved new production asset {relative}: '
+                      f'expected {expected_sha}, received {sha}'
+                  )
+              return True
+
           root = Path('site-root')
           paths = [*sorted(path for path in root.iterdir() if path.is_file() and not path.name.startswith('.'))]
           paths += [path for path in sorted((root/'assets').rglob('*')) if path.is_file()]
@@ -1372,11 +1389,12 @@ jobs:
               sha = hashlib.sha256(data).hexdigest()
               url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
               is_published_preview = relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/', 'previews/neon-grid-c2-concrete/', 'previews/neon-grid-layout-studio/', 'previews/neon-grid-owner-layout/'))
-              if not is_published_preview and not is_rebuilt_application_entrypoint(relative):
+              is_approved_new_asset = is_approved_new_production_asset(relative, sha)
+              if not is_published_preview and not is_rebuilt_application_entrypoint(relative) and not is_approved_new_asset:
                   verify_published_file(url, relative, sha)
-              elif is_rebuilt_application_entrypoint(relative):
+              elif is_rebuilt_application_entrypoint(relative) or is_approved_new_asset:
                   print(
-                      f'Deferred pre-publication comparison for rebuilt application entrypoint: {relative}; '
+                      f'Deferred pre-publication comparison for approved new delivery file: {relative}; '
                       'its exact SHA-256 remains in delivery-expected.json for post-deployment verification.',
                       flush=True,
                   )

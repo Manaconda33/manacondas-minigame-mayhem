@@ -529,6 +529,95 @@ describe('Neon Grid owner layout handoff', () => {
     },
   );
 
+  it('reattaches unrecorded high-quality city accents to their edited buildings', async () => {
+    const api = trackCatalog as unknown as Record<string, unknown>;
+    const apply = api.applyNeonGridOwnerLayout as
+      | ((scene: THREE.Object3D, screen: 'retained' | 'removed') => Promise<unknown>)
+      | undefined;
+    expect(typeof apply).toBe('function');
+    if (typeof apply !== 'function') return;
+
+    const root = new THREE.Scene();
+    root.add(createNeonGridScene(
+      new NeonGrid(),
+      'high',
+      'fog-experiment-c2-background',
+      'concrete-coverage-c2-001',
+    ));
+    try {
+      root.updateMatrixWorld(true);
+      const identity = new THREE.Matrix4();
+      const component = (suffix: string) => ownerLayout.components.find((record) =>
+        record.id.endsWith(suffix),
+      );
+      const matrixDelta = (record: NonNullable<ReturnType<typeof component>>) =>
+        new THREE.Matrix4().fromArray([...record.matrix]).multiply(
+          new THREE.Matrix4().fromArray([...record.baselineMatrix]).invert(),
+        );
+      const cases = [
+        {
+          meshName: 'skyline-city-windows',
+          ownerRecord: (index: number) => component(
+            `/skyline-city-towers[0]/instance/${String((index * 7) % 22)}`,
+          ),
+        },
+        {
+          meshName: 'falls-run-city-windows',
+          ownerRecord: (index: number) => component(
+            `/falls-run-city-terraced-ground::cityTowers/${String((index * 7) % 24)}[0]`,
+          ),
+        },
+      ];
+      const expected: { meshName: string; matrices: Map<number, THREE.Matrix4> }[] = [];
+      const missingMovedAccents = new Map<string, number>();
+
+      for (const { meshName, ownerRecord } of cases) {
+        const accents = root.getObjectByName(meshName);
+        expect(accents, `${meshName} must exist in the high-quality scene`).toBeInstanceOf(
+          THREE.InstancedMesh,
+        );
+        if (!(accents instanceof THREE.InstancedMesh)) continue;
+        const matrices = new Map<number, THREE.Matrix4>();
+        let movedWithoutSourceRecord = 0;
+        for (let index = 0; index < accents.count; index++) {
+          const savedAccent = component(`/${meshName}[0]/instance/${String(index)}`);
+          if (savedAccent) continue;
+          const source = new THREE.Matrix4();
+          accents.getMatrixAt(index, source);
+          const baselineWorld = accents.matrixWorld.clone().multiply(source);
+          const savedOwner = ownerRecord(index);
+          const towerDelta = savedOwner ? matrixDelta(savedOwner) : identity;
+          const expectedWorld = towerDelta.clone().multiply(baselineWorld);
+          if (!towerDelta.equals(identity)) movedWithoutSourceRecord++;
+          matrices.set(index, expectedWorld);
+        }
+        expected.push({ meshName, matrices });
+        missingMovedAccents.set(meshName, movedWithoutSourceRecord);
+      }
+
+      expect(missingMovedAccents.get('skyline-city-windows')).toBeGreaterThan(0);
+      expect(missingMovedAccents.get('falls-run-city-windows')).toBeGreaterThan(0);
+
+      await apply(root, 'retained');
+      root.updateMatrixWorld(true);
+      for (const { meshName, matrices } of expected) {
+        const accents = root.getObjectByName(meshName);
+        if (!(accents instanceof THREE.InstancedMesh))
+          throw new Error(`${meshName} disappeared while applying its layout transforms.`);
+        for (const [index, expectedWorld] of matrices) {
+          const actualLocal = new THREE.Matrix4();
+          accents.getMatrixAt(index, actualLocal);
+          const actualWorld = accents.matrixWorld.clone().multiply(actualLocal);
+          expect(actualWorld.toArray().every((value, elementIndex) =>
+            Math.abs(value - (expectedWorld.elements[elementIndex] ?? Number.NaN)) <= 1e-5,
+          ), `${accents.name} instance ${String(index)} must follow its edited building`).toBe(true);
+        }
+      }
+    } finally {
+      disposeTrackScene(root);
+    }
+  }, 30_000);
+
   it('removes only the Billboard Gap screen for layout B while preserving the same underlying C2/Fog edits', async () => {
     const api = trackCatalog as unknown as Record<string, unknown>;
     const apply = api.applyNeonGridOwnerLayout as

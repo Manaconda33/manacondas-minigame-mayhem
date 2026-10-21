@@ -506,6 +506,7 @@ function addCity(
   }
   if (towerData.length !== towers.count)
     throw new Error(`Falls Run requires 24 supported city towers; got ${String(towerData.length)}`);
+  ground.userData.ownerLayoutTowerCount = towerData.length;
   towers.instanceMatrix.needsUpdate = true;
   if (towers.instanceColor) towers.instanceColor.needsUpdate = true;
 
@@ -574,12 +575,18 @@ function addCity(
     windowCount,
   );
   windows.name = 'falls-run-city-windows';
+  const windowTowerIndices = Array.from(
+    { length: windowCount },
+    (_, index) => (index * 7) % towerData.length,
+  );
+  windows.userData.ownerLayoutTowerIndices = windowTowerIndices;
   const dummy = new THREE.Object3D();
   const cyan = new THREE.Color(CYAN);
   const gold = new THREE.Color(0xffb65c);
   const magenta = new THREE.Color(MAGENTA);
   for (let i = 0; i < windowCount; i++) {
-    const tower = towerData[(i * 7) % towerData.length];
+    const towerIndex = windowTowerIndices[i];
+    const tower = towerIndex === undefined ? undefined : towerData[towerIndex];
     if (tower === undefined) continue;
     const row = (i * 5) % 15;
     const column = (i * 11) % 9;

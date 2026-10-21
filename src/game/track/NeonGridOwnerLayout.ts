@@ -385,6 +385,97 @@ function reattachFallsRunExtensionWindows(
   windows.computeBoundingSphere();
 }
 
+function reattachUnrecordedCityWindows(
+  scene: THREE.Object3D,
+  resolved: ReadonlyMap<string, ResolvedOwnerLayoutComponent>,
+): void {
+  const batches = [
+    { windowsName: 'skyline-city-windows', towerMeshName: 'skyline-city-towers' },
+    {
+      windowsName: 'falls-run-city-windows',
+      towerRangeMeshName: 'falls-run-city-terraced-ground',
+      towerRangeKey: 'cityTowers',
+    },
+  ] as const;
+  scene.updateMatrixWorld(true);
+
+  for (const batch of batches) {
+    const windows = scene.getObjectByName(batch.windowsName);
+    if (!(windows instanceof THREE.InstancedMesh))
+      fail(`Owner layout ${batch.windowsName} has no instanced source mesh.`);
+    const metadata = windows.userData as { ownerLayoutTowerIndices?: unknown };
+    const candidates = metadata.ownerLayoutTowerIndices;
+    if (!Array.isArray(candidates) || candidates.length !== windows.count ||
+      !candidates.every((index: unknown) =>
+        typeof index === 'number' && Number.isInteger(index) && index >= 0,
+      ))
+      fail(`Owner layout ${batch.windowsName} has an invalid tower association map.`);
+    const towerIndices = candidates as number[];
+    const windowEdits = new Set<number>();
+    const towerEdits = new Map<number, ResolvedOwnerLayoutComponent>();
+    let towerCount: number;
+
+    if ('towerMeshName' in batch) {
+      const towers = scene.getObjectByName(batch.towerMeshName);
+      if (!(towers instanceof THREE.InstancedMesh))
+        fail(`Owner layout ${batch.windowsName} cannot resolve its tower source mesh.`);
+      towerCount = towers.count;
+      for (const edit of resolved.values()) {
+        if (edit.object !== windows || edit.kind !== 'instance' || edit.instanceIndex === null) continue;
+        windowEdits.add(edit.instanceIndex);
+      }
+      for (const edit of resolved.values()) {
+        if (edit.object !== towers || edit.kind !== 'instance' || edit.instanceIndex === null) continue;
+        towerEdits.set(edit.instanceIndex, edit);
+      }
+    } else {
+      const ground = scene.getObjectByName(batch.towerRangeMeshName);
+      const count: unknown = (ground?.userData as Record<string, unknown> | undefined)?.ownerLayoutTowerCount;
+      if (!(ground instanceof THREE.Mesh) || typeof count !== 'number' || !Number.isInteger(count) || count <= 0)
+        fail(`Owner layout ${batch.windowsName} cannot resolve its tower-range source.`);
+      towerCount = count;
+      for (const edit of resolved.values()) {
+        if (edit.object !== windows || edit.kind !== 'instance' || edit.instanceIndex === null) continue;
+        windowEdits.add(edit.instanceIndex);
+      }
+      for (const edit of resolved.values()) {
+        if (edit.object !== ground || edit.kind !== 'range' || edit.rangeKey !== batch.towerRangeKey ||
+          edit.rangeOrdinal === null) continue;
+        towerEdits.set(edit.rangeOrdinal, edit);
+      }
+    }
+
+    if (towerIndices.some((index) => index >= towerCount))
+      fail(`Owner layout ${batch.windowsName} references a tower outside its source batch.`);
+    windows.updateWorldMatrix(true, false);
+    let changed = false;
+    for (let instanceIndex = 0; instanceIndex < windows.count; instanceIndex++) {
+      if (windowEdits.has(instanceIndex)) continue;
+      const towerIndex = towerIndices[instanceIndex];
+      if (towerIndex === undefined)
+        fail(`Owner layout ${batch.windowsName} instance ${String(instanceIndex)} has no tower association.`);
+      const towerEdit = towerEdits.get(towerIndex);
+      if (!towerEdit || !matricesDiffer(towerEdit.record.matrix, towerEdit.record.baselineMatrix)) continue;
+
+      const baselineTowerWorld = new THREE.Matrix4().fromArray([...towerEdit.record.baselineMatrix]);
+      const targetTowerWorld = new THREE.Matrix4().fromArray([...towerEdit.record.matrix]);
+      const towerDelta = targetTowerWorld.multiply(baselineTowerWorld.invert());
+      const baselineWindowLocal = new THREE.Matrix4();
+      windows.getMatrixAt(instanceIndex, baselineWindowLocal);
+      const baselineWindowWorld = windows.matrixWorld.clone().multiply(baselineWindowLocal);
+      const reattachedWorld = towerDelta.multiply(baselineWindowWorld);
+      const local = windows.matrixWorld.clone().invert().multiply(reattachedWorld);
+      windows.setMatrixAt(instanceIndex, local);
+      changed = true;
+    }
+    if (changed) {
+      windows.instanceMatrix.needsUpdate = true;
+      windows.computeBoundingBox();
+      windows.computeBoundingSphere();
+    }
+  }
+}
+
 export async function applyNeonGridOwnerLayout(
   scene: THREE.Object3D,
   screen: NeonGridOwnerLayoutScreen,
@@ -419,6 +510,7 @@ export async function applyNeonGridOwnerLayout(
     } else applyObjectEdit(edit, screen);
   }
   for (const [object, edits] of rangeGroups) applyRangeEdits(scene, object, edits, screen);
+  reattachUnrecordedCityWindows(scene, resolved);
   reattachFallsRunExtensionWindows(scene, resolved, screen);
   const meshCountAfter = sceneMeshes(scene).length;
   if (meshCountAfter !== meshCountBefore) fail('Owner layout projection unexpectedly changed mesh batching.');

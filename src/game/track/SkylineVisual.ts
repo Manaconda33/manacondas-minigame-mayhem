@@ -924,8 +924,14 @@ function addCity(
     windowCount,
   );
   windows.name = 'skyline-city-windows';
+  const windowTowerIndices = Array.from(
+    { length: windowCount },
+    (_, index) => (index * 7) % towerData.length,
+  );
+  windows.userData.ownerLayoutTowerIndices = windowTowerIndices;
   for (let i = 0; i < windowCount; i++) {
-    const tower = towerData[(i * 7) % towerData.length];
+    const towerIndex = windowTowerIndices[i];
+    const tower = towerIndex === undefined ? undefined : towerData[towerIndex];
     if (!tower) continue;
     const rowFraction = 0.12 + (((i * 5) % 17) / 16) * 0.7;
     const upper = rowFraction > 0.62;

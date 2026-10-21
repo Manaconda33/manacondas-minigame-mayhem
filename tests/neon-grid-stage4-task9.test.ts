@@ -274,8 +274,9 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
     }
   });
 
-  it('requires bounded finite Task 9 sector owners on every quality tier', () => {
-    for (const quality of ['low', 'medium', 'high'] as const) {
+  it.each(['low', 'medium', 'high'] as const)(
+    'requires bounded finite Task 9 sector owners on %s quality',
+    (quality) => {
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
         for (const name of FUTURE_OWNER_NAMES) {
@@ -295,8 +296,8 @@ describe('Neon Grid Stage 4 Task 9 T9.0 RED contracts', () => {
       } finally {
         disposeTrackScene(scene);
       }
-    }
-  }, 20000);
+    },
+  );
 
   it.each([
     { quality: 'low', hasWetRoad: false },
@@ -358,20 +359,23 @@ describe('Neon Grid Stage 4 Task 9 T9.4 Falls Run extension', () => {
     }
   });
 
-  it('bounds new windows/mist and omits wet road and mist on Low', () => {
-    for (const quality of ['low', 'medium', 'high'] as const) {
+  it.each([
+    { quality: 'low', windows: 80, mist: 0, wet: false },
+    { quality: 'medium', windows: 160, mist: 14, wet: true },
+    { quality: 'high', windows: 240, mist: 28, wet: true },
+  ] as const)(
+    'bounds new windows/mist and wet road on $quality quality',
+    ({ quality, windows, mist, wet }) => {
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
-        const counts = { low: [80, 0], medium: [160, 14], high: [240, 28] } as const;
-        const [windows, mist] = counts[quality];
         expect(requireInstanced(scene, 'falls-run-extension-city-windows').count).toBe(windows);
         expect((scene.getObjectByName('falls-run-extension-ambient-mist') as THREE.InstancedMesh | undefined)?.count ?? 0).toBe(mist);
-        expect(Boolean(scene.getObjectByName('falls-run-extension-wet-asphalt'))).toBe(quality !== 'low');
+        expect(Boolean(scene.getObjectByName('falls-run-extension-wet-asphalt'))).toBe(wet);
       } finally {
         disposeTrackScene(scene);
       }
-    }
-  }, 20000);
+    },
+  );
 
   it('freezes hidden extension animation and disposes its owned presentation idempotently', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');

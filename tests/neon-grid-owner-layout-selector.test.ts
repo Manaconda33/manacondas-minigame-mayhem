@@ -58,19 +58,20 @@ describe('Neon Grid owner layout selector', () => {
     });
   });
 
-  it('forces C2 concrete and Fog V3.2 in both screen states despite other visual or fog flags', () => {
-    const api = trackCatalog as unknown as Record<string, unknown>;
-    const select = api.neonGridReviewSceneSelectionFromSearch as
-      | ((search: string) => {
-          ownerLayoutScreen: 'retained' | 'removed' | null;
-          visualVariant: string;
-          materialVariant: string;
-        })
-      | undefined;
-    expect(typeof select).toBe('function');
-    if (typeof select !== 'function') return;
+  it.each(['retained', 'removed'] as const)(
+    'forces C2 concrete and Fog V3.2 for the %s screen despite other visual or fog flags',
+    (mode) => {
+      const api = trackCatalog as unknown as Record<string, unknown>;
+      const select = api.neonGridReviewSceneSelectionFromSearch as
+        | ((search: string) => {
+            ownerLayoutScreen: 'retained' | 'removed' | null;
+            visualVariant: string;
+            materialVariant: string;
+          })
+        | undefined;
+      expect(typeof select).toBe('function');
+      if (typeof select !== 'function') return;
 
-    for (const mode of ['retained', 'removed'] as const) {
       const selection = select(
         `?neonGridLayout=owner-2026-10-19&neonGridGapScreen=${mode}&neonGridVisual=abyss-fog-001&neonGridMaterial=service-tunnel-concrete-001&fog=0`,
       );
@@ -103,6 +104,6 @@ describe('Neon Grid owner layout selector', () => {
           }
         });
       }
-    }
-  });
+    },
+  );
 });

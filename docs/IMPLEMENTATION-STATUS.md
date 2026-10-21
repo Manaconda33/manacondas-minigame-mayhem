@@ -1,5 +1,13 @@
 # Implementation Status
 
+## 2026-10-21 — Neon Grid selectable production track
+
+Manny directed production to keep Circuit Alpha as the initial/default track and make Neon Grid a second, clearly labeled playable choice in the hub. Selecting Neon Grid loads the owner-approved visual composition by default: C2 Concrete Wall 007 coverage, Task A Fog V3.2, and the edited city layout with the buildings and attached facade accents retained. The layout editor remains a separate preview tool.
+
+The integration source is owner-reviewed commit `c4db8630cf29ae0434b888ab9da536acbb3dcd16`, on the C2 branch derived from active Task A/B/C1 development. The exact owner-layout review build was source-pinned through PR #328 and verified in main CI run [39534895667](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39534895667) and trusted runtime run [39534895587](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39534895587). Manny personally played and approved that preview before requesting production integration. These checks and the playable review do not certify representative-hardware G-05 performance; that evidence remains open, with the existing limits unchanged.
+
+The production hub presents Circuit Alpha and Neon Grid as two distinct track cards. Circuit Alpha stays the default when entering the hub. Neon Grid's owner layout, C2 material coverage, and Fog V3.2 are defaults only when Neon Grid is selected. Explicit review query parameters remain available for controlled comparisons. Track selection does not add another route, change Circuit Alpha's track/default, alter gameplay requirements, or replace the separate Neon Grid development workstream. PR #242 and the active Task A/B/C1 branch remain unchanged; Stage C remains `PREPARED_DISABLED`.
+
 ## Gate C5 — Historical Branch Cleanup Completed (2026-10-18)
 
 The owner-executed historical branch cleanup is complete. The post-PR #314 starting inventory was **177 branches**. Manny deleted **162 branches**, exactly the names in the C5 DELETE manifest. A fresh GitHub enumeration now contains **15 branches**, matching the approved KEEP list by name and exact HEAD. The frozen C5-A inventory remains a historical 176-ref snapshot; PR #314's preservation branch accounts for the additional ref in the 177-branch starting inventory.

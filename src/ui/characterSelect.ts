@@ -77,6 +77,7 @@ export function characterSelectMarkup(
   characters: readonly CharacterDefinition[],
   selectedCharacter: CharacterDefinition,
   requestedPage = 0,
+  circuitLabel = 'CIRCUIT ALPHA',
 ): string {
   const pageCount = Math.max(1, Math.ceil(characters.length / 12));
   const page = Math.min(pageCount - 1, Math.max(0, requestedPage));
@@ -96,7 +97,7 @@ export function characterSelectMarkup(
       <div class="route-night-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
       <header class="character-select-header">
-        <div><p class="route-label">ROUTE NIGHT / CIRCUIT ALPHA</p><h1>Choose your driver</h1><p class="character-select-intro">Pick a racer. Plot a brighter night.</p></div>
+        <div><p class="route-label">ROUTE NIGHT / ${circuitLabel}</p><h1>Choose your driver</h1><p class="character-select-intro">Pick a racer. Plot a brighter night.</p></div>
         <div class="character-select-route-status" aria-label="Character checkpoint status">
           ${routeNightStatusMarkup('live', 'status-marker-icon')}
           <span><small>DRIVER CHECKPOINT</small><strong>${String(characters.length)} DRIVERS</strong></span>

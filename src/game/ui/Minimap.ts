@@ -27,6 +27,7 @@ export function normalizeMinimapTrack(
   samples: readonly WorldTrackPoint[],
   size = 100,
   padding = 8,
+  orientation: 'positive-z-up' | 'positive-z-down' = 'positive-z-up',
 ): MinimapPoint[] {
   if (samples.length === 0) return [];
 
@@ -45,7 +46,9 @@ export function normalizeMinimapTrack(
 
   return samples.map(({ x, z }) => ({
     x: roundCoordinate(offsetX + (x - minimumX) * scale),
-    y: roundCoordinate(offsetY + (maximumZ - z) * scale),
+    y: roundCoordinate(
+      offsetY + (orientation === 'positive-z-down' ? z - minimumZ : maximumZ - z) * scale,
+    ),
   }));
 }
 

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { CircuitAlpha } from '../track/CircuitAlpha';
+import type { TrackDefinition } from '../track/TrackDefinition';
 import type { HazardSnapshot } from '../items/HazardSystem';
 import { BLAST_ORB_CONFIG } from '../items/itemDefinitions';
 
@@ -32,7 +32,7 @@ export interface RelevantHazard {
 }
 
 /** Continuous local refinement for planning only; checkpoint authority is untouched. */
-export function hazardRoutePosition(track: CircuitAlpha, position: THREE.Vector3) {
+export function hazardRoutePosition(track: TrackDefinition, position: THREE.Vector3) {
   const projection = track.project(position);
   const length = track.curve.getLength();
   const along = position.clone().sub(projection.point).dot(projection.tangent);
@@ -45,7 +45,7 @@ export function hazardRoutePosition(track: CircuitAlpha, position: THREE.Vector3
 
 /** Copy and project once per simulation step, shared by all AI drivers. */
 export function observeAiHazards(
-  track: CircuitAlpha,
+  track: TrackDefinition,
   snapshots: readonly AiHazardSnapshot[],
 ): AiHazardAwareness[] {
   return snapshots

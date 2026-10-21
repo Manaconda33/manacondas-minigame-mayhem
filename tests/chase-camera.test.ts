@@ -145,3 +145,30 @@ describe('stable spinout camera and live rear-view switching', () => {
     expect(anchor.resolve(travel, true).dot(travel)).toBeCloseTo(1);
   });
 });
+
+it.each([false, true])(
+  'keeps elevated intro, chase and rear framing equivalent to street level (mobile=%s)',
+  (mobile) => {
+    for (const rear of [false, true]) {
+      const low = new THREE.PerspectiveCamera(55, 0.5, 0.1, 500);
+      const high = low.clone();
+      const lowRig = new ChaseCamera(low, mobile);
+      const highRig = new ChaseCamera(high, mobile);
+      for (let i = 0; i < 240; i++) {
+        lowRig.update(new THREE.Vector3(0, 0.34, 0), new THREE.Vector3(0, 0, 1), rear, 1 / 60);
+        highRig.update(
+          new THREE.Vector3(0, 14.34, 0),
+          new THREE.Vector3(0, 0, 1),
+          rear,
+          1 / 60,
+          14,
+        );
+        expect(
+          high
+            .getWorldDirection(new THREE.Vector3())
+            .distanceTo(low.getWorldDirection(new THREE.Vector3())),
+        ).toBeLessThan(0.001);
+      }
+    }
+  },
+);

@@ -3148,3 +3148,9 @@ Approved October 9, 2026. For the active T9.7 sector A/B render gates, amend the
 ## Approved implementation amendment 2.28 - Task 9 engineering triangle ceiling
 
 Approved October 9, 2026. Manny approved a **425,000 visible-triangle ceiling for forward-looking Task 9 engineering gates**, superseding the prior 350,000 internal limit. The PRD hard visible-triangle cap remains **750,000** for all race scenes, and the global 500-call cap and G-05 representative-hardware FPS/frame-time requirements remain unchanged. Historical evidence retains the ceiling in force when collected; active Task 9 analyzers and render gates use 425,000. This budget update is not hardware certification, visual acceptance, preview publication, PR #242 merge approval, or production-release approval.
+
+## Approved implementation amendment 2.29 — Neon Grid as a second selectable track
+
+Approved October 21, 2026. Manny authorized production integration with **Circuit Alpha remaining the initial/default track** and **Neon Grid available as a second selectable track** in the hub. The menu must identify both playable tracks clearly. This amendment supersedes only the v1 §7 non-goal “multiple tracks” for this single additional track; it does not authorize a third track or make Neon Grid the default.
+
+When selected, Neon Grid's production visual default is the owner-approved composition: C2 Concrete Wall 007 coverage, Task A Fog V3.2, and the edited city layout. Fog remains independent of the layout editor's display setting. Circuit Alpha behavior and selection remain unchanged. The Layout Studio remains a separate editing preview. Existing gameplay and track requirements, graphics/performance limits, and G-05 representative-hardware requirements remain in force; this amendment does not certify or waive G-05.

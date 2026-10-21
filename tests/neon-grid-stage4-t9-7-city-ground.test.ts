@@ -7,6 +7,7 @@ import {
   neonGridCityGroundColorAt,
   neonGridCityGroundOptions,
   neonGridTerracedCityGroundGeometry,
+  NEON_GRID_CITY_GROUND_RASTER_CELL_SIZE_METERS,
 } from '../src/game/track/NeonGridCityGround';
 import { neonGridRightAt } from '../src/game/track/NeonGridVisualCommon';
 import { createNeonGridScene } from '../src/game/track/createNeonGridScene';
@@ -89,7 +90,8 @@ function expectRoadCorridorClear(
   const raycaster = new THREE.Raycaster();
   const down = new THREE.Vector3(0, -1, 0);
   ground.updateMatrixWorld(true);
-  const sampleCount = Math.ceil(length);
+  // The ground raster is 9 m; half-cell spacing covers each generated cell twice.
+  const sampleCount = Math.ceil(length / (NEON_GRID_CITY_GROUND_RASTER_CELL_SIZE_METERS / 2));
   for (let sample = 0; sample <= sampleCount; sample++) {
     const distance = (sample / sampleCount) * length;
     const center = centerAtDistance(distance);

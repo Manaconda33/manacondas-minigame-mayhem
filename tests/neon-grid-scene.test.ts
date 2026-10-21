@@ -92,27 +92,24 @@ describe('Neon Grid Stage 4 Task 8 Falls Run representative stretch', () => {
     for (const geometry of geometries) geometry.dispose();
   });
 
-  it('quality-scales only the approved expensive dressing and skips wet streaks on Low', () => {
-    const track = new NeonGrid();
-    const low = createNeonGridScene(track, 'low');
-    const medium = createNeonGridScene(track, 'medium');
-    const high = createNeonGridScene(track, 'high');
-
-    expect(low.getObjectByName('falls-run-wet-asphalt')).toBeUndefined();
-    expect(medium.getObjectByName('falls-run-wet-asphalt')).toBeDefined();
-    expect(high.getObjectByName('falls-run-wet-asphalt')).toBeDefined();
-
-    expect(requireInstanced(low, 'falls-run-city-windows').count).toBe(160);
-    expect(requireInstanced(medium, 'falls-run-city-windows').count).toBe(320);
-    expect(requireInstanced(high, 'falls-run-city-windows').count).toBe(480);
-    expect(requireInstanced(low, 'falls-run-ambient-mist').count).toBe(16);
-    expect(requireInstanced(medium, 'falls-run-ambient-mist').count).toBe(32);
-    expect(requireInstanced(high, 'falls-run-ambient-mist').count).toBe(48);
-
-    disposeTrackScene(low);
-    disposeTrackScene(medium);
-    disposeTrackScene(high);
-  }, 15000);
+  it.each(['low', 'medium', 'high'] as const)(
+    'quality-scales approved dressing and wet streaks on %s',
+    (quality) => {
+      const scene = createNeonGridScene(new NeonGrid(), quality);
+      const expected = {
+        low: { windows: 160, mist: 16, wet: false },
+        medium: { windows: 320, mist: 32, wet: true },
+        high: { windows: 480, mist: 48, wet: true },
+      }[quality];
+      try {
+        expect(Boolean(scene.getObjectByName('falls-run-wet-asphalt'))).toBe(expected.wet);
+        expect(requireInstanced(scene, 'falls-run-city-windows').count).toBe(expected.windows);
+        expect(requireInstanced(scene, 'falls-run-ambient-mist').count).toBe(expected.mist);
+      } finally {
+        disposeTrackScene(scene);
+      }
+    },
+  );
 
   it('keeps repeated Task 8 transforms finite and introduces no textures or real lights', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'high');

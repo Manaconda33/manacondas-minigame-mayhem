@@ -46,14 +46,15 @@ function assertRoadCompositing(scene: NeonGridScene, quality: GraphicsQuality): 
 }
 
 describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
-  it('bounds all four presentation owners and supported detail on every quality tier', () => {
-    const bounds = {
-      low: { skyline: 120, undercity: 80, task8: 160, falls: 80, task8Mist: 16, extensionMist: 0 },
-      medium: { skyline: 240, undercity: 160, task8: 320, falls: 160, task8Mist: 32, extensionMist: 14 },
-      high: { skyline: 360, undercity: 240, task8: 480, falls: 240, task8Mist: 48, extensionMist: 28 },
-    } as const;
-    const track = new NeonGrid();
-    for (const quality of ['low', 'medium', 'high'] as const) {
+  it.each(['low', 'medium', 'high'] as const)(
+    'bounds all four presentation owners and supported detail on %s quality',
+    (quality) => {
+      const bounds = {
+        low: { skyline: 120, undercity: 80, task8: 160, falls: 80, task8Mist: 16, extensionMist: 0 },
+        medium: { skyline: 240, undercity: 160, task8: 320, falls: 160, task8Mist: 32, extensionMist: 14 },
+        high: { skyline: 360, undercity: 240, task8: 480, falls: 240, task8Mist: 48, extensionMist: 28 },
+      } as const;
+      const track = new NeonGrid();
       const scene = createNeonGridScene(track, quality);
       try {
         const expected = bounds[quality];
@@ -78,8 +79,9 @@ describe('Neon Grid Stage 4 T9.5 course lifecycle and masking', () => {
       } finally {
         disposeTrackScene(scene);
       }
-    }
-  }, 20000);
+    },
+    20000,
+  );
 
   it('physically backs Undercity ventilation and Falls deck fixtures with existing structure', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');

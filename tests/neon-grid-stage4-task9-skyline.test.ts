@@ -25,13 +25,14 @@ function expectFiniteInstances(mesh: THREE.InstancedMesh): void {
 }
 
 describe('Neon Grid Stage 4 Task 9 T9.2 Skyline Straight', () => {
-  it('owns only the approved Skyline range with bounded finite presentation batches', () => {
-    const expectedWindows: Record<GraphicsQuality, number> = {
-      low: 120,
-      medium: 240,
-      high: 360,
-    };
-    for (const quality of ['low', 'medium', 'high'] as const) {
+  it.each(['low', 'medium', 'high'] as const)(
+    'owns only the approved Skyline range with bounded finite presentation batches on %s quality',
+    (quality) => {
+      const expectedWindows: Record<GraphicsQuality, number> = {
+        low: 120,
+        medium: 240,
+        high: 360,
+      };
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
         expect(scene.skyline.group.name).toBe('skyline-visual');
@@ -63,8 +64,9 @@ describe('Neon Grid Stage 4 Task 9 T9.2 Skyline Straight', () => {
       } finally {
         disposeTrackScene(scene);
       }
-    }
-  }, 20000);
+    },
+    20000,
+  );
 
   it('grounds one presentation-only foundation beneath each unchanged tower footprint', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');
@@ -216,27 +218,29 @@ describe('Neon Grid Stage 4 Task 9 T9.2 Skyline Straight', () => {
     }
   }, 20000);
 
-  it('bypasses Skyline wet asphalt on Low and keeps Medium/High avatar-safe', () => {
-    for (const quality of ['low', 'medium', 'high'] as const) {
+  it.each(['low', 'medium', 'high'] as const)(
+    'bypasses Skyline wet asphalt on Low and keeps %s avatar-safe',
+    (quality) => {
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
         const wet = scene.getObjectByName('skyline-wet-asphalt');
         if (quality === 'low') {
           expect(wet).toBeUndefined();
-          continue;
+        } else {
+          expect(wet).toBeInstanceOf(THREE.Mesh);
+          const mesh = wet as THREE.Mesh;
+          const material = mesh.material as THREE.Material;
+          expect(mesh.renderOrder).toBeLessThan(0);
+          expect(material.transparent).toBe(true);
+          expect(material.depthWrite).toBe(false);
+          expect(material.depthTest).toBe(true);
         }
-        expect(wet).toBeInstanceOf(THREE.Mesh);
-        const mesh = wet as THREE.Mesh;
-        const material = mesh.material as THREE.Material;
-        expect(mesh.renderOrder).toBeLessThan(0);
-        expect(material.transparent).toBe(true);
-        expect(material.depthWrite).toBe(false);
-        expect(material.depthTest).toBe(true);
       } finally {
         disposeTrackScene(scene);
       }
-    }
-  }, 20000);
+    },
+    20000,
+  );
 
   it('freezes Skyline animation while hidden and resumes without catch-up', () => {
     const scene = createNeonGridScene(new NeonGrid(), 'medium');

@@ -91,9 +91,10 @@ describe('Neon Grid Stage 4 Task 9 T9.0 frozen baseline', () => {
 });
 
 describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
-  it('mounts bounded Undercity presentation and approved utility-mask assets', () => {
-    const expectedWindows: Record<GraphicsQuality, number> = { low: 80, medium: 160, high: 240 };
-    for (const quality of ['low', 'medium', 'high'] as const) {
+  it.each(['low', 'medium', 'high'] as const)(
+    'mounts bounded Undercity presentation and approved utility-mask assets on %s quality',
+    (quality) => {
+      const expectedWindows: Record<GraphicsQuality, number> = { low: 80, medium: 160, high: 240 };
       const scene = createNeonGridScene(new NeonGrid(), quality);
       try {
         const owner = scene.getObjectByName('undercity-visual');
@@ -133,8 +134,9 @@ describe('Neon Grid Stage 4 Task 9 T9.3 Undercity', () => {
       } finally {
         disposeTrackScene(scene);
       }
-    }
-  }, 20000);
+    },
+    20000,
+  );
 
   it('anchors industrial scenery and uses track-derived road-edge vertices', () => {
     const track = new NeonGrid();

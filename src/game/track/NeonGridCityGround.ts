@@ -25,6 +25,7 @@ export interface CityGroundFootingBounds {
 }
 
 const NEON_GRID_CITY_BLOCK_SIZE = 27;
+export const NEON_GRID_CITY_GROUND_RASTER_CELL_SIZE_METERS = 9;
 
 /** Return the vertex tint used to distinguish city streets from their blocks. */
 export function neonGridCityGroundColorAt(x: number, z: number, base: THREE.Color): THREE.Color {
@@ -741,7 +742,7 @@ export function neonGridTerracedCityGroundGeometry(
   }
   surfaceBucketsReady = true;
 
-  const rasterCellSize = 9;
+  const rasterCellSize = NEON_GRID_CITY_GROUND_RASTER_CELL_SIZE_METERS;
   const minCellX = Math.floor(gridBounds.min.x / rasterCellSize);
   const maxCellX = Math.ceil(gridBounds.max.x / rasterCellSize);
   const minCellZ = Math.floor(gridBounds.min.z / rasterCellSize);

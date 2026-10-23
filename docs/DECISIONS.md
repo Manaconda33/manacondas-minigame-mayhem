@@ -1,3 +1,12 @@
+## 2026-10-23: Reject Scratched Painted Metal 01 for Falls Run cladding
+
+- **Owner decision:** Manny reviewed the isolated A/B treatment and rejected its appearance: “I don't like the cladding look. Let's not add it. Mark it as a failed experiment.”
+- **Decision:** Do not add Scratched Painted Metal 01 to the production `falls-run-wall-cladding` mesh. Retain the existing production cladding appearance. The opt-in experiment was not approved for integration.
+- **Evidence:** Matched game-camera captures showed the target was largely obscured by the C2 concrete roadside wall. B changed at most 0.3533% of mobile-portrait pixels in the sampled views; the race-camera midpoint wall view was identical between A and B. The texture was visible only in an isolated mesh diagnostic and did not make a worthwhile improvement in the racing environment.
+- **Reconsideration:** Do not resurrect this material-target combination or treat the prior implementation approval as adoption approval. Any future material or target proposal needs a distinct, explicit owner review. This decision does not approve or reject other metal materials or surfaces.
+- **Preserved composition:** C2 Concrete Wall 007, Fog V3.2, owner-edited building placement, track geometry, collisions, gameplay, and Circuit Alpha as the default remain unchanged.
+- **Publication boundary:** No production runtime change, preview, merge, or deployment is authorized by this record. The rejected experiment remains separate from production.
+
 ## 2026-10-21: Add Neon Grid as a selectable production track
 
 - **Owner direction:** Manny authorized bringing the approved Neon Grid work into production and selected the hub behavior: Circuit Alpha remains the default; Neon Grid is an additional selectable track. The menu must make both choices obvious.

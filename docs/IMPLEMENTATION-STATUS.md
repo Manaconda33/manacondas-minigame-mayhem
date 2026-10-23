@@ -1,5 +1,21 @@
 # Implementation Status
 
+## 2026-10-23 — Release Readiness R1 (documentation checkpoint; awaiting owner review)
+
+Production baseline verified on `main` at `d0b9acf889d669832c97a9187886d9e6289c9abe` (PR #335, current 20-second Vitest timeout). Main CI/Pages run [39711768852](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39711768852) and trusted-runtime run [39711768826](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39711768826) completed successfully. Main validation reported 144 test files / 1,214 tests passing; Pages assembly and deployment succeeded and verified 2,655 expected published files. The Pages artifact emitted an oversized-artifact warning; see the R2 checklist. Stage C remains `PREPARED_DISABLED`.
+
+**Accepted work remains accepted.** Manny's prior gameplay, desktop/mobile, current visual, and five-race-restart reviews remain valid. This record does not ask for broad replay or reopen those approvals because newer numeric diagnostics are absent. Slice 6 presentation is accepted; formal v1 closure remains pending the specific current-source G-05 capture, browser/WebGL2 compatibility evidence, package-size measurement, and rollback artifact evidence listed in the R2 checklist. This is an evidence closeout, not a claim that those measurements have already passed.
+
+**Current scope and appearance.** The approved active roster is fourteen selectable drivers (AA-01–AA-14); the original twelve-slot text is historical baseline wording, and the existing eight-racer grid is unchanged. Circuit Alpha remains the initial/default track. Neon Grid remains selectable with C2 Concrete Wall 007, Task A Fog V3.2, and the owner-edited layout. This accepted appearance is frozen; no further material, lighting, geometry, or environmental changes are in scope without new owner direction.
+
+**Rejected experiment.** Manny rejected Scratched Painted Metal 01 on `falls-run-wall-cladding`. The decision and measurements are recorded in [PR #336](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/336), exact head `939916997ec67b8f2256541d4dc346134c4128c5`; hosted run [39965195785](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39965195785) passed, including `validate`. That decision does not authorize any other material experiment. PR #336 remains open pending separate merge authorization, including its normal Pages side effect.
+
+**Internal editor status.** The Layout Studio is no longer required for current development or release. Keep its source branch, exported files, evidence, and existing published preview available. No editor, workflow, Pages path, or preview was removed or changed by this documentation checkpoint. A player-facing portable-file track editor remains deferred.
+
+**PR review state.** The exact no-merge closeout proposal for #242, #317, and #320 is in [pr-closeout-proposal.md](evidence/2026-10-23-release-readiness-r1/pr-closeout-proposal.md). All three remain open and their source branches/evidence remain preserved; this proposal does not authorize closing them or deleting branches.
+
+R2 is limited to the minimum measured release evidence in [r2-evidence-checklist.md](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md). The five-restart owner acceptance remains accepted; a numeric heap trend is supplementary. No runtime change, speculative optimization, deployment, PR closure, merge, or Stage C activation is included here.
+
 ## 2026-10-21 — Neon Grid selectable production track
 
 Manny directed production to keep Circuit Alpha as the initial/default track and make Neon Grid a second, clearly labeled playable choice in the hub. Selecting Neon Grid loads the owner-approved visual composition by default: C2 Concrete Wall 007 coverage, Task A Fog V3.2, and the edited city layout with the buildings and attached facade accents retained. The layout editor remains a separate preview tool.

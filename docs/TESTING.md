@@ -1,8 +1,8 @@
-## Vitest per-test timeout baseline — owner-approved 2026-10-15
+## Vitest per-test timeout baseline — current setting 20,000 ms (merged 2026-10-22; owner-approved)
 
-The project explicitly sets Vitest `test.testTimeout` to **15,000 ms**. Before this change, the setting was omitted and Vitest 4.1.10 applied its inherited **5,000 ms** default. That value limited an individual test's execution time; it was not a PRD gameplay or graphics-performance requirement.
+Current production `main` sets Vitest `test.testTimeout` to **20,000 ms**, installed by PR #335 at commit `d0b9acf889d669832c97a9187886d9e6289c9abe` on 2026-10-22. The change raised the global timeout from the previously approved **15,000 ms** baseline; it did not change assertions, coverage thresholds, explicit per-test or hook overrides, workers, CI job limits, or validation phases.
 
-This approved test-runner baseline preserves all assertions, coverage thresholds/reporting, explicit per-test timeout overrides, the separate hook timeout, current worker settings, and GitHub workflow/job limits. Historical pinned Task C1 and Dive sources are not edited; their CI commands supply `--testTimeout=15000` explicitly. Earlier test results remain attributed to the five-second policy in force at the time. The new timeout is not a retry, skipped test, or validation waiver.
+**History retained:** The 15,000 ms timeout was approved on 2026-10-15. Before that, the setting was omitted and Vitest 4.1.10 used its inherited 5,000 ms default. Historical test results remain attributed to the timeout policy then in force. Exact older pinned Task C1 and Dive source jobs may still pass `--testTimeout=15000` because those commands are tied to their historical pinned-source validation contract; the current `main` test policy is 20,000 ms. The 20-second setting does not skip, retry, or weaken tests and is not a gameplay or frame-time threshold.
 
 ## Approved rendering requirements and test classes — Phase G0
 
@@ -1672,3 +1672,10 @@ The corrected branch and evidence are pushed; the latest documentation checkpoin
 The last exact Pages artifact size retained in repository evidence is **1,155,634,227 bytes** (artifact 11253670136, run 37066390953), above 1 GiB. The current artifact size for run 38580406020 was not accessible here. Track this existing warning separately; this surgical fix does not change artifact assembly.
 
 Trusted producer run 38580406017 is successful after attempt 2, but its four artifacts have mixed provenance: three jobs passed on attempt 1 and Dive on attempt 2. Because the verifier binds evidence to consistent run-attempt provenance, this does not prove a usable set or any reuse hit. Per the task sequence, do not start a new producer/reuse fixture until the Pages PR has been separately approved and merged.
+
+
+## Release Readiness R2 — minimum evidence checklist
+
+The current-source procedures, exact existing PRD limits, and evidence distinctions are recorded in [the R2 evidence checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md). Use it to close only the outstanding measurement and release-retention items. Manny's existing gameplay, desktop/mobile, and five-restart approvals remain accepted; no broad player replay is required. Do not change rendering thresholds, accepted appearance, or test policy.
+
+

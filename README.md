@@ -2,7 +2,7 @@
 
 A modular HTML5 minigame hub built around a 3D kart racer with illustrated 2D avatar drivers, character-specific karts, items, AI opponents, and the neon-lit **Route Night** presentation.
 
-**Status updated: October 21, 2026.** Circuit Alpha remains the default race track; Neon Grid is available as a second selectable track with its owner-approved C2 concrete, Fog V3.2, and edited city layout. [`docs/PRD.md`](docs/PRD.md) is the product specification (approved v1.1 baseline plus recorded amendments); GitHub code, [implementation status](docs/IMPLEMENTATION-STATUS.md), and [test evidence](docs/TESTING.md) establish what has actually shipped.
+**Status updated: October 23, 2026.** Circuit Alpha remains the default race track; Neon Grid is available as a second selectable track with its owner-approved C2 concrete, Fog V3.2, and edited city layout. [`docs/PRD.md`](docs/PRD.md) is the product specification (approved v1.1 baseline plus recorded amendments); GitHub code, [implementation status](docs/IMPLEMENTATION-STATUS.md), and [test evidence](docs/TESTING.md) establish what has actually shipped. Manny's prior gameplay, desktop/mobile, and five-restart approvals remain accepted. The current-source G-05 capture, browser/WebGL2 smoke, first-playable transfer size, rollback artifact, and Pages packaging assessment are tracked in the [Release Readiness R2 checklist](docs/evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md); no further visual refinement is in scope without new owner direction.
 
 ## Play and review
 

@@ -1,6 +1,6 @@
 declare module 'node:crypto' {
   interface Hash {
-    update(data: string): Hash;
+    update(data: string, inputEncoding?: 'hex'): Hash;
     digest(encoding: 'hex'): string;
   }
   export function createHash(algorithm: 'sha256'): Hash;
@@ -20,7 +20,12 @@ declare module 'node:child_process' {
 }
 
 declare module 'node:fs' {
+  interface BinaryFileContents extends Uint8Array {
+    toString(encoding: 'hex'): string;
+  }
   export function mkdtempSync(prefix: string): string;
+  export function readFileSync(path: string): BinaryFileContents;
+  export function readFileSync(path: string, encoding: 'utf8' | 'base64'): string;
   export function rmSync(path: string, options: { recursive: boolean; force: boolean }): void;
 }
 

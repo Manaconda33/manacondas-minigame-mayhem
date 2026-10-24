@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -26,6 +27,17 @@ function readDeliveryManifestScript(): string {
     .join('\n');
 }
 
+function readApprovedProductionAssetVerifier(): string {
+  const script = readDeliveryManifestScript();
+  const approvalStart = script.indexOf('approved_new_production_assets = {');
+  const approvalEnd = script.indexOf("root = Path('site-root')", approvalStart);
+
+  expect(approvalStart).toBeGreaterThanOrEqual(0);
+  expect(approvalEnd).toBeGreaterThan(approvalStart);
+
+  return script.slice(approvalStart, approvalEnd);
+}
+
 function withTemporaryDirectory(run: (directory: string) => void): void {
   const directory = mkdtempSync(join(tmpdir(), 'pages-assembly-without-checkout-'));
   try {
@@ -36,6 +48,81 @@ function withTemporaryDirectory(run: (directory: string) => void): void {
 }
 
 describe('Pages delivery manifest', () => {
+  it('approves only the five exact Opus paths and source-manifest hashes', () => {
+    const manifest = JSON.parse(
+      readFileSync('assets/audio/music-opus-192k/manifest.json', 'utf8'),
+    ) as { tracks: { file: string; sha256: string }[] };
+    const opusAssets = manifest.tracks.map(({ file, sha256 }) => ({
+      path: `assets/audio/music-opus-192k/${file}`,
+      sha256,
+      bytesSha256: createHash('sha256')
+        .update(
+          readFileSync(join('public', 'assets', 'audio', 'music-opus-192k', file)).toString('hex'),
+          'hex',
+        )
+        .digest('hex'),
+    }));
+
+    expect(opusAssets).toHaveLength(5);
+    for (const asset of opusAssets) expect(asset.bytesSha256).toBe(asset.sha256);
+
+    const script = readApprovedProductionAssetVerifier();
+    const cases = JSON.stringify(opusAssets.map(({ path, sha256 }) => ({ path, sha256 })));
+    const python = [
+      'import json',
+      'from pathlib import Path',
+      'import hashlib, time, urllib.error, urllib.request',
+      script,
+      `cases = json.loads(${JSON.stringify(cases)})`,
+      'for item in cases:',
+      '    assert is_approved_new_production_asset(item["path"], item["sha256"]) is True',
+      '    try:',
+      '        is_approved_new_production_asset(item["path"], "0" * 64)',
+      '    except RuntimeError as error:',
+      '        assert "Unexpected content for approved new production asset" in str(error)',
+      '    else:',
+      '        raise AssertionError(f"Wrong hash accepted for {item[\'path\']}")',
+      'unlisted = [',
+      '    "assets/audio/music-opus-192k/06-unlisted.ogg",',
+      '    "assets/audio/music-opus-192k/subdir/01-circuit-alpha-race-loop.ogg",',
+      '    "assets/audio/music-opus-192k-extra/01-circuit-alpha-race-loop.ogg",',
+      '    "assets/audio/music-opus-192k/01-circuit-alpha-race-loop-copy.ogg",',
+      ']',
+      'for path in unlisted:',
+      '    assert is_approved_new_production_asset(path, "0" * 64) is False',
+    ].join('\n');
+
+    withTemporaryDirectory((directory) => {
+      execFileSync('python3', [
+        '-c',
+        `import os; os.chdir(${JSON.stringify(directory)})\n${python}`,
+      ]);
+    });
+
+    // The existing gate still checks every ordinary production file and every
+    // pinned preview before publication. The report append stays outside that
+    // decision, so approved Opus files remain in delivery-expected.json.
+    const fullScript = readDeliveryManifestScript();
+    expect(fullScript).toMatch(
+      /if not is_published_preview and not is_rebuilt_application_entrypoint\(relative\) and not is_approved_new_asset:/,
+    );
+    expect(fullScript).toContain("relative.startswith(('previews/neon-grid-dive/'");
+    const approvalDecision = fullScript.indexOf(
+      'is_approved_new_asset = is_approved_new_production_asset(relative, sha)',
+    );
+    const verificationDecision = fullScript.indexOf(
+      'if not is_published_preview and not is_rebuilt_application_entrypoint(relative) and not is_approved_new_asset:',
+      approvalDecision,
+    );
+    const deliveryRecord = fullScript.indexOf(
+      'report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))',
+      verificationDecision,
+    );
+    expect(approvalDecision).toBeGreaterThanOrEqual(0);
+    expect(verificationDecision).toBeGreaterThan(approvalDecision);
+    expect(deliveryRecord).toBeGreaterThan(verificationDecision);
+  });
+
   it('filters only exact .gitkeep basenames and retains real runtime assets without a checkout', () => {
     const workflow = readFileSync(workflowPath, 'utf8');
     const script = readDeliveryManifestScript();

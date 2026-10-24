@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; working implementation amendment 2.20; approved governance amendment 2.21
+Version 1.1 - Final approved baseline; approved governance amendments through 2.30
 
 August 16, 2026
 
@@ -3167,3 +3167,15 @@ This dated note reconciles current approved v1 scope with the original baseline 
 - **Accepted visual freeze:** Neon Grid's accepted production appearance remains C2 Concrete Wall 007 coverage, Task A Fog V3.2, and the owner-edited layout; Circuit Alpha remains the default. Further material, lighting, geometry, or environmental changes require new owner direction.
 - **Internal Layout Studio:** The internal browser Layout Studio is no longer required for current game development or v1 release. Its existing preview and historical exports/evidence remain preserved; this note does not remove its published path or change Pages packaging. A future player-facing editor that exports portable track files is deferred and is not a v1 requirement.
 - **Future direction:** Additional original minigames, Jamverse, a possible from-scratch Godot rebuild (existing repositories as references only, never translated source), and a player-facing track editor remain future ideas, not current v1 work. Stage C/AI-agent automation remains `PREPARED_DISABLED`; future Dots availability alone will not activate it, and separate explicit authorization remains required.
+
+## Approved governance amendment 2.30 — First-playable transfer budget disposition
+
+Owner-approved October 24, 2026. The original §2.6 download targets remain part of the product's optimization guidance and historical acceptance record. The app shell target of ≤6 MB compressed before the Title remains unchanged. The first-playable Kart Racer package target of ≤45 MB compressed remains a forward-looking optimization target, and actual compressed transfer size must continue to be measured and reported. Exceeding 45 MB by itself is not a v1 release blocker and must not be reported as a pass; record the measured result and its non-blocking disposition separately.
+
+Measure elapsed time from initial navigation until the first controllable race session as a player-experience metric. Record the measurement method and observed value when available. No loading-time acceptance threshold is established by this amendment; any future threshold requires separate explicit approval by Manny.
+
+The production HTTPS capture at source commit 45235d88cd65be528577db1d71b20ca5454ab979 recorded shell encoded-response bodies of 366,537 B (WAV/Circuit Alpha), 723,921 B (Opus 192k/Circuit Alpha), and 848,641 B (WAV/Neon Grid); all pass the unchanged 6 MB shell target. Additional encoded body transfer from interactive Title through first controllable play was 105,693,972 B (WAV/Circuit Alpha), 52,062,570 B (Opus 192k/Circuit Alpha), and 108,478,985 B (WAV/Neon Grid). Each exceeds 45 MB; these are historical measured FAIL comparisons against the optimization target, with non-blocking release disposition, not PASS results. Circuit Alpha's four pre-control Opus tracks saved 49,470,888 B versus the four WAV tracks in the captured sessions. The ordinary WAV default remains unchanged; the Opus option remains opt-in.
+
+Capture scope was the deployed GitHub Pages site over HTTPS in Chromium 151.0.7922.173 with a fresh browser cache. This is browser network evidence, not a device performance result. No other browser-engine, physical-device, network timing, or G-05 conclusion is implied. The source-pinned report and raw capture package are preserved at docs/evidence/2026-10-24-r2-first-playable-transfer/.
+
+This amendment changes only the release disposition of the 45 MB transfer target and adds measurement/reporting guidance. It does not alter gameplay, assets, audio defaults, first-control behavior, the 6 MB shell target, FPS/frame-time/rendering limits, browser compatibility requirements, or any gameplay acceptance criterion. All other PRD gates remain in force.

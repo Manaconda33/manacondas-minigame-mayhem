@@ -1,5 +1,17 @@
 # Implementation Status
 
+
+## 2026-10-24 — R2.7 first-playable transfer budget governance
+
+Production main was reverified at 45235d88cd65be528577db1d71b20ca5454ab979. Main CI and its automatic Pages deployment passed in run [40095290123](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40095290123); Pages job 120881359918 completed deployment and live-byte verification. R2's HTTPS capture exercised the deployed source in Chromium 151.0.7922.173 and reached first controllable play in each scenario.
+
+Manny approved PRD governance amendment 2.30: the 45 MB compressed first-playable budget is now a monitored optimization target, not a release blocker. Its measured over-budget results remain FAIL comparisons to that target, with non-blocking release disposition; they are not reclassified PASS. The unchanged 6 MB Title-shell target passed with measured bodies of 366,537 B (WAV/Circuit Alpha), 723,921 B (Opus 192k/Circuit Alpha), and 848,641 B (WAV/Neon Grid). Additional transfer to first control measured 105,693,972 B, 52,062,570 B, and 108,478,985 B in those scenarios respectively. The four captured Opus tracks saved 49,470,888 B versus the WAV tracks. WAV remains the default; Opus remains opt-in.
+
+The complete report, request-level evidence and capture files are preserved under [R2 first-playable evidence](evidence/2026-10-24-r2-first-playable-transfer/acceptance-disposition.md), including the original evidence-package SHA-256. Only Chromium was measured; no loading-time result, cross-browser result, physical-device result, or G-05 result is claimed. First-controllable loading time is a player-experience metric to report; a future acceptance threshold requires separate owner approval.
+
+**Release readiness:** the 45 MB measurement no longer blocks v1. The 6 MB shell target remains unchanged and passes. Remaining mandatory release evidence—including current-source G-05 and browser/WebGL2 checks, rollback requirements and item-by-item §37 closure—remains governed by the R2 checklist. No gameplay, audio default, asset, graphics, performance threshold, Pages packaging, CI policy, or Stage C state changed. Stage C remains PREPARED_DISABLED.
+
+
 ## 2026-10-23 — Release Readiness R1 (documentation checkpoint; awaiting owner review)
 
 Production baseline verified on `main` at `d0b9acf889d669832c97a9187886d9e6289c9abe` (PR #335, current 20-second Vitest timeout). Main CI/Pages run [39711768852](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39711768852) and trusted-runtime run [39711768826](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39711768826) completed successfully. Main validation reported 144 test files / 1,214 tests passing; Pages assembly and deployment succeeded and verified 2,655 expected published files. The Pages artifact emitted an oversized-artifact warning; see the R2 checklist. Stage C remains `PREPARED_DISABLED`.

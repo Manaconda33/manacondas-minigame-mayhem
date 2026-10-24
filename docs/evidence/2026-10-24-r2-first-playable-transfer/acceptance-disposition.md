@@ -1,12 +1,12 @@
 
 # R2.7 first-playable transfer evidence and acceptance disposition
 
-**Disposition date:** 2026-10-24  
-**Repository:** Manaconda33/manacondas-minigame-mayhem  
-**Production source:** 45235d88cd65be528577db1d71b20ca5454ab979  
-**Production Pages:** https://manaconda33.github.io/manacondas-minigame-mayhem/  
-**CI and Pages run:** [40095290123](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40095290123)  
-**Deployment job:** 120881359918
+- **Disposition date:** 2026-10-24
+- **Repository:** Manaconda33/manacondas-minigame-mayhem
+- **Production source:** 45235d88cd65be528577db1d71b20ca5454ab979
+- **Production Pages:** https://manaconda33.github.io/manacondas-minigame-mayhem/
+- **CI and Pages run:** [40095290123](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40095290123)
+- **Deployment job:** 120881359918
 
 ## Approved interpretation
 

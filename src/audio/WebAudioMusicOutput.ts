@@ -1,4 +1,10 @@
-import { musicCatalog, musicUrl, type MusicCue } from './musicCatalog';
+import {
+  musicCatalog,
+  musicFormatFromSearch,
+  musicUrl,
+  type MusicCue,
+  type MusicFormat,
+} from './musicCatalog';
 
 export interface MusicVoice {
   position(): number;
@@ -29,6 +35,7 @@ export class WebAudioMusicOutput implements MusicOutput {
   public constructor(
     private readonly context: () => AudioContext | null = () => this.ownedContext,
     private readonly fetchAudio: typeof fetch = (...args) => fetch(...args),
+    private readonly format: MusicFormat = musicFormatFromSearch(),
   ) {}
 
   public time(): number {
@@ -70,17 +77,31 @@ export class WebAudioMusicOutput implements MusicOutput {
     this.requests.set(cue, request);
     const load = (async (): Promise<boolean> => {
       try {
-        const response = await this.fetchAudio(musicUrl(cue), { signal: request.signal });
-        if (!response.ok) return false;
-        const buffer = await context.decodeAudioData(await response.arrayBuffer());
-        if (this.disposed || request.signal.aborted || !this.retained.has(cue)) return false;
-        // Invalid duration must not silently move the authored loop boundary.
-        if (Math.abs(buffer.duration - musicCatalog[cue].duration) > 1 / 48000 + 0.000001)
-          return false;
+        const formats: readonly MusicFormat[] =
+          this.format === 'opus-192k' ? ['opus-192k', 'wav'] : ['wav'];
+        let buffer: AudioBuffer | null = null;
+        for (const format of formats) {
+          if (!this.requestIsActive(cue, request)) return false;
+          try {
+            const response = await this.fetchAudio(musicUrl(cue, format), {
+              signal: request.signal,
+            });
+            if (!response.ok) continue;
+            const decoded = await context.decodeAudioData(await response.arrayBuffer());
+            if (!this.requestIsActive(cue, request)) return false;
+            // Invalid duration must not silently move the authored loop boundary.
+            if (Math.abs(decoded.duration - musicCatalog[cue].duration) > 1 / 48000 + 0.000001)
+              continue;
+            buffer = decoded;
+            break;
+          } catch {
+            // Cancellation is not a format failure; never start a fallback request for it.
+            if (!this.requestIsActive(cue, request)) return false;
+          }
+        }
+        if (!buffer || !this.requestIsActive(cue, request)) return false;
         this.buffers.set(cue, buffer);
         return true;
-      } catch {
-        return false;
       } finally {
         // A superseded aborted decode must not remove its replacement request.
         if (this.requests.get(cue) === request) {
@@ -91,6 +112,10 @@ export class WebAudioMusicOutput implements MusicOutput {
     })();
     this.pending.set(cue, load);
     return load;
+  }
+
+  private requestIsActive(cue: MusicCue, request: AbortController): boolean {
+    return !this.disposed && !request.signal.aborted && this.retained.has(cue);
   }
 
   public play(cue: MusicCue, at: number, offset: number): MusicVoice | null {

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { WebAudioMusicOutput } from '../src/audio/WebAudioMusicOutput';
-import { musicCatalog } from '../src/audio/musicCatalog';
+import { musicCatalog, musicFormatFromSearch, musicUrl } from '../src/audio/musicCatalog';
 import { MusicDirector } from '../src/audio/MusicDirector';
 afterEach(() => vi.unstubAllGlobals());
 function context(duration = musicCatalog.hub.duration) {
@@ -167,4 +167,198 @@ it('keeps prepared race audio across the silent countdown instead of downloading
   await flush();
   expect(fetched.filter((url) => url.includes(musicCatalog.race.file))).toHaveLength(1);
   director.dispose();
+});
+
+describe('opt-in 192k Opus music delivery', () => {
+  const response = (ok = true): Response =>
+    ({ ok, arrayBuffer: () => Promise.resolve(new ArrayBuffer(1)) }) as Response;
+
+  it('requires the exact experimental query value and keeps unrelated selectors independent', () => {
+    expect(musicFormatFromSearch('')).toBe('wav');
+    expect(musicFormatFromSearch('?neonGridMaterial=concrete-coverage-c2-001')).toBe('wav');
+    expect(musicFormatFromSearch('?musicFormat=opus-192k')).toBe('opus-192k');
+    expect(musicFormatFromSearch('?musicFormat=opus-128k')).toBe('wav');
+    expect(musicUrl('hub')).toContain('/assets/audio/music-v2/');
+    expect(musicUrl('hub', 'opus-192k')).toContain('/assets/audio/music-opus-192k/');
+  });
+
+  it('loads Opus successfully without requesting the WAV fallback', async () => {
+    const c = context();
+    const urls: string[] = [];
+    const request: typeof fetch = (input) => {
+      urls.push(typeof input === 'string' ? input : input instanceof URL ? input.href : input.url);
+      return Promise.resolve(response());
+    };
+    const output = new WebAudioMusicOutput(() => c.ctx, request, 'opus-192k');
+    output.retain(['hub']);
+
+    expect(await output.load('hub')).toBe(true);
+    expect(urls).toHaveLength(1);
+    expect(urls[0]).toContain('/assets/audio/music-opus-192k/03-route-night-title-hub-loop.ogg?');
+    expect(urls.some((url) => url.includes('/assets/audio/music-v2/'))).toBe(false);
+    output.dispose();
+  });
+
+  it('loads every experimental cue with its exact authored loop boundary', async () => {
+    const cues = Object.keys(musicCatalog) as (keyof typeof musicCatalog)[];
+    for (const cue of cues) {
+      const c = context(musicCatalog[cue].duration);
+      const urls: string[] = [];
+      const request: typeof fetch = (input) => {
+        urls.push(
+          typeof input === 'string' ? input : input instanceof URL ? input.href : input.url,
+        );
+        return Promise.resolve(response());
+      };
+      const output = new WebAudioMusicOutput(() => c.ctx, request, 'opus-192k');
+      output.retain([cue]);
+
+      expect(await output.load(cue), cue).toBe(true);
+      const voice = output.play(cue, 12, 3);
+      expect(voice, cue).not.toBeNull();
+      expect(c.source.loopEnd, cue).toBe(musicCatalog[cue].duration);
+      expect(urls).toHaveLength(1);
+      expect(urls[0]).toContain('/assets/audio/music-opus-192k/');
+      voice?.stop();
+      output.dispose();
+    }
+  });
+
+  it.each([
+    ['unsupported codec response', () => Promise.resolve(response(false))],
+    ['failed Opus network request', () => Promise.reject(new TypeError('network failed'))],
+  ])('falls back to WAV on %s', async (_name, opusResponse) => {
+    const c = context();
+    const urls: string[] = [];
+    const request: typeof fetch = async (input) => {
+      const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
+      urls.push(url);
+      if (url.includes('music-opus-192k')) return Promise.resolve(opusResponse());
+      return Promise.resolve(response());
+    };
+    const output = new WebAudioMusicOutput(() => c.ctx, request, 'opus-192k');
+    output.retain(['hub']);
+
+    expect(await output.load('hub')).toBe(true);
+    expect(urls).toHaveLength(2);
+    expect(urls[0]).toContain('music-opus-192k');
+    expect(urls[1]).toContain('/assets/audio/music-v2/');
+    output.dispose();
+  });
+
+  it('falls back to WAV when Opus data is corrupt or fails the exact duration gate', async () => {
+    for (const failure of ['corrupt', 'duration'] as const) {
+      const c = context();
+      let requests = 0;
+      c.ctx.decodeAudioData = vi.fn(() =>
+        Promise.resolve().then(() => {
+          requests++;
+          if (failure === 'corrupt' && requests === 1) throw new Error('decode failed');
+          return {
+            duration: failure === 'duration' && requests === 1 ? 1 : musicCatalog.hub.duration,
+          } as AudioBuffer;
+        }),
+      );
+      const urls: string[] = [];
+      const request: typeof fetch = (input) => {
+        urls.push(
+          typeof input === 'string' ? input : input instanceof URL ? input.href : input.url,
+        );
+        return Promise.resolve(response());
+      };
+      const output = new WebAudioMusicOutput(() => c.ctx, request, 'opus-192k');
+      output.retain(['hub']);
+
+      expect(await output.load('hub'), failure).toBe(true);
+      expect(urls).toHaveLength(2);
+      expect(urls[1]).toContain('/assets/audio/music-v2/');
+      output.dispose();
+    }
+  });
+
+  it('does not request WAV after intentional cancellation or a rapid cue change', async () => {
+    const c = context();
+    let activeSignal: AbortSignal | undefined;
+    const urls: string[] = [];
+    const request: typeof fetch = (input, init) => {
+      const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
+      urls.push(url);
+      activeSignal = init?.signal ?? undefined;
+      return new Promise<Response>((_resolve, reject) => {
+        activeSignal?.addEventListener(
+          'abort',
+          () => {
+            reject(new DOMException('aborted', 'AbortError'));
+          },
+          { once: true },
+        );
+      });
+    };
+    const output = new WebAudioMusicOutput(() => c.ctx, request, 'opus-192k');
+    output.retain(['hub']);
+    const loading = output.load('hub');
+    await Promise.resolve();
+    output.retain(['select']);
+
+    expect(await loading).toBe(false);
+    expect(activeSignal?.aborted).toBe(true);
+    expect(urls).toHaveLength(1);
+    expect(urls[0]).toContain('music-opus-192k');
+    expect(urls.some((url) => url.includes('/assets/audio/music-v2/'))).toBe(false);
+    output.dispose();
+  });
+
+  it('does not start a WAV fallback when MusicDirector rapidly changes an Opus cue', async () => {
+    const c = context();
+    const urls: string[] = [];
+    const request: typeof fetch = (input, init) => {
+      const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
+      urls.push(url);
+      return new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener(
+          'abort',
+          () => {
+            reject(new DOMException('aborted', 'AbortError'));
+          },
+          { once: true },
+        );
+      });
+    };
+    const output = new WebAudioMusicOutput(() => c.ctx, request, 'opus-192k');
+    const director = new MusicDirector(output);
+    await director.unlock();
+    director.route('hub');
+    await Promise.resolve();
+    director.route('select');
+    await Promise.resolve();
+    expect(
+      urls.some((url) =>
+        url.includes('/assets/audio/music-opus-192k/03-route-night-title-hub-loop.ogg'),
+      ),
+    ).toBe(true);
+    expect(
+      urls.some((url) => url.includes('/assets/audio/music-v2/03-route-night-title-hub-loop.wav')),
+    ).toBe(false);
+    expect(
+      urls.some((url) =>
+        url.includes('/assets/audio/music-opus-192k/04-grid-preparation-character-select-loop.ogg'),
+      ),
+    ).toBe(true);
+    director.dispose();
+  });
+
+  it('keeps WAV as the default delivery mode', async () => {
+    const c = context();
+    let requested = '';
+    const request: typeof fetch = (input) => {
+      requested = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
+      return Promise.resolve(response());
+    };
+    const output = new WebAudioMusicOutput(() => c.ctx, request);
+    output.retain(['hub']);
+    expect(await output.load('hub')).toBe(true);
+    expect(requested).toContain('/assets/audio/music-v2/');
+    expect(requested).not.toContain('music-opus-192k');
+    output.dispose();
+  });
 });

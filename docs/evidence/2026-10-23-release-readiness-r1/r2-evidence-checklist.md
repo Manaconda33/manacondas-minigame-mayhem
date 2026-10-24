@@ -49,3 +49,19 @@ PRD §37 is the original acceptance checklist. Preserve its wording and existing
 During R2, prepare one dated matrix covering every applicable §37 item and any explicitly applicable release criterion referenced by it. For each item, record the PRD reference and unchanged criterion, disposition (verified complete; owner-tested/accepted with documentation or metric incomplete; genuine testing/implementation gap; deferred/superseded; or conflicting documentation), exact evidence link plus commit/run/build and date where applicable, and the prior owner-acceptance record if one exists. State the smallest missing evidence for each pending item. Reuse valid owner approvals without asking Manny to repeat accepted gameplay or broad visual testing. Keep explicit numeric PRD gates separate from supplementary diagnostics. Mark an item not applicable or superseded only with its documented basis.
 
 Formal v1 closure remains pending until this matrix reconciles all applicable checklist items and any genuine required gap is closed or governed by an explicit owner decision. This is an evidence reconciliation procedure; it does not add, remove, or weaken acceptance requirements.
+
+## R2.7 — first-playable transfer results and release disposition (2026-10-24)
+
+**Owner-approved interpretation:** PRD amendment 2.30 keeps the original 45 MB wording and measurements as the historical and forward optimization target. Over-budget transfer alone is non-blocking for v1; preserve FAIL against the target as a measurement disposition, not PASS. Actual compressed transfer remains measured/reported. The unchanged 6 MB shell requirement remains in effect. First-controllable loading time is a player-experience metric without an acceptance threshold until separately approved by Manny.
+
+Live production source 45235d88cd65be528577db1d71b20ca5454ab979; successful CI/Pages run [40095290123](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40095290123). Chromium 151.0.7922.173 HTTPS captures, fresh browser cache:
+
+| Scenario | Shell bytes to interactive Title | Shell disposition | Additional bytes to first control | Historical 45 MB comparison | v1 release disposition |
+|---|---:|---|---:|---|---|
+| Circuit Alpha, WAV default | 366,537 | PASS | 105,693,972 | FAIL | Non-blocking |
+| Circuit Alpha, Opus 192k opt-in | 723,921 | PASS | 52,062,570 | FAIL | Non-blocking |
+| Neon Grid, WAV default | 848,641 | PASS | 108,478,985 | FAIL | Non-blocking |
+
+The captured Opus path transferred **49,470,888 fewer bytes** for four music tracks; it does not meet 45 MB by itself. WAV remains the default and Opus remains opt-in. The run establishes no cross-browser coverage, physical-device/G-05 result, or loading-time value. Preserve the source-pinned report, raw request data, scripts, methodology and checksum in [the R2 evidence and disposition record](../2026-10-24-r2-first-playable-transfer/acceptance-disposition.md).
+
+**Remaining mandatory release requirements:** unchanged 6 MB shell compliance (PASS here); current-source representative desktop G-05 evidence; required browser/WebGL2 compatibility evidence; rollback readiness; and item-by-item closure of applicable original PRD §37 criteria. These remain separate from the now-non-blocking 45 MB optimization target. Prior owner gameplay acceptance remains accepted. No new loading-time threshold is introduced.

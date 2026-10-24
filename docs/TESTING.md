@@ -1678,4 +1678,10 @@ Trusted producer run 38580406017 is successful after attempt 2, but its four art
 
 The current-source procedures, exact existing PRD limits, and evidence distinctions are recorded in [the R2 evidence checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md). Use it to close only the outstanding measurement and release-retention items. Manny's existing gameplay, desktop/mobile, and five-restart approvals remain accepted; no broad player replay is required. Do not change rendering thresholds, accepted appearance, or test policy.
 
+## R2.7 first-playable transfer disposition — 2026-10-24
 
+The approved PRD amendment 2.30 keeps the 6 MB compressed app-shell-before-Title target unchanged and reclassifies the 45 MB compressed first-playable budget as a monitored optimization target. Over 45 MB is a historical measurement FAIL against the target, but alone does not block v1 release acceptance and must not be labeled PASS. Continue to measure actual encoded response bytes from navigation to interactive Title and separately from Title to first controllable play. Report the method, source, cache state, browser, and both intervals. First-controllable loading time is also a player-experience metric; do not create a pass threshold without separate owner approval.
+
+R2's deployed HTTPS capture is pinned to 45235d88cd65be528577db1d71b20ca5454ab979, Chromium 151.0.7922.173. Shell results: WAV/Circuit Alpha 366,537 B, Opus 192k/Circuit Alpha 723,921 B, WAV/Neon Grid 848,641 B (all 6 MB PASS). Additional first-control results: 105,693,972 B, 52,062,570 B, and 108,478,985 B respectively (all 45 MB target FAIL, release non-blocking). Opus saved 49,470,888 B over the captured four WAV tracks. The standard URL still chooses WAV. Other browser, device, G-05, and elapsed-load-time evidence is not supplied by this measurement.
+
+The preserved report and source-pinned raw captures are in [R2 transfer evidence](evidence/2026-10-24-r2-first-playable-transfer/acceptance-disposition.md). No test policy or loading architecture changed; this documentation amendment does not waive or satisfy other test requirements.

@@ -1,3 +1,10 @@
+## 2026-10-24: R2.7 first-playable transfer budget governance
+
+- **Owner decision:** The original 45 MB compressed first-playable budget remains a historical and forward-looking optimization target. Exceeding it alone does not block v1 release acceptance. Continue to measure and report actual compressed transfer. The 6 MB Title-shell target is unchanged. First-controllable loading time is a player-experience metric; any future acceptance threshold requires separate explicit approval.
+- **R2 results:** At production source 45235d88cd65be528577db1d71b20ca5454ab979, the HTTPS captures measured shell bodies of 366,537 B (WAV/Circuit Alpha), 723,921 B (Opus 192k/Circuit Alpha), and 848,641 B (WAV/Neon Grid), all passing the 6 MB target. Additional transfer to first control was respectively 105,693,972 B, 52,062,570 B, and 108,478,985 B. All are historical FAIL comparisons against 45 MB and now have non-blocking release disposition—not PASS. The captured four-track Opus path saved 49,470,888 B. WAV remains the default; Opus remains opt-in.
+- **Evidence scope:** Measurements used the live Pages HTTPS site in Chromium 151.0.7922.173 with a fresh browser cache. They do not establish other-browser, physical-device, G-05, or first-control timing results. Preserve exact source, methodology, raw request data, and checksums in docs/evidence/2026-10-24-r2-first-playable-transfer/.
+- **No broader relaxation:** This decision changes no 6 MB shell target, gameplay behavior, assets, WAV default, FPS/frame-time/rendering limits, browser compatibility requirements, or gameplay acceptance. All other release requirements remain governed by the PRD and R2 checklist.
+
 ## 2026-10-21: Add Neon Grid as a selectable production track
 
 - **Owner direction:** Manny authorized bringing the approved Neon Grid work into production and selected the hub behavior: Circuit Alpha remains the default; Neon Grid is an additional selectable track. The menu must make both choices obvious.

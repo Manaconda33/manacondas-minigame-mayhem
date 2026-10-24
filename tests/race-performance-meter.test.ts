@@ -250,4 +250,79 @@ describe('whole-race meter', () => {
       meter.exportCapture(metadata).renderPasses.samples.map((sample) => sample.scoredFrameIndex),
     ).toEqual([0, 10]);
   });
+  it('captures every G-05 eligible frame from frame one, including three consecutive stalls', () => {
+    const meter = new RacePerformanceMeter(true, 0);
+    const frame = observation(60);
+    expect(meter.shouldCaptureRenderPasses(frame)).toBe(true);
+    [60, 70, 80].forEach((ms) => {
+      meter.record(observation(ms));
+    });
+    expect(meter.snapshot()).toMatchObject({
+      eligibleFrames: 3,
+      scoredFrames: 3,
+      over50msFrames: 3,
+      longestOver50msRun: 3,
+      maxFrameMs: 80,
+    });
+    expect(meter.exportCapture(metadata).policies.warmupFrames).toBe(0);
+  });
+  it('exports an independent initialization snapshot without adding scored frames', () => {
+    const meter = new RacePerformanceMeter(true, 0);
+    const initialization = {
+      trackId: 'neon-grid',
+      quality: 'medium' as const,
+      sourceCommit: 'source-sha',
+      actualDrawingBuffer: { width: 1920, height: 1080 },
+      drawCalls: 244,
+      triangles: 123456,
+    };
+    meter.recordInitializationScene(initialization);
+    meter.recordInitializationScene({ ...initialization, drawCalls: 999 });
+    meter.record(observation(16));
+    const capture = meter.exportCapture(metadata);
+    expect(capture.initializationScene).toEqual({ availability: 'captured', ...initialization });
+    expect(capture.summary.scoredFrames).toBe(1);
+    expect(capture.samples).toHaveLength(1);
+    if (capture.initializationScene.availability === 'captured')
+      capture.initializationScene.actualDrawingBuffer.width = 1;
+    expect(meter.exportCapture(metadata).initializationScene).toMatchObject({
+      availability: 'captured',
+      actualDrawingBuffer: { width: 1920, height: 1080 },
+      drawCalls: 244,
+    });
+    meter.dispose();
+    expect(meter.exportCapture(metadata).initializationScene).toEqual({
+      availability: 'unavailable',
+      reason: 'no-completed-rendered-frame',
+    });
+    expect(meter.exportCapture(metadata).summary.scoredFrames).toBe(0);
+  });
+  it('distinguishes an unavailable item meter from disabled and measured results', () => {
+    const meter = new RacePerformanceMeter(true, 0);
+    const disabled = meter.exportCapture(metadata, { availability: 'disabled', snapshot: null });
+    expect(disabled.itemVfx).toEqual({ availability: 'disabled', snapshot: null });
+    const measured = meter.exportCapture(metadata, {
+      availability: 'available',
+      snapshot: {
+        enabled: true,
+        status: 'warming',
+        budgetMs: 1,
+        warmupFramesRemaining: 120,
+        sampleCount: 0,
+        latestMs: 0,
+        medianMs: 0,
+        p95Ms: 0,
+        maxMs: 0,
+        simulationMs: 0,
+        vfxMs: 0,
+      },
+    });
+    expect(measured.itemVfx).toMatchObject({
+      availability: 'available',
+      snapshot: { status: 'warming', warmupFramesRemaining: 120 },
+    });
+    expect(
+      meter.exportCapture(metadata, { availability: 'unavailable', snapshot: null }).itemVfx,
+    ).toEqual({ availability: 'unavailable', snapshot: null });
+  });
 });

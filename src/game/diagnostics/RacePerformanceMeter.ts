@@ -4,6 +4,8 @@ import type {
   RacePerformanceCapture,
   RacePerformanceSnapshot,
   RaceRenderingMetadata,
+  InitializationSceneSnapshot,
+  ItemVfxCapture,
 } from './raceDiagnostics';
 import type { RenderPassFrameSample } from './RenderPassInstrumentation';
 
@@ -140,6 +142,7 @@ export class RacePerformanceMeter {
   private disposed = false;
   private maxDrawCalls: number | null = null;
   private maxTriangles: number | null = null;
+  private initializationScene: InitializationSceneSnapshot | null = null;
 
   public constructor(
     private readonly enabled: boolean,
@@ -221,6 +224,15 @@ export class RacePerformanceMeter {
     if (this.samples.length >= this.maxSamples) this.truncated = true;
   }
 
+  /** Records only the first post-render scene snapshot; never touches race samples or timing. */
+  public recordInitializationScene(snapshot: InitializationSceneSnapshot): void {
+    if (!this.enabled || this.disposed || this.initializationScene !== null) return;
+    this.initializationScene = {
+      ...snapshot,
+      actualDrawingBuffer: { ...snapshot.actualDrawingBuffer },
+    };
+  }
+
   public snapshot(): RacePerformanceSnapshot {
     const durations = this.samples.map((s) => s.rawFrameMs).sort((a, b) => a - b);
     const fps = durations.map((ms) => 1000 / ms).reverse();
@@ -241,7 +253,10 @@ export class RacePerformanceMeter {
     };
   }
 
-  public exportCapture(metadata: RaceCaptureMetadata): RacePerformanceCapture {
+  public exportCapture(
+    metadata: RaceCaptureMetadata,
+    itemVfx: ItemVfxCapture = { availability: 'unavailable', snapshot: null },
+  ): RacePerformanceCapture {
     return {
       schemaVersion: 1,
       metadata: {
@@ -257,6 +272,18 @@ export class RacePerformanceMeter {
         counters: s.counters === null ? null : { ...s.counters },
       })),
       raceCompleted: this.raceCompleted,
+      initializationScene:
+        this.initializationScene === null
+          ? { availability: 'unavailable', reason: 'no-completed-rendered-frame' }
+          : {
+              availability: 'captured',
+              ...this.initializationScene,
+              actualDrawingBuffer: { ...this.initializationScene.actualDrawingBuffer },
+            },
+      itemVfx:
+        itemVfx.availability === 'available'
+          ? { availability: 'available', snapshot: { ...itemVfx.snapshot } }
+          : { ...itemVfx },
       policies: {
         warmupFrames: this.warmupFrames,
         maxSamples: this.maxSamples,
@@ -308,6 +335,7 @@ export class RacePerformanceMeter {
     this.disposed = true;
     this.samples.length = 0;
     this.renderPassSamples.length = 0;
+    this.initializationScene = null;
     this.eligibleFrames =
       this.skippedFrames =
       this.durationMs =

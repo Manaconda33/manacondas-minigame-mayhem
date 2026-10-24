@@ -1079,7 +1079,7 @@ jobs:
           for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
             test -f "site-root/previews/neon-grid-t9-5/assets/track/neon-grid/signage/$art"
           done
-          
+
           mkdir -p site-root/previews/neon-grid-t9-5-correction
           cp -a preview-output/neon-grid-t9-5-correction/. site-root/previews/neon-grid-t9-5-correction/
           test -f site-root/previews/neon-grid-t9-5-correction/index.html
@@ -1087,7 +1087,7 @@ jobs:
           for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
             test -f "site-root/previews/neon-grid-t9-5-correction/assets/track/neon-grid/signage/$art"
           done
-          
+
           mkdir -p site-root/previews/neon-grid-t9-5-sightline
           cp -a preview-output/neon-grid-t9-5-sightline/. site-root/previews/neon-grid-t9-5-sightline/
           test -f site-root/previews/neon-grid-t9-5-sightline/index.html
@@ -1095,7 +1095,7 @@ jobs:
           for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
             test -f "site-root/previews/neon-grid-t9-5-sightline/assets/track/neon-grid/signage/$art"
           done
-          
+
           mkdir -p site-root/previews/neon-grid-t9-5-portals
           cp -a preview-output/neon-grid-t9-5-portals/. site-root/previews/neon-grid-t9-5-portals/
           test -f site-root/previews/neon-grid-t9-5-portals/index.html
@@ -1296,6 +1296,13 @@ jobs:
               'assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png': 'e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a',
               'assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png': '3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e',
               'assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png': 'ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac',
+              # Approved R2.6 Opus files are new production paths; their hashes
+              # remain in delivery-expected.json for post-deployment verification.
+              'assets/audio/music-opus-192k/01-circuit-alpha-race-loop.ogg': 'c361e256dab8b02faea12f49ad3d8ffffddc1e1a84c604d8a0488f52122501d4',
+              'assets/audio/music-opus-192k/02-circuit-alpha-final-lap-loop.ogg': '4c25b5a7e903af69ff1f3569af9310f09f6e0476bd78cd29ccb95900d43f27f8',
+              'assets/audio/music-opus-192k/03-route-night-title-hub-loop.ogg': '3f590baa08d0ea2a1dd3900ea7c05965d1bb38cee3028bbbee4556c1f82841b7',
+              'assets/audio/music-opus-192k/04-grid-preparation-character-select-loop.ogg': 'efbee32d1ac0ece009530fb0f1f8231f16f4a5d2bb96f35e7023b3af323fdaa8',
+              'assets/audio/music-opus-192k/05-finish-celebration-results-podium-loop.ogg': '6dad9dfef171913daec3974e59ce82ea9e708e8c4e854bb682ee11808994bd9a',
               # Existing approved Neon Grid runtime art is new at production-root paths.
               # The already-published preview copies remain verified separately below.
               'assets/track/neon-grid/billboard/arin-v1.webp': '7a357de283bb0baca071b2a6eb7fd2e4f2bf213bf57e470253fdd694ee2085cf',

@@ -1,0 +1,9 @@
+0a6dba96f17f620d4642210c44c675226033bfec396433bcdd3ab6e2b284b862  assets/audio/music-opus-192k/manifest.json
+c361e256dab8b02faea12f49ad3d8ffffddc1e1a84c604d8a0488f52122501d4  public/assets/audio/music-opus-192k/01-circuit-alpha-race-loop.ogg
+4c25b5a7e903af69ff1f3569af9310f09f6e0476bd78cd29ccb95900d43f27f8  public/assets/audio/music-opus-192k/02-circuit-alpha-final-lap-loop.ogg
+3f590baa08d0ea2a1dd3900ea7c05965d1bb38cee3028bbbee4556c1f82841b7  public/assets/audio/music-opus-192k/03-route-night-title-hub-loop.ogg
+efbee32d1ac0ece009530fb0f1f8231f16f4a5d2bb96f35e7023b3af323fdaa8  public/assets/audio/music-opus-192k/04-grid-preparation-character-select-loop.ogg
+6dad9dfef171913daec3974e59ce82ea9e708e8c4e854bb682ee11808994bd9a  public/assets/audio/music-opus-192k/05-finish-celebration-results-podium-loop.ogg
+53e4c479defb57222bdb1235101a2fb45fcf924605d3ccec0f4774c539d86354  docs/evidence/2026-10-23-r2-6-opus-integration/browser-network-results.json
+71302efd9643388756619b3d5787e1c0787d25260a0aca942bcf8dd659993134  docs/evidence/2026-10-23-r2-6-opus-integration/browser-captures/circuit-alpha-first-playable-opus-192k.png
+8e3af6e2049d561e3c96ef3a7e987931a2d77954250a6bcd196cfea481c25250  docs/evidence/2026-10-23-r2-6-opus-integration/browser-captures/circuit-alpha-first-playable-wav.png

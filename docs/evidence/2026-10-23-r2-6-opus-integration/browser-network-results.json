@@ -1,0 +1,129 @@
+{
+  "sourceCommit": "5df72b270e231790f31121496a10cd58d71378f6",
+  "measurement": {
+    "scope": "Integrated production build, title navigation through first controllable Circuit Alpha race state (GO!)",
+    "endpoint": "Local Vite preview over HTTP; not the production HTTPS origin",
+    "browser": "Chromium 151.0.7922.173, headless, Debian 13",
+    "rendering": "SwiftShader software WebGL; captured HUD reported about 10 FPS / 100 ms per frame",
+    "viewport": "1280x720",
+    "cache": "Fresh browser context per mode; Network.setCacheDisabled(true); service workers blocked",
+    "firstPlayableDefinition": "Race canvas present, loading overlay absent, countdown displays GO!",
+    "byteMethod": "Chrome DevTools Protocol Network.loadingFinished.encodedDataLength; includes response transfer overhead. Local preview served identity-encoded files without Content-Encoding.",
+    "tlsAndCompression": "No TLS and no content compression. This capture is not the official HTTPS/compressed 45 MB acceptance measurement."
+  },
+  "wavControl": {
+    "mode": "No musicFormat query parameter",
+    "firstPlayableElapsedMs": 70720,
+    "completedRequestCount": 248,
+    "completedResponseBytes": 109293790,
+    "musicEncodedBytes": 56840440,
+    "musicRequests": [
+      {
+        "cue": "hub",
+        "file": "03-route-night-title-hub-loop.wav",
+        "status": 200,
+        "initiator": "script",
+        "encodedBytes": 10335005,
+        "fromDiskCache": false,
+        "fromServiceWorker": false
+      },
+      {
+        "cue": "select",
+        "file": "04-grid-preparation-character-select-loop.wav",
+        "status": 200,
+        "initiator": "script",
+        "encodedBytes": 12702345,
+        "fromDiskCache": false,
+        "fromServiceWorker": false
+      },
+      {
+        "cue": "race",
+        "file": "01-circuit-alpha-race-loop.wav",
+        "status": 200,
+        "initiator": "script",
+        "encodedBytes": 22536569,
+        "fromDiskCache": false,
+        "fromServiceWorker": false
+      },
+      {
+        "cue": "final-lap",
+        "file": "02-circuit-alpha-final-lap-loop.wav",
+        "status": 200,
+        "initiator": "script",
+        "encodedBytes": 11266521,
+        "fromDiskCache": false,
+        "fromServiceWorker": false
+      }
+    ],
+    "failedRequests": 0,
+    "consoleErrors": 0,
+    "pageErrors": 0
+  },
+  "opus192k": {
+    "mode": "?musicFormat=opus-192k",
+    "firstPlayableElapsedMs": 74883,
+    "completedRequestCount": 249,
+    "completedResponseBytes": 57832786,
+    "musicEncodedBytes": 7396949,
+    "musicRequests": [
+      {
+        "cue": "hub",
+        "file": "03-route-night-title-hub-loop.ogg",
+        "status": 200,
+        "initiator": "script",
+        "encodedBytes": 1363179,
+        "fromDiskCache": false,
+        "fromServiceWorker": false
+      },
+      {
+        "cue": "select",
+        "file": "04-grid-preparation-character-select-loop.ogg",
+        "status": 200,
+        "initiator": "script",
+        "encodedBytes": 1684267,
+        "fromDiskCache": false,
+        "fromServiceWorker": false
+      },
+      {
+        "cue": "race",
+        "file": "01-circuit-alpha-race-loop.ogg",
+        "status": 200,
+        "initiator": "script",
+        "encodedBytes": 2886885,
+        "fromDiskCache": false,
+        "fromServiceWorker": false
+      },
+      {
+        "cue": "final-lap",
+        "file": "02-circuit-alpha-final-lap-loop.ogg",
+        "status": 200,
+        "initiator": "script",
+        "encodedBytes": 1462618,
+        "fromDiskCache": false,
+        "fromServiceWorker": false
+      }
+    ],
+    "wavRequestsForSuccessfulOpusCues": 0,
+    "failedRequests": 0,
+    "consoleErrors": 0,
+    "pageErrors": 0
+  },
+  "comparison": {
+    "fourMusicCueTransferSavedBytes": 49443491,
+    "fourMusicCueTransferSavedPercent": 86.99,
+    "allLocalFirstPlayableResponseBytesSaved": 51461004,
+    "allLocalFirstPlayableResponseBytesSavedPercent": 47.09,
+    "nonMusicByteDifferenceBetweenRuns": 2017513,
+    "nonMusicDifferenceCaveat": "The experimental run reached GO! about 4.16 seconds later. This run-to-run non-music difference is not attributed to Opus."
+  },
+  "artifacts": {
+    "wavCapture": "browser-captures/circuit-alpha-first-playable-wav.png",
+    "opusCapture": "browser-captures/circuit-alpha-first-playable-opus-192k.png"
+  },
+  "browserAvailability": {
+    "ChromeChromium": "Integrated local HTTP smoke completed for WAV and Opus through Circuit Alpha GO!.",
+    "Edge": "Unavailable in this Linux environment; not tested.",
+    "Firefox": "Unavailable in this Linux environment; not tested.",
+    "Safari": "Unavailable in this Linux environment; not tested."
+  }
+}

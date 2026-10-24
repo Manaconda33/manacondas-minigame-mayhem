@@ -15,7 +15,7 @@ export function mountRaceDiagnosticsPanel(
   const panel = document.createElement('details');
   panel.dataset.raceDiagnostics = '';
   panel.className = 'race-diagnostics';
-  panel.innerHTML = `<summary>Race diagnostics</summary><p data-diagnostics-summary>Warmup: 120 eligible frames · Original window: 36,000 frames max</p><p>Renderer geometry/texture fields are object counts; GPU time and texture bytes are unavailable. No automatic performance pass.</p><label>Hardware / OS / browser version <input data-diagnostics-hardware placeholder="Unknown until entered" /></label><button type="button" data-download-race-capture>Download Capture</button>`;
+  panel.innerHTML = `<summary>Race diagnostics</summary><p data-diagnostics-summary>G-05 capture: no warmup · 36,000 scored frames max</p><p>Renderer geometry/texture fields are object counts; GPU time and texture bytes are unavailable. No automatic performance pass.</p><label>Hardware / OS / browser version <input data-diagnostics-hardware placeholder="Unknown until entered" /></label><button type="button" data-download-race-capture>Download Capture</button>`;
   root.append(panel);
   const summary = panel.querySelector<HTMLElement>('[data-diagnostics-summary]');
   const hardware = panel.querySelector<HTMLInputElement>('[data-diagnostics-hardware]');
@@ -69,7 +69,7 @@ export function mountRaceDiagnosticsPanel(
   return {
     update(snapshot) {
       if (disposed || summary === null) return;
-      summary.textContent = `Scored ${String(snapshot.scoredFrames)} / eligible ${String(snapshot.eligibleFrames)}; skipped ${String(snapshot.skippedFrames)} · median FPS ${value(snapshot.medianFps)} · p95 ${value(snapshot.p95FrameMs)} ms · max ${value(snapshot.maxFrameMs)} ms · >50 ms ${String(snapshot.over50msFrames)} / longest run ${String(snapshot.longestOver50msRun)} · max draw calls ${value(snapshot.maxDrawCalls)} / triangles ${value(snapshot.maxTriangles)} · Warmup 120; original window 36,000 max${snapshot.truncated ? ' · TRUNCATED' : ''}`;
+      summary.textContent = `Scored ${String(snapshot.scoredFrames)} / eligible ${String(snapshot.eligibleFrames)}; skipped ${String(snapshot.skippedFrames)} · median FPS ${value(snapshot.medianFps)} · p95 ${value(snapshot.p95FrameMs)} ms · max ${value(snapshot.maxFrameMs)} ms · >50 ms ${String(snapshot.over50msFrames)} / longest run ${String(snapshot.longestOver50msRun)} · max draw calls ${value(snapshot.maxDrawCalls)} / triangles ${value(snapshot.maxTriangles)} · G-05 warmup 0; max 36,000${snapshot.truncated ? ' · TRUNCATED' : ''}`;
     },
     dispose() {
       disposed = true;

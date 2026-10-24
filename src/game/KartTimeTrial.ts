@@ -244,7 +244,7 @@ export class KartTimeTrial {
   private racePerformance: RacePerformanceMeter | null = racePerformanceFromSearch(
     window.location.search,
   )
-    ? new RacePerformanceMeter(true)
+    ? new RacePerformanceMeter(true, 0)
     : null;
   private readonly passInstrumentation: RenderPassInstrumentation | null =
     racePerformanceFromSearch(window.location.search) ? new RenderPassInstrumentation(true) : null;
@@ -252,6 +252,7 @@ export class KartTimeTrial {
   private diagnosticsEligibility = false;
   private diagnosticsLastUpdate = -Infinity;
   private diagnosticsDisposed = false;
+  private diagnosticInitializationCaptured = false;
   private readonly captureViewport = { width: window.innerWidth, height: window.innerHeight };
   private readonly raceAudio = new RaceSfx();
   private audioApexPhase = '';
@@ -663,6 +664,12 @@ export class KartTimeTrial {
     const softwareRenderer = /swiftshader|llvmpipe|softpipe|lavapipe|software raster/i.test(
       gpuRenderer ?? '',
     );
+    const itemVfx =
+      this.itemPerformance === undefined
+        ? { availability: 'unavailable' as const, snapshot: null }
+        : this.itemPerformance.enabled
+          ? { availability: 'available' as const, snapshot: this.itemPerformance.snapshot() }
+          : { availability: 'disabled' as const, snapshot: null };
     return this.racePerformance.exportCapture({
       gpuRenderer,
       ...metadata,
@@ -745,7 +752,7 @@ export class KartTimeTrial {
       quality: this.options.graphicsQuality,
       racerCount: this.opponents.length + 1,
       nominalViewport: { ...this.captureViewport },
-    });
+    }, itemVfx);
   }
 
   public dispose(): void {
@@ -928,6 +935,18 @@ export class KartTimeTrial {
       const phase = diagnosticPhase ?? this.raceDirector.phase(this.playerProgress.finished);
       const eligible = phase === 'racing' && !this.paused && !document.hidden;
       const counters = readRendererCounters(this.renderer);
+      if (!this.diagnosticInitializationCaptured) {
+        const sourceCommit: unknown = import.meta.env.VITE_SOURCE_COMMIT;
+        this.racePerformance.recordInitializationScene({
+          trackId: this.track.id,
+          quality: this.options.graphicsQuality,
+          sourceCommit: typeof sourceCommit === 'string' && sourceCommit !== '' ? sourceCommit : null,
+          actualDrawingBuffer: { width: counters.width, height: counters.height },
+          drawCalls: counters.drawCalls,
+          triangles: counters.triangles,
+        });
+        this.diagnosticInitializationCaptured = true;
+      }
       const progress = this.playerProgress.trackProgress;
       const sectorIndex =
         this.track.id === 'neon-grid'

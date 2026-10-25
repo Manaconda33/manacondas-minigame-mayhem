@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; approved governance amendments through 2.30
+Version 1.1 - Final approved baseline; approved governance amendments through 2.31
 
 August 16, 2026
 
@@ -2533,7 +2533,7 @@ Convert the mechanically complete game into the intended high-fidelity vertical 
 
 - memory cleanup
 
-- cross-browser QA
+- required v1 Chrome and Edge browser QA under §36.5; additional browser products may be tested as supplementary coverage
 
 - asset-rights validation
 
@@ -2563,7 +2563,7 @@ Convert the mechanically complete game into the intended high-fidelity vertical 
 
 ### Evidence Required
 
-Complete gameplay recording, browser matrix, performance capture, memory capture, rights/provenance record, and production build validation.
+Complete gameplay recording, Chrome and Edge v1 browser-baseline evidence under §36.5, performance capture, memory capture, rights/provenance record, and production build validation.
 
 ### Approval Gate
 
@@ -2649,7 +2649,9 @@ Title -\> Menu -\> Character Select -\> Race -\> Pause -\> Race -\> Finish -\> R
 
 ## 36.5 Browser Matrix
 
-Baseline: latest Chrome, latest Edge, latest Firefox, and current desktop Safari where WebGL2 capabilities meet the required baseline. Core gameplay must not depend on WebGPU.
+Required v1 browser baseline: current stable desktop Google Chrome and Microsoft Edge, each with WebGL2. Core gameplay must run on WebGL2 whether WebGPU is available or unavailable; WebGPU is an optional progressive path and is not a startup or gameplay dependency.
+
+Firefox and desktop Safari compatibility testing are deferred and are non-blocking for v1. This deferral does not classify either browser as passing, failing, or unsupported; no compatibility result is inferred for them. Future testing may add evidence without changing the required v1 baseline unless a later owner-approved amendment says otherwise.
 
 # 37. Acceptance Criteria & Quality Checklist
 
@@ -2973,7 +2975,7 @@ The candidate must be tested independently from local development state.
 
 - complete vertical-slice flow passes
 
-- baseline browser matrix passes
+- the required current-stable Chrome and Edge WebGL2 baseline in §36.5 passes
 
 - performance target passes
 
@@ -2999,7 +3001,7 @@ The v1 vertical slice is complete only when a clean browser session can:
 
 Load site -\> enter Title Screen -\> activate audio -\> enter Hub -\> launch Kart Racer -\> choose any of 12 roster slots -\> start an eight-racer race -\> drive Circuit Alpha -\> drift through all three turbo tiers -\> collect and use items -\> complete three validated laps -\> receive a final rank -\> see complete results -\> replay or return to Hub
 
-The same release candidate must also satisfy the 60 FPS performance criteria, physics stability, AI completion, item distribution tests, asset fallback tests, cross-browser baseline, production asset-rights requirements, and public-release approval. A successful local build alone is not evidence that this definition of done has been met.
+The same release candidate must also satisfy the 60 FPS performance criteria, physics stability, AI completion, item distribution tests, asset fallback tests, the required Chrome and Edge WebGL2 baseline in §36.5, production asset-rights requirements, and public-release approval. Firefox and desktop Safari testing are deferred and non-blocking for v1; this does not claim a compatibility result for either browser. A successful local build alone is not evidence that this definition of done has been met.
 
 # 40. Open Questions / Deferred Decisions
 
@@ -3179,3 +3181,11 @@ The production HTTPS capture at source commit 45235d88cd65be528577db1d71b20ca545
 Capture scope was the deployed GitHub Pages site over HTTPS in Chromium 151.0.7922.173 with a fresh browser cache. This is browser network evidence, not a device performance result. No other browser-engine, physical-device, network timing, or G-05 conclusion is implied. The source-pinned report and raw capture package are preserved at docs/evidence/2026-10-24-r2-first-playable-transfer/.
 
 This amendment changes only the release disposition of the 45 MB transfer target and adds measurement/reporting guidance. It does not alter gameplay, assets, audio defaults, first-control behavior, the 6 MB shell target, FPS/frame-time/rendering limits, browser compatibility requirements, or any gameplay acceptance criterion. All other PRD gates remain in force.
+
+## Approved governance amendment 2.31 — v1 browser compatibility scope
+
+Owner-approved October 25, 2026. The required v1 browser baseline in §36.5 is current stable desktop Google Chrome and Microsoft Edge with WebGL2. Core gameplay must remain independent of WebGPU availability and operate through WebGL2.
+
+Firefox and desktop Safari compatibility testing are deferred and non-blocking for v1. Their deferred status is not a pass, fail, or unsupported result. Do not infer compatibility or incompatibility from the absence of those tests. Existing Firefox and Safari observations remain historical evidence of unmeasured testing in the prior environment.
+
+The R2.10A Chrome and Edge software-rendered startup evidence remains applicable to this browser scope; Chromium remains a separate product result. This amendment changes only which browser products are required for v1 compatibility evidence. It does not relax WebGL2, G-05, rollback, graphics, asset, gameplay, or any other v1 requirement, and it does not declare v1 complete.

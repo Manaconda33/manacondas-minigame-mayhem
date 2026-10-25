@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; approved governance amendments through 2.30
+Version 1.1 - Final approved baseline; approved governance amendments through 2.31
 
 August 16, 2026
 

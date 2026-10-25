@@ -8,7 +8,7 @@
 
 ## Preserved source package
 
-The two original JSON exports, their original checksum list, and the verification notes are preserved byte-for-byte inside the compact owner-uploaded ZIP in [`source/`](source/). Its SHA-256 is `79b4da3c7ea17e781691e6603f5d8abc0cdba6c7873cf33e8dfb325727e2ed1f`. The archive is 362,428 bytes; storing the compressed original avoids duplicating the 13 MB of expanded JSON in the repository. The root [`SHA256SUMS`](SHA256SUMS) verifies the archive; the human-readable capture table below records each embedded JSON's SHA-256, and the archive's own `SHA256SUMS` verifies the extracted originals.
+The two original JSON exports, their original checksum list, and the verification notes are preserved byte-for-byte inside the compact owner-uploaded ZIP in [`source/`](source/). Its SHA-256 is `79b4da3c7ea17e781691e6603f5d8abc0cdba6c7873cf33e8dfb325727e2ed1f`. The archive is 362,428 bytes; storing the compressed original avoids duplicating the 13 MB of expanded JSON in the repository. Root [`SHA256SUMS`](SHA256SUMS) verifies the archive, while [`CAPTURE-SHA256SUMS`](CAPTURE-SHA256SUMS) lists the original JSON hashes and matches the archive's internal manifest.
 
 | Original capture                                 | Captured at (UTC)       | SHA-256                                                            |
 | ------------------------------------------------ | ----------------------- | ------------------------------------------------------------------ |
@@ -25,11 +25,12 @@ sha256sum -c "$evidence/SHA256SUMS"
 unzip -t "$evidence/source/r2-12-g05-original-captures-2026-10-25.zip"
 temporary_directory="$(mktemp -d)"
 unzip -q "$evidence/source/r2-12-g05-original-captures-2026-10-25.zip" -d "$temporary_directory"
+cmp "$temporary_directory/SHA256SUMS" "$evidence/CAPTURE-SHA256SUMS"
 (cd "$temporary_directory" && sha256sum -c SHA256SUMS)
 rm -rf "$temporary_directory"
 ```
 
-The top-level checksum manifest verifies the exact owner-uploaded ZIP. `unzip -t` checks archive integrity, and the ZIP's original internal `SHA256SUMS` verifies both extracted JSON files without modifying them.
+The top-level checksum manifest verifies the exact owner-uploaded ZIP. `unzip -t` checks archive integrity, `cmp` verifies that the separately readable capture manifest is identical to the original embedded manifest, and `sha256sum -c` verifies both extracted JSON files without modifying them.
 
 ## Capture identity and relationship
 

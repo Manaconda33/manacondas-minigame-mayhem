@@ -1,0 +1,311 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "gpuRenderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "schemaVersion": 1,
+    "sourceCommit": "21dc90bbaf1939190b152cddc722235e1bb97b77",
+    "capturedAt": "2026-10-25T03:57:01.146Z",
+    "quality": "medium",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "hardwareDescription": null,
+    "scenario": "neon-grid three-lap race; query=?testRacePerf=1",
+    "racerCount": 8,
+    "nominalViewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "gpuFrameMs": null,
+    "jsHeapBytes": 46914002,
+    "estimatedTextureBytes": null,
+    "jsHeapMethod": "Nonstandard performance.memory.usedJSHeapSize at export; whole-page estimate, not race allocation",
+    "rendering": {
+      "schemaVersion": 1,
+      "trackId": "neon-grid",
+      "visualVariant": "fog-experiment-c2-background",
+      "materialVariant": "concrete-coverage-c2-001",
+      "actualDrawingBuffer": {
+        "width": 1280,
+        "height": 720
+      },
+      "devicePixelRatio": 1,
+      "rendererPixelRatio": 1,
+      "deviceEnvironment": {
+        "classification": "softwareDetected",
+        "explanation": "The reported WebGL renderer string identifies a software renderer."
+      },
+      "camera": {
+        "fixture": "chase",
+        "position": [
+          2.8496036310213886,
+          19.190291248006638,
+          -125.83561128694872
+        ],
+        "quaternion": [
+          -0.13534360810696003,
+          -0.689254792790432,
+          -0.1334286062586308,
+          0.6991471557489793
+        ],
+        "near": 0.1,
+        "far": 900
+      },
+      "sectorProgress": {
+        "lap": 0,
+        "trackProgress": 0,
+        "sectorIndex": 0,
+        "sectorName": "Skyline Straight"
+      },
+      "racerRoster": [
+        {
+          "id": "player",
+          "characterId": "aa-02"
+        },
+        {
+          "id": "ai-1",
+          "characterId": "aa-14"
+        },
+        {
+          "id": "ai-2",
+          "characterId": "aa-13"
+        },
+        {
+          "id": "ai-3",
+          "characterId": "aa-06"
+        },
+        {
+          "id": "ai-4",
+          "characterId": "aa-10"
+        },
+        {
+          "id": "ai-5",
+          "characterId": "aa-11"
+        },
+        {
+          "id": "ai-6",
+          "characterId": "aa-09"
+        },
+        {
+          "id": "ai-7",
+          "characterId": "aa-07"
+        }
+      ],
+      "itemEffectState": {
+        "activeProjectiles": 0,
+        "activeHazards": 0,
+        "racers": [
+          {
+            "id": "player",
+            "heldItem": null,
+            "frostStacks": 0,
+            "spinoutId": null,
+            "activeBoostLabel": null,
+            "nitroOverdriveActive": false,
+            "hyperDriveRocketActive": false
+          },
+          {
+            "id": "ai-1",
+            "heldItem": null,
+            "frostStacks": 0,
+            "spinoutId": null,
+            "activeBoostLabel": null,
+            "nitroOverdriveActive": false,
+            "hyperDriveRocketActive": false
+          },
+          {
+            "id": "ai-2",
+            "heldItem": null,
+            "frostStacks": 0,
+            "spinoutId": null,
+            "activeBoostLabel": null,
+            "nitroOverdriveActive": false,
+            "hyperDriveRocketActive": false
+          },
+          {
+            "id": "ai-3",
+            "heldItem": null,
+            "frostStacks": 0,
+            "spinoutId": null,
+            "activeBoostLabel": null,
+            "nitroOverdriveActive": false,
+            "hyperDriveRocketActive": false
+          },
+          {
+            "id": "ai-4",
+            "heldItem": null,
+            "frostStacks": 0,
+            "spinoutId": null,
+            "activeBoostLabel": null,
+            "nitroOverdriveActive": false,
+            "hyperDriveRocketActive": false
+          },
+          {
+            "id": "ai-5",
+            "heldItem": null,
+            "frostStacks": 0,
+            "spinoutId": null,
+            "activeBoostLabel": null,
+            "nitroOverdriveActive": false,
+            "hyperDriveRocketActive": false
+          },
+          {
+            "id": "ai-6",
+            "heldItem": null,
+            "frostStacks": 0,
+            "spinoutId": null,
+            "activeBoostLabel": null,
+            "nitroOverdriveActive": false,
+            "hyperDriveRocketActive": false
+          },
+          {
+            "id": "ai-7",
+            "heldItem": null,
+            "frostStacks": 0,
+            "spinoutId": null,
+            "activeBoostLabel": null,
+            "nitroOverdriveActive": false,
+            "hyperDriveRocketActive": false
+          }
+        ]
+      },
+      "configuration": {
+        "shadows": {
+          "enabled": true,
+          "mapType": 1,
+          "dynamicCasterCount": null
+        },
+        "bloom": {
+          "enabled": true,
+          "quality": "medium",
+          "maskWidth": 640,
+          "maskHeight": 360,
+          "fallbackReason": null
+        },
+        "motionBlur": {
+          "enabled": true,
+          "strength": 0,
+          "textureBytes": 884736,
+          "fallbackReason": null
+        }
+      },
+      "unavailableMetrics": [
+        "gpuFrameMs",
+        "trueGpuTextureBytes",
+        "dynamicShadowCasterCount"
+      ]
+    },
+    "bloom": {
+      "enabled": true,
+      "quality": "medium",
+      "maskWidth": 640,
+      "maskHeight": 360,
+      "fallbackReason": null
+    },
+    "motionBlur": {
+      "enabled": true,
+      "strength": 0,
+      "textureBytes": 884736,
+      "fallbackReason": null
+    }
+  },
+  "summary": {
+    "scoredFrames": 0,
+    "eligibleFrames": 0,
+    "skippedFrames": 23,
+    "durationMs": 0,
+    "medianFrameMs": null,
+    "p95FrameMs": null,
+    "maxFrameMs": null,
+    "medianFps": null,
+    "over50msFrames": 0,
+    "longestOver50msRun": 0,
+    "truncated": false,
+    "maxDrawCalls": null,
+    "maxTriangles": null
+  },
+  "samples": [],
+  "raceCompleted": false,
+  "initializationScene": {
+    "availability": "captured",
+    "trackId": "neon-grid",
+    "quality": "medium",
+    "sourceCommit": "21dc90bbaf1939190b152cddc722235e1bb97b77",
+    "actualDrawingBuffer": {
+      "width": 1280,
+      "height": 720
+    },
+    "drawCalls": 205,
+    "triangles": 323463,
+    "capturePoint": "first-render",
+    "aiKartAssets": {
+      "status": "ready",
+      "expected": 7,
+      "loaded": 7,
+      "fallback": 0,
+      "pending": 0
+    }
+  },
+  "assetSettledScene": {
+    "availability": "captured",
+    "trackId": "neon-grid",
+    "quality": "medium",
+    "sourceCommit": "21dc90bbaf1939190b152cddc722235e1bb97b77",
+    "actualDrawingBuffer": {
+      "width": 1280,
+      "height": 720
+    },
+    "drawCalls": 205,
+    "triangles": 323463,
+    "capturePoint": "after-ai-kart-assets-settled",
+    "aiKartAssets": {
+      "status": "ready",
+      "expected": 7,
+      "loaded": 7,
+      "fallback": 0,
+      "pending": 0
+    }
+  },
+  "itemVfx": {
+    "availability": "disabled",
+    "snapshot": null
+  },
+  "policies": {
+    "warmupFrames": 0,
+    "maxSamples": 36000,
+    "percentileMethod": "nearest-rank",
+    "medianMethod": "mean-of-center-pair",
+    "excluded": "countdown,pause,hidden,boundary,invalid"
+  },
+  "unavailableMetrics": [
+    "gpuFrameMs",
+    "estimatedTextureBytes",
+    "dynamicShadowObjects",
+    "gameplayParticles"
+  ],
+  "renderPasses": {
+    "schemaVersion": 1,
+    "samplingPolicy": {
+      "scoredFrameInterval": 10,
+      "maximumSamples": 3600,
+      "firstScoredFrameIndex": 0
+    },
+    "samples": [],
+    "attributionDefinitions": [
+      "Draw calls are renderer submissions, not distinct objects.",
+      "Triangles are submitted triangles, not unique mesh geometry.",
+      "The main scene delta includes shadow-map submissions when Three.js performs them inside that render; shadow calls are not separately split.",
+      "Bloom mask and filter/composite stages are deltas around the existing renderer.render boundaries.",
+      "Motion-blur framebuffer copies are recorded separately from renderer draw-call and triangle counters.",
+      "Target pixels are width multiplied by height; they do not estimate GPU processing cost or bandwidth.",
+      "Whole-frame counters retain their existing meaning and are reconciled against measured stage deltas.",
+      "Frame time is CPU-observed; no GPU timer query is collected."
+    ],
+    "unavailableMetrics": [
+      "gpuFrameMs",
+      "gpuProcessingCost",
+      "distinctObjects",
+      "uniqueMeshGeometry",
+      "trueGpuTextureBytes",
+      "dynamicShadowCasterCount"
+    ]
+  }
+}

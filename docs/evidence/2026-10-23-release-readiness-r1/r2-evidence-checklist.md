@@ -1,6 +1,6 @@
 # Release Readiness R2 — minimum evidence checklist
 
-**Status:** Planned only; not run. This checklist does not authorize runtime edits, deployment, preview removal, CI-policy changes, optimization, PR closure, or release sign-off.
+**Status:** Active; R2.10A browser evidence is partial, with G-05, the complete browser matrix, rollback browser restoration, and §37 closure still pending. This checklist does not authorize runtime edits, deployment, preview removal, CI-policy changes, optimization, PR closure, or release sign-off.
 
 **Baseline reference:** production `main` was `d0b9acf889d669832c97a9187886d9e6289c9abe` on 2026-10-23. Its successful main CI/Pages run [39711768852](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/39711768852) is build/deployment evidence, not a representative-hardware capture. Recheck the exact source and deployed marker when R2 begins.
 
@@ -21,6 +21,10 @@ A G-05 pass requires the stated FPS/frame-time results from representative hardw
 ## 2. Browser and WebGL2 compatibility — required
 
 For the PRD §36.5 baseline, record latest stable Chrome, Edge, Firefox, and current desktop Safari where its WebGL2 capabilities meet baseline. Use a focused smoke: cold load to Title/Hub, select each available track, start a race, and confirm the rendered game scene initializes on WebGL2. Do not replay full races in each browser. For at least one compatible environment, explicitly verify WebGL2 gameplay with WebGPU unavailable or disabled. Record browser/OS versions, WebGL2 context result, WebGPU availability/disabled state, console/network failures, track tested, and result. An environment that cannot provide required WebGL2 capabilities is reported as unsupported, not silently counted as a pass.
+
+**R2.10A evidence, 2026-10-25 — PARTIAL, not a complete matrix.** Production source `21dc90bbaf1939190b152cddc722235e1bb97b77`; Pages deployment `7307818501`. Official stable Google Chrome `156.0.8078.47` and Microsoft Edge `156.0.4314.42` were extracted from vendor packages in temporary locations and launched on Debian GNU/Linux 13 x86_64. Both passed Title/Hub, Circuit Alpha selection/startup, Neon Grid selection/startup, and WebGL2 context creation. Their headless renderer was SwiftShader software at 1280×720. With `--disable-features=WebGPU`, WebGPU had no available adapter while WebGL2 remained available. No console/page errors or HTTP error responses occurred; transient cancellation of the Title/Hub WAV request is documented as expected cue-change cancellation in [the R2.10A addendum](../2026-10-25-r2-10-browser-compatibility/R2.10A-addendum.md). Source-stamped startup JSON captures and hashes remain in that evidence package. The earlier Chromium `151.0.7922.173` PASS remains Chromium-only.
+
+Firefox is **UNMEASURED**: no product binary is installed or present in configured apt candidates, and the enforced network policy rejects the official Mozilla download hosts with HTTP proxy 403. Desktop Safari is **UNMEASURED** because no macOS/Safari environment is attached; Playwright WebKit is not substituted. No FAIL or unsupported browser-runtime result was observed; these are environment/access gaps. Do not mark §36.5 compatibility complete until genuine current Firefox stable and macOS Safari checks are recorded. This browser work does not certify G-05 or formal v1 acceptance.
 
 ## 3. First-playable network size — required
 

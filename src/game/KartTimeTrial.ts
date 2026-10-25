@@ -107,6 +107,7 @@ import {
 import { readRendererCounters } from './diagnostics/RendererCounters';
 import {
   racePerformanceFromSearch,
+  type InitializationSceneSnapshot,
   type RaceCaptureMetadata,
   type RacePerformanceCapture,
   type RacePerformanceSnapshot,
@@ -253,6 +254,9 @@ export class KartTimeTrial {
   private diagnosticsLastUpdate = -Infinity;
   private diagnosticsDisposed = false;
   private diagnosticInitializationCaptured = false;
+  private diagnosticAssetSettledCaptured = false;
+  private diagnosticAiKartAssetsLoaded = 0;
+  private diagnosticAiKartFallbacks = 0;
   private readonly captureViewport = { width: window.innerWidth, height: window.innerHeight };
   private readonly raceAudio = new RaceSfx();
   private audioApexPhase = '';
@@ -935,17 +939,33 @@ export class KartTimeTrial {
       const phase = diagnosticPhase ?? this.raceDirector.phase(this.playerProgress.finished);
       const eligible = phase === 'racing' && !this.paused && !document.hidden;
       const counters = readRendererCounters(this.renderer);
-      if (!this.diagnosticInitializationCaptured) {
+      if (!this.diagnosticInitializationCaptured || !this.diagnosticAssetSettledCaptured) {
         const sourceCommit: unknown = import.meta.env.VITE_SOURCE_COMMIT;
-        this.racePerformance.recordInitializationScene({
+        const aiKartAssets = this.diagnosticAiKartAssetReadiness();
+        const sourceSnapshot = {
           trackId: this.track.id,
           quality: this.options.graphicsQuality,
           sourceCommit: typeof sourceCommit === 'string' && sourceCommit !== '' ? sourceCommit : null,
           actualDrawingBuffer: { width: counters.width, height: counters.height },
           drawCalls: counters.drawCalls,
           triangles: counters.triangles,
-        });
-        this.diagnosticInitializationCaptured = true;
+        };
+        if (!this.diagnosticInitializationCaptured) {
+          this.racePerformance.recordInitializationScene({
+            ...sourceSnapshot,
+            capturePoint: 'first-render',
+            aiKartAssets,
+          });
+          this.diagnosticInitializationCaptured = true;
+        }
+        if (aiKartAssets.pending === 0 && !this.diagnosticAssetSettledCaptured) {
+          this.racePerformance.recordAssetSettledScene({
+            ...sourceSnapshot,
+            capturePoint: 'after-ai-kart-assets-settled',
+            aiKartAssets,
+          });
+          this.diagnosticAssetSettledCaptured = true;
+        }
       }
       const progress = this.playerProgress.trackProgress;
       const sectorIndex =
@@ -2906,11 +2926,15 @@ export class KartTimeTrial {
           group.add(model);
           if (driverVisual !== null) group.add(driverVisual.sprite);
           group.add(itemVisuals.localGroup);
+          if (this.racePerformance !== null) this.diagnosticAiKartAssetsLoaded += 1;
         },
         () => {
           console.warn(`Could not load AI kart for ${character.displayName}; using fallback.`);
+          if (this.racePerformance !== null) this.diagnosticAiKartFallbacks += 1;
         },
       );
+    } else if (this.racePerformance !== null) {
+      this.diagnosticAiKartFallbacks += 1;
     }
     const chassis = new THREE.Mesh(
       new THREE.BoxGeometry(1.45, 0.52, 2.35),
@@ -2931,6 +2955,20 @@ export class KartTimeTrial {
     if (driverVisual !== null) group.add(driverVisual.sprite);
     group.add(itemVisuals.localGroup);
     return { group, driverVisual, itemVisuals };
+  }
+
+  private diagnosticAiKartAssetReadiness(): InitializationSceneSnapshot['aiKartAssets'] {
+    const expected = this.opponents.length;
+    const loaded = this.diagnosticAiKartAssetsLoaded;
+    const fallback = this.diagnosticAiKartFallbacks;
+    const pending = Math.max(0, expected - loaded - fallback);
+    return {
+      status: pending > 0 ? 'pending' : fallback > 0 ? 'settled-with-fallbacks' : 'ready',
+      expected,
+      loaded,
+      fallback,
+      pending,
+    };
   }
 
   private bindEvents(): void {

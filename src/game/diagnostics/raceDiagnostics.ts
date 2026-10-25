@@ -117,6 +117,14 @@ export interface RaceCaptureMetadata {
 }
 
 export interface InitializationSceneSnapshot {
+  capturePoint: 'first-render' | 'after-ai-kart-assets-settled';
+  aiKartAssets: {
+    status: 'pending' | 'ready' | 'settled-with-fallbacks';
+    expected: number;
+    loaded: number;
+    fallback: number;
+    pending: number;
+  };
   trackId: string;
   quality: GraphicsQuality;
   sourceCommit: string | null;
@@ -138,6 +146,13 @@ export interface RacePerformanceCapture {
   initializationScene:
     | ({ availability: 'captured' } & InitializationSceneSnapshot)
     | { availability: 'unavailable'; reason: 'no-completed-rendered-frame' };
+  assetSettledScene:
+    | ({ availability: 'captured' } & InitializationSceneSnapshot)
+    | {
+        availability: 'unavailable';
+        reason: 'no-completed-rendered-frame' | 'ai-kart-assets-pending';
+        aiKartAssets: InitializationSceneSnapshot['aiKartAssets'];
+      };
   itemVfx: ItemVfxCapture;
   policies: {
     warmupFrames: number;

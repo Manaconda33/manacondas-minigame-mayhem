@@ -21,7 +21,7 @@ From the repository root on Linux, macOS, or WSL with `sha256sum` and `unzip` in
 
 ```sh
 evidence=docs/evidence/2026-10-25-r2-12-g05-owner-acceptance
-sha256sum -c "$evidence/SHA256SUMS"
+(cd "$evidence" && sha256sum -c SHA256SUMS)
 unzip -t "$evidence/source/r2-12-g05-original-captures-2026-10-25.zip"
 temporary_directory="$(mktemp -d)"
 unzip -q "$evidence/source/r2-12-g05-original-captures-2026-10-25.zip" -d "$temporary_directory"

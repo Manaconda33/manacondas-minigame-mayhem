@@ -1,3 +1,10 @@
+## 2026-10-25: Approve the v1 Chrome and Edge browser baseline
+
+- **Owner decision:** For v1, require focused compatibility evidence in current stable desktop Google Chrome and Microsoft Edge, with WebGL2 available and race startup verified on each selectable track. WebGL2 remains the required rendering baseline; core gameplay must not depend on WebGPU.
+- **Deferred products:** Firefox and desktop Safari compatibility testing are deferred and non-blocking for v1. This is not a pass, fail, or unsupported classification for either browser. The deferral does not infer a compatibility result.
+- **Evidence:** R2.10A contains source-pinned software-rendered startup passes for Chrome and Edge, plus separate Chromium evidence. Firefox and desktop Safari remain unmeasured in the available evidence. Keep those findings and all six capture files unchanged.
+- **Scope:** PRD governance amendment 2.31 updates §36.5 and the related v1 release references. G-05, rollback, graphics, assets, gameplay, and all other v1 acceptance criteria remain unchanged. This decision does not declare formal v1 acceptance complete.
+
 ## 2026-10-24: R2.7 first-playable transfer budget governance
 
 - **Owner decision:** The original 45 MB compressed first-playable budget remains a historical and forward-looking optimization target. Exceeding it alone does not block v1 release acceptance. Continue to measure and report actual compressed transfer. The 6 MB Title-shell target is unchanged. First-controllable loading time is a player-experience metric; any future acceptance threshold requires separate explicit approval.

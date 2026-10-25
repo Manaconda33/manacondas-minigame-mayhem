@@ -235,6 +235,99 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 describe('real race RAF diagnostics wiring', () => {
+  it.each(['circuit-alpha', 'neon-grid'] as const)(
+    'captures first-render and AI-asset-settled %s scenes separately from race samples',
+    async (trackId) => {
+      const r = await setup('?testRacePerf=1', trackId);
+      const capture = r.game.exportPerformanceCapture(metadata);
+      expect(capture?.initializationScene).toMatchObject({
+        availability: 'captured',
+        capturePoint: 'first-render',
+        aiKartAssets: { expected: 7, pending: 0 },
+        trackId,
+        quality: 'medium',
+        actualDrawingBuffer: { width: 1920, height: 1080 },
+        drawCalls: 22,
+        triangles: 2,
+      });
+      expect(capture?.assetSettledScene).toMatchObject({
+        availability: 'captured',
+        capturePoint: 'after-ai-kart-assets-settled',
+        aiKartAssets: { status: 'ready', expected: 7, loaded: 7, pending: 0 },
+        trackId,
+      });
+      expect(harness.reads.indexOf('render')).toBeLessThan(harness.reads.indexOf('read'));
+      expect(capture?.summary.scoredFrames).toBe(120);
+      r.game.dispose();
+    },
+  );
+  it('marks first-render counters as asset-pending and captures settled counters after async AI karts arrive', async () => {
+    harness.loadedKarts = true;
+    harness.deferAi = true;
+    const r = await setup('?testRacePerf=1');
+    expect(harness.pendingAi).toHaveLength(7);
+    const firstCapture = r.game.exportPerformanceCapture(metadata);
+    expect(firstCapture?.initializationScene).toMatchObject({
+      availability: 'captured',
+      capturePoint: 'first-render',
+      aiKartAssets: {
+        status: 'pending',
+        expected: 7,
+        loaded: 0,
+        fallback: 0,
+        pending: 7,
+      },
+    });
+    expect(firstCapture?.assetSettledScene).toMatchObject({
+      availability: 'unavailable',
+      reason: 'ai-kart-assets-pending',
+      aiKartAssets: { pending: 7 },
+    });
+    const raceFramesBefore = firstCapture?.summary.scoredFrames;
+
+    for (const resolve of harness.pendingAi.splice(0)) resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+    r.tick();
+
+    const settledCapture = r.game.exportPerformanceCapture(metadata);
+    expect(settledCapture?.initializationScene).toMatchObject({
+      capturePoint: 'first-render',
+      aiKartAssets: { status: 'pending', pending: 7 },
+    });
+    expect(settledCapture?.assetSettledScene).toMatchObject({
+      availability: 'captured',
+      capturePoint: 'after-ai-kart-assets-settled',
+      aiKartAssets: { status: 'ready', expected: 7, loaded: 7, fallback: 0, pending: 0 },
+    });
+    expect(settledCapture?.summary.scoredFrames).toBe((raceFramesBefore ?? 0) + 1);
+  });
+  it('exports enabled item/VFX statistics only when its independent flag is enabled', async () => {
+    const disabled = await setup('?testRacePerf=1');
+    expect(disabled.game.exportPerformanceCapture(metadata)?.itemVfx).toEqual({
+      availability: 'disabled',
+      snapshot: null,
+    });
+    disabled.game.dispose();
+
+    const enabled = await setup('?testRacePerf=1&testItemPerf=1');
+    expect(enabled.game.exportPerformanceCapture(metadata)?.itemVfx).toMatchObject({
+      availability: 'available',
+      snapshot: { enabled: true, status: 'collecting', sampleCount: 1 },
+    });
+    enabled.game.dispose();
+  });
+  it('retains three consecutive long intervals within the former capture warmup period', async () => {
+    const r = await setup('?testRacePerf=1');
+    r.tick(60);
+    r.tick(70);
+    r.tick(80);
+    expect(r.game.exportPerformanceCapture(metadata)?.summary).toMatchObject({
+      longestOver50msRun: 3,
+      over50msFrames: 3,
+      maxFrameMs: 80,
+    });
+  });
   it('centers the real shadow map on the player and applies caster policy before rendering', async () => {
     harness.loadedKarts = true;
     const r = await setup('');

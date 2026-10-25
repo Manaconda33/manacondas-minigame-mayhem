@@ -2,6 +2,7 @@ import type { BloomSnapshot } from '../rendering/RaceBloom';
 import type { MotionBlurSnapshot } from '../rendering/RaceMotionBlur';
 import type { GraphicsQuality } from '../../config/graphicsQuality';
 import type { RenderPassFrameSample } from './RenderPassInstrumentation';
+import type { ItemPerformanceSnapshot } from '../items/ItemPerformanceMeter';
 
 export function racePerformanceFromSearch(search: string): boolean {
   return new URLSearchParams(search).get('testRacePerf') === '1';
@@ -115,12 +116,44 @@ export interface RaceCaptureMetadata {
   rendering?: RaceRenderingMetadata;
 }
 
+export interface InitializationSceneSnapshot {
+  capturePoint: 'first-render' | 'after-ai-kart-assets-settled';
+  aiKartAssets: {
+    status: 'pending' | 'ready' | 'settled-with-fallbacks';
+    expected: number;
+    loaded: number;
+    fallback: number;
+    pending: number;
+  };
+  trackId: string;
+  quality: GraphicsQuality;
+  sourceCommit: string | null;
+  actualDrawingBuffer: { width: number; height: number };
+  drawCalls: number;
+  triangles: number;
+}
+
+export type ItemVfxCapture =
+  | { availability: 'available'; snapshot: ItemPerformanceSnapshot }
+  | { availability: 'disabled' | 'unavailable'; snapshot: null };
+
 export interface RacePerformanceCapture {
   schemaVersion: 1;
   metadata: RaceCaptureMetadata & { rendering: RaceRenderingMetadata };
   summary: RacePerformanceSnapshot;
   samples: readonly { rawFrameMs: number; counters: RendererCounterSnapshot | null }[];
   raceCompleted: boolean;
+  initializationScene:
+    | ({ availability: 'captured' } & InitializationSceneSnapshot)
+    | { availability: 'unavailable'; reason: 'no-completed-rendered-frame' };
+  assetSettledScene:
+    | ({ availability: 'captured' } & InitializationSceneSnapshot)
+    | {
+        availability: 'unavailable';
+        reason: 'no-completed-rendered-frame' | 'ai-kart-assets-pending';
+        aiKartAssets: InitializationSceneSnapshot['aiKartAssets'];
+      };
+  itemVfx: ItemVfxCapture;
   policies: {
     warmupFrames: number;
     maxSamples: number;

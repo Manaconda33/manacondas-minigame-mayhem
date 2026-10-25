@@ -1,3 +1,11 @@
+## 2026-10-25: Accept G-05 for v1 by explicit owner exception
+
+- **Owner decision:** Manny accepts G-05 as satisfying the v1 release gate by explicit product-owner exception. No additional G-05 race capture is required for this release checkpoint. This is not an unconditional technical PASS.
+- **Reported capture:** Windows / Chrome 156 / AMD Radeon using D3D11; Medium; Neon Grid; 1920×911 drawing buffer; one player plus seven AI; completed three-lap race. Reported results: median 59.8802 FPS; p95 16.8 ms; longest run above 50 ms was 2 frames; peak 486 draw calls; peak 348,923 triangles; 9,630 scored frames. The 59.8802 FPS median is slightly below target. Neon Grid differs from the prescribed Circuit Alpha default, and the drawing-buffer height is below the 1920×1080 protocol.
+- **Outlier and unknowns:** Retain the isolated 1,199 ms maximum-frame observation. GPU and unavailable subsystem/resource measurements are UNMEASURED; no missing value is treated as zero or as a pass.
+- **Scope:** The original G-05 and §2.6 targets remain in force for future engineering and builds. This exception is limited to v1 release acceptance and does not change runtime limits, CI policy, or any other acceptance criteria. Rollback readiness, Pages packaging risk, and item-by-item §37 closure remain open. Formal v1 acceptance is not declared.
+- **Evidence provenance:** The owner-provided R2.12 assignment is the source of truth for the stated summary. The two original JSON capture files were not available in this checkout or connected workspace, so their bytes and SHA-256 values could not be independently preserved here. Do not represent the summary document as a substitute for those raw captures.
+
 ## 2026-10-25: Approve the v1 Chrome and Edge browser baseline
 
 - **Owner decision:** For v1, require focused compatibility evidence in current stable desktop Google Chrome and Microsoft Edge, with WebGL2 available and race startup verified on each selectable track. WebGL2 remains the required rendering baseline; core gameplay must not depend on WebGPU.

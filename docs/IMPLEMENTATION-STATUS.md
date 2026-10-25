@@ -1,9 +1,19 @@
 # Implementation Status
 
 
-## 2026-10-25 — R2.11 v1 browser-scope amendment (proposed documentation checkpoint)
+## 2026-10-25 — R2.12 G-05 v1 owner acceptance by exception
 
-Production `main` baseline is `3fc9e296c41b122dd08c13101d9700fedfcbd270`, the merge of PR #342. Its post-merge CI/Pages run [40198242274](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40198242274) and trusted-runtime run [40198242277](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40198242277) passed; Pages assembly's exact-hash preservation gate, deployment, and live-preview/unchanged-production-byte verification passed.
+Production `main` baseline is `12e996ff5b77b3cbfdd5973aabae75f7ca89fa70`, following the merged R2.11 documentation checkpoint PR #343. Main CI/Pages run [40204237613](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40204237613) and trusted-runtime run [40204237631](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40204237631) passed, including validation, exact-delivery preservation, deployment, live preview/unchanged-production-byte verification, and all four trusted runtime checks.
+
+Manny explicitly accepts G-05 as satisfying the v1 release gate **by owner exception**. This is not an unconditional technical PASS and does not change any numeric target. No further G-05 race capture is required for this release checkpoint.
+
+The owner-reported October 25 session used Windows, Chrome 156, an AMD Radeon through D3D11, Medium quality, Neon Grid, and a 1920×911 drawing buffer; it had one player and seven AI racers and completed three laps. Reported metrics: median **59.8802 FPS** (below the 60 FPS target), p95 **16.8 ms**, longest consecutive run above 50 ms **2 frames**, peak **486 draw calls**, peak **348,923 triangles**, and **9,630 scored frames**. The protocol deviations are retained: median FPS is slightly below 60, the measured course was Neon Grid rather than the prescribed Circuit Alpha, and the drawing-buffer height was 911 rather than 1080. An isolated **1,199 ms** maximum-frame observation is retained. GPU and unavailable subsystem/resource metrics are **UNMEASURED**.
+
+The original capture JSON files and their checksum manifest are not present in this repository or available local workspace, so their byte identity and SHA-256 checksums could not be recorded in this checkpoint. The numeric summary above is attributed to Manny's R2.12 owner instruction; it must not be described as a raw-capture hash verification. The evidence record lists the specific unavailable subsystem/resource fields. Original G-05 and §2.6 targets remain in force for future engineering/builds. Rollback readiness, Pages packaging risk, and item-by-item closure of applicable original PRD §37 criteria remain open. Formal v1 release acceptance is not declared.
+
+## 2026-10-25 — R2.11 v1 browser-scope amendment (merged documentation checkpoint)
+
+Production `main` baseline is `12e996ff5b77b3cbfdd5973aabae75f7ca89fa70`, the merge of PR #343. Its post-merge CI/Pages run [40204237613](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40204237613) and trusted-runtime run [40204237631](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40204237631) passed; Pages assembly's exact-hash preservation gate, deployment, and live-preview/unchanged-production-byte verification passed.
 
 Owner-approved PRD amendment 2.31 sets the required v1 browser baseline to current stable desktop Google Chrome and Microsoft Edge with WebGL2. Core gameplay remains independent of WebGPU. R2.10A's focused software-rendered Chrome and Edge startup evidence passes this browser baseline; Chromium's evidence remains a separate product result. Firefox and desktop Safari testing are deferred and non-blocking for v1. Their prior **UNMEASURED** findings are retained as test-history evidence and do not imply pass, fail, or unsupported status. No additional browser tests were performed for R2.11.
 

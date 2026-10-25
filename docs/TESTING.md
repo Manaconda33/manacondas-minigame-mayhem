@@ -10,7 +10,7 @@ The source-approved values below reconcile the previously stale main PRD prose. 
 
 | Test class | Requirement | Application |
 | --- | --- | --- |
-| Hard release requirements | Global race-scene hard cap **500 draw calls**; at most **12 dynamic shadow casters**; G-05 Medium/eight-racer 1920×1080 representative desktop with median **≥60 FPS**, p95 **≤18.3 ms**, and no sustained three-frame sequence above **50 ms**. | The 500-call value supersedes earlier 250-call wording under 2.26; the existing hardware acceptance gate is unchanged. |
+| Hard release requirements | Global race-scene hard cap **500 draw calls**; at most **12 dynamic shadow casters**; original G-05 target: Medium/eight-racer 1920×1080 representative desktop with median **≥60 FPS**, p95 **≤18.3 ms**, and no sustained three-frame sequence above **50 ms**. | The 500-call value supersedes earlier 250-call wording under 2.26. For the current v1 release only, G-05 is OWNER ACCEPTED BY EXCEPTION under amendment 2.32; the target remains for future engineering/builds. |
 | Global triangle limit | **750,000 visible triangles**. | Existing global PRD target/cap; unchanged by amendments 2.26–2.28. |
 | PRD resource target | GPU texture residency approximately **256 MB on Medium**. | Existing target, not a new threshold or measured residency claim. |
 | Task 9 engineering targets | **500 draw calls** (2.26) and **425,000 visible triangles** (2.28). | Forward-looking Task 9 engineering gates. The 425,000 ceiling supersedes the earlier 350,000 figure from 2.26; neither changes the global 750,000 triangle cap. |
@@ -1693,3 +1693,11 @@ The owner-approved PRD amendment 2.31 requires focused startup compatibility evi
 Existing R2.10A evidence passes the required baseline for focused software-rendered startup: Chrome `156.0.8078.47` and Edge `156.0.4314.42` on Debian GNU/Linux 13 x86_64, SwiftShader at 1280×720, WebGL2 available with WebGPU adapter unavailable. The distinct Chromium `151.0.7922.173` result remains labeled Chromium, not Chrome. Firefox and desktop Safari remain unmeasured; do not infer a compatibility outcome for them. The captured results and six JSON files are preserved in [the R2.10A evidence package](evidence/2026-10-25-r2-10-browser-compatibility/README.md) and were not changed for R2.11.
 
 These startup checks do not certify physical-GPU performance or G-05. G-05, rollback readiness, and item-by-item PRD §37 closure remain separate release requirements. No additional browser tests or runtime changes are part of this documentation amendment.
+
+## R2.12 — G-05 owner acceptance by exception — 2026-10-25
+
+Manny explicitly accepts G-05 as satisfying the v1 release gate **by product-owner exception**, not as an unconditional technical PASS. No further G-05 race capture is required for this release checkpoint. The original numeric G-05/§2.6 targets remain unchanged for future engineering and builds.
+
+The owner-reported capture was Windows / Chrome 156 / AMD Radeon / D3D11, Medium quality, Neon Grid, drawing buffer 1920×911, one player plus seven AI, completed three-lap race. Results: median **59.8802 FPS** (below 60); p95 **16.8 ms**; longest consecutive run above 50 ms **2**; peak **486 draw calls**; peak **348,923 triangles**; **9,630 scored frames**. It differs from the original G-05 protocol in median FPS, course, and drawing-buffer height. Preserve the isolated **1,199 ms** maximum-frame observation. GPU and unavailable subsystem/resource measurements remain **UNMEASURED**; do not infer zero or pass for absent values.
+
+The R2.12 assignment supplies these summary values as owner source-of-truth. The original two JSON capture files were not available in this checkout or connected workspace, so their raw bytes and SHA-256 checksums are not included or claimed as preserved. See [the R2.12 evidence record](evidence/2026-10-25-r2-12-g05-owner-acceptance/README.md) for this limitation and disposition. Rollback readiness, Pages packaging risk, and item-by-item closure of applicable original PRD §37 criteria remain open. This is not formal v1 release sign-off.

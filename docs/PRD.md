@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; approved governance amendments through 2.31
+Version 1.1 - Final approved baseline; approved governance amendments through 2.32
 
 August 16, 2026
 
@@ -3189,3 +3189,13 @@ Owner-approved October 25, 2026. The required v1 browser baseline in §36.5 is c
 Firefox and desktop Safari compatibility testing are deferred and non-blocking for v1. Their deferred status is not a pass, fail, or unsupported result. Do not infer compatibility or incompatibility from the absence of those tests. Existing Firefox and Safari observations remain historical evidence of unmeasured testing in the prior environment.
 
 The R2.10A Chrome and Edge software-rendered startup evidence remains applicable to this browser scope; Chromium remains a separate product result. This amendment changes only which browser products are required for v1 compatibility evidence. It does not relax WebGL2, G-05, rollback, graphics, asset, gameplay, or any other v1 requirement, and it does not declare v1 complete.
+
+## Approved governance amendment 2.32 — G-05 v1 owner acceptance by exception
+
+Owner-approved October 25, 2026. Manny accepts G-05 as satisfying the v1 release gate **by explicit product-owner exception** based on the October 25 desktop performance summary supplied in the R2.12 owner instruction. This is not an unconditional technical PASS and does not revise the original performance targets. No additional G-05 race capture is required for this v1 release checkpoint.
+
+The captured session was Windows with Chrome 156, AMD Radeon graphics through D3D11, Medium quality, Neon Grid, and a 1920×911 drawing buffer. It used one player and seven AI racers and completed a three-lap race. The measured summary was median **59.8802 FPS**, p95 frame time **16.8 ms**, longest consecutive run above 50 ms **2 frames**, peak **486 draw calls**, peak **348,923 triangles**, and **9,630 scored frames**. The median is slightly below the original 60 FPS target; the track differs from the prescribed Circuit Alpha default; and the drawing-buffer height is below the prescribed 1920×1080. These deviations remain explicit in the record and are the reason for the exception disposition.
+
+The isolated **1,199 ms** maximum-frame observation is retained as an observed outlier. GPU timing and unavailable subsystem/resource measurements remain **UNMEASURED**; no missing value is inferred as zero or pass. The R2.12 instruction requests preservation of two original October 25 JSON captures with SHA-256 checksums, but their source files were not available in this checkout/workspace. The evidence record documents that limitation and does not claim the raw files or checksums are preserved.
+
+This exception applies only to the v1 release gate for this documented owner decision. The original G-05 and §2.6 performance targets remain in force for future engineering and builds. This amendment does not change runtime limits, CI policy, the accepted game, or any other v1 acceptance criterion. Rollback readiness, Pages packaging risk, and item-by-item closure of applicable §37 acceptance requirements remain open; it does not declare formal v1 release acceptance complete.

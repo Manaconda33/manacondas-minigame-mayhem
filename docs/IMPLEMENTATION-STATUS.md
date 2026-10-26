@@ -1,5 +1,27 @@
 # Implementation Status
 
+## 2026-10-26 — R2.15B v1 exception and acceptance-evidence checkpoint
+
+This documentation-only checkpoint is based on R2.14 production source `fd762de24cda6d738b99bfeb65c9cd928d40108a`. The deployed Pages artifact is GitHub artifact `12688210450`, 211,514,731 bytes, SHA-256 `3b8cbf70f5ace67911cc10be078791fc730ee8feb02a9dbfceed008aa6ec5f4d`. Main deployment run [40396592161](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592161) and trusted pinned-runtime run [40396592304](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592304) passed. R2.10A Chrome/Edge startup source `21dc90b` has no `src/` or `public/` diff through production `fd762de`; the published artifact exact-delivery verification covered 417/417 production paths. No gameplay or asset change is part of this checkpoint.
+
+On October 26, 2026, Manny answered “I do” to the exact four-exception question recorded in amendment 2.34. The four v1 dispositions are:
+
+- **PH-001 — OWNER ACCEPTED BY EXCEPTION.** Ten-minute deterministic numeric simulation covers 36,000 fixed steps, not a full-game 30-minute continuous instrumented soak. Focused physics tests pass; the owner reports hundreds of satisfactory plays, generally under five minutes each. Preserve the technical gap; no new soak is required or authorized.
+- **PF-004 — OWNER ACCEPTED BY EXCEPTION.** Neon Grid full trace: 486 peak calls/9,630 frames. Circuit Alpha startup capture: 265 calls/14 scored samples. No known violation; universal state compliance remains unproven. Preserve the ≤500 hard cap; no added profiling or instrumentation.
+- **PF-006 — OWNER ACCEPTED BY EXCEPTION.** Bounded local visual pools; aggregate ≤2,500 particle count remains **UNMEASURED**. No known violation; no added measurement.
+- **PF-007 — OWNER ACCEPTED BY EXCEPTION.** Local SFX cap/test is 24; combined music/SFX ≤32 remains **UNMEASURED**. No known violation; no added profiling.
+
+The original numerical requirements remain unchanged for future engineering. Amendment 2.32 still governs only G-05, amendment 2.33 only backup/rollback, and amendment 2.34 only these four v1 exceptions. No technical PASS is inferred from owner disposition.
+
+Manny’s statement “All characters in the kart racer are mine” is recorded as the PD-005 owner-attested ownership basis for the approved fourteen-character roster. Existing intake, roster, character approval/transformation and asset provenance records remain linked. Third-party material licenses stay separate; no new art review or declaration is requested.
+
+The R2.15B ledger reconciles all 140 original §37 entries and leaves all original boxes unchanged. Totals: **114 VERIFIED COMPLETE; 15 OWNER ACCEPTED / DOCUMENTATION OR METRIC INCOMPLETE; 7 OWNER ACCEPTED BY EXCEPTION; 2 UNMEASURED (PF-003, PF-005); 0 genuine gaps; 2 deferred/superseded; 0 conflicting documentation.** RS-005 is complete on the combined candidate because this PR is explicitly stacked on #347’s R2.14 closeout.
+
+Recommend that Manny designate the existing production artifact as `MMM-v1.0.0-rc1`; no prior use of that designation was located. This recommendation is not approval. Formal §38.1 candidate designation and distinct public v1 acceptance remain outstanding. Merge #347 first, then retarget and review this dependent checkpoint; neither merge grants release approval.
+
+See the [R2.15B final v1 acceptance evidence ledger](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md), [PR #347](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/347), and the [R2 release checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md).
+
+
 ## 2026-10-26 — R2.14 production-only Pages publication
 
 PR #346 was squash-merged to `main` at `fd762de24cda6d738b99bfeb65c9cd928d40108a`. Main CI/Pages run [40396592161](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592161) passed validation, production-only assembly, Pages deployment, and exact post-deployment file verification. Trusted pinned-runtime run [40396592304](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592304) passed all four cases: Dive, Abyss Fog V3.2, Billboard, and Far300.
@@ -18,7 +40,7 @@ Production `main` begins this checkpoint at `0cac7f00294be5009b4d3b41a484ecc02a9
 
 The current production recovery package is a 211,133,480-byte archive with SHA-256 `5e274c3a61de61fae0fd6b92e5fd0cc0399458326cc526a55bb0d048ee04d987`. It was reconstructed from the live HTTPS production root, not from the original Actions ZIP; 417 files passed independent restore/hash verification, and the local static browser smoke reached the Circuit Alpha countdown. The earlier historical `5df72b270e231790f31121496a10cd58d71378f6` recovery package has SHA-256 `0e3907baa48d6557f6a80e3320e124a8f7a31a2989fda797bfe1504dc23c4cde` and 412 verified production files, with limited browser restoration evidence.
 
-The exception records rather than closes these technical gaps: the immediate predecessor artifact at `12e996ff5b77b3cbfdd5973aabae75f7ca89fa70` was not retained; the private Drive packages have no verified immutable/write-once retention; neither reconstruction is claimed byte-identical to an Actions ZIP; and the archives do not include published historical previews. No new storage resources, paid subscriptions, or backup spending are authorized. The private links, manifests, checksums, and restore procedures are in the [R2.13A/B/C evidence summary](evidence/2026-10-26-r2-13-backup-owner-exception/README.md). Formal v1 acceptance remains pending the Pages packaging assessment and item-by-item §37 reconciliation.
+The exception records rather than closes these technical gaps: the immediate predecessor artifact at `12e996ff5b77b3cbfdd5973aabae75f7ca89fa70` was not retained; the private Drive packages have no verified immutable/write-once retention; neither reconstruction is claimed byte-identical to an Actions ZIP; and the archives do not include published historical previews. No new storage resources, paid subscriptions, or backup spending are authorized. The private links, manifests, checksums, and restore procedures are in the [R2.13A/B/C evidence summary](evidence/2026-10-26-r2-13-backup-owner-exception/README.md). At the time of the R2.13C checkpoint, formal v1 acceptance remained pending the Pages packaging assessment and item-by-item §37 reconciliation; R2.15B later records completion of those documentation items.
 
 
 ## 2026-10-25 — R2.12 G-05 v1 owner acceptance by exception

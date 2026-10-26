@@ -46,6 +46,7 @@ describe('production-only Pages delivery manifest', () => {
     expect(workflow).toContain("if: github.event_name == 'pull_request'\n    runs-on: ubuntu-latest\n    timeout-minutes: 15\n    steps:");
     expect(workflow).toContain('  pinned-runtime-validation:\n    name: pinned-runtime-validation (${{ matrix.id }})\n    if: always() && github.event_name == \'pull_request\'');
     expect(assemble).toContain('needs: [validate, preview-plan]');
+    expect(assemble).toContain('uses: actions/checkout@v5');
     expect(assemble).toContain('tools/ci/pages_delivery_manifest.py');
     expect(assemble).toContain('actions/upload-pages-artifact@v5');
     expect(assemble).not.toContain('preview-output/');

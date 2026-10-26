@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; approved governance amendments through 2.32
+Version 1.1 - Final approved baseline; approved governance amendments through 2.33
 
 August 16, 2026
 
@@ -3199,3 +3199,11 @@ The captured session was Windows with Chrome 156, an AMD Radeon renderer reporte
 The isolated **1,199 ms** maximum-frame observation occurs at one-based sample **9,528** (zero-based `samples[9527]`) in both exports, with 395 draw calls and 336,899 triangles recorded for that frame. GPU timing and unavailable subsystem/resource measurements remain **UNMEASURED**; no missing value is inferred as zero or pass. The two original JSON files, exact owner-uploaded ZIP, human-readable SHA-256 manifest, and extraction/verification instructions are preserved in [`docs/evidence/2026-10-25-r2-12-g05-owner-acceptance/`](evidence/2026-10-25-r2-12-g05-owner-acceptance/README.md). The raw JSON hashes are `99316f4e2ba3bf11030051d147cbbf7a1ffc6a40d784adb5a974306910beaf16` and `8aa74cc2f574a371562b23ecd30ac7665ab53a1ce136406961b5db90c9f24388`; the source ZIP hash is `79b4da3c7ea17e781691e6603f5d8abc0cdba6c7873cf33e8dfb325727e2ed1f`.
 
 This exception applies only to the v1 release gate for this documented owner decision. The original G-05 and §2.6 performance targets remain in force for future engineering and builds. This amendment does not change runtime limits, CI policy, the accepted game, or any other v1 acceptance criterion. Rollback readiness, Pages packaging risk, and item-by-item closure of applicable §37 acceptance requirements remain open; it does not declare formal v1 release acceptance complete.
+
+## Approved governance amendment 2.33 — v1 backup recovery owner exception
+
+Owner-approved October 26, 2026. For the v1 release only, Manny accepts the rollback and backup gate referenced by §§38.2–38.3 as **OWNER ACCEPTED BY EXCEPTION**, based on the existing independently verified private Google Drive recovery packages for production commit `0cac7f00294be5009b4d3b41a484ecc02a9f9955` and historical release commit `5df72b270e231790f31121496a10cd58d71378f6`. The current production archive was reconstructed from live HTTPS files; 417 production files were hash-verified and the archive was independently retrieved and restored. The older reconstructed production root has 412 verified files and limited browser restoration evidence. These are recovery packages, not proof of byte identity with the original GitHub Actions ZIPs.
+
+The exception explicitly acknowledges that the immediately preceding production artifact for `12e996ff5b77b3cbfdd5973aabae75f7ca89fa70` was not retained, that Google Drive has no verified write-once/immutable retention lock, and that the packages cover production roots rather than all published historical previews. Those gaps are accepted for this v1 backup gate by owner decision; they are not reclassified as technically complete or as an unconditional PASS. No new storage service, paid subscription, bucket, or backup spending is authorized by this amendment.
+
+The original §§38.2–38.3 rollback requirements remain unchanged for future release engineering unless separately amended. This exception applies only to the v1 checkpoint and does not declare formal v1 acceptance complete. The evidence, private storage links, checksums, and restore records are summarized in the [R2.13A/B/C evidence record](evidence/2026-10-26-r2-13-backup-owner-exception/README.md) and [R2 release checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md). Pages packaging assessment and item-by-item §37 reconciliation remain open.

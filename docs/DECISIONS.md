@@ -1,3 +1,11 @@
+## 2026-10-26: Accept v1 backup recovery by owner exception
+
+- **Owner decision:** Manny accepts the v1 rollback/backup gate referenced by PRD §§38.2–38.3 as **OWNER ACCEPTED BY EXCEPTION**, based on the existing independently verified private Google Drive recovery packages for current production `0cac7f00294be5009b4d3b41a484ecc02a9f9955` and older historical release `5df72b270e231790f31121496a10cd58d71378f6`.
+- **Current recovery point:** The 211,133,480-byte archive has SHA-256 `5e274c3a61de61fae0fd6b92e5fd0cc0399458326cc526a55bb0d048ee04d987`; 417 files were independently retrieved and verified after restoring the archive. It was reconstructed from live HTTPS and is not claimed to be the original Actions ZIP.
+- **Older recovery point:** The reconstructed `5df72b` production archive has SHA-256 `0e3907baa48d6557f6a80e3320e124a8f7a31a2989fda797bfe1504dc23c4cde` and 412 verified production files. Browser restoration evidence is limited. Neither reconstructed archive is claimed byte-identical to an original Actions ZIP.
+- **Accepted gaps:** The immediately preceding `12e996ff5b77b3cbfdd5973aabae75f7ca89fa70` Actions artifact was not retained; Drive does not provide verified immutable/write-once retention; and the backups cover production roots, not all published historical previews. These remain technical gaps and are accepted only for this v1 backup gate by explicit owner exception, not an unconditional technical PASS.
+- **Scope:** PRD amendment 2.33 records the exception while leaving §§38.2–38.3 requirements intact for future release engineering. No new storage service, paid subscription, cloud bucket, or backup spending is authorized. Formal v1 acceptance remains pending the Pages packaging assessment and item-by-item §37 reconciliation. See the [R2.13A/B/C evidence summary](evidence/2026-10-26-r2-13-backup-owner-exception/README.md) and [R2 release checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md).
+
 ## 2026-10-25: Accept G-05 for v1 by explicit owner exception
 
 - **Owner decision:** Manny accepts G-05 as satisfying the v1 release gate by explicit product-owner exception. No additional G-05 race capture is required for this release checkpoint. This is not an unconditional technical PASS.

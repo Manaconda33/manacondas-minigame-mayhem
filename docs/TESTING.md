@@ -1686,6 +1686,10 @@ R2's deployed HTTPS capture is pinned to 45235d88cd65be528577db1d71b20ca5454ab97
 
 The preserved report and source-pinned raw captures are in [R2 transfer evidence](evidence/2026-10-24-r2-first-playable-transfer/acceptance-disposition.md). No test policy or loading architecture changed; this documentation amendment does not waive or satisfy other test requirements.
 
+## R2.13C — v1 backup recovery owner exception — 2026-10-26
+
+Manny accepts the rollback/backup gate in PRD §§38.2–38.3 for this v1 checkpoint as **OWNER ACCEPTED BY EXCEPTION**. This is not a technical PASS and does not erase the original requirements for future releases. The exception recognizes the verified private Drive recovery packages while retaining the known limitations: the immediate predecessor artifact was not preserved, immutable/write-once retention was not verified, the reconstructed packages are not claimed to match the original Actions ZIP bytes, and backups do not cover historical previews. No further artifact retrieval, storage-provider work, or paid service is authorized or required for this v1 exception. The provenance, private links, hashes, and reproducible restore instructions are in the [R2.13A/B/C evidence summary](evidence/2026-10-26-r2-13-backup-owner-exception/README.md) and [R2 checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md). Pages packaging assessment and item-by-item §37 reconciliation remain open; do not infer formal v1 acceptance.
+
 ## R2.11 — v1 browser-scope amendment — 2026-10-25
 
 The owner-approved PRD amendment 2.31 requires focused startup compatibility evidence in current stable desktop Google Chrome and Microsoft Edge, with WebGL2 available. Verify Title/Hub, both selectable tracks, and rendered race startup. Core gameplay must work without WebGPU; do not treat WebGPU availability as a requirement. Firefox and desktop Safari compatibility testing are deferred and non-blocking for v1. Their deferred status does not indicate pass, fail, or unsupported.

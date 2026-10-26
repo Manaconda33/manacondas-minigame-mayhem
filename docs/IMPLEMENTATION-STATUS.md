@@ -1,5 +1,13 @@
 # Implementation Status
 
+## 2026-10-26 — R2.13C v1 backup recovery owner exception
+
+Production `main` begins this checkpoint at `0cac7f00294be5009b4d3b41a484ecc02a9f9955`. By explicit owner decision, the v1 rollback/backup gate in PRD §§38.2–38.3 is **OWNER ACCEPTED BY EXCEPTION**. This is not an unconditional technical PASS. The original rollback requirements remain unchanged for future release engineering.
+
+The current production recovery package is a 211,133,480-byte archive with SHA-256 `5e274c3a61de61fae0fd6b92e5fd0cc0399458326cc526a55bb0d048ee04d987`. It was reconstructed from the live HTTPS production root, not from the original Actions ZIP; 417 files passed independent restore/hash verification, and the local static browser smoke reached the Circuit Alpha countdown. The earlier historical `5df72b270e231790f31121496a10cd58d71378f6` recovery package has SHA-256 `0e3907baa48d6557f6a80e3320e124a8f7a31a2989fda797bfe1504dc23c4cde` and 412 verified production files, with limited browser restoration evidence.
+
+The exception records rather than closes these technical gaps: the immediate predecessor artifact at `12e996ff5b77b3cbfdd5973aabae75f7ca89fa70` was not retained; the private Drive packages have no verified immutable/write-once retention; neither reconstruction is claimed byte-identical to an Actions ZIP; and the archives do not include published historical previews. No new storage resources, paid subscriptions, or backup spending are authorized. The private links, manifests, checksums, and restore procedures are in the [R2.13A/B/C evidence summary](evidence/2026-10-26-r2-13-backup-owner-exception/README.md). Formal v1 acceptance remains pending the Pages packaging assessment and item-by-item §37 reconciliation.
+
 
 ## 2026-10-25 — R2.12 G-05 v1 owner acceptance by exception
 

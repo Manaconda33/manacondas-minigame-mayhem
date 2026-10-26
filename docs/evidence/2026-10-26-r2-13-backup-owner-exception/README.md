@@ -38,10 +38,10 @@ The parent [private release-backups folder](https://drive.google.com/drive/folde
 
 ## Restore and verify
 
-For the current package, retrieve all archive parts listed by its archive manifest in the recorded order. Concatenate without recompression, verify the resulting archive SHA-256 against the value above and the manifest, then extract to a new empty directory. From the extracted root, verify each file using the supplied per-file manifest:
+For the current package, retrieve all archive parts listed by its archive manifest in the recorded order. Concatenate without recompression, verify the resulting archive SHA-256 against the value above and the manifest, then extract to a new empty directory. From the extracted archive root, verify each file using the supplied per-file manifest:
 
 ```sh
-sha256sum -c SHA256SUMS
+sha256sum -c RECOVERY/SHA256SUMS
 ```
 
 For the older package, retrieve parts in the order and with the checksums listed by `backup-archive-manifest.json`; verify the aggregate archive checksum against `backup-archive-manifest.sha256`, extract into a separate empty directory, then follow that package's recorded per-file verification instructions. Keep both restore locations separate. These are non-destructive local recovery steps; do not deploy recovered files as part of this evidence record.

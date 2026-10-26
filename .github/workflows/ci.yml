@@ -90,7 +90,9 @@ jobs:
         run: npm run build
 
       - name: Upload production build for Pages assembly
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: >-
+          github.event_name == 'push' && github.ref == 'refs/heads/main' ||
+          github.event_name == 'pull_request' && needs.preview-plan.result == 'success' && needs.preview-plan.outputs.docs_only != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: production-dist
@@ -168,10 +170,7 @@ jobs:
 
   preview-build:
     name: preview-build (${{ matrix.id }})
-    if: >-
-      always() &&
-      (github.event_name == 'pull_request' ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/main'))
+    if: github.event_name == 'pull_request'
     needs: preview-plan
     runs-on: ubuntu-latest
     # Task A adds full pinned-runtime validation; historical build rows retain 15 minutes.
@@ -736,6 +735,7 @@ jobs:
 
   layout-studio-build:
     name: Build isolated Neon Grid Layout Studio
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -775,6 +775,7 @@ jobs:
 
   owner-layout-preview-build:
     name: Build and validate owner-layout playtest source
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
@@ -824,608 +825,50 @@ jobs:
           if-no-files-found: error
 
   assemble:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [validate, preview-plan, preview-build, layout-studio-build, owner-layout-preview-build]
+    if: >-
+      needs.validate.result == 'success' &&
+      needs.preview-plan.result == 'success' &&
+      ((github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'pull_request' && needs.preview-plan.outputs.docs_only != 'true'))
+    needs: [validate, preview-plan]
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - name: Check out production delivery verifier
+        uses: actions/checkout@v5
+
       - name: Download validated production build
         uses: actions/download-artifact@v4
         with:
           name: production-dist
           path: dist
 
-      - name: Restore Neon Grid preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid
-          key: preview-dist-v1-neon-grid-e441ab73ed0a5c3a2d75663de7a89a57606689b8-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Neon Grid 5.3 preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-5-3
-          key: preview-dist-v1-neon-grid-5-3-9459bf0f64705fb744f7cc1e810be0c0a6f02b3b-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Neon Service Tunnel preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-tunnel
-          key: preview-dist-v1-neon-grid-tunnel-92025b5f241cae7ac208c977f74b24396ce6909b-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Billboard preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-billboard
-          key: preview-dist-v1-neon-grid-billboard-b942c912510ec86312a9d0cd393d71d2eb478ea8-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Dive preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-dive
-          key: preview-dist-v1-neon-grid-dive-b49d9876f8c6ce87956f8b91675c3c8180e56b55-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Neon Grid 300m stopgap preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-far300
-          key: preview-dist-v1-neon-grid-far300-ce6a64cf36b1f110af028536d3ff9c7a306ccbdb-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Neon Grid T9.2 Skyline preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-2
-          key: preview-dist-v1-neon-grid-t9-2-fe3e7129c58b22d69cf2ba7aa90c11c9764007f0-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Neon Grid T9.3 Undercity preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-3
-          key: preview-dist-v1-neon-grid-t9-3-722d9db1c1867f2a1516843679bb30a4ca37a2ea-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore Neon Grid T9.3 corrected Undercity preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-3-correction
-          key: preview-dist-v1-neon-grid-t9-3-correction-42781fb5367a146473c49012e0442e953197e480-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore Neon Grid T9.4 Falls extension preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-4
-          key: preview-dist-v1-neon-grid-t9-4-be47a3d7215867b9b275473fd2640cc626ef5e37-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore Neon Grid T9.5 full-course owner preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-5
-          key: preview-dist-v1-neon-grid-t9-5-a25c4b1788f4930b4e416777c8100284ff3c65a7-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore Neon Grid T9.5 corrected camouflage owner preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-5-correction
-          key: preview-dist-v1-neon-grid-t9-5-correction-e31605fa9618df21eaba384d75a056816c95432c-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore new T9.5 sightline-corrected owner preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-5-sightline
-          key: preview-dist-v1-neon-grid-t9-5-sightline-d54a70aefb90bac3051ac28bc02c663431edfb91-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore T9.5 approved warning-portal owner preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-5-portals
-          key: preview-dist-v1-neon-grid-t9-5-portals-64492dfbca7c4a5633880637ddbc5bcc05c34fde-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore T9.5 owner-corrected exact-head preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-5-owner-correction
-          key: preview-dist-v1-neon-grid-t9-5-owner-correction-9b973d48c1115d4b35d3936a3eacbed8dbb7ed76-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore T9.6 source-pinned real-race performance capture preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-6-diagnostics
-          key: preview-dist-v1-neon-grid-t9-6-diagnostics-c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore T9.7 source-pinned owner review preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-7
-          key: preview-dist-v1-neon-grid-t9-7-f4672ef55d6697fb3d205abd03633faa0f821874-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore T9.7 city-ground correction preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-7-city-ground
-          key: preview-dist-v1-neon-grid-t9-7-city-ground-90ae7d5ff953fe90d40043de957507d7b79a3ef5-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore T9.7 comprehensive environment-correction preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-t9-7-environment-correction
-          key: preview-dist-v1-neon-grid-t9-7-environment-correction-75c6c62c865ec3b546f3f2512e649de9ea6d52bc-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore source-pinned fog-city A/B review preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-abyss-fog-001
-          key: preview-dist-v1-neon-grid-abyss-fog-001-b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore source-pinned fog-city v2 correction preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-abyss-fog-002
-          key: preview-dist-v1-neon-grid-abyss-fog-002-7d087f19dfd86bca36b500280309d9c86b4af77d-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore source-pinned V3.2 geometry-termination preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-abyss-fog-004
-          key: preview-dist-v1-neon-grid-abyss-fog-004-25ea008b15852d593681f5b3b2a17b467a193472-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-      - name: Restore source-pinned Task A sponsor-visibility preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-task-a-001
-          key: preview-dist-v1-neon-grid-task-a-001-692e9424c2cbf15decbb467b230c02c2e10452a0-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore source-pinned Task C1 playable review preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-task-c1-001
-          key: preview-dist-v1-neon-grid-task-c1-001-e500f68c658edb5dcd45b4149e4c7f32f2a14dce-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Restore source-pinned Task C2 concrete review preview
-        uses: actions/cache/restore@v4
-        with:
-          path: preview-output/neon-grid-c2-concrete
-          key: preview-dist-v1-neon-grid-c2-concrete-addab4c7c2421f52c4731691b8a9f3e2d9e39f94-${{ needs.preview-plan.outputs.toolchain }}
-          fail-on-cache-miss: true
-
-      - name: Download source-pinned Layout Studio
-        uses: actions/download-artifact@v4
-        with:
-          name: neon-grid-layout-studio
-          path: preview-output/neon-grid-layout-studio
-
-      - name: Download source-pinned owner-layout playtest
-        uses: actions/download-artifact@v4
-        with:
-          name: neon-grid-owner-layout-playtest
-          path: preview-output/neon-grid-owner-layout
-
-      - name: Assemble the current game and isolated previews
+      - name: Assemble production-only site root
         run: |
           test -f dist/index.html
           test -n "$(find dist/assets -maxdepth 1 -type f -name 'index-*.js' -print -quit)"
           test -n "$(find dist/assets -maxdepth 1 -type f -name 'index-*.css' -print -quit)"
+          mkdir -p site-root
           cp -a dist/. site-root/
+          test ! -e site-root/previews
+          echo "Production-only root size: $(du -sb site-root | cut -f1) bytes"
+          echo "Production-only root files: $(find site-root -type f ! -name .gitkeep | wc -l)"
 
+      - name: Record delivery hashes and verify production preservation
+        run: >-
+          python3 tools/ci/pages_delivery_manifest.py
+          --root site-root
+          --output delivery-expected.json
+          --base-url https://manaconda33.github.io/manacondas-minigame-mayhem
+          --verify-existing
 
-          mkdir -p site-root/previews/neon-grid
-          cp -a preview-output/neon-grid/. site-root/previews/neon-grid/
-          test -f site-root/previews/neon-grid/index.html
-          test -f site-root/previews/neon-grid/review-build.json
-
-          mkdir -p site-root/previews/neon-grid-5-3
-          cp -a preview-output/neon-grid-5-3/. site-root/previews/neon-grid-5-3/
-          test -f site-root/previews/neon-grid-5-3/review-build.json
-
-          mkdir -p site-root/previews/neon-grid-tunnel
-          cp -a preview-output/neon-grid-tunnel/. site-root/previews/neon-grid-tunnel/
-          test -f site-root/previews/neon-grid-tunnel/index.html
-          test -f site-root/previews/neon-grid-tunnel/review-build.json
-
-          mkdir -p site-root/previews/neon-grid-billboard
-          cp -a preview-output/neon-grid-billboard/. site-root/previews/neon-grid-billboard/
-          test -f site-root/previews/neon-grid-billboard/index.html
-          test -f site-root/previews/neon-grid-billboard/review-build.json
-
-          mkdir -p site-root/previews/neon-grid-dive
-          cp -a preview-output/neon-grid-dive/. site-root/previews/neon-grid-dive/
-          test -f site-root/previews/neon-grid-dive/index.html
-          test -f site-root/previews/neon-grid-dive/review-build.json
-
-          mkdir -p site-root/previews/neon-grid-far300
-          cp -a preview-output/neon-grid-far300/. site-root/previews/neon-grid-far300/
-          test -f site-root/previews/neon-grid-far300/index.html
-          test -f site-root/previews/neon-grid-far300/review-build.json
-
-          mkdir -p site-root/previews/neon-grid-t9-2
-          cp -a preview-output/neon-grid-t9-2/. site-root/previews/neon-grid-t9-2/
-          test -f site-root/previews/neon-grid-t9-2/index.html
-          test -f site-root/previews/neon-grid-t9-2/review-build.json
-          test -f site-root/previews/neon-grid-t9-2/assets/track/neon-grid/signage/manaconda-racing-v1.webp
-          test -f site-root/previews/neon-grid-t9-2/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp
-
-          mkdir -p site-root/previews/neon-grid-t9-3
-          cp -a preview-output/neon-grid-t9-3/. site-root/previews/neon-grid-t9-3/
-          test -f site-root/previews/neon-grid-t9-3/index.html
-          test -f site-root/previews/neon-grid-t9-3/review-build.json
-          test -f site-root/previews/neon-grid-t9-3/assets/track/neon-grid/signage/nightshift-noodles-v1.webp
-          test -f site-root/previews/neon-grid-t9-3/assets/track/neon-grid/signage/voltline-industrial-v1.webp
-          mkdir -p site-root/previews/neon-grid-t9-3-correction
-          cp -a preview-output/neon-grid-t9-3-correction/. site-root/previews/neon-grid-t9-3-correction/
-          test -f site-root/previews/neon-grid-t9-3-correction/index.html
-          test -f site-root/previews/neon-grid-t9-3-correction/review-build.json
-          test -f site-root/previews/neon-grid-t9-3-correction/assets/track/neon-grid/signage/nightshift-noodles-v1.webp
-          test -f site-root/previews/neon-grid-t9-3-correction/assets/track/neon-grid/signage/voltline-industrial-v1.webp
-
-          mkdir -p site-root/previews/neon-grid-t9-4
-          cp -a preview-output/neon-grid-t9-4/. site-root/previews/neon-grid-t9-4/
-          test -f site-root/previews/neon-grid-t9-4/index.html
-          test -f site-root/previews/neon-grid-t9-4/review-build.json
-          test -f site-root/previews/neon-grid-t9-4/assets/track/neon-grid/signage/nightshift-noodles-v1.webp
-          test -f site-root/previews/neon-grid-t9-4/assets/track/neon-grid/signage/voltline-industrial-v1.webp
-
-          mkdir -p site-root/previews/neon-grid-t9-5
-          cp -a preview-output/neon-grid-t9-5/. site-root/previews/neon-grid-t9-5/
-          test -f site-root/previews/neon-grid-t9-5/index.html
-          test -f site-root/previews/neon-grid-t9-5/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
-            test -f "site-root/previews/neon-grid-t9-5/assets/track/neon-grid/signage/$art"
-          done
-
-          mkdir -p site-root/previews/neon-grid-t9-5-correction
-          cp -a preview-output/neon-grid-t9-5-correction/. site-root/previews/neon-grid-t9-5-correction/
-          test -f site-root/previews/neon-grid-t9-5-correction/index.html
-          test -f site-root/previews/neon-grid-t9-5-correction/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
-            test -f "site-root/previews/neon-grid-t9-5-correction/assets/track/neon-grid/signage/$art"
-          done
-
-          mkdir -p site-root/previews/neon-grid-t9-5-sightline
-          cp -a preview-output/neon-grid-t9-5-sightline/. site-root/previews/neon-grid-t9-5-sightline/
-          test -f site-root/previews/neon-grid-t9-5-sightline/index.html
-          test -f site-root/previews/neon-grid-t9-5-sightline/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp; do
-            test -f "site-root/previews/neon-grid-t9-5-sightline/assets/track/neon-grid/signage/$art"
-          done
-
-          mkdir -p site-root/previews/neon-grid-t9-5-portals
-          cp -a preview-output/neon-grid-t9-5-portals/. site-root/previews/neon-grid-t9-5-portals/
-          test -f site-root/previews/neon-grid-t9-5-portals/index.html
-          test -f site-root/previews/neon-grid-t9-5-portals/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-t9-5-portals/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-5-portals/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-t9-5-owner-correction
-          cp -a preview-output/neon-grid-t9-5-owner-correction/. site-root/previews/neon-grid-t9-5-owner-correction/
-          test -f site-root/previews/neon-grid-t9-5-owner-correction/index.html
-          test -f site-root/previews/neon-grid-t9-5-owner-correction/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-t9-5-owner-correction/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-5-owner-correction/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-t9-6-diagnostics
-          cp -a preview-output/neon-grid-t9-6-diagnostics/. site-root/previews/neon-grid-t9-6-diagnostics/
-          test -f site-root/previews/neon-grid-t9-6-diagnostics/index.html
-          test -f site-root/previews/neon-grid-t9-6-diagnostics/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-t9-6-diagnostics/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-6-diagnostics/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-t9-7
-          cp -a preview-output/neon-grid-t9-7/. site-root/previews/neon-grid-t9-7/
-          test -f site-root/previews/neon-grid-t9-7/index.html
-          test -f site-root/previews/neon-grid-t9-7/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-t9-7/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-7/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-t9-7-city-ground
-          cp -a preview-output/neon-grid-t9-7-city-ground/. site-root/previews/neon-grid-t9-7-city-ground/
-          test -f site-root/previews/neon-grid-t9-7-city-ground/index.html
-          test -f site-root/previews/neon-grid-t9-7-city-ground/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-t9-7-city-ground/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-7-city-ground/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-t9-7-environment-correction
-          cp -a preview-output/neon-grid-t9-7-environment-correction/. site-root/previews/neon-grid-t9-7-environment-correction/
-          test -f site-root/previews/neon-grid-t9-7-environment-correction/index.html
-          test -f site-root/previews/neon-grid-t9-7-environment-correction/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-t9-7-environment-correction/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-t9-7-environment-correction/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-abyss-fog-001
-          cp -a preview-output/neon-grid-abyss-fog-001/. site-root/previews/neon-grid-abyss-fog-001/
-          test -f site-root/previews/neon-grid-abyss-fog-001/index.html
-          test -f site-root/previews/neon-grid-abyss-fog-001/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-abyss-fog-001/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-abyss-fog-001/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-abyss-fog-002
-          cp -a preview-output/neon-grid-abyss-fog-002/. site-root/previews/neon-grid-abyss-fog-002/
-          test -f site-root/previews/neon-grid-abyss-fog-002/index.html
-          test -f site-root/previews/neon-grid-abyss-fog-002/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-abyss-fog-002/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-abyss-fog-002/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-abyss-fog-004
-          cp -a preview-output/neon-grid-abyss-fog-004/. site-root/previews/neon-grid-abyss-fog-004/
-          test -f site-root/previews/neon-grid-abyss-fog-004/index.html
-          test -f site-root/previews/neon-grid-abyss-fog-004/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-abyss-fog-004/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-abyss-fog-004/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-task-a-001
-          cp -a preview-output/neon-grid-task-a-001/. site-root/previews/neon-grid-task-a-001/
-          test -f site-root/previews/neon-grid-task-a-001/index.html
-          test -f site-root/previews/neon-grid-task-a-001/review-build.json
-          for art in manaconda-racing-v1.webp taco-bell-live-mas-v1.webp nightshift-noodles-v1.webp voltline-industrial-v1.webp service-tunnel-do-not-enter-v1.png; do
-            test -f "site-root/previews/neon-grid-task-a-001/assets/track/neon-grid/signage/$art"
-          done
-          echo "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4  site-root/previews/neon-grid-task-a-001/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-task-c1-001
-          cp -a preview-output/neon-grid-task-c1-001/. site-root/previews/neon-grid-task-c1-001/
-          test -f site-root/previews/neon-grid-task-c1-001/index.html
-          node --input-type=module - <<'JS'
-          import { readFileSync } from 'node:fs';
-          const marker = JSON.parse(readFileSync('site-root/previews/neon-grid-task-c1-001/review-build.json', 'utf8'));
-          if (marker.source !== 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce') throw new Error('Task C1 source marker mismatch');
-          if (marker.base !== '/manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/') throw new Error('Task C1 base marker mismatch');
-          JS
-          echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  site-root/previews/neon-grid-task-c1-001/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
-          echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  site-root/previews/neon-grid-task-c1-001/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
-          echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  site-root/previews/neon-grid-task-c1-001/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
-
-          mkdir -p site-root/previews/neon-grid-c2-concrete
-          cp -a preview-output/neon-grid-c2-concrete/. site-root/previews/neon-grid-c2-concrete/
-          test -f site-root/previews/neon-grid-c2-concrete/index.html
-          node --input-type=module - <<'JS'
-          import { readFileSync } from 'node:fs';
-          const marker = JSON.parse(readFileSync('site-root/previews/neon-grid-c2-concrete/review-build.json', 'utf8'));
-          if (marker.source !== 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94') throw new Error('Task C2 source marker mismatch');
-          if (marker.base !== '/manacondas-minigame-mayhem/previews/neon-grid-c2-concrete/') throw new Error('Task C2 base marker mismatch');
-          JS
-          echo "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a  site-root/previews/neon-grid-c2-concrete/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png" | sha256sum --check
-          echo "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e  site-root/previews/neon-grid-c2-concrete/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png" | sha256sum --check
-          echo "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac  site-root/previews/neon-grid-c2-concrete/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png" | sha256sum --check
-
-      - name: Assemble and verify isolated Layout Studio bytes
-        run: |
-          mkdir -p site-root/previews/neon-grid-layout-studio
-          cp -a preview-output/neon-grid-layout-studio/. site-root/previews/neon-grid-layout-studio/
-          python3 - <<'PY'
-          from pathlib import Path
-          import hashlib, json
-          root = Path('site-root/previews/neon-grid-layout-studio')
-          manifest = json.loads((root/'FILE-MANIFEST.json').read_text())
-          marker = json.loads((root/'review-build.json').read_text())
-          assert manifest['source'] == marker['source'] == '4182fb797aa232d6cf38651beb9b017efd0c3f4f'
-          assert marker['runtime_source'] == 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94'
-          for item in manifest['files']:
-              path = (root/item['path']).resolve()
-              assert path.is_relative_to(root.resolve())
-              assert hashlib.sha256(path.read_bytes()).hexdigest() == item['sha256'], item['path']
-          assert (root/'index.html').is_file()
-          PY
-
-      - name: Assemble and verify source-pinned owner-layout playtest
-        run: |
-          mkdir -p site-root/previews/neon-grid-owner-layout
-          cp -a preview-output/neon-grid-owner-layout/. site-root/previews/neon-grid-owner-layout/
-          node --input-type=module - <<'JS'
-          import { readFileSync, statSync } from 'node:fs';
-          const root = 'site-root/previews/neon-grid-owner-layout';
-          const marker = JSON.parse(readFileSync(`${root}/review-build.json`, 'utf8'));
-              if (marker.source !== 'c4db8630cf29ae0434b888ab9da536acbb3dcd16') throw new Error('Owner-layout source marker mismatch');
-          if (marker.base !== '/manacondas-minigame-mayhem/previews/neon-grid-owner-layout/') throw new Error('Owner-layout base marker mismatch');
-          if (!statSync(`${root}/index.html`).isFile()) throw new Error('Owner-layout index is missing');
-          JS
-
-      - name: Record exact delivery hashes and verify production preservation before publication
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          python3 - <<'PYTHON'
-          from pathlib import Path
-          import hashlib, json, time, urllib.error, urllib.request
-
-          TRANSIENT_HTTP_STATUSES = {429, 500, 502, 503, 504}
-          MAX_PRESERVATION_ATTEMPTS = 5
-
-          def verify_published_file(url, relative, expected_sha):
-              for attempt in range(1, MAX_PRESERVATION_ATTEMPTS + 1):
-                  request = urllib.request.Request(url, headers={
-                      'Cache-Control': 'no-cache',
-                      'User-Agent': 'neon-grid-pages-preservation-check',
-                  })
-                  try:
-                      with urllib.request.urlopen(request, timeout=45) as response:
-                          if response.status != 200:
-                              raise RuntimeError(f'Unexpected HTTP {response.status} for {relative}')
-                          data = response.read()
-                      actual_sha = hashlib.sha256(data).hexdigest()
-                      if actual_sha != expected_sha:
-                          raise AssertionError(f'Production bytes differ: {relative}')
-                      return
-                  except urllib.error.HTTPError as error:
-                      if error.code not in TRANSIENT_HTTP_STATUSES:
-                          raise RuntimeError(f'HTTP {error.code} while verifying {relative}') from error
-                      if attempt == MAX_PRESERVATION_ATTEMPTS:
-                          raise RuntimeError(
-                              f'Transient HTTP {error.code} persisted for {relative} '
-                              f'after {MAX_PRESERVATION_ATTEMPTS} attempts'
-                          ) from error
-                      delay = min(2 ** (attempt - 1), 8)
-                      print(
-                          f'Retrying {relative} after transient HTTP {error.code} '
-                          f'(attempt {attempt}/{MAX_PRESERVATION_ATTEMPTS}, wait {delay}s)',
-                          flush=True,
-                      )
-                      error.close()
-                      time.sleep(delay)
-
-          def is_rebuilt_application_entrypoint(relative):
-              path = Path(relative)
-              return relative == 'index.html' or (
-                  path.parent == Path('assets') and path.suffix in {'.js', '.css'}
-              )
-
-          approved_new_production_assets = {
-              'assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png': 'e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a',
-              'assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png': '3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e',
-              'assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png': 'ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac',
-              # Approved R2.6 Opus files are new production paths; their hashes
-              # remain in delivery-expected.json for post-deployment verification.
-              'assets/audio/music-opus-192k/01-circuit-alpha-race-loop.ogg': 'c361e256dab8b02faea12f49ad3d8ffffddc1e1a84c604d8a0488f52122501d4',
-              'assets/audio/music-opus-192k/02-circuit-alpha-final-lap-loop.ogg': '4c25b5a7e903af69ff1f3569af9310f09f6e0476bd78cd29ccb95900d43f27f8',
-              'assets/audio/music-opus-192k/03-route-night-title-hub-loop.ogg': '3f590baa08d0ea2a1dd3900ea7c05965d1bb38cee3028bbbee4556c1f82841b7',
-              'assets/audio/music-opus-192k/04-grid-preparation-character-select-loop.ogg': 'efbee32d1ac0ece009530fb0f1f8231f16f4a5d2bb96f35e7023b3af323fdaa8',
-              'assets/audio/music-opus-192k/05-finish-celebration-results-podium-loop.ogg': '6dad9dfef171913daec3974e59ce82ea9e708e8c4e854bb682ee11808994bd9a',
-              # Existing approved Neon Grid runtime art is new at production-root paths.
-              # The already-published preview copies remain verified separately below.
-              'assets/track/neon-grid/billboard/arin-v1.webp': '7a357de283bb0baca071b2a6eb7fd2e4f2bf213bf57e470253fdd694ee2085cf',
-              'assets/track/neon-grid/billboard/paprika-v1.webp': '0e90ae576d25a5bcdd3049ba61f5e02357a31eba3fda5d2ccfb2e444c7f47b20',
-              'assets/track/neon-grid/billboard/raven-v1.webp': '4f414a9c5bfb02a805a34a80b3d19a0134fd56fe2bad7ad52a8d23cd1483eb9e',
-              'assets/track/neon-grid/signage/manaconda-racing-v1.webp': '481feb4ff34635abad29dd4f65b39975e73c227eb0a53901a51028c5e9fe7d22',
-              'assets/track/neon-grid/signage/nightshift-noodles-v1.webp': '76fc1f75778c757cd979ff78641844cbf1d3955ec6dff7cc8145289dda45373a',
-              'assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png': '11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4',
-              'assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp': 'd289bc4dbc10872d6c75aa4ae650aaf716bf83a9ea36da12ce0cdc021e7bea7e',
-              'assets/track/neon-grid/signage/voltline-industrial-v1.webp': '19b32b71ee59a0f52860c4a6003057b46e4fde890c4e2d4d390b78ed2ea67863',
-          }
-
-          def is_approved_new_production_asset(relative, sha):
-              expected_sha = approved_new_production_assets.get(relative)
-              if expected_sha is None:
-                  return False
-              if sha != expected_sha:
-                  raise RuntimeError(
-                      f'Unexpected content for approved new production asset {relative}: '
-                      f'expected {expected_sha}, received {sha}'
-                  )
-              return True
-
-          root = Path('site-root')
-          paths = [*sorted(path for path in root.iterdir() if path.is_file() and not path.name.startswith('.'))]
-          paths += [path for path in sorted((root/'assets').rglob('*')) if path.is_file()]
-          preview = root/'previews/neon-grid-5-3'
-          paths += [preview/'index.html', preview/'review-build.json', *sorted((preview/'assets').glob('*.js')), *sorted((preview/'assets').glob('*.css'))]
-          tunnel = root/'previews/neon-grid-tunnel'
-          paths += [tunnel/'index.html', tunnel/'review-build.json', *sorted((tunnel/'assets').glob('*.js')), *sorted((tunnel/'assets').glob('*.css'))]
-          billboard = root/'previews/neon-grid-billboard'
-          paths += [billboard/'index.html', billboard/'review-build.json', *sorted((billboard/'assets').glob('*.js')), *sorted((billboard/'assets').glob('*.css'))]
-          paths += [billboard/'assets/track/neon-grid/billboard'/name for name in ['paprika-v1.webp', 'arin-v1.webp', 'raven-v1.webp']]
-          dive = root/'previews/neon-grid-dive'
-          paths += [dive/'index.html', dive/'review-build.json', *sorted((dive/'assets').glob('*.js')), *sorted((dive/'assets').glob('*.css'))]
-          paths += [dive/'assets/track/neon-grid/billboard'/name for name in ['paprika-v1.webp', 'arin-v1.webp', 'raven-v1.webp']]
-          far300 = root/'previews/neon-grid-far300'
-          paths += [far300/'index.html', far300/'review-build.json', *sorted((far300/'assets').glob('*.js')), *sorted((far300/'assets').glob('*.css'))]
-          t92 = root/'previews/neon-grid-t9-2'
-          paths += [t92/'index.html', t92/'review-build.json', *sorted((t92/'assets').glob('*.js')), *sorted((t92/'assets').glob('*.css'))]
-          paths += [t92/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp']]
-          t93 = root/'previews/neon-grid-t9-3'
-          paths += [t93/'index.html', t93/'review-build.json', *sorted((t93/'assets').glob('*.js')), *sorted((t93/'assets').glob('*.css'))]
-          paths += [t93/'assets/track/neon-grid/signage'/name for name in ['nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
-          t93cor = root/'previews/neon-grid-t9-3-correction'
-          paths += [t93cor/'index.html', t93cor/'review-build.json', *sorted((t93cor/'assets').glob('*.js')), *sorted((t93cor/'assets').glob('*.css'))]
-          paths += [t93cor/'assets/track/neon-grid/signage'/name for name in ['nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
-          t94 = root/'previews/neon-grid-t9-4'
-          paths += [t94/'index.html', t94/'review-build.json', *sorted((t94/'assets').glob('*.js')), *sorted((t94/'assets').glob('*.css'))]
-          paths += [t94/'assets/track/neon-grid/signage'/name for name in ['nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
-          t95 = root/'previews/neon-grid-t9-5'
-          paths += [t95/'index.html', t95/'review-build.json', *sorted((t95/'assets').glob('*.js')), *sorted((t95/'assets').glob('*.css'))]
-          paths += [t95/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
-          t95cor = root/'previews/neon-grid-t9-5-correction'
-          paths += [t95cor/'index.html', t95cor/'review-build.json', *sorted((t95cor/'assets').glob('*.js')), *sorted((t95cor/'assets').glob('*.css'))]
-          paths += [t95cor/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
-          t95sight = root/'previews/neon-grid-t9-5-sightline'
-          paths += [t95sight/'index.html', t95sight/'review-build.json', *sorted((t95sight/'assets').glob('*.js')), *sorted((t95sight/'assets').glob('*.css'))]
-          paths += [t95sight/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp']]
-          t95portals = root/'previews/neon-grid-t9-5-portals'
-          paths += [t95portals/'index.html', t95portals/'review-build.json', *sorted((t95portals/'assets').glob('*.js')), *sorted((t95portals/'assets').glob('*.css'))]
-          paths += [t95portals/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
-          t95owner = root/'previews/neon-grid-t9-5-owner-correction'
-          paths += [t95owner/'index.html', t95owner/'review-build.json', *sorted((t95owner/'assets').glob('*.js')), *sorted((t95owner/'assets').glob('*.css'))]
-          paths += [t95owner/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
-          t96diagnostic = root/'previews/neon-grid-t9-6-diagnostics'
-          paths += [t96diagnostic/'index.html', t96diagnostic/'review-build.json', *sorted((t96diagnostic/'assets').glob('*.js')), *sorted((t96diagnostic/'assets').glob('*.css'))]
-          paths += [t96diagnostic/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
-          t97 = root/'previews/neon-grid-t9-7'
-          paths += [t97/'index.html', t97/'review-build.json', *sorted((t97/'assets').glob('*.js')), *sorted((t97/'assets').glob('*.css'))]
-          paths += [t97/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
-          t97city = root/'previews/neon-grid-t9-7-city-ground'
-          paths += [t97city/'index.html', t97city/'review-build.json', *sorted((t97city/'assets').glob('*.js')), *sorted((t97city/'assets').glob('*.css'))]
-          paths += [t97city/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
-          t97env = root/'previews/neon-grid-t9-7-environment-correction'
-          paths += [t97env/'index.html', t97env/'review-build.json', *sorted((t97env/'assets').glob('*.js')), *sorted((t97env/'assets').glob('*.css'))]
-          paths += [t97env/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
-          abyss = root/'previews/neon-grid-abyss-fog-001'
-          paths += [abyss/'index.html', abyss/'review-build.json', *sorted((abyss/'assets').glob('*.js')), *sorted((abyss/'assets').glob('*.css'))]
-          paths += [abyss/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
-          abyss_v2 = root/'previews/neon-grid-abyss-fog-002'
-          paths += [abyss_v2/'index.html', abyss_v2/'review-build.json', *sorted((abyss_v2/'assets').glob('*.js')), *sorted((abyss_v2/'assets').glob('*.css'))]
-          paths += [abyss_v2/'assets/track/neon-grid/signage'/name for name in ['manaconda-racing-v1.webp', 'taco-bell-live-mas-v1.webp', 'nightshift-noodles-v1.webp', 'voltline-industrial-v1.webp', 'service-tunnel-do-not-enter-v1.png']]
-          abyss_v32 = root/'previews/neon-grid-abyss-fog-004'
-          paths += [item for item in sorted(abyss_v32.rglob('*')) if item.is_file()]
-          task_a = root/'previews/neon-grid-task-a-001'
-          paths += [item for item in sorted(task_a.rglob('*')) if item.is_file()]
-          task_c1 = root/'previews/neon-grid-task-c1-001'
-          paths += [item for item in sorted(task_c1.rglob('*')) if item.is_file()]
-          task_c2 = root/'previews/neon-grid-c2-concrete'
-          paths += [item for item in sorted(task_c2.rglob('*')) if item.is_file()]
-          studio = root/'previews/neon-grid-layout-studio'
-          paths += [item for item in sorted(studio.rglob('*')) if item.is_file()]
-          owner_layout = root/'previews/neon-grid-owner-layout'
-          paths += [item for item in sorted(owner_layout.rglob('*')) if item.is_file()]
-          paths = [path for path in paths if path.name != '.gitkeep']
-          report = []
-          for path in paths:
-              relative = str(path.relative_to(root))
-              data = path.read_bytes()
-              sha = hashlib.sha256(data).hexdigest()
-              url = 'https://manaconda33.github.io/manacondas-minigame-mayhem/' + relative
-              is_published_preview = relative.startswith(('previews/neon-grid-dive/', 'previews/neon-grid-far300/', 'previews/neon-grid-t9-2/', 'previews/neon-grid-t9-3/', 'previews/neon-grid-t9-3-correction/', 'previews/neon-grid-t9-4/', 'previews/neon-grid-t9-5/', 'previews/neon-grid-t9-5-correction/', 'previews/neon-grid-t9-5-sightline/', 'previews/neon-grid-t9-5-portals/', 'previews/neon-grid-t9-5-owner-correction/', 'previews/neon-grid-t9-6-diagnostics/', 'previews/neon-grid-t9-7/', 'previews/neon-grid-t9-7-city-ground/', 'previews/neon-grid-t9-7-environment-correction/', 'previews/neon-grid-abyss-fog-001/', 'previews/neon-grid-abyss-fog-002/', 'previews/neon-grid-abyss-fog-004/', 'previews/neon-grid-task-a-001/', 'previews/neon-grid-task-c1-001/', 'previews/neon-grid-c2-concrete/', 'previews/neon-grid-layout-studio/', 'previews/neon-grid-owner-layout/'))
-              is_approved_new_asset = is_approved_new_production_asset(relative, sha)
-              if not is_published_preview and not is_rebuilt_application_entrypoint(relative) and not is_approved_new_asset:
-                  verify_published_file(url, relative, sha)
-              elif is_rebuilt_application_entrypoint(relative) or is_approved_new_asset:
-                  print(
-                      f'Deferred pre-publication comparison for approved new delivery file: {relative}; '
-                      'its exact SHA-256 remains in delivery-expected.json for post-deployment verification.',
-                      flush=True,
-                  )
-              report.append(dict(path=relative, url=url, sha256=sha, bytes=len(data)))
-          Path('delivery-expected.json').write_text(json.dumps(report, indent=2))
-          print(json.dumps(report, indent=2))
-          PYTHON
-
-      - name: Upload delivery hash evidence
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Upload production delivery hash evidence
         uses: actions/upload-artifact@v4
         with:
-          name: neon-grid-dive-delivery-hashes
+          name: production-delivery-hashes
           path: delivery-expected.json
+          retention-days: 90
+          if-no-files-found: error
 
       - name: Configure GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -1433,8 +876,7 @@ jobs:
         with:
           enablement: true
 
-      - name: Upload GitHub Pages artifact
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Upload production-only Pages candidate
         uses: actions/upload-pages-artifact@v5
         with:
           path: site-root
@@ -1512,96 +954,27 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Check out delivery verifier
+        uses: actions/checkout@v5
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
-      - name: Download exact delivery hashes
+
+      - name: Download exact production delivery hashes
         uses: actions/download-artifact@v4
         with:
-          name: neon-grid-dive-delivery-hashes
+          name: production-delivery-hashes
 
-      - name: Verify live preview and unchanged production bytes
-        run: |
-          python3 - <<'PYTHON'
-          import hashlib, json, time, urllib.request
-          from concurrent.futures import ThreadPoolExecutor, as_completed
+      - name: Verify live production files against exact delivery hashes
+        run: >-
+          python3 tools/ci/pages_delivery_manifest.py
+          --verify-live delivery-expected.json
+          --delivery-token "${GITHUB_SHA}"
 
-          report = json.load(open('delivery-expected.json'))
-          expected_sources = [
-              ('previews/neon-grid-owner-layout/', 'c4db8630cf29ae0434b888ab9da536acbb3dcd16'),
-              ('previews/neon-grid-layout-studio/', '4182fb797aa232d6cf38651beb9b017efd0c3f4f'),
-              ('previews/neon-grid-c2-concrete/', 'addab4c7c2421f52c4731691b8a9f3e2d9e39f94'),
-              ('previews/neon-grid-task-c1-001/', 'e500f68c658edb5dcd45b4149e4c7f32f2a14dce'),
-              ('previews/neon-grid-task-a-001/', '692e9424c2cbf15decbb467b230c02c2e10452a0'),
-              ('previews/neon-grid-abyss-fog-004/', '25ea008b15852d593681f5b3b2a17b467a193472'),
-              ('previews/neon-grid-abyss-fog-002/', '7d087f19dfd86bca36b500280309d9c86b4af77d'),
-              ('previews/neon-grid-abyss-fog-001/', 'b0f8d6ed0ef1ba92c6e2dace6886ab04232abd65'),
-              ('previews/neon-grid-t9-7-environment-correction/', '75c6c62c865ec3b546f3f2512e649de9ea6d52bc'),
-              ('previews/neon-grid-t9-7-city-ground/', '90ae7d5ff953fe90d40043de957507d7b79a3ef5'),
-              ('previews/neon-grid-t9-7/', 'f4672ef55d6697fb3d205abd03633faa0f821874'),
-              ('previews/neon-grid-t9-6-diagnostics/', 'c8c65f428fcfbc5236bbebf70ab5f98a9f7671bf'),
-              ('previews/neon-grid-t9-5-owner-correction/', '9b973d48c1115d4b35d3936a3eacbed8dbb7ed76'),
-              ('previews/neon-grid-t9-5-portals/', '64492dfbca7c4a5633880637ddbc5bcc05c34fde'),
-              ('previews/neon-grid-t9-5-sightline/', 'd54a70aefb90bac3051ac28bc02c663431edfb91'),
-              ('previews/neon-grid-t9-5-correction/', 'e31605fa9618df21eaba384d75a056816c95432c'),
-              ('previews/neon-grid-t9-5/', 'a25c4b1788f4930b4e416777c8100284ff3c65a7'),
-              ('previews/neon-grid-t9-4/', 'be47a3d7215867b9b275473fd2640cc626ef5e37'),
-              ('previews/neon-grid-t9-3-correction/', '42781fb5367a146473c49012e0442e953197e480'),
-              ('previews/neon-grid-t9-3/', '722d9db1c1867f2a1516843679bb30a4ca37a2ea'),
-              ('previews/neon-grid-t9-2/', 'fe3e7129c58b22d69cf2ba7aa90c11c9764007f0'),
-              ('previews/neon-grid-far300/', 'ce6a64cf36b1f110af028536d3ff9c7a306ccbdb'),
-              ('previews/neon-grid-dive/', 'b49d9876f8c6ce87956f8b91675c3c8180e56b55'),
-              ('previews/neon-grid-billboard/', 'b942c912510ec86312a9d0cd393d71d2eb478ea8'),
-              ('previews/neon-grid-tunnel/', '92025b5f241cae7ac208c977f74b24396ce6909b'),
-          ]
-
-          def verify_item(item):
-              for attempt in range(12):
-                  try:
-                      request = urllib.request.Request(
-                          item['url'] + '?delivery=neon-grid-task-c1-001-e500f68c658edb5dcd45b4149e4c7f32f2a14dce',
-                          headers={'Cache-Control': 'no-cache'},
-                      )
-                      with urllib.request.urlopen(request, timeout=45) as response:
-                          data = response.read()
-                          assert response.status == 200
-                          assert len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'], item['path']
-                          if item['path'].endswith('review-build.json'):
-                              expected_source = next((sha for prefix, sha in expected_sources if item['path'].startswith(prefix)), '9459bf0f64705fb744f7cc1e810be0c0a6f02b3b')
-                              marker = json.loads(data)
-                              assert marker['source'] == expected_source
-                              if item['path'].startswith('previews/neon-grid-abyss-fog-004/'):
-                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-abyss-fog-004/'
-                              if item['path'].startswith('previews/neon-grid-task-a-001/'):
-                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-task-a-001/'
-                              if item['path'].startswith('previews/neon-grid-task-c1-001/'):
-                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-task-c1-001/'
-                              if item['path'].startswith('previews/neon-grid-c2-concrete/'):
-                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-c2-concrete/'
-                              if item['path'].startswith('previews/neon-grid-owner-layout/'):
-                                  assert marker['base'] == '/manacondas-minigame-mayhem/previews/neon-grid-owner-layout/'
-                          item['httpStatus'] = response.status
-                          return item
-                  except Exception as error:
-                      print(f"Delivery attempt {attempt + 1} for {item['path']}: {error}", flush=True)
-                      if attempt == 11:
-                          raise
-                      time.sleep(10)
-
-          verified = [None] * len(report)
-          with ThreadPoolExecutor(max_workers=16) as executor:
-              future_indexes = {executor.submit(verify_item, item): index for index, item in enumerate(report)}
-              for future in as_completed(future_indexes):
-                  index = future_indexes[future]
-                  verified[index] = future.result()
-                  print(f"Verified {index + 1}/{len(report)}: {report[index]['path']}", flush=True)
-
-          print(json.dumps(verified, indent=2))
-          open('delivery-verified.json', 'w').write(json.dumps(verified, indent=2))
-          PYTHON
-
-      - name: Upload verified delivery evidence
+      - name: Upload verified production delivery evidence
         uses: actions/upload-artifact@v4
         with:
-          name: neon-grid-dive-delivery-verified
+          name: production-delivery-verified
           path: delivery-verified.json
+          if-no-files-found: error

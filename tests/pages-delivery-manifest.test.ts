@@ -53,6 +53,11 @@ describe('production-only Pages delivery manifest', () => {
     expect(assemble).not.toContain('actions/cache/restore@');
     expect(deploy).toContain("if: github.event_name == 'push' && github.ref == 'refs/heads/main'");
     expect(deploy).toContain('--verify-live delivery-expected.json');
+    const deployCheckout = deploy.indexOf('- name: Check out delivery verifier');
+    const deployHelper = deploy.indexOf('tools/ci/pages_delivery_manifest.py');
+    expect(deployCheckout).toBeGreaterThanOrEqual(0);
+    expect(deploy.indexOf('uses: actions/checkout@v5', deployCheckout)).toBeGreaterThan(deployCheckout);
+    expect(deployHelper).toBeGreaterThan(deployCheckout);
     expect(workflow).not.toMatch(/^\s+paths(-ignore)?:/m);
   });
 

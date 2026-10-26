@@ -1,3 +1,9 @@
+## Current Pages publication status (2026-10-26)
+
+R2.14 production-only packaging is live from `fd762de24cda6d738b99bfeb65c9cd928d40108a`. The published Pages root contains the production game only. The 27 historical preview URLs were retired by explicit owner authorization; each was checked after deployment and returned HTTP 404. Their source pins, branch histories, tests, and approval/evidence records remain in the repository and continue to be validated where applicable. The per-URL status record is in the [R2.14 publication evidence](evidence/2026-10-26-r2-14-production-only-publication/README.md).
+
+The deployed root and its referenced JS/CSS returned HTTP 200, and post-deployment exact-byte verification passed for 417 production files. These HTTP checks are not a live browser gameplay smoke. The post-deployment Chrome/Edge interactive startup check remains unmeasured; see the evidence record. G-05 and backup/rollback retain their owner-exception dispositions. Formal v1 acceptance remains pending the item-by-item §37 reconciliation.
+
 ## Vitest per-test timeout baseline — current setting 20,000 ms (merged 2026-10-22; owner-approved)
 
 Current production `main` sets Vitest `test.testTimeout` to **20,000 ms**, installed by PR #335 at commit `d0b9acf889d669832c97a9187886d9e6289c9abe` on 2026-10-22. The change raised the global timeout from the previously approved **15,000 ms** baseline; it did not change assertions, coverage thresholds, explicit per-test or hook overrides, workers, CI job limits, or validation phases.

@@ -1,5 +1,17 @@
 # Implementation Status
 
+## 2026-10-26 — R2.14 production-only Pages publication
+
+PR #346 was squash-merged to `main` at `fd762de24cda6d738b99bfeb65c9cd928d40108a`. Main CI/Pages run [40396592161](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592161) passed validation, production-only assembly, Pages deployment, and exact post-deployment file verification. Trusted pinned-runtime run [40396592304](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592304) passed all four cases: Dive, Abyss Fog V3.2, Billboard, and Far300.
+
+The Pages artifact contains the 417-file production root and no `previews/` directory. The 211,514,731-byte artifact (`12688210450`) has GitHub-reported SHA-256 `3b8cbf70f5ace67911cc10be078791fc730ee8feb02a9dbfceed008aa6ec5f4d`. Compared with the prior 5,164,346,802-byte artifact, this is a 4,952,832,071-byte (95.90433%) reduction. Post-deployment verification confirms all 417 paths returned HTTP 200 and matched their expected byte counts and SHA-256 values.
+
+The 27 owner-authorized historical preview URLs were checked after publication; each now returns HTTP 404 and none serves its prior playable build. Source commits, branches, assets, exported layouts, manifests, approvals, and evidence remain preserved. The results and per-path retirement inventory are in the [R2.14 publication closeout](evidence/2026-10-26-r2-14-production-only-publication/README.md).
+
+The production URL returned HTTP 200 and its referenced JavaScript and CSS also returned HTTP 200. Interactive post-deployment Chrome/Edge gameplay startup was not measured because no connected browser-control tool was available in this session. The earlier local Chromium software-rendered smoke is not substituted for a live browser smoke. This specific confirmation remains outstanding; prior owner gameplay acceptance is unchanged.
+
+G-05 remains **OWNER ACCEPTED BY EXCEPTION** under amendment 2.32; backup/rollback remains **OWNER ACCEPTED BY EXCEPTION** under amendment 2.33. No immutable predecessor Pages artifact is claimed. Packaging assessment is implemented and published; item-by-item PRD §37 reconciliation remains pending, and formal v1 release acceptance is not declared.
+
 ## 2026-10-26 — R2.13C v1 backup recovery owner exception
 
 Production `main` begins this checkpoint at `0cac7f00294be5009b4d3b41a484ecc02a9f9955`. By explicit owner decision, the v1 rollback/backup gate in PRD §§38.2–38.3 is **OWNER ACCEPTED BY EXCEPTION**. This is not an unconditional technical PASS. The original rollback requirements remain unchanged for future release engineering.

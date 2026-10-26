@@ -54,9 +54,11 @@ describe('production-only Pages delivery manifest', () => {
     expect(deploy).toContain("if: github.event_name == 'push' && github.ref == 'refs/heads/main'");
     expect(deploy).toContain('--verify-live delivery-expected.json');
     const deployCheckout = deploy.indexOf('- name: Check out delivery verifier');
+    const deployCheckoutAction = deploy.indexOf('uses: actions/checkout@v5', deployCheckout);
     const deployHelper = deploy.indexOf('tools/ci/pages_delivery_manifest.py');
     expect(deployCheckout).toBeGreaterThanOrEqual(0);
-    expect(deploy.indexOf('uses: actions/checkout@v5', deployCheckout)).toBeGreaterThan(deployCheckout);
+    expect(deployCheckoutAction).toBeGreaterThan(deployCheckout);
+    expect(deployCheckoutAction).toBeLessThan(deployHelper);
     expect(deployHelper).toBeGreaterThan(deployCheckout);
     expect(workflow).not.toMatch(/^\s+paths(-ignore)?:/m);
   });

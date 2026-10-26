@@ -1,0 +1,2504 @@
+[
+  {
+    "path": "assets/KartTimeTrial-QtrVsbeg.js",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/KartTimeTrial-QtrVsbeg.js",
+    "sha256": "c31e2281919e238e26aa2cb08e9286fdc5016343bb78040ea057c13a6f6423f7",
+    "bytes": 4283347
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/driver/front.png",
+    "sha256": "70b6884751897e9f7ccba2fbeb5c37ed0b6c0631fea0fe1dd6788823a18d524e",
+    "bytes": 210197
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/driver/hit.png",
+    "sha256": "ddbdac8788f5095f406eb0199b7324f1e78a073b74e13db948f62140d7562032",
+    "bytes": 232016
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/driver/rear.png",
+    "sha256": "af97bb7be383e6bd1f87eae944941e8c60d8fe987c36db53f75a16a635d582d9",
+    "bytes": 192280
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/driver/steer-left.png",
+    "sha256": "7cde1f8bb0e1eec2f217efbcb9ec2592fe8c39c92487964d63615b07f3fc0d95",
+    "bytes": 182527
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/driver/steer-right.png",
+    "sha256": "c6bae3e9e75f6ed28a71a309bcc44f45e7d470193293051850e82b1c1ffecd4a",
+    "bytes": 203192
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/driver/victory.png",
+    "sha256": "53d7648dc4e44d150a43b5db7cd3e5ce8dfd4030c2a802f355fffc5675393d21",
+    "bytes": 188679
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/kart-lod1.glb",
+    "sha256": "a9013591726b3bbb43b102d3707fe9da24f2e1e8de24c929bbc6405e28357002",
+    "bytes": 404384
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/kart-lod2.glb",
+    "sha256": "3578b62d3c9fa332adb2b1ae7addb1d2b56201c7c8491a1075e847ff18caa79e",
+    "bytes": 205896
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/kart.glb",
+    "sha256": "453ebc42da5745f7f5251323cd7a38a79add6538ee39dc9e512570c1c9905150",
+    "bytes": 488584
+  },
+  {
+    "path": "assets/archive/characters/cleo-aa-06/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/archive/characters/cleo-aa-06/portrait.png",
+    "sha256": "1f960402a447078e681f3f4b1b0ed5fcf8dcc1ca10f4a4deec077d758400b2cf",
+    "bytes": 75300
+  },
+  {
+    "path": "assets/audio/music-opus-192k/01-circuit-alpha-race-loop.ogg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-opus-192k/01-circuit-alpha-race-loop.ogg",
+    "sha256": "c361e256dab8b02faea12f49ad3d8ffffddc1e1a84c604d8a0488f52122501d4",
+    "bytes": 2886614
+  },
+  {
+    "path": "assets/audio/music-opus-192k/02-circuit-alpha-final-lap-loop.ogg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-opus-192k/02-circuit-alpha-final-lap-loop.ogg",
+    "sha256": "4c25b5a7e903af69ff1f3569af9310f09f6e0476bd78cd29ccb95900d43f27f8",
+    "bytes": 1462347
+  },
+  {
+    "path": "assets/audio/music-opus-192k/03-route-night-title-hub-loop.ogg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-opus-192k/03-route-night-title-hub-loop.ogg",
+    "sha256": "3f590baa08d0ea2a1dd3900ea7c05965d1bb38cee3028bbbee4556c1f82841b7",
+    "bytes": 1362908
+  },
+  {
+    "path": "assets/audio/music-opus-192k/04-grid-preparation-character-select-loop.ogg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-opus-192k/04-grid-preparation-character-select-loop.ogg",
+    "sha256": "efbee32d1ac0ece009530fb0f1f8231f16f4a5d2bb96f35e7023b3af323fdaa8",
+    "bytes": 1683996
+  },
+  {
+    "path": "assets/audio/music-opus-192k/05-finish-celebration-results-podium-loop.ogg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-opus-192k/05-finish-celebration-results-podium-loop.ogg",
+    "sha256": "6dad9dfef171913daec3974e59ce82ea9e708e8c4e854bb682ee11808994bd9a",
+    "bytes": 1706042
+  },
+  {
+    "path": "assets/audio/music-v2/01-circuit-alpha-race-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/01-circuit-alpha-race-loop.wav",
+    "sha256": "cfec5c73e40e62eb23a1fd2c5fc848abb0deda51e541825771ebc414725296fc",
+    "bytes": 22536296
+  },
+  {
+    "path": "assets/audio/music-v2/02-circuit-alpha-final-lap-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/02-circuit-alpha-final-lap-loop.wav",
+    "sha256": "365ac335ebc5fa749fbd120825f52618c8611533207af6012f8764aa92828984",
+    "bytes": 11266248
+  },
+  {
+    "path": "assets/audio/music-v2/03-route-night-title-hub-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/03-route-night-title-hub-loop.wav",
+    "sha256": "0eb3106d5935cc6e9fcd11368e35c991d3f370e23487e3c958414c59f49003c4",
+    "bytes": 10334732
+  },
+  {
+    "path": "assets/audio/music-v2/04-grid-preparation-character-select-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/04-grid-preparation-character-select-loop.wav",
+    "sha256": "0c8adfd4e6dc82982dfadff5d80b9e5d891aa74e7d1b0f98c89489ded834cd82",
+    "bytes": 12702072
+  },
+  {
+    "path": "assets/audio/music-v2/05-finish-celebration-results-podium-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/music-v2/05-finish-celebration-results-podium-loop.wav",
+    "sha256": "5ea686e2e63639ce05f2fd8cb94cbc9cabebaf23a9d093c9eafc6291fc71714d",
+    "bytes": 13054064
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/boost-end.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/boost-end.wav",
+    "sha256": "edb657a52f5f1277bdd9f64841eeb992f12fd74faff5d9f2af4adfc2758f3f6d",
+    "bytes": 26924
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/boost-pad.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/boost-pad.wav",
+    "sha256": "69f74d0adb12c18168ff5eb86857a0b1cd2af2dbfbfe9be47ddde5e7ba20235f",
+    "bytes": 33644
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/boost-sustain-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/boost-sustain-loop.wav",
+    "sha256": "918dd777cfb7549fd5afa27ac7e5ed67a1ad7e1d6b1c91a97684d046c34d0b17",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/drift-blue.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/drift-blue.wav",
+    "sha256": "96fb9722e4c59c637b05f445ecdafc72f47c12be274f4ae6bfce4ea2ffcffea7",
+    "bytes": 20204
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/drift-boost-release.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/drift-boost-release.wav",
+    "sha256": "ae8d6304062e9f5ed0e28c7c91541d3b2eb87f1628efd8130f1db90a2f8884e3",
+    "bytes": 46124
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/drift-orange.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/drift-orange.wav",
+    "sha256": "d86640bf7b00735647248b8d761aca64aee129a967484b3c1cccdfa3fb696114",
+    "bytes": 20204
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/drift-purple.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/drift-purple.wav",
+    "sha256": "e82d3982a8e021e1e59de8b9a492eb4f68e4a54b50ff1535603c30e5311e3778",
+    "bytes": 20204
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/engine-high-rpm.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/engine-high-rpm.wav",
+    "sha256": "6656d1ba13f2e2eb5eed474ffd709956ed92ac7436997d4abbd462aeb0299120",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/engine-low-rpm.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/engine-low-rpm.wav",
+    "sha256": "d6587fa7743188a798c937eb6638a2e2b786d3310caebbbb6261daf2344f0096",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/guardrail-impact.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/guardrail-impact.wav",
+    "sha256": "b8c03afa4984fc5ac147d786135fc094fbf490cc9e5aee6786f458c510895850",
+    "bytes": 36524
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/jump-takeoff.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/jump-takeoff.wav",
+    "sha256": "493aa750c51ea45aa71f00c20b0c1cb7002e8a1603e7696ff6a1d29cc3a9bcba",
+    "bytes": 23084
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/kart-contact-heavy.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/kart-contact-heavy.wav",
+    "sha256": "9a828f1effba4d45c0dcb1a89f7b3f0aac9b6867fd2d94780a0e37ab48aecbb8",
+    "bytes": 43244
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/kart-contact-light.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/kart-contact-light.wav",
+    "sha256": "1357e3b5d4d414f731bfe46b563e61a18ef7a38a3c61b7edeef1620a7e42c416",
+    "bytes": 17324
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/landing-heavy.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/landing-heavy.wav",
+    "sha256": "d217cffcd33234512f80f9ec538c9112593ef72304c97811cb51fcab7e2e5385",
+    "bytes": 40364
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/landing-light.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/landing-light.wav",
+    "sha256": "bde5dc3339e73b3de23116e182a3c77e942c23b800642ee072844a6605c863f8",
+    "bytes": 23084
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/recovery.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/recovery.wav",
+    "sha256": "695333c989ef121ab8bf9d13b07e9b91651eeddf493e701a689ca250af290e5c",
+    "bytes": 43244
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/spinout.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/spinout.wav",
+    "sha256": "b19eca6534e38bdd581bfc4c831550e8b8007378552f029d66a4b7cede85801a",
+    "bytes": 62444
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/tire-drift-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/tire-drift-loop.wav",
+    "sha256": "344bfc905ed9b5ba231bae00199752e306c8916b3f45c79a087d936089c83a94",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/tires-asphalt-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/tires-asphalt-loop.wav",
+    "sha256": "15841efbe708f21499434bf1ead7e1857fc0fe775b0972189d449139a578cb34",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/tires-dirt-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/tires-dirt-loop.wav",
+    "sha256": "a4ffdd36b0ed19ccd34dcdda7c4e8e208650bf21c8d660d87fc187b979c91c83",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/01-kart-driving/tires-grass-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/01-kart-driving/tires-grass-loop.wav",
+    "sha256": "0da477f464693cc3ad3c52a9e20e8365ceccb45c573545a3d7af1d9a7e6d8156",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/02-race-events/countdown-tick.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/02-race-events/countdown-tick.wav",
+    "sha256": "358ef8baac86459ddea54785b0e84949ab1fca97319c3299fdf50a3ed82455c8",
+    "bytes": 18284
+  },
+  {
+    "path": "assets/audio/sfx-v1/02-race-events/final-lap.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/02-race-events/final-lap.wav",
+    "sha256": "7d4e4ad1bedef250105ab5551b244e7e5a6b007980c7ec54ed427672b7ff411e",
+    "bytes": 54764
+  },
+  {
+    "path": "assets/audio/sfx-v1/02-race-events/lap-complete.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/02-race-events/lap-complete.wav",
+    "sha256": "7ae27f5f0c5a754b9821297dc801abcd82213920dee833e41bf467a7ce637ab9",
+    "bytes": 31724
+  },
+  {
+    "path": "assets/audio/sfx-v1/02-race-events/placement-other.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/02-race-events/placement-other.wav",
+    "sha256": "78072fc9f587cfdcc4ef0caf82ca0a51239dc8cd43abe4c23876e0983fe63ab9",
+    "bytes": 39404
+  },
+  {
+    "path": "assets/audio/sfx-v1/02-race-events/placement-podium.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/02-race-events/placement-podium.wav",
+    "sha256": "cad9bd9a1a9eb4a1ceb3a5cc6e0452dace502c5590dc4bce0687a5c6604df1bc",
+    "bytes": 59084
+  },
+  {
+    "path": "assets/audio/sfx-v1/02-race-events/placement-win.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/02-race-events/placement-win.wav",
+    "sha256": "f9c1748674cc95f5a0f64c1171e8702ab98b670ec044fb25cc0d30b093b1e6ff",
+    "bytes": 78764
+  },
+  {
+    "path": "assets/audio/sfx-v1/02-race-events/race-finish.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/02-race-events/race-finish.wav",
+    "sha256": "0bba91d534f74d8b2b5cc6eddaa9f777cc8cf27959a2b8e1bdd8a64ae0800e5b",
+    "bytes": 69164
+  },
+  {
+    "path": "assets/audio/sfx-v1/02-race-events/race-start-go.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/02-race-events/race-start-go.wav",
+    "sha256": "378d3eaae394d6a910ab56a2bf189490481529af7a1316c924cb3f58626b19d1",
+    "bytes": 33644
+  },
+  {
+    "path": "assets/audio/sfx-v1/02-race-events/wrong-way.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/02-race-events/wrong-way.wav",
+    "sha256": "122c0e581b8d07488d130091724eeca05922ab6c1bda76791e51de7b8431d646",
+    "bytes": 36524
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/apex-dive.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/apex-dive.wav",
+    "sha256": "27272993fcba52ea3be58bd7785db7eb94068e8b4b892086da93c41f0d26351f",
+    "bytes": 72044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/apex-explosion.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/apex-explosion.wav",
+    "sha256": "11b96c460a3f8be3b14a59c6fead283ead4df24d8917e4841ba056832720e55a",
+    "bytes": 96044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/apex-launch.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/apex-launch.wav",
+    "sha256": "71560ee0bc51251d84a66604088d52ca55ca6f5c831ffa53302f4c9b885107ba",
+    "bytes": 57644
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/apex-warning-urgent.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/apex-warning-urgent.wav",
+    "sha256": "f96323575338217b58fd77487cea81bd44fd8b1bd5c4312b7d928c468f8abcc0",
+    "bytes": 40364
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/apex-warning.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/apex-warning.wav",
+    "sha256": "2b69e725ed9765a77e5bc4e45f61ba64accda2022722d352463411d507a1450b",
+    "bytes": 20204
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/arc-blade-catch.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/arc-blade-catch.wav",
+    "sha256": "a533e66098bb8303f962fcbdaead90128b458c484886c2e85f3c75785196c3c0",
+    "bytes": 17324
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/arc-blade-flight-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/arc-blade-flight-loop.wav",
+    "sha256": "03c28502b758969fc26261b6426ef9d35e9e7ef05e514b38bcf8a5fd014307d0",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/arc-blade-impact.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/arc-blade-impact.wav",
+    "sha256": "cf4bbe4173bfbaee2ae1c9757a706d9b75b95de13b0426cbe24135b0c6166309",
+    "bytes": 28844
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/arc-blade-launch.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/arc-blade-launch.wav",
+    "sha256": "89a89c272e0b8aa957de630fc0ebd76aa0d22164df3d97fb5f39c500b5d8421a",
+    "bytes": 24044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/arc-blade-return.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/arc-blade-return.wav",
+    "sha256": "189472d24fc7819cf2f79517109067d2971c5845c78c5d2de924c247073d5558",
+    "bytes": 28844
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/arc-hammer-bounce.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/arc-hammer-bounce.wav",
+    "sha256": "c33951349fcc41a12c3f7c10576e3f0b0038577dd6425c24f3e371decdb79621",
+    "bytes": 21164
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/arc-hammer-hit.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/arc-hammer-hit.wav",
+    "sha256": "812c3c2a17275d8486c0f59c086818d426d72dff4b8184832cfbfd84229205c0",
+    "bytes": 30764
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/arc-hammer-launch.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/arc-hammer-launch.wav",
+    "sha256": "87190b0161450411bd1b4ed072c74ab8b4fa064d87c5c4f61d3e0289048dd877",
+    "bytes": 23084
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/blast-orb-deploy.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/blast-orb-deploy.wav",
+    "sha256": "0c3b62651a105f974d7d664a15c6d7e384fca47ab05130afb1187f2551869c18",
+    "bytes": 21164
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/blast-orb-explosion.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/blast-orb-explosion.wav",
+    "sha256": "26b5cd34ed25de2a80460a1becdd9534388ca5fdfe8db3ea638bd1a7a37b32d3",
+    "bytes": 81644
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/blast-orb-fuse-tick.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/blast-orb-fuse-tick.wav",
+    "sha256": "a6568b0449ce3c9af143304c12f0073bd7cd92c4d266804b53518c9104c65d01",
+    "bytes": 8684
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/blaze-impact.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/blaze-impact.wav",
+    "sha256": "7d4ddfccd641afc628c52935bfa5d7152217b692d216553acd3366e3dd90ca0a",
+    "bytes": 48044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/blaze-launch.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/blaze-launch.wav",
+    "sha256": "bab43c94fd7a36ff614baff78523739218ce4ff97b6702617c24d3b2542c1cec",
+    "bytes": 26924
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/blaze-travel-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/blaze-travel-loop.wav",
+    "sha256": "6e04e49d8e2352834a77a2bd1427eb62151e5491c0ef6b16b96f5a9afec82cba",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/counter-destroy.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/counter-destroy.wav",
+    "sha256": "c6f44c7fd43bc37a75409c90c1957478b35b08ed12d809a247d4f69b82ac300e",
+    "bytes": 17324
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/frost-end.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/frost-end.wav",
+    "sha256": "61860616ade2f5a8570f6373bbb1db38e475cdec3e5bd3b63b1195064ca77eed",
+    "bytes": 23084
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/frost-impact.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/frost-impact.wav",
+    "sha256": "472b6144e778faf551be4381b50d8ef5e2bdb715935eb4fbd350451fa181c73d",
+    "bytes": 48044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/frost-launch.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/frost-launch.wav",
+    "sha256": "9c92bd3ae990c5d543c0463d7909c49dc2698b129e4d65a92f6ac5657830f69e",
+    "bytes": 24044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/frost-travel-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/frost-travel-loop.wav",
+    "sha256": "02cb3506633c6d1419cf5db11454bc8a1f7b6e94d99208f640ae04145615a1a1",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/ink-activate.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/ink-activate.wav",
+    "sha256": "85cad0c54bfa19c7134a8a3321d325fd99f62d3d074bd0bf0a7072d07c9018d3",
+    "bytes": 19244
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/ink-impact.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/ink-impact.wav",
+    "sha256": "a32ec513428a893dcc1037c41f1dc0b482ca498cf521e4312a8e327f54a2afa4",
+    "bytes": 36524
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/item-box-collect.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/item-box-collect.wav",
+    "sha256": "ecac0fa7b35a3fec825a3cf4d3c306d75734e0fbf65d8e5e3f0c872fb430c3a1",
+    "bytes": 17324
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/item-ready.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/item-ready.wav",
+    "sha256": "14b2f5de2e2116eda3a3ce4175da83ef0794f6de8761e3ad6f3471f16b43058c",
+    "bytes": 17324
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/item-unavailable.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/item-unavailable.wav",
+    "sha256": "34485d4170b44fe4ba9753f4747549ce6f769525994bfd8d77141ffbed20ec75",
+    "bytes": 17324
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/kinetic-disc-impact.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/kinetic-disc-impact.wav",
+    "sha256": "8683d61a0d45c3d4b98c68dcbb2fdb093fcb95943e5f4934da682e5ad502a511",
+    "bytes": 30764
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/kinetic-disc-launch.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/kinetic-disc-launch.wav",
+    "sha256": "3bc2496e0f1565c955f4fdb07c4c858b927fab63b2bde12c9bb0c511d22ec7a8",
+    "bytes": 24044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/kinetic-disc-ricochet.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/kinetic-disc-ricochet.wav",
+    "sha256": "0180c036d83d7d09aad834bbfd8e74b7601f6fc6b7886d21be5ab99fcead94e9",
+    "bytes": 16364
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/kinetic-disc-travel-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/kinetic-disc-travel-loop.wav",
+    "sha256": "4803a0065b37c893a58c4937231fc8249ce41c9c7a8b9730d91ec687301d1fb5",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/nitro-surge-activate.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/nitro-surge-activate.wav",
+    "sha256": "376c47998e7c69deb0b4b5ff3e72af55e5de19ca28fecaa78db32dd74c6e70d2",
+    "bytes": 33644
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/nitro-surge-tail.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/nitro-surge-tail.wav",
+    "sha256": "3e87857c923de7417e8883b03dab85ff7ace3070f3af481f14f3db801565eebf",
+    "bytes": 48044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/overdrive-activate.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/overdrive-activate.wav",
+    "sha256": "55e6f677c7e5f4eabf39b958680b7480e3af0b3f375bb68b8f55fba82f60e54a",
+    "bytes": 33644
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/overdrive-expire.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/overdrive-expire.wav",
+    "sha256": "43c061ac32133610cf042c2c521f2c60e496f7848138ec2f42a7ee35ffb32812",
+    "bytes": 26924
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/overdrive-pulse.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/overdrive-pulse.wav",
+    "sha256": "810054e515301de1e97385a8d73a73cea1f4f65da27157759b2b9575478ea83c",
+    "bytes": 15404
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/prismatic-activate.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/prismatic-activate.wav",
+    "sha256": "8950133480b331aa878584c2b666bc16c9d4ee1dd803eb7c2ec66cf140caa22e",
+    "bytes": 34604
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/prismatic-block.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/prismatic-block.wav",
+    "sha256": "1910d8fd88021d01b1582fc1153924067ebca06d800de7fcafde1edfb8028674",
+    "bytes": 21164
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/prismatic-expire.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/prismatic-expire.wav",
+    "sha256": "77fb2418dccac5d88f56a987b32052d5c4b4827df40a2e9886bca9fdad4ad4b3",
+    "bytes": 24044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/protection-block.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/protection-block.wav",
+    "sha256": "c034aec239dfddbdf9dbede379ea2f9e55a9616441b2e32b55cac76bc001ed0b",
+    "bytes": 17324
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/rocket-activate.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/rocket-activate.wav",
+    "sha256": "2d39c5268f5a83db9c4e9d2d6020304c6e7203389168d2942f093d25f0c3bbcf",
+    "bytes": 48044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/rocket-propulsion-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/rocket-propulsion-loop.wav",
+    "sha256": "8721c288bf8b842e53c7269ed01374b97a38b68ac833d563d1813aa6e9081ed5",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/rocket-return.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/rocket-return.wav",
+    "sha256": "05ce85ed3ba5676ac82f32275de1cacb7885280a50d7f4c50f80c8500b3e8bce",
+    "bytes": 38444
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/seeker-impact.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/seeker-impact.wav",
+    "sha256": "2399f6828617a473313fab4c2906d88ac377481d86e1ac88b5e6703dda2a67b7",
+    "bytes": 48044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/seeker-launch.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/seeker-launch.wav",
+    "sha256": "b05f4a07e0d7a7ffcdf17f182d6ad7bc92d11ceac068810e8e64e93f55cb4cf1",
+    "bytes": 33644
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/seeker-travel-loop.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/seeker-travel-loop.wav",
+    "sha256": "c4efe3c083df4c13f9816932e8b1580e55df5f0c8bc158160c56aea3ccea5422",
+    "bytes": 192044
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/seeker-warning-urgent.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/seeker-warning-urgent.wav",
+    "sha256": "483242158037aee33df637a3442b527bec974523119cfa7a956f5a530e01df56",
+    "bytes": 20204
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/seeker-warning.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/seeker-warning.wav",
+    "sha256": "f2cbdbae080cd8c252bb5cf07fec2af4de43c7c0dc9c555e2b54b02a6ccd32ad",
+    "bytes": 10124
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/shockwave-activate.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/shockwave-activate.wav",
+    "sha256": "8ca631d8cbe3a4f80cc80a22bcf51f1b34f328005e622a87ca537a91d3275c7d",
+    "bytes": 62444
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/shockwave-counter.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/shockwave-counter.wav",
+    "sha256": "81eec3effad824d8a72c476db7d6df26e68c8b7ee4c8fbae48e419a91f9911a0",
+    "bytes": 25004
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/slick-deploy.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/slick-deploy.wav",
+    "sha256": "1d1e91d381b2537a623e2727c6bc9fe5cde21ac9f903091ef242fbd45895e9b4",
+    "bytes": 26924
+  },
+  {
+    "path": "assets/audio/sfx-v1/03-item-handling/slick-trigger-skid.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/03-item-handling/slick-trigger-skid.wav",
+    "sha256": "0b7c831bb3e09294a460ac83e74a45844a84e623c50c1bf61640fe2af3444dcf",
+    "bytes": 57644
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/driver-select.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/driver-select.wav",
+    "sha256": "d555378057e11e7cf39b28dfc75a77f527d1dc7024c8db022aa58f9f505d5123",
+    "bytes": 21644
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/results-change-driver.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/results-change-driver.wav",
+    "sha256": "4fa22e33730028dc9e1f5d74e3a3a6c539a515054c7bd33931052925238c6337",
+    "bytes": 16364
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/results-race-again.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/results-race-again.wav",
+    "sha256": "4d16c6478d63e6d58e54829de68b2a27d2a3a0d0c8d893911af4ebb692736427",
+    "bytes": 16364
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/results-return-hub.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/results-return-hub.wav",
+    "sha256": "3fd6f855143f011bd075a05336f7e9eae170ef22d665e16bfe77d279edd88e5b",
+    "bytes": 16364
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/ui-back.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/ui-back.wav",
+    "sha256": "e8fc82dbfe436f7fa902fda957876b8dc5ee21ea8406eb6ca5ba93d85aec50f4",
+    "bytes": 15404
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/ui-confirm.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/ui-confirm.wav",
+    "sha256": "85e5b4935f6991525720a5832438a2bfa18cd9a357c3c157ffb34b349affebef",
+    "bytes": 15404
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/ui-focus.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/ui-focus.wav",
+    "sha256": "45c4f77391706892ffb11b9354c1d4df5f03a0e446fd1bed0c8b8f2f9845a86a",
+    "bytes": 5804
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/ui-pause.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/ui-pause.wav",
+    "sha256": "ae4bc727f1736a40d68e7d4d99721bfc42466dcd807ef2802838587ecab09e88",
+    "bytes": 13484
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/ui-resume.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/ui-resume.wav",
+    "sha256": "f82fa49fd04cc706cfb6568d919ca81e76521705206cb384b942ae33f16d0f5d",
+    "bytes": 13484
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/ui-setting-change.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/ui-setting-change.wav",
+    "sha256": "921133bdf93d564eb3d598723abe710e62007d05ad9fe9882bd491189afad85a",
+    "bytes": 5804
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/ui-start-race.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/ui-start-race.wav",
+    "sha256": "867874a45fcf11025956642a29eb1c099641e4fb4494c84de16e9ff2b3413975",
+    "bytes": 22124
+  },
+  {
+    "path": "assets/audio/sfx-v1/04-menus-results/ui-unavailable.wav",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/audio/sfx-v1/04-menus-results/ui-unavailable.wav",
+    "sha256": "b06c48380e7c555b9325d2c4666eac473f29be51cfa3f4f3a0c3bf52af00eccf",
+    "bytes": 13484
+  },
+  {
+    "path": "assets/characters/aa-01/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/front-hit.png",
+    "sha256": "a46cdbd9cd0fa12c322b79648c5b7671c2661bf996b4e35da6f9fa68d9bcfd02",
+    "bytes": 299849
+  },
+  {
+    "path": "assets/characters/aa-01/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/front-steer-left.png",
+    "sha256": "ad4b01f129a7b4a26ac25f2f7e7da5c630e353d5c73d8805b215e9b0be11bea8",
+    "bytes": 284943
+  },
+  {
+    "path": "assets/characters/aa-01/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/front-steer-right.png",
+    "sha256": "24a460c963ff3693f9661cac83139dde64a60a45f6a9c615214b610a961200a1",
+    "bytes": 305727
+  },
+  {
+    "path": "assets/characters/aa-01/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/front-victory.png",
+    "sha256": "85e92901f37fc78850d697f7197b89f6c0d16f8e84b1fd6c9551d1d04f8a0c50",
+    "bytes": 305601
+  },
+  {
+    "path": "assets/characters/aa-01/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/front.png",
+    "sha256": "b5586672142741af6b78e5f4955a75a8a0f7e2598ea00462c361e848d643bf2a",
+    "bytes": 266502
+  },
+  {
+    "path": "assets/characters/aa-01/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/hit.png",
+    "sha256": "67dd818c80cb719e2f8b4f07f0e6e866fb2e76440217bc7a4716f423f5471e91",
+    "bytes": 293486
+  },
+  {
+    "path": "assets/characters/aa-01/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/rear.png",
+    "sha256": "879ca202c3d2135d109c5554935eec157c756ff6da2cd2e3277f604349e7f6ee",
+    "bytes": 222259
+  },
+  {
+    "path": "assets/characters/aa-01/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/steer-left.png",
+    "sha256": "2b9c8e3fe1d9115c1991b8f93bd8ba2191f83b5309069c6839242813ec774274",
+    "bytes": 235394
+  },
+  {
+    "path": "assets/characters/aa-01/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/steer-right.png",
+    "sha256": "d7b5fca24abb975e45e3047a047ebd8b33b5c9ed3b1d09c1d77fadcb2505f70e",
+    "bytes": 233486
+  },
+  {
+    "path": "assets/characters/aa-01/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/driver/victory.png",
+    "sha256": "2b68c6bf5e6c81d143a84f4ab7168b52712dc8aff344783a6f09389281bd5e42",
+    "bytes": 271576
+  },
+  {
+    "path": "assets/characters/aa-01/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/kart-lod1.glb",
+    "sha256": "abf82edd061876d5b2d71ae2f618707ae947d61aa5805a811e1246f011f08b84",
+    "bytes": 178576
+  },
+  {
+    "path": "assets/characters/aa-01/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/kart-lod2.glb",
+    "sha256": "dced4db85903cc8b410b1a746608cb1f4fdd7f101192d79bbf2d580fa705d68a",
+    "bytes": 113588
+  },
+  {
+    "path": "assets/characters/aa-01/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/kart.glb",
+    "sha256": "2df26b2cf70781a410a110a35616fc19506ef014e0140b499b9470f7f5d39e85",
+    "bytes": 260272
+  },
+  {
+    "path": "assets/characters/aa-01/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/portrait.png",
+    "sha256": "01dad8bbbc2ef65fadcb5ad65f53e51afb62a9d577e83aa9c90a7fb2887b0c4c",
+    "bytes": 100805
+  },
+  {
+    "path": "assets/characters/aa-01/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/results/reaction.png",
+    "sha256": "b6df95f50c0aa83908f2909e231b763031b2099e62b6fb67cff6a5798f97d650",
+    "bytes": 884444
+  },
+  {
+    "path": "assets/characters/aa-01/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/results/victory.png",
+    "sha256": "9b8751e027a5e62883ec5b1aab280a7dae1bef6d9dfd6e015b034914a1686aaa",
+    "bytes": 304010
+  },
+  {
+    "path": "assets/characters/aa-01/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-01/selection/full-body.png",
+    "sha256": "4df8d0c3a509ff78086bf6ef332ce0ac9846b83f1f6445f97d9341545cff0316",
+    "bytes": 896614
+  },
+  {
+    "path": "assets/characters/aa-02/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/front-hit.png",
+    "sha256": "05303e58b4f79b0369edfd8f9b8b6e9168156d49de9236307309880384da2719",
+    "bytes": 299663
+  },
+  {
+    "path": "assets/characters/aa-02/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/front-steer-left.png",
+    "sha256": "1a8f3594fe94da9f85d62a390862f6ba043057549d129e03fb8dd4f6a6d50ba6",
+    "bytes": 260509
+  },
+  {
+    "path": "assets/characters/aa-02/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/front-steer-right.png",
+    "sha256": "25d25b7896844651a559521afd5b0a1be69d3cb6b5d3326e69892770a7c9f958",
+    "bytes": 294149
+  },
+  {
+    "path": "assets/characters/aa-02/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/front-victory.png",
+    "sha256": "b08725190e2234c0014151db0073ee7522ac94c508d4a99654d333046d0f6c8c",
+    "bytes": 279732
+  },
+  {
+    "path": "assets/characters/aa-02/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/front.png",
+    "sha256": "36a8fddd94c6f4f62f904145d4a54b08e2649b29fdfe7f9310d6e3d7cf483fa8",
+    "bytes": 268139
+  },
+  {
+    "path": "assets/characters/aa-02/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/hit.png",
+    "sha256": "a4c0583c3f0332b9cf09b953baf94351435a48bf0dbf780e12ec0955672a5027",
+    "bytes": 339253
+  },
+  {
+    "path": "assets/characters/aa-02/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/rear.png",
+    "sha256": "daf287da641ea2f813dbd299fadd6ba8398b998ebc2caee5bf641419acdbe4ce",
+    "bytes": 239882
+  },
+  {
+    "path": "assets/characters/aa-02/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/steer-left.png",
+    "sha256": "2f215e32b8a077e1eca40f632558cdb4209d4230b5c9025b3b3c043a4b99c87b",
+    "bytes": 277537
+  },
+  {
+    "path": "assets/characters/aa-02/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/steer-right.png",
+    "sha256": "6867c5b18277ade7e2f485f476cbf40c8eca3dee96ff2e45d7b07027cdf548a5",
+    "bytes": 292670
+  },
+  {
+    "path": "assets/characters/aa-02/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/driver/victory.png",
+    "sha256": "3591950b19c5adce03e2e6d7a0fd55ad84d24eb2ef08cc6f222a400f4a31bf41",
+    "bytes": 317254
+  },
+  {
+    "path": "assets/characters/aa-02/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/kart-lod1.glb",
+    "sha256": "f74cc0e67de68d5b1f06a21dd3b9436521dfa0e7027f94ee9315ab6f107335ce",
+    "bytes": 235988
+  },
+  {
+    "path": "assets/characters/aa-02/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/kart-lod2.glb",
+    "sha256": "e1df4c501328d2709fb6793269e6a48a930bf7a7ce75eb0b6152765c46d0e758",
+    "bytes": 145332
+  },
+  {
+    "path": "assets/characters/aa-02/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/kart.glb",
+    "sha256": "5d3d570e21759d0f77f2bc7cf88085e43b1b8c1be75a3ef0299f8fac83ef0ad2",
+    "bytes": 358036
+  },
+  {
+    "path": "assets/characters/aa-02/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/portrait.png",
+    "sha256": "caa1fa398d5f61d7882ff0ae811755f5c7da292728974e72e900a011b8bdf2c6",
+    "bytes": 110622
+  },
+  {
+    "path": "assets/characters/aa-02/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/results/reaction.png",
+    "sha256": "062a932545ab14a2e5db365d60f45fe95b8285ba96850b38ae994c97e408a430",
+    "bytes": 868716
+  },
+  {
+    "path": "assets/characters/aa-02/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/results/victory.png",
+    "sha256": "704148c27f72300d3f6ff9937b155e71bbeca63a38bb2c0ec9768efa5b5a1af3",
+    "bytes": 216172
+  },
+  {
+    "path": "assets/characters/aa-02/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-02/selection/full-body.png",
+    "sha256": "ec15809c3493cccfcb0b16905ac9769eefb0818868239d61703350721459b53c",
+    "bytes": 931561
+  },
+  {
+    "path": "assets/characters/aa-03/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/front-hit.png",
+    "sha256": "3e99891c712310ff8018b9db9258e8f9a77be949b7403bd28d7a6b8fd679f444",
+    "bytes": 262693
+  },
+  {
+    "path": "assets/characters/aa-03/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/front-steer-left.png",
+    "sha256": "4d4efdacb0d38c924b356d2a32ace046ac744a2ec6da0329a8c60a49e545a0ff",
+    "bytes": 239821
+  },
+  {
+    "path": "assets/characters/aa-03/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/front-steer-right.png",
+    "sha256": "6a400c0d2745b2e3fbe13e100fb3b99d09d404ea98e95c6dc995788aee0376ea",
+    "bytes": 229653
+  },
+  {
+    "path": "assets/characters/aa-03/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/front-victory.png",
+    "sha256": "5c6b662f0449a811319b89396a8053c6e58dc9b0f4916162e37ad5a06434f453",
+    "bytes": 229916
+  },
+  {
+    "path": "assets/characters/aa-03/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/front.png",
+    "sha256": "c2d6237a285f11d7eb00800ea886957f50aaddec3e27456edc917cfe0dffdbf1",
+    "bytes": 217139
+  },
+  {
+    "path": "assets/characters/aa-03/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/hit.png",
+    "sha256": "3be9e27cc3bb7ad7962fa0252cf445ce996b25d9d5f094027a5519d14be0e801",
+    "bytes": 288745
+  },
+  {
+    "path": "assets/characters/aa-03/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/rear.png",
+    "sha256": "dffee9f28bc6aaf47e4861d0e97977d68eebf6ab293a089490c10d00e242af8c",
+    "bytes": 216419
+  },
+  {
+    "path": "assets/characters/aa-03/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/steer-left.png",
+    "sha256": "90da4487ab89530c2f4e3b90bef4d6acab7c15338320ce64c64f75780755b70e",
+    "bytes": 201115
+  },
+  {
+    "path": "assets/characters/aa-03/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/steer-right.png",
+    "sha256": "fad0c950101a082f20a4e22f071a7a7267ca4b721a190a2083dbf148cc6ae002",
+    "bytes": 217701
+  },
+  {
+    "path": "assets/characters/aa-03/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/driver/victory.png",
+    "sha256": "48821bfad2de6984cedea326c8725d01c55335ad857d333a544fbd02239fe10e",
+    "bytes": 209929
+  },
+  {
+    "path": "assets/characters/aa-03/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/kart-lod1.glb",
+    "sha256": "b9a267a6a41d14a674771cc0137d1b0445e1a264bfa8b2c5acc7c6685ab399cd",
+    "bytes": 334656
+  },
+  {
+    "path": "assets/characters/aa-03/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/kart-lod2.glb",
+    "sha256": "3a062ee6bee2502bdd3914063cc549a08e4de151ebf5bcfc3a52fe9658eb57f0",
+    "bytes": 198788
+  },
+  {
+    "path": "assets/characters/aa-03/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/kart.glb",
+    "sha256": "6842eecf711117d8ca521ebd9620926268452193f5c3b9e2ba7ad9aba090c26c",
+    "bytes": 726772
+  },
+  {
+    "path": "assets/characters/aa-03/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/portrait.png",
+    "sha256": "6a6e4ba0e91d1f812e88eef132aca110db62559cb0e467fae717a3734a7ffdda",
+    "bytes": 96329
+  },
+  {
+    "path": "assets/characters/aa-03/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/results/reaction.png",
+    "sha256": "0ae22c91b376259390541dc7193648b6631015eee20b5f18153b31ba97482b91",
+    "bytes": 1031865
+  },
+  {
+    "path": "assets/characters/aa-03/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/results/victory.png",
+    "sha256": "5a548d229cea14cd824c13014f51cfbef3e9329a77f26573a0aadcd0c28140d2",
+    "bytes": 298821
+  },
+  {
+    "path": "assets/characters/aa-03/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-03/selection/full-body.png",
+    "sha256": "a0636fd124274aea8e3af4b985a91b17aafecf71623bebc5a761e3048b7b5239",
+    "bytes": 989581
+  },
+  {
+    "path": "assets/characters/aa-04/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/front-hit.png",
+    "sha256": "6d6b61d687525a2bfb63a575fba95d113bcbf9072dcf76d8585b9bff6f89304d",
+    "bytes": 370984
+  },
+  {
+    "path": "assets/characters/aa-04/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/front-steer-left.png",
+    "sha256": "907140e23dc8d41e566d2ab013baa95c2a1d553bb3c5c56ea541a3136397f9a2",
+    "bytes": 359929
+  },
+  {
+    "path": "assets/characters/aa-04/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/front-steer-right.png",
+    "sha256": "75009c11ab0628999d9530e8c5846e3ca48f4979a72395a6f0478b5ba36c5e06",
+    "bytes": 364948
+  },
+  {
+    "path": "assets/characters/aa-04/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/front-victory.png",
+    "sha256": "dcdfc3ca451660e61db013b9699029f12ef2242008556c3b9355a2a53b8f790b",
+    "bytes": 370790
+  },
+  {
+    "path": "assets/characters/aa-04/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/front.png",
+    "sha256": "6fdd0263ba10f5cf4b50fce1870bcf2647de251ad8d22fcf59d2f2410df81fee",
+    "bytes": 345676
+  },
+  {
+    "path": "assets/characters/aa-04/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/hit.png",
+    "sha256": "30c44e3ad74dd6219a403365ac55a54470967e37f3e7c0288b901ee4c87aa7ff",
+    "bytes": 359871
+  },
+  {
+    "path": "assets/characters/aa-04/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/rear.png",
+    "sha256": "6a84ddc834ceb670ee04401559a9360638be08f39cb52236caf7756a86f93c51",
+    "bytes": 304407
+  },
+  {
+    "path": "assets/characters/aa-04/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/steer-left.png",
+    "sha256": "43f3df67361be5bf7db6d53267a56e3caa7c9684dcf8bddfd4900269547fedd5",
+    "bytes": 296609
+  },
+  {
+    "path": "assets/characters/aa-04/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/steer-right.png",
+    "sha256": "5b6288894fc2ccd6029c245920c8987cbc1b5a67e4fcd9416fce22e618a0b499",
+    "bytes": 275137
+  },
+  {
+    "path": "assets/characters/aa-04/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/driver/victory.png",
+    "sha256": "bde98ae1841c061baf92966df8909a817af63b2d03f6c1a443e7b0dac7d56540",
+    "bytes": 356984
+  },
+  {
+    "path": "assets/characters/aa-04/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/kart-lod1.glb",
+    "sha256": "18b65676d1a643b34b8bb7e6065032ac28b39867521c5598b1fb982399c2688f",
+    "bytes": 380804
+  },
+  {
+    "path": "assets/characters/aa-04/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/kart-lod2.glb",
+    "sha256": "6ee137d9a8e1a2bc8b05e76638dee04ec6dd81af964d71e79364926a9eb12528",
+    "bytes": 168508
+  },
+  {
+    "path": "assets/characters/aa-04/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/kart.glb",
+    "sha256": "70cd099091108ddc6bd6b5182161a52b17e8f3f501c4c8b8ef8b78e7e9eca99c",
+    "bytes": 623284
+  },
+  {
+    "path": "assets/characters/aa-04/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/portrait.png",
+    "sha256": "6bd31eef364f7d5bba3020f0fa2559c69ea3becd6a4132692faadd60b981dd66",
+    "bytes": 116468
+  },
+  {
+    "path": "assets/characters/aa-04/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/results/reaction.png",
+    "sha256": "cfb9800f7675c85c055acdbd6a9fbdc3e22748bbc9166e404f3e429c5fe6ee9b",
+    "bytes": 1764079
+  },
+  {
+    "path": "assets/characters/aa-04/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/results/victory.png",
+    "sha256": "4e4ffce804a8ff94d15eca9a04211c309ea3ec24c995c40761f39811754ddf06",
+    "bytes": 204713
+  },
+  {
+    "path": "assets/characters/aa-04/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-04/selection/full-body.png",
+    "sha256": "4edbf3029403434ff5a5b0c916cc407001bbdfc57e25a1fdc9afcffd35a4bcc7",
+    "bytes": 1708942
+  },
+  {
+    "path": "assets/characters/aa-05/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/front-hit.png",
+    "sha256": "5f1c4abe842599e2d4fddc4fa9529e24acc0008914228b0fca86fa793eef7666",
+    "bytes": 277655
+  },
+  {
+    "path": "assets/characters/aa-05/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/front-steer-left.png",
+    "sha256": "6c35c015d1208dbfb922b1a7986bf81002497bbed7d8d73c882de094ca5cfa34",
+    "bytes": 240665
+  },
+  {
+    "path": "assets/characters/aa-05/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/front-steer-right.png",
+    "sha256": "f6404831ebdb3ea8619d0e15f43c0430dc3e6042652b7eb37bd47bbb735b5dd8",
+    "bytes": 251695
+  },
+  {
+    "path": "assets/characters/aa-05/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/front-victory.png",
+    "sha256": "4e77db3a622b6fc472bbd031329e9cc80bc3c119dbeab427a9ccf97cbc596609",
+    "bytes": 271758
+  },
+  {
+    "path": "assets/characters/aa-05/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/front.png",
+    "sha256": "5f6e58cd7ebaef7fe965c97d826227e2052f11656b16b6336f0a3e232412b993",
+    "bytes": 251380
+  },
+  {
+    "path": "assets/characters/aa-05/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/hit.png",
+    "sha256": "a8ad87113949884294e637159bc80abf0ec939afc37f6f16a42338a2fe178169",
+    "bytes": 227925
+  },
+  {
+    "path": "assets/characters/aa-05/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/rear.png",
+    "sha256": "91b75606b31549f78e6e15b7a97ef0bca0378d30e61a5750c0edb29e96aacf5d",
+    "bytes": 185450
+  },
+  {
+    "path": "assets/characters/aa-05/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/steer-left.png",
+    "sha256": "2be91c19670c826dc10733f55d30fd07d2002eb46366e145054791d606a47c3e",
+    "bytes": 189437
+  },
+  {
+    "path": "assets/characters/aa-05/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/steer-right.png",
+    "sha256": "38c09708322c582659d91434a5d2f2a21a219a8736877b35d6240e0df6bc38b6",
+    "bytes": 192617
+  },
+  {
+    "path": "assets/characters/aa-05/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/driver/victory.png",
+    "sha256": "5f75d5a4220c2d2c8d12ac9641da63056e84e8aec81c038dfa8f171ceb0dd3af",
+    "bytes": 233774
+  },
+  {
+    "path": "assets/characters/aa-05/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/kart-lod1.glb",
+    "sha256": "c000af29a53fa79810d759b460f7a6a3b72c2f1605b9ff300245c080a95a8bfe",
+    "bytes": 317720
+  },
+  {
+    "path": "assets/characters/aa-05/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/kart-lod2.glb",
+    "sha256": "ca73a74e96ff58769abc83db3b8662b498445144f28497b58213d71022e13546",
+    "bytes": 160820
+  },
+  {
+    "path": "assets/characters/aa-05/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/kart.glb",
+    "sha256": "4a28349e51b0f6936a67bc8160d1b627fb9f77144ab063368e863d644e64a5c9",
+    "bytes": 579216
+  },
+  {
+    "path": "assets/characters/aa-05/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/portrait.png",
+    "sha256": "3c7f953be7ffb1a343b807eb5421c1792d7e8c407695c0658804ad87d7e8d521",
+    "bytes": 72717
+  },
+  {
+    "path": "assets/characters/aa-05/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/results/reaction.png",
+    "sha256": "57030b478a9b0cdf6607f5c3041385989768abda61d72d1316b8696b5c390445",
+    "bytes": 757537
+  },
+  {
+    "path": "assets/characters/aa-05/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/results/victory.png",
+    "sha256": "d71c483a32290bbb68f5eb8f13d4bf8cf487b8f0af1cbbcf43e1b5eb2fb9578b",
+    "bytes": 85935
+  },
+  {
+    "path": "assets/characters/aa-05/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-05/selection/full-body.png",
+    "sha256": "f74fce0220acc173cd14f34cf9275218f2295bd02ef2e9533747423e01860f5b",
+    "bytes": 688997
+  },
+  {
+    "path": "assets/characters/aa-06/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/front-hit.png",
+    "sha256": "1012d314aa3e25242a1c14e2e34420f24e0b1083699ebfb47782d92a5f71e1af",
+    "bytes": 459781
+  },
+  {
+    "path": "assets/characters/aa-06/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/front-steer-left.png",
+    "sha256": "b0a594432c23664be45f70c701143aaa951906b2b5531042c1b140fb65b41b57",
+    "bytes": 461485
+  },
+  {
+    "path": "assets/characters/aa-06/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/front-steer-right.png",
+    "sha256": "ea2b918d761a288cf1204bafde883a307002787f6d4ce2650574445682f28dd3",
+    "bytes": 430906
+  },
+  {
+    "path": "assets/characters/aa-06/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/front-victory.png",
+    "sha256": "a1a00e435b97976844f2659dca7c53ce394a1d06710e0721604d7e10dfce054f",
+    "bytes": 443707
+  },
+  {
+    "path": "assets/characters/aa-06/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/front.png",
+    "sha256": "7b439cb28a93f94bb42118ee063a80093d8d6e9f7205958d39ad795609137b47",
+    "bytes": 474058
+  },
+  {
+    "path": "assets/characters/aa-06/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/hit.png",
+    "sha256": "62afd990adb8d938bd77878dae1d5e56ac4ac4179546bb298cbe56cd4996fc41",
+    "bytes": 416118
+  },
+  {
+    "path": "assets/characters/aa-06/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/rear.png",
+    "sha256": "23c772c5e76ed496ec4e7637e59efb799522d2ed7b8d85dc119d0a34970e375a",
+    "bytes": 385263
+  },
+  {
+    "path": "assets/characters/aa-06/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/steer-left.png",
+    "sha256": "62298b4defe00e26289929288da71ea3d75adc0822ff14f1ea17b596052baba4",
+    "bytes": 401643
+  },
+  {
+    "path": "assets/characters/aa-06/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/steer-right.png",
+    "sha256": "fe62238ec12c6f7afcae0b2b96d4d44f3e92272e1d08b0cd3d0dd75d162600f4",
+    "bytes": 349262
+  },
+  {
+    "path": "assets/characters/aa-06/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/driver/victory.png",
+    "sha256": "6476ea26cef64d180e9b2fe910806119d0b7d80d39b7abc2597af616f8dfcdc5",
+    "bytes": 395331
+  },
+  {
+    "path": "assets/characters/aa-06/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/kart-lod1.glb",
+    "sha256": "31bdd684fb764fdb4d6e04726971e0bf3f34ee4f36aefbf652fcdf3b133053c3",
+    "bytes": 273284
+  },
+  {
+    "path": "assets/characters/aa-06/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/kart-lod2.glb",
+    "sha256": "124ec43e1ada192d67a3d4fe6bb6c3ec1cdd3f9df6b6c22b1af05b25762197de",
+    "bytes": 158340
+  },
+  {
+    "path": "assets/characters/aa-06/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/kart.glb",
+    "sha256": "57b3f4b248ed96cd19b0c2b233aec4462fde73b102ad9acde8941550bf69e305",
+    "bytes": 421900
+  },
+  {
+    "path": "assets/characters/aa-06/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/portrait.png",
+    "sha256": "f451a73b0ee59c503b77235bbdb5181b46908ef9fcb40542666150859a57eb70",
+    "bytes": 125509
+  },
+  {
+    "path": "assets/characters/aa-06/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/results/reaction.png",
+    "sha256": "0997d1684a9fc29c05995bb7e361a507d5e967f8965ab77312590fb6488e8e6b",
+    "bytes": 2269223
+  },
+  {
+    "path": "assets/characters/aa-06/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/results/victory.png",
+    "sha256": "c2fda346f374a34b5aa190c8c4549422863688db3da49b4e5948394a411f710d",
+    "bytes": 292669
+  },
+  {
+    "path": "assets/characters/aa-06/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-06/selection/full-body.png",
+    "sha256": "9cbbc3f429d1a2243a6d7082e1cac44c8b6cc87d38c91f583f20891544b10732",
+    "bytes": 2064340
+  },
+  {
+    "path": "assets/characters/aa-07/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/front-hit.png",
+    "sha256": "440b48865114ac4fc2c6acde6f5133c001c3a4c18ccb5fc72772791e874f1c21",
+    "bytes": 258846
+  },
+  {
+    "path": "assets/characters/aa-07/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/front-steer-left.png",
+    "sha256": "d69dc042efab13389fd259bfcee8556328657bda3e06ce1cbcdb155f4ab62a41",
+    "bytes": 311268
+  },
+  {
+    "path": "assets/characters/aa-07/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/front-steer-right.png",
+    "sha256": "e2c99f93a3f33fb627967de88852cfe49289f0fe6fffc007beda1c1aa079ce7b",
+    "bytes": 264947
+  },
+  {
+    "path": "assets/characters/aa-07/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/front-victory.png",
+    "sha256": "cb5be9ae847303aa8edf74204e809a1bb690754784d671f145243eb1b195f36f",
+    "bytes": 294702
+  },
+  {
+    "path": "assets/characters/aa-07/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/front.png",
+    "sha256": "8a408a7fda63b60828bbf321a626eff780a8172a9e4da3a633f77890e9e337c0",
+    "bytes": 279495
+  },
+  {
+    "path": "assets/characters/aa-07/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/hit.png",
+    "sha256": "a27326721f4ceac8f0fc1336636a0487ff4d35265faa9cf5a04d76a92d7bfb9e",
+    "bytes": 290423
+  },
+  {
+    "path": "assets/characters/aa-07/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/rear.png",
+    "sha256": "d08174fcbe583317f1288c24f1ccd000e58d691d4f6643dd973cad995f174d62",
+    "bytes": 243743
+  },
+  {
+    "path": "assets/characters/aa-07/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/steer-left.png",
+    "sha256": "a9636724e54e8e1f05308868983a7bd6ba0fee19f85749d3ff5487a42abebce2",
+    "bytes": 252931
+  },
+  {
+    "path": "assets/characters/aa-07/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/steer-right.png",
+    "sha256": "bc944b339db304739a688d4dd23cc8da51b76394147252d41473e8bef78a753b",
+    "bytes": 230705
+  },
+  {
+    "path": "assets/characters/aa-07/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/driver/victory.png",
+    "sha256": "42d5c3ce61fec1b21765cb18875cc1a92ac83fbf69cf3452e48beb81ffba944b",
+    "bytes": 275367
+  },
+  {
+    "path": "assets/characters/aa-07/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/kart-lod1.glb",
+    "sha256": "8169b05da4a66894d76904f7193c845755bf8d556d01805cc16e8cd870d9a939",
+    "bytes": 332976
+  },
+  {
+    "path": "assets/characters/aa-07/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/kart-lod2.glb",
+    "sha256": "d862fdb489419d96917b1df3ee7f7eab56796b7aa3be7906be3abab67c03d77f",
+    "bytes": 160916
+  },
+  {
+    "path": "assets/characters/aa-07/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/kart.glb",
+    "sha256": "5d7e0941b90ac5d13bb4e019ec43f22a5f9e841c89abaf568ab0c226d8cc92c0",
+    "bytes": 533532
+  },
+  {
+    "path": "assets/characters/aa-07/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/portrait.png",
+    "sha256": "b07235fdc771a816e9027294ffe2e035a06fce2bd2bc57768ce989a5f67d82e1",
+    "bytes": 68155
+  },
+  {
+    "path": "assets/characters/aa-07/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/results/reaction.png",
+    "sha256": "6ea0df99354f4cb59310ae6ab7d41159940e3b5de23200b94127d6f8da717ca5",
+    "bytes": 734044
+  },
+  {
+    "path": "assets/characters/aa-07/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/results/victory.png",
+    "sha256": "21cbd6c61c2510baa22e351fce1564887331b511c0230345e79d7a3f42f91c02",
+    "bytes": 787194
+  },
+  {
+    "path": "assets/characters/aa-07/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-07/selection/full-body.png",
+    "sha256": "1450dc8c4d2df6d4e46b45768a55d97810d6504d039bc1b141eebb3137a3ece9",
+    "bytes": 669618
+  },
+  {
+    "path": "assets/characters/aa-08/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/front-hit.png",
+    "sha256": "bf2411404f6311bcb648966ca64f5c5f06a4ce4e3b728ca75fd3f0d56323691d",
+    "bytes": 228899
+  },
+  {
+    "path": "assets/characters/aa-08/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/front-steer-left.png",
+    "sha256": "d2842af32df5e92c10454497b8da3cba92591e52324df571f67bd0ebf7c4f39b",
+    "bytes": 192492
+  },
+  {
+    "path": "assets/characters/aa-08/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/front-steer-right.png",
+    "sha256": "663c18ef0a5fbcbb0cffc796bcd9c209675941a95fc082903360a536b9a33f48",
+    "bytes": 179956
+  },
+  {
+    "path": "assets/characters/aa-08/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/front-victory.png",
+    "sha256": "96ee0fcf6a8ca14e12db258ba58797d8161ca463e33d6c86a19db4bbe2beea9c",
+    "bytes": 202321
+  },
+  {
+    "path": "assets/characters/aa-08/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/front.png",
+    "sha256": "73e14defb5a69c93b03f4087b3b34a4b53b0eeff13444aa42c87f270df6662a1",
+    "bytes": 225185
+  },
+  {
+    "path": "assets/characters/aa-08/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/hit.png",
+    "sha256": "18dbf88e6089ce738c1d92cbebbbe880a77df8a702a78ec542c47620fd207d27",
+    "bytes": 241234
+  },
+  {
+    "path": "assets/characters/aa-08/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/rear.png",
+    "sha256": "bd8e594b0059808b0a7959479cf393507f6d2ceb181e905dfb46acb618a6d9e6",
+    "bytes": 202050
+  },
+  {
+    "path": "assets/characters/aa-08/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/steer-left.png",
+    "sha256": "248d91ade895bce138574413d1fce3d06c4a250e3c26113a48a3d8d587925db4",
+    "bytes": 197373
+  },
+  {
+    "path": "assets/characters/aa-08/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/steer-right.png",
+    "sha256": "1d7ef98c89dc63b32541693effd761aade09b79d3ef8dd52daab1758ae05dcc0",
+    "bytes": 209847
+  },
+  {
+    "path": "assets/characters/aa-08/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/driver/victory.png",
+    "sha256": "e0fc4f58648eecced0f92c233f6b2f35c58d0c423b48585717391a416f8280e0",
+    "bytes": 213182
+  },
+  {
+    "path": "assets/characters/aa-08/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/kart-lod1.glb",
+    "sha256": "1d3b62f715e6288b01447eafe2a81a07b09fe676019b1849ff3b5b78ad9c4d23",
+    "bytes": 194856
+  },
+  {
+    "path": "assets/characters/aa-08/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/kart-lod2.glb",
+    "sha256": "2c38dd14a334443fff3f872fc618210642f51dfc8b612bf1f075b347a5a65be7",
+    "bytes": 130972
+  },
+  {
+    "path": "assets/characters/aa-08/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/kart.glb",
+    "sha256": "87db250bcacbbbe93afdee0e4a346ff3c5aaca7fbb90668af383b1772154c953",
+    "bytes": 314608
+  },
+  {
+    "path": "assets/characters/aa-08/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/portrait.png",
+    "sha256": "f1cf6d82a96c54c85a3294dee1c542aefe2903f9991e5df637f380f92aaf19bb",
+    "bytes": 80064
+  },
+  {
+    "path": "assets/characters/aa-08/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/results/reaction.png",
+    "sha256": "c99be19b82f41a1b2ace6be6f6d153e238056f4750392fa9affa2dffcf7c1b83",
+    "bytes": 963577
+  },
+  {
+    "path": "assets/characters/aa-08/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/results/victory.png",
+    "sha256": "1ab53ed1c8d21314d14a99f9c80f65f4d3242cd929f30d1bf072c00ad86419cf",
+    "bytes": 965066
+  },
+  {
+    "path": "assets/characters/aa-08/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-08/selection/full-body.png",
+    "sha256": "f424600c72af0fc3c7387088790466b63a6d978abf7832476334f65a422c9714",
+    "bytes": 834667
+  },
+  {
+    "path": "assets/characters/aa-09/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/front-hit.png",
+    "sha256": "35097ef795d91497482d2da62ca5dffe70301cc10e5fc13d33327e7d2f3d976e",
+    "bytes": 306049
+  },
+  {
+    "path": "assets/characters/aa-09/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/front-steer-left.png",
+    "sha256": "20216cef593ac6fe564cbbaefaffa9264a2ee6211bcece1c567099378163901e",
+    "bytes": 283286
+  },
+  {
+    "path": "assets/characters/aa-09/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/front-steer-right.png",
+    "sha256": "888049aa7be403254a2d0b632da5692ab7b30251826524bc5f2abbcd44137feb",
+    "bytes": 287362
+  },
+  {
+    "path": "assets/characters/aa-09/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/front-victory.png",
+    "sha256": "969016a528b01b65a2ff541397b134c70feb6679225493006e6222ef2bb47127",
+    "bytes": 296215
+  },
+  {
+    "path": "assets/characters/aa-09/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/front.png",
+    "sha256": "9ef86e2e8297833fdb9df5dee62ba6485bce00228ab0c297c296f757ef92d4cd",
+    "bytes": 277941
+  },
+  {
+    "path": "assets/characters/aa-09/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/hit.png",
+    "sha256": "e1a6fdf13699ef9b30999b750d2b6a1fc9acdfad369bb7641303902026ddeadf",
+    "bytes": 380781
+  },
+  {
+    "path": "assets/characters/aa-09/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/rear.png",
+    "sha256": "358f7f4f079ff9f5ae4ac94f08a04d90928a885e483133a561d7ab5e9b83bc3d",
+    "bytes": 409212
+  },
+  {
+    "path": "assets/characters/aa-09/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/steer-left.png",
+    "sha256": "93236678536975f2d233f5482889a7a44ec3065c2492d8031eccf1da5152d115",
+    "bytes": 398443
+  },
+  {
+    "path": "assets/characters/aa-09/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/steer-right.png",
+    "sha256": "16221e27eb3b8dc3af00f5a7253c175ad265ee92d6c0788bd8a0878404c2661c",
+    "bytes": 397937
+  },
+  {
+    "path": "assets/characters/aa-09/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/driver/victory.png",
+    "sha256": "5819d0b8285d1a9159312304712abec4dcec3fe08135773ddc48ee8ac4143c79",
+    "bytes": 362878
+  },
+  {
+    "path": "assets/characters/aa-09/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/kart-lod1.glb",
+    "sha256": "9465ca4cb7d75c9a80c30ac09414c94bf35c95e82a26784735376df736191390",
+    "bytes": 168860
+  },
+  {
+    "path": "assets/characters/aa-09/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/kart-lod2.glb",
+    "sha256": "4a2e2a43c147bd7fca0ae07edd7fbf612ac067e47f185b87431290de36e45fe0",
+    "bytes": 100092
+  },
+  {
+    "path": "assets/characters/aa-09/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/kart.glb",
+    "sha256": "5498567abf25339b2a9f876f2bb81079d263c80afeea4a7c1b0181a36fdfd446",
+    "bytes": 305148
+  },
+  {
+    "path": "assets/characters/aa-09/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/portrait.png",
+    "sha256": "776d62d50bfbad54938f45dbe83aa0d4e9983e424eeacdf2790ae196758484f4",
+    "bytes": 127006
+  },
+  {
+    "path": "assets/characters/aa-09/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/results/reaction.png",
+    "sha256": "899fc626403f9811528acb01aa4f6bc259cdef334e19b3921f4ed488e3c3813f",
+    "bytes": 1539094
+  },
+  {
+    "path": "assets/characters/aa-09/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/results/victory.png",
+    "sha256": "19adc4de4c6a60d8ceb44ff73579b39812833965d42225305f0badd1be923a9b",
+    "bytes": 1397091
+  },
+  {
+    "path": "assets/characters/aa-09/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-09/selection/full-body.png",
+    "sha256": "533bf8cfa16f89dbd2dfd51abc8102edf855048ec8b59ca7877ad0fff990c077",
+    "bytes": 1349174
+  },
+  {
+    "path": "assets/characters/aa-10/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/front-hit.png",
+    "sha256": "e5743a6e1f62d02ea50dcb3d0afcfb5c6b2d39440122ce93e887f1028d24e127",
+    "bytes": 460859
+  },
+  {
+    "path": "assets/characters/aa-10/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/front-steer-left.png",
+    "sha256": "5ed347c6c873dbdcdc17e537862b276789b3a761dca2a7733141dcea6ca58a0d",
+    "bytes": 428657
+  },
+  {
+    "path": "assets/characters/aa-10/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/front-steer-right.png",
+    "sha256": "c04e7edb9093f520b57e2f02e85de7aebf1f133f5ca02bb9196ae1522ec51789",
+    "bytes": 432989
+  },
+  {
+    "path": "assets/characters/aa-10/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/front-victory.png",
+    "sha256": "a2e7a50042d22583d96570fe0354dbf1ae272f5b022dad99f8f82127e13b061f",
+    "bytes": 441447
+  },
+  {
+    "path": "assets/characters/aa-10/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/front.png",
+    "sha256": "514bfb7a9a51a4cd92f7fad0f2c8aff189f79b05774fd0e726f7478b55f314ff",
+    "bytes": 425165
+  },
+  {
+    "path": "assets/characters/aa-10/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/hit.png",
+    "sha256": "e58254e6f0ef41fcf564e944dab3e8ee14133923ccf77d43180ca73cd8fa4ef9",
+    "bytes": 254244
+  },
+  {
+    "path": "assets/characters/aa-10/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/rear.png",
+    "sha256": "bf549b915cff100fc31881bc7df816bacedc1190f3f1c0787651816697003587",
+    "bytes": 325213
+  },
+  {
+    "path": "assets/characters/aa-10/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/steer-left.png",
+    "sha256": "3ccc392415afb8171d96165b00cb43ba899363724d05b6054d0ec85e0ca30ba4",
+    "bytes": 327275
+  },
+  {
+    "path": "assets/characters/aa-10/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/steer-right.png",
+    "sha256": "c79f1dafe2e04b98abd714a0a2d18959ec5fe2553daab14891564044c1f6d8e1",
+    "bytes": 314439
+  },
+  {
+    "path": "assets/characters/aa-10/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/driver/victory.png",
+    "sha256": "ef2f9192b7673fff3bc0fe3bfa521731a87c7bb1f466872b3b411a0928cd70f4",
+    "bytes": 311168
+  },
+  {
+    "path": "assets/characters/aa-10/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/kart-lod1.glb",
+    "sha256": "986f6c355401d45ae7ff85f13391de48f3db6d2b5b2b47ed10f5ced7708061f0",
+    "bytes": 281812
+  },
+  {
+    "path": "assets/characters/aa-10/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/kart-lod2.glb",
+    "sha256": "62a3993c11b4c38eebe0d73f7a9b713fcdb1467578ea5429b188ea40e164fa76",
+    "bytes": 166880
+  },
+  {
+    "path": "assets/characters/aa-10/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/kart.glb",
+    "sha256": "906cdddd34e8b4270e9c99d334639f2bf7a372cceb22abbb1edaaf15ad8c38a9",
+    "bytes": 484896
+  },
+  {
+    "path": "assets/characters/aa-10/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/portrait.png",
+    "sha256": "a5b0046d9c41fb85712efabf743432378ddedf85de9316d52039776cbb30ff32",
+    "bytes": 127863
+  },
+  {
+    "path": "assets/characters/aa-10/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/results/reaction.png",
+    "sha256": "c91d9947d42873d3da73f7f31edfca7f9201fcbb2be14f244f1d8fea2ecfbae8",
+    "bytes": 1582592
+  },
+  {
+    "path": "assets/characters/aa-10/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/results/victory.png",
+    "sha256": "ceb43f0c7b12a7ad16556dfec460ffc29cfc4372561ce1fa9580a8399aa76c98",
+    "bytes": 1682102
+  },
+  {
+    "path": "assets/characters/aa-10/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-10/selection/full-body.png",
+    "sha256": "5eca274a95bfefc134798e30d99dc20d3e9df1eaeb0c7c76bc09c7db881c89ba",
+    "bytes": 1487751
+  },
+  {
+    "path": "assets/characters/aa-11/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/front-hit.png",
+    "sha256": "21d05413adcbd711f1f47b43a685b1cf7b528cbf8603680805f3936fa2920c37",
+    "bytes": 276754
+  },
+  {
+    "path": "assets/characters/aa-11/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/front-steer-left.png",
+    "sha256": "374dc4d70effbfb31b149d8479c206ca147ea3247d2479a519ccca4a04aba91a",
+    "bytes": 271345
+  },
+  {
+    "path": "assets/characters/aa-11/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/front-steer-right.png",
+    "sha256": "c14a5e45c2d89858c2b1b0ef925f738a46bf7198fb21dad7023baaf6640b682c",
+    "bytes": 249619
+  },
+  {
+    "path": "assets/characters/aa-11/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/front-victory.png",
+    "sha256": "f35804907230bb1db0623c84622a34ac5be8a30fb8183186c14f3ab38e8524eb",
+    "bytes": 238741
+  },
+  {
+    "path": "assets/characters/aa-11/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/front.png",
+    "sha256": "d62ba47bb7d1da6a6f504a7e4f422caf8b6725d7ce54de226b8ce8cfc2ba6e15",
+    "bytes": 251584
+  },
+  {
+    "path": "assets/characters/aa-11/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/hit.png",
+    "sha256": "69ac64d14666e857bc9067f48d72c28ae89c5ab187657b3d4ab00c1ce77d90e0",
+    "bytes": 432835
+  },
+  {
+    "path": "assets/characters/aa-11/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/rear.png",
+    "sha256": "8062c91c649d69f0d0d6cf5b4096ae556aa3a8a427581746c646dba67d16509f",
+    "bytes": 277330
+  },
+  {
+    "path": "assets/characters/aa-11/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/steer-left.png",
+    "sha256": "8bd9297417db14a1f3921f37ad9274819bacd70bd7e91970029040dd5443277a",
+    "bytes": 340047
+  },
+  {
+    "path": "assets/characters/aa-11/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/steer-right.png",
+    "sha256": "219a69e3b6854208691ca9f7560fe7e402d660a86d2fb14b7ad748b4b7493399",
+    "bytes": 326009
+  },
+  {
+    "path": "assets/characters/aa-11/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/driver/victory.png",
+    "sha256": "34dbbf608eeace57303cbd023e7964c736cafe299353110ca907e8e3e25bd600",
+    "bytes": 275176
+  },
+  {
+    "path": "assets/characters/aa-11/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/kart-lod1.glb",
+    "sha256": "9f481cf854d47ec330e5909d5003353376c471cd37562d79410c20e3f824f9c7",
+    "bytes": 185564
+  },
+  {
+    "path": "assets/characters/aa-11/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/kart-lod2.glb",
+    "sha256": "792b8f8bf1d359b3ae464003f0fa9432de5c391d8bd18ac8f84535593d9ba820",
+    "bytes": 133936
+  },
+  {
+    "path": "assets/characters/aa-11/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/kart.glb",
+    "sha256": "6e3f8cb6d1bdee7f5b315a7c154bd45fd0f4d6ac9b2e6445b9d85d81959ff958",
+    "bytes": 261184
+  },
+  {
+    "path": "assets/characters/aa-11/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/portrait.png",
+    "sha256": "91b28fc26104c9a90de6d6516a17e89b3c1a955bc1ab2ccc6a79f1c32e4bc312",
+    "bytes": 101592
+  },
+  {
+    "path": "assets/characters/aa-11/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/results/reaction.png",
+    "sha256": "65dc0695310a406f46b7f3574bdea7b28bceab6fcf0ce98c2db5dcf44eba40f5",
+    "bytes": 937628
+  },
+  {
+    "path": "assets/characters/aa-11/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/results/victory.png",
+    "sha256": "59dd6987fef114989b7afba9cf13fec40b9896801619285165b646124e88b47b",
+    "bytes": 949486
+  },
+  {
+    "path": "assets/characters/aa-11/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-11/selection/full-body.png",
+    "sha256": "51fc2a28abee94bc3715dcfb5bb95ae964007e5e014c0a557eea67dab7a2798e",
+    "bytes": 908276
+  },
+  {
+    "path": "assets/characters/aa-12/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/front-hit.png",
+    "sha256": "dd941aef347367c1352df1e03b9788fcb1c8dac907e019c5b035cc155439a1da",
+    "bytes": 352699
+  },
+  {
+    "path": "assets/characters/aa-12/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/front-steer-left.png",
+    "sha256": "d0223109971aa52483fcaba403b2cf7193bc7312793a7f390b147556d1f6f0fa",
+    "bytes": 351683
+  },
+  {
+    "path": "assets/characters/aa-12/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/front-steer-right.png",
+    "sha256": "076a3a5a177c8c39484f64ac54f8794440c5dd4b2314d0cdb79fe3c4b9936b56",
+    "bytes": 340093
+  },
+  {
+    "path": "assets/characters/aa-12/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/front-victory.png",
+    "sha256": "7b215ae8c560a4754cfbe310270d90e9236e0512a3fd69f6d10bddf3726ad965",
+    "bytes": 330672
+  },
+  {
+    "path": "assets/characters/aa-12/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/front.png",
+    "sha256": "532bcee974f676e1d7c0c964285530040eae927064e17e65be5c8358a0f57f4f",
+    "bytes": 336440
+  },
+  {
+    "path": "assets/characters/aa-12/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/hit.png",
+    "sha256": "7f6d190b14ff8fbfc4b5ff3b276b9fc3ff24707f6a8b1baaeaa7a9ad0f99f172",
+    "bytes": 310610
+  },
+  {
+    "path": "assets/characters/aa-12/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/rear.png",
+    "sha256": "011c5c0354bd81e76effd9c0b69e2fddb03999e4c6c874985a7a82e2d275f729",
+    "bytes": 297832
+  },
+  {
+    "path": "assets/characters/aa-12/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/steer-left.png",
+    "sha256": "8d04712704ae8cb4992514bcddd23ce37ed8615b277607ffe8ac22c42d5e5d33",
+    "bytes": 288557
+  },
+  {
+    "path": "assets/characters/aa-12/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/steer-right.png",
+    "sha256": "a246c029c7706b69b11d63f5cacf3a9fa2c9fb1fed77672aa12e608e221ab110",
+    "bytes": 293728
+  },
+  {
+    "path": "assets/characters/aa-12/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/driver/victory.png",
+    "sha256": "94f6774b2b8d53a470d1a204c120bdbcc847959ec171e36cad29f2983abfa41f",
+    "bytes": 297776
+  },
+  {
+    "path": "assets/characters/aa-12/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/kart-lod1.glb",
+    "sha256": "545d22ab7f17a17fa14bdb6281db80ac070af159f0a700a57a3694f828e880a8",
+    "bytes": 328864
+  },
+  {
+    "path": "assets/characters/aa-12/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/kart-lod2.glb",
+    "sha256": "ff7cf64b9eb06defd47d708cf88dfd7780814d9a20d89ac967bc79c8d0baeeb9",
+    "bytes": 187428
+  },
+  {
+    "path": "assets/characters/aa-12/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/kart.glb",
+    "sha256": "0415224b88770726152a3313b6e0fc517a626a6167558af7a6ccbd836b13f3f0",
+    "bytes": 499380
+  },
+  {
+    "path": "assets/characters/aa-12/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/portrait.png",
+    "sha256": "f11676269e92b7037455b5bef9a5c452c215324e36bcab63103fcf368c030bfa",
+    "bytes": 104822
+  },
+  {
+    "path": "assets/characters/aa-12/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/results/reaction.png",
+    "sha256": "048275029ea11e85cba10fd1ce918a6d3ec479396324fb1174e5ae7e772462b8",
+    "bytes": 1520721
+  },
+  {
+    "path": "assets/characters/aa-12/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/results/victory.png",
+    "sha256": "218ef5b7d5650046d04f5cc9adaeb014b9d7829d4b711079ed50c810173ca107",
+    "bytes": 1944309
+  },
+  {
+    "path": "assets/characters/aa-12/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-12/selection/full-body.png",
+    "sha256": "c20b761581e450f9b7b792c2cc905306fc577cc33d6aa1ff1e8c0b805a48782d",
+    "bytes": 1474227
+  },
+  {
+    "path": "assets/characters/aa-13/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/front-hit.png",
+    "sha256": "90bc0b7bdd860bbb1a7204ba2a7fe1da228678ebf8b456f3dfd78555fca8ecdd",
+    "bytes": 350932
+  },
+  {
+    "path": "assets/characters/aa-13/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/front-steer-left.png",
+    "sha256": "9c6071c712f5f5479c7af82d4b61a7ac6428e8d4bbc057d33445b0456a46b427",
+    "bytes": 317059
+  },
+  {
+    "path": "assets/characters/aa-13/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/front-steer-right.png",
+    "sha256": "64fc2b9d8ede94700eea2bb189ce3ef27dd4f7b7d900b31bf74854156d9f89ac",
+    "bytes": 318716
+  },
+  {
+    "path": "assets/characters/aa-13/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/front-victory.png",
+    "sha256": "03e5b484e86ce573fb7a682d3d9446d05d3dd4bd929ce48d5b32e45ea59630c2",
+    "bytes": 327278
+  },
+  {
+    "path": "assets/characters/aa-13/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/front.png",
+    "sha256": "42a05c78fd80697bc0930e1d38d860556eb43d3e5533a0b25619bf6550ad9c5e",
+    "bytes": 318581
+  },
+  {
+    "path": "assets/characters/aa-13/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/hit.png",
+    "sha256": "93bc7493fc67cddb6c554e8de773de9c67367f2caf9b9c7eaf842a458801fb36",
+    "bytes": 260385
+  },
+  {
+    "path": "assets/characters/aa-13/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/rear.png",
+    "sha256": "7451248cd5ce3f671bec335a67d858cd7180087b1f36fed2fce2a84d46abf026",
+    "bytes": 267003
+  },
+  {
+    "path": "assets/characters/aa-13/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/steer-left.png",
+    "sha256": "4ff0b51b5e451cbbcadea64b1736bb26099321dc761c7b911b235470b3626271",
+    "bytes": 262860
+  },
+  {
+    "path": "assets/characters/aa-13/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/steer-right.png",
+    "sha256": "00a8bca669facd4b4d1b78a17e51b7bb78338ba5ccf65d5df64b80f6a00b98d0",
+    "bytes": 257557
+  },
+  {
+    "path": "assets/characters/aa-13/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/driver/victory.png",
+    "sha256": "7d7c78590fa4b24eb2be93b803f4a6b09047611ad0ac621c21c60b8fe4101155",
+    "bytes": 281170
+  },
+  {
+    "path": "assets/characters/aa-13/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/kart.glb",
+    "sha256": "952ca8e50b69bb5f2bc9d8d4cd4e43f844560bb4069fa23c1c0132ae77fb1e93",
+    "bytes": 547452
+  },
+  {
+    "path": "assets/characters/aa-13/lod/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/lod/kart-lod1.glb",
+    "sha256": "8768f40456320986868e96ea23c0590e4f230a946a050f404d3b07ff0e430423",
+    "bytes": 337016
+  },
+  {
+    "path": "assets/characters/aa-13/lod/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/lod/kart-lod2.glb",
+    "sha256": "620a4fd0f88fbd92d1665598f9ba57b65d436be948161c769af562c976e88a2c",
+    "bytes": 239684
+  },
+  {
+    "path": "assets/characters/aa-13/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/portrait.png",
+    "sha256": "4781825b60e104dee1bd92b91bb37fe65796a855a8343027d3a5a8ab1330f378",
+    "bytes": 91555
+  },
+  {
+    "path": "assets/characters/aa-13/results/reaction.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/results/reaction.png",
+    "sha256": "b736b45954db1ea143695a0ce198fa471dfc582cad76ad475f405924fdb8edd0",
+    "bytes": 2363864
+  },
+  {
+    "path": "assets/characters/aa-13/results/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/results/victory.png",
+    "sha256": "6729f3f8d1e095720a5163b1fc8af8b6cd1282d5d8f576fb1dab17db735bda09",
+    "bytes": 2399162
+  },
+  {
+    "path": "assets/characters/aa-13/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/aa-13/selection/full-body.png",
+    "sha256": "a1b78ddcf56cae6dd5cce52426c97231b049cbb7366641301d9cb61bd2881a5a",
+    "bytes": 2359266
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/front-hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/front-hit.png",
+    "sha256": "cc76c3be91878259dd2cd48af6b74272aa2ae69b882acc2b6e628061a62aa7e0",
+    "bytes": 385515
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/front-steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/front-steer-left.png",
+    "sha256": "f8284870715e8df8565f08fe6ed501fe7808531a225a3388c483fd5925e5684c",
+    "bytes": 377355
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/front-steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/front-steer-right.png",
+    "sha256": "6d27889fa498dca099b9651c21c358e1e55ba2318b909d4bb7008bd9789f8211",
+    "bytes": 373846
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/front-victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/front-victory.png",
+    "sha256": "dd694b5fd38070bfb892cb49b5e3d17226f056a799747d72eccd500eb71ca04e",
+    "bytes": 366758
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/front.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/front.png",
+    "sha256": "3f0255862394f9a36cfc0805dd946e3e8babcccd8b297846be419342ecfbe024",
+    "bytes": 387227
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/hit.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/hit.png",
+    "sha256": "c7662320b34418f050f0cf8ee8d9056f0798323e4c5b5be10e6bd68d80f745dd",
+    "bytes": 277026
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/rear.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/rear.png",
+    "sha256": "206d7b76cba22a2329b8a530b00ed674ee2167f859e66529f7bc3836a7b82cfb",
+    "bytes": 263307
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/steer-left.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/steer-left.png",
+    "sha256": "a706215a20edca0afd06162f85d311768cd1b9c06600b6499eefaddb7aded812",
+    "bytes": 271572
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/steer-right.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/steer-right.png",
+    "sha256": "e7d8f9529ed17b80e35701e3765678693afe3e57b9772d940b514bf5e131d010",
+    "bytes": 273021
+  },
+  {
+    "path": "assets/characters/lunarcrystal/driver/victory.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/driver/victory.png",
+    "sha256": "d9960a44caecfd66b1374279bf93ed697611a0f29a1ea74685de6a07a1b5c8ae",
+    "bytes": 278293
+  },
+  {
+    "path": "assets/characters/lunarcrystal/kart.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/kart.glb",
+    "sha256": "06144c674f9b8100eb95a77069c6df00e7cb3fab6ce6bff4260fbc1b519fc12e",
+    "bytes": 1159364
+  },
+  {
+    "path": "assets/characters/lunarcrystal/lod/kart-lod1.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/lod/kart-lod1.glb",
+    "sha256": "a1ac756ee8fdf2056c15f9fe2be7eaa88c9046c8a6207c349f03000db9007571",
+    "bytes": 645032
+  },
+  {
+    "path": "assets/characters/lunarcrystal/lod/kart-lod2.glb",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/lod/kart-lod2.glb",
+    "sha256": "0eba46e8497738e2273708b0a6673d25c8ad603938b9579c28330b1f060fa09e",
+    "bytes": 328544
+  },
+  {
+    "path": "assets/characters/lunarcrystal/portrait.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/portrait.png",
+    "sha256": "3e62da502fd7539efd682310cc185b02286688d625635b892f8cc4601333bf44",
+    "bytes": 123035
+  },
+  {
+    "path": "assets/characters/lunarcrystal/results/reaction-full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/results/reaction-full-body.png",
+    "sha256": "637d4a41abeeb61f0b44500e1a4f4257783bb510ca8680027ae3b2f02137842e",
+    "bytes": 2190258
+  },
+  {
+    "path": "assets/characters/lunarcrystal/results/victory-full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/results/victory-full-body.png",
+    "sha256": "dfeed0f933eba8ea9da26fea0f63d3206729b67502a9c8d826c230a91637ebab",
+    "bytes": 2185276
+  },
+  {
+    "path": "assets/characters/lunarcrystal/selection/full-body.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/characters/lunarcrystal/selection/full-body.png",
+    "sha256": "9682d2f9e9a990cbaab4d0d8d175616cbf1de704bf50c1c8825466e957462f06",
+    "bytes": 2113492
+  },
+  {
+    "path": "assets/index-4iz4IPvO.js",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/index-4iz4IPvO.js",
+    "sha256": "006e7a0e90701f0d562bf9539587a8fb14cca8278401d07501cbf55a99e30ebd",
+    "bytes": 813577
+  },
+  {
+    "path": "assets/index-CtRJj5Hv.css",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/index-CtRJj5Hv.css",
+    "sha256": "122c86da39a488ce9dff73ad7ca6ed575c7e3c68dbae48aeea98aab17910b829",
+    "bytes": 86852
+  },
+  {
+    "path": "assets/items/concepts/boost-energy-pickup-v1.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/concepts/boost-energy-pickup-v1.png",
+    "sha256": "4c80b67fae1c298e4cd70ce93eb8723bd6b97e8778dfb33fc6a039b9a214d895",
+    "bytes": 39796
+  },
+  {
+    "path": "assets/items/route-night/apex-missile.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/apex-missile.png",
+    "sha256": "522f4be0877661278be7a0290036fc4bdbaeb1316c1a24bc33a9ceae0390f08c",
+    "bytes": 176444
+  },
+  {
+    "path": "assets/items/route-night/arc-blade.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/arc-blade.png",
+    "sha256": "1f9357e2a73a3a87f360500f403e33abb396f8734b74796bf267efa5b3136df8",
+    "bytes": 194943
+  },
+  {
+    "path": "assets/items/route-night/arc-hammers.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/arc-hammers.png",
+    "sha256": "0a478bbc153e9dce94745b87e19d75c471ed78481fe57e3fb02f948a557eed36",
+    "bytes": 244316
+  },
+  {
+    "path": "assets/items/route-night/blast-orb.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/blast-orb.png",
+    "sha256": "32b61d9584298d26fd1651b34f1d9881cfabb752df8eccf4a7e2254f5919329d",
+    "bytes": 337770
+  },
+  {
+    "path": "assets/items/route-night/blaze-orbs.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/blaze-orbs.png",
+    "sha256": "a521f690425ebd7ec3b8b125bebd29eb09ec1684dca191918004c6becc95fd2a",
+    "bytes": 242888
+  },
+  {
+    "path": "assets/items/route-night/frost-orbs.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/frost-orbs.png",
+    "sha256": "36a16fd6aa8edde4714c4e8eabc9c571e748974e97dab14155bc492660a452ae",
+    "bytes": 272502
+  },
+  {
+    "path": "assets/items/route-night/hyper-drive-rocket.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/hyper-drive-rocket.png",
+    "sha256": "31d36682e867e4ec272161d5b13d1b0a24f81e45e76e18a45f07e54ec8830cbf",
+    "bytes": 263300
+  },
+  {
+    "path": "assets/items/route-night/ink-splat.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/ink-splat.png",
+    "sha256": "1ae2b74e0966616cdb0ec82b9b565cab2f3bf9639a19cf07122879ecbae04ff9",
+    "bytes": 236775
+  },
+  {
+    "path": "assets/items/route-night/kinetic-disc.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/kinetic-disc.png",
+    "sha256": "ad079a229d1908c06f232fb6f71e77e096ba92836e61f9c94a74395fa9909028",
+    "bytes": 305171
+  },
+  {
+    "path": "assets/items/route-night/nitro-overdrive.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/nitro-overdrive.png",
+    "sha256": "525dd72650d2a1ec341c6efe43e2166f8abaed8d0d6fada886205f89082c63d7",
+    "bytes": 322553
+  },
+  {
+    "path": "assets/items/route-night/nitro-surge.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/nitro-surge.png",
+    "sha256": "4b5970b6f7184e02190d55ee46418c05e1749ee05c097298220877d42a06ad03",
+    "bytes": 244904
+  },
+  {
+    "path": "assets/items/route-night/prismatic-invincibility.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/prismatic-invincibility.png",
+    "sha256": "71e0a97bcf326005729d62accbbe63c90236540adcbc56155f32a5dece09c0f2",
+    "bytes": 406724
+  },
+  {
+    "path": "assets/items/route-night/seeker-drone.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/seeker-drone.png",
+    "sha256": "0c475a2135a9ee742ff76b3db0c9f0fc28f4da4b38dfca4dc036eb37ba3b27b4",
+    "bytes": 201837
+  },
+  {
+    "path": "assets/items/route-night/shockwave.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/shockwave.png",
+    "sha256": "ffef8e12d2938da4a07949136676262d766fa777c94e075d86fa144eaa69e392",
+    "bytes": 377565
+  },
+  {
+    "path": "assets/items/route-night/slick-trap.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/items/route-night/slick-trap.png",
+    "sha256": "5ebc61cef87f28028867e83dfcbf8abc5c0724fa2447207620b3045077ba7c26",
+    "bytes": 219858
+  },
+  {
+    "path": "assets/track/materials/asphalt-track/SOURCE-SHA256SUMS.txt",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/asphalt-track/SOURCE-SHA256SUMS.txt",
+    "sha256": "5983077d9206f58b7dc84d0b4c74ea4a53e58cd997313d7fe70b8201ae21c804",
+    "bytes": 279
+  },
+  {
+    "path": "assets/track/materials/asphalt-track/asphalt_track_diff_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/asphalt-track/asphalt_track_diff_1k.jpg",
+    "sha256": "05c4e79cd99160075969d37bfc6ef72be262153a410bb45510b2c23f7303894c",
+    "bytes": 858925
+  },
+  {
+    "path": "assets/track/materials/asphalt-track/asphalt_track_nor_gl_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/asphalt-track/asphalt_track_nor_gl_1k.jpg",
+    "sha256": "18caf02427a7cd9cd577ceae5aa9daa7bb3ffba60598e2df8aaf75d1925a8a94",
+    "bytes": 832851
+  },
+  {
+    "path": "assets/track/materials/asphalt-track/asphalt_track_rough_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/asphalt-track/asphalt_track_rough_1k.jpg",
+    "sha256": "0646d0cfbe6bf9ea4a8a9e43aec826e7ec32a10b8aff61bf5a4ec02b1bc3c363",
+    "bytes": 459197
+  },
+  {
+    "path": "assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/concrete-wall-007/concrete_wall_007_diff_1k.png",
+    "sha256": "e560c10bcde3256697fa64538441ec6b3e1d257280b7f15e9bfca8412a5d948a",
+    "bytes": 5481344
+  },
+  {
+    "path": "assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/concrete-wall-007/concrete_wall_007_nor_gl_1k.png",
+    "sha256": "3226418bde0ee3faad7eb8d74f376969c4855e86938330fdbdcc41e5bd53f08e",
+    "bytes": 5638679
+  },
+  {
+    "path": "assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/concrete-wall-007/concrete_wall_007_rough_1k.png",
+    "sha256": "ca7430b1450fbd6758f8a87ca540988278069e601f22bb6093a2f6d0fecedbac",
+    "bytes": 2465263
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/brown_mud_arm_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/brown_mud_arm_1k.jpg",
+    "sha256": "40a5ac438f23ea454ff45f3f62f0fe4ac5b89c42fd070d10e7d41c51252caf88",
+    "bytes": 224431
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/brown_mud_diff_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/brown_mud_diff_1k.jpg",
+    "sha256": "df3f135c899f10a3b018738343b222cbc67d13e7c76c5d8da834a3d34c984417",
+    "bytes": 501955
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/brown_mud_nor_gl_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/brown_mud_nor_gl_1k.jpg",
+    "sha256": "ac517ca39eb507ae0f27e2b3db431c60888f9b5c3c52bec49d2c0775da0920cb",
+    "bytes": 1011780
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/gravel_floor_02_arm_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/gravel_floor_02_arm_1k.jpg",
+    "sha256": "53101410122574a22e3982748bec9edfbd0ba1608b9bff16de76f46fe80a17a9",
+    "bytes": 1103127
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/gravel_floor_02_diff_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/gravel_floor_02_diff_1k.jpg",
+    "sha256": "ac9874264762a9e8d337e684259d51dac41a012933f0d8013033fee7076383f3",
+    "bytes": 1240441
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/gravel_floor_02_nor_gl_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/gravel_floor_02_nor_gl_1k.jpg",
+    "sha256": "7db09804733f912bd120a1a3179bb867a01819ab9539a1c80eadfaff7e22509e",
+    "bytes": 1545680
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/leafy_grass_arm_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/leafy_grass_arm_1k.jpg",
+    "sha256": "95432451cb2693794459fe7ea339ea9ffdb5959c40373740f80a4aa1703f089d",
+    "bytes": 1010081
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/leafy_grass_diff_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/leafy_grass_diff_1k.jpg",
+    "sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a",
+    "bytes": 1195394
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/leafy_grass_nor_gl_1k.jpg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/leafy_grass_nor_gl_1k.jpg",
+    "sha256": "832328216adc0a7e1f70a31d5ee48c9ab7f2152d83816122736cf42ac4b2ebd6",
+    "bytes": 1466049
+  },
+  {
+    "path": "assets/track/materials/terrain-v1/manifest.json",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/materials/terrain-v1/manifest.json",
+    "sha256": "da5c65cfb55ae60d351fdb9b2029a64650fbf48956abc55ed779664a9a20d17b",
+    "bytes": 7472
+  },
+  {
+    "path": "assets/track/neon-grid/billboard/arin-v1.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/neon-grid/billboard/arin-v1.webp",
+    "sha256": "7a357de283bb0baca071b2a6eb7fd2e4f2bf213bf57e470253fdd694ee2085cf",
+    "bytes": 580170
+  },
+  {
+    "path": "assets/track/neon-grid/billboard/paprika-v1.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/neon-grid/billboard/paprika-v1.webp",
+    "sha256": "0e90ae576d25a5bcdd3049ba61f5e02357a31eba3fda5d2ccfb2e444c7f47b20",
+    "bytes": 490306
+  },
+  {
+    "path": "assets/track/neon-grid/billboard/raven-v1.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/neon-grid/billboard/raven-v1.webp",
+    "sha256": "4f414a9c5bfb02a805a34a80b3d19a0134fd56fe2bad7ad52a8d23cd1483eb9e",
+    "bytes": 663338
+  },
+  {
+    "path": "assets/track/neon-grid/signage/manaconda-racing-v1.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/neon-grid/signage/manaconda-racing-v1.webp",
+    "sha256": "481feb4ff34635abad29dd4f65b39975e73c227eb0a53901a51028c5e9fe7d22",
+    "bytes": 192220
+  },
+  {
+    "path": "assets/track/neon-grid/signage/nightshift-noodles-v1.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/neon-grid/signage/nightshift-noodles-v1.webp",
+    "sha256": "76fc1f75778c757cd979ff78641844cbf1d3955ec6dff7cc8145289dda45373a",
+    "bytes": 220026
+  },
+  {
+    "path": "assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/neon-grid/signage/service-tunnel-do-not-enter-v1.png",
+    "sha256": "11e540547d0a60da9db2ae7636e373742dec11c9f440afe08c5e29bdddaa7db4",
+    "bytes": 147958
+  },
+  {
+    "path": "assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/neon-grid/signage/taco-bell-live-mas-v1.webp",
+    "sha256": "d289bc4dbc10872d6c75aa4ae650aaf716bf83a9ea36da12ce0cdc021e7bea7e",
+    "bytes": 97524
+  },
+  {
+    "path": "assets/track/neon-grid/signage/voltline-industrial-v1.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/track/neon-grid/signage/voltline-industrial-v1.webp",
+    "sha256": "19b32b71ee59a0f52860c4a6003057b46e4fde890c4e2d4d390b78ed2ea67863",
+    "bytes": 238228
+  },
+  {
+    "path": "assets/ui/route-night/circuit-alpha-route-card.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/circuit-alpha-route-card.webp",
+    "sha256": "574220fbe0d67e4f8d9f519cbea69d60093d87721c81fb072b6c5838540ea372",
+    "bytes": 151690
+  },
+  {
+    "path": "assets/ui/route-night/race-hud-atmosphere.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/race-hud-atmosphere.webp",
+    "sha256": "1f927a93aa8af5030b12f432bc08db9cf6485c17607adcdbf46fd8eadb37bb74",
+    "bytes": 385734
+  },
+  {
+    "path": "assets/ui/route-night/results-podium-backdrop.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/results-podium-backdrop.webp",
+    "sha256": "24812fcd47e20c28601cbdcc15e1f824a3e17b1fdd679c346578bb600a539465",
+    "bytes": 208542
+  },
+  {
+    "path": "assets/ui/route-night/route-night-button-frames.svg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-button-frames.svg",
+    "sha256": "2a8cba854c4c7532a22b65e971f309baae2d853ee0df0af4031350b5f7671e76",
+    "bytes": 1744
+  },
+  {
+    "path": "assets/ui/route-night/route-night-character-select-bay.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-character-select-bay.webp",
+    "sha256": "e820e3b1a874ffd9c815692cfb52abf83e576a4b598bdbffb951ef4c6dc5d635",
+    "bytes": 130122
+  },
+  {
+    "path": "assets/ui/route-night/route-night-character-select-energy.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-character-select-energy.webp",
+    "sha256": "c624b1002d20e4e50a7a3efe9646dd29da220e60a0368028506d23b94a2ffe8c",
+    "bytes": 272032
+  },
+  {
+    "path": "assets/ui/route-night/route-night-character-select-hero-aura.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-character-select-hero-aura.webp",
+    "sha256": "7832f92cff9373e62f35d4ca00dc25786f0d636c1897a28afea3baacfa5a2857",
+    "bytes": 331318
+  },
+  {
+    "path": "assets/ui/route-night/route-night-editorial-strip.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-editorial-strip.webp",
+    "sha256": "3685ce9283a384f3726c602d2e05da9fe5f00ba223b6168764145394e8c1cf77",
+    "bytes": 141604
+  },
+  {
+    "path": "assets/ui/route-night/route-night-mark.svg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-mark.svg",
+    "sha256": "b02119f2263da87ff04da59a3c749ec7447e7ad52874a2da27ff70b3f7d1354c",
+    "bytes": 816
+  },
+  {
+    "path": "assets/ui/route-night/route-night-panel-texture.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-panel-texture.webp",
+    "sha256": "9e43470a8bce016faeee69437f1a811a8d67e62fa04c4c85445c263eeff8ddf3",
+    "bytes": 87054
+  },
+  {
+    "path": "assets/ui/route-night/route-night-race-hud.svg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-race-hud.svg",
+    "sha256": "8f9c7b5e75927184dac62196b08a12bdf499657124fe0f7ff40c92421534dbc9",
+    "bytes": 5962
+  },
+  {
+    "path": "assets/ui/route-night/route-night-route-ornaments.svg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-route-ornaments.svg",
+    "sha256": "0b3d2f90d9bdac0a2c3e1380289369834697203a5629c0100eee1f30ffeca67f",
+    "bytes": 1899
+  },
+  {
+    "path": "assets/ui/route-night/route-night-status.svg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-status.svg",
+    "sha256": "ec4379d58ea2ee864b90e3593a1f85c6e4d5eff80cf9764be3ef0ccaaf87bf62",
+    "bytes": 1358
+  },
+  {
+    "path": "assets/ui/route-night/route-night-title-hero.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-title-hero.webp",
+    "sha256": "799f58545572270f67be3d6c96a8df3863ae3af31d6bc73a861607d3a74fa15c",
+    "bytes": 141938
+  },
+  {
+    "path": "assets/ui/route-night/route-night-title-lockup-brush.webp",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-title-lockup-brush.webp",
+    "sha256": "7f459860e9a4b330c251afa6085be5aac5a2bbf6729412056c30c098e4743d34",
+    "bytes": 173408
+  },
+  {
+    "path": "assets/ui/route-night/route-night-title-lockup.svg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-title-lockup.svg",
+    "sha256": "aab87bed6f21ad41a44d5dd842716011af607edca527ac1ce29e9061f1834bf3",
+    "bytes": 2064
+  },
+  {
+    "path": "assets/ui/route-night/route-night-ui.svg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/assets/ui/route-night/route-night-ui.svg",
+    "sha256": "382fbfa797e26249746278e6132cd1a0a91110069add867dcd33ed4148626dc8",
+    "bytes": 4665
+  },
+  {
+    "path": "favicon.svg",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/favicon.svg",
+    "sha256": "5552bf0f6ee327a6f3ff3a8446f6bc36255800b7b1d2661abb969a437369db83",
+    "bytes": 700
+  },
+  {
+    "path": "index.html",
+    "url": "https://manaconda33.github.io/manacondas-minigame-mayhem/index.html",
+    "sha256": "2194c4b95db11aa3e45e4eb15b6ec325d60ec311646d6a1ff57d7701c1d0d924",
+    "bytes": 719
+  }
+]

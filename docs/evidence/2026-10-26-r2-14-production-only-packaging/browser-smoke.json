@@ -1,0 +1,29 @@
+{
+  "sourceCommit": "42bac750bbb1fa5387ed3cbc888b4c1783943742",
+  "candidateScope": "Production-only workflow candidate; runtime source and assets unchanged",
+  "origin": "Local static server at expected /manacondas-minigame-mayhem/ base path",
+  "browser": "Chromium 151.0.7922.173 headless",
+  "os": "Debian GNU/Linux 13 x86_64",
+  "renderer": "WebKit WebGL / ANGLE SwiftShader (software rendering)",
+  "webgl": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+  "webgpu": "Disabled for this smoke",
+  "drawingBuffer": [1280, 720],
+  "checks": {
+    "titleHub": "PASS",
+    "trackChoices": "PASS: Circuit Alpha default, Circuit Alpha and Neon Grid selectable",
+    "driverSelection": "PASS: character selection and confirm action",
+    "circuitAlphaRaceStartup": "PASS: loading stage dismissed, race HUD and lap 1/3 rendered",
+    "neonGridRaceStartup": "PASS: loading stage dismissed, race HUD and lap 1/3 rendered",
+    "consoleErrors": 0,
+    "httpErrorResponses": 0,
+    "failedAssetRequests": 0
+  },
+  "limitations": [
+    "Software-rendered startup smoke only; not a physical-GPU performance or G-05 result.",
+    "No full three-lap race was run."
+  ],
+  "screenshots": [
+    "circuit-alpha-chromium-software-smoke.png",
+    "neon-grid-chromium-software-smoke.png"
+  ]
+}

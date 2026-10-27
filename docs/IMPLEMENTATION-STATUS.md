@@ -20,6 +20,8 @@ The product owner approved `MMM-v1.0.0-rc1` under PRD §38.1 for the existing pr
 
 ## 2026-10-26 — R2.15B v1 exception and acceptance-evidence checkpoint
 
+**Historical checkpoint:** This entry records the R2.15B status before the later R2.16 candidate designation and R2.17 formal public-release acceptance. Its pending recommendations below are superseded by the R2.17 decision at the top of this document.
+
 This documentation-only checkpoint is based on R2.14 production source `fd762de24cda6d738b99bfeb65c9cd928d40108a`. The deployed Pages artifact is GitHub artifact `12688210450`, 211,514,731 bytes, SHA-256 `3b8cbf70f5ace67911cc10be078791fc730ee8feb02a9dbfceed008aa6ec5f4d`. Main deployment run [40396592161](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592161) and trusted pinned-runtime run [40396592304](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592304) passed. R2.10A Chrome/Edge startup source `21dc90b` has no `src/` or `public/` diff through production `fd762de`; the published artifact exact-delivery verification covered 417/417 production paths. No gameplay or asset change is part of this checkpoint.
 
 On October 26, 2026, Manny answered “I do” to the exact four-exception question recorded in amendment 2.34. The four v1 dispositions are:
@@ -35,7 +37,7 @@ Manny’s statement “All characters in the kart racer are mine” is recorded 
 
 The R2.15B ledger reconciles all 140 original §37 entries and leaves all original boxes unchanged. Totals: **114 VERIFIED COMPLETE; 15 OWNER ACCEPTED / DOCUMENTATION OR METRIC INCOMPLETE; 7 OWNER ACCEPTED BY EXCEPTION; 2 UNMEASURED (PF-003, PF-005); 0 genuine gaps; 2 deferred/superseded; 0 conflicting documentation.** RS-005 is complete on main after #347’s R2.14 closeout merged at `f9a54f4`; post-merge main run 40430889985 passed exact delivery verification.
 
-Recommend that Manny designate the current production artifact as `MMM-v1.0.0-rc1`; no prior use of that designation was located. The specific pending candidate is source `f9a54f49be21ad1a90bb09944c5ba8a57794c5bd`, Pages artifact `12701769856` (211,511,556 bytes; archive digest `sha256:ebcee5752a24f07c748dd9ba04c9efe5a978ba504ff26ce54f5f9ee0f88600d1`). This is a documentation-only source merge and routine rebuild/publication; the prior R2.15B exceptions retain their original scope and evidence. This recommendation is not approval. Formal §38.1 candidate designation, PR #348 merge approval, and distinct public v1 acceptance remain outstanding.
+**Historical R2.15B recommendation, superseded:** At that checkpoint, the R2.14 artifact from source `f9a54f49be21ad1a90bb09944c5ba8a57794c5bd`, Pages artifact `12701769856` (211,511,556 bytes; archive digest `sha256:ebcee5752a24f07c748dd9ba04c9efe5a978ba504ff26ce54f5f9ee0f88600d1`), was recommended for `MMM-v1.0.0-rc1` and owner designation was still pending. R2.16 later designated a different fixed candidate, and R2.17 approved formal public v1 acceptance. The R2.15B recommendation does not alter those later decisions.
 
 See the [R2.15B final v1 acceptance evidence ledger](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md), [PR #347](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/347), and the [R2 release checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md).
 

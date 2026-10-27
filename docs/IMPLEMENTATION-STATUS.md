@@ -15,12 +15,16 @@ The original numerical requirements remain unchanged for future engineering. Ame
 
 Manny’s statement “All characters in the kart racer are mine” is recorded as the PD-005 owner-attested ownership basis for the approved fourteen-character roster. Existing intake, roster, character approval/transformation and asset provenance records remain linked. Third-party material licenses stay separate; no new art review or declaration is requested.
 
-The R2.15B ledger reconciles all 140 original §37 entries and leaves all original boxes unchanged. Totals: **114 VERIFIED COMPLETE; 15 OWNER ACCEPTED / DOCUMENTATION OR METRIC INCOMPLETE; 7 OWNER ACCEPTED BY EXCEPTION; 2 UNMEASURED (PF-003, PF-005); 0 genuine gaps; 2 deferred/superseded; 0 conflicting documentation.** RS-005 is complete on the combined candidate because this PR is explicitly stacked on #347’s R2.14 closeout.
+The R2.15B ledger reconciles all 140 original §37 entries and leaves all original boxes unchanged. Totals: **114 VERIFIED COMPLETE; 15 OWNER ACCEPTED / DOCUMENTATION OR METRIC INCOMPLETE; 7 OWNER ACCEPTED BY EXCEPTION; 2 UNMEASURED (PF-003, PF-005); 0 genuine gaps; 2 deferred/superseded; 0 conflicting documentation.** RS-005 is complete on main after #347’s R2.14 closeout merged at `f9a54f4`; post-merge main run 40430889985 passed exact delivery verification.
 
-Recommend that Manny designate the existing production artifact as `MMM-v1.0.0-rc1`; no prior use of that designation was located. This recommendation is not approval. Formal §38.1 candidate designation and distinct public v1 acceptance remain outstanding. Merge #347 first, then retarget and review this dependent checkpoint; neither merge grants release approval.
+Recommend that Manny designate the current production artifact as `MMM-v1.0.0-rc1`; no prior use of that designation was located. The specific pending candidate is source `f9a54f49be21ad1a90bb09944c5ba8a57794c5bd`, Pages artifact `12701769856` (211,511,556 bytes; archive digest `sha256:ebcee5752a24f07c748dd9ba04c9efe5a978ba504ff26ce54f5f9ee0f88600d1`). This is a documentation-only source merge and routine rebuild/publication; the prior R2.15B exceptions retain their original scope and evidence. This recommendation is not approval. Formal §38.1 candidate designation, PR #348 merge approval, and distinct public v1 acceptance remain outstanding.
 
 See the [R2.15B final v1 acceptance evidence ledger](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md), [PR #347](https://github.com/Manaconda33/manacondas-minigame-mayhem/pull/347), and the [R2 release checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md).
 
+
+## 2026-10-27 — R2.15C publication integration
+
+PR #347 was squash-merged from its reviewed head to `main` at `f9a54f49be21ad1a90bb09944c5ba8a57794c5bd`. Post-merge main CI/Pages run [40430889985](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40430889985) passed validation, assembly, Pages deployment, and exact post-deployment verification of 417/417 production files. The resulting Pages artifact is GitHub artifact `12701769856`, 211,511,556 bytes, archive digest `sha256:ebcee5752a24f07c748dd9ba04c9efe5a978ba504ff26ce54f5f9ee0f88600d1`. The 27 authorized historical preview URLs remain retired. The deployed source changes are documentation-only; no gameplay, runtime, or public asset changes occurred. PR #348 remains open against `main` after non-destructive integration commit `e99fa07bcb378dd7e5ed3403ee52d0c37b8219a8`; its own hosted validation for the reconciled documentation checkpoint is pending. This publication does not designate the release candidate or grant formal v1 acceptance.
 
 ## 2026-10-26 — R2.14 production-only Pages publication
 

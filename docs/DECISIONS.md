@@ -1170,3 +1170,23 @@ All 27 previously public preview paths returned HTTP 404 after publication, conf
 The production root and its referenced JS/CSS returned HTTP 200. This was not an interactive post-deployment browser test. Chrome/Edge Title, track selection, WebGL2 and race-start confirmation remains unmeasured pending browser access. The prior approved gameplay acceptance remains in force; no full race retest is requested.
 
 G-05 remains **OWNER ACCEPTED BY EXCEPTION** under PRD amendment 2.32. Backup/rollback remains **OWNER ACCEPTED BY EXCEPTION** under amendment 2.33; no immutable immediately preceding archive is claimed. R2.14 publication does not declare formal v1 acceptance; item-by-item PRD §37 reconciliation remains pending. See the [R2.14 publication evidence](evidence/2026-10-26-r2-14-production-only-publication/README.md).
+
+
+## 2026-10-26 — R2.15B owner decisions: four v1 exceptions and character ownership
+
+**Exact owner question:** “Do you approve the four v1-only exceptions for PH-001, PF-004, PF-006, and PF-007, with the original technical requirements preserved for future releases?”
+
+**Owner response:** “I do.”
+
+For the documented v1 release-candidate evidence at production commit `fd762de24cda6d738b99bfeb65c9cd928d40108a` and Pages artifact `12688210450` (211,514,731 bytes; SHA-256 `3b8cbf70f5ace67911cc10be078791fc730ee8feb02a9dbfceed008aa6ec5f4d`), Manny approves four **OWNER ACCEPTED BY EXCEPTION** dispositions under PRD amendment 2.34:
+
+- **PH-001:** the finite-value ten-minute numeric simulation is 36,000 fixed steps and not a full-game 30-minute soak. Separate automated controller, collision, ramp, recovery and AI tests pass. The owner’s hundreds of satisfactory plays, generally under five minutes each, are cumulative experience rather than a continuous instrumented soak. Keep the original 30-minute criterion technically unmet; no additional test is required or authorized for v1.
+- **PF-004:** one completed 9,630-frame Neon Grid race recorded 486 peak draw calls; the short Circuit Alpha startup capture recorded 265 over 14 scored samples. No known violation was established, but universal compliance across every scene state is not proven. Keep the hard cap of 500; no profiling or global instrumentation is authorized or required for this checkpoint.
+- **PF-006:** local visual pools are bounded and no known violation was found; no comprehensive global count exists. Keep ≤2,500 and the aggregate **UNMEASURED**; no measurement is required for v1.
+- **PF-007:** `SfxBank` caps its own voices at 24 and its tests cover that local limit. The global music/SFX total remains unmeasured; keep ≤32 and do not infer global PASS. No profiling is required for v1.
+
+These exceptions are limited to v1 and the documented evidence. They are not unconditional technical passes, do not alter future requirements or thresholds, and do not authorize other exceptions, a build, deployment, merge, candidate designation, or formal v1 release.
+
+**Character ownership attestation:** Manny stated, “All characters in the kart racer are mine.” This covers all fourteen approved selectable identities. Record it once against PD-005 and PRD §§38–39. Existing intake and character approval/transformation records remain the supporting basis; asset provenance continues to document separately sourced materials and their licenses. No new individual declarations or visual reapproval are needed.
+
+**Evidence and release boundary:** R2.14 production publication was authorized separately through PR #346 and its closeout PR #347 is merged at `f9a54f49be21ad1a90bb09944c5ba8a57794c5bd`; post-merge CI/Pages run 40430889985 passed and verified 417/417 live files. The current artifact identity is recorded in the R2.15C ledger. The owner has not designated `MMM-v1.0.0-rc1` and has not granted formal v1 public-release acceptance. The complete item matrix and linked preconditions are in [`docs/evidence/2026-10-26-r2-15-final-v1-acceptance/README.md`](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md).

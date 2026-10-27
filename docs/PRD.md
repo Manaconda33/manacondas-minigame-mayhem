@@ -6,7 +6,7 @@
 
 High-Fidelity HTML5 Kart Racer Vertical Slice + Modular Mini-Game Hub
 
-Version 1.1 - Final approved baseline; approved governance amendments through 2.33
+Version 1.1 - Final approved baseline; approved governance amendments through 2.34
 
 August 16, 2026
 
@@ -3207,3 +3207,19 @@ Owner-approved October 26, 2026. For the v1 release only, Manny accepts the roll
 The exception explicitly acknowledges that the immediately preceding production artifact for `12e996ff5b77b3cbfdd5973aabae75f7ca89fa70` was not retained, that Google Drive has no verified write-once/immutable retention lock, and that the packages cover production roots rather than all published historical previews. Those gaps are accepted for this v1 backup gate by owner decision; they are not reclassified as technically complete or as an unconditional PASS. No new storage service, paid subscription, bucket, or backup spending is authorized by this amendment.
 
 The original §§38.2–38.3 rollback requirements remain unchanged for future release engineering unless separately amended. This exception applies only to the v1 checkpoint and does not declare formal v1 acceptance complete. The evidence, private storage links, checksums, and restore records are summarized in the [R2.13A/B/C evidence record](evidence/2026-10-26-r2-13-backup-owner-exception/README.md) and [R2 release checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md). Pages packaging assessment and item-by-item §37 reconciliation remain open.
+
+
+## Approved governance amendment 2.34 — four v1 acceptance exceptions and character-ownership attestation
+
+Owner-approved October 26, 2026. Manny was presented the exact question: “Do you approve the four v1-only exceptions for PH-001, PF-004, PF-006, and PF-007, with the original technical requirements preserved for future releases?” The owner response was: “I do.” For the documented v1 release-candidate evidence at production source `fd762de24cda6d738b99bfeb65c9cd928d40108a` (Pages artifact `12688210450`, 211,514,731 bytes, GitHub SHA-256 `3b8cbf70f5ace67911cc10be078791fc730ee8feb02a9dbfceed008aa6ec5f4d`), the owner accepts the following four criteria for v1 by **OWNER ACCEPTED BY EXCEPTION**. These are release dispositions, not technical PASS results.
+
+- **PH-001 — no NaN transforms in a 30-minute soak.** Existing evidence includes a deterministic ten-minute numeric simulation of 36,000 fixed steps, separate passing controller/collision/ramp/recovery/AI tests, and the owner’s report of hundreds of satisfactory gameplay sessions, generally under five minutes each. The numeric simulation is not a full-game continuous instrumented 30-minute physics soak; cumulative gameplay is not represented as one. The original 30-minute technical criterion remains unmet and unmeasured. No additional 30-minute test is required or authorized for this v1 checkpoint.
+- **PF-004 — global race-scene draw calls ≤500.** Existing measurements are 486 peak calls in one completed 9,630-frame Neon Grid race and 265 calls in a short 14-sample Circuit Alpha startup capture. No known violation was established; the evidence does not prove the cap across every possible race-scene state. Preserve the 500-call hard cap and measured/unmeasured distinction. No additional profiling or global instrumentation is authorized or required for this v1 checkpoint.
+- **PF-006 — simultaneous gameplay particles ≤2,500.** Effects use bounded local pools and no known global-budget violation was identified. No comprehensive aggregate count was captured. Preserve the 2,500-particle budget and record the aggregate value as **UNMEASURED**, not zero or PASS. No additional measurement is required for this v1 checkpoint.
+- **PF-007 — simultaneous audio voices ≤32.** `SfxBank` enforces a local 24-voice cap, and existing automated tests validate that local behavior. No known aggregate violation was identified; the combined music/SFX count has not been comprehensively measured. Preserve the global 32-voice budget and do not treat the local cap as proof of the aggregate. No additional profiling is required for this v1 checkpoint.
+
+The owner also attests: **“All characters in the kart racer are mine.”** This affirmative ownership statement covers the approved fourteen selectable character identities. It does not replace separate provenance/license records for third-party materials. Existing intake, roster mapping, character approvals and transformation authorizations remain valid; no additional individual declarations or visual approvals are required.
+
+This amendment changes no numerical threshold, implementation, CI policy, asset, gameplay behavior, or future engineering standard. It does not alter amendments 2.30–2.33, grant exceptions to any other criterion, designate a formal release-candidate name, authorize merging PR #347, authorize deployment, or declare formal v1 public release acceptance. The original criteria remain in force for future releases. The evidence ledger and source records are in [`docs/evidence/2026-10-26-r2-15-final-v1-acceptance/`](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md).
+
+For current release status, the prior “Pages packaging assessment and item-by-item §37 reconciliation remain open” statements in amendments 2.32–2.33 describe the status when those amendments were recorded; they are superseded by the R2.14 production deployment and the R2.15B evidence ledger. This status update does not revise either exception or the underlying technical requirements.

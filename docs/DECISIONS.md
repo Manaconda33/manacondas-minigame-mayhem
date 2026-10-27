@@ -1190,3 +1190,15 @@ These exceptions are limited to v1 and the documented evidence. They are not unc
 **Character ownership attestation:** Manny stated, “All characters in the kart racer are mine.” This covers all fourteen approved selectable identities. Record it once against PD-005 and PRD §§38–39. Existing intake and character approval/transformation records remain the supporting basis; asset provenance continues to document separately sourced materials and their licenses. No new individual declarations or visual reapproval are needed.
 
 **Evidence and release boundary:** R2.14 production publication was authorized separately through PR #346 and its closeout PR #347 is merged at `f9a54f49be21ad1a90bb09944c5ba8a57794c5bd`; post-merge CI/Pages run 40430889985 passed and verified 417/417 live files. The current artifact identity is recorded in the R2.15C ledger. The owner has not designated `MMM-v1.0.0-rc1` and has not granted formal v1 public-release acceptance. The complete item matrix and linked preconditions are in [`docs/evidence/2026-10-26-r2-15-final-v1-acceptance/README.md`](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md).
+
+## 2026-10-27 — R2.16 owner-approved §38.1 release-candidate designation
+
+**Owner question:** “Do you approve the \"MMM-v1.0.0-rc1\" designation for the artifact identified above?”
+
+**Owner response:** “I do.”
+
+**Decision:** Candidate designation is **APPROVED**. The owner designates `MMM-v1.0.0-rc1` for source commit `6532290d4aac9611015b9eda5e78beca7b95a699` (merged PR #348), GitHub Pages artifact `12705570756` (`github-pages`, 211,507,778 bytes, archive SHA-256 `ab5f4c72f1f49d882906bbf24285c794de7a8e6f0d14e5d5e3bba6a6c1c25026`). The artifact is associated with main CI/Pages run [40437806862](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40437806862); trusted pinned-runtime run [40437806842](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40437806842) validated the same source commit. The deployment workflow verified 417/417 production files.
+
+This is the §38.1 candidate designation decision only. Existing technical evidence and all approved exceptions remain as recorded; no technical exception is expanded, and no underlying threshold changes. Formal public v1 release acceptance remains **PENDING** a distinct owner decision under §§38–39. No Git tag, GitHub Release, rebuild, or deployment is part of this designation.
+
+The Actions archive follows GitHub's retention policy and may expire. This record preserves its ID, source commit, size, digest, and validation references; it does not claim immutable retention or permanent download availability. The R2.15B 140-row ledger remains unchanged and is linked [here](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md).

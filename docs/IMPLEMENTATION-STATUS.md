@@ -1,5 +1,11 @@
 # Implementation Status
 
+## 2026-10-27 — R2.16 release-candidate designation
+
+The product owner approved `MMM-v1.0.0-rc1` under PRD §38.1 for the existing production artifact: source commit `6532290d4aac9611015b9eda5e78beca7b95a699` (PR #348), Pages artifact `12705570756`, 211,507,778 bytes, archive SHA-256 `ab5f4c72f1f49d882906bbf24285c794de7a8e6f0d14e5d5e3bba6a6c1c25026`. Main CI/Pages run [40437806862](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40437806862) and trusted pinned-runtime run [40437806842](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40437806842) passed on this source; 417/417 production files passed exact delivery verification.
+
+**Candidate designated: YES. Existing validation evidence: PASS. Technical exceptions: preserved. Formal public v1 acceptance: PENDING a separate owner decision.** No rebuild, deployment, Git tag, or GitHub Release was created for this designation. The Actions archive remains subject to GitHub retention; its identity and digest are recorded without a claim of immutable or permanent availability. See the [R2.16 designation record](evidence/2026-10-27-r2-16-rc-designation/README.md), [R2.15B ledger](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md), and [R2 release checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md).
+
 ## 2026-10-26 — R2.15B v1 exception and acceptance-evidence checkpoint
 
 This documentation-only checkpoint is based on R2.14 production source `fd762de24cda6d738b99bfeb65c9cd928d40108a`. The deployed Pages artifact is GitHub artifact `12688210450`, 211,514,731 bytes, SHA-256 `3b8cbf70f5ace67911cc10be078791fc730ee8feb02a9dbfceed008aa6ec5f4d`. Main deployment run [40396592161](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592161) and trusted pinned-runtime run [40396592304](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40396592304) passed. R2.10A Chrome/Edge startup source `21dc90b` has no `src/` or `public/` diff through production `fd762de`; the published artifact exact-delivery verification covered 417/417 production paths. No gameplay or asset change is part of this checkpoint.
@@ -23,6 +29,8 @@ See the [R2.15B final v1 acceptance evidence ledger](evidence/2026-10-26-r2-15-f
 
 
 ## 2026-10-27 — R2.15C publication integration
+
+**Historical checkpoint:** This section records the publication state before PR #348 was merged. For current designation and release status, see the R2.16 record above.
 
 PR #347 was squash-merged from its reviewed head to `main` at `f9a54f49be21ad1a90bb09944c5ba8a57794c5bd`. Post-merge main CI/Pages run [40430889985](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40430889985) passed validation, assembly, Pages deployment, and exact post-deployment verification of 417/417 production files. The resulting Pages artifact is GitHub artifact `12701769856`, 211,511,556 bytes, archive digest `sha256:ebcee5752a24f07c748dd9ba04c9efe5a978ba504ff26ce54f5f9ee0f88600d1`. The 27 authorized historical preview URLs remain retired. The deployed source changes are documentation-only; no gameplay, runtime, or public asset changes occurred. PR #348 remains open against `main` after non-destructive integration commit `e99fa07bcb378dd7e5ed3403ee52d0c37b8219a8`; its own hosted validation for the reconciled documentation checkpoint is pending. This publication does not designate the release candidate or grant formal v1 acceptance.
 

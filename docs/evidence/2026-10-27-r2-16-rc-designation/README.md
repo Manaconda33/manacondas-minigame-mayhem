@@ -1,5 +1,7 @@
 # R2.16 — Owner-Approved v1 Release-Candidate Designation
 
+**Historical decision snapshot:** This record captures the §38.1 candidate-designation checkpoint on October 27, 2026. At that point formal public v1 acceptance was pending; the product owner subsequently approved formal v1.0 public-release acceptance under §§38–39 in R2.17 on October 27, 2026. The status below is historical and is superseded by the [R2.17 closeout record](../2026-10-27-r2-17-final-v1-acceptance/README.md). Candidate designation and exact artifact identity remain unchanged.
+
 **Decision date:** October 27, 2026
 
 **PRD gate:** §38.1

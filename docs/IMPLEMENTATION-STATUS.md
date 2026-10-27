@@ -1,10 +1,22 @@
 # Implementation Status
 
+## 2026-10-27 — R2.17 formal v1.0 public-release acceptance
+
+The product owner formally accepted Manaconda's Minigame Mayhem v1.0 for public release under PRD §§38–39 on October 27, 2026. The owner was asked: “Do you formally accept Manaconda's Minigame Mayhem v1.0, represented by the approved "MMM-v1.0.0-rc1" candidate, for public release under PRD §§38–39, including the previously approved exceptions and deferred scope?” The initial reply contained a typing error and was explicitly corrected: “I do, not idk 😂”. The corrected reply is affirmative; the initial typo is not uncertainty or a rejection.
+
+**Candidate designated: YES. Formal v1.0 public-release acceptance: APPROVED. Known implementation blockers in current release evidence: NONE IDENTIFIED. Original technical thresholds: PRESERVED. New deployment authorized: NO. GitHub Release or tag authorized: NO. Further gameplay testing required for acceptance: NO.**
+
+Acceptance applies to the fixed R2.16 candidate `MMM-v1.0.0-rc1`, source `6532290d4aac9611015b9eda5e78beca7b95a699`, GitHub Pages artifact `12705570756`, 211,507,778 bytes, archive SHA-256 `ab5f4c72f1f49d882906bbf24285c794de7a8e6f0d14e5d5e3bba6a6c1c25026`. The candidate identity and its original validation remain unchanged; later routine Pages artifacts are separate publication records. The basis is the completed [R2.15B 140-row §37 ledger](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md), [R2.16 §38.1 designation](evidence/2026-10-27-r2-16-rc-designation/README.md), existing CI/deployment and trusted-runtime evidence, prior owner approvals, and the documented exceptions and deferred scope.
+
+Amendments 2.30–2.34 and every original technical target remain in force. The 45 MB first-playable measurement remains historical FAIL/non-blocking for v1; Firefox and Safari remain deferred and unmeasured; G-05, backup/rollback, PH-001, PF-004, PF-006, and PF-007 retain their approved v1 exception dispositions without converting technical unknowns to PASS. PF-003 and PF-005 remain unmeasured. The §37 matrix wording, order, checkboxes, and classifications are not reopened or changed. See the [R2.17 closeout record](evidence/2026-10-27-r2-17-final-v1-acceptance/README.md).
+
+Product-owner acceptance is complete. This record does not authorize a new deployment, GitHub Release, or tag. The R2.17 documentation PR remains subject to separate repository review and merge.
+
 ## 2026-10-27 — R2.16 release-candidate designation
 
 The product owner approved `MMM-v1.0.0-rc1` under PRD §38.1 for the existing production artifact: source commit `6532290d4aac9611015b9eda5e78beca7b95a699` (PR #348), Pages artifact `12705570756`, 211,507,778 bytes, archive SHA-256 `ab5f4c72f1f49d882906bbf24285c794de7a8e6f0d14e5d5e3bba6a6c1c25026`. Main CI/Pages run [40437806862](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40437806862) and trusted pinned-runtime run [40437806842](https://github.com/Manaconda33/manacondas-minigame-mayhem/actions/runs/40437806842) passed on this source; 417/417 production files passed exact delivery verification.
 
-**Candidate designated: YES. Existing validation evidence: PASS. Technical exceptions: preserved. Formal public v1 acceptance: PENDING a separate owner decision.** No rebuild, deployment, Git tag, or GitHub Release was created for this designation. The Actions archive remains subject to GitHub retention; its identity and digest are recorded without a claim of immutable or permanent availability. See the [R2.16 designation record](evidence/2026-10-27-r2-16-rc-designation/README.md), [R2.15B ledger](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md), and [R2 release checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md).
+**At the R2.16 checkpoint:** candidate designated YES; existing validation evidence PASS; technical exceptions preserved; formal public v1 acceptance was then pending a separate owner decision. The R2.17 owner decision below supersedes that historical status. No rebuild, deployment, Git tag, or GitHub Release was created for this designation. The Actions archive remains subject to GitHub retention; its identity and digest are recorded without a claim of immutable or permanent availability. See the [R2.16 designation record](evidence/2026-10-27-r2-16-rc-designation/README.md), [R2.15B ledger](evidence/2026-10-26-r2-15-final-v1-acceptance/README.md), and [R2 release checklist](evidence/2026-10-23-release-readiness-r1/r2-evidence-checklist.md).
 
 ## 2026-10-26 — R2.15B v1 exception and acceptance-evidence checkpoint
 
